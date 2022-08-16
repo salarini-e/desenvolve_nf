@@ -87,3 +87,7 @@ h1{
         border-color: rgba(0,0,0,.15);
         -webkit-transform: rotate(45deg);    
 }
+
+.bg-white{
+    background-color: white;
+}
