@@ -1,41 +1,62 @@
 import os
 from pathlib import Path
+from . import envvars
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-env_vars = open(str(BASE_DIR.parent) + "/.balcao-envvar", "r")
+env_vars = envvars.load_envars(BASE_DIR)
 
 env = []
 for linha in env_vars:
     env.append(linha.rstrip())
 
-db_name = env[0]
-db_user = env[1]
-db_passwd = env[2]
-SECRET_KEY = env[3]
-debug = env[4]
-email_user = env[5]
-email_pass = env[6]
+db_name = env_vars['db_name']
+db_user = env_vars['db_user']
+db_host = env_vars['db_host']
+db_passwd = env_vars['db_pw']
+SECRET_KEY = env_vars['django_secret_key']
+debug_mode = env_vars['debug_mode']
+email_user = env_vars['email_sistema']
+email_pass = env_vars['email_pw']
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = eval(debug)
+DEBUG = debug_mode
 
 ALLOWED_HOSTS = ['*']
 
-RECAPTCHA_PUBLIC_KEY = env[7]
-RECAPTCHA_PRIVATE_KEY = env[8]
+try:
+    hCAPTCHA_PUBLIC_KEY = env_vars['hCAPTCHA_Public_Key']
+    hCAPTCHA_PRIVATE_KEY = env_vars['hCAPTCHA_Secret_Key']
+except:
+    RECAPTCHA_PUBLIC_KEY = ''
+    RECAPTCHA_PRIVATE_KEY = ''
 
-# Application definition
+try:
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env_vars['GOOGLE_OAUTH2_PUBLIC_KEY']
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env_vars['GOOGLE_OAUTH2_SECRET_KEY']
+
+    SOCIAL_AUTH_FACEBOOK_KEY = env_vars['FACEBOOK_DEVELOPER_PUBLIC_KEY']
+    SOCIAL_AUTH_FACEBOOK_SECRET = env_vars['FACEBOOK_DEVELOPER_SECRET_KEY']
+except:
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+
+    SOCIAL_AUTH_FACEBOOK_KEY = ''
+    SOCIAL_AUTH_FACEBOOK_SECRET = ''
+
 
 INSTALLED_APPS = [
+    #padrão
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #terceiros
+    'bootstrap5',
+    #apps
 ]
 
 MIDDLEWARE = [
@@ -68,9 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema_de_cursos_livres.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -80,13 +98,9 @@ DATABASES = {
 
         'USER': db_user,
         'PASSWORD': db_passwd,
-        'HOST': '127.0.0.1',
+        'HOST': db_host,
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,9 +118,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
@@ -118,15 +129,11 @@ USE_L10N = True
 USE_TZ = True
 
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'cultura/media')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
