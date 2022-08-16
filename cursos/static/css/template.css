@@ -2,18 +2,13 @@ html, body{
     min-height: 100%;    
 }
 :root{
-    --main-color: white;
+    --main-color: #bfc2bb;
 }
 
 .logo{
     max-height: 100px;
 }
-main{
-    background-color: var(--main-color);
-    background-image: url(/static/images/bg.png);
-    background-size: cover;
-    color: white;
-}
+
 footer{
     background-color: white;
 }
