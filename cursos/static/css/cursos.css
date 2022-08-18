@@ -13,6 +13,20 @@ main{
     background-repeat: no-repeat; */
     color: rgb(255, 255, 255);
 }
+.bg{
+    background-color: #104a74;
+}
+.filtro{
+    align-items: center
+}
+.btnacor{
+    border-color: #104a74;
+    color: #104a74;
+}
+.btnacor:hover{
+    background-color: #104a74;
+    color: white;
+}
 .accordion-item:first-of-type .accordion-button{
     border-radius: 0 !important; 
 }
@@ -21,4 +35,10 @@ main{
 }
 .accordion-item:first-of-type, .accordion-item:last-of-type{
     border-radius: 0 !important;
+}
+li{
+    margin-bottom: 2px;
+}
+p{
+    margin: 0;
 }
