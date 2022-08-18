@@ -28,6 +28,7 @@ window.onload=()=>{
         else{
         filtros=[];
         console.log(filtros)
+        
         div.classList.add("visually-hidden");
         favicon.classList.remove("fa-filter-circle-xmark")
         favicon.classList.add("fa-filter")
