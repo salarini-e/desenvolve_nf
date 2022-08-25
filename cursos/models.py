@@ -10,14 +10,14 @@ class Instituicao(models.Model):
 
 class Local(models.Model):
 
-    nome = models.CharField(max_length=150)
+    nome = models.CharField(max_length=150, verbose_name='Nome do local')
 
     def __str__(self):
             return '%s' % (self.nome)
 
 class Categoria(models.Model):
     
-    nome = models.CharField(max_length=150)
+    nome = models.CharField(max_length=150, verbose_name='Nome da categoria')
 
     def __str__(self):
             return '%s' % (self.nome)
@@ -35,7 +35,7 @@ class Curso(models.Model):
     dt_inclusao=models.DateField(auto_now_add=True, editable=False)
     dt_alteracao=models.DateField(auto_now=True)
     user_inclusao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='userInclusao')
-    user_ultima_alteracao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='userAlteracao')
+    user_ultima_alteracao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='userAlteracao', null=True, blank=True)
 
     def __str__(self):
             return '%s' % (self.nome)
@@ -49,12 +49,13 @@ class Candidato(models.Model):
 
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     nome = models.CharField(max_length=150)
-    cpf = models.CharField(max_length=150)    
+    cpf = models.CharField(max_length=150, verbose_name='CPF')    
     dt_nascimento = models.DateField(verbose_name='Data de Nascimento')
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no seu nascimento?')
     email = models.EmailField()
     celular = models.CharField(max_length=12)
-    
+    dt_inclusao=models.DateField(auto_now_add=True)
+
     def __str__(self):
             return '%s' % (self.nome)
 
@@ -80,7 +81,12 @@ class Turma(models.Model):
     horario=models.CharField(max_length=150)
     data_inicio=models.DateField()
     data_final=models.DateField()    
-
+    
+    dt_inclusao=models.DateField(auto_now_add=True, editable=False)
+    dt_alteracao=models.DateField(auto_now=True)
+    user_inclusao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='TurmaUserInclusao')
+    user_ultima_alteracao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='TurmaUserAlteracao', null=True, blank=True)
+    
     def __str__(self):
             return '%s %s' % (self.curso.nome, self.data_inicio)
 

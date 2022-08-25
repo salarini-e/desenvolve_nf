@@ -1,0 +1,150 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block title %}BEM VINDO - CURSOS LIVRES{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/administrativo.css' %}">
+
+{% endblock %}
+{% block administrativo %}fw-bold{% endblock %}
+{% block main %}
+<div class="row">
+    <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">
+                <div class="row py-3 px-4">
+                    <div class="col bg p-5">
+                        <h1 class="display-4 text-center">ADMINISTRATIVO</h1>
+                    </div>
+                </div>              
+                <div class="row">
+                    <div class="col text-dark px-4 pt-4">
+                       <div class="row">
+                        <div class="col">
+                          <h1 class="text-uppercase">
+                            Painel -> CURSOS
+                          </h1>
+                        </div>
+                        <div class="col d-flex">
+                            <a href="{% url 'adm_cursos' %}" class="btn btn-outline-dark ms-auto my-auto">
+                              Voltar
+                            </a>
+                        </div>
+                       </div>
+                        <div class="row px-2 pt-2 d-flex">
+                            <div class="col px-0 painel">
+                              <a href="{% url 'cadastrar_curso' %}">CRIAR CURSO</a>
+                              <a href="{% url 'adm_cursos_listar' %}" class="ativo">LISTAR/EDITAR CURSOS</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 pt-4">
+                            <form class="row px-2" method="POST">
+                              <div class="col-12">
+                                <div class="d-flex w-100">
+                                  <select class="form-select" name="acao" id="acao">
+                                    <option value="0">
+                                      Realizar ação em lote
+                                    </option>
+                                    <option value="1">
+                                      Encerrar turmas
+                                    </option>
+                                  </select>
+                                  <button class="btn btn-primary px-3 ms-2">
+                                    Ir
+                                  </button>
+                                </div>
+                                <div class="w-100 h-100 pt-3 table-responsive">
+                                  <table class="table table-striped table-primary">
+                                    <thead>
+                                      <td>
+                                        <input type="checkbox" onchange="checkAll()" name="all" id="all">
+                                      </td>
+                                      <th>Categoria</th>
+                                      <th>Curso</th>
+                                      <th>Local</th>
+                                      <th>Carga horária</th>
+                                      <th>Status</th>
+                                      <th class="text-center">Ver/Editar</th>
+
+                                    </thead>
+                                    <tbody>
+                                      {% for curso in cursos %}
+                                        <tr>
+                                          <td>
+                                            <input type="checkbox" onchange="selecionar(this)" name="select_curso" value="{{curso.id}}">
+                                          </td>
+                                          <td>
+                                            {{curso.categoria}}
+                                          </td>
+                                          <td>{{curso.nome}}</td>
+                                          <td>{{curso.local}}</td>
+                                          <td>{{curso.carga_horaria}}</td>
+                                          <td>{% if curso.ativo %}
+                                              <span class="text-success">Ativo</span>
+                                              {% else %}
+                                              <span class="text-danger">Inativo</span>
+                                              {% endif %}
+                                          </td>
+                                          <td class="text-center">
+                                            <a href="#">
+                                              <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                          </td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>                                  
+                                </table>
+                                </div>
+                              </div>                                                                                          
+                          </form>
+                          </div>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+<!-- MODAL -->
+<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark">            
+            <form id="form" action="#">
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hide this modal and show the first with the button below.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
+          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <script>
+  </script>
+  {% block js %}
+  <script src="/static/js/adm_cursos.js"></script>
+  {% endblock %}
+{% endblock %}

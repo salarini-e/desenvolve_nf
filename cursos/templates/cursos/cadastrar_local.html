@@ -1,0 +1,90 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block title %}BEM VINDO - CURSOS LIVRES{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+<script src="{% static 'js/cursos.js' %}"></script>
+{% endblock %}
+{% block index %}active{% endblock %}
+{% block main %}
+<div class="row">
+    <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">
+                <div class="row py-3 px-4">
+                    <div class="col bg p-5">
+                        <h1 class="display-4 text-center">CADASTRAR LOCAL</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex text-dark px-4">      
+                      <a href="{% url 'cadastrar_categoria' %}" class="btn btn-dark me-2">
+                        <i class="fa-solid fa-plus me-2"></i>
+                        CADASTRAR CATEGORIA
+                    </a>                            
+                        <a href="{% url 'cadastrar_curso' %}" class="btn btn-dark me-2">
+                            <i class="fa-solid fa-plus me-2"></i>
+                            CADASTRAR CURSO
+                        </a>
+                                 
+                        <a href="{% url 'cursos' %}" class="btn btn-dark ms-auto">Voltar</a>
+                    </div>                
+                </div>
+                <div class="row">
+                    <div class="col text-dark px-4 pt-4">
+                        <h1>
+                            NOVO LOCAL
+                        </h1>
+                        <div class="row d-flex">
+                            <form class="col-10 mx-auto pt-5" method="POST">
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+                                <button class="btn btn-dark">
+                                    Cadastrar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+<!-- MODAL -->
+<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark">            
+            <form id="form" action="#">
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hide this modal and show the first with the button below.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
+          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+{% endblock %}

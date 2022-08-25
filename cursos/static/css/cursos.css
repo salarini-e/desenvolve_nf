@@ -8,9 +8,9 @@
 
 main{
     background-color: rgb(0, 0, 0);
-    /* background-image: url(/static/images/bg.jpg);
-    background-size: contain;
-    background-repeat: no-repeat; */
+    background-image: url('/static/images/bg-uerj.jpg');
+    background-size: cover;
+
     color: rgb(255, 255, 255);
 }
 .bg{
@@ -21,10 +21,11 @@ main{
 }
 .btnacor{
     border-color: #104a74;
-    color: #104a74;
+    background-color: #104a74;;
+    color: white;
 }
 .btnacor:hover{
-    background-color: #104a74;
+    background-color: #104a74d7;
     color: white;
 }
 .accordion-item:first-of-type .accordion-button{
@@ -36,9 +37,18 @@ main{
 .accordion-item:first-of-type, .accordion-item:last-of-type{
     border-radius: 0 !important;
 }
-li{
+ul, li{
+    list-style: none !important;
+}
+li{    
     margin-bottom: 2px;
 }
 p{
     margin: 0;
 }
+
+#id_curso {
+    background: #EEE; 
+    pointer-events: none;
+    touch-action: none;
+  }
