@@ -26,14 +26,21 @@
                 </div> 
                 <div class="row">
                     <div class="col text-dark px-4 pt-4">
-                        <h1>
+                        <h1 class="text-center">
                           CANDIDATAR-SE AO CURSO
                         </h1>
-                        <div class="row d-flex">
-                            <form class="col-10 mx-auto pt-5" method="POST">
+                        <div class="row d-flex">                          
+                            <form class="col-10 mx-auto pt-5 pb-5" method="POST">
+                              <div class="row">
+                                <div class="col">
+                                  <h6 class="text-justify" style="text-indent: 20px;">A UERJ possui um acordo de cooperação com o município e, por isso, as atividades acontecem em diversos locais. Ao preencher o formulário, verifique se marcou a opção na localidade mais adequada para você!</h6>                              
+                                  <h6 class="text-justify mt-3 mb-5" style="text-indent: 20px;">No primeiro dia de participação, o inscrito deverá apresentar um documento de identificação com foto. Todas as atividades terão lista de presença.</h6>                              
+                                  <h4 class="mb-3">Formulário de inscrição:</h4>
+                                </div>
+                              </div>
                                 {% csrf_token %}
                                 {% bootstrap_form form %}
-                                <button class="btn btn-dark">
+                                <button class="btn btn-dark mt-3 w-100">
                                     Enviar cadastro de candidato
                                 </button>
                             </form>

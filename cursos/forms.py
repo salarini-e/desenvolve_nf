@@ -8,11 +8,11 @@ class CadastroCandidatoForm(ModelForm):
     class Meta:
         model = Candidato
         widgets = {
-            'curso': forms.Select(attrs={'tabindex':'-1', 'aria-disabled':True}),
+            'turmas': forms.CheckboxSelectMultiple(),
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
         }
-        exclude = ['dt_inclusao', 'dt_alteracao']
+        exclude = ['dt_inclusao', 'dt_alteracao', 'turmas_selecionado', 'turmas']
 
 class CadastroCursoForm(ModelForm):    
     
@@ -46,5 +46,16 @@ class CadastroLocalForm(ModelForm):
     
     class Meta:
         model = Local
+        widgets = {                
+            'ativo': forms.HiddenInput(),
+        }
+        exclude = []
 
+class CadastroAlunoForm(ModelForm):    
+    
+    class Meta:
+        model = Aluno
+        # widgets = {                
+        #     'ativo': forms.HiddenInput(),
+        # }
         exclude = []

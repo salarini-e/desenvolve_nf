@@ -22,19 +22,20 @@
                        <div class="row">
                         <div class="col">
                           <h1 class="text-uppercase">
-                            Painel -> CURSOS
+                            Painel -> ATIVIDADES
                           </h1>
                         </div>
                         <div class="col d-flex">
-                            <a href="{% url 'adm_cursos' %}" class="btn btn-outline-dark ms-auto my-auto">
-                              Voltar
+                            <a href="{% url 'administrativo' %}" class="btn btn-dark ms-auto my-auto">
+                              PAINEL
                             </a>
                         </div>
                        </div>
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
-                              <a href="{% url 'cadastrar_curso' %}">CRIAR CURSO</a>
-                              <a href="{% url 'adm_cursos_listar' %}" class="ativo">LISTAR/EDITAR CURSOS</a>
+                              <a href="{% url 'cadastrar_curso' %}"><i class="fa-solid fa-plus me-3"></i>NOVA ATIVIDADE</a>
+                              <a href="{% url 'adm_cursos_listar' %}" class="ativo">
+                                <i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR ATIVIDADES</a>
                             </div>
                         </div>
                         <div class="row">
@@ -62,10 +63,9 @@
                                       </td>
                                       <th>Categoria</th>
                                       <th>Curso</th>
-                                      <th>Local</th>
-                                      <th>Carga horária</th>
+                                      <!-- <th>Local</th>                                       -->
                                       <th>Status</th>
-                                      <th class="text-center">Ver/Editar</th>
+                                      <th class="text-center">Editar</th>
 
                                     </thead>
                                     <tbody>
@@ -78,8 +78,7 @@
                                             {{curso.categoria}}
                                           </td>
                                           <td>{{curso.nome}}</td>
-                                          <td>{{curso.local}}</td>
-                                          <td>{{curso.carga_horaria}}</td>
+                                          <!-- <td>{{curso.local}}</td>                                           -->
                                           <td>{% if curso.ativo %}
                                               <span class="text-success">Ativo</span>
                                               {% else %}

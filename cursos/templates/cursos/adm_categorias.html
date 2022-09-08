@@ -19,23 +19,24 @@
                 </div>              
                 <div class="row">
                     <div class="col text-dark px-4 pt-4">
-                        <h1 class="text-uppercase">
-                          Painel
-                        </h1>
-                        <div class="row px-4 pt-2 d-flex">
-                            <div class="col painel">
-                                <a href="{% url 'adm_locais' %}"><i class="fa-solid fa-location-dot me-3"></i>Locais de Atividades</a>
-                                <a href="{% url 'adm_categorias' %}"><i class="fa-solid fa-font-awesome me-3"></i>Categorias de Atividades</a>
-                                <a href="{% url 'adm_cursos' %}"><i class="fa-solid fa-graduation-cap me-3"></i>Atividades</a>                                           
+                       <div class="row">
+                        <div class="col">
+                          <h1 class="text-uppercase">
+                            Painel -> Categorias
+                          </h1>
+                        </div>
+                        <div class="col-2 d-flex">
+                            <a href="{% url 'administrativo' %}" class="btn btn-dark ms-auto my-auto">
+                              PAINEL
+                            </a>
+                        </div>
+                       </div>
+                        <div class="row px-2 pt-2 d-flex">
+                            <div class="col px-0 painel">
+                                <a href="{% url 'cadastrar_categoria' %}"><i class="fa-solid fa-plus me-3"></i>NOVA CATEGORIA</a>
+                                <a href="{% url 'adm_categorias_listar' %}"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR CATEGORIAS</a>
                             </div>
                         </div>
-                        <div class="row px-4 d-flex">
-                          <div class="col painel">
-                              <a href="#"><i class="fa-solid fa-user me-3"></i>Alunos</a>                                                            
-                              <a href="{% url 'adm_turmas' %}"><i class="fa-solid fa-users me-3"></i>Turmas</a>
-                              <a href="#"><i class="fa-solid fa-book me-3"></i>Relatórios</a>
-                          </div>
-                      </div>
                     </div>
                 </div>
             </div>

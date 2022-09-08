@@ -1,6 +1,6 @@
-db_host: localhost
-db_name: turismo
-db_user: turismo
+db_host: 'localhost'
+db_name: 'turismo'
+db_user: 'turismo'
 db_pw: 'turismo123'
 django_secret_key: rooog4mcx6k5=f=+y4
 debug_mode: True

@@ -26,15 +26,15 @@
                           </h1>
                         </div>
                         <div class="col d-flex">
-                            <a href="{% url 'adm_turmas' %}" class="btn btn-outline-dark ms-auto my-auto">
-                              Voltar
+                            <a href="{% url 'administrativo' %}" class="btn btn-dark ms-auto my-auto">
+                              PAINEL
                             </a>
                         </div>
                        </div>
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
-                                <a href="{% url 'adm_turmas_criar' %}">CRIAR TURMA</a>
-                                <a href="{% url 'adm_turmas_listar' %}" class="ativo">LISTAR/EDITAR TURMAS</a>
+                                <a href="{% url 'adm_turmas_criar' %}"><i class="fa-solid fa-plus me-3"></i>CRIAR TURMA</a>
+                                <a href="{% url 'adm_turmas_listar' %}" class="ativo"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR TURMAS</a>
                             </div>
                         </div>
                         <div class="row">
@@ -49,9 +49,15 @@
                                     <option value="1">
                                       Encerrar turmas
                                     </option>
+                                    <option value="1">
+                                      Lançar turmas
+                                    </option>
                                   </select>
                                   <button class="btn btn-primary px-3 ms-2">
                                     Ir
+                                  </button>
+                                  <button class="btn btn-primary ms-1">
+                                    <i class="fa-solid fa-filter"></i>
                                   </button>
                                 </div>
                                 <div class="w-100 h-100 pt-3 table-responsive">
@@ -61,10 +67,12 @@
                                         <input type="checkbox" name="" id="">
                                       </td>
                                       <th>Categoria</th>
-                                      <th>Curso</th>
-                                      <th>Horário</th>
+                                      <th>Atividade</th>
+                                      <th class="text-center">Turma</th>
+                                      <th class="text-center">Horário</th>
                                       <th>Data Inicial</th>
                                       <th>Data final</th>
+                                      <th>Status</th>
                                       <th class="text-center">Ver/Editar</th>
 
                                     </thead>
@@ -73,16 +81,32 @@
                                         <tr>
                                           <td>
                                             <input type="checkbox" name="" id="">
-                                          </td>
+                                          </td>                                          
                                           <td>
                                             {{turma.curso.categoria}}
-                                          </td>
+                                          </td>                                          
                                           <td>{{turma.curso.nome}}</td>
-                                          <td>{{turma.horario}}</td>
-                                          <td>{{turma.dt_inicio}}</td>
-                                          <td>{{turma.dt_final}}</td>
                                           <td class="text-center">
-                                            <a href="#">
+                                            {{turma.id}}
+                                          </td>
+                                          <td class="text-center">{{turma.horario}}</td>
+                                          <td>{{turma.data_inicio|date:"d/m/Y"}}</td>
+                                          <td class="">{{turma.data_final|date:"d/m/Y"}}</td>
+                                          <td class="text-center">
+                                            {% if turma.status == 'pre' %}
+                                            <div class="bg-danger w-100 rounded text-light">Pré-inscrição</div>
+                                            {% elif turma.status == 'ati' %}
+                                            <div class="bg-success w-100 rounded text-light">Ativa</div>
+                                            {% elif turma.status == 'agu' %}
+                                            <div class="bg-warning w-100 rounded text-dark">Aguardando</div>
+                                            {% elif turma.status == 'acc' %}
+                                            <div class="bg-info w-100 px-3 rounded text-dark">Ativo e aceitando...</div>
+                                            {% elif turma.status == 'enc' %}
+                                            <div class="bg-dark w-100 rounded text-light">Encerrada</div>
+                                            {% endif %}
+                                          </td>
+                                          <td class="text-center">
+                                            <a href="{% url 'adm_turma_visualizar' turma.id %}">
                                               <i class="fa-solid fa-eye"></i>
                                             </a>
                                           </td>
@@ -101,72 +125,57 @@
         </div>    
     </div>
 </div>
+{% if messages %} 
 <!-- MODAL -->
-<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-dark">            
-            <form id="form" action="#">
-                
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
-        </div>
+<div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      {% for message in messages %}
+      <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
+        <h5 class="modal-title text-dark text-center" id="respostaLabel"></h5>
+        <button type="button"  class="btn-close" onclick="modal.dispose()" aria-label="Close"></button>
       </div>
+      <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
+         
+        <p class="px-4 py-3 text-center">
+          {{ message|escape }}
+        </p>
+        
+        
+      </div>
+      <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
+        
+      </div>
+      {% endfor %}
     </div>
+
   </div>
-  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Hide this modal and show the first with the button below.
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
-          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
-        </div>
-      </div>
-    </div>
-  </div>  
-  <script>
+</div>   
+<script>
+var myModalEl = document.querySelector('#resposta')
+var modal = bootstrap.Modal.getOrCreateInstance(myModalEl)
+ modal.show() 
+</script>
+<style>
+  .error{
+    background-color: rgb(238, 171, 171);
+    color: darkred;
+    font-weight: 600;
+  }
+  .success{
+    background-color: rgb(182, 238, 171);
+    color: rgb(0, 139, 19);
+    font-weight: 600
+  }
+  .warning{
+    background-color: rgb(238, 226, 171);
+    color: rgb(139, 107, 0);
+    font-weight: 600
+  }
+  .modal-open, body, html, main {
+    overflow-y: scroll !important;
+}
 
-  async function getCandidatos(event){
-    
-    id=event.value
-    url='/cursos/'+id+'/get-candidato/'
-    
-    let response =  await fetch(url, {
-          method: 'get'
-      })
-      .then(
-          data => {        
-          if(data.status==404){
-              console.log('Página não encontrada.');
-              document.getElementById('loading').style.display='none'
-              document.getElementById('tituloResponse').innerText='404 - Página não encontrada.'
-              document.getElementById('response').innerText='Erro para se comunicar com o servidor. O mesmo retornou com erro 404.'
-          }else if(data.status==200){
-              document.getElementById('candidatos').innerHTML=data.text()
-              console.log(data)
-          }
-      }
-    )
-    
-    let data = await response.body();
-    console.log(data);
-  } 
-
-
-
-   
-  </script>
+</style>
+{% endif %} 
 {% endblock %}

@@ -1,16 +1,92 @@
 {% extends 'template.html' %}
+{% load bootstrap5 %}
 {% load static%}
 {% block title %}BEM VINDO - CURSOS LIVRES{% endblock %}
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/administrativo.css' %}">
+
 {% endblock %}
-{% block index %}active{% endblock %}
+{% block prematricula %}fw-bold{% endblock %}
 {% block main %}
-<div id="banner" class="row">
-    <div class="col d-flex">
-        <h1 class="display-1 m-auto pb-2">
-            BEM-VINDO
-        </h1>
+<div class="row">
+    <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">
+                <div class="row py-3 px-4">
+                    <div class="col bg p-5">
+                        <h1 class="display-4 text-center">PRÉ-INSCRIÇÃO</h1>
+                    </div>
+                </div>              
+                <div class="row">
+                    <div class="col text-dark px-4 pt-4">
+                      <h1 class="px-3">
+                        Atenção
+                      </h1>
+                        <div class="row">
+                          <div class="col px-5 pt-2">
+                            <h6 class="text-justify" style="text-indent: 20px;">A UERJ possui um acordo de cooperação com o município e, por isso, as atividades acontecem em diversos locais. Ao preencher o formulário, verifique se marcou a opção na localidade mais adequada para você!</h6>                              
+                            <h6 class="text-justify mt-3 mb-5" style="text-indent: 20px;">No primeiro dia de participação, o inscrito deverá apresentar um documento de identificação com foto. Todas as atividades terão lista de presença.</h6>  
+                          </div>
+                        </div>                            
+                        <h1 class="px-3">
+                          Formulário de pré-inscrição:
+                        </h1>
+                        <form method="POST">
+                        <div class="row px-4 pt-2 d-flex">
+                            <div class="col px-4">
+                                
+                                    {% csrf_token %}
+                                    {% bootstrap_form form %}
+                                    <div class="d-flex flex-column">
+                                      <label for="">Turmas</label>
+                                      <hr>
+                                      {% for cursos in categorias %}                                      
+                                      <h4 class="mt-2">{{cursos.categoria}}</h4>
+                                      {% for i in cursos.curso %}
+                                      <b class="mt-1">{{i.nome}}</b>                                      
+                                      
+                                          {% load extras %}
+                                          {{i|turmas_input}}                                        
+                                      
+                                      {% endfor %}               
+                                      <hr>
+                                      {% endfor %}                                      
+                                      </div>
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col px-5 py-4">
+                                <p class="text-justify" style="text-indent: 20px;"><b>Comunicamos que,</b> em razão da necessidade de adequação à Lei Geral de Proteção de Dados (Lei 13.709/18), será necessário, nos termos do artigo 14 da referida lei, que os inscritos nas atividades do Polo de Extensão da Uerj em Nova Friburgo manifestem formalmente seu consentimento para que seja feito o tratamento adequado de seus dados, visando a garantia de seus direitos.</p>
+                                <p class="text-justify" style="text-indent: 20px;">Neste mesmo sentido, para que o Polo de Extensão da Uerj em Nova Friburgo possa cumprir seu compromisso de respeito aos direitos fundamentais dos(as) que frequentam a nossa instituição ou acessem alguma atividade do polo em outro local localizado externamente à Uerj a fim de usufruir dos serviços prestados, é importante que seja assegurado o consentimento para uso da imagem com fins de divulgação em mídias sociais (rádio, televisão, jornais, revistas, internet, redes sociais etc.) única e exclusivamente para fins específicos de divulgação relacionados ao trabalho executado pela instituição.</p>
+                                <p class="text-justify" style="text-indent: 20px;">Por isso, com o objetivo de proteger os dados pessoais e a imagem dos inscritos no Polo de Extensão da Uerj em Nova Friburgo, solicitamos o aceite abaixo:</p>                                
+                                <div class="form-check mt-1">                                      
+                                  <label class="form-check-label text-danger text-uppercase" for="li">
+                                    <input class="form-check-input" id="li" name="curso" title="" type="checkbox" value="1">
+                                      Li e aceito os termos
+                                  </label>
+                                 </div>
+                                <button class="btn btn-primary w-100 py-4 mt-3">
+                                    <b class="text-uppercase">Enviar pré-inscrição</b>
+                                </button>
+                            </div>                            
+                        </div>
+                      </form>
+                        <!-- <div class="row px-5 d-flex">
+                          <div class="col painel">
+                              <a href="#">Candidatos</a>                                                            
+                              <a href="{% url 'adm_turmas' %}">Turmas</a>
+                              <a href="#">Relatórios</a>
+                          </div>
+                      </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>    
     </div>
 </div>
+
+  <script>
+   
+  </script>
 {% endblock %}

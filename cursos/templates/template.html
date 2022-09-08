@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>    
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <title>
       {% block title %}{% endblock %}
     </title>
@@ -15,7 +17,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    {% load static %}
     {% load bootstrap5 %}
     <!-- BOOTSTRAP 5 -->
     {% bootstrap_css %}
@@ -38,7 +39,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container-fluid">                                  
                   <a class="navbar-brand" href="/">
-                    <!-- <img class="m-auto logo" src="/static/images/logo-uerj.png" alt=""> -->
+                    
                     <img class="img-fluid logo" src="{% static '/images/logo_pmnf.png' %}" alt="">
                   </a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,12 +55,12 @@
                       </li>
                       <li class="nav-item">                        
                         <a class="nav-link {%block cursos%}{%endblock%}" href="{% url 'cursos' %}">
-                          Cursos
+                          Atividades
                         </a>
                       </li>
                       <li class="nav-item">                        
                         <a class="nav-link {%block prematricula%}{%endblock%}" href="{% url 'prematricula' %}">
-                          Pré-matrícula
+                        Pré-inscrição
                         </a>
                       </li>                     
                       {% if request.user.is_staff %}
@@ -173,7 +174,7 @@
     <script>
       window.onload=()=>{
         document.getElementById('body').style.overflow='auto'
-        document.getElementById('preloading').style.display='none'
+        document.getElementById('preloading').style.display='none'          
       }
     </script>
 </body>

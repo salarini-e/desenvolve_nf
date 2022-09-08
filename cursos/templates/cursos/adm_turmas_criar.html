@@ -26,34 +26,26 @@
                           </h1>
                         </div>
                         <div class="col d-flex">
-                            <a href="{% url 'adm_turmas' %}" class="btn btn-outline-dark ms-auto my-auto">
-                              Voltar
+                            <a href="{% url 'administrativo' %}" class="btn btn-dark ms-auto my-auto">
+                              PAINEL
                             </a>
                         </div>
                        </div>
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
-                                <a href="#" class="ativo">CRIAR TURMA</a>
-                                <a href="{% url 'adm_turmas_listar' %}">LISTAR/EDITAR TURMAS</a>
+                                <a href="#" class="ativo"><i class="fa-solid fa-plus me-3"></i>CRIAR TURMA</a>
+                                <a href="{% url 'adm_turmas_listar' %}"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR TURMAS</a>
                             </div>
                         </div>
                         <div class="row">
                           <div class="col-12 pt-4">
                             <form class="row px-2 me-4" method="POST">
-                              <div class="col-8">
+                              <div class="col">
                                 <div class="w-100 h-100">
                                   {% csrf_token %}
                                   {% bootstrap_form form %}
                                 </div>
-                              </div>                              
-                              <div class="col-4 pt-4">
-                                <div class="w-100 h-100">
-                                  <b >Seleção de Candidatos</b>
-                                  <div id="candidatos" class="w-100 h-100 pt-2 px-3">
-                                       
-                                  </div>
-                                </div>
-                              </div>
+                              </div>                                           
                               <button class="btn btn-outline-primary mt-3">
                                   Cadastrar
                               </button>

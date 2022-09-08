@@ -1,0 +1,173 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block title %}BEM VINDO - CURSOS LIVRES{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/administrativo.css' %}">
+
+{% endblock %}
+{% block administrativo %}fw-bold{% endblock %}
+{% block main %}
+<div class="row">
+    <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">
+                <div class="row py-3 px-4">
+                    <div class="col bg p-5">
+                        <h1 class="display-4 text-center">ADMINISTRATIVO</h1>
+                    </div>
+                </div>              
+                <div class="row">
+                    <div class="col text-dark px-4 pt-4">
+                       <div class="row">
+                        <div class="col">
+                          <h1 class="">
+                           <span class="text-uppercase">Painel -> Turmas</span> -> Turma id. {{turma.id}}
+                          </h1>
+                        </div>
+                        <div class="col-2 d-flex">
+                            <a href="{% url 'administrativo' %}" class="btn btn-dark ms-auto my-auto">
+                              PAINEL
+                            </a>
+                        </div>
+                       </div>
+                        <div class="row px-2 pt-2 d-flex">
+                            <div class="col px-0 painel">
+                                <a href="{% url 'adm_turmas_criar' %}"><i class="fa-solid fa-plus me-3"></i>CRIAR TURMA</a>
+                                <a href="{% url 'adm_turmas_listar' %}" class="ativo"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR TURMAS</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 pt-4">
+                            <form class="row px-2" method="POST">
+                              <div class="col-12">
+                                <div class="d-flex w-100">
+                                  <div>
+                                    <h3>                                      
+                                      {{turma.curso.nome}} {{turma.id}} - {{turma.local}} - {{turma.horario}}
+                                    </h3>                                    
+                                  </div>                             
+                                </div>
+                                <div class="w-100 h-100 pt-3">
+                                  <div class="row">
+                                    <div class="col table-responsive">
+                                      <table class="table">
+                                        <tr style="border-color: white;">
+                                          <td><b class="me-2">Atividade:</b>{{turma.curso.nome}}</td>
+                                          <td><b class="me-2">Horário:</b>{{turma.horario}}</td>
+                                          <td><b class="me-2">Data inicial:</b>{{turma.data_inicio}}</td>
+                                          <td><b class="me-2">Data final:</b>{{turma.data_final}}</td>
+                                        </tr>
+                                        <tr style="border-color: white;">
+                                          <td colspan="2"><b class="me-2">Data inclusão:</b>{{turma.data_final}}</td>
+                                          <td colspan="1"><b class="me-2">Data alteração:</b>{{turma.data_final}}</td>                                          
+                                          <td><b class="me-2">Status:</b> <span class="text-danger">Pré-inscrição</span></td>
+                                        </tr>
+                                        <tr style="border-color: white;">
+                                          <td colspan="2"><b class="me-2">Máximo de alunos:</b><i>implementar</i></td>
+                                          <td colspan="1"><b class="me-2">Última alteração:</b>{% if turma.user_ultima_alteracao %}{{turma.user_ultima_alteracao}}{% endif %}</td>
+                                          <td colspan="1"><b class="me-2">Criado por:</b>{{turma.user_inclusao}}</td>
+                                        </tr>
+                                      </table>
+                                    </div>
+                                  </div>   
+                                  <div class="row" style="background-color: rgb(218, 232, 252);">
+                                    <div class="col p-4">
+                                      <h4>Selecionado - {{selecionado.nome}}</h4>
+                                      <div class="row d-flex">
+                                        <div class="col-12 pt-4">
+                                          <form class="row px-2 me-4" method="POST">
+                                            <div class="col">
+                                              <div class="w-100 h-100">
+                                                {% csrf_token %}
+                                                {% bootstrap_form form %}
+                                              </div>
+                                            </div>                                                                 
+                                            <button class="btn btn-outline-primary mt-3">
+                                                Matricular na atividade
+                                            </button>
+                                        </form>
+                                        </div>                          
+                                      </div>
+                                    </div>
+                                  </div>                                                                                         
+                                </div>
+                              </div>                                                                                          
+                          </form>
+                          </div>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+<!-- MODAL -->
+<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark">            
+            <form id="form" action="#">
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hide this modal and show the first with the button below.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
+          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <script>
+
+  async function getCandidatos(event){
+    
+    id=event.value
+    url='/cursos/'+id+'/get-candidato/'
+    
+    let response =  await fetch(url, {
+          method: 'get'
+      })
+      .then(
+          data => {        
+          if(data.status==404){
+              console.log('Página não encontrada.');
+              document.getElementById('loading').style.display='none'
+              document.getElementById('tituloResponse').innerText='404 - Página não encontrada.'
+              document.getElementById('response').innerText='Erro para se comunicar com o servidor. O mesmo retornou com erro 404.'
+          }else if(data.status==200){
+              document.getElementById('candidatos').innerHTML=data.text()
+              console.log(data)
+          }
+      }
+    )
+    
+    let data = await response.body();
+    console.log(data);
+  } 
+
+
+
+   
+  </script>
+{% endblock %}
