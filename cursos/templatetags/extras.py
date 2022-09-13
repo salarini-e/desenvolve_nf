@@ -51,14 +51,14 @@ def turmas_input(obj):
         for turma in turmas:            
             response+='''<div class="form-check mt-1"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
-    '''+str(turma.curso.nome)+''' '''+str(turma.id)+'''- '''+str(turma.local)+'''- '''+ str(turma.horario)+'''
+    '''+str(turma.curso.nome)+''' '''+str(turma.id)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
 </label></div>'''
     
     if len(turmas2)>0:                
         for turma in turmas2:
             response+='''<div class="form-check mt-1"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
-    '''+str(turma.curso.nome)+''' '''+str(turma.id)+'''- '''+str(turma.local)+'''- '''+ str(turma.horario)+'''
+    '''+str(turma.curso.nome)+''' '''+str(turma.id)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
 </label></div>'''
     
     if len(turmas2)==0 and len(turmas)==0:

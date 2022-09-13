@@ -22,7 +22,7 @@
                        <div class="row">
                         <div class="col">
                           <h1 class="text-uppercase">
-                            Painel -> CATEGORIAS
+                            Painel -> Professores
                           </h1>
                         </div>
                         <div class="col d-flex">
@@ -33,64 +33,30 @@
                        </div>
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
-                              <a href="{% url 'cadastrar_categoria' %}"><i class="fa-solid fa-plus me-3"></i>NOVA CATEGORIA</a>
-                              <a href="{% url 'adm_categorias_listar' %}" class="ativo"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR categorias</a>
+                                <a href="{% url 'adm_professores_criar' %}"><i class="fa-solid fa-plus me-3"></i>NOVO PROFESSOR</a>
+                                <a href="{% url 'adm_professores_listar' %}" class="ativo"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR PROFESSORES</a>
                             </div>
                         </div>
                         <div class="row">
                           <div class="col-12 pt-4">
+                            <div class="row">
+                              <div class="col d-flex">
+                                  <a class="ms-auto btn btn-outline-dark" href="{% url 'adm_professores_listar' %}">
+                                    <i class="fas fa-undo-alt me-2"></i> Voltar
+                                  </a>
+                              </div>
+                            </div>
                             <form class="row px-2" method="POST">
                               <div class="col-12">
-                                <div class="d-flex w-100">
-                                  <select class="form-select" name="acao" id="acao">
-                                    <option value="0">
-                                      Realizar ação em lote
-                                    </option>
-                                    <option value="1">
-                                      Encerrar turmas
-                                    </option>
-                                  </select>
-                                  <button class="btn btn-primary px-3 ms-2">
-                                    Ir
-                                  </button>
+                                <div class="w-100 h-100">
+                                  {% csrf_token %}
+                                  {% bootstrap_form form %}
                                 </div>
-                                <div class="w-100 h-100 pt-3 table-responsive">
-                                  <table class="table table-striped table-primary">
-                                    <thead>
-                                      <td>
-                                        <input type="checkbox" onchange="checkAll()" name="all" id="all">
-                                      </td>
-                                      <th>Nome do categoria</th>                                      
-                                      <!-- <th>Status</th> -->
-                                      <th class="text-center">Editar</th>
-
-                                    </thead>
-                                    <tbody>
-                                      {% for categoria in categorias %}
-                                        <tr>
-                                          <td>
-                                            <input type="checkbox" onchange="selecionar(this)" name="select_categoria" value="{{categoria.id}}">
-                                          </td>                                          
-                                          <td>{{categoria.nome}}</td>                                          
-                                          <!-- <td>{% if categoria.ativo %}
-                                              <span class="text-success">Ativo</span>
-                                              {% else %}
-                                              <span class="text-danger">Inativo</span>
-                                              {% endif %}
-                                          </td> -->
-                                          {% if request.user.is_superuser %}
-                                          <td class="text-center">
-                                            <a href="{% url 'adm_categorias_editar' categoria.id %}">
-                                              <i class="fas fa-edit"></i>
-                                            </a>
-                                          </td>
-                                          {% endif %}
-                                        </tr>
-                                      {% endfor %}
-                                    </tbody>                                  
-                                </table>
-                                </div>
-                              </div>                                                                                          
+                              </div>                              
+                              
+                              <button class="btn btn-outline-primary mt-3">
+                                  Editar
+                              </button>
                           </form>
                           </div>                          
                         </div>
@@ -137,8 +103,35 @@
     </div>
   </div>  
   <script>
+
+  async function getCandidatos(event){
+    
+    id=event.value
+    url='/cursos/'+id+'/get-candidato/'
+    
+    let response =  await fetch(url, {
+          method: 'get'
+      })
+      .then(
+          data => {        
+          if(data.status==404){
+              console.log('Página não encontrada.');
+              document.getElementById('loading').style.display='none'
+              document.getElementById('tituloResponse').innerText='404 - Página não encontrada.'
+              document.getElementById('response').innerText='Erro para se comunicar com o servidor. O mesmo retornou com erro 404.'
+          }else if(data.status==200){
+              document.getElementById('candidatos').innerHTML=data.text()
+              console.log(data)
+          }
+      }
+    )
+    
+    let data = await response.body();
+    console.log(data);
+  } 
+
+
+
+   
   </script>
-  {% block js %}
-  <script src="/static/js/adm_cursos.js"></script>
-  {% endblock %}
 {% endblock %}

@@ -12,7 +12,14 @@ class CadastroCandidatoForm(ModelForm):
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
         }
-        exclude = ['dt_inclusao', 'dt_alteracao', 'turmas_selecionado', 'turmas']
+        exclude = ['dt_inclusao', 'dt_alteracao', 'turmas_selecionado', 'turmas', 'li_e_aceito_termos']
+
+class CadastroProfessorForm(ModelForm):    
+    
+    class Meta:
+        model = Professor
+        exclude = ['dt_inclusao']
+
 
 class CadastroCursoForm(ModelForm):    
     

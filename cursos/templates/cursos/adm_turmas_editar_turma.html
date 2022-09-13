@@ -47,7 +47,12 @@
                                 <a class="btn btn-outline-dark ms-auto my-auto" href="{% url 'adm_turma_visualizar' turma.id %}">
                                   <i class="me-2 fa-solid fa-rotate-left"></i>
                                   Voltar
-                                </a>             
+                                </a>  
+                                {% if request.user.is_superuser %}
+                                <button class="btn btn-outline-danger ms-2 my-auto" data-bs-toggle="modal" data-bs-target="#excluir">
+                                  <i class="fa-solid fa-trash-can"></i>
+                                </button>            
+                                {% endif %}
                               </div>                             
                             </div>
                             <form class="row px-2" method="POST">
@@ -70,71 +75,23 @@
     </div>
 </div>
 <!-- MODAL -->
-<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
+<div class="modal fade" id="excluir" aria-hidden="true" aria-labelledby="excluirLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
+        <div class="modal-header bg-danger border-0">
+          <h5 class="modal-title text-dark text-center" id="excluirLabel">ATENÇÃO</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body text-dark">            
-            <form id="form" action="#">
-                
-            </form>
+        <div class="modal-body text-dark border-0 pt-5">            
+            <p class="text-center"><b>Você tem certeza que deseja excluir está turma?</b></p>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
+        <div class="modal-footer border-0">
+          <a href="{% url 'adm_turma_excluir' turma.id %}" class="btn btn-danger">Sim, tenho certeza.</a>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Hide this modal and show the first with the button below.
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
-          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
-        </div>
-      </div>
-    </div>
-  </div>  
+  </div> 
   <script>
-
-  async function getCandidatos(event){
-    
-    id=event.value
-    url='/cursos/'+id+'/get-candidato/'
-    
-    let response =  await fetch(url, {
-          method: 'get'
-      })
-      .then(
-          data => {        
-          if(data.status==404){
-              console.log('Página não encontrada.');
-              document.getElementById('loading').style.display='none'
-              document.getElementById('tituloResponse').innerText='404 - Página não encontrada.'
-              document.getElementById('response').innerText='Erro para se comunicar com o servidor. O mesmo retornou com erro 404.'
-          }else if(data.status==200){
-              document.getElementById('candidatos').innerHTML=data.text()
-              console.log(data)
-          }
-      }
-    )
-    
-    let data = await response.body();
-    console.log(data);
-  } 
-
-
-
    
   </script>
 {% endblock %}

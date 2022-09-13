@@ -20,21 +20,30 @@ urlpatterns = [
         path('administrativo/locais/', views.adm_locais, name="adm_locais"),
         path('administrativo/locais/cadastrar', views.adm_locais_criar, name="cadastrar_local"),
         path('administrativo/locais/listar', views.listar_locais, name="adm_locais_listar"),
+        path('administrativo/locais/editar/<id>', views.adm_locais_editar, name="adm_locais_editar"),
         ##CATEGORIAS
         path('administrativo/categorias/', views.adm_categorias, name="adm_categorias"),
         path('administrativo/categorias/cadastrar', views.adm_categorias_criar, name="cadastrar_categoria"),
         path('administrativo/categorias/listar', views.listar_categorias, name="adm_categorias_listar"),
+        path('administrativo/categorias/editar/<id>', views.adm_categorias_editar, name="adm_categorias_editar"),
         ##CURSOS
         path('administrativo/cursos/', views.adm_cursos, name="adm_cursos"),
         path('administrativo/cursos/cadastrar', views.cadastrar_curso, name="cadastrar_curso"),
         path('administrativo/cursos/listar', views.listar_cursos, name="adm_cursos_listar"),
         path('administrativo/cursos/editar/<id>', views.editar_curso, name="editar_curso"),
+
+        ##PROFESSORES
+        path('administrativo/professores/', views.adm_professores, name="adm_professores"),
+        path('administrativo/professores/criar', views.adm_professores_criar, name="adm_professores_criar"),
+        path('administrativo/professores/listar', views.adm_professores_listar, name="adm_professores_listar"),        
+        path('administrativo/professores/editar/<id>', views.adm_professores_editar, name="adm_professores_editar"),
         ##TURMAS
         path('administrativo/turmas', views.turmas, name="adm_turmas"),
         path('administrativo/turmas/criar', views.criar_turmas, name="adm_turmas_criar"),
-        path('administrativo/turmas/listar', views.listar_turmas, name="adm_turmas_listar"),
+        path('administrativo/turmas/listar', views.listar_turmas, name="adm_turmas_listar"),        
         path('administrativo/turmas/listar/<id>/visualizar', views.visualizar_turma, name="adm_turma_visualizar"),
         path('administrativo/turmas/listar/<id>/visualizar/editar', views.visualizar_turma_editar, name="adm_turma_visualizar_editar"),
+        path('administrativo/turmas/listar/<id>/visualizar/editar/excluir', views.excluir_turma, name="adm_turma_excluir"),
         path('administrativo/turmas/listar/<id>/visualizar/selecionado/<id_selecionado>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
     
     #API

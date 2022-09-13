@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.http import HttpResponse
 import json
 
-from .models import Aluno, Candidato, Categoria, Curso, Matricula, Turma, Local
-from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroLocalForm, CadastroTurmaForm
+from .models import Aluno, Candidato, Categoria, Curso, Matricula, Professor, Turma, Local
+from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroLocalForm, CadastroProfessorForm, CadastroTurmaForm
 
 
 def index(request):
@@ -236,6 +236,23 @@ def listar_locais(request):
     return render(request, 'cursos/adm_locais_listar.html', context)
 
 @login_required
+def adm_locais_editar(request, id):
+    local=Local.objects.get(id=id)
+    form=CadastroLocalForm(instance=local)
+    if request.method=='POST':
+        form=CadastroLocalForm(request.POST, instance=local)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Informações do local atualizada com sucesso')
+            return redirect('adm_locais_listar')
+        else:
+            print(form.errors)
+    context={
+        'form': form,        
+    }    
+    return render(request, 'cursos/adm_locais_editar.html', context)
+
+@login_required
 def adm_categorias(request):
     return render(request, 'cursos/adm_categorias.html')
 
@@ -263,6 +280,69 @@ def listar_categorias(request):
         'categorias': categorias
     }
     return render(request, 'cursos/adm_categorias_listar.html', context)
+
+@login_required
+def adm_categorias_editar(request, id):
+    categoria=Categoria.objects.get(id=id)
+    form=CadastroCategoriaForm(instance=categoria)
+    if request.method=='POST':
+        form=CadastroCategoriaForm(request.POST, instance=categoria)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Informações da categoria atualizada!')
+            return redirect('adm_categorias_listar')
+        else:
+            print(form.errors)            
+    context={
+        'form': form,        
+    }    
+    return render(request, 'cursos/adm_categorias_editar.html', context)
+
+@login_required
+def adm_professores(request):
+    context={}
+    return render(request, 'cursos/adm_professores.html', context)
+
+@login_required
+def adm_professores_criar(request):
+    form=CadastroProfessorForm()
+    if request.method=='POST':
+        form=CadastroProfessorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Novo professor cadastrada com sucesso!')
+            return redirect('adm_professores')
+        else:
+            print(form.errors)            
+    context={
+        'form': form,        
+    }    
+    return render(request, 'cursos/adm_professores_criar.html', context)
+
+@login_required
+def adm_professores_listar(request):
+    professores=Professor.objects.all()
+    context={
+        'professores': professores
+    }    
+    return render(request, 'cursos/adm_professores_listar.html', context)
+
+@login_required
+def adm_professores_editar(request,id):
+    professor=Professor.objects.get(id=id)
+    form=CadastroProfessorForm(instance=professor)
+    if request.method=='POST':
+        form=CadastroProfessorForm(request.POST, instance=professor)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Informações do professor atualizadas com sucesso!')
+            return redirect('adm_professores')
+        else:
+            print(form.errors)            
+    context={
+        'form': form,        
+    }    
+    return render(request, 'cursos/adm_professores_editar.html', context)
 
 @login_required
 def visualizar_turma(request, id):
@@ -356,6 +436,24 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
         'selecionado': selecionado,
     }
     return render(request, 'cursos/adm_turmas_editar_selecionado.html', context)
+
+@login_required
+def excluir_turma(request, id):
+    turma=Turma.objects.get(id=id)
+    # matriculas=Matricula.objects.filter(turma=turma)    
+    # selecionados=Candidato.objects.filter(turmas__in=[turma], turmas_selecionado__in=[turma])
+    # candidatos=Candidato.objects.filter(turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])
+    if request.user.is_superuser:
+        turma.delete()
+
+    context={        
+        'turma': turma,
+        # 'matriculas': matriculas,
+        # 'selecionados': selecionados,
+        # 'candidatos': candidatos,
+        # 'qnt_alunos': len(matriculas)
+    }
+    return redirect('adm_turmas_listar')
 
 def resultado(request):
     return render(request, 'cursos/resultado.html')

@@ -11,7 +11,11 @@ class Instituicao(models.Model):
 class Local(models.Model):
 
     nome = models.CharField(max_length=150, verbose_name='Nome do local')
+    endereco = models.CharField(max_length=150, verbose_name='Endereço')
+    bairro = models.CharField(max_length=80, verbose_name='Bairro')
+    cep = models.CharField(max_length=9, verbose_name='CEP')
     ativo = models.BooleanField(default=True)
+    
     def __str__(self):
             return '%s' % (self.nome)
 
@@ -39,6 +43,19 @@ class Curso(models.Model):
     def __str__(self):
             return '%s' % (self.nome)
 
+class Professor(models.Model):
+    
+    nome = models.CharField(max_length=150, verbose_name='Nome completo do professor')
+    celular = models.CharField(max_length=12, verbose_name='Celular')
+    email = models.EmailField(verbose_name='Email', blank=True)  
+    endereco = models.CharField(max_length=150, blank=True, null=True, verbose_name='Endereço')
+    bairro = models.CharField(max_length=80, blank=True, null=True)
+    cpf = models.CharField(max_length=150, verbose_name='CPF')            
+    dt_inclusao=models.DateField(auto_now_add=True)  
+
+    def __str__(self):
+            return '%s' % (self.nome)
+
 class Turma(models.Model):
     
     STATUS_CHOICES=(
@@ -52,7 +69,7 @@ class Turma(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE, verbose_name='Atividade')
     local = models.ForeignKey(Local, on_delete=models.CASCADE)
     horario = models.CharField(max_length=150)
-    instrutor = models.CharField(max_length=150)
+    instrutor = models.ForeignKey(Professor, on_delete=models.PROTECT)
     qnt=models.IntegerField(verbose_name='Quantidade de alunos permitidos')
     data_inicio = models.DateField()
     data_final = models.DateField()    
@@ -71,7 +88,26 @@ class Candidato(models.Model):
                             ('M', 'Masculino'),
                             ('F', 'Feminino'),                                                      
     )
+
+    ESCOLARIDADE_CHOICES=(
+                            ('efi', 'Ensino Fundamental Incompleto'),
+                            ('efc', 'Ensino Fundamental Completo'),
+                            ('emi', 'Ensino Médio Incompleto'),                            
+                            ('emc', 'Ensino Médio Completo'),                            
+                            ('ct', 'Curso Técnico'),
+                            ('esi', 'Ensino Superior Incompleto'),
+                            ('esc', 'Ensino Superior Completo'),                            
+    )
     
+    ESTADOCIVIL_CHOICES=(
+                            ('s', 'Solteiro'),
+                            ('c', 'Casado'),
+                            ('s', 'Separado'),
+                            ('d', 'Divorciado'),
+                            ('v', 'Viúvo'),                            
+    )
+
+
     nome = models.CharField(max_length=150, verbose_name='Nome completo do candidato')
     celular = models.CharField(max_length=12, verbose_name='Celular p/ contato do candidato')
     email = models.EmailField(verbose_name='Email p/ contato do candidato')    
@@ -84,11 +120,12 @@ class Candidato(models.Model):
     bairro = models.CharField(max_length=80, null=True)
     cpf = models.CharField(max_length=150, verbose_name='CPF')        
     rg = models.CharField(max_length=9, verbose_name='RG', blank=True)
-    # profissão
-    # escolaridade
+    profissão = models.CharField(max_length=150, verbose_name='Profissão')        
+    escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade')        
     nome_da_mãe = models.CharField(max_length=150, verbose_name='Nome completo da mãe do candidato')
-    # estado_civil
+    estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')        
     aceita_mais_informacoes = models.BooleanField(verbose_name='Declaro que aceito receber email com as informações das atividades')    
+    li_e_aceito_termos = models.BooleanField(default=False, verbose_name='Li e aceito os termos')    
     turmas = models.ManyToManyField(Turma)
     turmas_selecionado = models.ManyToManyField(Turma, related_name='tselecionado', null=True, blank=True)    
     dt_inclusao=models.DateField(auto_now_add=True)
@@ -122,8 +159,6 @@ class Aluno(models.Model):
 
     def __str__(self):
             return '%s' % (self.nome)
-
-
 
 class Matricula(models.Model):
 
