@@ -9,6 +9,11 @@ class CadastroCandidatoForm(ModelForm):
         model = Candidato
         widgets = {
             'turmas': forms.CheckboxSelectMultiple(),
+            'celular': forms.TextInput(attrs={'onkeydown':'mascara(this, icelular)'}),
+            'cep': forms.TextInput(attrs={'onkeydown':'mascara(this, icep)'}),
+            'cpf': forms.TextInput(attrs={'onkeydown':'mascara(this, icpf)'}),
+            'rg': forms.TextInput(attrs={'onkeydown':'mascara(this, irg)'}),
+
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
         }
@@ -18,6 +23,10 @@ class CadastroProfessorForm(ModelForm):
     
     class Meta:
         model = Professor
+        widgets = {
+            'cpf': forms.TextInput(attrs={'onkeydown':'mascara(this, icpf)'}),
+            'celular': forms.TextInput(attrs={'onkeydown':'mascara(this, icelular)'}),
+        }
         exclude = ['dt_inclusao']
 
 
@@ -55,6 +64,7 @@ class CadastroLocalForm(ModelForm):
         model = Local
         widgets = {                
             'ativo': forms.HiddenInput(),
+            'cep': forms.TextInput(attrs={'onkeydown':'mascara(this, icep)'}),
         }
         exclude = []
 
