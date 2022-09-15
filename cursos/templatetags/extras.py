@@ -23,10 +23,10 @@ def turmas(obj):
     print(turmas2)
     if len(turmas)>0:        
         for turma in turmas:
-            response+='<br><b class="ps-4">'+str(turma.curso.nome)+' '+str(turma.id)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b> Horário: <b>'+str(turma.horario)+'</b></span><br>'
+            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b> Horário: <b>'+str(turma.horario)+'</b></span><br>'
     if len(turmas2)>0:        
         for turma in turmas2:
-            response+='<br><b class="ps-4">'+str(turma.curso.nome)+' '+str(turma.id)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b> Horário: <b>'+str(turma.horario)+'</b></span><br>'    
+            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b> Horário: <b>'+str(turma.horario)+'</b></span><br>'    
     if len(turmas2)==0 and len(turmas)==0:
         response='<i class="ps-4 text-danger">Não há turmas disponíveis.</i>'
     return mark_safe(response)
@@ -51,14 +51,14 @@ def turmas_input(obj):
         for turma in turmas:            
             response+='''<div class="form-check mt-1"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
-    '''+str(turma.curso.nome)+''' '''+str(turma.id)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
+    '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
 </label></div>'''
     
     if len(turmas2)>0:                
         for turma in turmas2:
             response+='''<div class="form-check mt-1"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
-    '''+str(turma.curso.nome)+''' '''+str(turma.id)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
+    '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
 </label></div>'''
     
     if len(turmas2)==0 and len(turmas)==0:

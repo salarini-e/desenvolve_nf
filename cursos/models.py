@@ -100,11 +100,11 @@ class Candidato(models.Model):
     )
     
     ESTADOCIVIL_CHOICES=(
-                            ('s', 'Solteiro'),
-                            ('c', 'Casado'),
-                            ('s', 'Separado'),
-                            ('d', 'Divorciado'),
-                            ('v', 'Viúvo'),                            
+                            ('s', 'Solteiro(a)'),
+                            ('c', 'Casado(a)'),
+                            ('s', 'Separado(a)'),
+                            ('d', 'Divorciado(a)'),
+                            ('v', 'Viúvo(a)'),                            
     )
 
 
