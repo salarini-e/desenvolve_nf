@@ -23,10 +23,10 @@ def turmas(obj):
     print(turmas2)
     if len(turmas)>0:        
         for turma in turmas:
-            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b> Horário: <b>'+str(turma.horario)+'</b></span><br>'
+            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b>- <b class="ms-4">Horário:</b> '+str(turma.horario)+'</span><br>'
     if len(turmas2)>0:        
         for turma in turmas2:
-            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b> Horário: <b>'+str(turma.horario)+'</b></span><br>'    
+            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b>- <b class="ms-4">Horário:</b> '+str(turma.horario)+'</span><br>'    
     if len(turmas2)==0 and len(turmas)==0:
         response='<i class="ps-4 text-danger">Não há turmas disponíveis.</i>'
     return mark_safe(response)
