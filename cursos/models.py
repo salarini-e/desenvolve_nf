@@ -46,11 +46,11 @@ class Curso(models.Model):
 class Professor(models.Model):
     
     nome = models.CharField(max_length=150, verbose_name='Nome completo do professor')
-    celular = models.CharField(max_length=12, verbose_name='Celular')
+    celular = models.CharField(max_length=15, verbose_name='Celular')
     email = models.EmailField(verbose_name='Email', blank=True)  
     endereco = models.CharField(max_length=150, blank=True, null=True, verbose_name='Endereço')
     bairro = models.CharField(max_length=80, blank=True, null=True)
-    cpf = models.CharField(max_length=150, verbose_name='CPF')            
+    cpf = models.CharField(max_length=14, verbose_name='CPF')            
     dt_inclusao=models.DateField(auto_now_add=True)  
 
     def __str__(self):
@@ -109,7 +109,7 @@ class Candidato(models.Model):
 
 
     nome = models.CharField(max_length=150, verbose_name='Nome completo do candidato')
-    celular = models.CharField(max_length=12, verbose_name='Celular p/ contato do candidato')
+    celular = models.CharField(max_length=12, verbose_name='Celular p/ contato do candidato') 
     email = models.EmailField(verbose_name='Email p/ contato do candidato')    
     dt_nascimento = models.DateField(verbose_name='Data de Nascimento')    
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no seu nascimento?')
@@ -118,8 +118,8 @@ class Candidato(models.Model):
     # estado
     # cidade    
     bairro = models.CharField(max_length=80, null=True)
-    cpf = models.CharField(max_length=150, verbose_name='CPF')        
-    rg = models.CharField(max_length=9, verbose_name='RG', blank=True)
+    cpf = models.CharField(max_length=150, verbose_name='CPF')      
+    rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
     profissão = models.CharField(max_length=150, verbose_name='Profissão')        
     escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade')        
     nome_da_mãe = models.CharField(max_length=150, verbose_name='Nome completo da mãe do candidato')
