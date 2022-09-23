@@ -113,7 +113,10 @@ def listar_candidatos_curso(request, id):
     return render(request, 'cursos/listar_candidatos_curso.html', context)
 
 @login_required
-def cadastrar_categoria(request):    
+def cadastrar_categoria(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_categoria_listar')    
     form=CadastroCategoriaForm()
     if request.method=='POST':
         form=CadastroCategoriaForm(request.POST)
@@ -281,6 +284,9 @@ def adm_categorias(request):
 
 @login_required
 def adm_categorias_criar(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_categorias_listar') 
     form=CadastroCategoriaForm()
     if request.method=='POST':
         form=CadastroCategoriaForm(request.POST)
@@ -500,7 +506,7 @@ def excluir_turma(request, id):
         if turma.curso.categoria!=id_categoria:
             messages.error(request, 'Você não tem autorização para acessar essa turma.')
             return redirect('adm_turmas_listar')
-            
+
     # matriculas=Matricula.objects.filter(turma=turma)    
     # selecionados=Candidato.objects.filter(turmas__in=[turma], turmas_selecionado__in=[turma])
     # candidatos=Candidato.objects.filter(turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])
