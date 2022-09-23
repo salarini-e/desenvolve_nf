@@ -8,8 +8,9 @@ from django.http import HttpResponse
 import json
 
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Professor, Turma, Local
-from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroLocalForm, CadastroProfessorForm, CadastroTurmaForm
+from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroTurmaForm
 
+from datetime import date
 
 def index(request):
     return render(request, 'cursos/index.html')
@@ -55,7 +56,12 @@ def candidatar(request, id):
 
 @login_required
 def cadastrar_curso(request):    
-    form=CadastroCursoForm(initial={'instituicao': 1, 'user_inclusao': request.user})
+    if request.user.is_superuser:
+        form=CadastroCursoForm2(initial={'instituicao': 1, 'user_inclusao': request.user})
+    else:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+          
+        form=CadastroCursoForm(initial={'instituicao': 1, 'categoria': id_categoria,'user_inclusao': request.user})
     if request.method=='POST':
         form=CadastroCursoForm(request.POST)
         if form.is_valid():
@@ -73,7 +79,16 @@ def cadastrar_curso(request):
 @login_required
 def editar_curso(request, id):    
     curso=Curso.objects.get(id=id)
-    form=CadastroCursoForm(instance=curso)
+    if request.user.is_superuser:
+        form=CadastroCursoForm2(instance=curso)
+    else:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+        if curso.categoria==id_categoria:
+            form=CadastroCursoForm(instance=curso)
+        else:
+            messages.error(request, 'Você não tem autorização para editar essa atividade.')
+            return redirect('adm_cursos_listar')
+
     if request.method=='POST':
         form=CadastroCursoForm(request.POST, instance=curso)
         if form.is_valid():
@@ -176,7 +191,11 @@ def criar_turmas(request):
 
 @login_required
 def listar_turmas(request):
-    turmas=Turma.objects.all()
+    if request.user.is_superuser:
+        turmas=Turma.objects.all()
+    else:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+        turmas=Turma.objects.filter(curso__categoria=id_categoria)
     context={
         'turmas': turmas
     }
@@ -199,7 +218,11 @@ def adm_cursos(request):
 
 @login_required
 def listar_cursos(request):
-    cursos=Curso.objects.all()
+    if request.user.is_superuser:
+        cursos=Curso.objects.all()
+    else:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+        cursos=Curso.objects.filter(categoria=id_categoria)
     context={
         'cursos': cursos
     }
@@ -347,6 +370,12 @@ def adm_professores_editar(request,id):
 @login_required
 def visualizar_turma(request, id):
     turma=Turma.objects.get(id=id)
+    if not request.user.is_superuser:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria!=id_categoria:
+            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+            return redirect('adm_turmas_listar')
+
     matriculas=Matricula.objects.filter(turma=turma)    
     selecionados=Candidato.objects.filter(turmas__in=[turma], turmas_selecionado__in=[turma])
     candidatos=Candidato.objects.filter(turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])
@@ -368,6 +397,13 @@ def visualizar_turma(request, id):
 @login_required
 def visualizar_turma_editar(request, id):
     turma=Turma.objects.get(id=id)
+
+    if not request.user.is_superuser:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria!=id_categoria:
+            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+            return redirect('adm_turmas_listar')
+
     form=CadastroTurmaForm(instance=turma)
     if request.method=='POST':
         form=CadastroTurmaForm(request.POST, instance=turma)
@@ -385,11 +421,28 @@ def visualizar_turma_editar(request, id):
 @login_required
 def visualizar_turma_selecionado(request, id, id_selecionado):    
     turma=Turma.objects.get(id=id)
+
+    if not request.user.is_superuser:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria!=id_categoria:
+            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+            return redirect('adm_turmas_listar')
+
     matriculas=Matricula.objects.filter(turma=turma)
     if turma.qnt<=len(matriculas):
         messages.error(request, 'Turma cheia! Não é possível adicionar mais alunos.')
         return redirect('adm_turma_visualizar', id)
+
     selecionado=Candidato.objects.get(id=id_selecionado)
+    birthDate=selecionado.dt_nascimento
+    today = date.today() 
+    age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
+    
+    if age<18:
+        form_responsavel='<Formulário do Responsável>'
+    else:
+        form_responsavel=''
+
     try:
         aluno=Aluno.objects.get(cpf=selecionado.cpf)
         form=CadastroAlunoForm(instance=aluno)
@@ -432,6 +485,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 return redirect('adm_turma_visualizar', id)
     context={
         'form':form,
+        'form_responsavel': form_responsavel,
         'turma': turma,
         'selecionado': selecionado,
     }
@@ -440,6 +494,13 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
 @login_required
 def excluir_turma(request, id):
     turma=Turma.objects.get(id=id)
+
+    if not request.user.is_superuser:
+        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria!=id_categoria:
+            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+            return redirect('adm_turmas_listar')
+            
     # matriculas=Matricula.objects.filter(turma=turma)    
     # selecionados=Candidato.objects.filter(turmas__in=[turma], turmas_selecionado__in=[turma])
     # candidatos=Candidato.objects.filter(turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])

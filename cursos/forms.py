@@ -13,7 +13,7 @@ class CadastroCandidatoForm(ModelForm):
             'cep': forms.TextInput(attrs={'onkeydown':'mascara(this, icep)'}),
             'cpf': forms.TextInput(attrs={'onkeydown':'mascara(this, icpf)'}),
             'rg': forms.TextInput(attrs={'onkeydown':'mascara(this, irg)'}),
-
+            'aceita_mais_informacoes': forms.CheckboxInput(attrs={'required':True}),
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
         }
@@ -31,6 +31,17 @@ class CadastroProfessorForm(ModelForm):
 
 
 class CadastroCursoForm(ModelForm):    
+    
+    class Meta:
+        model = Curso
+        widgets = {          
+            'categoria': forms.HiddenInput(),
+            'user_inclusao': forms.HiddenInput(),
+            'user_ultima_alteracao': forms.HiddenInput(),
+        }
+        exclude = ['dt_inclusao', 'dt_alteracao']
+
+class CadastroCursoForm2(ModelForm):    
     
     class Meta:
         model = Curso

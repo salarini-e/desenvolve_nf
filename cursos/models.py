@@ -71,6 +71,8 @@ class Turma(models.Model):
     horario = models.CharField(max_length=150)
     instrutor = models.ForeignKey(Professor, on_delete=models.PROTECT)
     qnt=models.IntegerField(verbose_name='Quantidade de alunos permitidos')
+    idade_min = models.IntegerField(verbose_name='Idade mínima', null=True, blank=True)
+    idade_max = models.IntegerField(verbose_name='Idade máxima', null=True, blank=True)
     data_inicio = models.DateField()
     data_final = models.DateField()    
     
@@ -109,7 +111,7 @@ class Candidato(models.Model):
 
 
     nome = models.CharField(max_length=150, verbose_name='Nome completo do candidato')
-    celular = models.CharField(max_length=12, verbose_name='Celular p/ contato do candidato') 
+    celular = models.CharField(max_length=15, verbose_name='Celular p/ contato do candidato') 
     email = models.EmailField(verbose_name='Email p/ contato do candidato')    
     dt_nascimento = models.DateField(verbose_name='Data de Nascimento')    
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no seu nascimento?')
@@ -148,7 +150,7 @@ class Aluno(models.Model):
     )
 
     nome = models.CharField(max_length=150, verbose_name='Nome completo do aluno')
-    celular = models.CharField(max_length=12, verbose_name='Celular p/ contato do aluno')
+    celular = models.CharField(max_length=15, verbose_name='Celular p/ contato do aluno')
     email = models.EmailField(verbose_name='Email p/ contato do aluno')    
     dt_nascimento = models.DateField(verbose_name='Data de Nascimento do aluno')    
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no nascimento?')

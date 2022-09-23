@@ -62,7 +62,9 @@
                                       </td>
                                       <th>Nome do categoria</th>                                      
                                       <!-- <th>Status</th> -->
+                                      {% if request.user.is_superuser %}
                                       <th class="text-center">Editar</th>
+                                      {% endif %}
 
                                     </thead>
                                     <tbody>

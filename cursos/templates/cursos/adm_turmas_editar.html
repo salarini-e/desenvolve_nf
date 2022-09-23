@@ -1,5 +1,6 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
+{% load extras %}
 {% load static%}
 {% block title %}BEM VINDO - CURSOS LIVRES{% endblock %}
 {% block css %}
@@ -89,6 +90,17 @@
                                         <tr style="border-color: white;">                                                                         
                                           <td><b class="me-2">Máximo de alunos permitidos:</b><i>{{turma.qnt}}</i></td>
                                           <td ><b class="me-2">Alunos matriculados:</b><i>{{qnt_alunos}}</i></td>                                          
+                                          <td ><b class="me-2">Faixa etária:</b>
+                                            <i>
+                                              {% if turma.idade_min and turma.idade_max %}
+                                              {{turma.idade_min}} até {{turma.idade_max}}
+                                              {% elif turma.idade_min %}
+                                              {{turma.idade_min}}+
+                                              {% else %}
+                                              Até {{turma.idade_max}}
+                                              {% endif %}
+                                            </i>
+                                        </td>                                          
                                           
                                         </tr>
                                       </table>
@@ -109,7 +121,7 @@
                                           <th>Nome</th>
                                           <th>Celular</th>
                                           <th>Email</th>
-                                          <th>Aniversário</th>
+                                          <th>Idade</th>
                                           <th>Data da matrícula</th>
                                           <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
@@ -131,7 +143,7 @@
                                                 {{matricula.aluno.email}}
                                               </td>
                                               <td>
-                                                {{matricula.aluno.dt_nascimento}}
+                                                {{matricula.aluno.dt_nascimento|idade}}
                                               </td>
                                               <td>
                                                 {{matricula.data_matricula}}
@@ -147,6 +159,7 @@
                                     </table>
                                     </div>
                                   </div>
+                                  {% if turma.status == 'pre' or turma.status == 'acc'%}
                                   <div class="row">
                                     <div class="col pt-3 table-responsive">
                                       <div class="row">
@@ -162,7 +175,7 @@
                                           <th>Nome</th>
                                           <th>Celular</th>
                                           <th>Email</th>
-                                          <th>Aniversário</th>
+                                          <th>Idade</th>
                                           <th>Data de cadastro</th>
                                           <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
@@ -184,7 +197,7 @@
                                                 {{candidato.email}}
                                               </td>
                                               <td>
-                                                {{candidato.dt_nascimento}}
+                                                {{candidato.dt_nascimento|bg_idade}}
                                               </td>
                                               <td>
                                                 {{candidato.dt_inclusao}}
@@ -222,7 +235,7 @@
                                           <th>Nome</th>
                                           <th>Celular</th>
                                           <th>Email</th>
-                                          <th>Aniversário</th>
+                                          <th>Idade</th>
                                           <th>Data de cadastro</th>
                                           <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
@@ -244,7 +257,7 @@
                                                 {{candidato.email}}
                                               </td>
                                               <td>
-                                                {{candidato.dt_nascimento}}
+                                                {{candidato.dt_nascimento|bg_idade}}                                                                                                
                                               </td>
                                               <td>
                                                 {{candidato.dt_inclusao}}
@@ -260,7 +273,8 @@
                                     </table>
                                     </div>
                                   </div> 
-                                  </form>                                 
+                                  </form>  
+                                  {% endif %}                               
                                 </div>
                               </div>                                                                                          
                           </form>
