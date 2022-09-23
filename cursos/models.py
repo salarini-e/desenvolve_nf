@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 class Instituicao(models.Model):
 
@@ -22,7 +23,10 @@ class Local(models.Model):
 class Categoria(models.Model):
     
     nome = models.CharField(max_length=150, verbose_name='Nome da categoria')
-
+    
+    def save(self, *args, **kwargs):
+        Group.objects.get_or_create(name=self.nome)        
+        super(Categoria, self).save()
     def __str__(self):
             return '%s' % (self.nome)
 
