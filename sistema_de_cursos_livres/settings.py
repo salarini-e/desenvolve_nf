@@ -8,10 +8,6 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 env_vars = envvars.load_envars(BASE_DIR)
 
-env = []
-for linha in env_vars:
-    env.append(linha.rstrip())
-
 db_name = env_vars['db_name']
 db_user = env_vars['db_user']
 db_host = env_vars['db_host']
