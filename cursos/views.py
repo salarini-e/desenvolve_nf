@@ -644,3 +644,32 @@ def login_view(request):
             }
 
     return render(request, 'registration/login.html', context)
+
+@login_required
+def adm_alunos_listar(request):
+    if request.user.is_superuser:
+        alunos=Aluno.objects.all()
+
+    #else:
+    #    id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+    #    alunos=Turma.objects.filter(curso__categoria=id_categoria)
+
+    print(alunos)
+    context={
+        'alunos': alunos
+    }
+    return render(request, 'cursos/adm_alunos_listar.html', context)
+
+@login_required
+def adm_alunos_visualizar(request, id):
+    aluno=Aluno.objects.get(id=id)
+
+    if not request.user.is_superuser:
+        messages.error(request, 'Você não tem autorização para acessar essa turma.')
+        return redirect('adm_alunos')
+
+    context={        
+        'aluno': aluno,
+    }
+
+    return render(request, 'cursos/adm_aluno_visualizar.html', context)

@@ -45,7 +45,10 @@ urlpatterns = [
         path('administrativo/turmas/listar/<id>/visualizar/editar', views.visualizar_turma_editar, name="adm_turma_visualizar_editar"),
         path('administrativo/turmas/listar/<id>/visualizar/editar/excluir', views.excluir_turma, name="adm_turma_excluir"),
         path('administrativo/turmas/listar/<id>/visualizar/selecionado/<id_selecionado>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
-    
+        ##ALUNOS
+        path('administrativo/alunos', views.adm_alunos_listar, name="adm_alunos"),
+        path('administrativo/alunos/<id>/visualizar', views.adm_alunos_visualizar, name="adm_alunos_visualizar"),
+
     #API
     path('cursos/candidato/<id>', views.candidatar, name="candidatar"),
     path('cursos/<id_curso>/get-candidato/', views.get_candidatos, name="get_candidatos"),

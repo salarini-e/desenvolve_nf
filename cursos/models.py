@@ -133,7 +133,7 @@ class Candidato(models.Model):
     aceita_mais_informacoes = models.BooleanField(verbose_name='Declaro que aceito receber email com as informações das atividades')    
     li_e_aceito_termos = models.BooleanField(default=False, verbose_name='Li e aceito os termos')    
     turmas = models.ManyToManyField(Turma)
-    turmas_selecionado = models.ManyToManyField(Turma, related_name='tselecionado', null=True, blank=True)    
+    turmas_selecionado = models.ManyToManyField(Turma, related_name='tselecionado', blank=True)    
     dt_inclusao=models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -160,7 +160,7 @@ class Aluno(models.Model):
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no nascimento?')
     endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do aluno')
     bairro = models.CharField(max_length=80, null=True)
-    cpf = models.CharField(max_length=150, verbose_name='CPF')            
+    cpf = models.CharField(max_length=150, verbose_name='CPF', unique=True)            
     dt_inclusao=models.DateField(auto_now_add=True)
 
     def __str__(self):
