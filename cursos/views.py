@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.http import HttpResponse
 import json
 
-from .models import Aluno, Candidato, Categoria, Curso, Matricula, Professor, Turma, Local
-from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroTurmaForm
+from .models import Aluno, Candidato, Categoria, Curso, Matricula, Professor, Responsavel, Turma, Local
+from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 
 from datetime import date
 
@@ -444,16 +444,28 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
     today = date.today() 
     age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
     
-    if age<18:
-        form_responsavel='<Formulário do Responsável>'
-    else:
-        form_responsavel=''
-
+    
+    form_responsavel=''
     try:
         aluno=Aluno.objects.get(cpf=selecionado.cpf)
         form=CadastroAlunoForm(instance=aluno)
+        if age<18:
+            try:
+                responsavel = Responsavel.objects.get(aluno=aluno)
+                form_responsavel= CadastroResponsavelForm(instance=responsavel)                
+            except:
+                responsavel='NE'
+                form_responsavel= CadastroResponsavelForm()
+        else:       
+            responsavel='NP'     
+            
     except:
         aluno=False
+        if age<18:              
+            form_responsavel= CadastroResponsavelForm()                
+        else:       
+            responsavel='NP' 
+
         form=CadastroAlunoForm(
             initial={
                 'nome': selecionado.nome,
@@ -467,20 +479,31 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
             }
         )
     if request.method=='POST':
-        if aluno!=False:
-            form=CadastroAlunoForm(request.POST, instance=aluno)
-            if form.is_valid():
-                aluno=form.save()
-                matricula=Matricula(turma=turma, aluno=aluno)
-                matricula.save()
-                selecionado.turmas_selecionado.remove(turma)
-                selecionado.turmas.remove(turma)
-                selecionado.save()
-                messages.success(request, 'O aluno foi matriculado na disciplina com sucesso!')
-                return redirect('adm_turma_visualizar', id)
-        else:
+        #Candidato não é aluno e pode ser maior ou menor de idade/ Ele pode ou não precisar de um responsável
+        if not aluno: 
             form=CadastroAlunoForm(request.POST)
             if form.is_valid():
+                
+                # -----  O candidato é menor de idade
+                if age < 18:
+                    form_responsavel= CadastroResponsavelForm(request.POST) 
+
+                    if not form_responsavel.is_valid():
+                        context={
+                            'form':form,
+                            'form_responsavel': form_responsavel,
+                            'turma': turma,
+                            'selecionado': selecionado,
+                        }
+                        return render(request, 'cursos/adm_turmas_editar_selecionado.html', context)
+
+                    responsavel=form_responsavel.save()
+                    aluno=form.save()
+                    responsavel.r_aluno=aluno
+                    responsavel.save()
+
+
+                #O candidato é maior de idade:
                 aluno=form.save()
                 matricula=Matricula(turma=turma, aluno=aluno)
                 matricula.save()
@@ -489,6 +512,83 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(request, 'Novo aluno cadastrado no sistema e matriculado na disciplina com sucesso!')
                 return redirect('adm_turma_visualizar', id)
+
+
+        #Candidato é menor de idade e já aluno, mas não possui um responsável cadastrado
+        if responsavel == 'NE':
+            form=CadastroAlunoForm(request.POST, instance=aluno)
+            form_responsavel= CadastroResponsavelForm()   
+            if form.is_valid():
+                if not form_responsavel.is_valid():
+                    form_responsavel= CadastroResponsavelForm(request.POST) 
+
+                    if not form_responsavel.is_valid():
+                        context={
+                            'form':form,
+                            'form_responsavel': form_responsavel,
+                            'turma': turma,
+                            'selecionado': selecionado,
+                        }
+                        return render(request, 'cursos/adm_turmas_editar_selecionado.html', context)
+
+                    responsavel=form_responsavel.save()
+                    aluno.save()
+                    responsavel.r_aluno=aluno
+                    responsavel.save()
+
+                aluno=form.save()
+                matricula=Matricula(turma=turma, aluno=aluno)
+                matricula.save()
+                selecionado.turmas_selecionado.remove(turma)
+                selecionado.turmas.remove(turma)
+                selecionado.save()
+                messages.success(request, 'Aluno matriculado na disciplina com sucesso!')
+                return redirect('adm_turma_visualizar', id)
+
+
+        #O candidato é maior de idade e é aluno 
+        if responsavel == 'NP':
+            form=CadastroAlunoForm(request.POST, instance=aluno)
+            if form.is_valid():
+                aluno=form.save()
+                matricula=Matricula(turma=turma, aluno=aluno)
+                matricula.save()
+                selecionado.turmas_selecionado.remove(turma)
+                selecionado.turmas.remove(turma)
+                selecionado.save()
+                messages.success(request, 'Aluno atualizado e matriculado na disciplina com sucesso!')
+                return redirect('adm_turma_visualizar', id)
+    
+
+        #O candidato é menor de idade e já é aluno, mas não posssui responsável cadastrado
+        form=CadastroAlunoForm(request.POST, instance=aluno)
+        if form.is_valid():
+            if not form_responsavel.is_valid():
+                form_responsavel= CadastroResponsavelForm(request.POST) 
+
+                if not form_responsavel.is_valid():
+                    context={
+                        'form':form,
+                        'form_responsavel': form_responsavel,
+                        'turma': turma,
+                        'selecionado': selecionado,
+                    }
+                    return render(request, 'cursos/adm_turmas_editar_selecionado.html', context)
+
+                responsavel=form_responsavel.save()
+                aluno.save()
+                responsavel.r_aluno=aluno
+                responsavel.save()
+
+            matricula=Matricula(turma=turma, aluno=aluno)
+            matricula.save()
+            selecionado.turmas_selecionado.remove(turma)
+            selecionado.turmas.remove(turma)
+            selecionado.save()
+            messages.success(request, 'O aluno foi matriculado na disciplina com sucesso!')
+            return redirect('adm_turma_visualizar', id)
+
+
     context={
         'form':form,
         'form_responsavel': form_responsavel,

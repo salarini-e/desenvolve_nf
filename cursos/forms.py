@@ -87,3 +87,12 @@ class CadastroAlunoForm(ModelForm):
         #     'ativo': forms.HiddenInput(),
         # }
         exclude = []
+
+class CadastroResponsavelForm(ModelForm):
+
+    class Meta:
+        model = Responsavel
+        widgets = {
+
+        }
+        exclude = ['r_aluno']

@@ -166,6 +166,32 @@ class Aluno(models.Model):
     def __str__(self):
             return '%s' % (self.nome)
 
+class Responsavel(models.Model):
+    SEXO_CHOICES=(
+                            ('M', 'Masculino'),
+                            ('F', 'Feminino'),                                                      
+    )
+    ESTADOCIVIL_CHOICES=(
+                            ('s', 'Solteiro(a)'),
+                            ('c', 'Casado(a)'),
+                            ('s', 'Separado(a)'),
+                            ('d', 'Divorciado(a)'),
+                            ('v', 'Viúvo(a)'),                            
+    )
+    r_nome = models.CharField(max_length=150, verbose_name='Nome completo do responsável')
+    r_celular = models.CharField(max_length=15, verbose_name='Celular p/ contato do responsável') 
+    r_email = models.EmailField(verbose_name='Email p/ contato do responsável')    
+    r_dt_nascimento = models.DateField(verbose_name='Data de Nascimento')    
+    r_sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no seu nascimento?')
+    r_cep = models.CharField(max_length=9, verbose_name='CEP')
+    r_endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do responsável')
+    r_bairro = models.CharField(max_length=80, null=True)
+    r_cpf = models.CharField(max_length=150, verbose_name='CPF')      
+    r_rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
+    r_profissão = models.CharField(max_length=150, verbose_name='Profissão')   
+    r_estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')
+    r_aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, blank=True, null=True)
+
 class Matricula(models.Model):
 
     turma =  models.ForeignKey(Turma, on_delete=models.CASCADE)
