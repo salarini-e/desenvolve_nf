@@ -104,7 +104,6 @@ def turmas_input(obj):
 
 @register.filter(is_safe=True)
 def idade(obj):    
-    print(type(obj))
     birthDate=obj
     today = date.today() 
     age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
@@ -113,7 +112,6 @@ def idade(obj):
 
 @register.filter(is_safe=True)
 def bg_idade(obj):    
-    print(type(obj))
     birthDate=obj
     today = date.today() 
     age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
