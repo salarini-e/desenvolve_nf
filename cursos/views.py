@@ -662,14 +662,28 @@ def adm_alunos_listar(request):
 
 @login_required
 def adm_alunos_visualizar(request, id):
-    aluno=Aluno.objects.get(id=id)
-
+    
     if not request.user.is_superuser:
         messages.error(request, 'Você não tem autorização para acessar essa turma.')
         return redirect('adm_alunos')
 
+    aluno=Aluno.objects.get(id=id)
+    try:
+        responsavel=Responsavel.objects.get(r_aluno=aluno)
+        menor=True
+    except:
+        responsavel=''
+        menor=False
+    try:
+        matriculas=Matricula.objects.filter(aluno=aluno)
+    except:
+        pass
     context={        
         'aluno': aluno,
+        'responsavel': responsavel,
+        'menor': menor,
+        'matriculas': matriculas
+        
     }
 
     return render(request, 'cursos/adm_aluno_visualizar.html', context)

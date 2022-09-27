@@ -188,10 +188,11 @@ class Responsavel(models.Model):
     r_bairro = models.CharField(max_length=80, null=True)
     r_cpf = models.CharField(max_length=150, verbose_name='CPF')      
     r_rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
-    r_profissão = models.CharField(max_length=150, verbose_name='Profissão')   
+    r_profissao = models.CharField(max_length=150, verbose_name='Profissão')   
     r_estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')
     r_aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, blank=True, null=True)
-
+    dt_inclusao=models.DateField(auto_now_add=True)
+    
 class Matricula(models.Model):
 
     turma =  models.ForeignKey(Turma, on_delete=models.CASCADE)
