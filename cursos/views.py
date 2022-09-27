@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 import json
 
-from .models import Aluno, Candidato, Categoria, Curso, Matricula, Professor, Responsavel, Turma, Local
+from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 
 from datetime import date
@@ -339,7 +339,7 @@ def adm_professores_criar(request):
         form=CadastroProfessorForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Novo professor cadastrada com sucesso!')
+            messages.success(request, 'Novo Instrutor cadastrada com sucesso!')
             return redirect('adm_professores')
         else:
             print(form.errors)            
@@ -350,21 +350,21 @@ def adm_professores_criar(request):
 
 @login_required
 def adm_professores_listar(request):
-    professores=Professor.objects.all()
+    Instrutores=Instrutor.objects.all()
     context={
-        'professores': professores
+        'Instrutores': Instrutores
     }    
     return render(request, 'cursos/adm_professores_listar.html', context)
 
 @login_required
 def adm_professores_editar(request,id):
-    professor=Professor.objects.get(id=id)
-    form=CadastroProfessorForm(instance=professor)
+    Instrutor=Instrutor.objects.get(id=id)
+    form=CadastroProfessorForm(instance=Instrutor)
     if request.method=='POST':
-        form=CadastroProfessorForm(request.POST, instance=professor)
+        form=CadastroProfessorForm(request.POST, instance=Instrutor)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Informações do professor atualizadas com sucesso!')
+            messages.success(request, 'Informações do Instrutor atualizadas com sucesso!')
             return redirect('adm_professores')
         else:
             print(form.errors)            

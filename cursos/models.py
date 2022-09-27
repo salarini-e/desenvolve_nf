@@ -47,9 +47,9 @@ class Curso(models.Model):
     def __str__(self):
             return '%s' % (self.nome)
 
-class Professor(models.Model):
+class Instrutor(models.Model):
     
-    nome = models.CharField(max_length=150, verbose_name='Nome completo do professor')
+    nome = models.CharField(max_length=150, verbose_name='Nome completo do Instrutor')
     celular = models.CharField(max_length=15, verbose_name='Celular')
     email = models.EmailField(verbose_name='Email', blank=True)  
     endereco = models.CharField(max_length=150, blank=True, null=True, verbose_name='Endereço')
@@ -73,7 +73,7 @@ class Turma(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE, verbose_name='Atividade')
     local = models.ForeignKey(Local, on_delete=models.CASCADE)
     horario = models.CharField(max_length=150)
-    instrutor = models.ForeignKey(Professor, on_delete=models.PROTECT)
+    instrutor = models.ForeignKey(Instrutor, on_delete=models.PROTECT)
     qnt=models.IntegerField(verbose_name='Quantidade de alunos permitidos')
     idade_min = models.IntegerField(verbose_name='Idade mínima', null=True, blank=True)
     idade_max = models.IntegerField(verbose_name='Idade máxima', null=True, blank=True)

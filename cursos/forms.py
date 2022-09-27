@@ -22,7 +22,7 @@ class CadastroCandidatoForm(ModelForm):
 class CadastroProfessorForm(ModelForm):    
     
     class Meta:
-        model = Professor
+        model = Instrutor
         widgets = {
             'cpf': forms.TextInput(attrs={'onkeydown':'mascara(this, icpf)'}),
             'celular': forms.TextInput(attrs={'onkeydown':'mascara(this, icelular)'}),

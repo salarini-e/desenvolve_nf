@@ -22,7 +22,7 @@
                        <div class="row">
                         <div class="col">
                           <h1 class="text-uppercase">
-                            Painel -> PROFESSORES
+                            Painel -> Instrutores
                           </h1>
                         </div>
                         <div class="col d-flex">
@@ -33,9 +33,9 @@
                        </div>
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
-                              <a href="{% url 'adm_professores_criar' %}"><i class="fa-solid fa-plus me-3"></i>CADASTRAR PROFESSOR</a>
+                              <a href="{% url 'adm_professores_criar' %}"><i class="fa-solid fa-plus me-3"></i>CADASTRAR Instrutor</a>
                               <a href="{% url 'adm_professores_listar' %}" class="ativo">
-                                <i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR PROFESSORES</a>
+                                <i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR Instrutores</a>
                             </div>
                         </div>
                         <div class="row">
@@ -48,7 +48,7 @@
                                       Realizar ação em lote
                                     </option>
                                     <option value="1">
-                                      Excluir professores
+                                      Excluir Instrutores
                                     </option>
                                   </select>
                                   <button class="btn btn-primary px-3 ms-2">
@@ -61,27 +61,27 @@
                                       <td>
                                         <input type="checkbox" onchange="checkAll()" name="all" id="all">
                                       </td>
-                                      <th>Nome do Professor</th>                                      
+                                      <th>Nome do Instrutor</th>                                      
                                       <th>Celular</th>
                                       <th>Email</th>                                      
                                       <th class="text-center">Editar</th>
 
                                     </thead>
                                     <tbody>
-                                      {% for professor in professores %}
+                                      {% for Instrutor in Instrutores %}
                                         <tr>
                                           <td>
                                             <input type="checkbox" onchange="selecionar(this)" name="select_local" value="{{local.id}}">
                                           </td>                                          
-                                          <td>{{professor.nome}}</td>                                          
+                                          <td>{{Instrutor.nome}}</td>                                          
                                           <td>
-                                            {{professor.celular}}
+                                            {{Instrutor.celular}}
                                           </td>
                                           <td>
-                                            {{professor.email}}
+                                            {{Instrutor.email}}
                                           </td>
                                           <td class="text-center">
-                                            <a href="{% url 'adm_professores_editar' professor.id %}">
+                                            <a href="{% url 'adm_professores_editar' Instrutor.id %}">
                                               <i class="fas fa-edit"></i>
                                             </a>
                                           </td>

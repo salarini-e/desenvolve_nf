@@ -32,11 +32,11 @@ urlpatterns = [
         path('administrativo/cursos/listar', views.listar_cursos, name="adm_cursos_listar"),
         path('administrativo/cursos/editar/<id>', views.editar_curso, name="editar_curso"),
 
-        ##PROFESSORES
-        path('administrativo/professores/', views.adm_professores, name="adm_professores"),
-        path('administrativo/professores/criar', views.adm_professores_criar, name="adm_professores_criar"),
-        path('administrativo/professores/listar', views.adm_professores_listar, name="adm_professores_listar"),        
-        path('administrativo/professores/editar/<id>', views.adm_professores_editar, name="adm_professores_editar"),
+        ##Instrutores
+        path('administrativo/Instrutores/', views.adm_professores, name="adm_professores"),
+        path('administrativo/Instrutores/criar', views.adm_professores_criar, name="adm_professores_criar"),
+        path('administrativo/Instrutores/listar', views.adm_professores_listar, name="adm_professores_listar"),        
+        path('administrativo/Instrutores/editar/<id>', views.adm_professores_editar, name="adm_professores_editar"),
         ##TURMAS
         path('administrativo/turmas', views.turmas, name="adm_turmas"),
         path('administrativo/turmas/criar', views.criar_turmas, name="adm_turmas_criar"),
