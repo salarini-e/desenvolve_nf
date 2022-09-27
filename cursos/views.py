@@ -350,18 +350,18 @@ def adm_professores_criar(request):
 
 @login_required
 def adm_professores_listar(request):
-    Instrutores=Instrutor.objects.all()
+    instrutores=Instrutor.objects.all()
     context={
-        'Instrutores': Instrutores
+        'Instrutores': instrutores
     }    
     return render(request, 'cursos/adm_professores_listar.html', context)
 
 @login_required
 def adm_professores_editar(request,id):
-    Instrutor=Instrutor.objects.get(id=id)
-    form=CadastroProfessorForm(instance=Instrutor)
+    instrutor=Instrutor.objects.get(id=id)
+    form=CadastroProfessorForm(instance=instrutor)
     if request.method=='POST':
-        form=CadastroProfessorForm(request.POST, instance=Instrutor)
+        form=CadastroProfessorForm(request.POST, instance=instrutor)
         if form.is_valid():
             form.save()
             messages.success(request, 'Informações do Instrutor atualizadas com sucesso!')

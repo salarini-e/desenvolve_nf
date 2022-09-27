@@ -140,7 +140,7 @@
                                               {{matricula.turma.curso}}                                                                                        
                                           </td> 
                                           <td>
-                                            <a target="_blank" href="#" style="text-decoration: none;">
+                                            <a target="_blank" href="{% url 'adm_professores_editar' matricula.turma.instrutor.id %}" style="text-decoration: none;">
                                               {{matricula.turma.instrutor}}
                                             </a>
                                           </td>
