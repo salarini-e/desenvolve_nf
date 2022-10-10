@@ -161,7 +161,7 @@ class Aluno(models.Model):
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no nascimento?')
     endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do aluno')
     bairro = models.CharField(max_length=80, null=True)
-    cpf = models.CharField(max_length=150, verbose_name='CPF', unique=True)            
+    cpf = models.CharField(max_length=14, verbose_name='CPF', unique=True)            
     dt_inclusao=models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -187,7 +187,7 @@ class Responsavel(models.Model):
     r_cep = models.CharField(max_length=9, verbose_name='CEP')
     r_endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do responsável')
     r_bairro = models.CharField(verbose_name='Bairro',max_length=80, null=True)
-    r_cpf = models.CharField(max_length=150, verbose_name='CPF')      
+    r_cpf = models.CharField(max_length=14, verbose_name='CPF')
     r_rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
     r_profissao = models.CharField(max_length=150, verbose_name='Profissão')   
     r_estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')
