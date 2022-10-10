@@ -92,7 +92,8 @@ class Candidato(models.Model):
     
     SEXO_CHOICES=(
                             ('M', 'Masculino'),
-                            ('F', 'Feminino'),                                                      
+                            ('F', 'Feminino'), 
+                            ('O', 'Prefiro não dizer')                                                     
     )
 
     ESCOLARIDADE_CHOICES=(
@@ -128,7 +129,7 @@ class Candidato(models.Model):
     rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
     profissão = models.CharField(max_length=150, verbose_name='Profissão')        
     escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade')        
-    nome_da_mãe = models.CharField(max_length=150, verbose_name='Nome completo da mãe do candidato')
+    # nome_da_mãe = models.CharField(max_length=150, verbose_name='Nome completo da mãe do candidato')
     estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')        
     aceita_mais_informacoes = models.BooleanField(verbose_name='Declaro que aceito receber email com as informações das atividades')    
     li_e_aceito_termos = models.BooleanField(default=False, verbose_name='Li e aceito os termos')    
@@ -185,7 +186,7 @@ class Responsavel(models.Model):
     r_sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no seu nascimento?')
     r_cep = models.CharField(max_length=9, verbose_name='CEP')
     r_endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do responsável')
-    r_bairro = models.CharField(max_length=80, null=True)
+    r_bairro = models.CharField(verbose_name='Bairro',max_length=80, null=True)
     r_cpf = models.CharField(max_length=150, verbose_name='CPF')      
     r_rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
     r_profissao = models.CharField(max_length=150, verbose_name='Profissão')   

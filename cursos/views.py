@@ -649,10 +649,9 @@ def login_view(request):
 def adm_alunos_listar(request):
     if request.user.is_superuser:
         alunos=Aluno.objects.all()
-
-    #else:
-    #    id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-    #    alunos=Turma.objects.filter(curso__categoria=id_categoria)
+    else:
+       id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
+       alunos=Turma.objects.filter(curso__categoria=id_categoria)
 
     print(alunos)
     context={
