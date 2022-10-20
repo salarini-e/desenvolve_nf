@@ -112,35 +112,14 @@
 </div>
 {% if messages %} 
 <!-- MODAL -->
-<div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      {% for message in messages %}
-      <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
-        <h5 class="modal-title text-dark text-center" id="respostaLabel"></h5>
-        <button type="button"  class="btn-close" onclick="modal.dispose()" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
-         
-        <p class="px-4 py-3 text-center">
-          {{ message|escape }}
-        </p>
-        
-        
-      </div>
-      <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
-        
-      </div>
-      {% endfor %}
-    </div>
-
-  </div>
-</div>   
+<div class="warnings"></div>
 <script>
-var myModalEl = document.querySelector('#resposta')
-var modal = bootstrap.Modal.getOrCreateInstance(myModalEl)
- modal.show() 
+{% for message in messages %}
+Message.push("{{ message|escape }}")
+console.log("{{ message|escape }}")
+{% endfor %}
 </script>
+
 <style>
   .error{
     background-color: rgb(238, 171, 171);
@@ -157,18 +136,9 @@ var modal = bootstrap.Modal.getOrCreateInstance(myModalEl)
     color: rgb(139, 107, 0);
     font-weight: 600
   }
-  .modal-open, body, html, main {
-    overflow-y: scroll !important;
-}
 
 </style>
 {% endif %} 
-  <script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-  </script>
   {% block js %}
   <script src="/static/js/adm_cursos.js"></script>
   {% endblock %}
