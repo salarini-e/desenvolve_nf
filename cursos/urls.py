@@ -26,6 +26,7 @@ urlpatterns = [
         path('administrativo/categorias/cadastrar', views.adm_categorias_criar, name="cadastrar_categoria"),
         path('administrativo/categorias/listar', views.listar_categorias, name="adm_categorias_listar"),
         path('administrativo/categorias/editar/<id>', views.adm_categorias_editar, name="adm_categorias_editar"),
+        path('administrativo/categorias/excluir/<id>', views.adm_categorias_excluir, name="adm_categorias_excluir"),
         ##CURSOS
         path('administrativo/cursos/', views.adm_cursos, name="adm_cursos"),
         path('administrativo/cursos/cadastrar', views.cadastrar_curso, name="cadastrar_curso"),

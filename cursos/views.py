@@ -311,6 +311,12 @@ def listar_categorias(request):
     return render(request, 'cursos/adm_categorias_listar.html', context)
 
 @login_required
+def adm_categorias_excluir(request, id):
+    categoria=Categoria.objects.get(id=id)
+    print(categoria)
+    return redirect(request, 'cursos/adm_categorias_listar.html')
+
+@login_required
 def adm_categorias_editar(request, id):
     categoria=Categoria.objects.get(id=id)
     form=CadastroCategoriaForm(instance=categoria)
