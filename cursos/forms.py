@@ -1,4 +1,5 @@
 
+from dataclasses import fields
 from django import forms
 from django.forms import ModelForm, ValidationError
 from .models import *
@@ -69,7 +70,6 @@ class CadastroCategoriaForm(ModelForm):
     
     class Meta:
         model = Categoria
-
         exclude = []
 
 class CadastroLocalForm(ModelForm):    

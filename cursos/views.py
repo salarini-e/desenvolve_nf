@@ -97,9 +97,11 @@ def editar_curso(request, id):
             print(form.errors)
     context={
         'form': form,
-        'CADASTRAR': 'EDITAR'
+        'CADASTRAR': 'EDITAR',
+        'curso': curso
     }
     return render(request, 'cursos/adm_cursos_cad_edit.html', context)
+
 
 @login_required
 def listar_candidatos_curso(request, id):    
@@ -274,9 +276,16 @@ def adm_locais_editar(request, id):
         else:
             print(form.errors)
     context={
-        'form': form,        
+        'form': form,
+        'local': local
     }    
     return render(request, 'cursos/adm_locais_editar.html', context)
+
+@login_required
+def adm_locais_excluir(request, id):
+    local=Local.objects.get(id=id)
+    local.delete()
+    return redirect('adm_locais_listar')
 
 @login_required
 def adm_categorias(request):
@@ -313,8 +322,8 @@ def listar_categorias(request):
 @login_required
 def adm_categorias_excluir(request, id):
     categoria=Categoria.objects.get(id=id)
-    print(categoria)
-    return redirect(request, 'cursos/adm_categorias_listar.html')
+    categoria.delete()
+    return redirect('adm_categorias_listar')
 
 @login_required
 def adm_categorias_editar(request, id):
@@ -329,7 +338,8 @@ def adm_categorias_editar(request, id):
         else:
             print(form.errors)            
     context={
-        'form': form,        
+        'form': form,
+        'categoria': categoria
     }    
     return render(request, 'cursos/adm_categorias_editar.html', context)
 
@@ -375,9 +385,16 @@ def adm_professores_editar(request,id):
         else:
             print(form.errors)            
     context={
-        'form': form,        
+        'form': form,   
+        'instrutor': instrutor     
     }    
     return render(request, 'cursos/adm_professores_editar.html', context)
+
+@login_required
+def adm_professores_excluir(request, id):
+    instrutor=Instrutor.objects.get(id=id)
+    instrutor.delete()
+    return redirect('adm_professores')
 
 @login_required
 def visualizar_turma(request, id):

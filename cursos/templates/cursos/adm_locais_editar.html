@@ -40,10 +40,15 @@
                         <div class="row">
                           <div class="col-12 pt-4">
                             <div class="row">
-                              <div class="col d-flex">
+                              <div class="col d-flex flex-row-reverse">
+                                <div>
                                   <a class="ms-auto btn btn-outline-dark" href="{% url 'adm_locais_listar' %}">
                                     <i class="fas fa-undo-alt me-2"></i> Voltar
                                   </a>
+                                  <a class="ms-auto btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir">
+                                    <i class="fa-solid fa-trash-can"></i> Apagar
+                                  </a>
+                                </div>
                               </div>
                             </div>
                             <form class="row px-2" method="POST">
@@ -102,6 +107,23 @@
       </div>
     </div>
   </div>  
+
+  <div class="modal fade" id="excluir" aria-hidden="true" aria-labelledby="excluirLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger border-0">
+          <h5 class="modal-title text-dark text-center" id="excluirLabel">ATENÇÃO</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark border-0 pt-5">            
+            <p class="text-center"><b>Tem certeza que deseja excluir este registro?</b></p>
+        </div>
+        <div class="modal-footer border-0">
+          <a href="{% url 'adm_locais_excluir' local.id %}" class="btn btn-danger">Sim, tenho certeza.</a>
+        </div>
+      </div>
+    </div>
+  </div> 
   <script>
 
   async function getCandidatos(event){
