@@ -168,7 +168,6 @@ def prematricula(request):
             print(turma)
             if age < turma.idade_min or age > turma.idade_max:
                 teste = False
-                
         if form.is_valid() and teste:
             candidato=form.save()            
             for i in request.POST.getlist('turmas'):
