@@ -5,12 +5,13 @@ from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
+from django.forms import ValidationError
 import json
 
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 
-from datetime import date
+from datetime import date, datetime
 
 def index(request):
     return render(request, 'cursos/index.html')
@@ -154,14 +155,30 @@ def prematricula(request):
 
     form=CadastroCandidatoForm()
     if request.method=='POST':
-        form=CadastroCandidatoForm(request.POST)        
-        if form.is_valid():
+        form=CadastroCandidatoForm(request.POST)
+        dtnascimento_cp = request.POST['dt_nascimento']
+        dtnascimento_hr = datetime.strptime(dtnascimento_cp, '%Y-%m-%d')
+        dt_nascimento= dtnascimento_hr.date()
+        today=date.today() 
+        age=today.year - dt_nascimento.year - ((today.month, today.day) < (dt_nascimento.month, dt_nascimento.day))
+        print(age)
+        teste = True
+        for i in request.POST.getlist('turmas'):
+            turma = Turma.objects.get(id=i)
+            print(turma)
+            if age < turma.idade_min or age > turma.idade_max:
+                teste = False
+                
+        if form.is_valid() and teste:
             candidato=form.save()            
             for i in request.POST.getlist('turmas'):
                 candidato.turmas.add(i)
             messages.success(request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
             return redirect('/')
         else:
+            if not teste:
+                messages.error(request, 'Não foi possível realizar a inscrição na turma: A idade não atende a faixa etária da turma.')
+                return redirect('/')
             print(form.errors)
     context={
         'form': form,
