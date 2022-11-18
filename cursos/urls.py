@@ -21,22 +21,26 @@ urlpatterns = [
         path('administrativo/locais/cadastrar', views.adm_locais_criar, name="cadastrar_local"),
         path('administrativo/locais/listar', views.listar_locais, name="adm_locais_listar"),
         path('administrativo/locais/editar/<id>', views.adm_locais_editar, name="adm_locais_editar"),
+        path('administrativo/locais/excluir/<id>', views.adm_locais_excluir, name="adm_locais_excluir"),
         ##CATEGORIAS
         path('administrativo/categorias/', views.adm_categorias, name="adm_categorias"),
         path('administrativo/categorias/cadastrar', views.adm_categorias_criar, name="cadastrar_categoria"),
         path('administrativo/categorias/listar', views.listar_categorias, name="adm_categorias_listar"),
         path('administrativo/categorias/editar/<id>', views.adm_categorias_editar, name="adm_categorias_editar"),
+        path('administrativo/categorias/excluir/<id>', views.adm_categorias_excluir, name="adm_categorias_excluir"),
         ##CURSOS
         path('administrativo/cursos/', views.adm_cursos, name="adm_cursos"),
         path('administrativo/cursos/cadastrar', views.cadastrar_curso, name="cadastrar_curso"),
         path('administrativo/cursos/listar', views.listar_cursos, name="adm_cursos_listar"),
         path('administrativo/cursos/editar/<id>', views.editar_curso, name="editar_curso"),
 
+
         ##Instrutores
         path('administrativo/instrutores/', views.adm_professores, name="adm_professores"),
         path('administrativo/instrutores/criar', views.adm_professores_criar, name="adm_professores_criar"),
         path('administrativo/instrutores/listar', views.adm_professores_listar, name="adm_professores_listar"),        
         path('administrativo/instrutores/editar/<id>', views.adm_professores_editar, name="adm_professores_editar"),
+        path('administrativo/instrutores/excluir/<id>', views.adm_professores_excluir, name="adm_professores_excluir"),
         ##TURMAS
         path('administrativo/turmas', views.turmas, name="adm_turmas"),
         path('administrativo/turmas/criar', views.criar_turmas, name="adm_turmas_criar"),
