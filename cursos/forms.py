@@ -69,7 +69,6 @@ class CadastroCategoriaForm(ModelForm):
     
     class Meta:
         model = Categoria
-
         exclude = []
 
 class CadastroLocalForm(ModelForm):    
