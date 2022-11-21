@@ -155,6 +155,8 @@
     }
 
     document.querySelector("#id_dt_nascimento").addEventListener("change", async (e)=>{
+        if(!e.target.value) return
+
         const response = await fetch('/turmas/autenticar_data', {
             method: 'POST', 
             headers: {
@@ -169,8 +171,7 @@
         // TODO
         // TENHO QUE MELHORAR ISSO AQUI
         // Trocar para for loops ou usar find ou includes mas n posso usar com objetos
-        document.querySelector('.curso').forEach(element=>{
-
+        document.querySelectorAll('.curso').forEach(element=>{
             let count = 0
             element.querySelectorAll('.turma').forEach((e=>{
 
@@ -201,7 +202,11 @@
        
     })
 
-    document.querySelector("#id_dt_nascimento").dispatchEvent(new Event('change'))
+    window.addEventListener('load', function (){
+        console.log("load")
+        document.querySelector("#id_dt_nascimento").dispatchEvent(new Event('change'))
+    });
+
   </script>
 
   <style>
