@@ -21,8 +21,8 @@ def turmas(obj):
         turmas2=[]
     
     response=''
-    print(turmas)
-    print(turmas2)
+    # print(turmas)
+    # print(turmas2)
     if len(turmas)>0:        
         for turma in turmas:
             try:
@@ -58,7 +58,7 @@ def turmas(obj):
 
 @register.filter(is_safe=True)
 def turmas_input(obj):
-    print(obj)
+    # print(obj)
     try:        
         turmas=Turma.objects.filter(curso=obj, status='pre')
     except Exception as E:
