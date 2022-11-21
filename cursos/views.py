@@ -171,8 +171,6 @@ def prematricula(request):
             {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
 
     form = CadastroCandidatoForm()
-    if request.method == 'POST':
-            form=CadastroCandidatoForm()
     if request.method=='POST':
         form=CadastroCandidatoForm(request.POST)
         dtnascimento_cp = request.POST['dt_nascimento']
@@ -641,8 +639,8 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
         if responsavel == 'NP':
             form=CadastroAlunoForm(request.POST, instance=aluno)
             if form.is_valid():
-                aluno=form.save()
-                matricula=Matricula(turma=turma, aluno=aluno)
+                aluno = form.save()
+                matricula = Matricula(turma=turma, aluno=aluno)
                 matricula.save()
                 selecionado.turmas_selecionado.remove(turma)
                 selecionado.turmas.remove(turma)
