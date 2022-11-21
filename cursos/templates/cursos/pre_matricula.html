@@ -40,15 +40,19 @@
                                     <div class="d-flex flex-column">
                                       <label for="">Turmas</label>
                                       <hr>
-                                      {% for cursos in categorias %}                                      
+                                      {% for cursos in categorias %}       
+                                      <div class="curso">                               
                                       <h4 class="mt-2">{{cursos.categoria}}</h4>
                                       {% for i in cursos.curso %}
+                                      <div class="">
                                       <b class="mt-1">{{i.nome}}</b>                                      
                                       
                                           {% load extras %}
                                           {{i|turmas_input}}                                        
                                       
-                                      {% endfor %}               
+                                      </div>
+                                      {% endfor %}   
+                                      </div>            
                                       <hr>
                                       {% endfor %}                                      
                                       </div>
@@ -149,5 +153,64 @@
         }
         return v
     }
+
+    document.querySelector("#id_dt_nascimento").addEventListener("change", async (e)=>{
+        const response = await fetch('/turmas/autenticar_data', {
+            method: 'POST', 
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({dt_nascimento: e.target.value}),
+        })
+
+        const json = await response.json()
+
+        // TODO
+        // TENHO QUE MELHORAR ISSO AQUI
+        // Trocar para for loops ou usar find ou includes mas n posso usar com objetos
+        document.querySelector('.curso').forEach(element=>{
+
+            let count = 0
+            element.querySelectorAll('.turma').forEach((e=>{
+
+                const input = e.querySelector('input')
+                let found = false
+                json.data.forEach(el=>{
+                    console.log(el)
+                    if(input.value == el.id){
+                        e.classList.remove('hidden')
+                        found = true;
+                        // eu n to com saco para fazer um foor loop aqui, n vou usar break :)
+                    }
+                })
+                if(!found){
+                        e.classList.add('hidden')
+                        e.checked = false
+                        count++
+                }
+    
+            }))
+
+            if(count == element.length){
+                element.classList.add("hidden")
+            } else {
+                element.classList.remove("hidden")
+            }
+        })
+       
+    })
+
+    document.querySelector("#id_dt_nascimento").dispatchEvent(new Event('change'))
   </script>
+
+  <style>
+  
+    .hidden{
+        display: none;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+  </style>
 {% endblock %}
