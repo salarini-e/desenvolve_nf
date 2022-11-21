@@ -1,29 +1,34 @@
+import datetime
 from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import json
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Professor, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroTurmaForm
 
-from datetime import date
+from datetime import date, datetime
+
 
 def index(request):
     return render(request, 'cursos/index.html')
 
 
 def cursos(request):
-    form=CadastroCandidatoForm()
-    categorias=Categoria.objects.all()
-    cursos=[]
+    form = CadastroCandidatoForm()
+    categorias = Categoria.objects.all()
+    cursos = []
     for i in categorias:
-        cursos.append({'categoria':i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
+        cursos.append(
+            {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
 
-    context={
+    context = {
         'categorias': cursos,
         'form': form
     }
@@ -36,197 +41,219 @@ def cursos(request):
 #         "key1": "value1",
 #         "key2": "value2"
 #     }
-#     return HttpResponse(json.dumps(to_json), mimetype='application/json')                        
+#     return HttpResponse(json.dumps(to_json), mimetype='application/json')
+
 
 @login_required
 def candidatar(request, id):
-    
-    curso=Curso.objects.get(id=id)
-    form=CadastroCandidatoForm(initial={'curso': curso})
-    if request.method=='POST':
-        form=CadastroCandidatoForm(request.POST)
+
+    curso = Curso.objects.get(id=id)
+    form = CadastroCandidatoForm(initial={'curso': curso})
+    if request.method == 'POST':
+        form = CadastroCandidatoForm(request.POST)
         if form.is_valid():
             form.save()
         else:
             print(form.errors)
-    context={
+    context = {
         'form': form
-    }               
-    return render(request, 'cursos/cadastrar_candidato.html', context)    
+    }
+    return render(request, 'cursos/cadastrar_candidato.html', context)
+
 
 @login_required
-def cadastrar_curso(request):    
+def cadastrar_curso(request):
     if request.user.is_superuser:
-        form=CadastroCursoForm2(initial={'instituicao': 1, 'user_inclusao': request.user})
+        form = CadastroCursoForm2(
+            initial={'instituicao': 1, 'user_inclusao': request.user})
     else:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-          
-        form=CadastroCursoForm(initial={'instituicao': 1, 'categoria': id_categoria,'user_inclusao': request.user})
-    if request.method=='POST':
-        form=CadastroCursoForm(request.POST)
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+
+        form = CadastroCursoForm(initial={
+                                 'instituicao': 1, 'categoria': id_categoria, 'user_inclusao': request.user})
+    if request.method == 'POST':
+        form = CadastroCursoForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Novo curso cadastrado!')
             return redirect('adm_cursos_listar')
         else:
             print(form.errors)
-    context={
+    context = {
         'form': form,
         'CADASTRAR': 'NOVO'
     }
     return render(request, 'cursos/adm_cursos_cad_edit.html', context)
 
+
 @login_required
-def editar_curso(request, id):    
-    curso=Curso.objects.get(id=id)
+def editar_curso(request, id):
+    curso = Curso.objects.get(id=id)
     if request.user.is_superuser:
-        form=CadastroCursoForm2(instance=curso)
+        form = CadastroCursoForm2(instance=curso)
     else:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-        if curso.categoria==id_categoria:
-            form=CadastroCursoForm(instance=curso)
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+        if curso.categoria == id_categoria:
+            form = CadastroCursoForm(instance=curso)
         else:
-            messages.error(request, 'Você não tem autorização para editar essa atividade.')
+            messages.error(
+                request, 'Você não tem autorização para editar essa atividade.')
             return redirect('adm_cursos_listar')
 
-    if request.method=='POST':
-        form=CadastroCursoForm(request.POST, instance=curso)
+    if request.method == 'POST':
+        form = CadastroCursoForm(request.POST, instance=curso)
         if form.is_valid():
             form.save()
         else:
             print(form.errors)
-    context={
+    context = {
         'form': form,
         'CADASTRAR': 'EDITAR'
     }
     return render(request, 'cursos/adm_cursos_cad_edit.html', context)
 
+
 @login_required
-def listar_candidatos_curso(request, id):    
-    curso=Curso.objects.get(id=id)
-    candidatos=Candidato.objects.filter(curso=curso)
-    context={
+def listar_candidatos_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    candidatos = Candidato.objects.filter(curso=curso)
+    context = {
         'candidatos': candidatos,
         'CADASTRAR': 'EDITAR',
         'curso': curso
     }
     return render(request, 'cursos/listar_candidatos_curso.html', context)
 
+
 @login_required
 def cadastrar_categoria(request):
     if not request.user.is_superuser:
-        messages.error(request, 'Você não tem autorização para criar uma nova categoria.')
-        return redirect('adm_categoria_listar')    
-    form=CadastroCategoriaForm()
-    if request.method=='POST':
-        form=CadastroCategoriaForm(request.POST)
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_categoria_listar')
+    form = CadastroCategoriaForm()
+    if request.method == 'POST':
+        form = CadastroCategoriaForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Nova categoria cadastrada!')
             return redirect('adm_categorias_listar')
-    context={
+    context = {
         'form': form
     }
     return render(request, 'cursos/cadastrar_categoria.html', context)
 
+
 @login_required
-def cadastrar_local(request):    
-    form=CadastroLocalForm()
-    if request.method=='POST':
-        form=CadastroLocalForm(request.POST)
+def cadastrar_local(request):
+    form = CadastroLocalForm()
+    if request.method == 'POST':
+        form = CadastroLocalForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Novo local cadastrado!')
             return redirect('adm_locais_listar')
-    context={
+    context = {
         'form': form
     }
     return render(request, 'cursos/cadastrar_local.html', context)
 
-def prematricula(request):
-    form=CadastroCandidatoForm()
-    categorias=Categoria.objects.all()
-    cursos=[]
-    for i in categorias:
-        cursos.append({'categoria':i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
 
-    form=CadastroCandidatoForm()
-    if request.method=='POST':
-        form=CadastroCandidatoForm(request.POST)        
+def prematricula(request):
+    form = CadastroCandidatoForm()
+    categorias = Categoria.objects.all()
+    cursos = []
+    for i in categorias:
+        cursos.append(
+            {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
+
+    form = CadastroCandidatoForm()
+    if request.method == 'POST':
+        form = CadastroCandidatoForm(request.POST)
         if form.is_valid():
-            candidato=form.save()            
+            candidato = form.save()
             for i in request.POST.getlist('turmas'):
                 candidato.turmas.add(i)
-            messages.success(request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
+            messages.success(
+                request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
             return redirect('/')
         else:
             print(form.errors)
-    context={
+    context = {
         'form': form,
         'categorias': cursos
-    }               
+    }
     return render(request, 'cursos/pre_matricula.html', context)
+
 
 def alterarCad(request):
     return render(request, 'cursos/alterar_cad.html')
+
 
 @login_required
 def administrativo(request):
     return render(request, 'cursos/administrativo.html')
 
+
 @login_required
 def turmas(request):
     return render(request, 'cursos/adm_turmas.html')
 
+
 @login_required
 def criar_turmas(request):
-    form=CadastroTurmaForm(initial={'instituicao': 1, 'user_inclusao': request.user})
-    if request.method=='POST':
-        form=CadastroTurmaForm(request.POST)
+    form = CadastroTurmaForm(
+        initial={'instituicao': 1, 'user_inclusao': request.user})
+    if request.method == 'POST':
+        form = CadastroTurmaForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Nova turma cadastrada com sucesso!')
-            return redirect('adm_turmas_listar')        
-    context={
+            return redirect('adm_turmas_listar')
+    context = {
         'form': form
     }
     return render(request, 'cursos/adm_turmas_criar.html', context)
 
+
 @login_required
 def listar_turmas(request):
     if request.user.is_superuser:
-        turmas=Turma.objects.all()
+        turmas = Turma.objects.all()
     else:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-        turmas=Turma.objects.filter(curso__categoria=id_categoria)
-    context={
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+        turmas = Turma.objects.filter(curso__categoria=id_categoria)
+    context = {
         'turmas': turmas
     }
     return render(request, 'cursos/adm_turmas_listar.html', context)
 
+
 @login_required
 def get_candidatos(request, id_curso):
     if request.user.is_staff:
-        candidatos=Candidato.objects.filter(curso=id_curso)    
+        candidatos = Candidato.objects.filter(curso=id_curso)
     else:
-        candidatos={}
-    context={
+        candidatos = {}
+    context = {
         'candidatos': candidatos
     }
     return render(request, 'cursos/GET/get_candidatos.html', context)
+
 
 @login_required
 def adm_cursos(request):
     return render(request, 'cursos/adm_cursos.html')
 
+
 @login_required
 def listar_cursos(request):
     if request.user.is_superuser:
-        cursos=Curso.objects.all()
+        cursos = Curso.objects.all()
     else:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-        cursos=Curso.objects.filter(categoria=id_categoria)
-    context={
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+        cursos = Curso.objects.filter(categoria=id_categoria)
+    context = {
         'cursos': cursos
     }
     return render(request, 'cursos/adm_cursos_listar.html', context)
@@ -236,162 +263,180 @@ def listar_cursos(request):
 def adm_locais(request):
     return render(request, 'cursos/adm_locais.html')
 
+
 @login_required
 def adm_locais_criar(request):
-    form=CadastroLocalForm()
-    if request.method=='POST':
-        form=CadastroLocalForm(request.POST)
+    form = CadastroLocalForm()
+    if request.method == 'POST':
+        form = CadastroLocalForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Novo local cadastrado!')
             return redirect('adm_locais_listar')
         else:
             print(form.errors)
-    context={
+    context = {
         'form': form,
         'CADASTRAR': 'NOVO'
-    }    
+    }
     return render(request, 'cursos/adm_locais_criar.html', context)
+
 
 @login_required
 def listar_locais(request):
-    locais=Local.objects.all()
-    context={
+    locais = Local.objects.all()
+    context = {
         'locais': locais
     }
     return render(request, 'cursos/adm_locais_listar.html', context)
 
+
 @login_required
 def adm_locais_editar(request, id):
-    local=Local.objects.get(id=id)
-    form=CadastroLocalForm(instance=local)
-    if request.method=='POST':
-        form=CadastroLocalForm(request.POST, instance=local)
+    local = Local.objects.get(id=id)
+    form = CadastroLocalForm(instance=local)
+    if request.method == 'POST':
+        form = CadastroLocalForm(request.POST, instance=local)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Informações do local atualizada com sucesso')
+            messages.success(
+                request, 'Informações do local atualizada com sucesso')
             return redirect('adm_locais_listar')
         else:
             print(form.errors)
-    context={
-        'form': form,        
-    }    
+    context = {
+        'form': form,
+    }
     return render(request, 'cursos/adm_locais_editar.html', context)
+
 
 @login_required
 def adm_categorias(request):
     return render(request, 'cursos/adm_categorias.html')
 
+
 @login_required
 def adm_categorias_criar(request):
     if not request.user.is_superuser:
-        messages.error(request, 'Você não tem autorização para criar uma nova categoria.')
-        return redirect('adm_categorias_listar') 
-    form=CadastroCategoriaForm()
-    if request.method=='POST':
-        form=CadastroCategoriaForm(request.POST)
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_categorias_listar')
+    form = CadastroCategoriaForm()
+    if request.method == 'POST':
+        form = CadastroCategoriaForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Nova categoria cadastrada!')
             return redirect('adm_categorias_listar')
         else:
-            print(form.errors)            
-    context={
+            print(form.errors)
+    context = {
         'form': form,
         'CADASTRAR': 'NOVO'
-    }    
+    }
     return render(request, 'cursos/adm_categorias_criar.html', context)
+
 
 @login_required
 def listar_categorias(request):
-    categorias=Categoria.objects.all()
-    context={
+    categorias = Categoria.objects.all()
+    context = {
         'categorias': categorias
     }
     return render(request, 'cursos/adm_categorias_listar.html', context)
 
+
 @login_required
 def adm_categorias_editar(request, id):
-    categoria=Categoria.objects.get(id=id)
-    form=CadastroCategoriaForm(instance=categoria)
-    if request.method=='POST':
-        form=CadastroCategoriaForm(request.POST, instance=categoria)
+    categoria = Categoria.objects.get(id=id)
+    form = CadastroCategoriaForm(instance=categoria)
+    if request.method == 'POST':
+        form = CadastroCategoriaForm(request.POST, instance=categoria)
         if form.is_valid():
             form.save()
             messages.success(request, 'Informações da categoria atualizada!')
             return redirect('adm_categorias_listar')
         else:
-            print(form.errors)            
-    context={
-        'form': form,        
-    }    
+            print(form.errors)
+    context = {
+        'form': form,
+    }
     return render(request, 'cursos/adm_categorias_editar.html', context)
+
 
 @login_required
 def adm_professores(request):
-    context={}
+    context = {}
     return render(request, 'cursos/adm_professores.html', context)
+
 
 @login_required
 def adm_professores_criar(request):
-    form=CadastroProfessorForm()
-    if request.method=='POST':
-        form=CadastroProfessorForm(request.POST)
+    form = CadastroProfessorForm()
+    if request.method == 'POST':
+        form = CadastroProfessorForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Novo professor cadastrada com sucesso!')
             return redirect('adm_professores')
         else:
-            print(form.errors)            
-    context={
-        'form': form,        
-    }    
+            print(form.errors)
+    context = {
+        'form': form,
+    }
     return render(request, 'cursos/adm_professores_criar.html', context)
+
 
 @login_required
 def adm_professores_listar(request):
-    professores=Professor.objects.all()
-    context={
+    professores = Professor.objects.all()
+    context = {
         'professores': professores
-    }    
+    }
     return render(request, 'cursos/adm_professores_listar.html', context)
 
+
 @login_required
-def adm_professores_editar(request,id):
-    professor=Professor.objects.get(id=id)
-    form=CadastroProfessorForm(instance=professor)
-    if request.method=='POST':
-        form=CadastroProfessorForm(request.POST, instance=professor)
+def adm_professores_editar(request, id):
+    professor = Professor.objects.get(id=id)
+    form = CadastroProfessorForm(instance=professor)
+    if request.method == 'POST':
+        form = CadastroProfessorForm(request.POST, instance=professor)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Informações do professor atualizadas com sucesso!')
+            messages.success(
+                request, 'Informações do professor atualizadas com sucesso!')
             return redirect('adm_professores')
         else:
-            print(form.errors)            
-    context={
-        'form': form,        
-    }    
+            print(form.errors)
+    context = {
+        'form': form,
+    }
     return render(request, 'cursos/adm_professores_editar.html', context)
+
 
 @login_required
 def visualizar_turma(request, id):
-    turma=Turma.objects.get(id=id)
+    turma = Turma.objects.get(id=id)
     if not request.user.is_superuser:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-        if turma.curso.categoria!=id_categoria:
-            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria != id_categoria:
+            messages.error(
+                request, 'Você não tem autorização para acessar essa turma.')
             return redirect('adm_turmas_listar')
 
-    matriculas=Matricula.objects.filter(turma=turma)    
-    selecionados=Candidato.objects.filter(turmas__in=[turma], turmas_selecionado__in=[turma])
-    candidatos=Candidato.objects.filter(turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])
-    if request.method=='POST':
+    matriculas = Matricula.objects.filter(turma=turma)
+    selecionados = Candidato.objects.filter(
+        turmas__in=[turma], turmas_selecionado__in=[turma])
+    candidatos = Candidato.objects.filter(
+        turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])
+    if request.method == 'POST':
         for i in request.POST:
-            if i!='csrfmiddlewaretoken':
-                candidato=Candidato.objects.get(id=i)
+            if i != 'csrfmiddlewaretoken':
+                candidato = Candidato.objects.get(id=i)
                 candidato.turmas_selecionado.add(turma)
                 candidato.save()
-    context={        
+    context = {
         'turma': turma,
         'matriculas': matriculas,
         'selecionados': selecionados,
@@ -400,24 +445,26 @@ def visualizar_turma(request, id):
     }
     return render(request, 'cursos/adm_turmas_editar.html', context)
 
+
 @login_required
 def visualizar_turma_editar(request, id):
-    turma=Turma.objects.get(id=id)
+    turma = Turma.objects.get(id=id)
 
     if not request.user.is_superuser:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-        if turma.curso.categoria!=id_categoria:
-            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria != id_categoria:
+            messages.error(
+                request, 'Você não tem autorização para acessar essa turma.')
             return redirect('adm_turmas_listar')
 
-    form=CadastroTurmaForm(instance=turma)
-    if request.method=='POST':
-        form=CadastroTurmaForm(request.POST, instance=turma)
+    form = CadastroTurmaForm(instance=turma)
+    if request.method == 'POST':
+        form = CadastroTurmaForm(request.POST, instance=turma)
         if form.is_valid():
             form.save()
             messages.success(request, 'Turma editada com sucesso!')
-            return redirect('adm_turma_visualizar', id)        
-    context={
+            return redirect('adm_turma_visualizar', id)
+    context = {
         'turma': turma,
         'form': form
     }
@@ -425,95 +472,102 @@ def visualizar_turma_editar(request, id):
 
 
 @login_required
-def visualizar_turma_selecionado(request, id, id_selecionado):    
-    turma=Turma.objects.get(id=id)
+def visualizar_turma_selecionado(request, id, id_selecionado):
+    turma = Turma.objects.get(id=id)
 
     if not request.user.is_superuser:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-        if turma.curso.categoria!=id_categoria:
-            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria != id_categoria:
+            messages.error(
+                request, 'Você não tem autorização para acessar essa turma.')
             return redirect('adm_turmas_listar')
 
-    matriculas=Matricula.objects.filter(turma=turma)
-    if turma.qnt<=len(matriculas):
-        messages.error(request, 'Turma cheia! Não é possível adicionar mais alunos.')
+    matriculas = Matricula.objects.filter(turma=turma)
+    if turma.qnt <= len(matriculas):
+        messages.error(
+            request, 'Turma cheia! Não é possível adicionar mais alunos.')
         return redirect('adm_turma_visualizar', id)
 
-    selecionado=Candidato.objects.get(id=id_selecionado)
-    birthDate=selecionado.dt_nascimento
-    today = date.today() 
-    age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
-    
-    if age<18:
-        form_responsavel='<Formulário do Responsável>'
+    selecionado = Candidato.objects.get(id=id_selecionado)
+    birthDate = selecionado.dt_nascimento
+    today = date.today()
+    age = today.year - birthDate.year - \
+        ((today.month, today.day) < (birthDate.month, birthDate.day))
+
+    if age < 18:
+        form_responsavel = '<Formulário do Responsável>'
     else:
-        form_responsavel=''
+        form_responsavel = ''
 
     try:
-        aluno=Aluno.objects.get(cpf=selecionado.cpf)
-        form=CadastroAlunoForm(instance=aluno)
+        aluno = Aluno.objects.get(cpf=selecionado.cpf)
+        form = CadastroAlunoForm(instance=aluno)
     except:
-        aluno=False
-        form=CadastroAlunoForm(
+        aluno = False
+        form = CadastroAlunoForm(
             initial={
                 'nome': selecionado.nome,
                 'celular': selecionado.celular,
                 'email': selecionado.email,
                 'dt_nascimento': selecionado.dt_nascimento,
-                'sexo':selecionado.sexo,
+                'sexo': selecionado.sexo,
                 'endereco': selecionado.endereco,
                 'bairro': selecionado.bairro,
-                'cpf': selecionado.cpf            
+                'cpf': selecionado.cpf
             }
         )
-    if request.method=='POST':
-        if aluno!=False:
-            form=CadastroAlunoForm(request.POST, instance=aluno)
+    if request.method == 'POST':
+        if aluno != False:
+            form = CadastroAlunoForm(request.POST, instance=aluno)
             if form.is_valid():
-                aluno=form.save()
-                matricula=Matricula(turma=turma, aluno=aluno)
+                aluno = form.save()
+                matricula = Matricula(turma=turma, aluno=aluno)
                 matricula.save()
                 selecionado.turmas_selecionado.remove(turma)
                 selecionado.turmas.remove(turma)
                 selecionado.save()
-                messages.success(request, 'O aluno foi matriculado na disciplina com sucesso!')
+                messages.success(
+                    request, 'O aluno foi matriculado na disciplina com sucesso!')
                 return redirect('adm_turma_visualizar', id)
         else:
-            form=CadastroAlunoForm(request.POST)
+            form = CadastroAlunoForm(request.POST)
             if form.is_valid():
-                aluno=form.save()
-                matricula=Matricula(turma=turma, aluno=aluno)
+                aluno = form.save()
+                matricula = Matricula(turma=turma, aluno=aluno)
                 matricula.save()
                 selecionado.turmas_selecionado.remove(turma)
                 selecionado.turmas.remove(turma)
                 selecionado.save()
-                messages.success(request, 'Novo aluno cadastrado no sistema e matriculado na disciplina com sucesso!')
+                messages.success(
+                    request, 'Novo aluno cadastrado no sistema e matriculado na disciplina com sucesso!')
                 return redirect('adm_turma_visualizar', id)
-    context={
-        'form':form,
+    context = {
+        'form': form,
         'form_responsavel': form_responsavel,
         'turma': turma,
         'selecionado': selecionado,
     }
     return render(request, 'cursos/adm_turmas_editar_selecionado.html', context)
 
+
 @login_required
 def excluir_turma(request, id):
-    turma=Turma.objects.get(id=id)
+    turma = Turma.objects.get(id=id)
 
     if not request.user.is_superuser:
-        id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
-        if turma.curso.categoria!=id_categoria:
-            messages.error(request, 'Você não tem autorização para acessar essa turma.')
+        id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+        if turma.curso.categoria != id_categoria:
+            messages.error(
+                request, 'Você não tem autorização para acessar essa turma.')
             return redirect('adm_turmas_listar')
 
-    # matriculas=Matricula.objects.filter(turma=turma)    
+    # matriculas=Matricula.objects.filter(turma=turma)
     # selecionados=Candidato.objects.filter(turmas__in=[turma], turmas_selecionado__in=[turma])
     # candidatos=Candidato.objects.filter(turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])
     if request.user.is_superuser:
         turma.delete()
 
-    context={        
+    context = {
         'turma': turma,
         # 'matriculas': matriculas,
         # 'selecionados': selecionados,
@@ -522,8 +576,10 @@ def excluir_turma(request, id):
     }
     return redirect('adm_turmas_listar')
 
+
 def resultado(request):
     return render(request, 'cursos/resultado.html')
+
 
 def login_view(request):
     context = {}
@@ -545,31 +601,53 @@ def login_view(request):
 
     return render(request, 'registration/login.html', context)
 
+
 @login_required
 def adm_alunos_listar(request):
     if request.user.is_superuser:
-        alunos=Aluno.objects.all()
+        alunos = Aluno.objects.all()
 
-    #else:
+    # else:
     #    id_categoria=Categoria.objects.get(nome=request.user.groups.all()[0])
     #    alunos=Turma.objects.filter(curso__categoria=id_categoria)
 
     print(alunos)
-    context={
+    context = {
         'alunos': alunos
     }
     return render(request, 'cursos/adm_alunos_listar.html', context)
 
+
 @login_required
 def adm_alunos_visualizar(request, id):
-    aluno=Aluno.objects.get(id=id)
+    aluno = Aluno.objects.get(id=id)
 
     if not request.user.is_superuser:
-        messages.error(request, 'Você não tem autorização para acessar essa turma.')
+        messages.error(
+            request, 'Você não tem autorização para acessar essa turma.')
         return redirect('adm_alunos')
 
-    context={        
+    context = {
         'aluno': aluno,
     }
 
     return render(request, 'cursos/adm_aluno_visualizar.html', context)
+
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+
+def autenticar_data_candidato(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body.decode("utf-8"))
+        if not data['dt_nascimento']:
+            return Exception("DEU MERDA, CADE a idade????")
+
+        age = calculate_age(datetime.strptime(
+            data['dt_nascimento'], '%Y-%m-%d'))
+        return JsonResponse({'data': list(Turma.objects.filter((Q(idade_min__lte=age) | Q(idade_min__isnull=True)), (Q(idade_max__gte=age) | Q(idade_max__isnull=True))).values('id'))})
+    else:
+        raise PermissionDenied()

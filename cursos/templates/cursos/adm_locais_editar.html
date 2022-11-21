@@ -103,32 +103,6 @@
     </div>
   </div>  
   <script>
-
-  async function getCandidatos(event){
-    
-    id=event.value
-    url='/cursos/'+id+'/get-candidato/'
-    
-    let response =  await fetch(url, {
-          method: 'get'
-      })
-      .then(
-          data => {        
-          if(data.status==404){
-              console.log('Página não encontrada.');
-              document.getElementById('loading').style.display='none'
-              document.getElementById('tituloResponse').innerText='404 - Página não encontrada.'
-              document.getElementById('response').innerText='Erro para se comunicar com o servidor. O mesmo retornou com erro 404.'
-          }else if(data.status==200){
-              document.getElementById('candidatos').innerHTML=data.text()
-              console.log(data)
-          }
-      }
-    )
-    
-    let data = await response.body();
-    console.log(data);
-  } 
   
   function icpf(v){
         v=v.replace(/\D/g,"")                    //Remove tudo o que nao e digito
