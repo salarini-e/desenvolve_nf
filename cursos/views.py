@@ -180,15 +180,37 @@ def prematricula(request):
         today = date.today()
         age = today.year - dt_nascimento.year - \
             ((today.month, today.day) < (dt_nascimento.month, dt_nascimento.day))
-        print(age)
         teste = True
+        candidato = ""
+
+        try:
+            cpf =  request.POST['cpf']
+            candidato = Candidato.objects.get(cpf=cpf)
+        except Exception as e:
+            print(e)
+            pass
+
+
         for i in request.POST.getlist('turmas'):
+
             turma = Turma.objects.get(id=i)
-            print(turma)
+            if candidato:
+                print(candidato.turmas.all())
+                for t in candidato.turmas.all():
+                    if t == turma:
+                        messages.error(request, 'Candidato já cadastro no curso ' + turma.curso.nome)
+                        return redirect('/prematricula')
+
+                for t in candidato.turmas_selecionado.all():
+                    if t == turma:
+                        messages.error(request, 'Candidato já cadastro no curso ' + turma.curso.nome)
+                        return redirect('/prematricula')
+
             if (turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None and age > turma.idade_max):
                 teste = False
 
         if form.is_valid() and teste:
+            print('valido')
             candidato = form.save()
             for i in request.POST.getlist('turmas'):
                 candidato.turmas.add(i)
@@ -196,10 +218,12 @@ def prematricula(request):
                 request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
             return redirect('/')
         else:
+            print('n valido')
             if not teste:
                 messages.error(
                     request, 'Não foi possível realizar a inscrição na turma: A idade não atende a faixa etária da turma.')
-                return redirect('/')
+                return redirect('/prematricula')
+
             print(form.errors)
     context = {
         'form': form,
