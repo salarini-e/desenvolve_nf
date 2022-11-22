@@ -85,6 +85,8 @@ class Turma(models.Model):
     user_inclusao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='TurmaUserInclusao')
     user_ultima_alteracao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='TurmaUserAlteracao', null=True, blank=True)
     status=models.CharField(max_length=3, default='pre', choices=STATUS_CHOICES, verbose_name='Qual o status da turma?')
+    grupo_whatsapp = models.URLField(blank=True, null=True)
+    
     def __str__(self):
             return '%s %s - %s - %s' % (self.curso.nome, self.id, self.local, self.horario)
 

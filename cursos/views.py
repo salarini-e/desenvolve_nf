@@ -11,7 +11,8 @@ from django.http import HttpResponse, JsonResponse
 import json
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-
+from django.core.mail import BadHeaderError, send_mail
+from django.conf import settings
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 
@@ -183,7 +184,7 @@ def prematricula(request):
         for i in request.POST.getlist('turmas'):
             turma = Turma.objects.get(id=i)
             print(turma)
-            if age < turma.idade_min or age > turma.idade_max:
+            if ( turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None  and age > turma.idade_max):
                 teste = False
                 
         if form.is_valid() and teste:
@@ -514,6 +515,13 @@ def visualizar_turma_editar(request, id):
 def visualizar_turma_selecionado(request, id, id_selecionado):
     turma = Turma.objects.get(id=id)
 
+    def enviar_email(aluno):
+        message = f'Você foi inscrito no {turma.curso.nome}.'
+        if(turma.grupo_whatsapp):
+            message += f'A turma possui um grupo do Whatsapp, que pode ser acessado pelo link: {turma.grupo_whatsapp}'
+        send_mail(f'Inscrição no curso {turma.curso.nome}', message, settings.EMAIL_HOST_USER, [aluno.email],fail_silently=False)
+
+
     if not request.user.is_superuser:
         id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
         if turma.curso.categoria != id_categoria:
@@ -600,6 +608,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(
                     request, 'Novo aluno cadastrado no sistema e matriculado na disciplina com sucesso!')
+                enviar_email(aluno)
                 return redirect('adm_turma_visualizar', id)
 
 
@@ -632,6 +641,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.turmas.remove(turma)
                 selecionado.save()
                 messages.success(request, 'Aluno matriculado na disciplina com sucesso!')
+                enviar_email(aluno)
                 return redirect('adm_turma_visualizar', id)
 
 
@@ -646,6 +656,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.turmas.remove(turma)
                 selecionado.save()
                 messages.success(request, 'Aluno atualizado e matriculado na disciplina com sucesso!')
+                enviar_email(aluno)
                 return redirect('adm_turma_visualizar', id)
     
 
@@ -675,6 +686,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
             selecionado.turmas.remove(turma)
             selecionado.save()
             messages.success(request, 'O aluno foi matriculado na disciplina com sucesso!')
+            enviar_email(aluno)
             return redirect('adm_turma_visualizar', id)
 
 
