@@ -21,8 +21,8 @@ def turmas(obj):
         turmas2=[]
     
     response=''
-    print(turmas)
-    print(turmas2)
+    # print(turmas)
+    # print(turmas2)
     if len(turmas)>0:        
         for turma in turmas:
             try:
@@ -58,7 +58,7 @@ def turmas(obj):
 
 @register.filter(is_safe=True)
 def turmas_input(obj):
-    print(obj)
+    # print(obj)
     try:        
         turmas=Turma.objects.filter(curso=obj, status='pre')
     except Exception as E:
@@ -85,13 +85,13 @@ def turmas_input(obj):
                     faixa=''
             except:
                 faixa=''          
-            response+='''<div class="form-check mt-1"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
+            response+='''<div class="form-check mt-1 turma"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
     '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+''' - '''+str(faixa)+'''</label></div>'''
     
     if len(turmas2)>0:                
         for turma in turmas2:
-            response+='''<div class="form-check mt-1"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
+            response+='''<div class="form-check mt-1 turma"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
     '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
 </label></div>'''

@@ -1,5 +1,4 @@
 
-from dataclasses import fields
 from django import forms
 from django.forms import ModelForm, ValidationError
 from .models import *
@@ -16,6 +15,7 @@ class CadastroCandidatoForm(ModelForm):
             'rg': forms.TextInput(attrs={'onkeydown':'mascara(this, irg)'}),
             'dt_nascimento': forms.TextInput(attrs={'type':'date'}),
             'aceita_mais_informacoes': forms.CheckboxInput(attrs={'required':True}),
+            'dt_nascimento':forms.widgets.DateInput(attrs={'type':'date'}),
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
         }
@@ -40,6 +40,7 @@ class CadastroCursoForm(ModelForm):
             'categoria': forms.HiddenInput(),
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
+            'dt_nascimento':forms.widgets.DateInput(attrs={'type':'date'}),
         }
         exclude = ['dt_inclusao', 'dt_alteracao']
 

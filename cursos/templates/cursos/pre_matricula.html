@@ -40,15 +40,19 @@
                                     <div class="d-flex flex-column">
                                       <label for="">Turmas</label>
                                       <hr>
-                                      {% for cursos in categorias %}                                      
+                                      {% for cursos in categorias %}       
+                                      <div class="curso">                               
                                       <h4 class="mt-2">{{cursos.categoria}}</h4>
                                       {% for i in cursos.curso %}
+                                      <div class="">
                                       <b class="mt-1">{{i.nome}}</b>                                      
                                       
                                           {% load extras %}
                                           {{i|turmas_input}}                                        
                                       
-                                      {% endfor %}               
+                                      </div>
+                                      {% endfor %}   
+                                      </div>            
                                       <hr>
                                       {% endfor %}                                      
                                       </div>
@@ -84,6 +88,56 @@
             </div>
         </div>    
     </div>
+
+    {% if messages %}              
+<!-- MODAL -->
+<div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        {% for message in messages %}
+        <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
+          <button type="button" onclick="myModal.hide();" class="btn-close"></button>
+        </div>
+        <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
+           
+          <p class="px-4 py-3 text-center">
+            {{ message|escape }}
+          </p>
+          
+          
+        </div>
+        <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
+          
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>   
+  <script>
+   var myModal = new bootstrap.Modal(document.getElementById('resposta'))
+   myModal.toggle()
+  </script>
+  <style>
+    .error{
+      background-color: rgb(238, 171, 171);
+      color: darkred;
+      font-weight: 600;
+    }
+    .success{
+      background-color: rgb(182, 238, 171);
+      color: rgb(0, 139, 19);
+      font-weight: 600
+    }
+    .warning{
+      background-color: rgb(238, 226, 171);
+      color: rgb(139, 107, 0);
+      font-weight: 600
+    }
+  </style>
+{% endif %} 
+
 </div>
 
   <script>
@@ -149,5 +203,69 @@
         }
         return v
     }
+
+    document.querySelector("#id_dt_nascimento").addEventListener("change", async (e)=>{
+        if(!e.target.value) return
+
+        const response = await fetch('/turmas/autenticar_data', {
+            method: 'POST', 
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({dt_nascimento: e.target.value}),
+        })
+
+        const json = await response.json()
+
+        // TODO
+        // TENHO QUE MELHORAR ISSO AQUI
+        // Trocar para for loops ou usar find ou includes mas n posso usar com objetos
+        document.querySelectorAll('.curso').forEach(element=>{
+            let count = 0
+            element.querySelectorAll('.turma').forEach((e=>{
+
+                const input = e.querySelector('input')
+                let found = false
+                json.data.forEach(el=>{
+                    console.log(el)
+                    if(input.value == el.id){
+                        e.classList.remove('hidden')
+                        found = true;
+                        // eu n to com saco para fazer um foor loop aqui, n vou usar break :)
+                    }
+                })
+                if(!found){
+                        e.classList.add('hidden')
+                        e.checked = false
+                        count++
+                }
+    
+            }))
+
+            if(count == element.length){
+                element.classList.add("hidden")
+            } else {
+                element.classList.remove("hidden")
+            }
+        })
+       
+    })
+
+    window.addEventListener('load', function (){
+        console.log("load")
+        document.querySelector("#id_dt_nascimento").dispatchEvent(new Event('change'))
+    });
+
   </script>
+
+  <style>
+  
+    .hidden{
+        display: none;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+  </style>
 {% endblock %}
