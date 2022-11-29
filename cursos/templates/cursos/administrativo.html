@@ -22,6 +22,14 @@
                         <h1 class="text-uppercase">
                           Painel
                         </h1>
+                        {% if instrutor %}
+                        <div class="row px-4 pt-2 d-flex">
+                          <div class="col painel">
+                            <a href="{% url 'adm_turmas' %}"><i class="fa-solid fa-users me-3"></i>Turmas</a>
+                            <a href="{% url 'adm_alunos' %}"><i class="fa-solid fa-user me-3"></i>Alunos</a>                                                            
+                          </div>
+                        </div>
+                        {% else %}
                         <div class="row px-4 pt-2 d-flex">
                             <div class="col painel">
                                 <a href="{% url 'adm_locais' %}"><i class="fa-solid fa-location-dot me-3"></i>Locais de Atividades</a>
@@ -37,6 +45,7 @@
                               <!-- <a href="#"><i class="fa-solid fa-book me-3"></i>Relatórios</a> -->
                           </div>
                       </div>
+                      {% endif %}
                     </div>
                 </div>
             </div>
