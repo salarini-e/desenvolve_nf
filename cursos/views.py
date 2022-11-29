@@ -5,7 +5,6 @@ from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
-from django.forms import ValidationError
 import json
 
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
