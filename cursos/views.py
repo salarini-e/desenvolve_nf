@@ -184,12 +184,11 @@ def prematricula(request):
         candidato = ""
 
         try:
-            cpf =  request.POST['cpf']
+            cpf = request.POST['cpf']
             candidato = Candidato.objects.get(cpf=cpf)
         except Exception as e:
             print(e)
             pass
-
 
         for i in request.POST.getlist('turmas'):
 
@@ -198,12 +197,14 @@ def prematricula(request):
                 print(candidato.turmas.all())
                 for t in candidato.turmas.all():
                     if t == turma:
-                        messages.error(request, 'Candidato já cadastro no curso ' + turma.curso.nome)
+                        messages.error(
+                            request, 'Candidato já cadastro no curso ' + turma.curso.nome)
                         return redirect('/prematricula')
 
                 for t in candidato.turmas_selecionado.all():
                     if t == turma:
-                        messages.error(request, 'Candidato já cadastro no curso ' + turma.curso.nome)
+                        messages.error(
+                            request, 'Candidato já cadastro no curso ' + turma.curso.nome)
                         return redirect('/prematricula')
 
             if (turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None and age > turma.idade_max):
@@ -546,14 +547,14 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
     turma = Turma.objects.get(id=id)
 
     def enviar_email(aluno):
-        message = f'Você foi aceito como aluno no {turma.curso.nome}.'
+        try:
 
-        render(request, 'email.html', {'turma': turma, 'candidato': Candidato.objects.get(id=id_selecionado)})
-        if(turma.grupo_whatsapp):
-            message += f' A turma possui um grupo do Whatsapp, que pode ser acessado pelo link: {turma.grupo_whatsapp}'
-        try: 
-
-            send_mail(f'Inscrição no curso {turma.curso.nome}', message, settings.EMAIL_HOST_USER, [aluno.email],fail_silently=False)
+            send_mail(f'Inscrição no curso {turma.curso.nome}', 
+            render(request, 'email.html', {
+                      'turma': turma, 
+                      'candidato': Candidato.objects.get(id=id_selecionado)}
+                    ),
+            settings.EMAIL_HOST_USER, [aluno.email], fail_silently=False)
         except Exception as E:
             print(E)
         else:
