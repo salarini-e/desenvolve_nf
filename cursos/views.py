@@ -546,11 +546,18 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
     turma = Turma.objects.get(id=id)
 
     def enviar_email(aluno):
-        pass
-        # message = f'Você foi inscrito no {turma.curso.nome}.'
-        # if(turma.grupo_whatsapp):
-        #     message += f'A turma possui um grupo do Whatsapp, que pode ser acessado pelo link: {turma.grupo_whatsapp}'
-        # send_mail(f'Inscrição no curso {turma.curso.nome}', message, settings.EMAIL_HOST_USER, [aluno.email],fail_silently=False)
+        message = f'Você foi aceito como aluno no {turma.curso.nome}.'
+
+        render(request, 'email.html', {'turma': turma, 'candidato': Candidato.objects.get(id=id_selecionado)})
+        if(turma.grupo_whatsapp):
+            message += f' A turma possui um grupo do Whatsapp, que pode ser acessado pelo link: {turma.grupo_whatsapp}'
+        try: 
+
+            send_mail(f'Inscrição no curso {turma.curso.nome}', message, settings.EMAIL_HOST_USER, [aluno.email],fail_silently=False)
+        except Exception as E:
+            print(E)
+        else:
+            print('email enviado com sucesso!')
 
     if not request.user.is_superuser:
         id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
