@@ -252,7 +252,7 @@ def administrativo(request):
     try:
         instrutor_aut = Instrutor.objects.get(email=request.user.username)
     except:
-        pass
+        instrutor_aut = None
     context = {
             'instrutor':False
         }
