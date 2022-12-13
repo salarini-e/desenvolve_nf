@@ -88,7 +88,7 @@
                                           <td colspan="1"><b class="me-2">Criado por:</b>{{turma.user_inclusao}}</td>
                                         </tr>
                                         <tr style="border-color: white;">                                                                         
-                                          <td><b class="me-2">Máximo de alunos permitidos:</b><i>{{turma.qnt}}</i></td>
+                                          <td><b class="me-2">Máximo de alunos permitidos:</b><i>{{turma.quantidade_permitido}}</i></td>
                                           <td ><b class="me-2">Alunos matriculados:</b><i>{{qnt_alunos}}</i></td>                                          
                                           <td ><b class="me-2">Faixa etária:</b>
                                             <i>
@@ -146,7 +146,7 @@
                                                 {{matricula.aluno.dt_nascimento|idade}}
                                               </td>
                                               <td>
-                                                {{matricula.data_matricula}}
+                                                {{matricula.dt_inclusao}}
                                               </td>
                                               <!-- <td class="text-center">
                                                 <a href="#">

@@ -1,3 +1,5 @@
+import random
+import string
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -32,20 +34,22 @@ class Categoria(models.Model):
 
 class Curso(models.Model):
 
-    categoria=models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     nome = models.CharField(max_length=150)
-    instituicao = models.ForeignKey(Instituicao, on_delete=models.CASCADE)    
-    carga_horaria = models.CharField(max_length=150)    
+    instituicao = models.ForeignKey(Instituicao, on_delete=models.CASCADE)
+    carga_horaria = models.CharField(max_length=150)
     descricao = models.TextField(default='')
-    ativo=models.BooleanField(default=True)
+    ativo = models.BooleanField(default=True)
 
-    dt_inclusao=models.DateField(auto_now_add=True, editable=False)
-    dt_alteracao=models.DateField(auto_now=True)
-    user_inclusao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='userInclusao')
-    user_ultima_alteracao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='userAlteracao', null=True, blank=True)
+    dt_inclusao = models.DateField(auto_now_add=True, editable=False)
+    dt_alteracao = models.DateField(auto_now=True)
+    user_inclusao = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='userInclusao')
+    user_ultima_alteracao = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='userAlteracao', null=True, blank=True)
 
     def __str__(self):
-            return '%s' % (self.nome)
+        return '%s' % (self.nome)
 
 class Instrutor(models.Model):
     
@@ -62,33 +66,42 @@ class Instrutor(models.Model):
 
 class Turma(models.Model):
     
-    STATUS_CHOICES=(
-                            ('pre', 'Pré-inscrição'),
-                            ('agu', 'Aguardando'),
-                            ('ati', 'Ativa'),
-                            ('acc', 'Ativa e aceitando candidatos'),
-                            ('enc', 'Encerrada'),
-    )
     
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, verbose_name='Atividade')
+    STATUS_CHOICES = (
+        ('pre', 'Pré-inscrição'),
+        ('agu', 'Aguardando'),
+        ('ati', 'Ativa'),
+        ('acc', 'Ativa e aceitando candidatos'),
+        ('enc', 'Encerrada'),
+    )
+
+    curso = models.ForeignKey(
+        Curso, on_delete=models.CASCADE, verbose_name='Atividade')
     local = models.ForeignKey(Local, on_delete=models.CASCADE)
     horario = models.CharField(max_length=150)
     instrutor = models.ForeignKey(Instrutor, on_delete=models.PROTECT)
-    qnt=models.IntegerField(verbose_name='Quantidade de alunos permitidos')
-    idade_min = models.IntegerField(verbose_name='Idade mínima', null=True, blank=True)
-    idade_max = models.IntegerField(verbose_name='Idade máxima', null=True, blank=True)
+    quantidade_permitido = models.IntegerField(
+        verbose_name='Quantidade de alunos permitidos')
+    idade_min = models.IntegerField(
+        verbose_name='Idade mínima', null=True, blank=True)
+    idade_max = models.IntegerField(
+        verbose_name='Idade máxima', null=True, blank=True)
     data_inicio = models.DateField()
-    data_final = models.DateField()    
-    
-    dt_inclusao=models.DateField(auto_now_add=True, editable=False)
-    dt_alteracao=models.DateField(auto_now=True)
-    user_inclusao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='TurmaUserInclusao')
-    user_ultima_alteracao=models.ForeignKey(User, on_delete=models.CASCADE, related_name='TurmaUserAlteracao', null=True, blank=True)
-    status=models.CharField(max_length=3, default='pre', choices=STATUS_CHOICES, verbose_name='Qual o status da turma?')
-    grupo_whatsapp = models.URLField(blank=True, null=True)
-    
+    data_final = models.DateField()
+
+    dt_inclusao = models.DateField(auto_now_add=True, editable=False)
+    dt_alteracao = models.DateField(auto_now=True)
+    user_inclusao = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='TurmaUserInclusao')
+    user_ultima_alteracao = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='TurmaUserAlteracao', null=True, blank=True)
+    status = models.CharField(max_length=3, default='pre',
+                              choices=STATUS_CHOICES, verbose_name='Qual o status da turma?')
+    grupo_whatsapp = models.URLField(
+        blank=True, null=True, verbose_name='Link do grupo do Whatsapp')
+
     def __str__(self):
-            return '%s %s - %s - %s' % (self.curso.nome, self.id, self.local, self.horario)
+        return '%s %s - %s - %s' % (self.curso.nome, self.id, self.local, self.horario)
 
 class Candidato(models.Model):
     
@@ -197,10 +210,21 @@ class Responsavel(models.Model):
     dt_inclusao=models.DateField(auto_now_add=True)
     
 class Matricula(models.Model):
+    # def matricula_gen():
+    #     matricula = self.turma.id
 
-    turma =  models.ForeignKey(Turma, on_delete=models.CASCADE)
+    #     for i in range(9 - len(matricula) - len(self.aluno.id)):
+    #         matricula += 0
+
+    #     matricula += self.aluno.id
+    #     matricula += 'UERJ'
+
+    #     return matricula
+
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
-    data_matricula = models.DateField(auto_now_add=True)
+    # matricula = models.CharField(max_length=13, editable=False, unique=True, default=matricula_gen)
+    dt_inclusao = models.DateField(auto_now_add=True, editable=False)
 
     def __str__(self):
-            return '%s' % (self.aluno.nome)
+        return '%s' % (self.matricula)

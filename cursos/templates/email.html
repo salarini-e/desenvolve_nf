@@ -134,7 +134,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:8px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <h1 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-weight: normal; font-size: 22px;">
-    Olá, fulaninho de tal!
+    Olá, {{candidato.nome}}!
   </h1>
 
       </td>
@@ -149,10 +149,14 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
         
   <div>
     <hr>
-<p>Você foi aceito(a) para participar da seguinte atividade: Amigurumi para iniciantes.</p>
+<p>Você foi aceito(a) para participar da seguinte atividade: {{turma.curso.nome}}</p>
 
-<p>As aulas começarão no dia 25/0/2023, aos sábados, das 14:30 às 17:00 na Pracinha da Rodoviária.</p>
-<p>Para acessar o grupo da turma no WhatsApp, clique no link abaixo:</p>
+<p>As aulas começarão no dia {{turma.data_inicio}}, {{turma.horario}}, {{turma.local}}</p>
+{% if turma.grupo_whatsapp%}
+<p>Para acessar o grupo da turma no WhatsApp</p>
+<a href="{{turma.grupo_whatsapp}}">Participar do grupo!</a>
+
+{% endif %}
 
 
   </div>
