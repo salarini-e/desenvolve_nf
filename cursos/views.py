@@ -18,11 +18,11 @@ from .forms import *
 
 def enviar_email(request, aluno, turma):
         try:
-
             send_mail(f'Inscrição no curso {turma.curso.nome}', 
             render(request, 'email.html', {
                       'turma': turma, 
-                      'candidato': Candidato.objects.get(id=id_selecionado)}
+                      'aluno': aluno
+                      }
                     ),
             settings.EMAIL_HOST_USER, [aluno.email], fail_silently=False)
         except Exception as E:
@@ -249,10 +249,13 @@ def alterarCad(request):
 
 @login_required
 def administrativo(request):
+    instrutor_aut = None
+    
     try:
         instrutor_aut = Instrutor.objects.get(email=request.user.username)
     except:
         pass
+
     context = {
             'instrutor':False
         }
@@ -868,5 +871,5 @@ def autenticar_data_candidato(request):
 
 def testar_email(request):
 
-    ()
+    enviar_email(request, Aluno.objects.all()[0])
     return HttpResponse('OIIIIIIIIIIIIIIii')
