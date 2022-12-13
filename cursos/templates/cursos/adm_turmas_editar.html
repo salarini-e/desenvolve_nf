@@ -84,12 +84,6 @@
                                         <tr style="border-color: white;">
                                           <td colspan="1"><b class="me-2">Data inclusão:</b>{{turma.data_final}}</td>                                          
                                           <!-- <td colspan="1"><b class="me-2">Última alteração:</b>{% if turma.user_ultima_alteracao %}{{turma.user_ultima_alteracao}}{% endif %}</td> -->
-                                          <td ><b class="me-2">Instrutor:</b><a href="{% url 'adm_professores_editar' turma.instrutor.id %}" style="text-decoration: none;">{{turma.instrutor}}</a></td>  
-                                          <td colspan="1"><b class="me-2">Criado por:</b>{{turma.user_inclusao}}</td>
-                                        </tr>
-                                        <tr style="border-color: white;">                                                                         
-                                          <td><b class="me-2">Máximo de alunos permitidos:</b><i>{{turma.qnt}}</i></td>
-                                          <td ><b class="me-2">Alunos matriculados:</b><i>{{qnt_alunos}}</i></td>                                          
                                           <td ><b class="me-2">Faixa etária:</b>
                                             <i>
                                               {% if turma.idade_min and turma.idade_max %}
@@ -101,6 +95,17 @@
                                               {% endif %}
                                             </i>
                                         </td>                                          
+                                          <td colspan="1"><b class="me-2">Criado por:</b>{{turma.user_inclusao}}</td>
+                                        </tr>
+                                        <tr style="border-color: white;">                                                                         
+                                          <td><b class="me-2">Máximo de alunos permitidos:</b><i>{{turma.qnt}}</i></td>
+                                          <td ><b class="me-2">Alunos matriculados:</b><i>{{qnt_alunos}}</i></td>      
+                                          <td ><b class="me-2">Instrutores:</b><br>
+                                            {% for i in turma.instrutor.all %}
+                                            <a href="{% url 'adm_professores_editar' i.id %}" style="text-decoration: none;">{{i}}</a><br>
+                                            {% endfor %}
+                                          </td>                                      
+                                          
                                           
                                         </tr>
                                       </table>
