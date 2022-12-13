@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.forms import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
-
-import json
+from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
+from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
+from django.contrib.auth.models import User
 from datetime import date, datetime
 
 from .models import *
@@ -219,7 +221,6 @@ def prematricula(request):
 
             if (turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None and age > turma.idade_max):
                 teste = False
-
         if form.is_valid() and teste:
             print('valido')
             candidato = form.save()
@@ -249,7 +250,18 @@ def alterarCad(request):
 
 @login_required
 def administrativo(request):
-    return render(request, 'cursos/administrativo.html')
+    try:
+        instrutor_aut = Instrutor.objects.get(email=request.user.username)
+    except:
+        pass
+    context = {
+            'instrutor':False
+        }
+    if instrutor_aut and not request.user.is_superuser:
+        context = {
+            'instrutor':True
+        }
+    return render(request, 'cursos/administrativo.html', context)
 
 
 @login_required
@@ -275,8 +287,15 @@ def criar_turmas(request):
 
 @login_required
 def listar_turmas(request):
+    instrutor_aut = None
+    try:
+        instrutor_aut = Instrutor.objects.get(email=request.user.username)
+    except:
+        pass
     if request.user.is_superuser:
         turmas = Turma.objects.all()
+    elif instrutor_aut:
+        turmas = Turma.objects.filter(instrutor=instrutor_aut)
     else:
         id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
         turmas = Turma.objects.filter(curso__categoria=id_categoria)
