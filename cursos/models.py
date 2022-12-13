@@ -79,7 +79,7 @@ class Turma(models.Model):
         Curso, on_delete=models.CASCADE, verbose_name='Atividade')
     local = models.ForeignKey(Local, on_delete=models.CASCADE)
     horario = models.CharField(max_length=150)
-    instrutor = models.ForeignKey(Instrutor, on_delete=models.PROTECT)
+    instrutor = models.ManyToManyField(Instrutor, verbose_name='Instrutor(es)')
     quantidade_permitido = models.IntegerField(
         verbose_name='Quantidade de alunos permitidos')
     idade_min = models.IntegerField(

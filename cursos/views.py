@@ -250,7 +250,7 @@ def alterarCad(request):
 @login_required
 def administrativo(request):
     instrutor_aut = None
-    
+
     try:
         instrutor_aut = Instrutor.objects.get(email=request.user.username)
     except:
