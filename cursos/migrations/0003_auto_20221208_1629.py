@@ -11,24 +11,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='matricula',
-            old_name='data_matricula',
-            new_name='dt_inclusao',
-        ),
-        migrations.RenameField(
-            model_name='turma',
-            old_name='qnt',
-            new_name='quantidade_permitido',
-        ),
-        migrations.AddField(
-            model_name='matricula',
-            name='matricula',
-            field=models.CharField(default=cursos.models.Matricula.matricula_gen, editable=False, max_length=13, unique=True),
-        ),
+
+
         migrations.AlterField(
             model_name='turma',
             name='grupo_whatsapp',
             field=models.URLField(blank=True, null=True, verbose_name='Link do grupo do Whatsapp'),
-        ),
+        )
     ]
