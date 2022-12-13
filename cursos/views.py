@@ -1,22 +1,34 @@
-import datetime
-from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.forms import ValidationError
 from django.http import HttpResponse, JsonResponse
-import json
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.core.mail import BadHeaderError, send_mail
+from django.core.mail import send_mail
 from django.conf import settings
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 from django.contrib.auth.models import User
 from datetime import date, datetime
 
+from .models import *
+from .forms import *
+
+
+def enviar_email(request, aluno, turma):
+        try:
+
+            send_mail(f'Inscrição no curso {turma.curso.nome}', 
+            render(request, 'email.html', {
+                      'turma': turma, 
+                      'candidato': Candidato.objects.get(id=id_selecionado)}
+                    ),
+            settings.EMAIL_HOST_USER, [aluno.email], fail_silently=False)
+        except Exception as E:
+            print(E)
+        else:
+            print('email enviado com sucesso!')
 
 def index(request):
     return render(request, 'cursos/index.html')
@@ -183,12 +195,11 @@ def prematricula(request):
         candidato = ""
 
         try:
-            cpf =  request.POST['cpf']
+            cpf = request.POST['cpf']
             candidato = Candidato.objects.get(cpf=cpf)
         except Exception as e:
             print(e)
             pass
-
 
         for i in request.POST.getlist('turmas'):
 
@@ -197,12 +208,14 @@ def prematricula(request):
                 print(candidato.turmas.all())
                 for t in candidato.turmas.all():
                     if t == turma:
-                        messages.error(request, 'Candidato já cadastro no curso ' + turma.curso.nome)
+                        messages.error(
+                            request, 'Candidato já cadastro no curso ' + turma.curso.nome)
                         return redirect('/prematricula')
 
                 for t in candidato.turmas_selecionado.all():
                     if t == turma:
-                        messages.error(request, 'Candidato já cadastro no curso ' + turma.curso.nome)
+                        messages.error(
+                            request, 'Candidato já cadastro no curso ' + turma.curso.nome)
                         return redirect('/prematricula')
 
             if (turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None and age > turma.idade_max):
@@ -561,13 +574,6 @@ def visualizar_turma_editar(request, id):
 def visualizar_turma_selecionado(request, id, id_selecionado):
     turma = Turma.objects.get(id=id)
 
-    def enviar_email(aluno):
-        pass
-        # message = f'Você foi inscrito no {turma.curso.nome}.'
-        # if(turma.grupo_whatsapp):
-        #     message += f'A turma possui um grupo do Whatsapp, que pode ser acessado pelo link: {turma.grupo_whatsapp}'
-        # send_mail(f'Inscrição no curso {turma.curso.nome}', message, settings.EMAIL_HOST_USER, [aluno.email],fail_silently=False)
-
     if not request.user.is_superuser:
         id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
         if turma.curso.categoria != id_categoria:
@@ -576,7 +582,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
             return redirect('adm_turmas_listar')
 
     matriculas = Matricula.objects.filter(turma=turma)
-    if turma.qnt <= len(matriculas):
+    if turma.quantidade_permitido <= len(matriculas):
         messages.error(
             request, 'Turma cheia! Não é possível adicionar mais alunos.')
         return redirect('adm_turma_visualizar', id)
@@ -859,3 +865,8 @@ def autenticar_data_candidato(request):
         return JsonResponse({'data': list(Turma.objects.filter((Q(idade_min__lte=age) | Q(idade_min__isnull=True)), (Q(idade_max__gte=age) | Q(idade_max__isnull=True))).values('id'))})
     else:
         raise PermissionDenied()
+
+def testar_email(request):
+
+    ()
+    return HttpResponse('OIIIIIIIIIIIIIIii')
