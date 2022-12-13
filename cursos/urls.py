@@ -58,4 +58,5 @@ urlpatterns = [
     path('cursos/<id_curso>/get-candidato/', views.get_candidatos, name="get_candidatos"),
     path('turmas/autenticar_data', views.autenticar_data_candidato, name="autenticar_data_candidato"),
     path('login/', views.login_view, name='login'),  
+    path('testar/email', views.testar_email)
 ]

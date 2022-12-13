@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -5,26 +6,32 @@ from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 from django.contrib.auth.models import User
 from datetime import date, datetime
+from django.template.loader import render_to_string
 
 from .models import *
 from .forms import *
 
 
-def enviar_email(request, aluno, turma):
+def enviar_email(aluno, turma):
         try:
-            send_mail(f'Inscrição no curso {turma.curso.nome}', 
-            render(request, 'email.html', {
+            subject= f'Inscrição no curso {turma.curso.nome}'
+            from_email = settings.EMAIL_HOST_USER
+            to = [aluno.email]
+            text_content = 'This is an important message.'
+            html_content = render_to_string('email.html', {
                       'turma': turma, 
                       'aluno': aluno
                       }
-                    ),
-            settings.EMAIL_HOST_USER, [aluno.email], fail_silently=False)
+                    )
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
         except Exception as E:
             print(E)
         else:
@@ -176,6 +183,8 @@ def cadastrar_local(request):
 
 def prematricula(request):
     form = CadastroCandidatoForm()
+    form_responsavel = CadastroResponsavelForm()
+
     categorias = Categoria.objects.all()
     cursos = []
     for i in categorias:
@@ -185,6 +194,7 @@ def prematricula(request):
     form = CadastroCandidatoForm()
     if request.method == 'POST':
         form = CadastroCandidatoForm(request.POST)
+
         dtnascimento_cp = request.POST['dt_nascimento']
         dtnascimento_hr = datetime.strptime(dtnascimento_cp, '%Y-%m-%d')
         dt_nascimento = dtnascimento_hr.date()
@@ -220,14 +230,32 @@ def prematricula(request):
 
             if (turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None and age > turma.idade_max):
                 teste = False
+
+
         if form.is_valid() and teste:
-            print('valido')
-            candidato = form.save()
-            for i in request.POST.getlist('turmas'):
-                candidato.turmas.add(i)
-            messages.success(
-                request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
-            return redirect('/')
+            form_responsavel = CadastroResponsavelForm(request.POST)
+
+            if age < 18:
+                if form_responsavel.is_valid():
+                    print('valido')
+                    candidato = form.save()
+                    responsavel = form_responsavel.save()
+
+                    for i in request.POST.getlist('turmas'):
+                        candidato.turmas.add(i)
+                    
+                    messages.success(
+                        request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
+                    return redirect('/')
+            else:
+                print('valido')
+                candidato = form.save()
+                for i in request.POST.getlist('turmas'):
+                    candidato.turmas.add(i)
+                messages.success(
+                    request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
+                return redirect('/')
+                
         else:
             print('n valido')
             if not teste:
@@ -238,6 +266,7 @@ def prematricula(request):
             print(form.errors)
     context = {
         'form': form,
+        'form_responsavel': form_responsavel,
         'categorias': cursos
     }
     return render(request, 'cursos/pre_matricula.html', context)
@@ -663,7 +692,9 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(
                     request, 'Novo aluno cadastrado no sistema e matriculado na disciplina com sucesso!')
-                enviar_email(aluno)
+
+                enviar_email(aluno, turma)
+
                 return redirect('adm_turma_visualizar', id)
 
         # Candidato é menor de idade e já aluno, mas não possui um responsável cadastrado
@@ -696,7 +727,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(
                     request, 'Aluno matriculado na disciplina com sucesso!')
-                enviar_email(aluno)
+                enviar_email(aluno, turma)
                 return redirect('adm_turma_visualizar', id)
 
         # O candidato é maior de idade e é aluno
@@ -711,7 +742,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(
                     request, 'Aluno atualizado e matriculado na disciplina com sucesso!')
-                enviar_email(aluno)
+                enviar_email(aluno, turma)
                 return redirect('adm_turma_visualizar', id)
 
         # O candidato é menor de idade e já é aluno, mas não posssui responsável cadastrado
@@ -741,7 +772,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
             selecionado.save()
             messages.success(
                 request, 'O aluno foi matriculado na disciplina com sucesso!')
-            enviar_email(aluno)
+            enviar_email(aluno, turma)
             return redirect('adm_turma_visualizar', id)
 
     context = {
@@ -871,5 +902,5 @@ def autenticar_data_candidato(request):
 
 def testar_email(request):
 
-    enviar_email(request, Aluno.objects.all()[0])
+    enviar_email(Aluno.objects.all()[0], Turma.objects.all()[0])
     return HttpResponse('OIIIIIIIIIIIIIIii')

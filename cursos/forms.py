@@ -64,6 +64,7 @@ class CadastroTurmaForm(ModelForm):
             'data_final': forms.TextInput(attrs={'type':'date'}),
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
+            'instrutor': forms.CheckboxSelectMultiple()
         }
         exclude = ['dt_inclusao', 'dt_alteracao']
 
