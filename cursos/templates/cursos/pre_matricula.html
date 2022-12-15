@@ -37,6 +37,16 @@
                                 
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
+
+                                    <div class="form_responsavel">
+                                      <br>
+                                      <hr>
+                                      <br>
+
+                                      <h2 class="pb-2">Formulário do responsável:</h2>
+                                    {% bootstrap_form form_responsavel %}
+                                    <div>
+
                                     <div class="d-flex flex-column">
                                       <label for="">Turmas</label>
                                       <hr>
@@ -55,7 +65,7 @@
                                       </div>            
                                       <hr>
                                       {% endfor %}                                      
-                                      </div>
+                                    </div>
                                 
                             </div>
                         </div>
@@ -203,9 +213,42 @@
         }
         return v
     }
+    function getAge(dateString) {
+      var today = new Date();
+      var birthDate = new Date(dateString);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+      }
+      return age;
+  }
+
+  function setRequired(...elements){
+    elements.forEach(e => {
+        e.setAttribute('required', '');
+    })
+}
+
+function removeRequired(...elements){
+    elements.forEach(e => {
+        e.removeAttribute('required');
+    })
+}
+
+  
 
     document.querySelector("#id_dt_nascimento").addEventListener("change", async (e)=>{
         if(!e.target.value) return
+        const form_responsavel = document.querySelector('.form_responsavel')
+
+        if(getAge(e.target.value) < 18){
+          form_responsavel.style.display = 'block'
+          setRequired(...Array.from(form_responsavel.querySelectorAll('input')))
+        } else {
+          form_responsavel.style.display = 'none'
+          removeRequired(...Array.from(form_responsavel.querySelectorAll('input')))
+        }
 
         const response = await fetch('/turmas/autenticar_data', {
             method: 'POST', 
@@ -253,7 +296,10 @@
     })
 
     window.addEventListener('load', function (){
-        console.log("load")
+      const form_responsavel = document.querySelector('.form_responsavel')
+      form_responsavel.style.display = 'none'
+      removeRequired(...Array.from(form_responsavel.querySelectorAll('input')))
+
         document.querySelector("#id_dt_nascimento").dispatchEvent(new Event('change'))
     });
 

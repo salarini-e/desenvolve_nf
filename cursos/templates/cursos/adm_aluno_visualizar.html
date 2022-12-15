@@ -116,7 +116,6 @@
                                         <tr>
                                           <th>Status da turma</th>
                                           <th>Atividade</th>
-                                          <th>Instrutor</th>
                                           <th>Local</th>
                                           <th>Horário</th>
                                           <th></th>
@@ -139,11 +138,7 @@
                                           <td colspan="1">                                            
                                               {{matricula.turma.curso}}                                                                                        
                                           </td> 
-                                          <td>
-                                            <a target="_blank" href="{% url 'adm_professores_editar' matricula.turma.instrutor.id %}" style="text-decoration: none;">
-                                              {{matricula.turma.instrutor}}
-                                            </a>
-                                          </td>
+
                                           <td>
                                             {{matricula.turma.local}}
                                           </td>

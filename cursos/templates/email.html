@@ -134,7 +134,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:8px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <h1 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-weight: normal; font-size: 22px;">
-    Olá, {{candidato.nome}}!
+    Olá, {{aluno.nome}}!
   </h1>
 
       </td>
@@ -152,11 +152,6 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
 <p>Você foi aceito(a) para participar da seguinte atividade: {{turma.curso.nome}}</p>
 
 <p>As aulas começarão no dia {{turma.data_inicio}}, {{turma.horario}}, {{turma.local}}</p>
-{% if turma.grupo_whatsapp%}
-<p>Para acessar o grupo da turma no WhatsApp</p>
-<a href="{{turma.grupo_whatsapp}}">Participar do grupo!</a>
-
-{% endif %}
 
 
   </div>
@@ -172,13 +167,21 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:25px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
+
+{% if turma.grupo_whatsapp%}
+
 <div align="center">
+<p style="margin-bottom: 8px">A turma possui um grupo no WhatsApp. O grupo será o canal de comunicação com os inscritos.</p>
+
   <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:37px; v-text-anchor:middle; width:257px;" arcsize="13.5%"  stroke="f" fillcolor="#3AAEE0"><w:anchorlock/><center style="color:#FFFFFF;font-family:arial,helvetica,sans-serif;"><![endif]-->  
-    <a href="" target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #3AAEE0; border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">
+    <a href="{{turma.grupo_whatsapp}}" target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #3AAEE0; border-radius: 5px;-webkit-border-radius: 5px; -moz-border-radius: 5px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">
       <span style="display:block;padding:10px;line-height:120%;">Acessar grupo de WhatsApp da turma</span>
     </a>
   <!--[if mso]></center></v:roundrect><![endif]-->
 </div>
+
+{% endif %}
+
 
       </td>
     </tr>
@@ -191,7 +194,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;">Direção de cursos da Luluzinha.</p>
+    <p style="font-size: 14px; line-height: 140%;">Polo de Extensão da Uerj em Nova Friburgo</p>
   </div>
 
       </td>
