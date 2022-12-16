@@ -26,7 +26,7 @@
                         <div class="row px-4 pt-2 d-flex">
                           <div class="col painel">
                             <a href="{% url 'adm_turmas' %}"><i class="fa-solid fa-users me-3"></i>Turmas</a>
-                            <a href="{% url 'adm_alunos' %}"><i class="fa-solid fa-user me-3"></i>Alunos</a>                                                            
+                            <a href="{% url 'adm_alunos_listar' %}"><i class="fa-solid fa-user me-3"></i>Alunos</a>                                                            
                           </div>
                         </div>
                         {% else %}
@@ -39,7 +39,7 @@
                         </div>
                         <div class="row px-4 d-flex">
                           <div class="col painel">
-                              <a href="{% url 'adm_alunos' %}"><i class="fa-solid fa-user me-3"></i>Alunos</a>                                                            
+                              <a href="{% url 'adm_alunos_listar' %}"><i class="fa-solid fa-user me-3"></i>Alunos</a>                                                            
                               <a href="{% url 'adm_professores' %}"><i class="fa-solid fa-user-graduate me-3"></i>Instrutores</a>
                               <a href="{% url 'adm_turmas' %}"><i class="fa-solid fa-users me-3"></i>Turmas</a>
                               <!-- <a href="#"><i class="fa-solid fa-book me-3"></i>Relatórios</a> -->
@@ -52,42 +52,7 @@
         </div>    
     </div>
 </div>
-<!-- MODAL -->
-<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-dark">            
-            <form id="form" action="#">
-                
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Hide this modal and show the first with the button below.
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
-          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
-        </div>
-      </div>
-    </div>
-  </div>  
+
   <script>
    
   </script>

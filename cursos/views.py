@@ -83,7 +83,7 @@ def candidatar(request, id):
 
 
 @login_required
-def cadastrar_curso(request):
+def adm_cursos_criar(request):
     if request.user.is_superuser:
         form = CadastroCursoForm2(
             initial={'instituicao': 1, 'user_inclusao': request.user})
@@ -108,7 +108,7 @@ def cadastrar_curso(request):
 
 
 @login_required
-def editar_curso(request, id):
+def adm_cursos_editar(request, id):
     curso = Curso.objects.get(id=id)
     if request.user.is_superuser:
         form = CadastroCursoForm2(instance=curso)
@@ -301,7 +301,7 @@ def turmas(request):
 
 
 @login_required
-def criar_turmas(request):
+def adm_turmas_criar(request):
     form = CadastroTurmaForm(
         initial={'instituicao': 1, 'user_inclusao': request.user})
     if request.method == 'POST':
@@ -317,7 +317,7 @@ def criar_turmas(request):
 
 
 @login_required
-def listar_turmas(request):
+def adm_turmas_listar(request):
     instrutor_aut = None
     try:
         instrutor_aut = Instrutor.objects.get(email=request.user.username)
@@ -354,7 +354,7 @@ def adm_cursos(request):
 
 
 @login_required
-def listar_cursos(request):
+def adm_cursos_listar(request):
     if request.user.is_superuser:
         cursos = Curso.objects.all()
     else:
@@ -390,7 +390,7 @@ def adm_locais_criar(request):
 
 
 @login_required
-def listar_locais(request):
+def adm_locais_listar(request):
     locais = Local.objects.all()
     context = {
         'locais': locais
@@ -453,7 +453,7 @@ def adm_categorias_criar(request):
 
 
 @login_required
-def listar_categorias(request):
+def adm_categorias_listar(request):
     categorias = Categoria.objects.all()
     context = {
         'categorias': categorias
@@ -547,7 +547,7 @@ def adm_professores_excluir(request, id):
 
 
 @login_required
-def visualizar_turma(request, id):
+def adm_turmas_visualizar(request, id):
     turma = Turma.objects.get(id=id)
     if not request.user.is_superuser:
         id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
@@ -852,13 +852,13 @@ def adm_alunos_listar(request):
 
 
 @login_required
-def adm_alunos_visualizar(request, id):
+def adm_aluno_visualizar(request, id):
     aluno = Aluno.objects.get(id=id)
 
     if not request.user.is_superuser:
         messages.error(
             request, 'Você não tem autorização para acessar essa turma.')
-        return redirect('adm_alunos')
+        return redirect('administrativo')
 
     aluno = Aluno.objects.get(id=id)
     try:
@@ -881,6 +881,49 @@ def adm_alunos_visualizar(request, id):
 
     return render(request, 'cursos/adm_aluno_visualizar.html', context)
 
+@login_required
+def adm_aluno_editar(request, id):
+    aluno = Aluno.objects.get(pk=id)
+
+    # if not request.user.is_superuser:
+    #     id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+    #     if turma.curso.categoria != id_categoria:
+    #         messages.error(
+    #             request, 'Você não tem autorização para acessar essa turma.')
+    #         return redirect('adm_turmas_listar')
+
+    form = CadastroAlunoForm(instance=aluno)
+    if request.method == 'POST':
+        form = CadastroAlunoForm(request.POST, instance=aluno)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Aluno(a) editado(a) com sucesso!')
+            return redirect('adm_aluno_visualizar', id)
+
+    context = {
+        'aluno': aluno,
+        'form': form
+    }
+
+    return render(request, 'cursos/adm_aluno_editar.html', context)
+
+
+@login_required
+def adm_aluno_excluir(request, id):
+    aluno = Aluno.objects.get(id=id)
+
+    # if not request.user.is_superuser:
+    #     id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+    #     if turma.curso.categoria != id_categoria:
+    #         messages.error(
+    #             request, 'Você não tem autorização para acessar essa turma.')
+    #         return redirect('adm_turmas_listar')
+
+    if request.user.is_superuser:
+        aluno.delete()
+        messages.success(request, 'Aluno excluido com sucesso')
+
+    return redirect('adm_alunos_listar')
 
 def calculate_age(born):
     today = date.today()
@@ -896,7 +939,8 @@ def autenticar_data_candidato(request):
 
         age = calculate_age(datetime.strptime(
             data['dt_nascimento'], '%Y-%m-%d'))
-        return JsonResponse({'data': list(Turma.objects.filter((Q(idade_min__lte=age) | Q(idade_min__isnull=True)), (Q(idade_max__gte=age) | Q(idade_max__isnull=True))).values('id'))})
+
+        return JsonResponse({'data': list(Turma.objects.filter((Q(idade_min__lte=age) | Q(idade_min__isnull=True)) & (Q(idade_max__gte=age) | Q(idade_max__isnull=True))).values('id'))})
     else:
         raise PermissionDenied()
 
