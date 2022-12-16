@@ -272,8 +272,10 @@ function removeRequired(...elements){
                 let found = false
                 json.data.forEach(el=>{
                     console.log(el)
+                    console.log(input.value)
+
                     if(input.value == el.id){
-                        e.classList.remove('hidden')
+                        e.parentNode.classList.remove('hidden')
                         found = true;
                         // eu n to com saco para fazer um foor loop aqui, n vou usar break :)
                     }
