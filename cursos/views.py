@@ -946,5 +946,5 @@ def autenticar_data_candidato(request):
 
 def testar_email(request):
 
-    enviar_email(Aluno.objects.all()[0], Turma.objects.all()[0])
+    enviar_email(Aluno.objects.get(pk=17), Turma.objects.get(pk=4))
     return HttpResponse('OIIIIIIIIIIIIIIii')
