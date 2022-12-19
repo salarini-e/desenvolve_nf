@@ -11,18 +11,18 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='aluno',
-            name='rg',
-        ),
-        migrations.RemoveField(
-            model_name='candidato',
-            name='rg',
-        ),
-        migrations.RemoveField(
-            model_name='responsavel',
-            name='r_rg',
-        ),
+        # migrations.RemoveField(
+        #     model_name='aluno',
+        #     name='rg',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='candidato',
+        #     name='rg',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='responsavel',
+        #     name='r_rg',
+        # ),
         migrations.AlterField(
             model_name='responsavel',
             name='r_aluno',

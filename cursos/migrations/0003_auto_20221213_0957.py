@@ -10,13 +10,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='turma',
-            name='instrutor',
-        ),
-        migrations.AddField(
-            model_name='turma',
-            name='instrutor',
-            field=models.ManyToManyField(to='cursos.Instrutor'),
-        ),
+        # migrations.RemoveField(
+        #     model_name='turma',
+        #     name='instrutor',
+        # ),
+        # migrations.AddField(
+        #     model_name='turma',
+        #     name='instrutor',
+        #     field=models.ManyToManyField(to='cursos.Instrutor'),
+        # ),
     ]

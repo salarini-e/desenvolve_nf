@@ -157,7 +157,7 @@ class Migration(migrations.Migration):
                 ('endereco', models.CharField(max_length=150, null=True, verbose_name='Endereço do candidato')),
                 ('bairro', models.CharField(max_length=80, null=True)),
                 ('cpf', models.CharField(max_length=150, verbose_name='CPF')),
-                ('rg', models.CharField(blank=True, max_length=12, verbose_name='RG')),
+                # ('rg', models.CharField(blank=True, max_length=12, verbose_name='RG')),
                 ('profissão', models.CharField(max_length=150, verbose_name='Profissão')),
                 ('escolaridade', models.CharField(choices=[('efi', 'Ensino Fundamental Incompleto'), ('efc', 'Ensino Fundamental Completo'), ('emi', 'Ensino Médio Incompleto'), ('emc', 'Ensino Médio Completo'), ('ct', 'Curso Técnico'), ('esi', 'Ensino Superior Incompleto'), ('esc', 'Ensino Superior Completo')], max_length=3, verbose_name='Escolaridade')),
                 ('estado_civil', models.CharField(choices=[('s', 'Solteiro(a)'), ('c', 'Casado(a)'), ('s', 'Separado(a)'), ('d', 'Divorciado(a)'), ('v', 'Viúvo(a)')], max_length=1, verbose_name='Estado Civil')),

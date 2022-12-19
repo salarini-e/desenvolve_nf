@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='turma',
-            name='instrutor',
-            field=models.ManyToManyField(to='cursos.Instrutor', verbose_name='Instrutor(es)'),
-        ),
+        # migrations.AlterField(
+        #     model_name='turma',
+        #     name='instrutor',
+        #     field=models.ManyToManyField(to='cursos.Instrutor', verbose_name='Instrutor(es)'),
+        # ),
     ]

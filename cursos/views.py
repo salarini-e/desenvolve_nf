@@ -188,6 +188,7 @@ def prematricula(request):
     categorias = Categoria.objects.all()
     cursos = []
     for i in categorias:
+        print(i)
         cursos.append(
             {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
 
