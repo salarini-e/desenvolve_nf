@@ -69,21 +69,21 @@ def turmas_input(obj):
     except Exception as E:
         print(E)
         turmas2=[]
-    
     response=''
     
-    if len(turmas)>0:                
+
+    if len(turmas)>0: 
         for turma in turmas:  
             try:
                 if turma.idade_min and turma.idade_max:
-                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_min)+' até '+ str(turma.idade_max)
+                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_min)+' até '+ str(turma.idade_max) +' anos'
                 elif turma.idade_min:
-                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_min)+'+'
-                elif turma.idade_min:
-                    faixa='<span class="">Faixa etária </span>'+'Até '+str(turma.idade_max)
+                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_min)+'+ anos'
+                elif turma.idade_max:
+                    faixa='<span class="">Faixa etária </span>'+'Até '+str(turma.idade_max)+' anos'
                 else:
                     faixa=''
-            except:
+            except Exception as e:
                 faixa=''          
             response+='''<div class="form-check mt-1 turma"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
@@ -96,6 +96,7 @@ def turmas_input(obj):
     '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
 </label></div>'''
     
+
     if len(turmas2)==0 and len(turmas)==0:
         response='<i class="ps-4 text-secondary">Não há turmas disponíveis.</i>'
     return mark_safe(response)
