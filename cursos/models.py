@@ -100,7 +100,9 @@ class Turma(models.Model):
         Curso, on_delete=models.CASCADE, verbose_name='Atividade')
     local = models.ForeignKey(Local, on_delete=models.CASCADE)
     horario = models.CharField(max_length=150)
-    dias_semana = models.ManyToManyField(Dia_semana)
+
+
+
     instrutor = models.ManyToManyField(Instrutor, verbose_name='Instrutor(es)')
     quantidade_permitido = models.IntegerField(
         verbose_name='Quantidade de alunos permitidos')
@@ -108,11 +110,16 @@ class Turma(models.Model):
         verbose_name='Idade mínima', null=True, blank=True)
     idade_max = models.IntegerField(
         verbose_name='Idade máxima', null=True, blank=True)
+
+    dias_semana = models.ManyToManyField(Dia_semana)
     data_inicio = models.DateField()
     data_final = models.DateField()
+    horario_inicio = models.TimeField()
+    horario_fim = models.TimeField()
 
     dt_inclusao = models.DateField(auto_now_add=True, editable=False)
     dt_alteracao = models.DateField(auto_now=True)
+    
     user_inclusao = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='TurmaUserInclusao')
     user_ultima_alteracao = models.ForeignKey(
