@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'fontawesomefree',
     #apps
     'cursos',
+    'adm'
 ]
 
 MIDDLEWARE = [
