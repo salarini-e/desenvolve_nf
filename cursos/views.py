@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -5,26 +6,32 @@ from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 from django.contrib.auth.models import User
 from datetime import date, datetime
+from django.template.loader import render_to_string
 
 from .models import *
 from .forms import *
 
 
-def enviar_email(request, aluno, turma):
+def enviar_email(aluno, turma):
         try:
-
-            send_mail(f'Inscrição no curso {turma.curso.nome}', 
-            render(request, 'email.html', {
+            subject= f'Inscrição no curso {turma.curso.nome}'
+            from_email = settings.EMAIL_HOST_USER
+            to = [aluno.email]
+            text_content = 'This is an important message.'
+            html_content = render_to_string('email.html', {
                       'turma': turma, 
-                      'candidato': Candidato.objects.get(id=id_selecionado)}
-                    ),
-            settings.EMAIL_HOST_USER, [aluno.email], fail_silently=False)
+                      'aluno': aluno
+                      }
+                    )
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
         except Exception as E:
             print(E)
         else:
@@ -76,7 +83,7 @@ def candidatar(request, id):
 
 
 @login_required
-def cadastrar_curso(request):
+def adm_cursos_criar(request):
     if request.user.is_superuser:
         form = CadastroCursoForm2(
             initial={'instituicao': 1, 'user_inclusao': request.user})
@@ -101,7 +108,7 @@ def cadastrar_curso(request):
 
 
 @login_required
-def editar_curso(request, id):
+def adm_cursos_editar(request, id):
     curso = Curso.objects.get(id=id)
     if request.user.is_superuser:
         form = CadastroCursoForm2(instance=curso)
@@ -176,15 +183,19 @@ def cadastrar_local(request):
 
 def prematricula(request):
     form = CadastroCandidatoForm()
+    form_responsavel = CadastroResponsavelForm()
+
     categorias = Categoria.objects.all()
     cursos = []
     for i in categorias:
+        print(i)
         cursos.append(
             {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
 
     form = CadastroCandidatoForm()
     if request.method == 'POST':
         form = CadastroCandidatoForm(request.POST)
+
         dtnascimento_cp = request.POST['dt_nascimento']
         dtnascimento_hr = datetime.strptime(dtnascimento_cp, '%Y-%m-%d')
         dt_nascimento = dtnascimento_hr.date()
@@ -220,14 +231,32 @@ def prematricula(request):
 
             if (turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None and age > turma.idade_max):
                 teste = False
+
+
         if form.is_valid() and teste:
-            print('valido')
-            candidato = form.save()
-            for i in request.POST.getlist('turmas'):
-                candidato.turmas.add(i)
-            messages.success(
-                request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
-            return redirect('/')
+            form_responsavel = CadastroResponsavelForm(request.POST)
+
+            if age < 18:
+                if form_responsavel.is_valid():
+                    print('valido')
+                    candidato = form.save()
+                    responsavel = form_responsavel.save()
+
+                    for i in request.POST.getlist('turmas'):
+                        candidato.turmas.add(i)
+                    
+                    messages.success(
+                        request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
+                    return redirect('/')
+            else:
+                print('valido')
+                candidato = form.save()
+                for i in request.POST.getlist('turmas'):
+                    candidato.turmas.add(i)
+                messages.success(
+                    request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
+                return redirect('/')
+                
         else:
             print('n valido')
             if not teste:
@@ -238,6 +267,7 @@ def prematricula(request):
             print(form.errors)
     context = {
         'form': form,
+        'form_responsavel': form_responsavel,
         'categorias': cursos
     }
     return render(request, 'cursos/pre_matricula.html', context)
@@ -249,10 +279,13 @@ def alterarCad(request):
 
 @login_required
 def administrativo(request):
+    instrutor_aut = None
+
     try:
         instrutor_aut = Instrutor.objects.get(email=request.user.username)
     except:
-        instrutor_aut = None
+        pass
+
     context = {
             'instrutor':False
         }
@@ -269,7 +302,7 @@ def turmas(request):
 
 
 @login_required
-def criar_turmas(request):
+def adm_turmas_criar(request):
     form = CadastroTurmaForm(
         initial={'instituicao': 1, 'user_inclusao': request.user})
     if request.method == 'POST':
@@ -285,7 +318,7 @@ def criar_turmas(request):
 
 
 @login_required
-def listar_turmas(request):
+def adm_turmas_listar(request):
     instrutor_aut = None
     try:
         instrutor_aut = Instrutor.objects.get(email=request.user.username)
@@ -322,7 +355,7 @@ def adm_cursos(request):
 
 
 @login_required
-def listar_cursos(request):
+def adm_cursos_listar(request):
     if request.user.is_superuser:
         cursos = Curso.objects.all()
     else:
@@ -358,7 +391,7 @@ def adm_locais_criar(request):
 
 
 @login_required
-def listar_locais(request):
+def adm_locais_listar(request):
     locais = Local.objects.all()
     context = {
         'locais': locais
@@ -421,7 +454,7 @@ def adm_categorias_criar(request):
 
 
 @login_required
-def listar_categorias(request):
+def adm_categorias_listar(request):
     categorias = Categoria.objects.all()
     context = {
         'categorias': categorias
@@ -515,7 +548,7 @@ def adm_professores_excluir(request, id):
 
 
 @login_required
-def visualizar_turma(request, id):
+def adm_turmas_visualizar(request, id):
     turma = Turma.objects.get(id=id)
     if not request.user.is_superuser:
         id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
@@ -660,7 +693,9 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(
                     request, 'Novo aluno cadastrado no sistema e matriculado na disciplina com sucesso!')
-                enviar_email(aluno)
+
+                enviar_email(aluno, turma)
+
                 return redirect('adm_turma_visualizar', id)
 
         # Candidato é menor de idade e já aluno, mas não possui um responsável cadastrado
@@ -693,7 +728,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(
                     request, 'Aluno matriculado na disciplina com sucesso!')
-                enviar_email(aluno)
+                enviar_email(aluno, turma)
                 return redirect('adm_turma_visualizar', id)
 
         # O candidato é maior de idade e é aluno
@@ -708,7 +743,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 selecionado.save()
                 messages.success(
                     request, 'Aluno atualizado e matriculado na disciplina com sucesso!')
-                enviar_email(aluno)
+                enviar_email(aluno, turma)
                 return redirect('adm_turma_visualizar', id)
 
         # O candidato é menor de idade e já é aluno, mas não posssui responsável cadastrado
@@ -738,7 +773,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
             selecionado.save()
             messages.success(
                 request, 'O aluno foi matriculado na disciplina com sucesso!')
-            enviar_email(aluno)
+            enviar_email(aluno, turma)
             return redirect('adm_turma_visualizar', id)
 
     context = {
@@ -818,13 +853,13 @@ def adm_alunos_listar(request):
 
 
 @login_required
-def adm_alunos_visualizar(request, id):
+def adm_aluno_visualizar(request, id):
     aluno = Aluno.objects.get(id=id)
 
     if not request.user.is_superuser:
         messages.error(
             request, 'Você não tem autorização para acessar essa turma.')
-        return redirect('adm_alunos')
+        return redirect('administrativo')
 
     aluno = Aluno.objects.get(id=id)
     try:
@@ -847,6 +882,49 @@ def adm_alunos_visualizar(request, id):
 
     return render(request, 'cursos/adm_aluno_visualizar.html', context)
 
+@login_required
+def adm_aluno_editar(request, id):
+    aluno = Aluno.objects.get(pk=id)
+
+    # if not request.user.is_superuser:
+    #     id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+    #     if turma.curso.categoria != id_categoria:
+    #         messages.error(
+    #             request, 'Você não tem autorização para acessar essa turma.')
+    #         return redirect('adm_turmas_listar')
+
+    form = CadastroAlunoForm(instance=aluno)
+    if request.method == 'POST':
+        form = CadastroAlunoForm(request.POST, instance=aluno)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Aluno(a) editado(a) com sucesso!')
+            return redirect('adm_aluno_visualizar', id)
+
+    context = {
+        'aluno': aluno,
+        'form': form
+    }
+
+    return render(request, 'cursos/adm_aluno_editar.html', context)
+
+
+@login_required
+def adm_aluno_excluir(request, id):
+    aluno = Aluno.objects.get(id=id)
+
+    # if not request.user.is_superuser:
+    #     id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
+    #     if turma.curso.categoria != id_categoria:
+    #         messages.error(
+    #             request, 'Você não tem autorização para acessar essa turma.')
+    #         return redirect('adm_turmas_listar')
+
+    if request.user.is_superuser:
+        aluno.delete()
+        messages.success(request, 'Aluno excluido com sucesso')
+
+    return redirect('adm_alunos_listar')
 
 def calculate_age(born):
     today = date.today()
@@ -862,11 +940,12 @@ def autenticar_data_candidato(request):
 
         age = calculate_age(datetime.strptime(
             data['dt_nascimento'], '%Y-%m-%d'))
-        return JsonResponse({'data': list(Turma.objects.filter((Q(idade_min__lte=age) | Q(idade_min__isnull=True)), (Q(idade_max__gte=age) | Q(idade_max__isnull=True))).values('id'))})
+
+        return JsonResponse({'data': list(Turma.objects.filter((Q(idade_min__lte=age) | Q(idade_min__isnull=True)) & (Q(idade_max__gte=age) | Q(idade_max__isnull=True))).values('id'))})
     else:
         raise PermissionDenied()
 
 def testar_email(request):
 
-    ()
+    enviar_email(Aluno.objects.get(pk=17), Turma.objects.get(pk=4))
     return HttpResponse('OIIIIIIIIIIIIIIii')

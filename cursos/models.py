@@ -141,7 +141,7 @@ class Candidato(models.Model):
     # cidade    
     bairro = models.CharField(max_length=80, null=True)
     cpf = models.CharField(max_length=150, verbose_name='CPF')      
-    rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
+    # rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
     profissão = models.CharField(max_length=150, verbose_name='Profissão')        
     escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade')        
     # nome_da_mãe = models.CharField(max_length=150, verbose_name='Nome completo da mãe do candidato')
@@ -166,17 +166,47 @@ class Aluno(models.Model):
     
     SEXO_CHOICES=(
                             ('M', 'Masculino'),
-                            ('F', 'Feminino'),                                                      
+                            ('F', 'Feminino'), 
+                            ('O', 'Prefiro não dizer')                                                     
     )
 
-    nome = models.CharField(max_length=150, verbose_name='Nome completo do aluno')
-    celular = models.CharField(max_length=15, verbose_name='Celular p/ contato do aluno')
-    email = models.EmailField(verbose_name='Email p/ contato do aluno')    
-    dt_nascimento = models.DateField(verbose_name='Data de Nascimento do aluno')    
-    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no nascimento?')
-    endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do aluno')
+    ESCOLARIDADE_CHOICES=(
+                            ('efi', 'Ensino Fundamental Incompleto'),
+                            ('efc', 'Ensino Fundamental Completo'),
+                            ('emi', 'Ensino Médio Incompleto'),                            
+                            ('emc', 'Ensino Médio Completo'),                            
+                            ('ct', 'Curso Técnico'),
+                            ('esi', 'Ensino Superior Incompleto'),
+                            ('esc', 'Ensino Superior Completo'),                            
+    )
+    
+    ESTADOCIVIL_CHOICES=(
+                            ('s', 'Solteiro(a)'),
+                            ('c', 'Casado(a)'),
+                            ('s', 'Separado(a)'),
+                            ('d', 'Divorciado(a)'),
+                            ('v', 'Viúvo(a)'),                            
+    )
+
+
+    nome = models.CharField(max_length=150, verbose_name='Nome completo do candidato')
+    celular = models.CharField(max_length=15, verbose_name='Celular p/ contato do candidato') 
+    email = models.EmailField(verbose_name='Email p/ contato do candidato')    
+    dt_nascimento = models.DateField(verbose_name='Data de Nascimento')    
+    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, verbose_name='Qual foi o sexo atribuído no seu nascimento?')
+    cep = models.CharField(max_length=9, verbose_name='CEP')
+    endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do candidato')
+    # estado
+    # cidade    
     bairro = models.CharField(max_length=80, null=True)
-    cpf = models.CharField(max_length=14, verbose_name='CPF', unique=True)            
+    cpf = models.CharField(max_length=150, verbose_name='CPF')      
+    # rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
+    profissão = models.CharField(max_length=150, verbose_name='Profissão')        
+    escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade')        
+    # nome_da_mãe = models.CharField(max_length=150, verbose_name='Nome completo da mãe do candidato')
+    estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')        
+    aceita_mais_informacoes = models.BooleanField(verbose_name='Declaro que aceito receber email com as informações das atividades')    
+    li_e_aceito_termos = models.BooleanField(default=False, verbose_name='Li e aceito os termos')    
     dt_inclusao=models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -203,10 +233,10 @@ class Responsavel(models.Model):
     r_endereco = models.CharField(max_length=150, null=True, verbose_name='Endereço do responsável')
     r_bairro = models.CharField(verbose_name='Bairro',max_length=80, null=True)
     r_cpf = models.CharField(max_length=14, verbose_name='CPF')
-    r_rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
+    # r_rg = models.CharField(max_length=12, verbose_name='RG', blank=True)
     r_profissao = models.CharField(max_length=150, verbose_name='Profissão')   
     r_estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')
-    r_aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, blank=True, null=True)
+    r_aluno = models.ForeignKey(Candidato, on_delete=models.CASCADE, blank=True, null=True)
     dt_inclusao=models.DateField(auto_now_add=True)
     
 class Matricula(models.Model):
@@ -227,4 +257,4 @@ class Matricula(models.Model):
     dt_inclusao = models.DateField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return '%s' % (self.matricula)
+        return '%s - %s' % (self.turma, self.aluno)

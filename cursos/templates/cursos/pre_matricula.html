@@ -37,28 +37,44 @@
                                 
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
-                                    <div class="d-flex flex-column">
-                                      <label for="">Turmas</label>
+
+                                    <div class="form_responsavel">
+                                      <br>
                                       <hr>
-                                      {% for cursos in categorias %}       
-                                      <div class="curso">                               
-                                      <h4 class="mt-2">{{cursos.categoria}}</h4>
-                                      {% for i in cursos.curso %}
-                                      <div class="">
-                                      <b class="mt-1">{{i.nome}}</b>                                      
+                                      <br>
+
+                                      <h2 class="pb-2">Formulário do responsável:</h2>
+                                      {% bootstrap_form form_responsavel %}
+                                      <div>
+
                                       
-                                          {% load extras %}
-                                          {{i|turmas_input}}                                        
-                                      
-                                      </div>
-                                      {% endfor %}   
-                                      </div>            
-                                      <hr>
-                                      {% endfor %}                                      
-                                      </div>
+
+
                                 
                             </div>
                         </div>
+
+                        <div class="d-flex flex-column">
+                          <label for="">Turmas</label>
+                          <hr>
+                          {% for cursos in categorias %}       
+                          <div class="curso">                               
+                          <h4 class="mt-2">{{cursos.categoria}}</h4>
+                          {% for i in cursos.curso %}
+                          <div class="">
+                          <b class="mt-1">{{i.nome}}</b>                                      
+                        
+                          {% load extras %}
+                          {{i|turmas_input}}                                        
+                        
+                          </div>
+
+                        {% endfor %}   
+                        </div>            
+                        <hr>
+                        {% endfor %}                                      
+                      </div>
+
                         <div class="row">
                             <div class="col px-5 py-4">
                                 <p class="text-justify" style="text-indent: 20px;"><b>Comunicamos que,</b> em razão da necessidade de adequação à Lei Geral de Proteção de Dados (Lei 13.709/18), será necessário, nos termos do artigo 14 da referida lei, que os inscritos nas atividades do Polo de Extensão da Uerj em Nova Friburgo manifestem formalmente seu consentimento para que seja feito o tratamento adequado de seus dados, visando a garantia de seus direitos.</p>
@@ -203,9 +219,45 @@
         }
         return v
     }
+    function getAge(dateString) {
+      var today = new Date();
+      var birthDate = new Date(dateString);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+      }
+      return age;
+  }
+
+  function setRequired(...elements){
+    elements.forEach(e => {
+        e.setAttribute('required', '');
+    })
+}
+
+function removeRequired(...elements){
+    elements.forEach(e => {
+        e.removeAttribute('required');
+    })
+}
+
+  
 
     document.querySelector("#id_dt_nascimento").addEventListener("change", async (e)=>{
         if(!e.target.value) return
+        const form_responsavel = document.querySelector('.form_responsavel')
+
+        if(getAge(e.target.value) < 18){
+          form_responsavel.style.display = 'block'
+          setRequired(...Array.from(form_responsavel.querySelectorAll('input')))
+          setRequired(...Array.from(form_responsavel.querySelectorAll('select')))
+
+        } else {
+          form_responsavel.style.display = 'none'
+          removeRequired(...Array.from(form_responsavel.querySelectorAll('input')))
+          removeRequired(...Array.from(form_responsavel.querySelectorAll('select')))
+        }
 
         const response = await fetch('/turmas/autenticar_data', {
             method: 'POST', 
@@ -217,7 +269,6 @@
         })
 
         const json = await response.json()
-
         // TODO
         // TENHO QUE MELHORAR ISSO AQUI
         // Trocar para for loops ou usar find ou includes mas n posso usar com objetos
@@ -228,15 +279,16 @@
                 const input = e.querySelector('input')
                 let found = false
                 json.data.forEach(el=>{
-                    console.log(el)
+
                     if(input.value == el.id){
-                        e.classList.remove('hidden')
+                        e.parentNode.classList.remove('hidden')
                         found = true;
                         // eu n to com saco para fazer um foor loop aqui, n vou usar break :)
                     }
                 })
+                
                 if(!found){
-                        e.classList.add('hidden')
+                        e.parentNode.classList.add('hidden')
                         e.checked = false
                         count++
                 }
@@ -253,7 +305,12 @@
     })
 
     window.addEventListener('load', function (){
-        console.log("load")
+      const form_responsavel = document.querySelector('.form_responsavel')
+      form_responsavel.style.display = 'none'
+      removeRequired(...Array.from(form_responsavel.querySelectorAll('input')))
+      removeRequired(...Array.from(form_responsavel.querySelectorAll('select')))
+
+
         document.querySelector("#id_dt_nascimento").dispatchEvent(new Event('change'))
     });
 
