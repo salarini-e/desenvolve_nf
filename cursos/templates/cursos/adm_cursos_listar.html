@@ -59,7 +59,7 @@
                                   <table class="table table-striped table-primary">
                                     <thead>
                                       <td>
-                                        <input type="checkbox" onchange="checkAll()" name="all" id="all">
+                                        <input type="checkbox" oninput="checkAll()" name="all" id="all">
                                       </td>
                                       <th>Categoria</th>
                                       <th>Atividade</th>
@@ -73,7 +73,7 @@
                                       {% for curso in cursos %}
                                         <tr>
                                           <td>
-                                            <input type="checkbox" onchange="selecionar(this)" name="select_curso" value="{{curso.id}}">
+                                            <input type="checkbox" oninput="selecionar(this)" name="select_curso" value="{{curso.id}}">
                                           </td>
                                           <td>
                                             {{curso.categoria}}

@@ -259,6 +259,7 @@ function removeRequired(...elements){
           removeRequired(...Array.from(form_responsavel.querySelectorAll('select')))
         }
 
+        /*
         const response = await fetch('/turmas/autenticar_data', {
             method: 'POST', 
             headers: {
@@ -301,9 +302,9 @@ function removeRequired(...elements){
                 element.classList.remove("hidden")
             }
         })
+*/
        
     })
-
     window.addEventListener('load', function (){
       const form_responsavel = document.querySelector('.form_responsavel')
       form_responsavel.style.display = 'none'

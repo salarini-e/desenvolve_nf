@@ -73,6 +73,8 @@ class Instrutor(models.Model):
         return '%s' % (self.nome)
 
 class Dia_semana(models.Model):
+    def __str__(self):
+        return '%s' % (self.nome)
     nome= models.CharField(max_length=13)
 
 class Turma(models.Model):
@@ -93,7 +95,6 @@ class Turma(models.Model):
         (5, 'Sexta-Feira'),
         (6, 'Sábado'),
         (7, 'Domingo'),
-
     )
 
     curso = models.ForeignKey(

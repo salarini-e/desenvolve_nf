@@ -58,7 +58,7 @@
                                   <table class="table table-striped table-primary">
                                     <thead>
                                       <td>
-                                        <input type="checkbox" onchange="checkAll()" name="all" id="all">
+                                        <input type="checkbox" oninput="checkAll()" name="all" id="all">
                                       </td>
                                       <th>Nome do Local</th> 
                                       <th>Endereço</th>  
@@ -72,7 +72,7 @@
                                       {% for local in locais %}
                                         <tr>
                                           <td>
-                                            <input type="checkbox" onchange="selecionar(this)" name="select_local" value="{{local.id}}">
+                                            <input type="checkbox" oninput="selecionar(this)" name="select_local" value="{{local.id}}">
                                           </td>                                          
                                           <td>{{local.nome}}</td>                                          
                                           <td>{{local.endereco}}</td>

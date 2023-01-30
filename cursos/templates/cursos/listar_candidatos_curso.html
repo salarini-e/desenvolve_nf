@@ -31,7 +31,7 @@
                         </h1>
                         <div class="row px-4 pt-5 d-flex">
                           <div class="2-100 d-flex">                            
-                            <select onchange="acao(this)" name="" id="" class="ms-auto me-2 form-select" style="width: 300px">
+                            <select oninput="acao(this)" name="" id="" class="ms-auto me-2 form-select" style="width: 300px">
                               <option value="0"></option>
                               <option value="1">Selecionar candidatos</option>
                               <option value="2">Limpar dados sensiveis</option>
@@ -50,7 +50,7 @@
                               <tbody>
                                 {% for i in candidatos %}
                                 <tr>
-                                  <td><input type="checkbox" onchange="selectCandidato(this)" name="{{i.id}}" id="{{i.id}}"></td>
+                                  <td><input type="checkbox" oninput="selectCandidato(this)" name="{{i.id}}" id="{{i.id}}"></td>
                                   <td>{{i.nome}}</td>
                                   <td>{{i.dt_nascimento}}</td>                                
                                   <td>{{i.email}}</td>

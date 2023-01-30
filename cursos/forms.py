@@ -59,7 +59,7 @@ class CadastroTurmaForm(ModelForm):
     class Meta:
         model = Turma
         widgets = {    
-            'curso': forms.Select(attrs={'onchange':'getCandidatos(this)'}), 
+            'curso': forms.Select(attrs={'oninput':'getCandidatos(this)'}), 
             'data_inicio': forms.TextInput(attrs={'type':'date'}),
             'data_final': forms.TextInput(attrs={'type':'date'}),
             'user_inclusao': forms.HiddenInput(),
