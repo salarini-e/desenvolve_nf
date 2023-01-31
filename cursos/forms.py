@@ -6,7 +6,7 @@ from .models import *
 class CadastroCandidatoForm(ModelForm):    
     
     class Meta:
-        model = Candidato
+        model = Aluno
         widgets = {
             'turmas': forms.CheckboxSelectMultiple(),
             'celular': forms.TextInput(attrs={'onkeydown':'mascara(this, icelular)'}),
@@ -19,7 +19,7 @@ class CadastroCandidatoForm(ModelForm):
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
         }
-        exclude = ['dt_inclusao', 'dt_alteracao', 'turmas_selecionado', 'turmas', 'li_e_aceito_termos']
+        exclude = ['dt_inclusao', 'dt_alteracao', 'li_e_aceito_termos']
 
 class CadastroProfessorForm(ModelForm):    
     

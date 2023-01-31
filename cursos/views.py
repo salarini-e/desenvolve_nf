@@ -8,7 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
-from .models import Aluno, Candidato, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
+from .models import Aluno, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
 from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
 from django.contrib.auth.models import User
 from datetime import date, datetime
@@ -138,6 +138,7 @@ def adm_cursos_editar(request, id):
 @login_required
 def listar_candidatos_curso(request, id):
     curso = Curso.objects.get(id=id)
+
     candidatos = Candidato.objects.filter(curso=curso)
     context = {
         'candidatos': candidatos,
@@ -187,18 +188,19 @@ def prematricula(request):
 
     categorias = Categoria.objects.all()
     cursos = []
+    
     for i in categorias:
         print(i)
         cursos.append(
             {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
 
-    form = CadastroCandidatoForm()
     if request.method == 'POST':
         form = CadastroCandidatoForm(request.POST)
 
         dtnascimento_cp = request.POST['dt_nascimento']
         dtnascimento_hr = datetime.strptime(dtnascimento_cp, '%Y-%m-%d')
         dt_nascimento = dtnascimento_hr.date()
+
         today = date.today()
         age = today.year - dt_nascimento.year - \
             ((today.month, today.day) < (dt_nascimento.month, dt_nascimento.day))
@@ -207,16 +209,14 @@ def prematricula(request):
 
         try:
             cpf = request.POST['cpf']
-            candidato = Candidato.objects.get(cpf=cpf)
+            candidato = Aluno.objects.get(cpf=cpf)
         except Exception as e:
             print(e)
             pass
 
         for i in request.POST.getlist('turmas'):
-
             turma = Turma.objects.get(id=i)
             if candidato:
-                print(candidato.turmas.all())
                 for t in candidato.turmas.all():
                     if t == turma:
                         messages.error(
@@ -229,7 +229,7 @@ def prematricula(request):
                             request, 'Candidato já cadastro no curso ' + turma.curso.nome)
                         return redirect('/prematricula')
 
-            if (turma.idade_min is not None and age < turma.idade_min) or (turma.idade_max is not None and age > turma.idade_max):
+            if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
                 teste = False
 
 

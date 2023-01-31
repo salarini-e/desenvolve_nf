@@ -86,12 +86,12 @@
                                           <!-- <td colspan="1"><b class="me-2">Última alteração:</b>{% if turma.user_ultima_alteracao %}{{turma.user_ultima_alteracao}}{% endif %}</td> -->
                                           <td ><b class="me-2">Faixa etária:</b>
                                             <i>
-                                              {% if turma.idade_min and turma.idade_max %}
-                                              {{turma.idade_min}} até {{turma.idade_max}}
-                                              {% elif turma.idade_min %}
-                                              {{turma.idade_min}}+
+                                              {% if turma.idade_minima and turma.idade_maxima %}
+                                              {{turma.idade_minima}} até {{turma.idade_maxima}}
+                                              {% elif turma.idade_minima %}
+                                              {{turma.idade_minima}}+
                                               {% else %}
-                                              Até {{turma.idade_max}}
+                                              Até {{turma.idade_maxima}}
                                               {% endif %}
                                             </i>
                                         </td>                                          
