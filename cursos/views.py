@@ -19,23 +19,24 @@ from .forms import *
 
 
 def enviar_email(aluno, turma):
-        try:
-            subject= f'Inscrição no curso {turma.curso.nome}'
-            from_email = settings.EMAIL_HOST_USER
-            to = [aluno.email]
-            text_content = 'This is an important message.'
-            html_content = render_to_string('email.html', {
-                      'turma': turma, 
-                      'aluno': aluno
-                      }
-                    )
-            msg = EmailMultiAlternatives(subject, text_content, from_email, to)
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
-        except Exception as E:
-            print(E)
-        else:
-            print('email enviado com sucesso!')
+    try:
+        subject = f'Inscrição no curso {turma.curso.nome}'
+        from_email = settings.EMAIL_HOST_USER
+        to = [aluno.email]
+        text_content = 'This is an important message.'
+        html_content = render_to_string('email.html', {
+            'turma': turma,
+            'aluno': aluno
+        }
+        )
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+    except Exception as E:
+        print(E)
+    else:
+        print('email enviado com sucesso!')
+
 
 def index(request):
     return render(request, 'cursos/index.html')
@@ -183,22 +184,26 @@ def cadastrar_local(request):
 
 
 def prematricula(request):
-    form = CadastroCandidatoForm()
-    form_responsavel = CadastroResponsavelForm()
+    form = CadastroCandidatoForm(prefix="candidato")
+    form_responsavel = CadastroResponsavelForm(prefix="responsavel")
 
     categorias = Categoria.objects.all()
     cursos = []
-    
+
     for i in categorias:
-        print(i)
         cursos.append(
             {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
 
     if request.method == 'POST':
-        form = CadastroCandidatoForm(request.POST)
+        dtnascimento_cp = request.POST.get("candidato-dt_nascimento")
+        form = CadastroCandidatoForm(request.POST, prefix="candidato")
+        form_responsavel = CadastroResponsavelForm(request.POST, prefix="responsavel")
 
-        dtnascimento_cp = request.POST['dt_nascimento']
-        dtnascimento_hr = datetime.strptime(dtnascimento_cp, '%Y-%m-%d')
+        try:
+            dtnascimento_hr = datetime.strptime(dtnascimento_cp, "%d-%m-%Y")
+        except:
+            dtnascimento_hr = datetime.strptime(dtnascimento_cp, "%Y-%m-%d")
+
         dt_nascimento = dtnascimento_hr.date()
 
         today = date.today()
@@ -217,54 +222,44 @@ def prematricula(request):
         for i in request.POST.getlist('turmas'):
             turma = Turma.objects.get(id=i)
             if candidato:
-                for t in candidato.turmas.all():
-                    if t == turma:
-                        messages.error(
-                            request, 'Candidato já cadastro no curso ' + turma.curso.nome)
-                        return redirect('/prematricula')
-
-                for t in candidato.turmas_selecionado.all():
-                    if t == turma:
-                        messages.error(
-                            request, 'Candidato já cadastro no curso ' + turma.curso.nome)
-                        return redirect('/prematricula')
+                try:
+                    Matricula.objects.get(
+                        candidato=candidato, turma__curso=turma.curso)
+                    messages.error(
+                        request, 'Candidato já matriculado no curso ' + turma.curso.nome)
+                    return redirect('/prematricula')
+                except:
+                    pass
 
             if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
                 teste = False
 
-
         if form.is_valid() and teste:
-            form_responsavel = CadastroResponsavelForm(request.POST)
+            candidato = form.save(commit=False)
 
             if age < 18:
-                if form_responsavel.is_valid():
-                    print('valido')
-                    candidato = form.save()
-                    responsavel = form_responsavel.save()
 
-                    for i in request.POST.getlist('turmas'):
-                        candidato.turmas.add(i)
-                    
-                    messages.success(
-                        request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
-                    return redirect('/')
-            else:
-                print('valido')
-                candidato = form.save()
-                for i in request.POST.getlist('turmas'):
-                    candidato.turmas.add(i)
-                messages.success(
-                    request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
-                return redirect('/')
-                
+                if form_responsavel.is_valid():
+
+                    responsavel = form_responsavel.save(commit=False)
+                    responsavel.aluno = candidato
+                    responsavel.save()
+            
+            candidato.save()
+
+            for i in request.POST.getlist('turmas'):
+                Matricula.objects.create(
+                    aluno=candidato, turma=turma, status='c')
+
+            messages.success(
+                request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
+            return redirect('/')
         else:
-            print('n valido')
             if not teste:
                 messages.error(
                     request, 'Não foi possível realizar a inscrição na turma: A idade não atende a faixa etária da turma.')
                 return redirect('/prematricula')
 
-            print(form.errors)
     context = {
         'form': form,
         'form_responsavel': form_responsavel,
@@ -287,11 +282,11 @@ def administrativo(request):
         pass
 
     context = {
-            'instrutor':False
-        }
+        'instrutor': False
+    }
     if instrutor_aut and not request.user.is_superuser:
         context = {
-            'instrutor':True
+            'instrutor': True
         }
     return render(request, 'cursos/administrativo.html', context)
 
@@ -558,21 +553,27 @@ def adm_turmas_visualizar(request, id):
             return redirect('adm_turmas_listar')
 
     matriculas = Matricula.objects.filter(turma=turma)
-    selecionados = Candidato.objects.filter(
-        turmas__in=[turma], turmas_selecionado__in=[turma])
-    candidatos = Candidato.objects.filter(
-        turmas__in=[turma]).exclude(turmas_selecionado__in=[turma])
+    
+    matriculas_alunos = matriculas.filter(status = 'a').select_related('aluno')
+    
+    matriculas_selecionados = matriculas.filter(status = 's').select_related('aluno')
+
+    matriculas_candidatos = matriculas.filter(status = 'c').select_related('aluno')
+
     if request.method == 'POST':
         for i in request.POST:
             if i != 'csrfmiddlewaretoken':
                 candidato = Candidato.objects.get(id=i)
                 candidato.turmas_selecionado.add(turma)
                 candidato.save()
+
+
+
     context = {
         'turma': turma,
-        'matriculas': matriculas,
-        'selecionados': selecionados,
-        'candidatos': candidatos,
+        'matriculas_alunos': matriculas_alunos,
+        'matriculas_selecionados': matriculas_selecionados,
+        'matriculas_candidatos': matriculas_candidatos,
         'qnt_alunos': len(matriculas)
     }
     return render(request, 'cursos/adm_turmas_editar.html', context)
@@ -604,8 +605,9 @@ def visualizar_turma_editar(request, id):
 
 
 @login_required
-def visualizar_turma_selecionado(request, id, id_selecionado):
-    turma = Turma.objects.get(id=id)
+def visualizar_turma_selecionado(request, matricula):
+    matricula = Matricula.objects.get(pk=matricula)
+    turma = Turma.objects.get(pk=matricula.turma_id)
 
     if not request.user.is_superuser:
         id_categoria = Categoria.objects.get(nome=request.user.groups.all()[0])
@@ -614,22 +616,19 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
                 request, 'Você não tem autorização para acessar essa turma.')
             return redirect('adm_turmas_listar')
 
-    matriculas = Matricula.objects.filter(turma=turma)
-    if turma.quantidade_permitido <= len(matriculas):
+    if turma.quantidade_permitido <= Matricula.objects.filter(turma=turma, status='a').count():
         messages.error(
             request, 'Turma cheia! Não é possível adicionar mais alunos.')
         return redirect('adm_turma_visualizar', id)
 
-    selecionado = Candidato.objects.get(id=id_selecionado)
-    birthDate = selecionado.dt_nascimento
+    birthDate = matricula.aluno.dt_nascimento
     today = date.today()
     age = today.year - birthDate.year - \
         ((today.month, today.day) < (birthDate.month, birthDate.day))
 
     form_responsavel = ''
     try:
-        aluno = Aluno.objects.get(cpf=selecionado.cpf)
-        form = CadastroAlunoForm(instance=aluno)
+        form = CadastroAlunoForm(instance=matricula.aluno)
         if age < 18:
             try:
                 responsavel = Responsavel.objects.get(aluno=aluno)
@@ -650,14 +649,14 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
 
         form = CadastroAlunoForm(
             initial={
-                'nome': selecionado.nome,
-                'celular': selecionado.celular,
-                'email': selecionado.email,
-                'dt_nascimento': selecionado.dt_nascimento,
-                'sexo': selecionado.sexo,
-                'endereco': selecionado.endereco,
-                'bairro': selecionado.bairro,
-                'cpf': selecionado.cpf
+                'nome': matricula.aluno.nome,
+                'celular': matricula.aluno.celular,
+                'email': matricula.aluno.email,
+                'dt_nascimento': matricula.aluno.dt_nascimento,
+                'sexo': matricula.aluno.sexo,
+                'endereco': matricula.aluno.endereco,
+                'bairro': matricula.aluno.bairro,
+                'cpf': matricula.aluno.cpf
             }
         )
     if request.method == 'POST':
@@ -780,7 +779,7 @@ def visualizar_turma_selecionado(request, id, id_selecionado):
         'form': form,
         'form_responsavel': form_responsavel,
         'turma': turma,
-        'selecionado': selecionado,
+        'selecionado': matricula.aluno,
     }
     return render(request, 'cursos/adm_turmas_editar_selecionado.html', context)
 
@@ -882,6 +881,7 @@ def adm_aluno_visualizar(request, id):
 
     return render(request, 'cursos/adm_aluno_visualizar.html', context)
 
+
 @login_required
 def adm_aluno_editar(request, id):
     aluno = Aluno.objects.get(pk=id)
@@ -926,6 +926,7 @@ def adm_aluno_excluir(request, id):
 
     return redirect('adm_alunos_listar')
 
+
 def calculate_age(born):
     today = date.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
@@ -944,6 +945,7 @@ def autenticar_data_candidato(request):
         return JsonResponse({'data': list(Turma.objects.filter((Q(idade_min__lte=age) | Q(idade_min__isnull=True)) & (Q(idade_max__gte=age) | Q(idade_max__isnull=True))).values('id'))})
     else:
         raise PermissionDenied()
+
 
 def testar_email(request):
 

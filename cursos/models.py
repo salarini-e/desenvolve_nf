@@ -42,7 +42,7 @@ class Curso(models.Model):
     descricao = models.TextField(default='')
     ativo = models.BooleanField(default=True)
 
-    dt_inclusao = models.DateField(auto_now_add=True, editable=False)
+    dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
     dt_alteracao = models.DateField(auto_now=True)
 
     user_inclusao = models.ForeignKey(
@@ -67,7 +67,7 @@ class Instrutor(models.Model):
         max_length=150, blank=True, null=True, verbose_name='Endereço')
     bairro = models.CharField(max_length=80, blank=True, null=True)
     cpf = models.CharField(max_length=14, verbose_name='CPF')
-    dt_inclusao = models.DateField(auto_now_add=True)
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return '%s' % (self.nome)
@@ -122,8 +122,8 @@ class Turma(models.Model):
 
     turnos = models.ManyToManyField(Turno)
 
-    dt_inclusao = models.DateField(auto_now_add=True, editable=False)
-    dt_alteracao = models.DateField(auto_now=True)
+    dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
+    dt_alteracao = models.DateTimeField(auto_now=True)
 
     user_inclusao = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name='TurmaUserInclusao')
@@ -192,7 +192,7 @@ class Aluno(models.Model):
     li_e_aceito_termos = models.BooleanField(
         default=False, verbose_name='Li e aceito os termos')
 
-    dt_inclusao = models.DateField(auto_now_add=True)
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return '%s' % (self.nome)
@@ -229,7 +229,7 @@ class Responsavel(models.Model):
         max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')
     aluno = models.ForeignKey(
         Aluno, on_delete=models.CASCADE, blank=True, null=True)
-    dt_inclusao = models.DateField(auto_now_add=True)
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
 
 
 class Matricula(models.Model):
@@ -262,7 +262,7 @@ class Matricula(models.Model):
     matricula = models.CharField(
         max_length=16, unique=True, editable=False, primary_key=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
-    dt_inclusao = models.DateField(auto_now_add=True, editable=False)
+    dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return '%s - %s' % (self.turma, self.aluno)

@@ -53,14 +53,14 @@ urlpatterns = [
         path('administrativo/turma/<id>', views.adm_turmas_visualizar, name="adm_turma_visualizar"),
         path('administrativo/turma/<id>/editar', views.visualizar_turma_editar, name="adm_turma_editar"),
         path('administrativo/turma/<id>/excluir', views.excluir_turma, name="adm_turma_excluir"),
-        path('administrativo/turma/<id>/selecionado/<id_selecionado>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
-        path('administrativo/turma/<id_turma>/aluno/<id_aluno>/desmatricular', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
+        path('administrativo/turma/selecionado/<matricula>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
         
         ##ALUNOS
         path('administrativo/alunos/listar', views.adm_alunos_listar, name="adm_alunos_listar"),
         path('administrativo/aluno/<id>', views.adm_aluno_visualizar, name="adm_aluno_visualizar"),
         path('administrativo/aluno/<id>/editar', views.adm_aluno_editar, name="adm_aluno_editar"),
         path('administrativo/aluno/<id>/excluir', views.adm_aluno_excluir, name="adm_aluno_excluir"),
+        # path('administrativo/turma/<id_turma>/aluno/<id_aluno>/desmatricular', views.desmatricular_aluno, name="adm_turma_desmatricular_aluno"),
 
     #API
     path('cursos/candidato/<id>', views.candidatar, name="candidatar"),
