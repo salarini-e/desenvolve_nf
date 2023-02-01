@@ -86,12 +86,12 @@
                                           <!-- <td colspan="1"><b class="me-2">Última alteração:</b>{% if turma.user_ultima_alteracao %}{{turma.user_ultima_alteracao}}{% endif %}</td> -->
                                           <td ><b class="me-2">Faixa etária:</b>
                                             <i>
-                                              {% if turma.idade_min and turma.idade_max %}
-                                              {{turma.idade_min}} até {{turma.idade_max}}
-                                              {% elif turma.idade_min %}
-                                              {{turma.idade_min}}+
+                                              {% if turma.idade_minima and turma.idade_maxima %}
+                                              {{turma.idade_minima}} até {{turma.idade_maxima}}
+                                              {% elif turma.idade_minima %}
+                                              {{turma.idade_minima}}+
                                               {% else %}
-                                              Até {{turma.idade_max}}
+                                              Até {{turma.idade_maxima}}
                                               {% endif %}
                                             </i>
                                         </td>                                          
@@ -131,33 +131,28 @@
                                           <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
                                         <tbody> 
-                                          {% for matricula in matriculas %}                  
+                                          {% for matriculas_aluno in matriculas_alunos %}                  
                                             <tr>                      
                                               <!-- <td>
                                                 <input type="checkbox" name="" id="">
                                               </td> -->
                                               <td>
-                                                <a target="_blank" href="{% url 'adm_aluno_visualizar' matricula.aluno.id %}" style="text-decoration: none;">
-                                                  {{matricula.aluno.nome}}
+                                                <a target="_blank" href="{% url 'adm_aluno_visualizar' matriculas_aluno.matricula %}" style="text-decoration: none;">
+                                                  {{matricula_aluno.aluno.nome}}
                                                 </a>
                                               </td>
                                               <td>
-                                                {{matricula.aluno.celular}}
+                                                {{matricula_aluno.aluno.celular}}
                                               </td>
                                               <td>
-                                                {{matricula.aluno.email}}
+                                                {{matricula_aluno.alunoemail}}
                                               </td>
                                               <td>
-                                                {{matricula.aluno.dt_nascimento|idade}}
+                                                {{matricula_aluno.aluno.dt_nascimento|idade}}
                                               </td>
                                               <td>
-                                                {{matricula.dt_inclusao}}
+                                                {{matricula_aluno.dt_inclusao}}
                                               </td>
-                                              <!-- <td class="text-center">
-                                                <a href="#">
-                                                  <i class="fa-solid fa-eye"></i>
-                                                </a>
-                                              </td> -->
                                             </tr>
                                             {% endfor %}
                                         </tbody>                                  
@@ -185,27 +180,27 @@
                                           <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
                                         <tbody> 
-                                          {% for candidato in selecionados %}                  
+                                          {% for matricula_selecionado in matriculas_selecionados %}                  
                                             <tr>                      
                                               <!-- <td>
                                                 <input type="checkbox" name="candidatos" id="{{candidato.id}}">
                                               </td> -->
                                               <td>
-                                                <a href="{% url 'adm_turma_visualizar_selecionado' turma.id candidato.id %}" style="text-decoration: none;">
-                                                  {{candidato.nome}}
+                                                <a href="{% url 'adm_turma_visualizar_selecionado' matricula_selecionado.matricula %}" style="text-decoration: none;">
+                                                  {{matricula_selecionado.aluno.nome}}
                                                 </a>
                                               </td>
                                               <td>
-                                                {{candidato.celular}}
+                                                {{matricula_selecionado.aluno.celular}}
                                               </td>
                                               <td>
-                                                {{candidato.email}}
+                                                {{matricula_selecionado.aluno.email}}
                                               </td>
                                               <td>
-                                                {{candidato.dt_nascimento|bg_idade}}
+                                                {{matricula_selecionado.aluno.dt_nascimento|bg_idade}}
                                               </td>
                                               <td>
-                                                {{candidato.dt_inclusao}}
+                                                {{matricula_selecionado.aluno.dt_inclusao}}
                                               </td>
                                               <!-- <td class="text-center">
                                                 <a href="#">
@@ -245,27 +240,27 @@
                                           <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
                                         <tbody> 
-                                          {% for candidato in candidatos %}                  
+                                          {% for matricula_candidato in matriculas_candidatos %}                  
                                             <tr>                      
                                               <td>
                                                 <input type="checkbox" name="{{candidato.id}}" id="{{candidato.id}}">
                                               </td>
                                               <td>
                                                 <a href="#" style="text-decoration: none;">
-                                                  {{candidato.nome}}
+                                                  {{matricula_candidato.aluno.nome}}
                                                 </a>
                                               </td>
                                               <td>
-                                                {{candidato.celular}}
+                                                {{matricula_candidato.aluno.celular}}
                                               </td>
                                               <td>
-                                                {{candidato.email}}
+                                                {{matricula_candidato.aluno.email}}
                                               </td>
                                               <td>
-                                                {{candidato.dt_nascimento|bg_idade}}                                                                                                
+                                                {{matricula_candidato.aluno.dt_nascimento|bg_idade}}                                                                                                
                                               </td>
                                               <td>
-                                                {{candidato.dt_inclusao}}
+                                                {{matricula_candidato.dt_inclusao}}
                                               </td>
                                               <!-- <td class="text-center">
                                                 <a href="#">

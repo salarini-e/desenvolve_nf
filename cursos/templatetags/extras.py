@@ -26,32 +26,32 @@ def turmas(obj):
     if len(turmas)>0:        
         for turma in turmas:
             try:
-                if turma.idade_min and turma.idade_max:
-                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_min)+' até '+ str(turma.idade_max)
-                elif turma.idade_min:
-                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_min)+'+'
-                elif turma.idade_min:
-                    faixa='<b class="ms-4">Faixa etária: </b>'+'Até '+str(turma.idade_max)
+                if turma.idade_minima and turma.idade_maxima:
+                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_minima)+' até '+ str(turma.idade_maxima)
+                elif turma.idade_minima:
+                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_minima)+'+'
+                elif turma.idade_minima:
+                    faixa='<b class="ms-4">Faixa etária: </b>'+'Até '+str(turma.idade_maxima)
                 else:
                     faixa=''
             except:
                 faixa=''
             
-            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b>- <b class="ms-4">Horário:</b> '+str(turma.horario)+'</span>'+str(faixa)+'<br>'
+            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b>- <b class="ms-4">Horário:</b> '+''' TEM QUE FAZER UMA FUNCAO AQUI '''+'</span>'+str(faixa)+'<br>'
     if len(turmas2)>0:        
         for turma in turmas2:
             try:
-                if turma.idade_min and turma.idade_max:
-                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_min)+' até '+ str(turma.idade_max)
-                elif turma.idade_min:
-                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_min)+'+'
-                elif turma.idade_min:
-                    faixa='<b class="ms-4">Faixa etária: </b>'+'Até '+str(turma.idade_max)
+                if turma.idade_minima and turma.idade_maxima:
+                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_minima)+' até '+ str(turma.idade_maxima)
+                elif turma.idade_minima:
+                    faixa='<b class="ms-4">Faixa etária: </b>'+str(turma.idade_minima)+'+'
+                elif turma.idade_minima:
+                    faixa='<b class="ms-4">Faixa etária: </b>'+'Até '+str(turma.idade_maxima)
                 else:
                     faixa=''
             except:
                 faixa=''
-            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b>- <b class="ms-4">Horário:</b> '+str(turma.horario)+'</span>'+str(faixa)+'<br>'    
+            response+='<br><b class="ps-4">'+str(turma.curso.nome)+'</b><span class="ps-4">-<b class="ms-4 me-3">'+str(turma.local)+'</b>- <b class="ms-4">Horário:</b> '+''' TEM QUE MUDAR AQUI '''+'</span>'+str(faixa)+'<br>'    
     if len(turmas2)==0 and len(turmas)==0:
         response='<i class="ps-4 text-danger">Não há turmas disponíveis.</i>'
     return mark_safe(response)
@@ -75,25 +75,25 @@ def turmas_input(obj):
     if len(turmas)>0: 
         for turma in turmas:  
             try:
-                if turma.idade_min and turma.idade_max:
-                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_min)+' até '+ str(turma.idade_max) +' anos'
-                elif turma.idade_min:
-                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_min)+'+ anos'
-                elif turma.idade_max:
-                    faixa='<span class="">Faixa etária </span>'+'Até '+str(turma.idade_max)+' anos'
+                if turma.idade_minima and turma.idade_maxima:
+                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_minima)+' até '+ str(turma.idade_maxima) +' anos'
+                elif turma.idade_minima:
+                    faixa='<span class="">Faixa etária </span>'+str(turma.idade_minima)+'+ anos'
+                elif turma.idade_maxima:
+                    faixa='<span class="">Faixa etária </span>'+'Até '+str(turma.idade_maxima)+' anos'
                 else:
                     faixa=''
             except Exception as e:
                 faixa=''          
             response+='''<div class="form-check mt-1 turma"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
-    '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+''' - '''+str(faixa)+'''</label></div>'''
+    '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+str(faixa)+'''</label></div>'''
     
     if len(turmas2)>0:                
         for turma in turmas2:
             response+='''<div class="form-check mt-1 turma"><label class="form-check-label" for="id_turmas_'''+str(turma.id)+'''">                                        
     <input class="form-check-input" id="id_turmas_'''+str(turma.id)+'''" name="turmas" title="" type="checkbox" value="'''+str(turma.id)+'''">
-    '''+str(turma.curso.nome)+''' - '''+str(turma.local)+''' - '''+ str(turma.horario)+'''
+    '''+str(turma.curso.nome)+''' - '''+str(turma.local)+'''
 </label></div>'''
     
 
