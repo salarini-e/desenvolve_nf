@@ -22,7 +22,7 @@
                        <div class="row">
                         <div class="col">
                           <h1 class="">
-                           <span class="text-uppercase">Painel -> Aluno</span> -> Aluno id. {{aluno.id}}
+                           <span class="text-uppercase">Painel -> Aluno</span> {{aluno.id}}
                           </h1>
                         </div>
                         <div class="col-2 d-flex">
@@ -77,30 +77,30 @@
                                       <table class="table table-striped">
                                         <tr style="border-color: white;">
                                           <td>
-                                            <b class="me-2">Nome:</b><br>{{responsavel.r_nome}}
+                                            <b class="me-2">Nome:</b><br>{{responsavel.nome}}
                                           </td>
                                           <td>
-                                            <b class="me-2">Profissão:</b><br>{{responsavel.r_profissao}}
+                                            <b class="me-2">Profissão:</b><br>{{responsavel.profissao}}
                                           </td>
                                           <td>
-                                            <b class="me-2">Profissão:</b><br>{{responsavel.r_profissao}}
+                                            <b class="me-2">Profissão:</b><br>{{responsavel.profissao}}
                                           </td>
-                                          <td><b class="me-2">Sexo:</b><br>{{responsavel.get_r_sexo_display}}</td>
-                                          <td><b class="me-2">Estado Civil:</b><br>{{responsavel.get_r_estado_civil_display}}</td>
+                                          <td><b class="me-2">Sexo:</b><br>{{responsavel.get_sexo_display}}</td>
+                                          <td><b class="me-2">Estado Civil:</b><br>{{responsavel.get_estado_civil_display}}</td>
                                         </tr>
                                         <tr style="border-color: white;">
-                                          <td colspan="1"><b class="me-2">RG:</b><br>{{responsavel.r_rg}}</td>  
-                                          <td colspan="1"><b class="me-2">CPF:</b><br>{{responsavel.r_cpf}}</td>  
-                                          <td><b class="me-2">Data de nascimento:</b><br>{{responsavel.r_dt_nascimento}}</td>
-                                          <td><b class="me-2">Celular:</b><br>{{responsavel.r_email}}</td>
-                                          <td><b class="me-2">Email:</b><br>{{responsavel.r_email}}</td>
+                                          <td colspan="1"><b class="me-2">RG:</b><br>{{responsavel.rg}}</td>  
+                                          <td colspan="1"><b class="me-2">CPF:</b><br>{{responsavel.cpf}}</td>  
+                                          <td><b class="me-2">Data de nascimento:</b><br>{{responsavel.dt_nascimento}}</td>
+                                          <td><b class="me-2">Celular:</b><br>{{responsavel.celular}}</td>
+                                          <td><b class="me-2">Email:</b><br>{{responsavel.email}}</td>
                                           
                                           
                                         </tr>
                                         <tr style="border-color: white;">                                          
-                                          <td colspan="1"><b class="me-2">Endereço:</b><br>{{responsavel.r_endereco}}</td>
-                                          <td colspan="1"><b class="me-2">Bairro:</b><br>{{responsavel.r_bairro}}</td>
-                                          <td colspan="1"><b class="me-2">CEP:</b><br>{{responsavel.r_cep}}</td>
+                                          <td colspan="1"><b class="me-2">Endereço:</b><br>{{responsavel.endereco}}</td>
+                                          <td colspan="1"><b class="me-2">Bairro:</b><br>{{responsavel.bairro}}</td>
+                                          <td colspan="1"><b class="me-2">CEP:</b><br>{{responsavel.cep}}</td>
                                           
                                           <td colspan="1"><b class="me-2">Data de inclusão:</b><br>{{responsavel.dt_inclusao}}</td>                                          
                                           <td></td>
@@ -115,9 +115,12 @@
                                       <table class="table table-striped">   
                                         <tr>
                                           <th>Status da turma</th>
+                                          <th>Matricula</th>
+                                          <th>Status da matricula</th>
                                           <th>Atividade</th>
                                           <th>Local</th>
                                           <th>Horário</th>
+                                          <th></th>
                                           <th></th>
                                         </tr>
                                         {% for matricula in matriculas %}                                     
@@ -135,6 +138,9 @@
                                             <span class="text-dark">Encerrada</span>
                                             {% endif %}
                                           </td>
+                                          <td>{{matricula.matricula}}</td>
+                                          <td>{{matricula.get_status_display}}</td>
+
                                           <td colspan="1">                                            
                                               {{matricula.turma.curso}}                                                                                        
                                           </td> 
@@ -149,7 +155,12 @@
                                             <a target="_blank" href="{% url 'adm_turma_visualizar' matricula.turma.id %}">
                                               <i class="fa-solid fa-eye ms-4"></i>
                                             </a>
-                                          </td>                                
+                                          </td>    
+                                          <td>
+                                            <a target="_blank" href="{% url 'adm_desmatricular_aluno' matricula.matricula %}">
+                                              <i class="fa-solid fa-trash ms-4 text-danger"></i>
+                                            </a>
+                                          </td>                                                            
                                         </tr>
                                         {% endfor %}
                                       </table>

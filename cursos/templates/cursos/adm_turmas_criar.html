@@ -78,7 +78,6 @@
               document.getElementById('response').innerText='Erro para se comunicar com o servidor. O mesmo retornou com erro 404.'
           }else if(data.status==200){
               document.getElementById('candidatos').innerHTML=data.text()
-              console.log(data)
           }
       }
     )

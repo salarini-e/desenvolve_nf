@@ -237,7 +237,8 @@ class Matricula(models.Model):
         ('c', 'Candidato'),
         ('s', 'Selecionado'),
         ('a', 'Aluno'),
-        ('d', 'Aluno desistente'),
+        ('e', 'Desistente'),
+        ('d', 'Desmatriculado')
     )
 
     def save(self, *args, **kwargs):
@@ -254,7 +255,6 @@ class Matricula(models.Model):
                 "The total length of turma_id, aluno_id and instituicao must be less than or equal to 16")
         
         self.matricula = instituicao + curso + turma_id.rjust(16 - total_length + len(turma_id), "0")  + aluno_id 
-        print(self)
         super().save(*args, **kwargs)
 
     turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
@@ -263,6 +263,16 @@ class Matricula(models.Model):
         max_length=16, unique=True, editable=False, primary_key=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
-
+    
     def __str__(self):
         return '%s - %s' % (self.turma, self.aluno)
+
+class Justificativa(models.Model):
+    STATUS_MOTIVO = (
+        ('a', 'Ausência'),
+        ('d', 'Desmatricula')
+    )
+
+    matricula = models.ForeignKey(Matricula, on_delete=models.PROTECT)
+    descricao = models.CharField(max_length=256, blank=True, null=True)
+    motivo = models.CharField(max_length=1, choices=STATUS_MOTIVO)

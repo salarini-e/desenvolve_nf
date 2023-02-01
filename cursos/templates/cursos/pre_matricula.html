@@ -243,8 +243,9 @@ function removeRequired(...elements){
 }
 
   
-
-    document.querySelector("#id_candidato-dt_nascimento").addEventListener("change", async (e)=>{
+    window.addEventListener('load', function (){
+      const nascimento = document.querySelector("#id_candidato-dt_nascimento")
+      nascimento.addEventListener("change", async (e)=>{
         if(!e.target.value) return
         const form_responsavel = document.querySelector('.form_responsavel')
 
@@ -305,14 +306,14 @@ function removeRequired(...elements){
 */
        
     })
-    window.addEventListener('load', function (){
+
       const form_responsavel = document.querySelector('.form_responsavel')
       form_responsavel.style.display = 'none'
       removeRequired(...Array.from(form_responsavel.querySelectorAll('input')))
       removeRequired(...Array.from(form_responsavel.querySelectorAll('select')))
 
 
-        document.querySelector("#id_dt_nascimento").dispatchEvent(new Event('change'))
+      nascimento.dispatchEvent(new Event('change'))
     });
 
   </script>

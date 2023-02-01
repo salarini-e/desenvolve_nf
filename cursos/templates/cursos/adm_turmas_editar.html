@@ -83,7 +83,6 @@
                                         </tr>
                                         <tr style="border-color: white;">
                                           <td colspan="1"><b class="me-2">Data inclusão:</b>{{turma.data_final}}</td>                                          
-                                          <!-- <td colspan="1"><b class="me-2">Última alteração:</b>{% if turma.user_ultima_alteracao %}{{turma.user_ultima_alteracao}}{% endif %}</td> -->
                                           <td ><b class="me-2">Faixa etária:</b>
                                             <i>
                                               {% if turma.idade_minima and turma.idade_maxima %}
@@ -120,26 +119,23 @@
                                       </div>
                                       <table class="table table-striped table-primary">
                                         <thead>
-                                          <!-- <th>
-                                            <input type="checkbox" name="" id="">
-                                          </th> -->
                                           <th>Nome</th>
+                                          <th>Matricula</th>
                                           <th>Celular</th>
                                           <th>Email</th>
                                           <th>Idade</th>
                                           <th>Data da matrícula</th>
-                                          <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
                                         <tbody> 
-                                          {% for matriculas_aluno in matriculas_alunos %}                  
+                                          {% for matricula_aluno in matriculas_alunos %}                  
                                             <tr>                      
-                                              <!-- <td>
-                                                <input type="checkbox" name="" id="">
-                                              </td> -->
                                               <td>
-                                                <a target="_blank" href="{% url 'adm_aluno_visualizar' matriculas_aluno.matricula %}" style="text-decoration: none;">
+                                                <a target="_blank" href="{% url 'adm_aluno_visualizar' matricula_aluno.aluno.id %}" style="text-decoration: none;">
                                                   {{matricula_aluno.aluno.nome}}
                                                 </a>
+                                              </td>
+                                              <td>
+                                                {{matricula_aluno.matricula}}
                                               </td>
                                               <td>
                                                 {{matricula_aluno.aluno.celular}}
@@ -169,26 +165,23 @@
                                       </div>
                                       <table class="table table-striped table-primary">
                                         <thead>
-                                          <!-- <th>
-                                            <input type="checkbox" name="" id="">
-                                          </th> -->
                                           <th>Nome</th>
+                                          <th>Matricula</th>
                                           <th>Celular</th>
                                           <th>Email</th>
                                           <th>Idade</th>
                                           <th>Data de cadastro</th>
-                                          <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
                                         <tbody> 
                                           {% for matricula_selecionado in matriculas_selecionados %}                  
                                             <tr>                      
-                                              <!-- <td>
-                                                <input type="checkbox" name="candidatos" id="{{candidato.id}}">
-                                              </td> -->
                                               <td>
                                                 <a href="{% url 'adm_turma_visualizar_selecionado' matricula_selecionado.matricula %}" style="text-decoration: none;">
                                                   {{matricula_selecionado.aluno.nome}}
                                                 </a>
+                                              </td>
+                                              <td>
+                                                {{matricula_selecionado.matricula}}
                                               </td>
                                               <td>
                                                 {{matricula_selecionado.aluno.celular}}
@@ -202,11 +195,6 @@
                                               <td>
                                                 {{matricula_selecionado.aluno.dt_inclusao}}
                                               </td>
-                                              <!-- <td class="text-center">
-                                                <a href="#">
-                                                  <i class="fa-solid fa-eye"></i>
-                                                </a>
-                                              </td> -->
                                             </tr>
                                             {% endfor %}
                                         </tbody>                                  
@@ -230,25 +218,28 @@
                                       <table class="table table-striped table-primary">
                                         <thead>
                                           <th>
-                                            <input type="checkbox" name="" id="">
+                                            <input type="checkbox" name="" id="select_all">
                                           </th>
                                           <th>Nome</th>
+                                          <th>Matricula</th>
                                           <th>Celular</th>
                                           <th>Email</th>
                                           <th>Idade</th>
                                           <th>Data de cadastro</th>
-                                          <!-- <th class="text-center">Ver/Editar</th>                                       -->
                                         </thead>
                                         <tbody> 
                                           {% for matricula_candidato in matriculas_candidatos %}                  
                                             <tr>                      
                                               <td>
-                                                <input type="checkbox" name="{{candidato.id}}" id="{{candidato.id}}">
+                                                <input type="checkbox" class="candidatos_selecionados" name="candidatos_selecionados" value="{{matricula_candidato.matricula}}">
                                               </td>
                                               <td>
-                                                <a href="#" style="text-decoration: none;">
+                                                <a href="{% url "adm_aluno_visualizar" matricula_candidato.matricula %}" style="text-decoration: none;">
                                                   {{matricula_candidato.aluno.nome}}
                                                 </a>
+                                              </td>
+                                              <td>
+                                                {{matricula_candidato.matricula}}
                                               </td>
                                               <td>
                                                 {{matricula_candidato.aluno.celular}}
@@ -262,11 +253,6 @@
                                               <td>
                                                 {{matricula_candidato.dt_inclusao}}
                                               </td>
-                                              <!-- <td class="text-center">
-                                                <a href="#">
-                                                  <i class="fa-solid fa-eye"></i>
-                                                </a>
-                                              </td> -->
                                             </tr>
                                             {% endfor %}
                                         </tbody>                                  
@@ -286,14 +272,22 @@
         </div>    
     </div>
 </div>
+
+<script>
+    document.querySelector('#select_all').checked = false
+    document.querySelector('#select_all').addEventListener('click', ()=>{
+      document.querySelectorAll('.candidatos_selecionados').forEach(e=>e.checked = !e.checked)
+    })
+</script>
+
 {% if messages %}              
 <!-- MODAL -->
 <div class="warnings"></div>
 <script>
 {% for message in messages %}
 Message.push("{{ message|escape }}")
-console.log("{{ message|escape }}")
 {% endfor %}
+
 </script>
   <style>
     .error{

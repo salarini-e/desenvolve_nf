@@ -5,7 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.index),
     path('cursos/', views.cursos, name="cursos"),        
-    path('cursos/listar-candidatos/<id>', views.listar_candidatos_curso, name="listar_candidatos_curso"),
     
     # path('cursos/cadastrar-categoria', views.cadastrar_categoria, name="cadastrar_categoria"),
     # path('cursos/cadastrar-local', views.cadastrar_local, name="cadastrar_local"),
@@ -53,7 +52,9 @@ urlpatterns = [
         path('administrativo/turma/<id>', views.adm_turmas_visualizar, name="adm_turma_visualizar"),
         path('administrativo/turma/<id>/editar', views.visualizar_turma_editar, name="adm_turma_editar"),
         path('administrativo/turma/<id>/excluir', views.excluir_turma, name="adm_turma_excluir"),
+
         path('administrativo/turma/selecionado/<matricula>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
+        path('administrativo/aluno/<matricula>/desmatricular', views.desmatricular_aluno, name="adm_desmatricular_aluno"),
         
         ##ALUNOS
         path('administrativo/alunos/listar', views.adm_alunos_listar, name="adm_alunos_listar"),
