@@ -16,32 +16,34 @@ urlpatterns = [
     #ADMINISTRATIVO
     path('administrativo/', views.administrativo, name="administrativo"),
 
+        #INSTITUIÇÔES
+        path('administrativo/instiuicoes', views.adm_instituicoes_listar, name="adm_instituicoes_listar"),
+        path('administrativo/instituicoes/cadastrar', views.adm_instituicao_criar, name="adm_cadastrar_instituicao"),
+        #path('administrativo/instituicao/<id>', views.adm_locais_editar, name="adm_editar_instituicao"),
+        #path('administrativo/instituicao/<id>/excluir', views.adm_locais_excluir, name="adm_locais_excluir"),
+
         ##LOCAIS
-        path('administrativo/locais/', views.adm_locais, name="adm_locais"),
         path('administrativo/locais/cadastrar', views.adm_locais_criar, name="cadastrar_local"),
-        path('administrativo/locais/listar', views.adm_locais_listar, name="adm_locais_listar"),
+        path('administrativo/locais', views.adm_locais_listar, name="adm_locais_listar"),
         path('administrativo/locais/editar/<id>', views.adm_locais_editar, name="adm_locais_editar"),
         path('administrativo/locais/excluir/<id>', views.adm_locais_excluir, name="adm_locais_excluir"),
 
         ##CATEGORIAS
-        path('administrativo/categorias/', views.adm_categorias, name="adm_categorias"),
         path('administrativo/categorias/cadastrar', views.adm_categorias_criar, name="cadastrar_categoria"),
-        path('administrativo/categorias/listar', views.adm_categorias_listar, name="adm_categorias_listar"),
+        path('administrativo/categorias', views.adm_categorias_listar, name="adm_categorias_listar"),
         path('administrativo/categorias/editar/<id>', views.adm_categorias_editar, name="adm_categorias_editar"),
         path('administrativo/categorias/excluir/<id>', views.adm_categorias_excluir, name="adm_categorias_excluir"),
 
         ##CURSOS
-        path('administrativo/cursos/', views.adm_cursos, name="adm_cursos"),
         path('administrativo/cursos/cadastrar', views.adm_cursos_criar, name="adm_cursos_criar"),
-        path('administrativo/cursos/listar', views.adm_cursos_listar, name="adm_cursos_listar"),
+        path('administrativo/cursos', views.adm_cursos_listar, name="adm_cursos_listar"),
         path('administrativo/cursos/editar/<id>', views.adm_cursos_editar, name="adm_cursos_editar"),
         # path('administrativo/cursos/excluir/<id>', views.adm_cursos_excluir, name="adm_cursos_excluir"),
 
 
         ##Instrutores
-        path('administrativo/instrutores/', views.adm_professores, name="adm_professores"),
         path('administrativo/instrutores/criar', views.adm_professores_criar, name="adm_professores_criar"),
-        path('administrativo/instrutores/listar', views.adm_professores_listar, name="adm_professores_listar"),        
+        path('administrativo/instrutores', views.adm_professores_listar, name="adm_professores_listar"),        
         path('administrativo/instrutores/editar/<id>', views.adm_professores_editar, name="adm_professores_editar"),
         path('administrativo/instrutores/excluir/<id>', views.adm_professores_excluir, name="adm_professores_excluir"),
 

@@ -117,3 +117,9 @@ class CadastroResponsavelForm(ModelForm):
 
         }
         exclude = ['aluno']
+
+class Instituicao_form(ModelForm):
+
+    class Meta:
+        model = Instituicao
+        exclude = []

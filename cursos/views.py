@@ -455,6 +455,34 @@ def adm_categorias_editar(request, id):
 
 
 @login_required
+def adm_instituicoes_listar(request):
+    instituicoes = Instituicao.objects.all()
+    context = {
+        'instituicoes': instituicoes
+    }
+    return render(request, 'cursos/adm_instituicoes_listar.html', context)
+
+@login_required
+def adm_instituicao_criar(request):
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_instituicoes_listar')
+    form = Instituicao_form()
+    if request.method == 'POST':
+        form = Instituicao_form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Nova instituição cadastrada!')
+            return redirect('adm_instituicoes_listar')
+
+    context = {
+        'form': form,
+        'CADASTRAR': 'NOVO'
+    }
+    return render(request, 'cursos/adm_instituicao_criar.html', context)
+
+@login_required
 def adm_professores(request):
     context = {}
     return render(request, 'cursos/adm_professores.html', context)
