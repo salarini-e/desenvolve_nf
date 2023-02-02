@@ -51,7 +51,7 @@ def turmas_input(obj):
             turnos = ''
             for turno in turma.turnos.all():
                 turnos += f"""
-                    <li>{turno}</li>
+                    <li>{turno.get_dia_semana_display()}, {turno.horario_inicio.strftime("%H:%M")} às {turno.horario_fim.strftime("%H:%M")}</li>
                 """
                 
             response+=f"""
