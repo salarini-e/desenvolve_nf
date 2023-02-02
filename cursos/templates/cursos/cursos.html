@@ -1,7 +1,7 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
 {% load static%}
-{% block title %}CURSOS LIVRES UERJ - ATIVIDADES{% endblock %}
+{% block title %}- CURSOS LIVRES - ATIVIDADES{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
 <script src="{% static 'js/cursos.js' %}"></script>
@@ -14,7 +14,7 @@
             <div class="col-10 pb-4 m-auto bg-white">
                 <div class="row py-3 px-4">
                     <div class="col bg p-5">
-                        <h1 class="display-4 text-center">ATIVIDADES</h1>
+                        <h1 class="display-4 text-center">CURSOS LIVRES</h1>
                     </div>
                 </div>
                 <div class="row filtragem visually-hidden">
@@ -59,17 +59,7 @@
                             Filtrar
                         </button> -->                        
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col px-4">
-                        <p class="text-dark text-justify mt-4">
-                            <b>Olá, somos o Polo de Extensão Uerj em Nova Friburgo!</b>
-                        </p>
-                        <p class="text-dark text-justify">
-                            Oferecemos diversas atividades esportivas, culturais e educacionais totalmente gratuitas para a comunidade friburguense.
-                        </p>
-                    </div>
-                </div>
+                </div>          
                 <div class="row">
                     <div class="col px-4 text-dark">
                         {% for cursos in categorias %}
@@ -99,7 +89,7 @@
                                         <h4 class="mt-2">Descrição:</h4>
                                         <textarea class="form-control" rows="7" readonly>{{i.descricao}}</textarea>
                                         <ul class="mt-3">
-                                            <li>Duração: {{i.carga_horaria}}</li>                                                                                      
+                                            <li>Duração: {{i.carga_horaria}} horas</li>                                                                                    
                                         </ul>
                                         <div class="row">
                                             <div class="col d-flex flex-column">

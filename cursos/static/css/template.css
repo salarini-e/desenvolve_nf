@@ -16,7 +16,10 @@ body{
     z-index: 100;
 }
 .logo{    
-    max-width:  229px;
+    max-height: 90px;
+}
+.logo2{    
+  max-height:  150px;
 }
 
 footer{
