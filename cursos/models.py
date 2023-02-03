@@ -113,7 +113,7 @@ class Turno(models.Model):
     horario_fim = models.TimeField()
 
     def __str__(self):
-        return '%s, de %s às %s' % (self.get_dia_semana_display(), self.horario_inicio, self.horario_fim)
+        return '%s, de %s às %s' % (self.get_dia_semana_display(), self.horario_inicio.strftime("%H:%M"), self.horario_fim.strftime("%H:%M"))
 
 class Turma(models.Model):
 
@@ -146,7 +146,7 @@ class Turma(models.Model):
     data_inicio = models.DateField()
     data_final = models.DateField()
 
-    turnos = models.ManyToManyField(Turno, through='Turno_estabelecidos')
+    turnos = models.ManyToManyField(Turno, through='Turno_estabelecido')
 
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
     dt_alteracao = models.DateTimeField(auto_now=True)
@@ -165,11 +165,13 @@ class Turma(models.Model):
         return '%s/%s - %s' % (self.curso.nome, self.id, self.local)
 
 
-class Turno_estabelecidos(models.Model):
+class Turno_estabelecido(models.Model):
 
     turma = models.ForeignKey(Turma, on_delete=models.PROTECT)
     turno = models.ForeignKey(Turno, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return '%s, de %s às %s' % (self.turno.get_dia_semana_display(), self.turno.horario_inicio.strftime("%H:%M"), self.turno.horario_fim.strftime("%H:%M"))
 
 class Aluno(models.Model):
 
@@ -342,9 +344,9 @@ class Aula(models.Model):
 
     associacao_turma_turno = models.ForeignKey(
         Turma.turnos.through, on_delete=models.PROTECT)
-    dt_aula = models.DateField()
+    dt_aula = models.DateField(verbose_name="Data da aula")
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
-    descricao = models.CharField(max_length=256)
+    descricao = models.CharField(max_length=256, verbose_name="Descrição")
 
     # IDEIA => Materiais de apoio
     def __str__(self):
