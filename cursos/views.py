@@ -217,11 +217,18 @@ def prematricula(request):
 
                     responsavel = form_responsavel.save(commit=False)
                     responsavel.aluno = candidato
+
                 else:
                     return redirect('/prematricula')
 
-            candidato.save()
-            responsavel.save()
+                responsavel.save()
+                candidato.save()
+
+            else: 
+
+                candidato.save()
+
+
 
             for i in request.POST.getlist('turmas'):
                 Matricula.objects.create(
