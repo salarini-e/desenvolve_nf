@@ -38,7 +38,10 @@ def enviar_email(aluno, turma):
 
 
 def index(request):
-    return render(request, 'cursos/index.html')
+    context={
+        'titulo': 'Capacitação'
+    }
+    return render(request, 'cursos/index.html', context)
 
 
 def cursos(request):
@@ -51,7 +54,8 @@ def cursos(request):
 
     context = {
         'categorias': cursos,
-        'form': form
+        'form': form,
+         'titulo': 'Capacitação'
     }
     return render(request, 'cursos/cursos.html', context)
 
@@ -67,7 +71,8 @@ def candidatar(request, id):
             form.save()
 
     context = {
-        'form': form
+        'form': form,
+         'titulo': 'Capacitação'
     }
     return render(request, 'cursos/cadastrar_candidato.html', context)
 
@@ -238,7 +243,8 @@ def prematricula(request):
     context = {
         'form': form,
         'form_responsavel': form_responsavel,
-        'categorias': cursos
+        'categorias': cursos,
+         'titulo': 'Capacitação'
     }
     return render(request, 'cursos/pre_matricula.html', context)
 

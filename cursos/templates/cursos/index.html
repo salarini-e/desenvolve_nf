@@ -1,79 +1,73 @@
 {% extends 'template.html' %}
-{% load bootstrap5 %}
-{% load static%}
-{% block title %} - CURSOS LIVRES{% endblock %}
-{% block css %}
-<link rel="stylesheet" href="{% static 'css/cursos.css' %}">
-<script src="{% static 'js/cursos.js' %}"></script>
-{% endblock %}
-{% block index %}fw-bold{% endblock %}
+{% load static %}
 {% block main %}
 <div class="row">
-    <div class="col d-flex py-5"> 
-        <div class="row w-100">
-            <div class="col-10 pb-4 m-auto bg-white">
-                <!-- <div class="row py-3 px-4">
-                    <div class="col bg p-5">
-                        <h1 class="display-4 text-center">CURSOS LIVRES</h1>
-                    </div>
-                </div>                -->
-               
-                <div class="row pt-3">
-                    <div class="col px-4">                        
-                        <p class="text-dark text-justify">
-                            Atividades totalmente gratuitas para a comunidade friburguense.
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col px-4 text-dark">
-                      <button class="btn border">
-                        <img style="height: 50px;" src="https://images.even3.com.br/5aN6cCIlNH2aOUqccig60MGEIt8=/1100x440/smart/even3.blob.core.windows.net/banner/capacita.52cf6fd651d3476f89e4.png" alt="">
-                      </button>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <h2 class="ms-4 py-1">Destaque</h2>
 </div>
-<!-- MODAL -->
-<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-dark">            
-            <form id="form" action="#">
-                
-            </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
-        </div>
-      </div>
+<div class="row">
+  <div class="d-flex">
+    <div class="img-destaque">
+      <img src="{% static 'images/capacitanf.png' %}" class="img-fluid">
+    </div>
+    <div class="text-destaque my-4 mx-4 d-flex flex-column">
+      <h5 class="mb-1">Capacita Nova Friburgo</h5>
+      <p class="time fw-bold">03/02/2023 - 28/02/2023 - 17:00 - 21:00</p>
+      <p class="local">Estácio - Nova Friburgo - Rio de Janeiro - Brasil.</p>
+      <p class="inf">Com transmissão online</p>
+      <a href="https://www.even3.com.br/capacita-nova-friburgo/" target="_blank" class="btn btn-outline-primary btn-details esp me-auto">Detalhes</a>
     </div>
   </div>
-  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">
-            <span id="tituloResponse"></span>
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body d-flex">
-          <img id="loading" class="m-auto img-fluid" src="/static/images/loading_blue.gif" alt="">
-          <div id="response" class="text-dark"></div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
-          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
-        </div>
+</div>
+<div class="row">
+  <h2 class="ms-4 pt-5 pb-4">Cursos e Palestras</h2>
+</div>
+<div class="row mx-auto px-5">
+  <div class="d-flex justify-content-evenly">
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time fw-bold">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
       </div>
     </div>
-  </div>  
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time fw-bold">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+      </div>
+    </div>
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time fw-bold">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+      </div>
+    </div>
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time fw-bold">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 {% endblock %}
