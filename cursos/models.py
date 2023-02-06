@@ -369,10 +369,10 @@ class Presenca(models.Model):
 
     aula = models.ForeignKey(Aula, on_delete=models.PROTECT)
     matricula = models.ForeignKey(Matricula, on_delete=models.PROTECT)
-    justificativa = models.ForeignKey(Justificativa, on_delete=models.PROTECT)
+    justificativa = models.ForeignKey(Justificativa, on_delete=models.PROTECT, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     dt_inclusao = models.DateTimeField(
-        auto_now_add=True, null=True, blank=True)
+        auto_now_add=True)
 
     def __str__(self):
         return f"{self.matricula} - {self.get_status_display()}"

@@ -901,5 +901,36 @@ def adm_aulas_listar(request, turma_id):
 
 
 @login_required
-def adm_aula_visualizar(request):
-    pass
+def adm_aula_visualizar(request, turma_id, aula_id):
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_instituicoes_listar')
+
+    if request.method == "POST":
+        acao = request.POST.get('acao') or 'p'
+        for matricula in request.POST.getlist('alunos_selecionados'):
+            presenca = Presenca.objects.get_or_create(matricula=Matricula.objects.get(matricula=matricula), aula_id=aula_id)[0]
+            presenca.status = acao
+            presenca.save()
+
+    turma = get_object_or_404(Turma, pk=turma_id)
+    aula = get_object_or_404(Aula, pk=aula_id)
+    matriculas = Matricula.objects.filter(turma=turma)
+
+    matriculados = []
+    for matricula in matriculas:
+        try:
+            presenca = Presenca.objects.get(aula=aula, matricula=matricula)
+        except:
+            presenca = ''
+
+        matriculados.append( {'matricula': matricula, 'presenca': presenca} )
+
+    context = {
+        'turma': turma,
+        'matriculados': matriculados,
+        'aula': aula,
+    }
+
+    return render(request, 'cursos/adm_aula_visualizar.html', context)

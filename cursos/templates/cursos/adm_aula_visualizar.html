@@ -40,17 +40,18 @@
                         <div class="row">
                           <div class="col-12 pt-4">
                             <form class="row px-2" method="POST">
+                              {% csrf_token %}
                               <div class="col-12">
                                 <div class="d-flex w-100">
                                   <select class="form-select" name="acao" id="acao">
-                                    <option value="0">
+                                    <option value="" disabled selected>
                                       Realizar ação em lote
                                     </option>
-                                    <option value="1">
-                                      Encerrar turmas
+                                    <option value="p">
+                                      Registrar presença
                                     </option>
-                                    <option value="1">
-                                      Lançar turmas
+                                    <option value="a">
+                                      Registar ausência
                                     </option>
                                   </select>
                                   <button class="btn btn-primary px-3 ms-2">
@@ -63,35 +64,24 @@
                                 <div class="w-100 h-100 pt-3 table-responsive">
                                   <table class="table table-striped table-primary">
                                     <thead>
-                                      <td>
-                                        <input type="checkbox" name="" id="">
-                                      </td>
-                                      <th>Data</th>
-                                      <th>Horário</th>
-                                      <th class="text-center">Lista de presença</th>
-                                      <th class="text-center">Ver/Editar</th>
-
+                                      <th>
+                                        <input type="checkbox" name="" id="select_all">
+                                      </th>
+                                      <th>Matrícula</th>
+                                      <th class="text-center">Aluno</th>
+                                      <th class="text-center">Status</th>
                                     </thead>
                                     <tbody>
-                                      {% for aula in aulas %}
+                                      {% for matriculado in matriculados %}
                                         <tr>
-                                          <td>
-                                            <input type="checkbox" name="" id="">
-                                          </td>                                          
-                                          <td>
-                                            {{aula.dt_aula}}
-                                          </td>                                          
-                                          <td>{{aula.associacao_turma_turno}}</td>
+                                          <td><input class="aluno_selecionado" name="alunos_selecionados" value="{{matriculado.matricula.matricula}}"type="checkbox"/></td>
+                                          <td>{{matriculado.matricula.matricula}}</td>
                                           <td class="text-center">
-                                            <a href="{% url "adm_aula_visualizar" turma.id aula.id %}">
-                                              <i class="fa-solid fa-clock"></i>
+                                            <a href="{% url "adm_aluno_visualizar" matriculado.matricula.aluno.id %}">
+                                              {{matriculado.matricula.aluno}}
                                             </a>
                                           </td>
-                                          <td class="text-center">
-                                            <a href="">
-                                              <i class="fa-solid fa-eye"></i>
-                                            </a>
-                                          </td>
+                                          <td class="text-center">{% if matriculado.presenca %}{{matriculado.presenca.get_status_display}}{% else %}N/A{% endif %}</td>
                                         </tr>
                                       {% endfor %}
                                     </tbody>                                  
@@ -107,6 +97,15 @@
         </div>    
     </div>
 </div>
+
+<script>
+
+  document.querySelector('#select_all').checked = false
+  document.querySelector('#select_all').addEventListener('click', ()=>{
+    document.querySelectorAll('.aluno_selecionado').forEach(e=>e.checked = !e.checked)
+  })
+
+</script>
 {% if messages %} 
 <!-- MODAL -->
 <div class="warnings"></div>

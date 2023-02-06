@@ -28,28 +28,16 @@
                 </a>
               </div>
             </div>
-            {% comment %}
-            <div class="row px-2 pt-2 d-flex">
-              <div class="col px-0 painel">
-                <a href="{% url 'adm_alunos_criar' %}"
-                  ><i class="fa-solid fa-plus me-3"></i>CRIAR aluno</a
-                >
-                <a href="{% url 'adm_alunos_listar' %}" class="ativo"
-                  ><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR
-                  alunoS</a
-                >
-              </div>
-            </div>
-            {% endcomment %}
+
             <div class="row">
               <div class="col-12 pt-4">
                 <form class="row px-2" method="POST">
                   <div class="col-12">
                     <div class="d-flex w-100">
                       <select class="form-select" name="acao" id="acao">
-                        <option value="0">Realizar ação em lote</option>
+                        <option value="" disabled selected>Realizar ação em lote</option>
                         <option value="1">Encerrar alunos</option>
-                        <option value="1">Lançar alunos</option>
+                        <option value="2">Lançar alunos</option>
                       </select>
                       <button class="btn btn-primary px-3 ms-2">Ir</button>
                       <button class="btn btn-primary ms-1">
