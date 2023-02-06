@@ -70,7 +70,7 @@ class CadastroTurmaForm(ModelForm):
             'user_ultima_alteracao': forms.HiddenInput(),
             'instrutor': forms.CheckboxSelectMultiple()
         }
-        exclude = ['dt_inclusao', 'dt_alteracao']
+        exclude = ['dt_inclusao', 'dt_alteracao', 'turnos']
 
 
 class CadastroCategoriaForm(ModelForm):
@@ -123,3 +123,36 @@ class Instituicao_form(ModelForm):
     class Meta:
         model = Instituicao
         exclude = []
+
+class Turno_form(ModelForm):
+
+    class Meta:
+        model=Turno
+        exclude = []
+
+
+class ChoiceField_no_validation(forms.ChoiceField):
+    def validate(self, value):
+        """Validate that the input is in self.choices."""
+        
+    def valid_value(self, value):
+        """Check to see if the provided value is a valid choice."""
+        return True
+    
+    def to_python(self, value):
+        return Turno_estabelecido.objects.get(pk=value)
+        
+class Aula_form(ModelForm):
+
+    class Meta:
+        model=Aula
+        exclude = []
+    
+    associacao_turma_turno = ChoiceField_no_validation(label='Turno', choices=[])
+    dt_aula = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    
+    # def __init__(self, turno_choices, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['associacao_turma_turno'].choices = turno_choices
+
+    

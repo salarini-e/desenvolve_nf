@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -176,7 +176,8 @@ def prematricula(request):
     if request.method == 'POST':
         dtnascimento_cp = request.POST.get("candidato-dt_nascimento")
         form = CadastroCandidatoForm(request.POST, prefix="candidato")
-        form_responsavel = CadastroResponsavelForm(request.POST, prefix="responsavel")
+        form_responsavel = CadastroResponsavelForm(
+            request.POST, prefix="responsavel")
 
         try:
             dtnascimento_hr = datetime.strptime(dtnascimento_cp, "%d-%m-%Y")
@@ -221,11 +222,18 @@ def prematricula(request):
 
                     responsavel = form_responsavel.save(commit=False)
                     responsavel.aluno = candidato
+
                 else:
                     return redirect('/prematricula')
 
-            candidato.save()
-            responsavel.save()
+                responsavel.save()
+                candidato.save()
+
+            else: 
+
+                candidato.save()
+
+
 
             for i in request.POST.getlist('turmas'):
                 Matricula.objects.create(
@@ -316,7 +324,8 @@ def adm_turmas_listar(request):
 @login_required
 def get_candidatos(request, id_curso):
     if request.user.is_staff:
-        candidatos = Matricula.objects.filter(turma__curso__id=id_curso).prefetch_related('aluno')
+        candidatos = Matricula.objects.filter(
+            turma__curso__id=id_curso).prefetch_related('aluno')
     else:
         candidatos = {}
     context = {
@@ -468,6 +477,7 @@ def adm_instituicoes_listar(request):
     }
     return render(request, 'cursos/adm_instituicoes_listar.html', context)
 
+
 @login_required
 def adm_instituicao_criar(request):
     if not request.user.is_superuser:
@@ -487,6 +497,35 @@ def adm_instituicao_criar(request):
         'CADASTRAR': 'NOVO'
     }
     return render(request, 'cursos/adm_instituicao_criar.html', context)
+
+
+@login_required
+def adm_turno_criar(request, id):
+
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_instituicoes_listar')
+
+    turma = get_object_or_404(Turma, pk=id)
+    form = Turno_form()
+
+    if request.method == 'POST':
+        form = Turno_form(request.POST)
+        if form.is_valid():
+            turno = form.save()
+
+            Turno_estabelecido.objects.create(turno=turno, turma=turma)
+
+            messages.success(request, 'Novo turno cadastrado!')
+            return redirect('adm_turma_visualizar', turma.id)
+
+    context = {
+        'form': form,
+        'CADASTRAR': 'NOVO'
+    }
+    return render(request, 'cursos/adm_turno_criar.html', context)
+
 
 @login_required
 def adm_professores(request):
@@ -556,12 +595,14 @@ def adm_turmas_visualizar(request, id):
             return redirect('adm_turmas_listar')
 
     matriculas = Matricula.objects.filter(turma=turma)
-    
-    matriculas_alunos = matriculas.filter(status = 'a').select_related('aluno')
-    
-    matriculas_selecionados = matriculas.filter(status = 's').select_related('aluno')
 
-    matriculas_candidatos = matriculas.filter(status = 'c').select_related('aluno')
+    matriculas_alunos = matriculas.filter(status='a').select_related('aluno')
+
+    matriculas_selecionados = matriculas.filter(
+        status='s').select_related('aluno')
+
+    matriculas_candidatos = matriculas.filter(
+        status='c').select_related('aluno')
 
     if request.method == 'POST':
         for i in request.POST.getlist("candidatos_selecionados"):
@@ -575,7 +616,7 @@ def adm_turmas_visualizar(request, id):
         'matriculas_alunos': matriculas_alunos,
         'matriculas_selecionados': matriculas_selecionados,
         'matriculas_candidatos': matriculas_candidatos,
-        'qnt_alunos': len(matriculas)
+        'qnt_alunos': len(matriculas_alunos)
     }
 
     return render(request, 'cursos/adm_turmas_editar.html', context)
@@ -629,25 +670,28 @@ def visualizar_turma_selecionado(request, matricula):
         ((today.month, today.day) < (birthDate.month, birthDate.day))
 
     form = CadastroAlunoForm(instance=matricula.aluno, prefix='aluno')
-    form_responsavel=''
+    form_responsavel = ''
 
     if age < 18:
         responsavel = Responsavel.objects.get(aluno=matricula.aluno)
-        form_responsavel = CadastroResponsavelForm(instance=responsavel, prefix='responsavel')
+        form_responsavel = CadastroResponsavelForm(
+            instance=responsavel, prefix='responsavel')
 
     if request.method == 'POST':
-        form_aluno = CadastroAlunoForm(request.POST, instance=matricula.aluno, prefix='aluno')
+        form_aluno = CadastroAlunoForm(
+            request.POST, instance=matricula.aluno, prefix='aluno')
 
         if form_aluno.is_valid():
 
             if form_responsavel != '':
-                form_responsavel = CadastroResponsavelForm(instance=responsavel, prefix='responsavel')
+                form_responsavel = CadastroResponsavelForm(
+                    instance=responsavel, prefix='responsavel')
                 if form_responsavel.is_valid():
                     form_responsavel.save()
                 else:
                     raise Exception('Erro no form do responsável')
 
-            aluno=form_aluno.save()
+            aluno = form_aluno.save()
             matricula.status = 'a'
             matricula.save()
 
@@ -724,7 +768,7 @@ def adm_alunos_listar(request):
 @login_required
 def adm_aluno_visualizar(request, id):
     aluno = Aluno.objects.get(pk=id)
-    
+
     if not request.user.is_superuser:
         messages.error(
             request, 'Você não tem autorização para acessar essa turma.')
@@ -739,7 +783,7 @@ def adm_aluno_visualizar(request, id):
 
     context = {
         'aluno': aluno,
-        'matriculas':Matricula.objects.filter(aluno=aluno).exclude(status='d'),
+        'matriculas': Matricula.objects.filter(aluno=aluno).exclude(status='d'),
         'responsavel': responsavel,
         'menor': menor,
     }
@@ -777,9 +821,10 @@ def adm_aluno_excluir(request, id):
 
     return redirect('adm_alunos_listar')
 
+
 @login_required
 def desmatricular_aluno(request, matricula):
-    
+
     if request.user.is_superuser:
         matricula = Matricula.objects.get(matricula=matricula)
         matricula.status = 'd'
@@ -787,9 +832,11 @@ def desmatricular_aluno(request, matricula):
         messages.success(request, 'Aluno desmatriculado com sucesso')
 
     else:
-        messages.success(request, 'Por favor entre em contato com a administração do site para desmatricular um aluno')
+        messages.success(
+            request, 'Por favor entre em contato com a administração do site para desmatricular um aluno')
 
     return redirect('adm_aluno_visualizar', matricula.aluno)
+
 
 def calculate_age(born):
     today = date.today()
@@ -815,3 +862,50 @@ def testar_email(request):
 
     enviar_email(Aluno.objects.get(pk=17), Turma.objects.get(pk=4))
     return HttpResponse('OIIIIIIIIIIIIIIii')
+
+
+@login_required
+def adm_aula_criar(request, turma_id):
+    if not request.user.is_superuser:
+        messages.error(request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_instituicoes_listar')
+
+    turma = get_object_or_404(Turma, pk=turma_id)
+    turno_choices = [(turno.id, turno) for turno in Turno_estabelecido.objects.filter(turma=turma)]
+    form = Aula_form()
+    form.fields['associacao_turma_turno'].choices = turno_choices
+
+    if request.method == 'POST':
+        form = Aula_form(data=request.POST)
+        form.fields['associacao_turma_turno'].choices = turno_choices
+
+        if form.is_valid():
+            aula = form.save()
+            messages.success(request, 'Aula registra!')
+            return redirect('adm_aulas_listar', turma.id)
+
+    context = {'form': form, 'CADASTRAR': 'NOVO'}
+    return render(request, 'cursos/adm_aula_criar.html', context)
+
+
+@login_required
+def adm_aulas_listar(request, turma_id):
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_instituicoes_listar')
+
+    turma = get_object_or_404(Turma, pk=turma_id)
+    aulas = Aula.objects.filter(associacao_turma_turno__turma=turma)
+
+    context = {
+        'turma': turma,
+        'aulas': aulas
+    }
+
+    return render(request, 'cursos/adm_aulas_listar.html', context)
+
+
+@login_required
+def adm_aula_visualizar(request):
+    pass

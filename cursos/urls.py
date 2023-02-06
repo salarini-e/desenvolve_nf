@@ -52,6 +52,13 @@ urlpatterns = [
         path('administrativo/turmas/criar', views.adm_turmas_criar, name="adm_turmas_criar"),
         path('administrativo/turmas/listar', views.adm_turmas_listar, name="adm_turmas_listar"),        
         path('administrativo/turma/<id>', views.adm_turmas_visualizar, name="adm_turma_visualizar"),
+
+        path('administrativo/turma/<id>/turno/criar', views.adm_turno_criar, name="adm_turno_criar"),
+
+        path('administrativo/turma/<turma_id>/aula/criar', views.adm_aula_criar, name="adm_aula_criar"),
+        path('administrativo/turma/<turma_id>/aulas', views.adm_aulas_listar, name="adm_aulas_listar"),
+        path('administrativo/turma/<turma_id>/aula/<aula_id>', views.adm_aula_visualizar, name="adm_aula_visualizar"),
+
         path('administrativo/turma/<id>/editar', views.visualizar_turma_editar, name="adm_turma_editar"),
         path('administrativo/turma/<id>/excluir', views.excluir_turma, name="adm_turma_excluir"),
 
