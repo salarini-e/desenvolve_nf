@@ -162,7 +162,9 @@ class Turma(models.Model):
         blank=True, null=True, verbose_name='Link do grupo do Whatsapp')
 
     def __str__(self):
-        return '%s/%s - %s' % (self.curso.nome, self.id, self.local)
+        turma_count = str(Turma.objects.filter(curso=self.curso, dt_inclusao__lt = self.dt_inclusao).count() + 1)
+
+        return '%s %s/%s' % (self.curso.sigla, turma_count.rjust(3,'0'), self.dt_inclusao.year)
 
 
 class Turno_estabelecido(models.Model):

@@ -81,7 +81,27 @@
                                               {{matriculado.matricula.aluno}}
                                             </a>
                                           </td>
-                                          <td class="text-center">{% if matriculado.presenca %}{{matriculado.presenca.get_status_display}}{% else %}N/A{% endif %}</td>
+                                          <td class="text-center">
+                                            {% if matriculado.presenca.status == 'a'%}
+
+                                                <span class="text-danger">{{matriculado.presenca.get_status_display}}</span> - 
+
+                                                {% if matriculado.presenca.justificativa %} 
+                                                  <a href="{% url "adm_justificativa_visualizar" matriculado.presenca.id%}">
+                                                    justificada
+                                                  </a>
+                                                {% else %}
+                                                  <a href="{% url "adm_justificativa_criar" matriculado.presenca.id%}">
+                                                    não justificada
+                                                  </a>
+                                                {% endif %}
+
+                                            {% elif matriculado.presenca %}
+                                              {{matriculado.presenca.get_status_display}}  
+                                            {% else %}
+                                              N/A
+                                            {% endif %}
+                                          </td>
                                         </tr>
                                       {% endfor %}
                                     </tbody>                                  

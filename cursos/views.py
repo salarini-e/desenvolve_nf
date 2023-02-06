@@ -940,3 +940,46 @@ def adm_aula_visualizar(request, turma_id, aula_id):
     }
 
     return render(request, 'cursos/adm_aula_visualizar.html', context)
+
+@login_required
+def adm_justificativa_criar(request, presenca_id):
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_instituicoes_listar')
+
+    form = Justificativa_form()
+    presenca = get_object_or_404(Presenca, pk=presenca_id)
+
+    if request.method == "POST":
+        form = Justificativa_form(request.POST)
+        if form.is_valid():
+            justificativa = form.save()
+            presenca.justificativa = justificativa
+            presenca.save()
+
+            messages.error(request, 'Justificativa registrada!')
+            return redirect('adm_aula_visualizar', presenca.aula.associacao_turma_turno.turma.id, presenca.aula.id)
+    
+    context = {
+        'presenca': presenca,
+        'form': form
+    }
+
+    return render(request, 'cursos/adm_justificativa_criar.html', context)
+
+@login_required
+def adm_justificativa_visualizar(request, presenca_id):
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'Você não tem autorização para criar uma nova categoria.')
+        return redirect('adm_instituicoes_listar')
+
+    presenca = get_object_or_404(Presenca, pk=presenca_id)
+
+    context = {
+        'presenca': presenca,
+        'aluno': presenca.matricula.aluno
+    }
+
+    return render(request, 'cursos/adm_justificativa_visualizar.html', context)

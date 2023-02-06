@@ -64,6 +64,9 @@ urlpatterns = [
 
         path('administrativo/turma/selecionado/<matricula>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
         path('administrativo/aluno/<matricula>/desmatricular', views.desmatricular_aluno, name="adm_desmatricular_aluno"),
+
+        path('administrativo/justificativa/<presenca_id>/criar', views.adm_justificativa_criar, name="adm_justificativa_criar"),
+        path('administrativo/justificativa/<presenca_id>', views.adm_justificativa_visualizar, name="adm_justificativa_visualizar"),
         
         ##ALUNOS
         path('administrativo/alunos/listar', views.adm_alunos_listar, name="adm_alunos_listar"),

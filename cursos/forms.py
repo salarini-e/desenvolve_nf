@@ -63,14 +63,13 @@ class CadastroTurmaForm(ModelForm):
     class Meta:
         model = Turma
         widgets = {
-            'curso': forms.Select(attrs={'oninput': 'getCandidatos(this)'}),
             'data_inicio': forms.TextInput(attrs={'type': 'date'}),
             'data_final': forms.TextInput(attrs={'type': 'date'}),
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
             'instrutor': forms.CheckboxSelectMultiple()
         }
-        exclude = ['dt_inclusao', 'dt_alteracao', 'turnos']
+        exclude = ['dt_inclusao', 'dt_alteracao', 'turnos', 'nome']
 
 
 class CadastroCategoriaForm(ModelForm):
@@ -151,8 +150,10 @@ class Aula_form(ModelForm):
     associacao_turma_turno = ChoiceField_no_validation(label='Turno', choices=[])
     dt_aula = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     
-    # def __init__(self, turno_choices, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['associacao_turma_turno'].choices = turno_choices
+class Justificativa_form(ModelForm):
 
-    
+    class Meta:
+        model=Justificativa
+        exclude = []
+
+    descricao = forms.CharField(widget=forms.Textarea)
