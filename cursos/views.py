@@ -41,6 +41,8 @@ def index(request):
     context={
         'titulo': 'Capacitação'
     }
+
+    messages.success(request, "OIIIIIIIIIIii")
     return render(request, 'cursos/index.html', context)
 
 
@@ -826,16 +828,17 @@ def adm_aluno_excluir(request, id):
 def desmatricular_aluno(request, matricula):
 
     if request.user.is_superuser:
-        matricula = Matricula.objects.get(matricula=matricula)
-        matricula.status = 'd'
-        matricula.save()
+        matricula_obj = Matricula.objects.get(matricula=matricula)
+        matricula_obj.status = 'd'
+        matricula_obj.save()
         messages.success(request, 'Aluno desmatriculado com sucesso')
 
     else:
         messages.success(
             request, 'Por favor entre em contato com a administração do site para desmatricular um aluno')
-
-    return redirect('adm_aluno_visualizar', matricula.aluno)
+        return redirect(request.META.get('HTTP_REFERER'))
+    
+    return redirect('adm_aluno_visualizar', matricula_obj.aluno.id)
 
 
 def calculate_age(born):

@@ -23,7 +23,7 @@
                        <div class="row">
                         <div class="col">
                           <h1 class="">
-                           <span class="text-uppercase">Painel -> Turmas</span> -> Código {{turma.id}}
+                           <span class="text-uppercase">Painel -> Turmas</span> -> {{turma}}
                           </h1>
                         </div>
                         <div class="col-2 d-flex">
@@ -45,9 +45,6 @@
                               <div class="col-12">
                                 <div class="d-flex w-100">
                                   <div class="d-flex w-100">
-                                    <h3 style="display: inline;">                                  
-                                      {{turma.curso.nome}} - {{turma.local}}                               
-                                    </h3>                     
                                     <a class="btn btn-outline-dark ms-auto my-auto" href="{% url 'adm_turmas_listar' %}">
                                       <i class="me-2 fa-solid fa-rotate-left"></i>
                                       Voltar
@@ -61,9 +58,9 @@
                                   <div class="row">
                                     <div class="col table-responsive">
                                       <table class="table">
+
                                         <tr style="border-color: white;">
                                           <td><b class="me-2">Atividade:</b>{{turma.curso.nome}}</td>
-                                          <td><b class="me-2">Horário:</b>PRECISA FAZER A FUNÇÃO</td>
                                           <td><b class="me-2">Código:</b>{{turma.id}}</td>
                                           <td><b class="me-2">Status:</b> 
                                             {% if turma.status == 'pre' %}
@@ -77,31 +74,38 @@
                                             {% elif turma.status == 'enc' %}
                                             <span class="text-dark">Encerrada</span>
                                             {% endif %}
-                                          </td>         
+                                          </td>    
+                                        <td><b class="me-2">Curso:</b> {{turma.curso}}</td>    
 
                                         <tr style="border-color: white;">
                                           <td><b class="me-2">Data inicial:</b>{{turma.data_inicio}}</td>
                                           <td><b class="me-2">Data final:</b>{{turma.data_final}}</td>
                                           <td><b class="me-2">Data inclusão:</b>{{turma.data_final}}</td>
-                                        </tr>
-                                        <tr style="border-color: white;">
                                           <td colspan="1"><b class="me-2">Data inclusão:</b>{{turma.data_final}}</td>                                          
+                                        </tr>
+
+                                        <tr style="border-color: white;">
                                           <td ><b class="me-2">Faixa etária:</b>
                                             <i>
                                               {% if turma.idade_minima and turma.idade_maxima %}
                                               {{turma.idade_minima}} até {{turma.idade_maxima}}
                                               {% elif turma.idade_minima %}
                                               {{turma.idade_minima}}+
-                                              {% else %}
+                                              {% elif  turma.idade_maxima%}
                                               Até {{turma.idade_maxima}}
+                                              {% else %}
+                                              Livre
                                               {% endif %}
                                             </i>
+                                            
                                         </td>                                          
                                           <td colspan="1"><b class="me-2">Criado por:</b>{{turma.user_inclusao}}</td>
-                                        </tr>
-                                        <tr style="border-color: white;">                                                                         
                                           <td><b class="me-2">Máximo de alunos permitidos:</b><i>{{turma.quantidade_permitido}}</i></td>
-                                          <td ><b class="me-2">Alunos matriculados:</b><i>{{qnt_alunos}}</i></td>      
+                                          <td ><b class="me-2">Alunos matriculados:</b><i>{{qnt_alunos}}</i></td>  
+                                        </tr>
+
+                                        <tr style="border-color: white;">    
+    
                                           <td ><b class="me-2">Instrutores:</b><br>
                                           {% for i in turma.instrutores.all %}
                                             <a href="{% url 'adm_professores_editar' i.id %}" style="text-decoration: none;">{{i}}</a><br>
@@ -112,6 +116,7 @@
                                               <p>{{i}}</p>
                                             {% endfor %}
                                             </td> 
+                                            <td class="col-2"><b class="me-2">Local:</b>{{turma.local}}</td>
                                           
                                         </tr>
                                       </table>

@@ -119,7 +119,6 @@
                                           <th>Status da matricula</th>
                                           <th>Atividade</th>
                                           <th>Local</th>
-                                          <th>Horário</th>
                                           <th></th>
                                           <th></th>
                                         </tr>
@@ -149,9 +148,6 @@
                                             {{matricula.turma.local}}
                                           </td>
                                           <td>
-                                            {{matricula.turma.horario}}
-                                          </td>     
-                                          <td>
                                             <a target="_blank" href="{% url 'adm_turma_visualizar' matricula.turma.id %}">
                                               <i class="fa-solid fa-eye ms-4"></i>
                                             </a>
@@ -166,26 +162,6 @@
                                       </table>
                                     </div>
                                   </div>
-                                  {% comment %} <div class="row" style="background-color: rgb(218, 232, 252);">
-                                    <div class="col p-4">
-                                      <h4>Selecionado - {{selecionado.nome}}</h4>
-                                      <div class="row d-flex">
-                                        <div class="col-12 pt-4">
-                                          <form class="row px-2 me-4" method="POST">
-                                            <div class="col">
-                                              <div class="w-100 h-100">
-                                                {% csrf_token %}
-                                                {% bootstrap_form form %}
-                                              </div>
-                                            </div>                                                                 
-                                            <button class="btn btn-outline-primary mt-3">
-                                                Matricular na atividade
-                                            </button>
-                                        </form>
-                                        </div>                          
-                                      </div> 
-                                    </div>
-                                  </div>                                                                                          {% endcomment %}
                                 </div>
                               </div>                                                                                          
                           </form>

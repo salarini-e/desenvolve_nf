@@ -1,4 +1,6 @@
 
+import datetime
+from time import strptime
 from django import forms
 from django.forms import ModelForm, ValidationError
 from .models import *
@@ -46,6 +48,15 @@ class CadastroCursoForm(ModelForm):
         }
         exclude = ['dt_inclusao', 'dt_alteracao']
 
+    def clean_sigla(self):
+        sigla = self.cleaned_data['sigla']
+
+
+        if not sigla.isalpha():
+            raise ValidationError("A sigla deve conter apenas letras")
+        
+        return sigla.capitalize()
+
 
 class CadastroCursoForm2(ModelForm):
 
@@ -57,6 +68,14 @@ class CadastroCursoForm2(ModelForm):
         }
         exclude = ['dt_inclusao', 'dt_alteracao']
 
+    def clean_sigla(self):
+        sigla = self.cleaned_data['sigla']
+
+
+        if not sigla.isalpha():
+            raise ValidationError("A sigla deve conter apenas letras")
+        
+        return sigla.capitalize()
 
 class CadastroTurmaForm(ModelForm):
 
@@ -123,6 +142,15 @@ class Instituicao_form(ModelForm):
         model = Instituicao
         exclude = []
 
+    def clean_sigla(self):
+        sigla = self.cleaned_data['sigla']
+
+
+        if not sigla.isalpha():
+            raise ValidationError("A sigla deve conter apenas letras")
+        
+        return sigla.capitalize()
+
 class Turno_form(ModelForm):
 
     class Meta:
@@ -148,8 +176,19 @@ class Aula_form(ModelForm):
         exclude = []
     
     associacao_turma_turno = ChoiceField_no_validation(label='Turno', choices=[])
-    dt_aula = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    dt_aula = forms.DateField(label='Data da aula',widget=forms.DateInput(attrs={'type': 'date'}))
+
+
+    def clean_dt_aula(self):
+        dt_aula = self.cleaned_data['dt_aula']
+        associacao_turma_turno = self.cleaned_data['associacao_turma_turno']
+
+        if int(associacao_turma_turno.id) != abs(dt_aula.weekday() - 6) + 1:
+            raise ValidationError("Dia da semana da aula não corresponde com o turno")
+
+        return dt_aula 
     
+
 class Justificativa_form(ModelForm):
 
     class Meta:
