@@ -4,7 +4,7 @@
     <div class="row" id="nav-superior">
       <div class="col d-flex text-light">
         <div class="logo-nf nv-sp">
-          <img src="{% static 'images/brasao-nf.png' %}" class="img-fluid">
+          <img src="{% static 'images/brasao-nf.png' %}" class="img-fluid ms-2">
         </div>
         <p class="my-auto ms-3">PREFEITURA DE NOVA FRIBURGO</p>
         <div class="my-auto mx-auto">
@@ -71,24 +71,37 @@
 <main class="row pt-4">
   <div class="row">
     <div class="col  d-flex justify-content-center">
-      <a href="/"><div class="s-nav rounded-circle mx-4 d-flex">
+      <a class="d-flex flex-column" href="/">
+        <div class="s-nav rounded-circle mx-4 d-flex">
         <img style="height: 35px;" class="img-fluid m-auto" src="/static/images/icons/home.png" alt="">
-      </div></a>
-      <a href="{% url 'cursos' %}"><div class="s-nav rounded-circle d-flex pt-2">
-        <img style="height: 50px;" class="img-fluid m-auto" src="/static/images/icons/cursos2.png" alt="">
-      </div></a>
-      <a href="{% url 'prematricula' %}"><div class="s-nav rounded-circle mx-4 d-flex">
-        <img style="height: 50px;" class="img-fluid m-auto" src="/static/images/icons/cadastrar.png" alt="">
-      </div></a>
+      </div>
+      <span class="mx-auto mt-1 text-dark">Home</span>
+    </a>
+    <a class="d-flex flex-column" href="{% url 'cursos' %}">
+        <div class="s-nav rounded-circle d-flex pt-2">
+            <img style="height: 50px;" class="img-fluid m-auto" src="/static/images/icons/cursos2.png" alt="">
+        </div>
+        <span class="mx-auto mt-1 text-dark">Cursos</span>
+    </a>
+      <a class="d-flex flex-column" href="{% url 'prematricula' %}">
+        <div class="s-nav rounded-circle mx-4 d-flex">
+        <img style="height: 50px;" class="img-fluid m-auto" src="/static/images/icons/palestras.png" alt="">
+      </div>
+      <span class="mx-auto mt-1 text-dark">Palestras</span>
+    </a>
       {% if request.user.is_staff %}
-      <a href="{% url 'administrativo' %}"><div class="s-nav rounded-circle d-flex">
+      <a class="d-flex flex-column" href="{% url 'administrativo' %}"><div class="s-nav rounded-circle d-flex">
         <img style="height: 60px;" class="img-fluid m-auto" src="/static/images/icons/admin.png" alt="">
-      </div></a>
+      </div>
+      <span class="mx-auto mt-1 text-dark">Admin</span>
+    </a>
       {% endif %}
       {% if request.user.is_superuser %}
-      <a href="/admin"><div class="s-nav rounded-circle mx-4 d-flex pt-1 pe-1">
+      <a class="d-flex flex-column" href="/admin"><div class="s-nav rounded-circle mx-4 d-flex pt-1 pe-1">
         <img style="height: 40px;" class="img-fluid m-auto" src="/static/images/icons/django.svg" alt="">
-    </div></a>
+        </div>
+        <span class="mx-auto mt-1 text-dark">Django-Admin</span>
+    </a>
       {% endif %}
     </div>
   </div>
