@@ -6,44 +6,44 @@ urlpatterns = [
     path('', views.administrativo, name="administrativo"),
 
     path('instiuicoes', views.adm_instituicoes_listar, name="adm_instituicoes_listar"),
-    path('instituicao/cadastrar', views.adm_instituicao_criar, name="adm_cadastrar_instituicao"),
+    path('instituicao/cadastrar', views.adm_instituicao_cadastrar, name="adm_cadastrar_instituicao"),
     path('instituicao/<id>', views.adm_locais_editar, name="adm_editar_instituicao"),
     path('instituicao/<id>/excluir', views.adm_locais_excluir, name="adm_locais_excluir"),
     # MISSING EDITAR 
 
     path('locais', views.adm_locais_listar, name="adm_locais_listar"),
-    path('local/cadastrar', views.adm_locais_criar, name="cadastrar_local"),
+    path('local/cadastrar', views.adm_locais_cadastrar, name="cadastrar_local"),
     path('local/<id>/editar', views.adm_locais_editar, name="adm_locais_editar"),
     path('locai/<id>/excluir', views.adm_locais_excluir, name="adm_locais_excluir"),
     # MISSING VISUALIZAR
 
     path('categorias', views.adm_categorias_listar, name="adm_categorias_listar"),
-    path('categoria/cadastrar', views.adm_categorias_criar, name="cadastrar_categoria"),
+    path('categoria/cadastrar', views.adm_categorias_cadastrar, name="cadastrar_categoria"),
     path('categoria/<id>/editar', views.adm_categorias_editar, name="adm_categorias_editar"),
     path('categoria/<id>/excluir', views.adm_categorias_excluir, name="adm_categorias_excluir"),
     # MISSING VISUALIZAR
 
     path('cursos', views.adm_cursos_listar, name="adm_cursos_listar"),
-    path('curso/cadastrar', views.adm_cursos_criar, name="adm_cursos_criar"),
+    path('curso/cadastrar', views.adm_cursos_cadastrar, name="adm_cursos_cadastrar"),
     path('curso/<id>/editar', views.adm_cursos_editar, name="adm_cursos_editar"),
     # MISSING VISUALIZAR e EXCLUIR
 
     path('instrutores', views.adm_professores_listar, name="adm_professores_listar"),        
-    path('instrutor/criar', views.adm_professores_criar, name="adm_professores_criar"),
+    path('instrutor/cadastrar', views.adm_professores_cadastrar, name="adm_professores_cadastrar"),
     path('instrutor/<id>/editar', views.adm_professores_editar, name="adm_professores_editar"),
     path('instrutor/<id>/excluir', views.adm_professores_excluir, name="adm_professores_excluir"),
     # MISSING VISUALIZAR
 
     path('turmas', views.adm_turmas_listar, name="adm_turmas_listar"),
-    path('turma/criar', views.adm_turmas_criar, name="adm_turmas_criar"),
+    path('turma/cadastrar', views.adm_turmas_cadastrar, name="adm_turmas_cadastrar"),
     path('turma/<id>', views.adm_turmas_visualizar, name="adm_turma_visualizar"),
     path('turma/<id>/editar', views.visualizar_turma_editar, name="adm_turma_editar"),
     path('turma/<id>/excluir', views.excluir_turma, name="adm_turma_excluir"),
 
-    path('turma/<id>/turno/criar', views.adm_turno_criar, name="adm_turno_criar"),
+    path('turma/<id>/turno/cadastrar', views.adm_turno_cadastrar, name="adm_turno_cadastrar"),
     # MISSING VISUALIZAR, EDITAR, LISTAR E EXCLUIR
 
-    path('turma/<turma_id>/aula/criar', views.adm_aula_criar, name="adm_aula_criar"),
+    path('turma/<turma_id>/aula/cadastrar', views.adm_aula_cadastrar, name="adm_aula_cadastrar"),
     path('turma/<turma_id>/aulas', views.adm_aulas_listar, name="adm_aulas_listar"),
     path('turma/<turma_id>/aula/<aula_id>', views.adm_aula_visualizar, name="adm_aula_visualizar"),
     # MISSING EDITAR E EXCLUIR
@@ -52,7 +52,7 @@ urlpatterns = [
     path('turma/selecionado/<matricula>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
     # -------- # -------- #
     
-    path('justificativa/<presenca_id>/criar', views.adm_justificativa_criar, name="adm_justificativa_criar"),
+    path('justificativa/<presenca_id>/cadastrar', views.adm_justificativa_cadastrar, name="adm_justificativa_cadastrar"),
     path('justificativa/<presenca_id>', views.adm_justificativa_visualizar, name="adm_justificativa_visualizar"),
     # MISSING LISTAR, EDITAR E EXCLUIR
 

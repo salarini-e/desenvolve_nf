@@ -114,7 +114,7 @@
       <span class="mx-auto mt-1 text-dark">Admin</span>
     </a>
       {% endif %}
-      {% if request.user.is_superuser %}
+      {% if request.user.is_staff %}
       <a class="d-flex flex-column" href="/admin"><div class="s-nav rounded-circle mx-4 d-flex pt-1 pe-1">
         <img style="height: 40px;" class="img-fluid m-auto" src="/static/images/icons/django.svg" alt="">
         </div>

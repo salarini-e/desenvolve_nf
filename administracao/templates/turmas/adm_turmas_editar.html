@@ -31,7 +31,7 @@
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
                                 {% if turma.status == 'ati' or turma.status == 'acc'%}<a href="{% url 'adm_aulas_listar' turma.id %}"><i class="fa-solid fa-pencil me-3"></i>Visualizar aulas</a>{% endif %}
-                                <a href="{% url 'adm_turno_criar' turma.id %}" class=""><i class="fa-regular fa-clock me-3"></i>Adicionar/Alterar turnos</a>
+                                <a href="{% url 'adm_turno_cadastrar' turma.id %}" class=""><i class="fa-regular fa-clock me-3"></i>Adicionar/Alterar turnos</a>
                                 <a href="{% url 'adm_turmas_listar' %}" class="ativo"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR TURMAS</a>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                                             {% endfor %}
                                             </td> 
                                             <td class="col-2"><b class="me-2">Local:</b>{{turma.local}}</td>
-                                          
+                                            <td class="col-2"><b class="me-2">Total de aulas:</b>{{total_aulas}}</td>
                                         </tr>
                                       </table>
                                     </div>
@@ -133,6 +133,7 @@
                                           <th>Email</th>
                                           <th>Idade</th>
                                           <th>Data da matrícula</th>
+                                          <th class='text-center'>Frequência</th>
                                         </thead>
                                         <tbody> 
                                           {% for matricula_aluno in matriculas_alunos %}                  
@@ -149,13 +150,16 @@
                                                 {{matricula_aluno.aluno.celular}}
                                               </td>
                                               <td>
-                                                {{matricula_aluno.alunoemail}}
+                                                {{matricula_aluno.aluno.email}}
                                               </td>
                                               <td>
                                                 {{matricula_aluno.aluno.dt_nascimento|idade}}
                                               </td>
                                               <td>
-                                                {{matricula_aluno.dt_inclusao}}
+                                                {{matricula_aluno.matricula.dt_inclusao}}
+                                              </td>
+                                              <td class='text-center'>
+                                                {{matricula_aluno.frequencia}}%
                                               </td>
                                             </tr>
                                             {% endfor %}

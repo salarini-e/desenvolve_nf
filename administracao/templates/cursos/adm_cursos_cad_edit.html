@@ -29,7 +29,6 @@
                        </div>
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
-                                <a href="{% url 'adm_cursos' %}" {% if CADASTRAR == 'NOVO' %}class="ativo"{% endif %}><i class="fa-solid fa-plus me-3"></i>NOVA ATIVIDADE</a>
                                 <a href="{% url 'adm_cursos_listar' %}"  {% if CADASTRAR != 'NOVO' %}class="ativo"{% endif %}><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR ATIVIDADES</a>
                             </div>
                         </div>

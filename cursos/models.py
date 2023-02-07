@@ -10,7 +10,7 @@ class Instituicao(models.Model):
         ordering = ['nome']
 
     nome = models.CharField(max_length=150)
-    sigla = models.CharField(max_length=5, unique=True)
+    sigla = models.CharField(max_length=6, unique=True)
 
     def __str__(self):
         return '%s' % (self.nome)
@@ -323,7 +323,7 @@ class Matricula(models.Model):
     dt_ultima_atualizacao = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '%s - %s' % (self.matricula)
+        return '%s' % (self.matricula)
 
 
 class Justificativa(models.Model):
