@@ -58,13 +58,13 @@
                                         {% endif %}
                                         <h4 class="mt-2">Descrição:</h4>
                                         <textarea class="form-control" rows="7" readonly>{{i.descricao}}</textarea>
-                                        <ul class="mt-3">
+                                        <ul class="p-0 my-2">
                                             <li>Duração: {{i.carga_horaria}} horas</li>                                                                                    
                                         </ul>
                                         <div class="row">
                                             <div class="col d-flex flex-column">
-                                                <h4 class="mt-4">Turmas disponíveis:</h4>
-                                                <p class="mb-4">
+                                                <h4 class="mt-2">Turmas disponíveis:</h4>
+                                                <p class="mb-2">
                                                     {% load extras %}
                                                     {{i|turmas}}
                                                 </p>

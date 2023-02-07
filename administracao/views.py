@@ -371,7 +371,7 @@ def adm_turno_criar(request, id):
         'form': form,
         'CADASTRAR': 'NOVO'
     }
-    return render(request, 'turno/adm_turno_criar.html', context)
+    return render(request, 'turnos/adm_turno_criar.html', context)
 
 
 @login_required

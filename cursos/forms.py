@@ -183,7 +183,7 @@ class Aula_form(ModelForm):
         dt_aula = self.cleaned_data['dt_aula']
         associacao_turma_turno = self.cleaned_data['associacao_turma_turno']
 
-        if int(associacao_turma_turno.id) != abs(dt_aula.weekday() - 6) + 1:
+        if int(associacao_turma_turno.turno.dia_semana) != (dt_aula.weekday() + 1) % 7 + 1:
             raise ValidationError("Dia da semana da aula não corresponde com o turno")
 
         return dt_aula 

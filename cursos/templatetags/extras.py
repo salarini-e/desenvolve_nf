@@ -9,11 +9,10 @@ register = template.Library()
 
 @register.filter(is_safe=True)
 def turmas(obj):
-    turmas=Turma.objects.filter(Q(status='pre') | Q(status='acc'), curso=obj).select_related('turnos')
+    turmas=Turma.objects.filter(Q(status='pre') | Q(status='acc'), curso=obj)
     response=''
     if len(turmas)>0:        
         for turma in turmas:
-            print("turmas: "+Turno.objects.filter(turma=turma))
             if turma.idade_minima and turma.idade_maxima:
                 faixa=f"{str(turma.idade_minima)} até {str(turma.idade_maxima)}"
             elif turma.idade_minima:
@@ -23,12 +22,14 @@ def turmas(obj):
             else:
                 faixa='Livre'
             
+            horarios = ''
+            for i in turma.turnos.all():
+                horarios += f"<li class='px-2'>{i}</li>"
+            
             response+=f"""
-            <b class='ps-4'>{str(turma.curso.nome)}</b>
-                <span class='ps-4'>
-                    <b class='ms-4 me-3'>{str(turma.local)}</b>
-                    <b class='ms-4'>Horário: TEM QUE FAZER UMA FUNCAO AQUI</b> 
-                </span>Faixa Etária: {str(faixa)}
+            <b class='my-2 p-0'>{str(turma)}</b>
+            <ul class='my-2 p-0'><li>Horários:</li> {horarios}</ul> 
+                Faixa Etária: {str(faixa)}
             """
 
     return mark_safe(response)

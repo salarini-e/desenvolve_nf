@@ -22,7 +22,6 @@ def index(request):
         'titulo': 'Capacitação'
     }
 
-    messages.success(request, "OIIIIIIIIIIii")
     return render(request, 'cursos/index.html', context)
 
 
