@@ -29,36 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
                     
-                    <div class="filtro col px-4 text-dark d-flex flex-row-reverse">
-                        <!-- <input type="checkbox" class="btn-check btnfiltro" id="btn-check-outlined" autocomplete="off">
-                        <label class="btn btn-outline-dark" for="btn-check-outlined">
-                            <i class="fv fa-solid fa-filter me-2"></i>
-                            <span id="txt">
-                            Filtrar
-                            </span>
-                        </label> -->
-                        {% if request.user.is_staff %}                        
-                        <!-- <a href="{% url 'adm_cursos_criar' %}" class="btn btn-dark me-auto">
-                            <i class="fa-solid fa-plus me-2"></i>
-                            CADASTRAR CURSO
-                        </a>
-                        <a href="{% url 'cadastrar_categoria' %}" class="btn btn-dark me-2">
-                            <i class="fa-solid fa-plus me-2"></i>
-                            CADASTRAR CATEGORIA
-                        </a>
-                        <a href="{% url 'cadastrar_local' %}" class="btn btn-dark me-2">
-                            <i class="fa-solid fa-plus me-2"></i>
-                            CADASTRAR LOCAL
-                        </a> -->
-                        {% endif %}
-                        <!-- <button class="btn btn-outline-dark">
-                            <i class="fa-solid fa-filter me-2"></i>
-                            Filtrar
-                        </button> -->                        
-                    </div>
-                </div>          
                 <div class="row">
                     <div class="col px-4 text-dark">
                         {% for cursos in categorias %}
