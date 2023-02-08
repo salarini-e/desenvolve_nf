@@ -420,6 +420,7 @@ def adm_turmas_visualizar(request, id):
 @staff_member_required
 def visualizar_turma_editar(request, id):
     turma = Turma.objects.get(id=id)
+    form = CadastroTurmaForm(instance=turma)
 
     if request.method == 'POST':
         form = CadastroTurmaForm(request.POST, instance=turma)
@@ -511,7 +512,8 @@ def adm_alunos_listar(request):
 @staff_member_required
 def adm_aluno_visualizar(request, id):
     aluno = Aluno.objects.get(pk=id)
-
+    responsavel = ''
+    
     try:
         responsavel = Responsavel.objects.get(aluno=aluno)
     except:
@@ -693,11 +695,12 @@ def adm_eventos_listar(request):
 def adm_evento_cadastrar(request):
     form = Evento_form()
     if request.method == 'POST':
-        form = Evento_form(request.POST)
+        print(request.FILES)
+        form = Evento_form(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Novo evento cadastrado com sucesso!')
-            return redirect('adm_eventos_listas')
+            return redirect('adm_eventos_listar')
 
     context = {
         'form': form,

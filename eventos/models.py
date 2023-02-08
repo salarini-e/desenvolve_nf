@@ -25,5 +25,5 @@ class Evento(models.Model):
         verbose_name='Idade mínima', null=True, blank=True)
     idade_maxima = models.IntegerField(
         verbose_name='Idade máxima', null=True, blank=True)
-    banner = models.ImageField(upload_to='banner_evento', verbose_name='Arte do evento')
+    banner_file = models.ImageField(upload_to='banner_evento', verbose_name='Arte do evento')
     is_destaque = models.BooleanField(default=False)

@@ -76,36 +76,5 @@
         </div>    
     </div>
 </div>
-<!-- MODAL -->
-{% if messages %} 
-<div class="warnings"></div>
-<script>
-{% for message in messages %}
-Message.push("{{ message|escape }}")
-console.log("{{ message|escape }}")
-{% endfor %}
-</script>
 
-<style>
-  .error{
-    background-color: rgb(238, 171, 171);
-    color: darkred;
-    font-weight: 600;
-  }
-  .success{
-    background-color: rgb(182, 238, 171);
-    color: rgb(0, 139, 19);
-    font-weight: 600
-  }
-  .warning{
-    background-color: rgb(238, 226, 171);
-    color: rgb(139, 107, 0);
-    font-weight: 600
-  }
-
-</style>
-{% endif %} 
-  {% block js %}
-  <script src="/static/js/adm_cursos.js"></script>
-{% endblock %}
 {% endblock %}
