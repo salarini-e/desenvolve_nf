@@ -65,6 +65,8 @@ INSTALLED_APPS = [
     'fontawesomefree',
     #apps
     'cursos',
+    'eventos',
+    'palestras',
     'administracao'
 ]
 
@@ -78,7 +80,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'sistema_de_cursos_livres.urls'
+ROOT_URLCONF = 'cursos_livres.urls'
 
 TEMPLATES = [
     {
@@ -96,7 +98,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sistema_de_cursos_livres.wsgi.application'
+WSGI_APPLICATION = 'cursos_livres.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -141,9 +143,11 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'cultura/media')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'cursos_livres/media')
+
 
 LOGIN_URL='/login'
 LOGIN_REDIRECT_URL = '/'

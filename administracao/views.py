@@ -1,20 +1,22 @@
-import json
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
-from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from cursos.models import *
-from datetime import date, datetime
+from datetime import date
 from django.template.loader import render_to_string
 
 from .models import *
 from cursos.forms import *
+
+from eventos.models import *
+from eventos.forms import *
+
+from palestras.models import *
+from palestras.forms import *
+
 
 @staff_member_required
 def enviar_email(aluno, turma):
@@ -52,7 +54,7 @@ def adm_cursos_cadastrar(request):
         'form': form,
         'CADASTRAR': 'NOVO'
     }
-    return render(request, 'cursos/adm_cursos_cad_edit.html', context)
+    return render(request, 'app_cursos/cursos/adm_cursos_cad_edit.html', context)
 
 
 @staff_member_required
@@ -70,7 +72,7 @@ def adm_cursos_editar(request, id):
         'CADASTRAR': 'EDITAR',
         'curso': curso
     }
-    return render(request, 'cursos/adm_cursos_cad_edit.html', context)
+    return render(request, 'app_cursos/cursos/adm_cursos_cad_edit.html', context)
 
 
 @staff_member_required
@@ -86,7 +88,7 @@ def cadastrar_categoria(request):
     context = {
         'form': form
     }
-    return render(request, 'cursos/cadastrar_categoria.html', context)
+    return render(request, 'app_cursos/cursos/cadastrar_categoria.html', context)
 
 
 @staff_member_required
@@ -102,7 +104,7 @@ def cadastrar_local(request):
     context = {
         'form': form
     }
-    return render(request, 'cursos/cadastrar_local.html', context)
+    return render(request, 'app_cursos/cursos/cadastrar_local.html', context)
 
 
 @staff_member_required
@@ -113,13 +115,13 @@ def administrativo(request):
 
 @staff_member_required
 def turmas(request):
-    return render(request, 'turmas/adm_turmas.html')
+    return render(request, 'app_cursos/turmas/adm_turmas.html')
 
 
 @staff_member_required
 def adm_turmas_cadastrar(request):
     form = CadastroTurmaForm()
-    
+
     if request.method == 'POST':
         form = CadastroTurmaForm(request.POST)
         if form.is_valid():
@@ -129,7 +131,7 @@ def adm_turmas_cadastrar(request):
     context = {
         'form': form
     }
-    return render(request, 'turmas/adm_turmas_cadastrar.html', context)
+    return render(request, 'app_cursos/turmas/adm_turmas_cadastrar.html', context)
 
 
 @staff_member_required
@@ -140,7 +142,7 @@ def adm_turmas_listar(request):
     context = {
         'turmas': turmas
     }
-    return render(request, 'turmas/adm_turmas_listar.html', context)
+    return render(request, 'app_cursos/turmas/adm_turmas_listar.html', context)
 
 
 @staff_member_required
@@ -150,12 +152,12 @@ def adm_cursos_listar(request):
     context = {
         'cursos': cursos
     }
-    return render(request, 'cursos/adm_cursos_listar.html', context)
+    return render(request, 'app_cursos/cursos/adm_cursos_listar.html', context)
 
 
 @staff_member_required
 def adm_locais(request):
-    return render(request, 'locais/adm_locais.html')
+    return render(request, 'app_cursos/locais/adm_locais.html')
 
 
 @staff_member_required
@@ -172,7 +174,7 @@ def adm_locais_cadastrar(request):
         'form': form,
         'CADASTRAR': 'NOVO'
     }
-    return render(request, 'locais/adm_locais_cadastrar.html', context)
+    return render(request, 'app_cursos/locais/adm_locais_cadastrar.html', context)
 
 
 @staff_member_required
@@ -181,7 +183,7 @@ def adm_locais_listar(request):
     context = {
         'locais': locais
     }
-    return render(request, 'locais/adm_locais_listar.html', context)
+    return render(request, 'app_cursos/locais/adm_locais_listar.html', context)
 
 
 @staff_member_required
@@ -200,7 +202,7 @@ def adm_locais_editar(request, id):
         'form': form,
         'local': local
     }
-    return render(request, 'locais/adm_locais_editar.html', context)
+    return render(request, 'app_cursos/locais/adm_locais_editar.html', context)
 
 
 @staff_member_required
@@ -212,7 +214,7 @@ def adm_locais_excluir(request, id):
 
 @staff_member_required
 def adm_categorias(request):
-    return render(request, 'categorias/adm_categorias.html')
+    return render(request, 'app_cursos/categorias/adm_categorias.html')
 
 
 @staff_member_required
@@ -229,7 +231,7 @@ def adm_categorias_cadastrar(request):
         'form': form,
         'CADASTRAR': 'NOVO'
     }
-    return render(request, 'categorias/adm_categorias_cadastrar.html', context)
+    return render(request, 'app_cursos/categorias/adm_categorias_cadastrar.html', context)
 
 
 @staff_member_required
@@ -238,7 +240,7 @@ def adm_categorias_listar(request):
     context = {
         'categorias': categorias
     }
-    return render(request, 'categorias/adm_categorias_listar.html', context)
+    return render(request, 'app_cursos/categorias/adm_categorias_listar.html', context)
 
 
 @staff_member_required
@@ -263,7 +265,7 @@ def adm_categorias_editar(request, id):
         'form': form,
         'categoria': categoria
     }
-    return render(request, 'categorias/adm_categorias_editar.html', context)
+    return render(request, 'app_cursos/categorias/adm_categorias_editar.html', context)
 
 
 @staff_member_required
@@ -272,7 +274,7 @@ def adm_instituicoes_listar(request):
     context = {
         'instituicoes': instituicoes
     }
-    return render(request, 'instituicoes/adm_instituicoes_listar.html', context)
+    return render(request, 'app_cursos/instituicoes/adm_instituicoes_listar.html', context)
 
 
 @staff_member_required
@@ -289,7 +291,7 @@ def adm_instituicao_cadastrar(request):
         'form': form,
         'CADASTRAR': 'NOVO'
     }
-    return render(request, 'instituicoes/adm_instituicao_cadastrar.html', context)
+    return render(request, 'app_cursos/instituicoes/adm_instituicao_cadastrar.html', context)
 
 
 @staff_member_required
@@ -312,13 +314,13 @@ def adm_turno_cadastrar(request, id):
         'form': form,
         'CADASTRAR': 'NOVO'
     }
-    return render(request, 'turnos/adm_turno_cadastrar.html', context)
+    return render(request, 'app_cursos/turnos/adm_turno_cadastrar.html', context)
 
 
 @staff_member_required
 def adm_professores(request):
     context = {}
-    return render(request, 'professores/adm_professores.html', context)
+    return render(request, 'app_cursos/professores/adm_professores.html', context)
 
 
 @staff_member_required
@@ -334,7 +336,7 @@ def adm_professores_cadastrar(request):
     context = {
         'form': form,
     }
-    return render(request, 'professores/adm_professores_cadastrar.html', context)
+    return render(request, 'app_cursos/professores/adm_professores_cadastrar.html', context)
 
 
 @staff_member_required
@@ -343,7 +345,7 @@ def adm_professores_listar(request):
     context = {
         'Instrutores': instrutores
     }
-    return render(request, 'professores/adm_professores_listar.html', context)
+    return render(request, 'app_cursos/professores/adm_professores_listar.html', context)
 
 
 @staff_member_required
@@ -362,7 +364,7 @@ def adm_professores_editar(request, id):
         'form': form,
         'instrutor': instrutor
     }
-    return render(request, 'professores/adm_professores_editar.html', context)
+    return render(request, 'app_cursos/professores/adm_professores_editar.html', context)
 
 
 @staff_member_required
@@ -380,12 +382,15 @@ def adm_turmas_visualizar(request, id):
 
     matriculas_alunos = matriculas.filter(status='a').select_related('aluno')
 
-    total_aulas = Aula.objects.filter(associacao_turma_turno__turma = turma).count()
+    total_aulas = Aula.objects.filter(
+        associacao_turma_turno__turma=turma).count()
 
     matriculas_alunos_array = []
     for matricula in matriculas_alunos:
-        presencas = Presenca.objects.filter(matricula = matricula.matricula).count()
-        matriculas_alunos_array.append({'aluno': matricula.aluno, 'matricula': matricula, 'frequencia': presencas/total_aulas * 100})
+        presencas = Presenca.objects.filter(
+            matricula=matricula.matricula).count()
+        matriculas_alunos_array.append(
+            {'aluno': matricula.aluno, 'matricula': matricula, 'frequencia': presencas/total_aulas * 100})
 
     matriculas_selecionados = matriculas.filter(
         status='s').select_related('aluno')
@@ -409,7 +414,7 @@ def adm_turmas_visualizar(request, id):
         'qnt_alunos': len(matriculas_alunos)
     }
 
-    return render(request, 'turmas/adm_turmas_editar.html', context)
+    return render(request, 'app_cursos/turmas/adm_turmas_editar.html', context)
 
 
 @staff_member_required
@@ -426,7 +431,7 @@ def visualizar_turma_editar(request, id):
         'turma': turma,
         'form': form
     }
-    return render(request, 'turmas/adm_turmas_editar_turma.html', context)
+    return render(request, 'app_cursos/turmas/adm_turmas_editar_turma.html', context)
 
 
 @staff_member_required
@@ -481,7 +486,7 @@ def visualizar_turma_selecionado(request, matricula):
         'selecionado': matricula.aluno,
         'matricula': matricula
     }
-    return render(request, 'turmas/adm_turmas_editar_selecionado.html', context)
+    return render(request, 'app_cursos/turmas/adm_turmas_editar_selecionado.html', context)
 
 
 @staff_member_required
@@ -500,7 +505,7 @@ def adm_alunos_listar(request):
     context = {
         'alunos': alunos
     }
-    return render(request, 'alunos/adm_alunos_listar.html', context)
+    return render(request, 'app_cursos/alunos/adm_alunos_listar.html', context)
 
 
 @staff_member_required
@@ -518,7 +523,7 @@ def adm_aluno_visualizar(request, id):
         'responsavel': responsavel,
     }
 
-    return render(request, 'alunos/adm_aluno_visualizar.html', context)
+    return render(request, 'app_cursos/alunos/adm_aluno_visualizar.html', context)
 
 
 @staff_member_required
@@ -538,7 +543,7 @@ def adm_aluno_editar(request, id):
         'form': form
     }
 
-    return render(request, 'alunos/adm_aluno_editar.html', context)
+    return render(request, 'app_cursos/alunos/adm_aluno_editar.html', context)
 
 
 @staff_member_required
@@ -558,7 +563,7 @@ def desmatricular_aluno(request, matricula):
     matricula_obj.status = 'd'
     matricula_obj.save()
     messages.success(request, 'Aluno desmatriculado com sucesso')
-    
+
     return redirect('adm_aluno_visualizar', matricula_obj.aluno.id)
 
 
@@ -571,7 +576,8 @@ def calculate_age(born):
 def adm_aula_cadastrar(request, turma_id):
 
     turma = get_object_or_404(Turma, pk=turma_id)
-    turno_choices = [(turno.id, turno) for turno in Turno_estabelecido.objects.filter(turma=turma)]
+    turno_choices = [(turno.id, turno)
+                     for turno in Turno_estabelecido.objects.filter(turma=turma)]
     form = Aula_form()
     form.fields['associacao_turma_turno'].choices = turno_choices
 
@@ -585,7 +591,7 @@ def adm_aula_cadastrar(request, turma_id):
             return redirect('adm_aulas_listar', turma.id)
 
     context = {'form': form, 'CADASTRAR': 'NOVO'}
-    return render(request, 'aulas/adm_aula_cadastrar.html', context)
+    return render(request, 'app_cursos/aulas/adm_aula_cadastrar.html', context)
 
 
 @staff_member_required
@@ -599,7 +605,7 @@ def adm_aulas_listar(request, turma_id):
         'aulas': aulas
     }
 
-    return render(request, 'aulas/adm_aulas_listar.html', context)
+    return render(request, 'app_cursos/aulas/adm_aulas_listar.html', context)
 
 
 @staff_member_required
@@ -608,7 +614,8 @@ def adm_aula_visualizar(request, turma_id, aula_id):
     if request.method == "POST":
         acao = request.POST.get('acao') or 'p'
         for matricula in request.POST.getlist('alunos_selecionados'):
-            presenca = Presenca.objects.get_or_create(matricula=Matricula.objects.get(matricula=matricula), aula_id=aula_id)[0]
+            presenca = Presenca.objects.get_or_create(
+                matricula=Matricula.objects.get(matricula=matricula), aula_id=aula_id)[0]
             presenca.status = acao
             presenca.save()
 
@@ -623,7 +630,7 @@ def adm_aula_visualizar(request, turma_id, aula_id):
         except:
             presenca = ''
 
-        matriculados.append( {'matricula': matricula, 'presenca': presenca} )
+        matriculados.append({'matricula': matricula, 'presenca': presenca})
 
     context = {
         'turma': turma,
@@ -631,7 +638,8 @@ def adm_aula_visualizar(request, turma_id, aula_id):
         'aula': aula,
     }
 
-    return render(request, 'aulas/adm_aula_visualizar.html', context)
+    return render(request, 'app_cursos/aulas/adm_aula_visualizar.html', context)
+
 
 @staff_member_required
 def adm_justificativa_cadastrar(request, presenca_id):
@@ -648,13 +656,14 @@ def adm_justificativa_cadastrar(request, presenca_id):
 
             messages.error(request, 'Justificativa registrada!')
             return redirect('adm_aula_visualizar', presenca.aula.associacao_turma_turno.turma.id, presenca.aula.id)
-    
+
     context = {
         'presenca': presenca,
         'form': form
     }
 
-    return render(request, 'justificativas/adm_justificativa_cadastrar.html', context)
+    return render(request, 'app_cursos/justificativas/adm_justificativa_cadastrar.html', context)
+
 
 @staff_member_required
 def adm_justificativa_visualizar(request, presenca_id):
@@ -666,4 +675,32 @@ def adm_justificativa_visualizar(request, presenca_id):
         'aluno': presenca.matricula.aluno
     }
 
-    return render(request, 'justificativas/adm_justificativa_visualizar.html', context)
+    return render(request, 'app_cursos/justificativas/adm_justificativa_visualizar.html', context)
+
+
+@staff_member_required
+def adm_eventos_listar(request):
+
+    eventos = Evento.objects.all()
+
+    context = {
+        'eventos': eventos
+    }
+
+    return render(request, 'app_eventos/eventos/adm_eventos_listar.html', context)
+
+@staff_member_required
+def adm_evento_cadastrar(request):
+    form = Evento_form()
+    if request.method == 'POST':
+        form = Evento_form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Novo evento cadastrado com sucesso!')
+            return redirect('adm_eventos_listas')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'app_eventos/eventos/adm_eventos_cadastrar.html', context)

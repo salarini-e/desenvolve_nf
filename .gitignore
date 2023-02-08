@@ -131,4 +131,5 @@ dmypy.json
 .pyre/
 
 migrations/
-sistema_de_cursos_livres/static/
+cursos_livres/static/
+cursos_livres/media/

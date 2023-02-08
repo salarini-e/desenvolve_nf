@@ -1,5 +1,5 @@
 """
-WSGI config for sistema_de_cursos_livres project.
+WSGI config for cursos_livres project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sistema_de_cursos_livres.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cursos_livres.settings')
 
 application = get_wsgi_application()

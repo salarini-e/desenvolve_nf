@@ -56,7 +56,10 @@ urlpatterns = [
     path('justificativa/<presenca_id>', views.adm_justificativa_visualizar, name="adm_justificativa_visualizar"),
     # MISSING LISTAR, EDITAR E EXCLUIR
 
-    path('aluno', views.adm_alunos_listar, name="adm_alunos_listar"),
+    path('eventos', views.adm_eventos_listar, name="adm_eventos_listar"),
+    path('evento/cadastrar', views.adm_evento_cadastrar, name="adm_evento_cadastrar"),
+
+    path('alunos', views.adm_alunos_listar, name="adm_alunos_listar"),
     path('aluno/<id>', views.adm_aluno_visualizar, name="adm_aluno_visualizar"),
     path('aluno/<id>/editar', views.adm_aluno_editar, name="adm_aluno_editar"),
     path('aluno/<matricula>/desmatricular', views.desmatricular_aluno, name="adm_desmatricular_aluno"),
