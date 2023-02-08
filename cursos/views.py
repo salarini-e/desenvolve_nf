@@ -1,25 +1,21 @@
-import json
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
-from django.core.exceptions import PermissionDenied
-from django.db.models import Q
-from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
-from .models import Aluno, Categoria, Curso, Matricula, Instrutor, Responsavel, Turma, Local
-from .forms import CadastroAlunoForm, CadastroCandidatoForm, CadastroCursoForm, CadastroCategoriaForm, CadastroCursoForm2, CadastroLocalForm, CadastroProfessorForm, CadastroResponsavelForm, CadastroTurmaForm
+from .models import *
+from .forms import *
 from datetime import date, datetime
-from django.template.loader import render_to_string
 
 from .models import *
 from .forms import *
 
+from eventos.models import Evento
+
 
 def index(request):
     context = {
-        'titulo': 'Capacitação'
+        'titulo': 'Capacitação',
+        'evento_destaque': Evento.objects.get(is_destaque = True)
     }
 
     return render(request, 'cursos/index.html', context)

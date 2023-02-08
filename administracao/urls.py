@@ -58,6 +58,7 @@ urlpatterns = [
 
     path('eventos', views.adm_eventos_listar, name="adm_eventos_listar"),
     path('evento/cadastrar', views.adm_evento_cadastrar, name="adm_evento_cadastrar"),
+    path('evento/<id>/editar', views.adm_evento_editar, name="adm_evento_editar"),
 
     path('alunos', views.adm_alunos_listar, name="adm_alunos_listar"),
     path('aluno/<id>', views.adm_aluno_visualizar, name="adm_aluno_visualizar"),

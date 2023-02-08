@@ -707,3 +707,22 @@ def adm_evento_cadastrar(request):
     }
 
     return render(request, 'app_eventos/eventos/adm_eventos_cadastrar.html', context)
+
+@staff_member_required
+def adm_evento_editar(request, id):
+    evento = Evento.objects.get(pk=id)
+
+    form = Evento_form(instance=evento)
+    if request.method == 'POST':
+        form = Evento_form(request.POST, request.FILES, instance=evento)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Evento editado com sucesso!')
+            return redirect('adm_eventos_listar')
+
+    context = {
+        'evento': evento,
+        'form': form
+    }
+
+    return render(request, 'app_eventos/eventos/adm_evento_editar.html', context)
