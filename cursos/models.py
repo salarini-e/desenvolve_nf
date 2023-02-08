@@ -50,6 +50,13 @@ class Curso(models.Model):
         verbose_name_plural = "Categorias"
         ordering = ['nome']
 
+    ESCOLARIDADES = [
+        ('F', 'Ensino Fundamental'),
+        ('M', 'Ensino Médio'),
+        ('T', 'Ensino Técnico'),
+        ('S', 'Ensino Superior'),
+    ]
+
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     nome = models.CharField(max_length=150)
     sigla = models.CharField(max_length=3, unique=True)
@@ -57,6 +64,7 @@ class Curso(models.Model):
     carga_horaria = models.IntegerField(verbose_name="Carga horária")
     descricao = models.TextField(default='')
     ativo = models.BooleanField(default=True)
+    nivel_ensino = models.CharField(max_length=1, choices=ESCOLARIDADES)
 
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
     dt_alteracao = models.DateField(auto_now=True)
@@ -287,7 +295,8 @@ class Matricula(models.Model):
         ('a', 'Aluno'),
         ('e', 'Desistente'),
         ('d', 'Desmatriculado'),
-        ('f', 'Formado')
+        ('f', 'Formado'),
+        ('r', 'Realocado')
     )
 
     class Meta:
