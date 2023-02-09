@@ -246,7 +246,7 @@
                                                 <input type="checkbox" class="candidatos_selecionados" name="candidatos_selecionados" value="{{matricula_candidato.matricula}}">
                                               </td>
                                               <td>
-                                                <a href="{% url "adm_aluno_visualizar" matricula_candidato.matricula %}" style="text-decoration: none;">
+                                                <a href="{% url "adm_aluno_visualizar" matricula_candidato.aluno.id %}" style="text-decoration: none;">
                                                   {{matricula_candidato.aluno.nome}}
                                                 </a>
                                               </td>

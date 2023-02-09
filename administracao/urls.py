@@ -65,4 +65,6 @@ urlpatterns = [
     path('aluno/<id>/editar', views.adm_aluno_editar, name="adm_aluno_editar"),
     path('aluno/<matricula>/desmatricular', views.desmatricular_aluno, name="adm_desmatricular_aluno"),
 
+    path('csv', views.import_users_from_csv),
+    
 ]

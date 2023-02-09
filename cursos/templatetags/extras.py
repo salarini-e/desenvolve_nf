@@ -84,7 +84,11 @@ def idade(obj):
     return mark_safe(f'''<span class="px-3">{age}</span>''')
 
 @register.filter(is_safe=True)
-def bg_idade(obj):    
+def bg_idade(obj):  
+    print(obj)  
+    if obj == None or isinstance(obj, str): 
+        return 'N/A'
+    
     today = date.today() 
     age = today.year - obj.year - ((today.month, today.day) < (obj.month, obj.day)) 
     if int(age)<int(18):

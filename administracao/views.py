@@ -46,10 +46,15 @@ def adm_cursos_cadastrar(request):
     if request.method == 'POST':
         form = CadastroCursoForm(request.POST)
         if form.is_valid():
-            form.save()
+            curso = form.save(commit=False)
+            curso.user_inclusao = request.user
+            curso.user_ultima_alteracao = request.user
+            curso.save()
+
             messages.success(request, 'Novo curso cadastrado!')
             return redirect('adm_cursos_listar')
 
+        print(form.errors)
     context = {
         'form': form,
         'CADASTRAR': 'NOVO'
@@ -125,7 +130,10 @@ def adm_turmas_cadastrar(request):
     if request.method == 'POST':
         form = CadastroTurmaForm(request.POST)
         if form.is_valid():
-            form.save()
+            turma = form.save(commit=False)
+            turma.user_inclusao = request.user
+            turma.user_ultima_alteracao = request.user
+            turma.save()
             messages.success(request, 'Nova turma cadastrada com sucesso!')
             return redirect('adm_turmas_listar')
     context = {
@@ -726,3 +734,27 @@ def adm_evento_editar(request, id):
     }
 
     return render(request, 'app_eventos/eventos/adm_evento_editar.html', context)
+
+
+import csv
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
+
+@staff_member_required
+def import_users_from_csv(csv_file_path):
+    csv_file_path = '/home/hugo/Downloads/Inscri├з├гo para o Curso Livre e Gratuito de Finan├зas Pessoais da Secretaria de Ci├кncia, Tecnologia, Inova├з├гo e Educa├з├гo Profissionalizante e Superior.vento.csv'
+    with open(csv_file_path, 'r') as file:
+        reader = csv.DictReader(file)
+        turma = Turma.objects.get(id=3)
+
+        for row in reader:
+            try:
+                nome = row['Nome\n']
+                email = row['E-mail']
+                celular = row['Telefone de contato']
+                endereco = row['Endereço']
+
+                aluno = Aluno.objects.create(nome=nome, email=email, celular=celular, endereco=endereco)
+                matricula = Matricula.objects.create(aluno=aluno, turma=turma, status='c')
+            except Exception as e:
+                print(e)

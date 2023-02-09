@@ -41,12 +41,9 @@ class CadastroCursoForm(ModelForm):
     class Meta:
         model = Curso
         widgets = {
-            'categoria': forms.HiddenInput(),
-            'user_inclusao': forms.HiddenInput(),
-            'user_ultima_alteracao': forms.HiddenInput(),
             'dt_nascimento': forms.widgets.DateInput(attrs={'type': 'date'}),
         }
-        exclude = ['dt_inclusao', 'dt_alteracao']
+        exclude = ['dt_inclusao', 'dt_alteracao', 'user_inclusao']
 
     def clean_sigla(self):
         sigla = self.cleaned_data['sigla']
@@ -57,25 +54,6 @@ class CadastroCursoForm(ModelForm):
         
         return sigla.capitalize()
 
-
-class CadastroCursoForm2(ModelForm):
-
-    class Meta:
-        model = Curso
-        widgets = {
-            'user_inclusao': forms.HiddenInput(),
-            'user_ultima_alteracao': forms.HiddenInput(),
-        }
-        exclude = ['dt_inclusao', 'dt_alteracao']
-
-    def clean_sigla(self):
-        sigla = self.cleaned_data['sigla']
-
-
-        if not sigla.isalpha():
-            raise ValidationError("A sigla deve conter apenas letras")
-        
-        return sigla.capitalize()
 
 class CadastroTurmaForm(ModelForm):
 
@@ -84,11 +62,9 @@ class CadastroTurmaForm(ModelForm):
         widgets = {
             'data_inicio': forms.TextInput(attrs={'type': 'date'}),
             'data_final': forms.TextInput(attrs={'type': 'date'}),
-            'user_inclusao': forms.HiddenInput(),
-            'user_ultima_alteracao': forms.HiddenInput(),
             'instrutor': forms.CheckboxSelectMultiple()
         }
-        exclude = ['dt_inclusao', 'dt_alteracao', 'turnos', 'nome']
+        exclude = ['dt_inclusao', 'dt_alteracao', 'turnos', 'nome', 'user_ultima_alteracao', 'user_inclusao']
 
 
 class CadastroCategoriaForm(ModelForm):

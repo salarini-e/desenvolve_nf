@@ -69,10 +69,9 @@ class Curso(models.Model):
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
     dt_alteracao = models.DateField(auto_now=True)
 
-    user_inclusao = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='userInclusao')
+    user_inclusao = models.ForeignKey(User, on_delete=models.CASCADE, related_name='CursoUserInclusao')
     user_ultima_alteracao = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='userAlteracao', null=True, blank=True)
+        User, on_delete=models.CASCADE, related_name='CursoUserAlteracao', null=True, blank=True)
 
     def __str__(self):
         return '%s' % (self.nome)
@@ -217,12 +216,12 @@ class Aluno(models.Model):
     nome = models.CharField(
         max_length=150, verbose_name='Nome completo do candidato')
     celular = models.CharField(
-        max_length=15, verbose_name='Celular p/ contato do candidato')
+        max_length=32, verbose_name='Celular p/ contato do candidato')
     email = models.EmailField(verbose_name='Email p/ contato do candidato')
-    dt_nascimento = models.DateField(verbose_name='Data de Nascimento')
+    dt_nascimento = models.DateField(verbose_name='Data de Nascimento', null=True)
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES,
-                            verbose_name='Qual foi o sexo atribuído no seu nascimento?')
-    cep = models.CharField(max_length=9, verbose_name='CEP')
+                            verbose_name='Sexo', null=True)
+    cep = models.CharField(max_length=9, verbose_name='CEP', null=True)
     endereco = models.CharField(
         max_length=128, null=True, verbose_name='Endereço do candidato')
 
@@ -230,14 +229,14 @@ class Aluno(models.Model):
         max_length=128, null=True, blank=True, verbose_name='Complemento do endereço')
 
     bairro = models.CharField(max_length=80, null=True)
-    cpf = models.CharField(max_length=150, verbose_name='CPF')
-    profissão = models.CharField(max_length=150, verbose_name='Profissão')
+    cpf = models.CharField(max_length=150, verbose_name='CPF', null=True)
+    profissão = models.CharField(max_length=150, verbose_name='Profissão', null=True)
     escolaridade = models.CharField(
-        max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade')
+        max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade', null=True, blank=True)
     estado_civil = models.CharField(
-        max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil')
+        max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil', null=True)
     aceita_mais_informacoes = models.BooleanField(
-        verbose_name='Declaro que aceito receber email com as informações das atividades')
+        verbose_name='Declaro que aceito receber email com as informações das atividades', default=False)
     li_e_aceito_termos = models.BooleanField(
         default=False, verbose_name='Li e aceito os termos')
 
@@ -327,7 +326,7 @@ class Matricula(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
     matricula = models.CharField(
         max_length=16, unique=True, editable=False, primary_key=True)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='c')
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
     dt_ultima_atualizacao = models.DateTimeField(auto_now=True)
 

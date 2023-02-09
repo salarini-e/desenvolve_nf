@@ -40,9 +40,6 @@
                                   <a class="ms-auto btn btn-outline-dark" href="{% url 'adm_alunos_listar' %}">
                                     <i class="fas fa-undo-alt me-2"></i>Voltar
                                   </a>
-                                  <a class="ms-auto btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir" href="{% url 'adm_aluno_excluir' aluno.id%}">
-                                    <i class="fa-solid fa-trash-can"></i>Apagar
-                                  </a>
                                 </div>
                               </div>
                             </div>
@@ -78,18 +75,7 @@
         <div class="modal-body text-dark border-0 pt-5">            
             <p class="text-center"><b>Tem certeza que deseja excluir este registro?</b></p>
         </div>
-        <div class="modal-footer border-0">
-          <a href="{% url 'adm_aluno_excluir' aluno.id %}" class="btn btn-danger">Sim, tenho certeza.</a>
-        </div>
       </div>
     </div>
   </div> 
-  <script>
-
-  
-
-
-
-   
-  </script>
 {% endblock %}
