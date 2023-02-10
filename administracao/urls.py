@@ -34,11 +34,16 @@ urlpatterns = [
     path('instrutor/<id>/excluir', views.adm_professores_excluir, name="adm_professores_excluir"),
     # MISSING VISUALIZAR
 
+    # -------- Serve para confirmar um aluno selecionado, transformando seu status para "Aluno" -------- #
+    path('selecionado/<matricula>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
+    # -------- # -------- #
+
     path('turmas', views.adm_turmas_listar, name="adm_turmas_listar"),
     path('turma/cadastrar', views.adm_turmas_cadastrar, name="adm_turmas_cadastrar"),
     path('turma/<id>', views.adm_turmas_visualizar, name="adm_turma_visualizar"),
     path('turma/<id>/editar', views.visualizar_turma_editar, name="adm_turma_editar"),
     path('turma/<id>/excluir', views.excluir_turma, name="adm_turma_excluir"),
+    path('turma/<id>/realocar', views.adm_realocar, name="adm_turma_realocar"),
 
     path('turma/<id>/turno/cadastrar', views.adm_turno_cadastrar, name="adm_turno_cadastrar"),
     # MISSING VISUALIZAR, EDITAR, LISTAR E EXCLUIR
@@ -48,9 +53,6 @@ urlpatterns = [
     path('turma/<turma_id>/aula/<aula_id>', views.adm_aula_visualizar, name="adm_aula_visualizar"),
     # MISSING EDITAR E EXCLUIR
 
-    # -------- Serve para confirmar um aluno selecionado, transformando seu status para "Aluno" -------- #
-    path('turma/selecionado/<matricula>', views.visualizar_turma_selecionado, name="adm_turma_visualizar_selecionado"),
-    # -------- # -------- #
     
     path('justificativa/<presenca_id>/cadastrar', views.adm_justificativa_cadastrar, name="adm_justificativa_cadastrar"),
     path('justificativa/<presenca_id>', views.adm_justificativa_visualizar, name="adm_justificativa_visualizar"),

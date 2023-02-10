@@ -20,7 +20,6 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             login(request, user)
             return redirect('/')
@@ -90,7 +89,6 @@ def cadastro_user(request):
                             request, 'Usuário cadastrado com sucesso!')
                         return redirect('/login')
                     except Exception as e:
-                        print(e)
                         messages.error(
                             request, 'Email de usuário já cadastrado')
                         

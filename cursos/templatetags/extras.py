@@ -77,15 +77,16 @@ def turmas_input(obj):
 
 @register.filter(is_safe=True)
 def idade(obj):    
-    birthDate=obj
-    today = date.today() 
-    age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
+    age = "N/A"
+    if obj:
+        birthDate=obj
+        today = date.today() 
+        age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day)) 
     
     return mark_safe(f'''<span class="px-3">{age}</span>''')
 
 @register.filter(is_safe=True)
 def bg_idade(obj):  
-    print(obj)  
     if obj == None or isinstance(obj, str): 
         return 'N/A'
     

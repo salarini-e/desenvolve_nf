@@ -8,6 +8,7 @@ from django.conf import settings
 from cursos.models import *
 from datetime import date
 from django.template.loader import render_to_string
+from django.db.models import Q
 
 import csv
 import re
@@ -58,7 +59,6 @@ def adm_cursos_cadastrar(request):
             messages.success(request, 'Novo curso cadastrado!')
             return redirect('adm_cursos_listar')
 
-        print(form.errors)
     context = {
         'form': form,
         'CADASTRAR': 'NOVO'
@@ -399,10 +399,13 @@ def adm_turmas_visualizar(request, id):
 
     matriculas_alunos_array = []
     for matricula in matriculas_alunos:
-        presencas = Presenca.objects.filter(
-            matricula=matricula.matricula).count()
+        presencas = Presenca.objects.filter(matricula=matricula.matricula).count()
+        frequencia = "Nenhuma aula registrada"
+        if total_aulas:
+            frequencia = f"{presencas/total_aulas * 100}%"
+
         matriculas_alunos_array.append(
-            {'aluno': matricula.aluno, 'matricula': matricula, 'frequencia': presencas/total_aulas * 100})
+            {'aluno': matricula.aluno, 'matricula': matricula, 'frequencia': frequencia})
 
     matriculas_selecionados = matriculas.filter(
         status='s').select_related('aluno')
@@ -423,10 +426,11 @@ def adm_turmas_visualizar(request, id):
         'matriculas_alunos': matriculas_alunos_array,
         'matriculas_selecionados': matriculas_selecionados,
         'matriculas_candidatos': matriculas_candidatos,
-        'qnt_alunos': len(matriculas_alunos)
+        'qnt_alunos': len(matriculas_alunos),
+        'is_cheio': turma.quantidade_permitido <= matriculas_alunos.count()
     }
 
-    return render(request, 'app_cursos/turmas/adm_turmas_editar.html', context)
+    return render(request, 'app_cursos/turmas/adm_turma_visualizar.html', context)
 
 
 @staff_member_required
@@ -455,12 +459,15 @@ def visualizar_turma_selecionado(request, matricula):
     if turma.quantidade_permitido <= Matricula.objects.filter(turma=turma, status='a').count():
         messages.error(
             request, 'Turma cheia! Não é possível adicionar mais alunos.')
-        return redirect('adm_turma_visualizar', id)
+        return redirect('adm_turma_visualizar', matricula.turma.id)
 
-    birthDate = matricula.aluno.dt_nascimento
+    birthDate = matricula.aluno.pessoa.dt_nascimento
     today = date.today()
-    age = today.year - birthDate.year - \
-        ((today.month, today.day) < (birthDate.month, birthDate.day))
+    age = 99
+    
+    if birthDate:
+        age = today.year - birthDate.year - \
+            ((today.month, today.day) < (birthDate.month, birthDate.day))
 
     form = CadastroAlunoForm(instance=matricula.aluno, prefix='aluno')
     form_responsavel = ''
@@ -489,7 +496,6 @@ def visualizar_turma_selecionado(request, matricula):
             matricula.save()
 
             messages.success = "Candidato selecionado cadastrado como aluno!"
-
         return redirect('adm_turma_visualizar', matricula.turma.id)
 
     context = {
@@ -510,6 +516,17 @@ def excluir_turma(request, id):
 
     return redirect('adm_turmas_listar')
 
+@staff_member_required
+def adm_realocar(request, id):
+    turma = get_object_or_404(Turma, pk=id)
+
+    outras_turmas = Turma.objects.filter(curso=turma.curso).exclude(turma=turma)
+    if outras_turmas.count() == 0:
+        messages.error(request, f"Antes de alocar os alunos é necessário criar uma turma do curso {turma.curso}")
+
+    # matriculas = Matricula.objects.filter(turma=turma, Q(status='c' | status='s'))
+
+    return render(request, 'app_cursos/turmas/adm_turma_realocar.html')
 
 @staff_member_required
 def adm_alunos_listar(request):
@@ -525,7 +542,7 @@ def adm_alunos_listar(request):
 def adm_aluno_visualizar(request, id):
     aluno = Aluno.objects.get(pk=id)
     responsavel = ''
-    
+
     try:
         responsavel = Responsavel.objects.get(aluno=aluno)
     except:
@@ -703,11 +720,11 @@ def adm_eventos_listar(request):
 
     return render(request, 'app_eventos/eventos/adm_eventos_listar.html', context)
 
+
 @staff_member_required
 def adm_evento_cadastrar(request):
     form = Evento_form()
     if request.method == 'POST':
-        print(request.FILES)
         form = Evento_form(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -719,6 +736,7 @@ def adm_evento_cadastrar(request):
     }
 
     return render(request, 'app_eventos/eventos/adm_eventos_cadastrar.html', context)
+
 
 @staff_member_required
 def adm_evento_editar(request, id):
@@ -740,8 +758,6 @@ def adm_evento_editar(request, id):
     return render(request, 'app_eventos/eventos/adm_evento_editar.html', context)
 
 
-
-
 @staff_member_required
 def import_users_from_csv(csv_file_path):
     csv_file_path = '/home/hugo/Downloads/Inscri├з├гo para o Curso Livre e Gratuito de Finan├зas Pessoais da Secretaria de Ci├кncia, Tecnologia, Inova├з├гo e Educa├з├гo Profissionalizante e Superior.vento.csv'
@@ -750,15 +766,19 @@ def import_users_from_csv(csv_file_path):
         turma = Turma.objects.get(id=3)
 
         for row in reader:
-            try:    
-                telefone = re.sub(r'[^\w\s]', '', row['Telefone de contato'])
-
-                username = f"{row['Nome'].lower().split('')[0]}{telefone[:2]}"
+            try:
+                telefone = re.sub(r'[^\w\s]', '', row['Telefone de contato']).strip().replace(" ", "")
+                password = telefone[-8:]
+                print(password)
+                username = f"{row['Nome'].lower().split(' ')[0]}{telefone[-3:]}"
                 email = row['E-mail']
-                password = telefone[:8]
+                
                 user = User.objects.create_user(username, email, password)
-
-                pessoa = Pessoa.objects.create(user=user, nome=row['Nome'], email=email)
-                # matricula = Matricula.objects.create(aluno=aluno, turma=turma, status='c')
+                pessoa = Pessoa.objects.create(
+                    user=user, nome=row['Nome'], email=email, endereco=row['Endereço'])
+                aluno = Aluno.objects.create(pessoa=pessoa)
+                matricula = Matricula.objects.create(
+                    aluno=aluno, turma=turma, status='c')
+                
             except Exception as e:
-                print(row, e)
+                print(e)

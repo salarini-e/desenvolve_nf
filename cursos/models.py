@@ -222,9 +222,9 @@ class Aluno(models.Model):
     estado_civil = models.CharField(
         max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil', null=True)
     aceita_mais_informacoes = models.BooleanField(
-        verbose_name='Declaro que aceito receber email com as informações das atividades')
-    li_e_aceito_termos = models.BooleanField(verbose_name='Li e aceito os termos')
-    dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
+        verbose_name='Declaro que aceito receber email com as informações das atividades', null=True)
+    li_e_aceito_termos = models.BooleanField(verbose_name='Li e aceito os termos', null=True)
+    dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False, null=True)
 
     def __str__(self):
         return '%s - %s' % (self.pessoa.nome, self.pessoa.cpf)
