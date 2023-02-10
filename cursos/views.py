@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
+from autenticacao.functions import aluno_required
 from .models import *
 from .forms import *
 from datetime import date, datetime
@@ -21,8 +23,9 @@ def index(request):
     return render(request, 'cursos/index.html', context)
 
 
+@aluno_required
 def cursos(request):
-    form = CadastroCandidatoForm()
+    form = Aluno_form()
     categorias = Categoria.objects.all()
     cursos = []
     for i in categorias:
@@ -41,9 +44,9 @@ def cursos(request):
 def candidatar(request, id):
 
     curso = Curso.objects.get(id=id)
-    form = CadastroCandidatoForm(initial={'curso': curso})
+    form = Aluno_form(initial={'curso': curso})
     if request.method == 'POST':
-        form = CadastroCandidatoForm(request.POST)
+        form = Aluno_form(request.POST)
         if form.is_valid():
             form.save()
 
@@ -55,7 +58,7 @@ def candidatar(request, id):
 
 
 def prematricula(request):
-    form = CadastroCandidatoForm(prefix="candidato")
+    form = Aluno_form(prefix="candidato")
     form_responsavel = CadastroResponsavelForm(prefix="responsavel")
 
     categorias = Categoria.objects.all()
@@ -67,7 +70,7 @@ def prematricula(request):
 
     if request.method == 'POST':
         dtnascimento_cp = request.POST.get("candidato-dt_nascimento")
-        form = CadastroCandidatoForm(request.POST, prefix="candidato")
+        form = Aluno_form(request.POST, prefix="candidato")
         form_responsavel = CadastroResponsavelForm(
             request.POST, prefix="responsavel")
 

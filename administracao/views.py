@@ -1,3 +1,4 @@
+import unicodedata
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
@@ -7,6 +8,9 @@ from django.conf import settings
 from cursos.models import *
 from datetime import date
 from django.template.loader import render_to_string
+
+import csv
+import re
 
 from .models import *
 from cursos.forms import *
@@ -736,9 +740,7 @@ def adm_evento_editar(request, id):
     return render(request, 'app_eventos/eventos/adm_evento_editar.html', context)
 
 
-import csv
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
+
 
 @staff_member_required
 def import_users_from_csv(csv_file_path):
@@ -748,13 +750,15 @@ def import_users_from_csv(csv_file_path):
         turma = Turma.objects.get(id=3)
 
         for row in reader:
-            try:
-                nome = row['Nome\n']
-                email = row['E-mail']
-                celular = row['Telefone de contato']
-                endereco = row['Endereço']
+            try:    
+                telefone = re.sub(r'[^\w\s]', '', row['Telefone de contato'])
 
-                aluno = Aluno.objects.create(nome=nome, email=email, celular=celular, endereco=endereco)
-                matricula = Matricula.objects.create(aluno=aluno, turma=turma, status='c')
+                username = f"{row['Nome'].lower().split('')[0]}{telefone[:2]}"
+                email = row['E-mail']
+                password = telefone[:8]
+                user = User.objects.create_user(username, email, password)
+
+                pessoa = Pessoa.objects.create(user=user, nome=row['Nome'], email=email)
+                # matricula = Matricula.objects.create(aluno=aluno, turma=turma, status='c')
             except Exception as e:
-                print(e)
+                print(row, e)

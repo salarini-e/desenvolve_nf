@@ -6,7 +6,7 @@ from django.forms import ModelForm, ValidationError
 from .models import *
 
 
-class CadastroCandidatoForm(ModelForm):
+class Aluno_form(ModelForm):
 
     class Meta:
         model = Aluno
@@ -18,11 +18,14 @@ class CadastroCandidatoForm(ModelForm):
             'rg': forms.TextInput(attrs={'onkeydown': 'mascara(this, irg)'}),
             'dt_nascimento': forms.TextInput(attrs={'type': 'date'}),
             'aceita_mais_informacoes': forms.CheckboxInput(attrs={'required': True}),
+            'li_e_aceito_termos': forms.CheckboxInput(attrs={'required': True}),
+
             'dt_nascimento': forms.widgets.DateInput(attrs={'type': 'date'}),
             'user_inclusao': forms.HiddenInput(),
             'user_ultima_alteracao': forms.HiddenInput(),
         }
-        exclude = ['dt_inclusao', 'dt_alteracao', 'li_e_aceito_termos']
+            
+        exclude = ['dt_inclusao', 'dt_alteracao', 'pessoa']
 
 
 class CadastroProfessorForm(ModelForm):

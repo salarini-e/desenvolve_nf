@@ -2,6 +2,8 @@ import random
 from django.db import models
 from django.contrib.auth.models import User
 
+from autenticacao.models import Pessoa
+
 
 class Instituicao(models.Model):
     class Meta:
@@ -187,7 +189,6 @@ class Aluno(models.Model):
     class Meta:
         verbose_name = 'Aluno'
         verbose_name_plural = "Alunos"
-        ordering = ['nome']
 
     SEXO_CHOICES = (
         ('M', 'Masculino'),
@@ -213,37 +214,20 @@ class Aluno(models.Model):
         ('v', 'Viúvo(a)'),
     )
 
-    nome = models.CharField(
-        max_length=150, verbose_name='Nome completo do candidato')
-    celular = models.CharField(
-        max_length=32, verbose_name='Celular p/ contato do candidato')
-    email = models.EmailField(verbose_name='Email p/ contato do candidato')
-    dt_nascimento = models.DateField(verbose_name='Data de Nascimento', null=True)
-    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES,
-                            verbose_name='Sexo', null=True)
-    cep = models.CharField(max_length=9, verbose_name='CEP', null=True)
-    endereco = models.CharField(
-        max_length=128, null=True, verbose_name='Endereço do candidato')
+    pessoa=models.OneToOneField(Pessoa, on_delete=models.CASCADE, editable=False)
 
-    complemento = models.CharField(
-        max_length=128, null=True, blank=True, verbose_name='Complemento do endereço')
-
-    bairro = models.CharField(max_length=80, null=True)
-    cpf = models.CharField(max_length=150, verbose_name='CPF', null=True)
     profissão = models.CharField(max_length=150, verbose_name='Profissão', null=True)
     escolaridade = models.CharField(
         max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade', null=True, blank=True)
     estado_civil = models.CharField(
         max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil', null=True)
     aceita_mais_informacoes = models.BooleanField(
-        verbose_name='Declaro que aceito receber email com as informações das atividades', default=False)
-    li_e_aceito_termos = models.BooleanField(
-        default=False, verbose_name='Li e aceito os termos')
-
+        verbose_name='Declaro que aceito receber email com as informações das atividades')
+    li_e_aceito_termos = models.BooleanField(verbose_name='Li e aceito os termos')
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return '%s - %s' % (self.nome, self.cpf)
+        return '%s - %s' % (self.pessoa.nome, self.pessoa.cpf)
 
 
 class Responsavel(models.Model):
