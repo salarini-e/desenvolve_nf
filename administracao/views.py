@@ -93,6 +93,9 @@ def adm_curso_editar(request, id):
     }
     return render(request, 'app_cursos/cursos/adm_cursos_cad_edit.html', context)
 
+# @staff_member_required
+# def adm_cadastrar_
+
 
 @staff_member_required
 def cadastrar_categoria(request):

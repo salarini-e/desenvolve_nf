@@ -57,10 +57,10 @@
                             <td>
                               <input type="checkbox" name="" id="" />
                             </td>
-                            <td>{{aluno.nome}}</td>
-                            <td>{{aluno.dt_nascimento|bg_idade}}</td>
-                            <td>{{aluno.celular}}</td>
-                            <td class="text-center">{{aluno.email}}</td>
+                            <td>{{aluno.pessoa.nome}}</td>
+                            <td>{{aluno.pessoa.dt_nascimento|bg_idade}}</td>
+                            <td>{{aluno.pessoa.celular}}</td>
+                            <td class="text-center">{{aluno.pessoa.email}}</td>
                             <td class="text-center">
                               <a
                                 href="{% url 'adm_aluno_visualizar' aluno.id %}"

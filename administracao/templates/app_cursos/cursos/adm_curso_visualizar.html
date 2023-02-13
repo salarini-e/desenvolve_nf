@@ -34,6 +34,14 @@
             <i class="fa-solid fa-pen-to-square"></i>
           </a>
         </div>
+
+        <div class="row px-2 pt-2 d-flex">
+          <div class="col px-0 painel">
+              <a href="{% url '' %}" class="ativo"><i class="fa-solid fa-plus me-3"></i>Criar requisito</a>
+              <a href="{% url 'adm_cursos_listar' %}"><i class="fa-regular fa-file-lines me-3"></i>Listar/editar cursos</a>
+          </div>
+      </div>
+
         <table class="table">
           <tr style="border-color: white">
             <td><b>Nome:</b>{{curso.nome}}</td>
@@ -55,7 +63,6 @@
           <th>Quantidade máxima</th>
           <th>Data início</th>
           <th>Data fim</th>
-          <th>Quantidade máxima</th>
           <th class="text-center">Status</th>
         </thead>
         <tbody>
@@ -70,9 +77,10 @@
                 {{turma}}
               </a>
             </td>
-            <td>{{turma.data_inicio}}</td>
-            <td>{{turma.data_fim}}</td>
             <td>{{turma.quantidade_permitido}}</td>
+
+            <td>{{turma.data_inicio}}</td>
+            <td>{{turma.data_final}}</td>
 
             <td class="text-center">
               {% if turma.status == 'pre' %}
