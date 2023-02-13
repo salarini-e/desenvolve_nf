@@ -45,6 +45,11 @@ class Categoria(models.Model):
     def __str__(self):
         return '%s' % (self.nome)
 
+class Requisito(models.Model):
+    def __str__(self):
+        return '%s' % (self.descricao)
+    
+    descricao = models.CharField(max_length=128, verbose_name="Descrição")
 
 class Curso(models.Model):
     class Meta:
@@ -67,6 +72,7 @@ class Curso(models.Model):
     descricao = models.TextField(default='')
     ativo = models.BooleanField(default=True)
     nivel_ensino = models.CharField(max_length=1, choices=ESCOLARIDADES)
+    requisitos = models.ManyToManyField(Requisito)
 
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
     dt_alteracao = models.DateField(auto_now=True)

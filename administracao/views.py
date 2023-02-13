@@ -65,9 +65,19 @@ def adm_cursos_cadastrar(request):
     }
     return render(request, 'app_cursos/cursos/adm_cursos_cad_edit.html', context)
 
+@staff_member_required
+def adm_curso_visualizar(request, id):
+    curso = get_object_or_404(Curso, pk=id)
+    turmas = Turma.objects.filter(curso=curso)
+    context = {
+        'curso': curso,
+        'turmas': turmas,
+        'CADASTRAR': 'NOVO'
+    }
+    return render(request, 'app_cursos/cursos/adm_curso_visualizar.html', context)
 
 @staff_member_required
-def adm_cursos_editar(request, id):
+def adm_curso_editar(request, id):
     curso = Curso.objects.get(id=id)
     form = CadastroCursoForm(instance=curso)
 
@@ -426,7 +436,8 @@ def adm_turmas_visualizar(request, id):
         'matriculas_alunos': matriculas_alunos_array,
         'matriculas_selecionados': matriculas_selecionados,
         'matriculas_candidatos': matriculas_candidatos,
-        'qnt_alunos': len(matriculas_alunos),
+        'qnt_alunos': matriculas_alunos.count(),
+        'qnt_alunos_espera': matriculas_candidatos.count() + matriculas_selecionados.count(),
         'is_cheio': turma.quantidade_permitido <= matriculas_alunos.count()
     }
 
@@ -444,6 +455,7 @@ def visualizar_turma_editar(request, id):
             form.save()
             messages.success(request, 'Turma editada com sucesso!')
             return redirect('adm_turma_visualizar', id)
+        
     context = {
         'turma': turma,
         'form': form
@@ -495,7 +507,7 @@ def visualizar_turma_selecionado(request, matricula):
             matricula.status = 'a'
             matricula.save()
 
-            messages.success = "Candidato selecionado cadastrado como aluno!"
+            messages.success(request, "Candidato selecionado cadastrado como aluno!")
         return redirect('adm_turma_visualizar', matricula.turma.id)
 
     context = {
@@ -520,13 +532,35 @@ def excluir_turma(request, id):
 def adm_realocar(request, id):
     turma = get_object_or_404(Turma, pk=id)
 
-    outras_turmas = Turma.objects.filter(curso=turma.curso).exclude(turma=turma)
+    outras_turmas = Turma.objects.filter(curso=turma.curso).exclude(id=turma.id)
+
     if outras_turmas.count() == 0:
         messages.error(request, f"Antes de alocar os alunos é necessário criar uma turma do curso {turma.curso}")
+        return redirect('adm_turma_visualizar', turma.id)
+    
+    if request.method == "POST":
+        turma_nova = get_object_or_404(Turma, pk=request.POST['turma'])
+        candidatos_selecionados = request.POST.getlist('candidatos_selecionados')
+        for candidato in candidatos_selecionados:
+            matricula_antiga = Matricula.objects.get(matricula=candidato)
+            matricula_antiga.status = 'r'
+            matricula_antiga.save()
 
-    # matriculas = Matricula.objects.filter(turma=turma, Q(status='c' | status='s'))
+            matricula_nova = Matricula.objects.create(turma=turma_nova, aluno=matricula_antiga.aluno, status='c')
 
-    return render(request, 'app_cursos/turmas/adm_turma_realocar.html')
+        messages.success(request, f'Alunos realocados para a turma {turma_nova} com sucesso!')
+        return redirect('adm_turma_visualizar', turma_nova.id)
+
+    matriculas = Matricula.objects.filter(turma=turma)
+    candidatos = matriculas.filter(Q(status='s') | Q(status='c')).order_by('status')
+
+    context = {
+        'turma': turma,
+        'outras_turmas': outras_turmas,
+        'candidatos': candidatos
+    }
+
+    return render(request, 'app_cursos/turmas/adm_turma_realocar.html', context)
 
 @staff_member_required
 def adm_alunos_listar(request):

@@ -25,7 +25,9 @@ urlpatterns = [
 
     path('cursos', views.adm_cursos_listar, name="adm_cursos_listar"),
     path('curso/cadastrar', views.adm_cursos_cadastrar, name="adm_cursos_cadastrar"),
-    path('curso/<id>/editar', views.adm_cursos_editar, name="adm_cursos_editar"),
+    path('curso/<id>/editar', views.adm_curso_editar, name="adm_curso_editar"),
+    path('curso/<id>/visualizar', views.adm_curso_visualizar, name="adm_curso_visualizar"),
+
     # MISSING VISUALIZAR e EXCLUIR
 
     path('instrutores', views.adm_professores_listar, name="adm_professores_listar"),        
