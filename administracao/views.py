@@ -359,7 +359,7 @@ def adm_professores_cadastrar(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Novo Instrutor cadastrada com sucesso!')
-            return redirect('adm_professores')
+            return redirect('adm_professores_listar')
 
     context = {
         'form': form,

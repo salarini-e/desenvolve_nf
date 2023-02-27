@@ -1,7 +1,7 @@
 <div id="navegacao" class="container">
     <div class="row">
       <div class="col  d-flex">
-        <a href="/"  class="me-3">
+        <a href="{% url 'cursos:home' %}"  class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div class="s-nav rounded-circle {% block index %}{% endblock %}"></div>
             <p class="text-dark">Início</p>
@@ -32,7 +32,7 @@
           </div>
         </a>
         {% if request.user.is_staff %}
-        <a href="#" class="me-3">
+        <a href="{% url 'administrativo2' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">Admin</p>

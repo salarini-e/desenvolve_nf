@@ -1,11 +1,12 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
 {% load static%}
-{% block title %}- CURSOS LIVRES - ATIVIDADES{% endblock %}
+{% block nav %}
+{% include 'nav_cursos.html' %}
+{% endblock %}
 {% block css %}
 <script src="{% static 'js/cursos.js' %}"></script>
 {% endblock %}
-{% block cursos %}fw-bold{% endblock %}
 {% block main %}
 <div class="row">
     <div class="col d-flex py-5"> 
@@ -68,7 +69,7 @@
                                                     {% load extras %}
                                                     {{i|turmas}}
                                                 </p>
-                                                <!-- <a id="{{i.nome}}" href="{% url 'prematricula' %}" class="w-100 btnacor btn btn-outline">REALIZAR PRÉ-INSCRIÇÃO NESSA ATIVIDADE</a> -->
+                                                <!-- <a id="{{i.nome}}" href="{% url 'cursos:prematricula' %}" class="w-100 btnacor btn btn-outline">REALIZAR PRÉ-INSCRIÇÃO NESSA ATIVIDADE</a> -->
                                             </div>
                                         </div>
                                     </div>

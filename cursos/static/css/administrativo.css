@@ -5,16 +5,18 @@
     display: flex;
     margin: 0;
     padding: 0;
+    border-radius: 30px;  
 }
 .painel a{
     padding: 20px 0px;
     width: 100%;
     background-color: #24364F;
-    border: 0.5px solid white;    
+    border: 0.5px solid white;      
     text-decoration: none;
     text-align: center;
     font-size: 14pt;
     color: white;
+    border-radius: 30px;  
 }
 
 .painel .ativo{

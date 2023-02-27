@@ -43,7 +43,7 @@
             </style>
             {% endif %}
             {% if error %}
-            <p class="bg-danger text-white py-2 text-center">Usuário ou senha não conferem.</p>
+            <p class="bg-danger text-white mb-4 py-2 text-center">Usuário ou senha não conferem.</p>
             {% endif %}
             <h3>LOGIN</h3>
             <form class="pt-3" method="POST">
@@ -62,7 +62,7 @@
                 </div> -->
                 <button type="submit" class="btn btn-primary w-100 mb-3">Entrar</button>
                 
-                <a href="{% url 'cadastrar_usuario' %}">
+                <a href="{% url 'autenticacao:cadastrar_usuario' %}">
                     <small>                        
                             Quero me cadastrar                    
                     </small>

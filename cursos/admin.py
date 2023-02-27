@@ -14,6 +14,7 @@ admin.site.register(Turno)
 admin.site.register(Presenca)
 admin.site.register(Aula)
 admin.site.register(Justificativa)
+admin.site.register(Requisito)
 
 
 

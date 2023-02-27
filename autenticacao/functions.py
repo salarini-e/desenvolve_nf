@@ -48,20 +48,20 @@ def aluno_required(view_func):
 
             try:
                 pessoa = Pessoa.objects.get(user=request.user)
-                pessoa['cpf']
+                # pessoa['cpf']
             except Exception as e:
-                return redirect("cursos:cadastrar_usuario")
+                return redirect("autenticacao:cadastrar_usuario")
 
             try:
                 aluno = Aluno.objects.get(pessoa=pessoa)
-                aluno['li_e_aceito_termos']
-                aluno['aceita_mais_informacoes']
+                # aluno['li_e_aceito_termos']
+                # aluno['aceita_mais_informacoes']
                 
             except Aluno.DoesNotExist:
-                return redirect("cursos:cadastrar_aluno")
+                return redirect("autenticacao:cadastrar_aluno")
 
-        else:
+        elif not request.user.is_authenticated:
             return redirect(settings.LOGIN_URL)
-        
-        return view_func(request, *args, **kwargs)
+        else:                
+            return view_func(request, *args, **kwargs)
     return wrapper

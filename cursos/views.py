@@ -40,7 +40,7 @@ def cursos(request):
     context = {
         'categorias': cursos,
         'form': form,
-        'titulo': 'Capacitação'
+        'titulo': apps.get_app_config('cursos').verbose_name,
     }
     return render(request, 'cursos/cursos.html', context)
 
@@ -57,7 +57,7 @@ def candidatar(request, id):
 
     context = {
         'form': form,
-        'titulo': 'Capacitação'
+        'titulo': apps.get_app_config('cursos').verbose_name,
     }
     return render(request, 'cursos/cadastrar_candidato.html', context)
 
@@ -150,7 +150,7 @@ def prematricula(request):
         'form': form,
         'form_responsavel': form_responsavel,
         'categorias': cursos,
-        'titulo': 'Capacitação'
+        'titulo': 'Capacitação Profissional'
     }
     return render(request, 'cursos/pre_matricula.html', context)
 

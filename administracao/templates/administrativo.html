@@ -6,7 +6,9 @@
 <link rel="stylesheet" href="{% static 'css/administrativo.css' %}">
 
 {% endblock %}
-{% block administrativo %}fw-bold{% endblock %}
+{% block nav %}
+{% include 'nav_cursos.html' %}
+{% endblock %}
 {% block main %}
 <div class="row">
     <div class="col d-flex pb-5"> 
