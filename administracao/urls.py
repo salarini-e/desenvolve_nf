@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
  
 urlpatterns = [
-    path('', views.administrativo, name="administrativo"),
+    path('', views.administrativo, name="administrativo2"),
 
     path('instiuicoes', views.adm_instituicoes_listar, name="adm_instituicoes_listar"),
     path('instituicao/cadastrar', views.adm_instituicao_cadastrar, name="adm_cadastrar_instituicao"),
@@ -72,5 +72,28 @@ urlpatterns = [
     path('aluno/<matricula>/desmatricular', views.desmatricular_aluno, name="adm_desmatricular_aluno"),
 
     path('csv', views.import_users_from_csv),
-    
+    #####
+
+    path('bem-estar-animal/animal/cadastrar-errante', views.cadastrar_errante, name='cadastrar_errante'),
+    path('bem-estar-animal/animal/listar-errante', views.listar_errante, name='listar_errantes'),
+
+    #tutor
+    path('bem-estar-animal/tutor/', views.listar_tutor, name='listar_tutor'),
+    path('bem-estar-animal/tutor/<tutor_id>/animais/', views.listar_animal_tutor, name='listar_animais_tutor'),
+    path('bem-estar-animal/tutor/<tutor_id>/animais/<animal_id>', views.cad_infos_extras, name='cadastrar_info'),
+
+    #catalogo
+    path('bem-estar-animal/catalogo/cadastrar', views.cad_catalogo_animal, name='cadastrar_catalogo'),
+    path('bem-estar-animal/entrevista-previa/', views.listar_entrevistas, name='listar_entrevistas'),
+    path('bem-estar-animal/entrevista-previa/<id>', views.questionario, name='questionario'),
+
+    # path desativar animal do catalogo
+
+    #token
+    path('bem-estar-animal//gerar-token', views.gerarToken, name='gerar_token'),
+    path('bem-estar-animal//descontar-token', views.descontarToken, name='descontar_token'),
+
+    #adm
+    path('bem-estar-animal/', views.administrativo_bemestaranimal, name='administrativo'),
+    path('bem-estar-animal/censo/', views.censo, name='censo')
 ]

@@ -1,0 +1,46 @@
+{% extends 'template.html' %}
+{% block title %}SSUBEA{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/administrativo.css">
+{% endblock %}
+{% load bootstrap5 %}
+{% block main %}
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "success" %}
+<div class="alert alert-success" role="alert">
+{% else %}
+<div class="alert alert-danger" role="alert">
+{% endif %}
+    <b>{{message}}</b>
+  </div>
+{% endfor %}
+{% endif %}
+<div class="row">
+    <div class="col d-flex pb-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">            
+                <div class="row">
+                    <div class="col text-dark px-4 pt-4">
+                        <h1 class="text-uppercase">
+                          Área do tutor
+                        </h1>
+                        <div class="row px-4 pt-2 d-flex">
+                            <div class="col painel">
+                                <a href="{% url 'cadastrar_animal' %}"><i class="fa-solid fa-paw me-3"></i>Cadastrar animal</a>
+                                <a href="{% url 'listar_animal' %}"><i class="fa-solid fa-paw me-3"></i>Ver animais cadastrados</a>
+                                <a href="{% url 'resgatar_cupom' %}"><i class="fa-solid fa-ticket me-3"></i>Resgatar Cupom</a>                                                            
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+</div>
+
+<script>
+</script>
+{% endblock %}

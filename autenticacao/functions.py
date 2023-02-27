@@ -50,7 +50,7 @@ def aluno_required(view_func):
                 pessoa = Pessoa.objects.get(user=request.user)
                 pessoa['cpf']
             except Exception as e:
-                return redirect("cadastrar_usuario")
+                return redirect("cursos:cadastrar_usuario")
 
             try:
                 aluno = Aluno.objects.get(pessoa=pessoa)
@@ -58,7 +58,7 @@ def aluno_required(view_func):
                 aluno['aceita_mais_informacoes']
                 
             except Aluno.DoesNotExist:
-                return redirect("cadastrar_aluno")
+                return redirect("cursos:cadastrar_aluno")
 
         else:
             return redirect(settings.LOGIN_URL)

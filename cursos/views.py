@@ -12,12 +12,17 @@ from .models import *
 from .forms import *
 
 from eventos.models import Evento
-
+from django.apps import apps
 
 def index(request):
+    try:
+        eventos = Evento.objects.get(is_destaque = True)
+    except:
+        eventos=[]
+    
     context = {
-        'titulo': 'Capacitação',
-        'evento_destaque': Evento.objects.get(is_destaque = True)
+        'titulo': apps.get_app_config('cursos').verbose_name,
+        'evento_destaque': eventos
     }
 
     return render(request, 'cursos/index.html', context)

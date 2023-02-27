@@ -224,12 +224,9 @@ class Aluno(models.Model):
     pessoa=models.OneToOneField(Pessoa, on_delete=models.CASCADE, editable=False)
 
     profissão = models.CharField(max_length=150, verbose_name='Profissão', null=True)
-    escolaridade = models.CharField(
-        max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade', null=True, blank=True)
-    estado_civil = models.CharField(
-        max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil', null=True)
-    aceita_mais_informacoes = models.BooleanField(
-        verbose_name='Declaro que aceito receber email com as informações das atividades', null=True)
+    escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade', null=True, blank=True)
+    estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil', null=True)
+    aceita_mais_informacoes = models.BooleanField(verbose_name='Declaro que aceito receber email com as informações das atividades', null=True)
     li_e_aceito_termos = models.BooleanField(verbose_name='Li e aceito os termos', null=True)
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False, null=True)
 

@@ -1,0 +1,87 @@
+{% extends 'template.html' %}
+{% block title %}SSUBEA{% endblock %}
+{% block css %}{% endblock %}
+{% block nav %}
+{% include 'nav_bemestaranimal.html' %}
+{% endblock %}
+{% block main %}
+{% load bootstrap5 %}
+<div class="container pb-5">
+    <div class="row pb-2">
+        <div class="col">
+            <h2>{% if animal.nome %}{{animal.nome}}{% else %}{{animal.raca}}{% endif %}</h2>
+        </div>
+        <div class="col">
+            <h2>Entrevista prévia para adoção</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col d-flex ">
+            <div class="">
+                <div class="det-img">
+                <img src="{{animal.animal_image.url}}" class="img-fluid rounded-3">
+                </div>
+                <div class="c-text d-flex flex-column">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Pelagem</th>
+                            <td>{{animal.pelagem}}</td>
+                        </tr>
+                        <tr>
+                            <th>Idade</th>
+                            <td>{{animal.idade}} {% if animal.idade == 1 %}ano.{% else %}anos.{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Raça</th>
+                            <td>{{animal.idade}}</td>
+                        </tr>
+                        <tr>
+                            <th>Sexo</th>
+                            <td>{% if animal.sexo == 'o' %}Macho{% else %}Fêmea{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Castrad{{animal.sexo}}</th>
+                            <td>{% if animal.castrado %}SIM{% else %}NÃO{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Vacinad{{animal.sexo}}</th>
+                            <td>{% if animal.vacinado %}SIM{% else %}NÃO{% endif %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <form method="POST">
+            {% bootstrap_form entrevistaPrevia_Form %}
+            <button type="submit" class="btn btn-primary w-100 mb-3" id="send">Cadastrar</button>
+            </form>
+         
+        </div>
+    </div>
+    </div>
+    {% for message in messages %}
+    <div class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>{{message}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor%}
+<script>
+
+</script>
+{% endblock %}

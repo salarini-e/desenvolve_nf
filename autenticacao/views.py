@@ -116,7 +116,7 @@ def cadastro_aluno(request):
             aluno.save()
 
             messages.success(request, "Cadastro completo!")
-            return redirect('home')
+            return redirect('cursos:home')
 
 
     context = {

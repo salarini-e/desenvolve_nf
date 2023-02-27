@@ -1,27 +1,37 @@
 {% extends 'template.html' %}
 {% load static %}
+{{% block nav %}
+{% include 'nav_cursos.html' %}
+{% endblock %}}
+{% block index %}
+.s-nav-active
+{% endblock %}
 {% block main %}
-<div class="row">
-  <h2 class="ms-4 py-1">Destaque</h2>
-</div>
-<div class="row">
-  <div class="d-flex">
-    <div class="img-destaque">
-      <img src="{{evento_destaque.banner_img.url}}" class="img-fluid">
-    </div>
-    <div class="text-destaque my-4 mx-4 d-flex flex-column">
-      <h5 class="mb-1">{{evento_destaque.titulo}}</h5>
-      <h7 class="mb-1">{{evento_destaque.subtitulo}}</h7>
-      <p class="time fw-bold">{{evento_destaque.data_inicio | date:"d/m/y"}} - {{evento_destaque.data_fim | date:"d/m/y"}}</p>
-      <p class="local"><a href="{{evento_destaque.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{evento_destaque.local}}<a/></p>
-      <p class="inf text-secondary">{{evento_destaque.descricao}}</p>
-      <a href="" target="_blank" class="btn btn-outline-primary btn-details my-auto me-1">Detalhes</a>
+<div class="container">
+<div class="row mx-auto bg-destaque ps-4 pb-5 pt-1">
+  <div class="row">
+    <h2 class="ms-2 py-1">Destaque</h2>
+  </div>
+  <div class="row ">
+    <div class="d-flex bg-white img-txt">
+      <div class="img-destaque">
+        <img src="{{evento_destaque.banner_img.url}}" style="width: 791.925px;">
+      </div>
+      <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
+        <h5 class="mb-1">{{evento_destaque.subtitulo}}</h5>
+        <h7 class="mb-1">{{evento_destaque.subtitulo}}</h7>
+        <p class="time">{{evento_destaque.data_inicio | date:"d/m/y"}} - {{evento_destaque.data_fim | date:"d/m/y"}}</p>
+        <p class="local"><a href="{{evento_destaque.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{evento_destaque.local}}</a></p>    
+        <p class="inf text-secondary">{{evento_destaque.descricao}}</p>
+        <button class="btn btn-outline-primary btn-details me-auto" id="esp">Detalhes</button>
+      </div>
     </div>
   </div>
 </div>
 <div class="row">
-  <h2 class="ms-4 pt-5 pb-4">Cursos e Palestras</h2>
+  <h2 class="ms-5 pt-5 pb-4">Cursos e Palestras</h2>
 </div>
+
 <div class="row mx-auto px-5">
   <div class="d-flex justify-content-evenly">
     <div class="item">
@@ -30,7 +40,7 @@
       </div>
       <div class="c-text mx-2 d-flex flex-column py-1">
         <h5>Curso do Rhafael</h5>
-        <p class="time fw-bold">09/01/2023</p>
+        <p class="time ">09/01/2023</p>
         <p>Curso de finanças pessoais lorem ipsum dolor...</p>
         <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
       </div>
@@ -41,7 +51,7 @@
       </div>
       <div class="c-text mx-2 d-flex flex-column py-1">
         <h5>Curso do Rhafael</h5>
-        <p class="time fw-bold">09/01/2023</p>
+        <p class="time ">09/01/2023</p>
         <p>Curso de finanças pessoais lorem ipsum dolor...</p>
         <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
       </div>
@@ -52,7 +62,7 @@
       </div>
       <div class="c-text mx-2 d-flex flex-column py-1">
         <h5>Curso do Rhafael</h5>
-        <p class="time fw-bold">09/01/2023</p>
+        <p class="time ">09/01/2023</p>
         <p>Curso de finanças pessoais lorem ipsum dolor...</p>
         <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
       </div>
@@ -63,7 +73,7 @@
       </div>
       <div class="c-text mx-2 d-flex flex-column py-1">
         <h5>Curso do Rhafael</h5>
-        <p class="time fw-bold">09/01/2023</p>
+        <p class="time ">09/01/2023</p>
         <p>Curso de finanças pessoais lorem ipsum dolor...</p>
         <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
       </div>
@@ -71,5 +81,61 @@
 
   </div>
 </div>
+<div class="row">
+  <h2 class="ms-5 pt-5 pb-4">Ensino Superior e Técnico</h2>
+</div>
 
+<div class="row mx-auto px-5">
+  <div class="d-flex justify-content-evenly">
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time ">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+      </div>
+    </div>
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time ">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+      </div>
+    </div>
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time ">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+      </div>
+    </div>
+    <div class="item">
+      <div class="c-img">
+        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      </div>
+      <div class="c-text mx-2 d-flex flex-column py-1">
+        <h5>Curso do Rhafael</h5>
+        <p class="time ">09/01/2023</p>
+        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
+        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="row mx-auto px-5">
+  
+</div>
+</div>
 {% endblock %}

@@ -1,0 +1,47 @@
+<div id="navegacao" class="container">
+    <div class="row">
+      <div class="col  d-flex">
+        <a href="/"  class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div class="s-nav rounded-circle {% block index %}{% endblock %}"></div>
+            <p class="text-dark">Início</p>
+          </div>
+        </a>
+        <a href="{% url 'cursos:cursos' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Cursos Livres</p>
+          </div>
+        </a>
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">Palestras</p>
+          </div>
+        </a>        
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">En. Superior</p>
+          </div>
+        </a>
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">En. Técnico</p>
+          </div>
+        </a>
+        {% if request.user.is_staff %}
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">Admin</p>
+          </div>
+        </a>
+        {% endif %}
+      </div>
+      <div class="col d-flex">
+        <img class="ms-auto" src="/static/images/Screenshot_2.png" alt="">
+      </div>
+    </div>
+  </div>
