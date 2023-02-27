@@ -129,7 +129,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-migrations/
-cursos_livres/static/
-cursos_livres/media/
