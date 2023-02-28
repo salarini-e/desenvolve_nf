@@ -117,10 +117,17 @@ p, h5, ul{
   width: 279px;
   margin: auto;
 }
+.c-img img{
+  border-radius: 10px;
+  /* border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important; */
+}
 .c-text{
-  padding: 20px;
-  /* box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);   */
-  
+  padding: 20px;  
+}
+.cursos-text{
+  padding: 10px 10px;
+  min-height: 200px;  
 }
 .d-img{
   /* height: 229px; */
@@ -132,6 +139,7 @@ p, h5, ul{
 .item{
   margin: auto;
   width: 280px;
+  height: 100%;
   padding-top: 15px;
   border-radius: 10px;
   box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);  

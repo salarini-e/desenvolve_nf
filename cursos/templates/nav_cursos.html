@@ -7,13 +7,13 @@
             <p class="text-dark">Início</p>
           </div>
         </a>
-        <a href="{% url 'cursos:cursos' %}" class="me-3">
+        <a href="{% url 'cursos:cursos' tipo='cursos' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Cursos Livres</p>
           </div>
         </a>
-        <a href="#" class="me-3">
+        <a href="{% url 'cursos:cursos' tipo='palestras' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">Palestras</p>

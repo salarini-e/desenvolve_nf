@@ -53,7 +53,7 @@ def adm_cursos_cadastrar(request):
     form = CadastroCursoForm()
 
     if request.method == 'POST':
-        form = CadastroCursoForm(request.POST)
+        form = CadastroCursoForm(request.POST, request.FILES)
         if form.is_valid():
             curso = form.save(commit=False)
             curso.user_inclusao = request.user

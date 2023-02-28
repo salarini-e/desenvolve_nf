@@ -34,51 +34,22 @@
 
 <div class="row mx-auto px-5">
   <div class="d-flex justify-content-evenly">
+    {% for curso in cursos %}
     <div class="item">
-      <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+      <div class="c-img" style="position: relative;">
+        <img src="{{curso.banner.url}}" class="img-fluid">
+        <span class="badge" style="border-radius: 0.3rem; position: absolute; top: 0; right: 0; margin: 10px; background-color: {{curso.curso.categoria.cor}};">
+          {{curso.curso.categoria.nome}}<br>          
+        </span>
       </div>
       <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
-        <p class="time ">09/01/2023</p>
-        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
-        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
+        <h5 class="mt-2">{{curso.nome}}</h5>
+        <p class="time ">{{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
+        <p>{{curso.descricao}}</p>
+        <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3 mx-auto" id="esp-2">Ver detalhes</a>
       </div>
     </div>
-    <div class="item">
-      <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
-      </div>
-      <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
-        <p class="time ">09/01/2023</p>
-        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
-        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
-      </div>
-    </div>
-    <div class="item">
-      <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
-      </div>
-      <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
-        <p class="time ">09/01/2023</p>
-        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
-        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
-      </div>
-    </div>
-    <div class="item">
-      <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
-      </div>
-      <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
-        <p class="time ">09/01/2023</p>
-        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
-        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
-      </div>
-    </div>
-
+    {% endfor %}
   </div>
 </div>
 <div class="row">
@@ -89,48 +60,16 @@
   <div class="d-flex justify-content-evenly">
     <div class="item">
       <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
+        <img src="http://localhost:8000/media/cursos_livres/media/banner/financas-pessoais.jpg" class="img-fluid">
       </div>
       <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
+        <h5 class="mt-2">Curso do Rhafael</h5>
         <p class="time ">09/01/2023</p>
         <p>Curso de finanças pessoais lorem ipsum dolor...</p>
         <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
       </div>
     </div>
-    <div class="item">
-      <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
-      </div>
-      <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
-        <p class="time ">09/01/2023</p>
-        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
-        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
-      </div>
-    </div>
-    <div class="item">
-      <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
-      </div>
-      <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
-        <p class="time ">09/01/2023</p>
-        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
-        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
-      </div>
-    </div>
-    <div class="item">
-      <div class="c-img">
-        <img src="{% static 'images/capacitanf.png' %}" class="img-fluid rounded-3">
-      </div>
-      <div class="c-text mx-2 d-flex flex-column py-1">
-        <h5>Curso do Rhafael</h5>
-        <p class="time ">09/01/2023</p>
-        <p>Curso de finanças pessoais lorem ipsum dolor...</p>
-        <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
-      </div>
-    </div>
+    
 
   </div>
 </div>

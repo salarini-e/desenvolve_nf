@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     #terceiros
     'bootstrap5',
     'fontawesomefree',
+    'colorfield',
     #apps
     'desenvolve_nf',
     'cursos',

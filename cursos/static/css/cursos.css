@@ -1,21 +1,4 @@
-#banner{
-    height: 500px;
-}
 
-#banner h1{
-    font-size: 120pt;
-}
-
-main{
-    background-color: rgb(0, 0, 0);
-    background-image: url('/static/images/bg-uerj.jpg');
-    background-size: cover;
-
-    color: rgb(255, 255, 255);
-}
-.bg{
-    background-color: #104a74;
-}
 .filtro{
     align-items: center
 }

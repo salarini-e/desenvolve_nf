@@ -1,21 +1,10 @@
 import random
 from django.db import models
 from django.contrib.auth.models import User
+from colorfield.fields import ColorField
 
 from autenticacao.models import Pessoa
 
-
-class Instituicao(models.Model):
-    class Meta:
-        verbose_name = 'Instituição'
-        verbose_name_plural = "Instituições"
-        ordering = ['nome']
-
-    nome = models.CharField(max_length=150)
-    sigla = models.CharField(max_length=6, unique=True)
-
-    def __str__(self):
-        return '%s' % (self.nome)
 
 
 class Local(models.Model):
@@ -33,6 +22,18 @@ class Local(models.Model):
     def __str__(self):
         return '%s - %s, %s' % (self.nome, self.endereco, self.bairro)
 
+class Instituicao(models.Model):
+    class Meta:
+        verbose_name = 'Instituição'
+        verbose_name_plural = "Instituições"
+        ordering = ['nome']
+
+    nome = models.CharField(max_length=150)
+    sigla = models.CharField(max_length=6, unique=True)
+    local = models.ForeignKey(Local, on_delete=models.PROTECT, blank=True, null=True)
+
+    def __str__(self):
+        return '%s' % (self.nome)
 
 class Categoria(models.Model):
     class Meta:
@@ -41,6 +42,8 @@ class Categoria(models.Model):
         ordering = ['nome']
 
     nome = models.CharField(max_length=150, verbose_name='Nome da categoria')
+    cor = ColorField(default='#FF0000')
+    icone = models.ImageField(upload_to = 'cursos_livres/media/icone_categoria/', null=True)
 
     def __str__(self):
         return '%s' % (self.nome)
@@ -53,10 +56,18 @@ class Requisito(models.Model):
 
 class Curso(models.Model):
     class Meta:
-        verbose_name = 'Categoria'
-        verbose_name_plural = "Categorias"
+        verbose_name = 'Curso'
+        verbose_name_plural = "Cursos"
         ordering = ['nome']
 
+    TIPO = [
+        ('C', 'Curso'),
+        ('P', 'Palestra'),        
+    ]
+    TIPO_CARGA_HORARIA = [
+        ('h', 'Hora'),
+        ('m', 'Minuto'),        
+    ]
     ESCOLARIDADES = [
         ('F', 'Ensino Fundamental'),
         ('M', 'Ensino Médio'),
@@ -64,11 +75,14 @@ class Curso(models.Model):
         ('S', 'Ensino Superior'),
     ]
 
+    tipo = models.CharField(max_length=1, choices=TIPO)
+    banner = models.ImageField(upload_to = 'cursos_livres/media/banner/', null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     nome = models.CharField(max_length=150)
     sigla = models.CharField(max_length=3, unique=True)
     instituicao = models.ForeignKey(Instituicao, on_delete=models.CASCADE)
     carga_horaria = models.IntegerField(verbose_name="Carga horária")
+    tipo_carga_horaria = models.CharField(max_length=1, choices=TIPO_CARGA_HORARIA)
     descricao = models.TextField(default='')
     ativo = models.BooleanField(default=True)
     nivel_ensino = models.CharField(max_length=1, choices=ESCOLARIDADES)
@@ -83,6 +97,7 @@ class Curso(models.Model):
 
     def __str__(self):
         return '%s' % (self.nome)
+
 
 
 class Instrutor(models.Model):
@@ -374,3 +389,4 @@ class Presenca(models.Model):
 
     def __str__(self):
         return f"{self.matricula} - {self.get_status_display()}"
+    

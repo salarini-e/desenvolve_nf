@@ -20,30 +20,50 @@ def index(request):
     except:
         eventos=[]
     
-    context = {
+    context = { 
         'titulo': apps.get_app_config('cursos').verbose_name,
-        'evento_destaque': eventos
+        'evento_destaque': eventos,
+        'cursos': Curso.objects.all()
     }
 
     return render(request, 'cursos/index.html', context)
 
 
 @aluno_required
-def cursos(request):
+def cursos(request, tipo):
     form = Aluno_form()
     categorias = Categoria.objects.all()
     cursos = []
-    for i in categorias:
-        cursos.append(
-            {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
+    if tipo == 'cursos':
+        filtro_titulo='Cursos → Todos'
+        for i in categorias:
+            cursos.append(
+                {'categoria': i, 'curso': Curso.objects.filter(tipo='C', categoria=i, ativo=True)})
+    elif tipo == 'palestras':
+        filtro_titulo='Palestra → Todas'
+        for i in categorias:
+            cursos.append(
+                {'categoria': i, 'curso': Curso.objects.filter(tipo='P', categoria=i, ativo=True)})
+    else:         
+        filtro_titulo='O que você está procurando?'
 
     context = {
         'categorias': cursos,
         'form': form,
         'titulo': apps.get_app_config('cursos').verbose_name,
+        'filtro': filtro_titulo,
+        'tipo': tipo
     }
     return render(request, 'cursos/cursos.html', context)
 
+@aluno_required
+def curso_detalhe(request, tipo, id):    
+    context={
+        'curso': Curso.objects.get(id=id),
+        'tipo': tipo,
+        'titulo': apps.get_app_config('cursos').verbose_name,
+    }
+    return render(request, 'cursos/curso_detalhe.html', context)
 
 @login_required
 def candidatar(request, id):

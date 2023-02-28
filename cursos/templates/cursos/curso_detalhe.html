@@ -1,0 +1,54 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block nav %}
+{% include 'nav_cursos.html' %}
+{% endblock %}
+{% block css %}
+<script src="{% static 'js/cursos.js' %}"></script>
+{% endblock %}
+{% block main %}
+<div class="row">
+    <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">                                
+                <div class="row">
+                    <div class="col d-flex flex-column">
+                        <div class="row">
+                            <div class="col d-flex py-2">
+                                <img class="my-auto" src="{{curso.categoria.icone.url}}" alt="">
+                                <h1 class="my-auto">
+                                    {{curso}}
+                                </h1> 
+                            </div>
+                        </div>
+                        <img class="w-100 mx-auto" src="{{curso.banner.url}}" alt="" style="border-radius: 30px;">
+                    </div>
+                </div>   
+                <div class="row">
+                    <div class="col p-5 d-flex flex-column">
+                        <b>Descrição:</b>
+                        <p>{{curso.descricao}}</p>                                
+                    </div>
+                    <div class="col-4 p-5 d-flex justify-content-between">
+                        <p><b>Duração:</b> {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
+                        <p><b>Nível:</b> {{curso.get_nivel_ensino_display}}</p>
+                        
+                    </div>
+                </div>   
+               <div class="row">
+                <div class="col">
+                    
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-primary rounded-pill w-100" style="font-size: 20pt; border-radius: 25px !important; background-color: #24364F; border-color: #24364F;">
+                        Quero me matricular
+                    </button>
+                </div>
+               </div>
+           
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
