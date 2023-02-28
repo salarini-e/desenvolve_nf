@@ -28,24 +28,59 @@
                 <div class="row">
                     <div class="col p-5 d-flex flex-column">
                         <b>Descrição:</b>
-                        <p>{{curso.descricao}}</p>                                
+                        <p>{{curso.descricao}}</p>   
+                        <b class="mt-2">Categoria da atividade:</b>                      
+                        <p>{{curso.categoria}}</p>
+                        <b class="mt-2">Instituição:</b>
+                        <p>{{curso.instituicao}}</p>
+                        <b class="mt-2">Instrutore(s):</b>
+                        
+                            {% if turmas %}
+                            {% for turma in turmas %}
+                            {% if turma.instrutores %}
+                            {% for instrutor in turma.instrutores.all %}
+                            <p>
+                            {{instrutor}}
+                            </p>
+                            {% endfor %}
+                            {% else %}
+                            <p>
+                            <i class="text-secondary">Não há insformações a respeito dos instrutores.</i>
+                            </p>
+                            {% endif %}                            
+                            {% endfor %}
+                            {% else %}
+                            <p>
+                            <i class="text-secondary">Não há insformações a respeito dos instrutores.</i>
+                            </p>
+                            {% endif %}
+                        
+                        <b class="mt-2">Requisitos:</b>
+                        {% for requisito in cursos.requisitos.all %}
+                        <p>{{requisito}}</p>
+                        {% endfor %}
                     </div>
                     <div class="col-4 p-5 d-flex justify-content-between">
-                        <p><b>Duração:</b> {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
-                        <p><b>Nível:</b> {{curso.get_nivel_ensino_display}}</p>
+                        <div class="row w-100">
+                           <div class="col">
+                            <p class="mb-4">
+                                <b>
+                                    <i class="fa-solid fa-clock me-3"></i>Duração:
+                                </b> 
+                                {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}
+                            </p>    
+                            <p class="mb-5"><b><i class="fa-solid fa-graduation-cap me-2"></i> Nível:</b> {{curso.get_nivel_ensino_display}}</p>
+                            <button class="btn btn-primary rounded-pill w-100" style="font-size: 16pt; border-radius: 25px !important; background-color: #24364F; border-color: #24364F;">                                
+                                Quero me matricular
+                                <i class="fa-solid fa-clipboard-check ms-2"></i>
+                            </button> 
+                           </div>   
+                        </div>
+                        
+                        
                         
                     </div>
-                </div>   
-               <div class="row">
-                <div class="col">
-                    
-                </div>
-                <div class="col-4">
-                    <button class="btn btn-primary rounded-pill w-100" style="font-size: 20pt; border-radius: 25px !important; background-color: #24364F; border-color: #24364F;">
-                        Quero me matricular
-                    </button>
-                </div>
-               </div>
+                </div>                  
            
             </div>
         </div>

@@ -37,22 +37,22 @@
     {% for curso in cursos %}
     <div class="item">
       <div class="c-img" style="position: relative;">
-        <img src="{{curso.banner.url}}" class="img-fluid">
-        <span class="badge" style="border-radius: 0.3rem; position: absolute; top: 0; right: 0; margin: 10px; background-color: {{curso.curso.categoria.cor}};">
-          {{curso.curso.categoria.nome}}<br>          
+        <img src="{{curso.banner.url}}" style="width: 279px; height: 101px;">
+        <span class="badge" style="border-radius: 0.35rem; position: absolute; top: 0; right: 0; margin: 5px; background-color: {{curso.categoria.cor}};">
+          {{curso.categoria.nome}}
         </span>
       </div>
-      <div class="c-text mx-2 d-flex flex-column py-1">
+      <div class="curso-text mx-2 d-flex flex-column py-1">
         <h5 class="mt-2">{{curso.nome}}</h5>
-        <p class="time ">{{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
-        <p>{{curso.descricao}}</p>
-        <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3 mx-auto" id="esp-2">Ver detalhes</a>
+        <p class="time ">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
+        <p class="mb-3">{{curso.descricao}}</p>
+        <a href="{% url 'cursos:curso_detalhe' tipo=curso.get_tipo_display id=curso.id %}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
-<div class="row">
+<!-- <div class="row">
   <h2 class="ms-5 pt-5 pb-4">Ensino Superior e Técnico</h2>
 </div>
 
@@ -69,10 +69,8 @@
         <button class="btn btn-outline-primary rounded-1 btn-details py-1  my-3 mx-auto" id="esp-2">Ver detalhes</button>
       </div>
     </div>
-    
-
   </div>
-</div>
+</div> -->
 <div class="row mx-auto px-5">
   
 </div>
