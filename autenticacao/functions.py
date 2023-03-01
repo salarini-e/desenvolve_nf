@@ -43,25 +43,21 @@ def aluno_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated and not request.user.is_superuser:
-            pessoa = ''
-            aluno = ''
-
             try:
-                pessoa = Pessoa.objects.get(user=request.user)
-                # pessoa['cpf']
+                pessoa = Pessoa.objects.get(user=request.user)                
             except Exception as e:
+                #redireciona para cadastrar Pessoa
                 return redirect("autenticacao:cadastrar_usuario")
 
             try:
-                aluno = Aluno.objects.get(pessoa=pessoa)
-                # aluno['li_e_aceito_termos']
-                # aluno['aceita_mais_informacoes']
-                
+                aluno = Aluno.objects.get(pessoa=pessoa)                                
             except Aluno.DoesNotExist:
+                #redireciona para cadastrar Aluno
                 return redirect("autenticacao:cadastrar_aluno")
-
-        elif not request.user.is_authenticated:
-            return redirect(settings.LOGIN_URL)
-        else:                
-            return view_func(request, *args, **kwargs)
+            
+            return view_func(request, *args, **kwargs)   
+        elif request.user.is_superuser:
+            return view_func(request, *args, **kwargs)   
+        else:
+            return redirect(settings.LOGIN_URL)                
     return wrapper

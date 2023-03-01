@@ -1,12 +1,36 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.db.models import Count
 from .models import *
 from .forms import *
 from .functions import generateToken
 from django.apps import apps
+
+# Create your views here.
+
+# def aluno_required(view_func):
+#     @wraps(view_func)
+#     def wrapper(request, *args, **kwargs):
+#         if request.user.is_authenticated:
+#             pessoa = ''
+#             aluno = ''
+
+#             try:
+#                 pessoa = Pessoa.objects.get(user=request.user)
+#             except Exception as e:
+#                 return redirect("cadastrar_usuario")
+
+#             try:
+#                 aluno = Aluno.objects.get(pessoa=pessoa)
+#             except Aluno.DoesNotExist:
+#                 return redirect("cadastrar_aluno")
+
+#         else:
+#             return redirect(settings.LOGIN_URL)
+        
+#         return view_func(request, *args, **kwargs)
+#     return wrapper
 
 def cadastro_tutor(request):
     if request.user.is_authenticated:
@@ -15,7 +39,7 @@ def cadastro_tutor(request):
             if pessoa:
                 pass
         except:
-            return redirect('cadastrar_usuario')
+            return redirect('bemestaranimal:cadastrar_usuario')
         try:
             tutor = Tutor.objects.get(pessoa_id=pessoa.id)
             verify = True
@@ -26,28 +50,28 @@ def cadastro_tutor(request):
             print(pessoa)
             form_tutor = Form_Tutor(initial={'pessoa':pessoa})
         else:
-            return redirect('index')
+            return redirect('bemestaranimal:index')
     else:
         return redirect('cadastrar_usuario')
     if request.method == "POST":
         form_tutor = Form_Tutor(request.POST)
         if form_tutor.is_valid():
             form_tutor.save()
-            return redirect('index')
+            return redirect('bemestaranimal:index')
     context={
         'form_tutor':form_tutor,
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     return render(request, 'autenticacao/completar-cadastro.html', context)
 
+
+
 def index(request):
-    catalogo = Catalogo.objects.all()[:4]
-    context = {
-        'catalogo':catalogo,
+    context={
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
+        'catalogo': Catalogo.objects.all()
     }
     return render(request, 'index.html', context)
-
 
 @login_required
 def area_tutor(request):
@@ -59,13 +83,15 @@ def area_tutor(request):
         return redirect('completar_cadastro')
     return render(request, 'tutor/area_tutor.html')
 
-
-
 @login_required
 def cadastrar_animal(request):
-    pessoa = Pessoa.objects.get(user_id=request.user.id)
-    tutor = Tutor.objects.get(pessoa_id=pessoa.id)
-    animal_form = Form_Animal(initial={'tutor':tutor})
+    try:
+        pessoa = Pessoa.objects.get(user_id=request.user.id)
+        tutor = Tutor.objects.get(pessoa_id=pessoa.id)
+        animal_form = Form_Animal(initial={'tutor':tutor})
+    except:
+        messages.error(request, 'Você não é cadastrado como tutor!')
+        return redirect('bemestaranimal:completar_cadastro')
     especie_form = Form_Especie()
     if request.method == "POST":
         animal_form = Form_Animal(request.POST, request.FILES)
@@ -79,6 +105,7 @@ def cadastrar_animal(request):
             animal_form = Form_Animal(initial={'tutor':tutor})
             especie_form = Form_Especie()
 
+
     try:
         animais = Animal.objects.filter(tutor=tutor)
     except:
@@ -90,24 +117,6 @@ def cadastrar_animal(request):
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     return render(request, 'tutor/animal_cadastro.html', context)
-
-@login_required
-def listar_animal(request):
-    pessoa = Pessoa.objects.get(user_id=request.user.id)
-    tutor = Tutor.objects.get(pessoa_id=pessoa.id)
-    try:
-        animais = Animal.objects.filter(tutor=tutor)
-    except:
-        animais = []
-    if len(animais)==0:
-        messages.error(request, 'Você não há animais cadastrados ainda.')
-        return render(request, 'tutor/area_tutor.html')
-    context = {
-        'animais':animais,
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
-    }
-    return render(request, 'tutor/animal_listar.html', context)
-
 
 @login_required
 def editar_animal(request, id):
@@ -134,12 +143,12 @@ def editar_animal(request, id):
                     especie.delete()
                 except:
                     pass
-        return redirect('cadastrar_animal')               
+        return redirect('bemestaranimal:cadastrar_animal')               
     context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'animal':animal,
         'animal_form': animal_form,
         'especie_form': especie_form,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     return render(request, 'tutor/animal_editar.html', context)
 
@@ -147,58 +156,17 @@ def editar_animal(request, id):
 def deletar_animal(request, id):
     animal = Animal.objects.get(pk=id)
     animal.delete()
-    return redirect('cadastrar_animal')
-
-def catalogo(request):
-    catalogo = Catalogo.objects.all()
-    context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
-        'catalogo':catalogo
-    }
-    return render(request, 'catalogo/animal-catalogo.html', context)
-
-
-def entrevistaAdocao(request, id):
-    animal = Catalogo.objects.get(pk=id)
-    entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={'animal':animal})
-    if request.method == "POST":
-        entrevistaPrevia_Form = Form_EntrevistaPrevia(request.POST)
-        if entrevistaPrevia_Form.is_valid():
-            entrevistaPrevia_Form.save()
-            messages.success(request, 'Uma orientação')
-            return redirect('index')
-    context = {
-        'entrevistaPrevia_Form': entrevistaPrevia_Form,
-        'adocao':animal,
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
-    }
-    return render(request, 'catalogo/entrevista.html', context)
-    
+    return redirect('bemestaranimal:cadastrar_animal')
 
 @login_required
-def resgatar_cupom(request):
-    pessoa = Pessoa.objects.get(user_id=request.user.id)
-    tutor = Tutor.objects.get(pessoa_id=pessoa.id)
-    try:
-        cupom = TokenDesconto.objects.get(tutor=tutor)
-    except:
-        messages.error(request, 'Cupom não disponibilizado.')
-        return render(request, 'tutor/area_tutor.html')
-    context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
-        'cupom':cupom
-    }
-    return render(request, 'tutor/resgatar-token.html', context)
-
-
-@staff_member_required
 def cadastrar_errante(request):
     errante_form = Form_Errante()
     especie_form = Form_Especie()
 
     context = {
         'errante_form': errante_form,
-        'especie_form': especie_form
+        'especie_form': especie_form,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     if request.method == "POST":
         errante_form = Form_Errante(request.POST, request.FILES)
@@ -210,48 +178,38 @@ def cadastrar_errante(request):
                 especie, verify = Especie.objects.get_or_create(nome_especie=v_especie.nome_especie)
                 errante.especie = especie
                 errante.save()
-                messages.success(request, 'Animal cadastrado com sucesso!')
-                return redirect('cadastrar_errante')
+
+                return redirect('bemestaranimal:index')
     context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'errante_form': errante_form,
-        'especie_form': especie_form
-    }
-    return render(request, 'errante/animal-errante-cadastro.html', context)
-
-@staff_member_required
-def listar_errante(request):
-    errantes = Errante.objects.all()
-    context = {
+        'especie_form': especie_form,
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
-        'errantes':errantes
     }
-    return render(request, 'errante/animal_errante.html', context)
+    return render(request, 'adm/animal-errante-cadastro.html', context)
 
-@staff_member_required
+@login_required
 def listar_tutor(request):
     qntd = Tutor.objects.all().count()
     tutores = Tutor.objects.annotate(num=Count('animal'))
     context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'tutores':tutores,
         'qntd':qntd,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     return render(request, 'adm/listar-tutores.html', context)
 
-@staff_member_required
+@login_required
 def listar_animal_tutor(request, tutor_id):
     animais = Animal.objects.filter(tutor_id=tutor_id)
     tutor = Tutor.objects.get(pk=tutor_id).pessoa.nome
     context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'animais':animais,
-        'tutor':tutor
+        'tutor':tutor,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     return render(request, 'adm/listar-animais-tutor.html', context)
 
-
-@staff_member_required
+@login_required
 def cad_infos_extras(request, tutor_id, animal_id):
     animal = Animal.objects.get(pk=animal_id)
     try:
@@ -261,9 +219,9 @@ def cad_infos_extras(request, tutor_id, animal_id):
     except:
         info_extras_form = Form_Info_Extras(initial={'animal':Animal.objects.get(pk=animal_id).id})
     context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'info_extras_form':info_extras_form,
-        'animal':animal
+        'animal':animal,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     if request.method == "POST":
         if info:
@@ -274,7 +232,7 @@ def cad_infos_extras(request, tutor_id, animal_id):
             info_extras_form.save()
     return render(request, 'adm/info-extra-cadastrar.html', context)
 
-@staff_member_required
+@login_required
 def cad_catalogo_animal(request):
     animal_form = Form_Animal()
     especie_form = Form_Especie()
@@ -300,37 +258,45 @@ def cad_catalogo_animal(request):
         else:
             messages.error(request, 'Por favor, corrija os erros abaixo.')
     context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'animal_catalogo_form':animal_catalogo_form,
         'especie_form':especie_form,
-        'animal_form':animal_form
+        'animal_form':animal_form,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
 
     }
     return render(request, 'catalogo/animal-catalogo-cadastrar.html', context)
 
-@staff_member_required
-def listar_entrevistas(request):
-    estrevistas = EntrevistaPrevia.objects.all()
-    context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
-        'entrevistas':estrevistas
-    }
-    return render(request, 'adm/listar_entrevista_previa.html', context)
 
-@staff_member_required
-def questionario(request, id):
-    entrevista = EntrevistaPrevia.objects.get(pk=id)
-    form_entrevista = Form_EntrevistaPrevia(instance=entrevista)
+def catalogo(request):
+    catalogo = Catalogo.objects.all()
     context = {
+        'catalogo':catalogo,
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
-        'entrevista':entrevista,
-        'form_entrevista':form_entrevista
     }
-    return render(request, 'adm/questionario.html', context)
+    return render(request, 'catalogo/animal-catalogo.html', context)
 
-@staff_member_required
+
+def entrevistaAdocao(request, id):
+    animal = Catalogo.objects.get(pk=id)
+    entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={'animal':animal})
+    if request.method == "POST":
+        entrevistaPrevia_Form = Form_EntrevistaPrevia(request.POST)
+        if entrevistaPrevia_Form.is_valid():
+            entrevistaPrevia_Form.save()
+            messages.success(request, 'Uma orientação?')
+            return redirect('bemestaranimal:index')
+    context = {
+        'entrevistaPrevia_Form': entrevistaPrevia_Form,
+        'adocao':animal,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
+    }
+    return render(request, 'catalogo/entrevista.html', context)
+    
+
+@login_required
 def gerarToken(request):
     #pra conseguir só os tutores que tem animal cadastrado
+    
     tutores = Tutor.objects.all()
     count_s = 0
     count_n = 0
@@ -346,57 +312,48 @@ def gerarToken(request):
         else:
             count_n += 1
     context = {
-        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'tutor_animal':count_s,
-        'tutor_s_animal':count_n
+        'tutor_s_animal':count_n,
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
     return render(request, 'adm/gerar-token.html', context)
 
-@staff_member_required
-def descontarToken(request):
-    if request.method == 'POST':
-        token = request.POST['token']
-        print(token)
-        try:
-            verify = TokenDesconto.objects.get(token=token)
-        except:
-            messages.error(request, 'Código promocional inválido.')
-            return render(request, 'adm/descontar-token.html')
-        if verify.used:
-            messages.error(request, 'Código promocional já utilizado.')
-        else:
-            verify.used = True
-            verify.save()
-            messages.success(request, 'Código promocional ativado com sucesso!')
-    return render(request, 'adm/descontar-token.html')
+    return render()
 
-@staff_member_required
-def censo(request):
-    animais_tutor = Animal.objects.exclude(tutor=None)
-    animais_tutor.filter(castrado=True)
-    errantes = Errante.objects.all().count()
-    adocao = Catalogo.objects.all().count()
-    tutores = Tutor.objects.all().count()
-    animal = Animal.objects.all()
-
-    #só de tutores
-    castrados = [
-        {'tipo': 'Castrados', 'quantidade': animais_tutor.filter(castrado=True).count()},
-        {'tipo': 'Não castrados', 'quantidade': animais_tutor.filter(castrado=False).count()}
-    ]
-    animais = [
-        {'tipo':'Animais c/ tutor', 'quantidade':animal.exclude(tutor=None).count(), 'color':'#d43f35'},
-        {'tipo':'Animais p/ adoção', 'quantidade':animal.filter(tutor=None).count(), 'color':'#4585F4'},
-        {'tipo':'Animais errantes', 'quantidade':errantes, 'color':'#099E57'}
-
-
-    ] #vacinados precisa de cadastro de informação extra por parte da adm
+@login_required
+def resgatar_cupom(request):
+    pessoa = Pessoa.objects.get(user_id=request.user.id)
+    tutor = Tutor.objects.get(pessoa_id=pessoa.id)
+    try:
+        cupom = TokenDesconto.objects.get(tutor=tutor)
+    except:
+        messages.error(request, 'Cupom não disponibilizado.')
+        return render(request, 'tutor/area_tutor.html')
     context = {
-        'castrados':castrados,
-        'errantes':errantes,
-        'adocao':adocao,
-        'tutores':tutores,
-        'animais':animais,
-        'animais_tutor':animais_tutor.count()
+        'cupom':cupom
     }
-    return render(request, 'adm/censo.html', context)
+    return render(request, 'tutor/resgatar-token.html', context)
+
+# @login_required
+# def descontarToken(request):
+#     if request.method == 'POST':
+#         token = request.POST['token']
+#         print(token)
+#         try:
+#             verify = TokenDesconto.objects.get(token=token)
+#         except:
+#             messages.error(request, 'Código promocional inválido.')
+#             return render(request, 'adm/descontar-token.html')
+#         if verify.used:
+#             messages.error(request, 'Código promocional já utilizado.')
+#         else:
+#             verify.used = True
+#             verify.save()
+#             messages.success(request, 'Código promocional ativado com sucesso!')
+#     return render(request, 'adm/descontar-token.html', {'titulo': apps.get_app_config('bemestaranimal').verbose_name,})
+
+# def teste(request):
+#     return render(request, 'adm/administracao.html')
+
+#quantidade de animais castrados e não castrados
+# vacinados (mas não pede essa informação no usuário, só na hora de cadastrar as informações extras)

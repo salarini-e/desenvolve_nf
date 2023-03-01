@@ -164,6 +164,13 @@
       </div>
     </div>
   </div>  
+  <script>
+    {% if tipo == 'cursos' %}
+    document.getElementById('s-cursos').classList.add('s-nav-active');
+    {% elif tipo == 'palestras' %}
+    document.getElementById('s-palestras').classList.add('s-nav-active');
+    {% endif %}
+  </script>
 {% endblock %}
 {% block footer %}
 {% include 'instagram_desenvolve.html' %}

@@ -22,6 +22,7 @@
         <table class=" pt-5 table table-striped table-hover">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Nome/apelido</th>
                     <th>Tipo</th>
                     <th>Sexo</th>
@@ -33,6 +34,11 @@
             </thead>
             {% for animal in animais %}
                 <tr>
+                    <th class="d-flex text-center">
+                        <a href="#" class="m-auto"  data-bs-toggle="tooltip" data-bs-placement="top" title="Em breve estaremos disponibilizando uma carteira digital para o seu pet!">                            
+                            <img style="height: 30px;" src="/static/images/icones/pet-card.png" alt="">
+                        </a>
+                    </th>
                     {% if animal.nome %}
                     <td>{{animal.nome}}</td>
                     {% else %}
@@ -134,6 +140,11 @@
     document.getElementById('id_tipo_4').addEventListener('change', yes_or_no_check)
 
 
-
+  
+    document.getElementById('tutor').classList.add('s-nav-active');
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 </script>
 {% endblock %}

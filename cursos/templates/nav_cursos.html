@@ -3,36 +3,36 @@
       <div class="col  d-flex">
         <a href="{% url 'cursos:home' %}"  class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle {% block index %}{% endblock %}"></div>
+            <div id="s-index" class="s-nav rounded-circle {% block index %}{% endblock %}"></div>
             <p class="text-dark">Início</p>
           </div>
         </a>
-        <a href="{% url 'cursos:cursos' tipo='cursos' %}" class="me-3">
+        <a  href="{% url 'cursos:cursos' tipo='cursos' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle"></div>
+            <div id="s-cursos" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Cursos Livres</p>
           </div>
         </a>
         <a href="{% url 'cursos:cursos' tipo='palestras' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle destaque"></div>
+            <div id="s-palestras" class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">Palestras</p>
           </div>
         </a>        
-        <a href="#" class="me-3">
+        <!-- <a href="#" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle destaque"></div>
+            <div id="s-en-superior" class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">En. Superior</p>
           </div>
         </a>
-        <a href="#" class="me-3">
+        <a id="s-en-tecnico" href="#" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">En. Técnico</p>
           </div>
-        </a>
+        </a> -->
         {% if request.user.is_staff %}
-        <a href="{% url 'administrativo2' %}" class="me-3">
+        <a id="s-admin" href="{% url 'administrativo2' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">Admin</p>

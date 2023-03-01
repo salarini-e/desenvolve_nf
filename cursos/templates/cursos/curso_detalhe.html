@@ -81,10 +81,10 @@
                                 <li>Nenhum. </li>
                             </ul>
                             {% endif %}
-                            <button class="btn btn-primary mt-4 rounded-pill w-100" style="font-size: 16pt; border-radius: 25px !important; background-color: #24364F; border-color: #24364F;">                                
+                            <a href="{% url 'cursos:matricula' tipo curso.id %}" class="btn btn-primary mt-4 rounded-pill w-100" style="font-size: 16pt; border-radius: 25px !important; background-color: #24364F; border-color: #24364F;">                                
                                 Quero me matricular
                                 <i class="fa-solid fa-clipboard-check ms-2"></i>
-                            </button> 
+                            </a> 
                            </div>   
                         </div>
                         
