@@ -29,7 +29,12 @@
   </div>
 </div>
 <div class="row">
-  <h2 class="ms-5 pt-5 pb-4">Cursos e Palestras</h2>
+  <div class="col d-flex pe-4">
+    <h2 class="ms-5 pt-5 pb-4">Cursos e Palestras</h2>
+    <a class="ms-auto mt-auto mb-5 me-5" href="{% url 'cursos:cursos' tipo='cursos' %}">
+      <small>Ver mais</small>
+    </a>
+  </div>
 </div>
 
 <div class="row mx-auto px-5">
@@ -75,4 +80,7 @@
   
 </div>
 </div>
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
 {% endblock %}

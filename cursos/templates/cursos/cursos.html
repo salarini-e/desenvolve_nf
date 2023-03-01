@@ -8,10 +8,10 @@
 <script src="{% static 'js/cursos.js' %}"></script>
 {% endblock %}
 {% block main %}
-<div class="row">
+<div class="row container mx-auto">
     <div class="col d-flex py-5"> 
         <div class="row w-100">
-            <div class="col-10 pb-4 m-auto">
+            <div class="col pb-4 m-auto">
                 <!-- <div class="row py-3 px-4">
                     <div class="col bg p-5">
                         <h1 class="display-4 text-center">CURSOS LIVRES</h1>
@@ -41,14 +41,14 @@
                         {% endfor %}
                     </div>
                 </div>              -->
-                <div class="px-4 py-2 d-flex" style="background-color: rgba(228, 228, 228, 0.644); border-radius: 30px;">
+                <div class="py-2 d-flex">
                 <h2>{{filtro}}</h2>
                 <!-- <button class="ms-auto my-auto rounded-circle d-flex" style="background-color: #F8FAFF  ; height: 35px; width: 35px; border: 1px solid white;">
                     <i class="fa-regular fa-filter m-auto"></i>
                 </button> -->
             </div>         
-                <div class="row mx-auto px-5 py-5">
-                    <div class="d-flex justify-content-evenly">
+                <div class="row py-5">
+                    <div class="d-flex justify-content-evenly flex-wrap">
                         {% for cursos in categorias %}
                         <!-- <h3 class="mt-4">{{cursos.categoria}}</h3> -->
                         
@@ -164,4 +164,7 @@
       </div>
     </div>
   </div>  
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
 {% endblock %}

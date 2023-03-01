@@ -119,7 +119,7 @@ p, h5, ul{
   margin: auto;
 }
 .c-img img{
-  border-radius: 10px;
+  border-radius: 10px;    
   /* border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important; */
 }
@@ -133,7 +133,8 @@ p, h5, ul{
 }
 .cursos-text{
   padding: 10px 10px;
-  min-height: 200px;  
+  height: 200px;  
+  /* background-color: #343434; */
 }
 .d-img{
   /* height: 229px; */
@@ -144,8 +145,9 @@ p, h5, ul{
 }
 .item{
   margin: auto;
+  margin-bottom: 30px;
   width: 280px;
-  height: 100%;
+  /* height: 100%; */
   padding-top: 0px;
   border-radius: 10px;
   box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);  
