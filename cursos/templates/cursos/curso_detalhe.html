@@ -11,11 +11,11 @@
 <div class="row">
     <div class="col d-flex py-5"> 
         <div class="row w-100">
-            <div class="col-10 pb-4 m-auto bg-white">                                
+            <div class="col-10 pb-4 m-auto bg-white px-5" style="border-radius: 30px;">                                
                 <div class="row">
                     <div class="col d-flex flex-column">
                         <div class="row">
-                            <div class="col d-flex py-2">
+                            <div class="col d-flex py-4">
                                 <img class="my-auto" src="{{curso.categoria.icone.url}}" alt="">
                                 <h1 class="my-auto">
                                     {{curso}}
@@ -54,23 +54,34 @@
                             <i class="text-secondary">Não há insformações a respeito dos instrutores.</i>
                             </p>
                             {% endif %}
-                        
-                        <b class="mt-2">Requisitos:</b>
-                        {% for requisito in cursos.requisitos.all %}
-                        <p>{{requisito}}</p>
-                        {% endfor %}
+                                                                       
                     </div>
-                    <div class="col-4 p-5 d-flex justify-content-between">
+                    <div class="col-5 p-5 d-flex justify-content-between">
                         <div class="row w-100">
-                           <div class="col">
+                           <div class="col d-flex flex-column">
                             <p class="mb-4">
                                 <b>
                                     <i class="fa-solid fa-clock me-3"></i>Duração:
                                 </b> 
                                 {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}
                             </p>    
-                            <p class="mb-5"><b><i class="fa-solid fa-graduation-cap me-2"></i> Nível:</b> {{curso.get_nivel_ensino_display}}</p>
-                            <button class="btn btn-primary rounded-pill w-100" style="font-size: 16pt; border-radius: 25px !important; background-color: #24364F; border-color: #24364F;">                                
+                            <p class="mb-4"><b><i class="fa-solid fa-graduation-cap me-2"></i> Nível:</b> {{curso.get_nivel_ensino_display}}</p>
+                            <b class="mt-2">
+                                <i class="fa-solid fa-list-check me-2"></i>
+                                Requisitos:
+                            </b>
+                            {% if curso.requisitos.all %}
+                            <ul>
+                            {% for requisito in curso.requisitos.all %}                            
+                                <li>{{requisito}}</li>                            
+                            {% endfor %}             
+                            </ul>
+                            {% else %}               
+                            <ul>
+                                <li>Nenhum. </li>
+                            </ul>
+                            {% endif %}
+                            <button class="btn btn-primary mt-4 rounded-pill w-100" style="font-size: 16pt; border-radius: 25px !important; background-color: #24364F; border-color: #24364F;">                                
                                 Quero me matricular
                                 <i class="fa-solid fa-clipboard-check ms-2"></i>
                             </button> 

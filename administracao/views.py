@@ -106,7 +106,7 @@ def cadastrar_categoria(request):
 
     form = CadastroCategoriaForm()
     if request.method == 'POST':
-        form = CadastroCategoriaForm(request.POST)
+        form = CadastroCategoriaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Nova categoria cadastrada!')
@@ -249,7 +249,7 @@ def adm_categorias(request):
 def adm_categorias_cadastrar(request):
     form = CadastroCategoriaForm()
     if request.method == 'POST':
-        form = CadastroCategoriaForm(request.POST)
+        form = CadastroCategoriaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Nova categoria cadastrada!')

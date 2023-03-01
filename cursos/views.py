@@ -13,6 +13,7 @@ from .forms import *
 
 from eventos.models import Evento
 from django.apps import apps
+from random import shuffle
 
 def index(request):
     try:
@@ -20,10 +21,12 @@ def index(request):
     except:
         eventos=[]
     
+    cursos = list(Curso.objects.all().order_by('?')[:4])
+    shuffle(cursos)
     context = { 
         'titulo': apps.get_app_config('cursos').verbose_name,
         'evento_destaque': eventos,
-        'cursos': Curso.objects.all()
+        'cursos': cursos
     }
 
     return render(request, 'cursos/index.html', context)

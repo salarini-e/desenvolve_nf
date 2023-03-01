@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col d-flex py-5"> 
         <div class="row w-100">
-            <div class="col-10 pb-4 m-auto bg-white">
+            <div class="col-10 pb-4 m-auto">
                 <!-- <div class="row py-3 px-4">
                     <div class="col bg p-5">
                         <h1 class="display-4 text-center">CURSOS LIVRES</h1>
@@ -41,9 +41,12 @@
                         {% endfor %}
                     </div>
                 </div>              -->
-                <h2 class="px-4 py-2" style="background-color: rgba(228, 228, 228, 0.644); border-radius: 30px;">
-                {{filtro}}
-                </h2>         
+                <div class="px-4 py-2 d-flex" style="background-color: rgba(228, 228, 228, 0.644); border-radius: 30px;">
+                <h2>{{filtro}}</h2>
+                <!-- <button class="ms-auto my-auto rounded-circle d-flex" style="background-color: #F8FAFF  ; height: 35px; width: 35px; border: 1px solid white;">
+                    <i class="fa-regular fa-filter m-auto"></i>
+                </button> -->
+            </div>         
                 <div class="row mx-auto px-5 py-5">
                     <div class="d-flex justify-content-evenly">
                         {% for cursos in categorias %}
