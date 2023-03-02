@@ -57,7 +57,10 @@ def area_tutor(request):
     except:
         messages.error(request, 'Você não é cadastrado como tutor!')
         return redirect('completar_cadastro')
-    return render(request, 'tutor/area_tutor.html')
+    context={
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
+    }
+    return render(request, 'tutor/area_tutor.html', context)
 
 
 
@@ -241,8 +244,8 @@ def listar_tutor(request):
 
 @staff_member_required
 def listar_animal_tutor(request, tutor_id):
-    animais = Animal.objects.filter(tutor_id=tutor_id)
-    tutor = Tutor.objects.get(pk=tutor_id).pessoa.nome
+    animais = Animal.objects.filter(tutor__pessoa__user=tutor_id)
+    tutor = Tutor.objects.get(pessoa__user=tutor_id).pessoa.nome
     context = {
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
         'animais':animais,

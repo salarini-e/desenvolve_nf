@@ -19,19 +19,18 @@
   </div>
 {% endfor %}
 {% endif %}
-<div class="row">
+<div class="row container mx-auto">
     <div class="col d-flex pb-5"> 
         <div class="row w-100">
-            <div class="col-10 pb-4 m-auto bg-white">            
+            <div class="col pb-4 m-auto bg-white">            
                 <div class="row">
-                    <div class="col text-dark px-4 pt-4">
-                        <h1 class="text-uppercase">
+                    <div class="col text-dark">
+                        <h2 class="">
                           Área do tutor
-                        </h1>
-                        <div class="row px-4 pt-2 d-flex">
-                            <div class="col painel">
-                                <a href="{% url 'bemestaranimal:cadastrar_animal' %}"><i class="fa-solid fa-paw me-3"></i>Cadastrar animal</a>
-                                <a href="{% url 'bemestaranimal:listar_animais_tutor' request.user.id %}"><i class="fa-solid fa-paw me-3"></i>Ver animais cadastrados</a>
+                        </h2>
+                        <div class="row pt-2 d-flex">
+                            <div class="col painel py-4">                                
+                                <a href="{% url 'bemestaranimal:listar_animais_tutor' request.user.id %}"><i class="fa-solid fa-paw me-3"></i>Animais cadastrados</a>
                                 <a href="{% url 'bemestaranimal:resgatar_cupom' %}"><i class="fa-solid fa-ticket me-3"></i>Resgatar Cupom</a>                                                            
                             </div>
                         </div>

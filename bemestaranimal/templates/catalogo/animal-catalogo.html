@@ -15,9 +15,9 @@
     <div class="row mx-auto">
         <div class="d-flex flex-wrap">
     {% for adocao in catalogo %}
-    <div class="item mx-2 mb-3">
-        <div class="d-img">
-          <img src="{{adocao.animal.animal_image.url}}" class="img-fluid rounded-3">
+    <div class="item mx-2 mb-3 d-flex flex-column">
+        <div class="d-img mx-auto my-3">
+          <img src="{{adocao.animal.animal_image.url}}" class="img-fluid rounded-circle">
         </div>
         <div class="c-text mx-2 d-flex flex-column py-1">
           <h5>{% if adocao.animal.nome %}{{adocao.animal.nome}}{% else %}{{adocao.raca}}{% endif %}</h5>
