@@ -209,6 +209,8 @@ main #plataformas .grade .row .col button{
 .s-nav{
   height: 78px;
   width: 78px;
+  border-style: solid;
+  border-color: #0d568e;
   background-color: #D9D9D9;
 }
 .destaque{
@@ -543,3 +545,4 @@ h1, h2, h3, h4{
       border-color: rgba(0,0,0,.15);
       -webkit-transform: rotate(45deg);    
 }
+

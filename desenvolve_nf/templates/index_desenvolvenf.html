@@ -176,7 +176,123 @@
               
         </div>
     </div>
-    <main class="container-fluid">        
+    <div id="navegacao" class="container">
+        <div class="row">
+            <div class="col">
+                <!-- <h2 class="text-center text-uppercase" style="font-weight: bolder;">Sistemas</h2> -->
+            </div>
+        </div>
+        <div class="row">
+          <div class="col  d-flex justify-content-center pt-4">
+            <a href="{% url 'bemestaranimal:index' %}"  class="me-3">
+              <div class="d-flex flex-column align-items-center">
+                <div id="index" class="s-nav rounded-circle "></div>
+                <p class="text-dark text-center">Bem Estar<br>Animal</p>
+              </div>
+            </a>
+            <a href="{% url 'bemestaranimal:area_tutor' %}" class="me-3">
+              <div class="d-flex flex-column align-items-center">
+                <div id="tutor" class="s-nav rounded-circle "></div>
+                <p class="text-dark text-center">Casa do <br>Trabalhador</p>
+              </div>
+            </a>
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+              <div class="d-flex flex-column align-items-center">
+                <div id="adote" class="s-nav rounded-circle"></div>
+                <p class="text-dark text-center">Cidade <br>Limpa</p>
+              </div>
+            </a>
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center">
+                  <div id="adote" class="s-nav rounded-circle"></div>
+                  <p class="text-dark text-center">Senhas de<br>Turismo</p>
+                </div>
+            </a>
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center">
+                  <div id="adote" class="s-nav rounded-circle"></div>
+                  <p class="text-dark text-center">Mapeamento<br>Cultural</p>
+                </div>
+            </a>
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center">
+                  <div id="adote" class="s-nav rounded-circle"></div>
+                  <p class="text-dark text-center">Capacitação<br>Profissional</p>
+                </div>
+            </a>
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center">
+                  <div id="adote" class="s-nav rounded-circle"></div>
+                  <p class="text-dark text-center">Eventos</p>
+                </div>
+            </a>
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center">
+                  <div id="adote" class="s-nav rounded-circle"></div>
+                  <p class="text-dark text-center">Finanças</p>
+                </div>
+            </a> 
+            {% if request.user.is_staff %}
+            <a href="{% url 'administrativo' %}" class="me-3">
+              <div class="d-flex flex-column align-items-center">
+                <div id="admin" class="s-nav rounded-circle destaque"></div>
+                <p class="text-dark">Admin</p>
+              </div>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <style>
+        #index{      
+          background-color: white !important;
+          /* background-image: url(/static/images/icones/bemestaranimal_inicio.png); */
+          background-size: contain;
+        }
+        #tutor{
+          background-color: white !important;
+          /* background-image: url(/static/images/icones/bemestaranimal_tutor.png); */
+          background-size: contain;
+        }
+        #adote{
+          background-color: white !important;
+          /* background-image: url(/static/images/icones/bemestaranimal_adote.png); */
+          background-size: contain;
+        }
+        #loja{
+          background-color: white !important;
+          /* background-image: url(/static/images/icones/bemestaranimal_loja.png); */
+          background-size: contain;
+        }
+        #admin{
+          background-color: white !important;
+          /* background-image: url(/static/images/icones/bemestaranimal_admin.png); */
+          background-size: contain;
+        }
+      </style>
+    <main class="container-fluid px-0">  
+        <div class="row py-5 border" style="background-color: white;">
+            <div class="col py-5 d-flex flex-column justify-content-center">                
+                    <a href="#" class="mx-auto"><h1 style="color: #FFAD00; font-weight: bolder;">ATUALIZE O SEU CADASTRO</h1></a>
+                    <img style="width: 400px;" class="mx-auto mt-5" src="/static/images/teste2.png" alt="">                
+            </div>
+        </div>   
+        <div class="row">
+            <div class="col py-5">
+                alguma coisa aqui, talvez o newsletter? ou cadastro dos sistemas
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex pt-5" style="background-color: #2F2F2F;">                
+                    <img class="mx-auto" src="/static/images/dnovafriburgo.png" alt="">                
+            </div>
+        </div>
+        <div class="row pb-5"  style="background-color: #2F2F2F;">            
+            <div class="col py-5 d-flex justify-content-evenly flex-wrap">                
+                <img style="border-radius: 30px;" src="/static/images/b.png" class="img-fluid " alt="">
+                <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+            </div>
+        </div>   
         <!-- <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active" data-bs-interval="10000">
@@ -208,7 +324,7 @@
                             <img class="img-fluid m-auto" src="{% static 'images/teste.png' %}" alt="">                            
                         </div>                            
                             <div class="col d-flex flex-column">
-                                <h1 class="border text-center" style="background-color: white !important;">PÁGINA EM CONSTRUÇÃO</h1>
+                                <h1 class="text-center p-5" style="background-color: white !important;">PÁGINA EM CONSTRUÇÃO</h1>
                                 <div class="m-auto" style="max-width: 800px; max-height: 100px;">
                                     <p class="text-justify m-auto">  Gostaríamos de informar que, embora nossa plataforma esteja funcionando, ainda estamos trabalhando na sua construção e aprimoramento para oferecer a melhor experiência possível aos nossos visitantes. Pedimos desculpas por qualquer inconveniente que possa ocorrer durante este processo. Fiquem à vontade para explorar o conteúdo já disponível e não deixem de voltar em breve para conferir as novidades! Agradecemos pela sua paciência e compreensão.</p>
                                 </div>                                                    
