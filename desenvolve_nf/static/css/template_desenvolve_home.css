@@ -213,6 +213,10 @@ main #plataformas .grade .row .col button{
   border-color: #0d568e;
   background-color: #D9D9D9;
 }
+.s-avatar{  
+  padding: 3px;
+  border: 3px solid #0d568e;
+}
 .destaque{
   border-style: solid;
   border-color: #A92BD4;
