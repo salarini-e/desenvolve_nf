@@ -1,29 +1,29 @@
-.owl-carousel{
+#main-carousel .owl-carousel{
     margin-top: 30px;
 }
-.owl-carousel .item{
+#main-carousel .owl-carousel{
     width: 100%;    
 }
-.owl-carousel .owl-item{
-    opacity: 40%;
+#main-carousel .owl-carousel .owl-item{
+    opacity: 20%;
 }
-.owl-carousel .cloned{
-    opacity: 40%;
+#main-carousel .owl-carousel .cloned{
+    opacity: 20%;
 }
-.owl-carousel .active{
-    opacity: 40%;
+#main-carousel .owl-carousel .active{
+    opacity: 20%;
 }
-.owl-carousel .center img{
+#main-carousel .owl-carousel .center img{
     opacity: 100%;
 }
-.owl-item{
+#main-carousel .owl-item{
     width: 97vw;
 }
-.owl-carousel .item img{
+#main-carousel .owl-carousel .item img{
     border-radius: 30px;
     width: 97vw;
     height: 395px;
 }
-.owl-carousel .center{
+#main-carousel .owl-carousel .center{
     opacity: 200% !important;
 }
