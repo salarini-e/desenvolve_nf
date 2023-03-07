@@ -1,8 +1,12 @@
 from django.shortcuts import render
+from .models import Carousel_Index
 
 # Create your views here.
 def index(request):
-    return render(request, 'index_desenvolvenf.html')
+    context = {
+        'carousel': Carousel_Index.objects.filter(ativa=True)
+    }
+    return render(request, 'index_desenvolvenf.html', context)
 
 
 def cidade_inteligente_home(request):

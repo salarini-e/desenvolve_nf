@@ -58,25 +58,26 @@
           <div class="my-auto mx-auto">
             <ul class="d-flex nav-a">
               <li><a class="mx-2" href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+              <li><a class="mx-2"  data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Cidade Inteligente</a></li>              
+              <li><a class="mx-2" href="">Eventos</a></li>
+              <li><a class="mx-2" href="">Finanças</a></li>
               <li><div class="dropdown mx-2">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
-                  Cidade Inteligente
+                  Outros sistemas
                 </a>                                  
                 <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-                  <li><a class="btn btn-outline-primary" href="#">
+                  <!-- <li><a class="btn btn-outline-primary" href="#">
                     Acessar
                   </a></li>
-                  <li><hr class="dropdown-divider"></li>
+                  <li><hr class="dropdown-divider"></li> -->
                   <li class="mt-1"><b>Sistemas:</b></li>
                   <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
                   <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
-                  <li><a class="dropdown-item" href="{% url 'cidade_inteligente' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Cidade Segura</a></li>                                        
+                  <li><a class="dropdown-item" href="{% url 'cidade_inteligente' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
                   <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
                   <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
                 </ul>
               </div></li>
-              <li><a class="mx-2" href="">Eventos</a></li>
-              <li><a class="mx-2" href="">Finanças</a></li>
             </ul>
           </div>
           <div class="nv-login my-auto ms-auto">
@@ -149,6 +150,27 @@
       document.getElementById('preloading').style.display = 'none'
     }
   </script>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+      </div>
+      <div class="dropdown mt-3">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

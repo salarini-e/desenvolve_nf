@@ -162,15 +162,11 @@
     <div class="row">
         <div class="col px-0">
             <div class="owl-carousel owl-theme">
+              {% for item in carousel %}
                 <div class="item">
-                    <img src="/static/images/capacitanf2.png" class="d-block w-100" alt="...">
-                </div>
-                <div class="item">
-                    <img src="/static/images/animais.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="item">
-                    <img src="/static/images/1.png" class="d-block w-100" alt="...">
-                </div>
+                    <img src="{{item.image.url}}" class="d-block w-100" alt="{{item.nome}}">
+                </div>                
+                {% endfor %}
             </div>
  
               
@@ -185,56 +181,56 @@
         <div class="row">
           <div class="col  d-flex justify-content-center pt-4">
             <a href="{% url 'bemestaranimal:index' %}"  class="me-3">
-              <div class="d-flex flex-column align-items-center">
-                <div id="bemestaranimal" class="s-nav rounded-circle "></div>
+              <div class="d-flex flex-column align-items-center btn-tremura">
+                <div id="bemestaranimal" class="s-nav rounded-circle"></div>
                 <p class="text-dark text-center">Bem Estar<br>Animal</p>
               </div>
             </a>
-            <a href="{% url 'bemestaranimal:area_tutor' %}" class="me-3">
-              <div class="d-flex flex-column align-items-center">
-                <div id="casadotrabalhador" class="s-nav rounded-circle "></div>
-                <p class="text-dark text-center">Casa do <br>Trabalhador</p>
-              </div>
-            </a>
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
-              <div class="d-flex flex-column align-items-center">
-                <div id="adote" class="s-nav rounded-circle"></div>
-                <p class="text-dark text-center">Cidade <br>Limpa</p>
-              </div>
-            </a>
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center">
-                  <div id="senhas" class="s-nav rounded-circle"></div>
-                  <p class="text-dark text-center">Senhas de<br>Turismo</p>
-                </div>
-            </a>
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center">
-                  <div id="mapeamento" class="s-nav rounded-circle"></div>
-                  <p class="text-dark text-center">Mapeamento<br>Cultural</p>
-                </div>
-            </a>
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center">
+             <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="capacita" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Capacitação<br>Profissional</p>
                 </div>
             </a>
+            <a href="{% url 'bemestaranimal:area_tutor' %}" class="me-3">
+              <div class="d-flex flex-column align-items-center btn-tremura">
+                <div id="casadotrabalhador" class="s-nav rounded-circle"></div>
+                <p class="text-dark text-center">Casa do <br>Trabalhador</p>
+              </div>
+            </a>
             <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center">
+              <div class="d-flex flex-column align-items-center btn-tremura">
+                <div id="adote" class="s-nav rounded-circle"></div>
+                <p class="text-dark text-center">Cidade <br>Limpa</p>
+              </div>
+            </a>
+             <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="eventos" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Eventos</p>
                 </div>
             </a>
             <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="financas" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Finanças</p>
                 </div>
             </a> 
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center btn-tremura">
+                  <div id="senhas" class="s-nav rounded-circle"></div>
+                  <p class="text-dark text-center">Senhas de<br>Turismo</p>
+                </div>
+            </a>
+            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+                <div class="d-flex flex-column align-items-center btn-tremura">
+                  <div id="mapeamento" class="s-nav rounded-circle"></div>
+                  <p class="text-dark text-center">Mapeamento<br>Cultural</p>
+                </div>
+            </a>                      
             {% if request.user.is_staff %}
             <a href="{% url 'administrativo' %}" class="me-3">
-              <div class="d-flex flex-column align-items-center">
+              <div class="d-flex flex-column align-items-center btn-tremura">
                 <div id="admin" class="s-nav rounded-circle destaque"></div>
                 <p class="text-dark">Admin</p>
               </div>
@@ -287,6 +283,111 @@
         .text-justify{
           text-indent: 40px;
         }
+
+        @-webkit-keyframes btn-tremura {
+  10% {
+    -webkit-transform: translateX(3px) rotate(2deg);
+    transform: translateX(3px) rotate(2deg);
+  }
+  20% {
+    -webkit-transform: translateX(-3px) rotate(-2deg);
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  30% {
+    -webkit-transform: translateX(3px) rotate(2deg);
+    transform: translateX(3px) rotate(2deg);
+  }
+  40% {
+    -webkit-transform: translateX(-3px) rotate(-2deg);
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  50% {
+    -webkit-transform: translateX(2px) rotate(1deg);
+    transform: translateX(2px) rotate(1deg);
+  }
+  60% {
+    -webkit-transform: translateX(-2px) rotate(-1deg);
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  70% {
+    -webkit-transform: translateX(2px) rotate(1deg);
+    transform: translateX(2px) rotate(1deg);
+  }
+  80% {
+    -webkit-transform: translateX(-2px) rotate(-1deg);
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  90% {
+    -webkit-transform: translateX(1px) rotate(0);
+    transform: translateX(1px) rotate(0);
+  }
+  100% {
+    -webkit-transform: translateX(-1px) rotate(0);
+    transform: translateX(-1px) rotate(0);
+  }
+}
+@keyframes btn-tremura {
+  10% {
+    -webkit-transform: translateX(3px) rotate(2deg);
+    transform: translateX(3px) rotate(2deg);
+  }
+  20% {
+    -webkit-transform: translateX(-3px) rotate(-2deg);
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  30% {
+    -webkit-transform: translateX(3px) rotate(2deg);
+    transform: translateX(3px) rotate(2deg);
+  }
+  40% {
+    -webkit-transform: translateX(-3px) rotate(-2deg);
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  50% {
+    -webkit-transform: translateX(2px) rotate(1deg);
+    transform: translateX(2px) rotate(1deg);
+  }
+  60% {
+    -webkit-transform: translateX(-2px) rotate(-1deg);
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  70% {
+    -webkit-transform: translateX(2px) rotate(1deg);
+    transform: translateX(2px) rotate(1deg);
+  }
+  80% {
+    -webkit-transform: translateX(-2px) rotate(-1deg);
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  90% {
+    -webkit-transform: translateX(1px) rotate(0);
+    transform: translateX(1px) rotate(0);
+  }
+  100% {
+    -webkit-transform: translateX(-1px) rotate(0);
+    transform: translateX(-1px) rotate(0);
+  }
+}
+.btn-tremura {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+}
+.btn-tremura:hover, .btn-tremura:focus, .btn-tremura:active {
+  -webkit-animation-name: btn-tremura;
+  animation-name: btn-tremura;
+  -webkit-animation-duration: 0.75s;
+  animation-duration: 0.75s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
       </style>
     <main class="container-fluid px-0">  
       <!-- <div class="row">
