@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     #apps
     'desenvolve_nf',
     'cursos',
+    'financas',
     'eventos',
     'palestras',
     'administracao',
