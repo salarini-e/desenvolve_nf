@@ -18,25 +18,31 @@
             <div id="s-palestras" class="s-nav rounded-circle"></div>
             <p class="text-dark">Palestras</p>
           </div>
-        </a>   
+        </a>              
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="s-en-superior" class="s-nav rounded-circle "></div>
+            <p class="text-dark">En. Superior</p>
+          </div>
+        </a>
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="s-en-tecnico" class="s-nav rounded-circle"></div>
+            <p class="text-dark">En. Técnico</p>
+          </div>
+        </a>
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="s-curriculo" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Curriculo<br>Vitae</p>
+          </div>
+        </a>  
         <a href="https://casadotrabalhador.pmnf.rj.gov.br/" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="s-vaga" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Casa do<br>Trabalhador</p>
           </div>
-        </a>         
-        <!-- <a href="#" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-en-superior" class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">En. Superior</p>
-          </div>
-        </a>
-        <a id="s-en-tecnico" href="#" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">En. Técnico</p>
-          </div>
-        </a> -->
+        </a>      
         {% if request.user.is_staff %}
         <a href="{% url 'administrativo2' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
@@ -67,6 +73,21 @@
     #s-vaga{
       background-color: white !important;
       background-image: url(/static/images/icones/casa_do_trabalhador.png);
+      background-size: contain;
+    }
+    #s-en-superior{
+      background-color: white !important;
+      background-image: url(/static/images/icones/curso_superior.png);
+      background-size: contain;
+    }
+    #s-en-tecnico{
+      background-color: white !important;
+      background-image: url(/static/images/icones/curso_tecnico.png);
+      background-size: contain;
+    }
+    #s-curriculo{
+      background-color: white !important;
+      background-image: url(/static/images/icones/curso_curriculo.png);
       background-size: contain;
     }
     #s-admin{

@@ -65,7 +65,7 @@
                         <ul class="d-flex nav-a">
                             <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
                             <li><a class="mx-2"  data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Cidade Inteligente</a></li>              
-                            <li><a href="">Eventos</a></li>
+                            <li><a href=""data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Eventos</a></li>
                             <li><a href="">Finanças</a></li>
                             <!-- <li><div class="dropdown mx-2">
                               <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
@@ -621,14 +621,15 @@
             <div class="col d-flex d-flex px-5 pt-5">
               <div class="mx-auto d-flex">
                 <img src="/static/images/blue-envelope.jpg" style="width: 100px; transform: rotate(-0.265rad);" alt="">
-                <span class="display-5 my-auto ms-4" style="font-family: 'Inter', sans-serif;">Receba nossas novidades!</span>
+                <span class="display-5 my-auto ms-4" style="font-family: 'Inter', sans-serif;">Receba nossas novidades!</span>                
               </div>  
             </div>          
           </div>
           <div class="row">
-            <div class="col d-flex pt-5">
-                  <div class="m-auto d-flex">                    
-                    <button class="ms-2 btn btn-primary px-5">Solicitar</button>
+            <div class="col d-flex pt-3">
+                  <div class="m-auto d-flex flex-column">               
+                    <p class="text-center">Fique por dentro dos nossos principais assuntos, basta socilitar abaixo esse serviço!</p>     
+                    <button class="mx-auto btn btn-primary mt-4 px-5">Solicitar</button>
                   </div>
                 
             </div>
@@ -700,6 +701,7 @@
           </div>
         </div>
     </footer> 
+    <!-- Cidade Inteligente - Lado Esquerdo -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">Cidade Inteligente</h5>
@@ -722,6 +724,18 @@
         <button class="btn btn-primary px-5 m-auto">Acessar site</button>
       </div>
     </div>
+    
+    <!-- Eventos - Lado direito -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Eventos</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        ...
+      </div>
+    </div>
+
     <!-- <script>
         window.onload = () => {
           document.getElementById('body').style.overflow = 'auto'
