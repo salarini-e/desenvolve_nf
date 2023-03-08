@@ -160,7 +160,7 @@
                 </div>
             </div>
         </div> -->
-    <div class="row">
+    <div id="main-carousel" class="row">
         <div class="col px-0">
             <div class="owl-carousel owl-theme">
               {% for item in carousel %}
@@ -296,15 +296,15 @@
         </div>
       </div> -->
       <div class="row" style="background-image: url(/static/images/friburgo-bg.jpg); background-size:cover; background-position: center;">
-        <div class="col" style="background-color: #0d568ede;">
+        <div class="col" style="background-color: #242525;">
             <div class="row py-5 border">
               <div class="col d-flex">
                 <div class="m-auto py-5" style="max-width: 500px;  color: #fff;">
-                  <h1 class="mb-4" style="color: #FFAD00; font-weight: bolder;">Friburgo Digital</h1>
-                  <p class="text-justify">Em vez de ter um novo cadastro, login e senha em cada lugar, a Identidade Carioca é o login único que está sendo gradualmente integrado a cada serviço digital da Prefeitura do Rio de Janeiro.</p>
-                  <p class="mt-4 text-justify">Você se cadastra apenas uma vez e navega de maneira transparente entre diferentes serviços da Prefeitura. O mesmo login servirá para todos os serviços que estejam integrados ao Identidade Carioca.</p>
+                  <h1 class="mb-4" style="color: #FFAD00; font-weight: bolder;">ID Friburguense Digital</h1>
+                  <p class="text-justify">Em vez de ter um novo cadastro, login e senha em cada lugar, sua ID Friburguense Digital é o login único que está sendo gradualmente integrado a cada serviço digital da Prefeitura de Nova Friburgo.</p>
+                  <p class="mt-4 text-justify">Você se cadastra apenas uma vez e navega de maneira transparente entre diferentes serviços da Prefeitura. O mesmo login servirá para todos os serviços que estejam integrados ao ID Friburguense Digital.</p>
                   <p class="mt-4 text-justify">Além disso, queremos que seus dados informados anteriormente à Prefeitura não sejam pedidos novamente em outros serviços integrados. Tudo com respeito à sua privacidade e segurança. Para você não precisar informar os seus dados repetidamente em lugares diferentes.</p>
-                  <p class="mt-4 text-justify">Afinal, você é único. A sua Identidade Carioca.</p>
+                  <p class="mt-4 text-justify">Afinal, você é único. A sua identidade é friburguense.</p>
                 </div>
               </div>
               <div class="col py-5 d-flex flex-column justify-content-center me-5" style="border-radius: 30px;">                
@@ -331,94 +331,103 @@
               </div>
             </div>            
         </div>
-        <div class="row">
-            <div class="col d-flex pt-5" style="background-color: #2F2F2F;">                
-                    <!-- <img class="ms-5 me-auto mb-5" src="/static/images/dnovafriburgo.png" alt="">                 -->
-            </div>
-        </div>
-        <div class="row pb-5"  style="background-color: #2F2F2F;">            
-            <div class="col py-5 d-flex justify-content-evenly flex-wrap">  
-                <div class="d-flex flex-column">
-                  <img class="me-auto mt-auto" src="/static/images/desenvolve_economia.png" alt="">              
-                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                </div>
-                <div class="d-flex flex-column">
-                  <img class="me-auto mt-auto" src="/static/images/desenvolve_tecnologia.png" alt="">              
-                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                </div>
-            </div>
-        </div>   
-             <div class="row pb-5"  style="background-color: #2F2F2F;">            
-            <div class="col py-5 d-flex justify-content-evenly flex-wrap">                
-                 <div class="d-flex flex-column">
-                  <img class="me-auto mt-auto" src="/static/images/desenvolve_turismo.png" alt="">              
-                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                </div>
-                 <div class="d-flex flex-column">
-                  <img class="me-auto mt-auto" src="/static/images/desenvolve_esportes.png" alt="">              
-                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                </div>
-            </div>
-        </div>   
-        <div class="row">
-          <div class="text-center col d-flex py-5" style="background-color: #2F2F2F; color: white;">                
-                  <span class="mx-auto">Transformar isso num caroussel</span>
-          </div>
-      </div>
-        <!-- <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active" data-bs-interval="10000">
-                <img src="/static/images/animais.jpg" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item" data-bs-interval="2000">
-                <img src="/static/images/bg-login2.jpg" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="/static/images/capacitanf2.png" class="d-block w-100" alt="...">
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-        </div> -->
 
-        <section id="plataformas">
-            <div class="row">
-              <div class="d-flex pt-5">
-                <!-- <img style="height: 40px;" class="img-fluid ms-5" src="/static/images/brasao.jpeg" alt=""> -->
-                <!-- <h1 class="text-uppercase">Nossa equipe</h1>                 -->
+        <div class="row pb-5"  style="background-color: #2F2F2F;">            
+            <div class="col px-0 py-5 d-flex justify-content-evenly flex-wrap">  
+              <div class="owl-carousel owl-theme">
+                <div class="item d-flex flex-column p-5">                    
+                  <img class="me-auto mt-auto" src="/static/images/desenvolve_economia.png" alt="" style="max-width: 336px;">              
+                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+                </div>
+                <div class="item d-flex flex-column p-5">
+                  <img class="me-auto mt-auto" src="/static/images/desenvolve_tecnologia.png" alt="" style="max-width: 336px;">              
+                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+                </div>
+                <div class="item d-flex flex-column p-5">
+                  <img class="me-auto mt-auto" src="/static/images/desenvolve_turismo.png" alt="" style="max-width: 336px;">              
+                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+                </div>
+                <div class="item d-flex flex-column p-5">
+                  <img class="me-auto mt-auto" src="/static/images/desenvolve_esportes.png" alt="" style="max-width: 336px;">              
+                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+                </div>
+              
+            </div> 
+
+                <div class="d-flex flex-column">
+            
+                </div>
+                <div class="d-flex flex-column">
+                  
+                </div>
+            </div>
+        </div>   
+        <section id="plataformas" class="px-0">
+          <div class="row container mx-auto py-5 my-5 px-0">
+            <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
+            <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid mt-4" alt="">
+            <div class="col d-flex pt-5">                
+              <div class="mx-auto pe-5" style="max-width: 800px;">                
+                <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>
+                <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>                                
               </div>
-                <div class="col">                    
-                    <div class="row py-5 my-5">
-                        <div class="col d-flex flex-column">                                                      
+            </div> 
+            <div class="col d-flex pt-5">                
+              <div class="mx-auto ps-5" style="max-width: 800px;">                
+                <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>
+                <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>                
+              </div>
+            </div> 
+          </div>
+        </section>
+
+        <section class="px-0">
+            <div class="row px-0 border-top">
+                <div class="col px-0 py-5 my-5" id="particles">                   
+                      <div class="owl-carousel owl-theme">
+                        <div class="item d-flex flex-column p-5">                                                                         
                               <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/prefeito.png" alt="">                              
-                              <h2 class="text-center my-4">Johnny Maycon</h2>
+                              <h2 class="text-center my-3">Johnny Maycon</h2>
                               <h6 class="text-center mb-4"><b class="mx-auto">Prefeito de Nova Friburgo</b></h6>
-                              <img style="height: 50px;" class="img-fluid mx-auto" src="/static/images/brasao.jpeg" alt="">                                                                
-                              
-                            <!-- <img class="img-fluid ms-auto" style="max-width: 400px;" src="{% static 'images/teste.png' %}" alt="">                             -->
+                              <img style="width: 60px;" class="mx-auto" src="/static/images/brasao.jpeg" alt="">                                                                
+                                                          
                         </div>   
-                        <div class="col d-flex flex-column">                                                      
+                        <div class="item d-flex flex-column p-5">                                                      
                           <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/vice.png" alt="">                              
-                          <h2 class="text-center my-4">Sergio Sobrenome</h2>
+                          <h2 class="text-center my-3">Sergio Sobrenome</h2>
                           <h6 class="text-center mb-4"><b class="mx-auto">Vice-Prefeito de Nova Friburgo</b></h6>
-                          <img style="height: 50px;" class="img-fluid mx-auto" src="/static/images/brasao.jpeg" alt="">                                                                
-                          
-                        <!-- <img class="img-fluid ms-auto" style="max-width: 400px;" src="{% static 'images/teste.png' %}" alt="">                             -->
-                    </div>                          
-                        <div class="col d-flex flex-column">                                                              
+                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">                                                                                                      
+                       </div>                          
+                        <div class="item d-flex flex-column p-5">                                                              
                               <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
-                              <h2 class="text-center my-3">Andre Montechiari</h2>                              
+                              <h2 class="text-center my-3">Andre Montechiari 1</h2>                              
                               <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
-                              <img style="height: 50px;" class="img-fluid mx-auto" src="/static/images/brasao.jpeg" alt="">      
-                            </div>                          
+                              <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
+                                                   
                         </div>
+                        <div class="item d-flex flex-column p-5">                                                              
+                          <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
+                          <h2 class="text-center my-3">Andre Montechiari 2</h2>                              
+                          <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
+                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
+                        </div>  
+                        <div class="item d-flex flex-column p-5">                                                              
+                          <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
+                          <h2 class="text-center my-3">Andre Montechiari 3</h2>                              
+                          <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
+                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
+                        </div>  
+                        <div class="item d-flex flex-column p-5">                                                              
+                          <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
+                          <h2 class="text-center my-3">Andre Montechiari 4</h2>                              
+                          <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
+                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
+                        </div>                          
+                    
+                
+                                    
                     </div>
+                </div>
                     <!-- <div class="row py-5 my-5">
                         <div class="col d-flex flex-column">                            
                           
@@ -514,9 +523,20 @@
             </div>
         </section>
         <section id="newsletter">
+          <div class="row border-top">
+            <div class="col d-flex d-flex px-5 pt-5">
+              <div class="mx-auto d-flex">
+                <img src="/static/images/blue-envelope.jpg" style="width: 100px; transform: rotate(-0.265rad);" alt="">
+                <span class="display-5 my-auto ms-4" style="font-family: 'Inter', sans-serif;">Receba nossas novidades!</span>
+              </div>  
+            </div>          
+          </div>
           <div class="row">
-            <div class="col">
-              Newsletter
+            <div class="col d-flex pt-5">
+                  <div class="m-auto d-flex">                    
+                    <button class="ms-2 btn btn-primary px-5">Solicitar</button>
+                  </div>
+                
             </div>
           </div>
         </section>
@@ -615,23 +635,19 @@
         }
     }
 });
-// .owlCarousel({
-//     stagePadding: 50,
-//     loop:true,
-//     margin:10,
-//     nav:true,
-//     responsive:{
-//         0:{
-//             items:1
-//         },
-//         600:{
-//             items:3
-//         },
-//         1000:{
-//             items:5
-//         }
-//     }
-// })
+$('.loop').owlCarousel({
+    center: true,
+    items:2,
+    loop:true,
+    margin:10,
+    responsive:{
+        600:{
+            items:4
+        }
+    }
+});
+
+
       </script>
 </body>
 
