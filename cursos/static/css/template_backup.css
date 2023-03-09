@@ -76,6 +76,10 @@ height: 337px;
 .img-destaque img{
   border-radius: 1.8rem;
 }
+.banner_img_destaque{
+  height: 300px;
+  width: 800px;
+}
 .time{
 color: #083f69;
 }
@@ -92,8 +96,8 @@ background-color: #0D578E !important;
 color: #fff !important;
 }
 .c-img{
-height: 98px;
-width: 229px;
+height: auto;
+width: 280px;
 }
 .item{
 width: 229px;

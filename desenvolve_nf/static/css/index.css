@@ -121,7 +121,15 @@ main{
 }
 
 .c-img{
-    height: 229px;
-    width: 229px;
-    margin: auto;
+    height: auto;
+    width: 280px;
+  }
+
+  .banner-img{
+    height: 101px;
+    width: 279px;
+  }
+  .banner_img_destaque{
+    height: 300px;
+    width: 800px;
   }

@@ -223,7 +223,7 @@ main #plataformas .grade .row .col button{
 }
 .img-destaque{
   width: 786px;
-  height: 100%;
+  height: 10px;
   flex-grow: 2;
 }
 .img-destaque img{
@@ -250,7 +250,14 @@ p, h5, ul{
 .c-img{
   height: auto;
   width: 279px;
-  margin: auto;
+}
+.banner-img{
+  height: 101px;
+  width: 279px;
+}
+.banner_img_destaque{
+  height: 10px;
+  width: 800px;
 }
 .c-text{
   padding: 20px;

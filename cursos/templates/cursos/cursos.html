@@ -53,10 +53,10 @@
                         <!-- <h3 class="mt-4">{{cursos.categoria}}</h3> -->
                         
                                 {% for curso in cursos.curso %}
-                                <div class="item" style="position: relative;">
-                                    <div class="c-img" style="position: relative;">
-                                    <img src="{{curso.banner.url}}" class="img-fluid rounded-3" style="width: 100%; height: 116px;">
-                                    <span class="badge" style="border-radius: 0.3rem; position: absolute; top: 0; right: 0; margin: 5px; background-color: {{curso.categoria.cor}};">
+                                <div class="item">
+                                    <div class="c-img">
+                                    <img src="{{curso.banner.url}}" class="img-fluid rounded-3">
+                                    <span class="badge">
                                         {{curso.categoria.nome}}<br>
                                         
                                     </span>
