@@ -13,6 +13,7 @@ urlpatterns = [
     path('', include('desenvolve_nf.urls')),
     path('administracao/', include('administracao.urls')),
     path('palestras/', include(('palestras.urls', 'palestras'), namespace ='palestras')),
+    path('financas/', include('financas.urls')),
     path('eventos/', include(('eventos.urls', 'eventos'), namespace ='eventos')),
 
 ]
