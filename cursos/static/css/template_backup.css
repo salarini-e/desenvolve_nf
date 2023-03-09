@@ -13,6 +13,7 @@ body{
 header{
 background-color: white;
 }
+
 /* header  */
 #nav-superior{
 height: 38px;
@@ -69,6 +70,10 @@ background-color: #D9D9D9;
 .s-nav-active{
   border: 5px solid #0D578E;
 }
+.banner_destaque{
+  display: flex;
+  flex-direction: row;
+}
 .img-destaque{
 width: 836px;
 height: 337px;
@@ -116,8 +121,6 @@ padding-right: 6.5rem;
 padding-left: 3.8rem;
 padding-right: 3.8rem;
 }
-
-
 #preloading{    
   padding: 12px 20px;
   width: 100vw;
@@ -129,20 +132,24 @@ padding-right: 3.8rem;
 .logo{    
   max-width:  229px;
 }
-@media (max-width: 990px)
-{
-.container-fluid .navbar-brand{
-  margin: auto;
-}
-#login-button{
-  margin: auto !important;
-}
-nav .navbar-toggler{
-  display: none !important;
-}
-}
 footer{
   background-color: white;
+}
+@media (max-width: 1368px)
+{
+  .banner_destaque{
+    display: flex;
+    flex-direction: column;
+  }
+  .container-fluid .navbar-brand{
+    margin: auto;
+  }
+  #login-button{
+    margin: auto !important;
+  }
+  nav .navbar-toggler{
+    display: none !important;
+  }
 }
 @media (max-width: 600px)
 {

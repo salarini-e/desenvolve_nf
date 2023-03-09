@@ -217,10 +217,6 @@ main #plataformas .grade .row .col button{
   padding: 3px;
   border: 3px solid #0d568e;
 }
-.destaque{
-  border-style: solid;
-  border-color: #A92BD4;
-}
 .img-destaque{
   width: 786px;
   height: 10px;
