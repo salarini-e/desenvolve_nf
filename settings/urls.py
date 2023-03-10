@@ -14,7 +14,7 @@ urlpatterns = [
     path('administracao/', include('administracao.urls')),
     path('palestras/', include(('palestras.urls', 'palestras'), namespace ='palestras')),
     path('financas/', include('financas.urls')),
-    path('eventos/', include(('eventos.urls', 'eventos'), namespace ='eventos')),
+    path('eventos/', include('eventos.urls')),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

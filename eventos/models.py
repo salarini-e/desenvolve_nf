@@ -15,6 +15,7 @@ class Evento(models.Model):
 
     titulo = models.CharField(max_length=64)
     subtitulo = models.CharField(max_length=64)
+    app_name = models.CharField(max_length=164)
     descricao = models.TextField()
     data_inicio = models.DateField()
     data_fim = models.DateField()
