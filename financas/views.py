@@ -7,3 +7,6 @@ def index(request):
         'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'financas/index.html', context)
+
+def alvara(request):
+    return render('financas/list.html')
