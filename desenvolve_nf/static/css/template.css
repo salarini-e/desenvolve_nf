@@ -421,15 +421,19 @@ box-shadow:none !important;
     border-color: rgba(0,0,0,.15);
     -webkit-transform: rotate(45deg);    
 }
+.menuMobile{
+  display: none;
+}
 @media(max-width: 1367px){
   .banner_destaque{
     flex-direction: column !important;
   }
   .banner_img_destaque{
-    height: 300px !important;
-    width: 800px !important;
+    height: 30vw !important;
+    width: 76vw !important;
   }
 }
+
 @media (max-width: 990px)
 {
   .banner_img_destaque{
@@ -437,8 +441,12 @@ box-shadow:none !important;
     width: 648px !important;
   }
   .btn{
-    padding-left: 15.5rem !important;
-    padding-right: 15.5rem !important;
+    padding-left: 16rem !important;
+    padding-right: 16rem !important;
+  }
+  #esp-2{
+    padding-left: 3.8rem !important;
+    padding-right: 3.8rem !important;
   }
   .btn-acesso{
     padding-left: 1rem !important;
@@ -455,41 +463,108 @@ box-shadow:none !important;
   }
   
 }
-@media (max-width: 934px){
+@media (max-width: 942px){  
+  .mx-2{
+    display: none;
+  }
   .btn-acesso{
     margin: 0px;
-    padding: 2px;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  li{
+    font-size: 20px !important;
+    list-style:none !important;
+  }
+  a{
+    color: black !important;
+    text-decoration: none !important;
+  }
+  .menuMobile{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    margin-left: 55vw;
+  }
+  .menuMobile a{
+    color: #fff !important;
+    font-size: 3vw !important;
+    margin-bottom: 2vw !important;
+  }
+  .linkLogin{
+    display: none;
+  }
+  .logo-nf{
+    width: 2.5vw;
+    margin-bottom: 2.5vw;
+    margin-left: 1vw;
+  }
+  .texto-nf{
+    font-size: 2vw;
+    padding-bottom: 1.5vw;
+  }
+  .item{
+    margin-bottom: 5vw;
+    width: 240px;
+    padding-top: 0px;
+    padding-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);  
+    background-color: #ffffff;
+  }
+  .banner-img{
+    height: 101px;
+    border-radius: 10px;    
+    width: 240px;
+  }
+  #esp-2{
+    font-size: 14px;
+  }
+  .me-3{
+    width: 10vw !important;
   }
 }
 @media (max-width: 792px)
-{
-    /* .navbar>.container-fluid{
-        flex-wrap: nowrap;
-    } */
-    .banner_img_destaque{
-      height: 200px !important;
-      width: 552px !important;
-    }
-    .btn{
-      padding-left: 12.5rem !important;
-      padding-right: 12.5rem !important;
-    }
-    .btn-acesso{
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
-    }
-    .navbar-toggler{
-        margin: 30px auto;
-    }
-    .mobile-flex-column{
-        display: flex;
-        flex-direction: column;
-    }
-    .mobile-flex-column .col:last-child{
-        padding: 20px 40px;
-    }
+{  
+  li{
+    font-size: 20px !important;
+    list-style:none !important;
+  }
+  a{
+    color: black !important;
+    text-decoration: none !important;
+  }
+  .menuMobile{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    margin-left: 50vw;
+  }
+  .banner_img_destaque{
+    height: 200px !important;
+    width: 552px !important;
+  }
+  .btn{
+    padding-left: 12.5rem !important;
+    padding-right: 12.5rem !important;
+  }
+  .btn-acesso{
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  .nv-titulo h2{
+    font-size: 3vw;
+  }
+  .navbar-toggler{
+      margin: 30px auto;
+  }
+  .mobile-flex-column{
+      display: flex;
+      flex-direction: column;
+  }
+  .mobile-flex-column .col:last-child{
+      padding: 20px 40px;
+  }
 }
 @media (max-width: 592px){
   .banner_img_destaque{
@@ -499,5 +574,43 @@ box-shadow:none !important;
   .btn{
     padding-left: 5.5rem !important;
     padding-right: 5.5rem !important;
+  }
+  .menuMobile{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    margin-left: 45vw;
+  }
+  .nv-titulo h2{
+    font-size: 1rem;
+  }
+}
+
+@media(max-width: 480px){
+  .menuMobile{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    margin-left: 20vw;
+  }
+  .menuMobile a{
+    color: #fff !important;
+    font-size: 5vw !important;
+    margin-bottom: 2vw !important;
+  }
+  .linkLogin{
+    display: none;
+  }
+  .logo-nf{
+    width: 5vw;
+    margin-bottom: 2.5vw;
+    margin-left: 1vw;
+  }
+  .texto-nf{
+    font-size: 3vw;
+    padding-bottom: 1.5vw;
+  }
+  .nv-titulo h2{
+    font-size: 0.9rem;
   }
 }
