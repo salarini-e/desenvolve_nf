@@ -1,0 +1,98 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
+
+{% endblock %}
+{% block os %}fw-bolder{% endblock %}
+{% block main %}
+<div class="row">
+  <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">                           
+                <div class="row">
+                    <div class="col px-4">                                                
+                        <div class="px-2">
+                        <h2>Serviços Solicitados</h2>
+                        </div>
+                        <div class="px-2 pt-4">                          
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th>Prioridade</th>  
+                                <th>Tipo</th>                                                              
+                                <th>Nº de protocolo</th>
+                                <th class="text-center">Dt. de solicitação</th>
+                                <th>Bairro</th>
+                                <th>Atendente</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for os in ordens_de_servico %}
+                              <tr>
+                                <td>
+                                  <a href="{% url 'iluminacao:detalhes_os' os.id %}" style="text-decoration: none;">
+                                    <i class="fa-solid fa-eye"></i>
+                                  </a>
+                                </td>
+                                <td>
+                                  <button class="btn {% if os.prioridade == '0'%}btn-success{% endif %} px-2 py-0">
+                                  {{os.get_prioridade_display}}
+                                  </button>
+                                </td>
+                                <td>{{os.tipo.sigla}}</td>                                
+                                <td>{{os.numero}}</td>
+                                <td class="text-center">{{os.dt_solicitacao|date:"d/m/Y"}}</td>
+                                <td>{{os.bairro}}</td>                                
+                                <td>
+                                  {% if os.atendente %}
+                                  {{os.atendente}}
+                                  {% else %}
+                                  <span class="text-secondary">n/h</span>
+                                  {% endif %}
+                                </td>
+                                <td>
+                                  <button class="text-capitalize btn {% if os.status == '0'%}btn-info text-white{% endif %} px-2 py-0">
+                                    {{os.get_status_display}}
+                                  </button>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-center">
+                  
+                      {% if ordens_de_servico.has_previous %}
+                      {% comment %} <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li> {% endcomment %}
+                        <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.previous_page_number }}">&laquo; anterior</a></li>
+                      {% endif %}
+                  
+                      {% for x in ordens_de_servico.page_range %}
+                        <li class="page-item {% if x == ordens_de_servico.number  %} disabled {% endif %}"><a class="page-link" href="?page={{ x }}">{{x}}</a></li>
+                      {% endfor %}
+                  
+                        {% if ordens_de_servico.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.next_page_number }}">próximo &raquo;</a></li>
+                          {% comment %} <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.paginator.num_pages }}">last &raquo;</a></li> {% endcomment %}
+                      {% endif %}
+                        </li>
+                      </ul>
+                      </nav>
+                </div>
+            </div>
+        </div>    
+  </div>
+</div>
+<script>
+  document.getElementById('os_painel').classList.add('s-nav-active');
+</script>
+{% endblock %}

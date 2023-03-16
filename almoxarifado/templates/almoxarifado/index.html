@@ -1,0 +1,128 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
+
+{% endblock %}
+{% block administrativo %}fw-bold{% endblock %}
+{% block main %}
+<div class="row">
+  <div class="col d-flex"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">                           
+                <div class="row">
+                    <div class="col px-4">                        
+                        <div class="bg-light py-1 px-2 d-flex">
+                            <a class="ms-auto" href="{% url 'almoxarifado:alm_adicionar_material_ao_estoque' %}">
+                              <i class="fa-solid fa-plus me-2"></i>Adicionar material
+                            </a>
+                            <a class="ms-4" href="{% url 'almoxarifado:alm_listar_tipos'%}">
+                              <i class="fa-solid fa-gear me-2"></i>Materiais
+                            </a>                                           
+                        </div>
+                        <div class="pt-4 px-2">
+                          <h2>Estoque</h2>
+                          <table class="table">
+                            <thead class="border-0">
+                              <tr>
+                                <th>Tipo de material</th>
+                                <th>Nome do material</th>
+                                <th class="text-end">Unidades de em estoque</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for materia in materiais %}                            
+                              <tr>
+                                <td>{{materia.tipo.nome}}</td>
+                                <td>{{materia.nome}}</td>
+                                <td class="text-end">{{materia.qnt_em_estoque}}</td>
+                              </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                          
+                          <a href="">Visualizar histórico de movimentação</a>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+              
+                  {% if materiais.has_previous %}
+                  {% comment %} <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li> {% endcomment %}
+                    <li class="page-item"><a class="page-link" href="?page={{ materiais.previous_page_number }}">&laquo; anterior</a></li>
+                  {% endif %}
+              
+                  {% for x in materiais.page_range %}
+                    <li class="page-item {% if x == materiais.number  %} disabled {% endif %}"><a class="page-link" href="?page={{ x }}">{{x}}</a></li>
+                  {% endfor %}
+              
+                    {% if materiais.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ materiais.next_page_number }}">próximo &raquo;</a></li>
+                      {% comment %} <li class="page-item"><a class="page-link" href="?page={{ materiais.paginator.num_pages }}">last &raquo;</a></li> {% endcomment %}
+                  {% endif %}
+                    </li>
+                  </ul>
+                  </nav>
+
+            </div>
+        </div>    
+  </div>
+</div>
+<!-- MODAL -->
+<!-- MODAL -->
+{% if messages %}
+
+<div class="warnings"></div>
+<script>
+  {% for message in messages %}
+  Message.push("{{ message|escape }}")
+  console.log("{{ message|escape }}")
+  {% endfor %}
+</script>
+{% endif %} 
+
+<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark">            
+            <form id="form" action="#">
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hide this modal and show the first with the button below.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
+          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <script>
+   
+  </script>
+{% endblock %}

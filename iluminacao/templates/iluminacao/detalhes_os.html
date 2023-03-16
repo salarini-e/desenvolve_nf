@@ -1,0 +1,169 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
+{% endblock %}
+{% block os %}fw-bolder{% endblock %}
+{% block main %}
+<div class="row">
+  <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">
+                <div class="row py-3 px-4">
+                    <div class="col bg p-5">
+                        <h1 class="display-4 text-center">ORDEM DE SERVIÇO</h1>
+                    </div>
+                </div>              
+                <div class="row">
+                    <div class="col px-4">                                                
+                        <div class="px-2">
+                        <h2>Painel Administrativo</h2>
+                        </div>
+                        <div class="px-2 pt-4">
+                          <div class="row mb-2">
+                            <div class="col px-0">
+                              <h4>Detalhes da OS</h4>
+                            </div>
+                            <div class="col d-flex">                              
+                              <button class="ms-auto my-auto py-1 px-4 text-capitalize btn {% if os.status == '0'%}btn-info text-white{% endif %} px-2 py-0">
+                                  {{os.get_status_display}}
+                              </button>                              
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col border p-3">
+                              <div class="w-100 d-flex">
+                                <b>Protocolo: {{os.numero}}</b> 
+                                <span class="ms-auto">
+                                  <b class="me-2">Tipo:</b>{{os.tipo}}
+                                </span>
+                              </div>
+                              <div class="w-100 pt-3">
+                                <b>Motivo da OS</b>
+                                <p>{{os.motivo_reclamacao}}</p>
+                              </div>
+                              <div class="w-100 py-2">
+                                <b>Endereço:</b>
+                                <p>{{os.logradouro}}, {{os.bairro}}.</p>
+                                <p style="line-height: 0;">Referência: {{os.referencia}}</p>
+                              </div>
+                              <div class="w-100 py-2">
+                                <div class="row">
+                                  <div class="col">
+                                    <b>Dt. de solicitação:</b>
+                                    <p>{{os.dt_solicitacao}}</p>
+                                  </div>
+                                  <div class="col">
+                                    <b>Dt. de conclusão:</b>
+                                    {% if os.dt_conclusao %}
+                                    <p>{{os.dt_conclusao}}</p>
+                                    {% else %}
+                                    <br>
+                                    <button class="ms-auto my-auto py-1 px-4 text-capitalize btn btn-dark px-2 py-0">
+                                      Concluir chamado
+                                  </button> 
+                                    {% endif %}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-4">
+                              <div class="border border-bottom-0 py-3 px-4">
+                                <h4 class="my-0">Contribuinte</h4>
+                              </div>
+                              <div class="border py-4 px-4">
+                                <p class="d-flex"><b class="me-auto">Nome:</b>{{os.contribuinte.nome}}</p>
+                                <p class="d-flex"><b class="me-auto">Telefone:</b>{{os.contribuinte.telefone}}</p>
+                              </div>    
+                              <div class="border  py-4 px-4 mt-3">
+                                <p class="d-flex me-2"><b class="me-auto">Atribuir</b></p>
+                                <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a>
+                                <a class="btn btn-primary" href="">Equipamentos</a>
+
+                              </div>                              
+                            </div>
+                          </div>                         
+                        </div>
+                        <div class="row mb-2">
+                          <div class="col">
+                            <h4 class="mt-4">LINHA DO TEMPO</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col px-4">
+                            <div class="row">
+                              <div class="col border p-3">
+                                <div class="w-100 d-flex">
+                                  <b>Luis Eduardo C. Salarini</b> 
+                                  <span class="ms-auto">
+                                    <b class="me-2">06/02/2023 12:44</b>
+                                  </span>
+                                </div>
+                                <div class="w-100 pt-3">                                  
+                                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet labore minima est eaque magnam sed odio dolorem error assumenda reprehenderit culpa exercitationem, earum minus ipsum, beatae id sequi optio repellat.</p>
+                                </div>
+                               
+                               
+                              </div>
+                              <div class="col-4">
+                                <div class="border border-bottom-0 py-3 px-4">
+                                  <h4 class="my-0">Anexos</h4>
+                                </div>
+                                <div class="border py-4 px-4">
+                                  <p class="text-center py-3"><i>Não há.</i></p>
+                                </div>    
+                                
+                              </div>
+                            </div> 
+                          </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>    
+  </div>
+</div>
+<!-- MODAL -->
+<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-dark">            
+            <form id="form" action="#">
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">RESPOSTA AQUI</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hide this modal and show the first with the button below.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-target="#formCandidato" data-bs-toggle="modal">Voltar ao formulário</button>
+          <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Confirmar informações</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <script>
+    document.getElementById('os_painel').classList.add('s-nav-active');
+  </script>
+{% endblock %}

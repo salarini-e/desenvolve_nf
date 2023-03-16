@@ -73,7 +73,9 @@ INSTALLED_APPS = [
     'administracao',
     'autenticacao',
     'bemestaranimal',
-    'casa_do_trabalhador'
+    'casa_do_trabalhador',
+    'iluminacao',
+    'almoxarifado',
 ]
 
 MIDDLEWARE = [
