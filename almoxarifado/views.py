@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator
+from django.apps import apps
 
 from .models import *
 from .forms import *
@@ -17,6 +18,7 @@ def index(request):
     materiais = paginator.get_page(page)
 
     context = {
+        'titulo': apps.get_app_config('almoxarifado').verbose_name,
         'materiais': materiais
     }
     return render(request, 'almoxarifado/index.html', context)
@@ -24,6 +26,7 @@ def index(request):
 
 def listar_tipo_materiais(request):
     context = {
+        'titulo': apps.get_app_config('almoxarifado').verbose_name,
         'tipos': Tipo_Material.objects.all()
     }
     return render(request, 'almoxarifado/listar_tipo_materiais.html', context)
@@ -35,11 +38,12 @@ def adicionar_tipo_materiais(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Tipo de material cadastrado!')
-            return redirect('alm_listar_tipos')
+            return redirect('almoxarifado:alm_listar_tipos')
     else:
         form = Tipo_Material_Form()
 
     context = {
+        'titulo': apps.get_app_config('almoxarifado').verbose_name,
         'form': form
     }
     return render(request, 'almoxarifado/adicionar_tipo_materiais.html', context)
@@ -53,11 +57,12 @@ def adicionar_material(request, tipo):
         if form.is_valid():
             form.save()
             messages.success(request, 'Material cadastrado!')
-            return redirect('alm_listar_tipos')
+            return redirect('almoxarifado:alm_listar_tipos')
     else:
         form = Material_Form(initial={'tipo': tipo.id})
 
     context = {
+        'titulo': apps.get_app_config('almoxarifado').verbose_name,
         'form': form
     }
     return render(request, 'almoxarifado/adicionar_novo_material.html', context)
@@ -78,12 +83,13 @@ def adicionar_material_ao_estoque(request):
                 messages.success(request, f"{log.add_quantidade} nova unidade adicionada ao estoque. Total: {material.qnt_em_estoque}.")
             else: 
                 messages.success(request, f"{log.add_quantidade} novas unidades adicionadas ao estoque. Total: {material.qnt_em_estoque}.")
-            return redirect('alm_index')
+            return redirect('almoxarifado:alm_index')
     else:
         form = Log_estoque_Form()
         form_tipo = Exibir_Tipo_Material_Form()
 
     context = {
+        'titulo': apps.get_app_config('almoxarifado').verbose_name,
         'form': form,
         'form_tipo': form_tipo
     }

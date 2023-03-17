@@ -3,6 +3,7 @@ from .forms import *
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.apps import apps
 
 def index(request):
     return render(request, 'os_index.html')
@@ -14,6 +15,7 @@ def os_index(request):
     ordens_de_servico = paginator.get_page(page)
     
     context={
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
         'ordens_de_servico': ordens_de_servico
     }
     return render(request, 'iluminacao/index.html', context)
@@ -37,7 +39,8 @@ def add_os(request):
 
 
     context={
-        'form': form
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'form': form,
     }
 
     return render(request, 'iluminacao/adicionar_os.html', context)
@@ -50,6 +53,7 @@ def detalhes_os(request, id):
     else:
         pass
     context={
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
         'os': os
     }
     return render(request, 'iluminacao/detalhes_os.html', context)
@@ -57,6 +61,7 @@ def detalhes_os(request, id):
 def funcionarios_listar(request):
     funcionarios=Funcionario_OS.objects.all()
     context={
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
         'funcionarios': funcionarios
     }
     return render(request, 'equipe/funcionarios.html', context)
@@ -70,6 +75,7 @@ def funcionario_cadastrar(request):
     else:
         form=Funcionario_Form()
         context={
+            'titulo': apps.get_app_config('iluminacao').verbose_name,
             'form': form
         }
     return render(request, 'equipe/funcionarios_cadastrar.html', context)
@@ -83,6 +89,7 @@ def funcionario_editar(request, id):
             form.save()
             return redirect('funcionarios')
     context={
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
         'form': form,
         'funcionario': funcionario
     }     
@@ -109,8 +116,9 @@ def atribuir_equipe(request, id):
             form=Equipe_Form(request.POST)
         if form.is_valid:
             form.save()
-            return redirect('detalhes_os', id)
+            return redirect('iluminacao:detalhes_os', id)
     context={
+            'titulo': apps.get_app_config('iluminacao').verbose_name,   
             'form':form,
         }
     return render(request, 'iluminacao/adicionar_ext.html', context)

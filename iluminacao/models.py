@@ -76,6 +76,7 @@ class OrdemDeServico(models.Model):
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
 
     def gerar_protocolo(self):
+        self.tipo+numero
         return 'ok'
         
 class OS_ext(models.Model):    
