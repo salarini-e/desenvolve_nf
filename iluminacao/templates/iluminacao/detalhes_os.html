@@ -81,7 +81,8 @@
                               </div>    
                               <div class="border  py-4 px-4 mt-3">
                                 <p class="d-flex me-2"><b class="me-auto">Atribuir</b></p>
-                                <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a>
+                                <a tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="popover" title="Equipe" data-bs-content="Equipe selecionada para o serviço">Equipe</a>
+                                <!-- <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a> -->
                                 <a class="btn btn-primary" href="">Equipamentos</a>
 
                               </div>                              
@@ -165,5 +166,8 @@
   </div>  
   <script>
     document.getElementById('os_painel').classList.add('s-nav-active');
+    let popover = new bootstrap.Popover(document.querySelector('.popoverbutton'), {
+        trigger: 'popover'
+    })
   </script>
 {% endblock %}
