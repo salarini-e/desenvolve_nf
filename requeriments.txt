@@ -11,3 +11,4 @@ soupsieve==2.3.2.post1
 sqlparse==0.4.2
 typing-extensions==4.1.1
 zipp==3.6.0
+django-colorfield=0.8.0
