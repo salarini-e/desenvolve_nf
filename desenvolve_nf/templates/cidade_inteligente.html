@@ -1,78 +1,24 @@
 {% extends 'template.html' %}
 {% load static %}
-{{% block nav %}
+
+{% block nav %}
 {% include 'nav_cidade_inteligente.html' %}
-{% endblock %}}
+{% endblock %}
+
 {% block index %}
 .s-nav-active
 {% endblock %}
-{% block main %}
+
+{% block css %}
 <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
 <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="/static/css/carousel_desenvolve_2.css">
-<!-- <div class="row">
-    <div class="col px-0">
-        <div class="owl-carousel owl-theme">
-            <div class="item">
-                <img src="/static/images/capacitanf2.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="item">
-                <img src="/static/images/animais.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="item">
-                <img src="/static/images/1.png" class="d-block w-100" alt="...">
-            </div>
-        </div>          
-    </div>
-</div> -->
+<link rel="stylesheet" href="/static/css/cidade_inteligente.css">
+{% endblock%}
+
+{% block main %}
 <div class="row mx-auto px-5">
   <div class="col">
-    <!-- <iframe src="http://www.alertadecheias.inea.rj.gov.br/dados/rio_dois_rios.php" frameborder="0"></iframe> -->
-    teste
+    teste2
   </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script src="/static/js/owl.carousel.min.js"></script>
-    <script>
-  $('.owl-carousel').owlCarousel({
-    center: true,
-    items:2,
-    loop:true,
-    margin:10,
-    autoWidth: true,
-    autoplay: true,    
-    nav: true,    
-    responsive:{
-        0:{
-            items:1
-        },
-        600:{
-            items:3
-        },
-        1000:{
-            items:5
-        }
-    }
-});
-// .owlCarousel({
-//     stagePadding: 50,
-//     loop:true,
-//     margin:10,
-//     nav:true,
-//     responsive:{
-//         0:{
-//             items:1
-//         },
-//         600:{
-//             items:3
-//         },
-//         1000:{
-//             items:5
-//         }
-//     }
-// })
-      </script>
-
-
-
 {% endblock %}
