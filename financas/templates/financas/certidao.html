@@ -11,8 +11,9 @@
 {% block main %}
 <div class="container">
     <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
-        <a class="btn btn-dark" href="{% url 'financas:get_alvara' '' %}">Requerimento de Alvara</a>
-        <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_baixa' %}">Requerimento de Baixa de Debito</a>
+        <a class="btn btn-dark" href="{% url 'financas:get_certidao' 'autorizacao_predial' %}">Autorização Vistoria Predial</a>
+        <a class="btn btn-dark" href="{% url 'financas:get_certidao' 'requerimento_escritura' %}">Requerimento de Averbação de Escritura</a>
+        <a class="btn btn-dark" href="{% url 'financas:get_certidao' 'requerimento_certicao' %}">Requeriquento de Certidão</a>
     </div>
 
 

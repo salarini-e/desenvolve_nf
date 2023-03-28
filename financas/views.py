@@ -40,7 +40,7 @@ def get_certidao(request, nome):
     arquivos={
         'autorizacao_predial':'AUTORIZACAO-VISTORIA-PREDIAL-3.pdf',
         'requerimento_escritura':'REQUERIMENTO-DE-AVERBACAO-DE-ESCRITURA.pdf',
-        'requerimento_certicao':'REQUERIMENTO-DE-CERTIDAO.pdf'
+        'requerimento_certicao':'REQUERIMENTO-DE-CERTIDAO-1.pdf'
     }
     context={
         'titulo': apps.get_app_config('financas').verbose_name,
