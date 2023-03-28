@@ -24,3 +24,24 @@ def get_alvara(request, nome):
         'url_pdf': arquivos[nome]
     }
     return render(request, 'financas/get_alvara.html', context)
+
+# Certidão
+
+def certidao(request):
+    context = {
+        'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'financas/certidao.html', context)
+
+
+def get_certidao(request, nome):
+    arquivos={
+        'autorizacao_predial':'AUTORIZACAO-VISTORIA-PREDIAL-3.pdf',
+        'requerimento_escritura':'REQUERIMENTO-DE-AVERBACAO-DE-ESCRITURA.pdf',
+        'requerimento_certicao':'REQUERIMENTO-DE-CERTIDAO.pdf'
+    }
+    context={
+        'titulo': apps.get_app_config('financas').verbose_name,
+        'url_pdf':arquivos[nome]
+    }
+    return render(request, 'financas/get_certidao.html',context)
