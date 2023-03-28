@@ -300,3 +300,21 @@ def matricular(request, tipo, id):
         'titulo': 'Capacitação Profissional'
     }
     return render(request, 'cursos/pre_matricula.html', context)
+
+def ensino_superior(request):
+    context = {
+        'titulo': 'Capacitação Profissional'
+    }
+    return render(request, 'cursos/ensino_superior.html', context)
+
+def ensino_tecnico(request):
+    context = {
+        'titulo': 'Capacitação Profissional'
+    }
+    return render(request, 'cursos/ensino_tecnico.html', context)
+
+def curriculo_vitae(request):
+    context = {
+        'titulo': 'Capacitação Profissional'
+    }
+    return render(request, 'cursos/curriculo_vitae.html', context)
