@@ -47,3 +47,21 @@ def get_certidao(request, nome):
         'url_pdf':arquivos[nome]
     }
     return render(request, 'financas/get_certidao.html',context)
+
+#IPTU
+
+def iptu(request):
+    context = {
+        'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'financas/iptu.html', context)
+
+def get_iptu(request, nome):
+    arquivos = {
+        'requerimento_baixaDeb':'REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf'
+    }
+    context = {
+        'titulo': apps.get_app_config('financas').verbose_name,
+        'url_pdf':arquivos[nome]
+    }
+    return render(request, 'financas/get_iptu.html', context)
