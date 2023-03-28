@@ -6,14 +6,17 @@
 {% block css %}
 <link rel="stylesheet" href="/static/css/index.css">
 <link rel="stylesheet" href="/static/css/carrossel.css">
+<link rel="stylesheet" href="/static/css/financas_style_alvara.css">
 <script src="/static/js/carrossel.js"></script>
 {% endblock %}
 {% block main %}
 <div class="container">
+    <h3 class="titulo_alvara">Documentos para Alvará</h3>
     <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
-       
-            <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_alvara' %}">Requerimento de Alvara</a>
-            <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_baixa' %}">Requerimento de Baixa de Debito</a>
+        <a class="btn btn-primary" href="{% url 'financas:get_alvara' 'requerimento_alvara' %}">Requerimento de Alvará</a>
+        <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_baixa' %}">Requerimento de Baixa de Débito</a>
+        <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_iss' %}">Requerimento de certidão de ISS e Alvará</a>
+        <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_revisao' %}">Requerimento de revisão de taxa e Alvará</a>
     </div>
 
 
