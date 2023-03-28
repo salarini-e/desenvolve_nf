@@ -1,0 +1,26 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_financas.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/carrossel.css">
+<script src="/static/js/carrossel.js"></script>
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
+       
+            <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_alvara' %}">Requerimento de Alvara</a>
+            <a class="btn btn-dark" href="{% url 'financas:get_alvara' 'requerimento_baixa' %}">Requerimento de Baixa de Debito</a>
+    </div>
+
+
+    <div class="row mx-auto px-5" style="height: 100px;">
+    <script>
+        document.getElementById('index').classList.add('s-nav-active');
+    </script>
+    </div>
+</div>
+{% endblock %}
