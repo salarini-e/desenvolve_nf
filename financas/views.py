@@ -68,3 +68,24 @@ def get_iptu(request, nome):
         'url_pdf':arquivos[nome]
     }
     return render(request, 'financas/get_iptu.html', context)
+
+#Diversos
+
+def diversos(request):
+    context = {
+        'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'financas/diversos.html', context)
+
+def get_diversos(request, nome):
+    arquivos = {
+        'declaracao_residencia':'DECLARACAO-DE-RESIDENCIA.pdf',
+        'requerimento_adesao':'REQUERIMENTO-DE-ADESAO.pdf',
+        'requerimento_att_cadastral':'REQUERIMENTO-DE-ATUALIZACAO-CADASTRAL-1.pdf',
+        'requerimento_autonomo':'REQUERIMENTO-PARA-AUTONOMO.pdf',
+    }
+    context = {
+        'titulo': apps.get_app_config('financas').verbose_name,
+        'url_pdf':arquivos[nome]
+    }
+    return render(request, 'financas/get_diversos.html', context)
