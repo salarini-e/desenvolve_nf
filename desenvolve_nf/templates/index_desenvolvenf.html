@@ -65,9 +65,29 @@
                     <div class="my-auto mx-auto">
                         <ul class="d-flex nav-a">
                             <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
-                            <li><a class="mx-2"  data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Cidade Inteligente</a></li>              
-                            <li><a href=""data-bs-toggle="offcanvas">Eventos</a></li>
-                            <li><a href="">Finanças</a></li>
+                            <li><a href="{% url 'cidade_inteligente' %}" class="mx-2">Cidade Inteligente</a></li>              
+                            <li><a href="{% url 'eventos:index' %}" class="mx-2">Eventos</a></li>
+                            <li><a href="{% url 'financas:index' %}">Finanças</a></li>
+                            <li>
+                              <div class="dropdown mx-2">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Outros sistemas
+                                </a>                                  
+                                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+                                  <!-- <li><a class="btn btn-outline-primary" href="#">
+                                    Acessar
+                                  </a></li>
+                                  <li><hr class="dropdown-divider"></li> -->
+                                  <li class="mt-1"><b>Sistemas:</b></li>
+                                  <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+                                  <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
+                                  <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+                                  <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
+                                  
+                                </ul>
+                              </div>
+                            </li>
                             <!-- <li><div class="dropdown mx-2">
                               <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
                                 Outros sistemas
@@ -181,43 +201,43 @@
                 <p class="text-dark text-center">Bem Estar<br>Animal</p>
               </div>
             </a>
-             <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+             <a href="{% url 'cursos:home' %}" class="me-3">
                 <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="capacita" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Capacitação<br>Profissional</p>
                 </div>
             </a>
-            <a href="{% url 'bemestaranimal:area_tutor' %}" class="me-3">
+            <a href="https://casadotrabalhador.pmnf.rj.gov.br" class="me-3">
               <div class="d-flex flex-column align-items-center btn-tremura">
                 <div id="casadotrabalhador" class="s-nav rounded-circle"></div>
                 <p class="text-dark text-center">Casa do <br>Trabalhador</p>
               </div>
             </a>
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+            <a href="#" class="me-3">
               <div class="d-flex flex-column align-items-center btn-tremura">
                 <div id="adote" class="s-nav rounded-circle"></div>
                 <p class="text-dark text-center">Cidade <br>Limpa</p>
               </div>
             </a>
-             <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+             <a href="{% url 'eventos:index' %}" class="me-3">
                 <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="eventos" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Eventos</p>
                 </div>
             </a>
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+            <a href="{% url 'financas:index' %}" class="me-3">
                 <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="financas" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Finanças</p>
                 </div>
             </a> 
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+            <a href="https://senhas.novafriburgo.rj.gov.br" class="me-3">
                 <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="senhas" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Senhas de<br>Turismo</p>
                 </div>
             </a>
-            <a href="{% url 'bemestaranimal:catalogo' %}" class="me-3">
+            <a href="culturanf.novafriburgo.rj.gov.br" class="me-3">
                 <div class="d-flex flex-column align-items-center btn-tremura">
                   <div id="mapeamento" class="s-nav rounded-circle"></div>
                   <p class="text-dark text-center">Mapeamento<br>Cultural</p>

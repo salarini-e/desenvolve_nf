@@ -1,0 +1,42 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_financas.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/carrossel.css">
+<script src="/static/js/carrossel.js"></script>
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
+        <h3>Documentos diversos</h3>
+        <nav>
+            <ul>
+                <li> <a class="btn btn-dark" href="{% url 'financas:get_diversos' 'declaracao_residencia' %}">Declaração
+                        de
+                        residência</a></li>
+                <li> <a class="btn btn-dark" href="{% url 'financas:get_diversos' 'requerimento_adesao' %}">Requerimento
+                        de
+                        adesão</a></li>
+                <li>
+                    <a class="btn btn-dark"
+                        href="{% url 'financas:get_diversos' 'requerimento_att_cadastral' %}">Requerimento
+                        de
+                        atualização cadastral</a>
+                </li>
+                <li> <a class="btn btn-dark"
+                        href="{% url 'financas:get_diversos' 'requerimento_autonomo' %}">Requerimento para
+                        autônomo</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="row mx-auto px-5" style="height: 100px;">
+        <script>
+            document.getElementById('index').classList.add('s-nav-active');
+        </script>
+    </div>
+</div>
+{% endblock %}
