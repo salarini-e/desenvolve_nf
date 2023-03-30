@@ -98,6 +98,29 @@ def itbi(request, arg):
     }
     return render(request, 'financas/itbi.html', context)
 
+# Isenção
+
+
+def isencao(request, arg):
+    if arg == 'opcoes':
+        context = {
+            'titulo': apps.get_app_config('financas').verbose_name,
+            'arg': arg
+        }
+        return render(request, 'financas/isencao.html', context)
+    tipos_arquivos = {
+        'requerimento_imunidade_tributaria': 'REQUERIMENTO-DE-IMUNIDADE-TRIBUTARIA-form.pdf',
+        'requerimento_isencao': 'REQUERIMENTO-DE-ISENCAO-MEI-TFA-1.pdf',
+        'requerimento_insencao_nao_incidencia_tributaria': 'REQUERIMENTO-DE-ISENCAO-NAO-INCIDENCIA-TRIBUTARIA.pdf',
+        'requerimento_isencao_parcial_tombamento': 'REQUERIMENTO-DE-ISENCAO-PARCIAL-TOMBAMENTO.pdf'
+    }
+    context = {
+        'titulo': apps.get_app_config('financas').verbose_name,
+        'url_pdf': tipos_arquivos[arg],
+        'arg': arg
+    }
+    return render(request, 'financas/isencao.html', context)
+
 
 # Diversos
 

@@ -12,6 +12,7 @@ urlpatterns = [
     path('iptu', views.iptu, name='iptu'),
     path('iptu/<nome>', views.get_iptu, name='get_iptu'),
     path('itbi/<arg>', views.itbi, name='itbi'),
+    path("isencao/<arg>", views.isencao, name="isencao"),
     path('diversos', views.diversos, name='diversos'),
     path('diversos/<nome>', views.get_diversos, name='get_diversos'),
 ]
