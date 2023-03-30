@@ -79,25 +79,36 @@ def get_iptu(request, nome):
 # ITBI
 
 
-def itbi(request):
-    print(request)
-    context = {
-        'titulo': apps.get_app_config('financas').verbose_name,
-    }
+def itbi(request, nome = False):
+    if nome:
+        tipos_arquivos = {
+            'declaracao_ciencia_itbi': 'DECLARACAO-DE-CIENCIA-DE-ITBI.pdf',
+            'declaracao_transacao_imobiliaria': 'Declaracao-de-Transacao-Imo-biliaria-ITBI-PMNF-5.pdf',
+            'requerimento_revisao_itbi': 'REQUERIMENTO-DE-REVISAO-DE-ITBI.pdf',
+        }
+        context = {
+            'titulo': apps.get_app_config('financas').verbose_name,
+            'url_pdf': tipos_arquivos[nome],
+        }
+    else:
+        context = {
+            'titulo': apps.get_app_config('financas').verbose_name,
+            'nome': nome
+        }
     return render(request, 'financas/itbi.html', context)
 
 
-def get_itbi(request, nome):
-    tipos_arquivos = {
-        'declaracao_ciencia_itbi': 'DECLARACAO-DE-CIENCIA-DE-ITBI.pdf',
-        'declaracao_transacao_imobiliaria': 'Declaracao-de-Transacao-Imo-biliaria-ITBI-PMNF-5.pdf',
-        'requerimento_revisao_itbi': 'REQUERIMENTO-DE-REVISAO-DE-ITBI.pdf'
-    }
-    context = {
-        'titulo': apps.get_app_config('financas').verbose_name,
-        'url_pdf': tipos_arquivos[nome]
-    }
-    return render(request, 'financas/get_itbi.html', context)
+# def get_itbi(request, nome):
+#     tipos_arquivos = {
+#         'declaracao_ciencia_itbi': 'DECLARACAO-DE-CIENCIA-DE-ITBI.pdf',
+#         'declaracao_transacao_imobiliaria': 'Declaracao-de-Transacao-Imo-biliaria-ITBI-PMNF-5.pdf',
+#         'requerimento_revisao_itbi': 'REQUERIMENTO-DE-REVISAO-DE-ITBI.pdf'
+#     }
+#     context = {
+#         'titulo': apps.get_app_config('financas').verbose_name,
+#         'url_pdf': tipos_arquivos[nome]
+#     }
+#     return render(request, 'financas/get_itbi.html', context)
 
 # Diversos
 

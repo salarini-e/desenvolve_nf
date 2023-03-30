@@ -14,16 +14,21 @@
         <h3>Documentos de ITBI<h3>
                 <nav>
                     <ul>
-                        <li><a href="{% url 'financas:get_itbi' 'declaracao_ciencia_itbi' %}"
+                        <li><a href="{% url 'financas:itbi' 'declaracao_ciencia_itbi' %}"
                                 class="btn btn-dark">Declaração de
                                 Ciência para ITBI</a></li>
-                        <li><a href="{% url 'financas:get_itbi' 'declaracao_transacao_imobiliaria' %}"
+                        <li><a href="{% url 'financas:itbi' 'declaracao_transacao_imobiliaria' %}"
                                 class="btn btn-dark">Declaração de ITBI na Transação Imobiliária</a></li>
-                        <li><a href="{% url 'financas:get_itbi' 'requerimento_revisao_itbi' %}"
+                        <li><a href="{% url 'financas:itbi' 'requerimento_revisao_itbi' %}"
                                 class="btn btn-dark">Requerimento de Revisão de ITBI</a></li>
                     </ul>
                 </nav>
     </div>
+    {% if nome %}
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
+        <iframe src="/static/pdfs/itbi/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
+    </div>
+    {% endif %}
 
 
     <div class="row mx-auto px-5" style="height: 100px;">
