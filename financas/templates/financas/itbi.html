@@ -24,7 +24,7 @@
                     </ul>
                 </nav>
     </div>
-    {% if nome %}
+    {% if not arg == 'opcoes' %}
     <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
         <iframe src="/static/pdfs/itbi/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
     </div>

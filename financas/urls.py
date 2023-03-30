@@ -11,8 +11,7 @@ urlpatterns = [
     path('certidao/<nome>', views.get_certidao, name='get_certidao'),
     path('iptu', views.iptu, name='iptu'),
     path('iptu/<nome>', views.get_iptu, name='get_iptu'),
-    # path('itbi', views.itbi, name='itbi'),
-    path('itbi/<nome>', views.itbi, name='itbi'),
+    path('itbi/<arg>', views.itbi, name='itbi'),
     path('diversos', views.diversos, name='diversos'),
     path('diversos/<nome>', views.get_diversos, name='get_diversos'),
 ]
