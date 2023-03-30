@@ -11,14 +11,13 @@ def index(request):
     return render(request, 'financas/index.html', context)
 
 
-def alvara(request):
-    context = {
-        'titulo': apps.get_app_config('financas').verbose_name,
-    }
-    return render(request, 'financas/alvara.html', context)
-
-
-def get_alvara(request, nome):
+def alvara(request, arg):
+    if arg == 'opcoes':
+        context = {
+            'titulo': apps.get_app_config('financas').verbose_name,
+            'arg': arg
+        }
+        return render(request, 'financas/alvara.html', context)
     arquivos = {
         'requerimento_alvara': 'REQUERIMENTO-DE-ALVARA.pdf',
         'requerimento_baixa': 'REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf',
@@ -27,21 +26,21 @@ def get_alvara(request, nome):
     }
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
-        'url_pdf': arquivos[nome]
+        'url_pdf': arquivos[arg],
+        'arg':arg
     }
-    return render(request, 'financas/get_alvara.html', context)
+    return render(request, 'financas/alvara.html', context)
 
 # Certidão
 
 
-def certidao(request):
-    context = {
-        'titulo': apps.get_app_config('financas').verbose_name,
-    }
-    return render(request, 'financas/certidao.html', context)
-
-
-def get_certidao(request, nome):
+def certidao(request, arg):
+    if arg == 'opcoes':
+        context = {
+            'titulo': apps.get_app_config('financas').verbose_name,
+            'arg': arg
+        }
+        return render(request, 'financas/certidao.html', context)
     tipos_arquivos = {
         'autorizacao_predial': 'AUTORIZACAO-VISTORIA-PREDIAL-3.pdf',
         'requerimento_escritura': 'REQUERIMENTO-DE-AVERBACAO-DE-ESCRITURA.pdf',
@@ -49,21 +48,21 @@ def get_certidao(request, nome):
     }
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
-        'url_pdf': tipos_arquivos[nome]
+        'url_pdf': tipos_arquivos[arg],
+        'arg': arg
     }
-    return render(request, 'financas/get_certidao.html', context)
+    return render(request, 'financas/certidao.html', context)
 
 # IPTU
 
 
-def iptu(request):
-    context = {
-        'titulo': apps.get_app_config('financas').verbose_name,
-    }
-    return render(request, 'financas/iptu.html', context)
-
-
-def get_iptu(request, nome):
+def iptu(request, arg):
+    if arg == 'opcoes':
+        context = {
+            'titulo': apps.get_app_config('financas').verbose_name,
+            'arg': arg
+        }
+        return render(request, 'financas/iptu.html', context)
     arquivos = {
         'requerimento_baixaDeb': 'REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf',
         'requerimento_inclusao': 'REQUERIMENTO-DE-INCLUSAO-DE-POSSUIDOR.pdf',
@@ -72,9 +71,10 @@ def get_iptu(request, nome):
     }
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
-        'url_pdf': arquivos[nome]
+        'url_pdf': arquivos[arg],
+        'arg': arg
     }
-    return render(request, 'financas/get_iptu.html', context)
+    return render(request, 'financas/iptu.html', context)
 
 # ITBI
 
@@ -125,14 +125,13 @@ def isencao(request, arg):
 # Diversos
 
 
-def diversos(request):
-    context = {
-        'titulo': apps.get_app_config('financas').verbose_name,
-    }
-    return render(request, 'financas/diversos.html', context)
-
-
-def get_diversos(request, nome):
+def diversos(request, arg):
+    if arg == 'opcoes':
+        context = {
+            'titulo': apps.get_app_config('financas').verbose_name,
+            'arg': arg
+        }
+        return render(request, 'financas/diversos.html', context)
     arquivos = {
         'declaracao_residencia': 'DECLARACAO-DE-RESIDENCIA.pdf',
         'requerimento_adesao': 'REQUERIMENTO-DE-ADESAO.pdf',
@@ -141,6 +140,7 @@ def get_diversos(request, nome):
     }
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
-        'url_pdf': arquivos[nome]
+        'url_pdf': arquivos[arg],
+        'arg': arg
     }
-    return render(request, 'financas/get_diversos.html', context)
+    return render(request, 'financas/diversos.html', context)

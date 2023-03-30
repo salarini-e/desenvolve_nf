@@ -12,11 +12,17 @@
 <div class="container">
     <h3>Documentos para IPTU</h3>
     <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_baixaDeb' %}">Requerimento de baixa de débito</a>
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_inclusao' %}">Requerimento de incusão de possuidor</a>
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_recolhimento' %}">Requerimento de recolhimento de tributos</a>
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_reviptu' %}">Requerimento revisão de IPTU</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_baixaDeb' %}">Requerimento de baixa de débito</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_inclusao' %}">Requerimento de incusão de possuidor</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_recolhimento' %}">Requerimento de recolhimento de tributos</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_reviptu' %}">Requerimento revisão de IPTU</a>
     </div>
+
+    {% if not arg == 'opcoes' %}
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
+        <iframe src="/static/pdfs/iptu/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
+    </div>
+    {% endif %}
 
     <div class="row mx-auto px-5" style="height: 100px;">
     <script>

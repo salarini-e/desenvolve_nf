@@ -14,21 +14,27 @@
         <h3>Documentos de certidão<h3>
             <nav>
                 <ul>
-                    <li><a href="{% url 'financas:get_certidao' 'autorizacao_predial' %}"
+                    <li><a href="{% url 'financas:certidao' 'autorizacao_predial' %}"
                                 class="btn btn-dark">Autorização
                                 Vistoria
                                 Predial</a></li>
-                    <li><a href="{% url 'financas:get_certidao' 'requerimento_escritura' %}"
+                    <li><a href="{% url 'financas:certidao' 'requerimento_escritura' %}"
                                 class="btn btn-dark">Requerimento
                                 de
                                 Averbação de Escritura</a></li>
-                    <li><a href="{% url 'financas:get_certidao' 'requerimento_certicao' %}"
+                    <li><a href="{% url 'financas:certidao' 'requerimento_certicao' %}"
                                 class="btn btn-dark">Requeriquento
                                 de
                                 Certidão</a></li>
                 </ul>
             </nav>
     </div>
+
+    {% if not arg == 'opcoes' %}
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
+        <iframe src="/static/pdfs/certidoes/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
+    </div>
+    {% endif %}
 
 
     <div class="row mx-auto px-5" style="height: 100px;">
