@@ -9,37 +9,37 @@
         </a>
         <a href="{% url 'financas:alvara' 'opcoes' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="tutor" class="s-nav rounded-circle "></div>
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
             <p class="text-dark text-center">Alvará</p>
           </div>
         </a>
         <a href="{% url 'financas:certidao' 'opcoes' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="adote" class="s-nav rounded-circle"></div>
+            <div id="s-certidoes" class="s-nav rounded-circle doc"></div>
             <p class="text-dark">Certidões</p>
           </div>
         </a>        
         <a href="{% url 'financas:iptu' 'opcoes' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="loja" class="s-nav rounded-circle destaque"></div>
+            <div id="s-iptu" class="s-nav rounded-circle destaque doc"></div>
             <p class="text-dark">IPTU</p>
           </div>
         </a> 
         <a href="{% url 'financas:itbi' 'opcoes' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="loja" class="s-nav rounded-circle destaque"></div>
+            <div id="s-itbi" class="s-nav rounded-circle destaque doc"></div>
             <p class="text-dark">ITBI</p>            
           </div>
         </a>    
         <a href="{% url 'financas:isencao' 'opcoes' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="loja" class="s-nav rounded-circle destaque"></div>
+            <div id="s-isencao" class="s-nav rounded-circle destaque doc"></div>
             <p class="text-dark">Isenção</p>
           </div>
         </a>   
         <a href="{% url 'financas:diversos' 'opcoes' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="loja" class="s-nav rounded-circle destaque"></div>
+            <div id="s-diversos" class="s-nav rounded-circle destaque doc"></div>
             <p class="text-dark">Diversos</p>
           </div>
         </a>         
@@ -60,24 +60,9 @@
       background-image: url(/static/images/icones/bemestaranimal_inicio.png);
       background-size: contain;
     }
-    #tutor{
+    .doc{      
       background-color: white !important;
-      background-image: url(/static/images/icones/bemestaranimal_tutor.png);
-      background-size: contain;
-    }
-    #adote{
-      background-color: white !important;
-      background-image: url(/static/images/icones/bemestaranimal_adote.png);
-      background-size: contain;
-    }
-    #loja{
-      background-color: white !important;
-      background-image: url(/static/images/icones/bemestaranimal_loja.png);
-      background-size: contain;
-    }
-    #admin{
-      background-color: white !important;
-      background-image: url(/static/images/icones/bemestaranimal_admin.png);
+      background-image: url(/static/images/icones/financas_doc.png);
       background-size: contain;
     }
   </style>
