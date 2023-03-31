@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.paginator import Paginator
 from django.apps import apps
+from django.db.models import Count
 
 from .models import *
 from .forms import *
@@ -95,14 +96,51 @@ def adicionar_material_ao_estoque(request):
     }
     return render(request, 'almoxarifado/adicionar_material_ao_estoque.html', context)
 
+def retirar_material_do_estoque(request, id):
+    if request.method == 'POST':
+        form = Log_estoque_Form(request.POST)
+        form_tipo = Exibir_Tipo_Material_Form(request.POST)
+        if form.is_valid():
+            log = form.save()
+            material = Material.objects.get(id=log.material.id)
+            log.qnt_em_estoque = material.qnt_em_estoque
+            material.qnt_em_estoque = material.qnt_em_estoque-log.add_quantidade
+            material.save()
+            log.save()
+            if log.add_quantidade == 1:
+                messages.success(request, f"{log.add_quantidade} unidade foi removida do estoque. Total: {material.qnt_em_estoque}.")
+            else: 
+                messages.success(request, f"{log.add_quantidade} unidadesforam removidas do estoque. Total: {material.qnt_em_estoque}.")
+            return redirect('almoxarifado:alm_index')
+    else:
+        form = Log_estoque_Form(initial={'tipo_movimentacao': 'S'})
+        form_tipo = Exibir_Tipo_Material_Form()
+
+    context = {
+        'titulo': apps.get_app_config('almoxarifado').verbose_name,
+        'form': form,
+        'form_tipo': form_tipo
+    }
+    return render(request, 'almoxarifado/adicionar_material_ao_estoque.html', context)
+
 
 @login_required
 def listar_materiais(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode("utf-8"))
+        print(data)
         if not data['tipo']:
             return Exception("DEU MERDA, CADE O ID????")
-        return JsonResponse({'data': list(Material.objects.filter(tipo=data['tipo']).values())})
+        materiais = Material.objects.filter(tipo = data['tipo']).values()
+        print(materiais)
+        return JsonResponse({'data': list(materiais)})
     else:
         raise PermissionDenied()
 
+@login_required
+def historico(request):
+    logs=Log_estoque.objects.all().order_by('id')
+    context={
+        'logs': logs
+    }
+    return render(request, 'almoxarifado/historico.html', context)

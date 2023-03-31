@@ -35,4 +35,5 @@ class Log_estoque_Form(ModelForm):
     
     class Meta:
         model = Log_estoque
+        widgets={'tipo_movimentacao': forms.HiddenInput()}
         exclude = ['dt_inclusao', 'qnt_em_estoque']
