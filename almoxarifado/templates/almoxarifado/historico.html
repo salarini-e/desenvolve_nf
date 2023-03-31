@@ -28,9 +28,15 @@
               <table class="table table-striped table-hover">
                 <tbody>
                   {% for log in logs %}
-                  <tr>
+                  <tr class="{% if log.tipo_movimentacao == 'S' %}bg-vermelho{% else %}bg-verde{% endif %}">
                     <td class="d-flex align-items-center">
-                      <span>{{log.material}} {% if log.tipo_movimentacao == 'S' %}-{% endif %} {{log.add_quantidade}}</span>
+                      <span>{{log.material}}</span>
+                    </td>
+                    <td class="text-end">
+                      {{log.qnt_em_estoque}}
+                    </td>
+                    <td class="text-end">
+                      {% if log.tipo_movimentacao == 'S' %}-{% endif %} {{log.add_quantidade}}
                     </td>
                   </tr>
                   {% endfor %}
