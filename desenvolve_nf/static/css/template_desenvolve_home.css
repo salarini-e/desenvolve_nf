@@ -564,6 +564,44 @@ h1, h2, h3, h4{
   display: none;
 }
 
-@media( max-width: 990px){
+@media( max-width: 1200px){
+  .navegacaoMobile{
+    font-size: 1vw !important;
+  }
+}
+@media(max-width: 1114px){
+  .btLogin{
+    padding: 0.5vw;
+  }
+}
+@media(max-width:1110px){
+  .menuMobile{
+    display: block;
+    margin-left: 50vw;
+  }
+  .navegacaoMobile{
+    display: none !important;
+  }
+  .navMob{
+    display: block;
+  }
+  .navMob a{
+    color: black;
+  }
+}
+@media(max-width: 760px){
+  .menuMobile{
+    margin-left: 30vw;
+  }
+}
+@media(max-width: 542px){
+  .menuMobile{
+    margin-left: 20vw;
+  }
+}
 
+@media(max-width: 438px){
+  .menuMobile{
+    margin-left: 10vw;
+  }
 }
