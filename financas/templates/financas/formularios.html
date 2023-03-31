@@ -1,0 +1,76 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_financas.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/financas_tipo_processo/main.css">
+<link rel="stylesheet" href="/static/css/carrossel.css">
+<script src="/static/js/carrossel.js"></script>
+{% endblock %}
+{% block main %}
+<div class="container">
+    {% if arg == 'opcoes' %}
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
+        <h2>Documentos de ITBI</h2>
+        <p>Aqui você encontra formulários para processos de ITBI tratados pela Secretaria da Fazenda de Nova Friburgo.
+            Procure pelo processo que deseja e baixe o formulário correspondente. A maioria dos formulários são PDFs com
+            campos preenchíveis: você pode baixá-los, preencher no computador e depois imprimir. Os documentos
+            necessários a cada processo estão descritos nos respectivos formulários.</p>
+        <nav>
+            <ul>
+                <li><a href="{% url 'financas:itbi' 'declaracao_ciencia_itbi' %}" class="btn btn-dark">Declaração de
+                        Ciência para ITBI</a></li>
+                <li><a href="{% url 'financas:itbi' 'declaracao_transacao_imobiliaria' %}"
+                        class="btn btn-dark">Declaração de ITBI na Transação Imobiliária</a></li>
+                <li><a href="{% url 'financas:itbi' 'requerimento_revisao_itbi' %}" class="btn btn-dark">Requerimento de
+                        Revisão de ITBI</a></li>
+            </ul>
+        </nav>
+    </div>
+    {% else %}
+    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+        aria-controls="offcanvasExample">
+        <i class="fa-solid fa-bars"></i>
+    </a>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Documentos de ITBI</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <nav>
+                <ul>
+                    <li><a href="{% url 'financas:itbi' 'declaracao_ciencia_itbi' %}" class="btn btn-dark">Declaração de
+                            Ciência para ITBI</a></li>
+                    <li><a href="{% url 'financas:itbi' 'declaracao_transacao_imobiliaria' %}"
+                            class="btn btn-dark">Declaração de ITBI na Transação Imobiliária</a></li>
+                    <li><a href="{% url 'financas:itbi' 'requerimento_revisao_itbi' %}"
+                            class="btn btn-dark">Requerimento de
+                            Revisão de ITBI</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <h3>Documentos de ITBI</h3>
+    <ol>
+        <li>Acesse o formulário de requerimento desejado</li>
+        <li>Preencha todos os campos com as informações solicitadas</li>
+        <li>Baixe o formulário clicando no link de download</li>
+        <li>Abra o arquivo em seu computador e certifique-se que está preenchido corretamente</li>
+        <li>Agora é só imprimir e levar até nosso atendimento presencial.</li>
+    </ol>
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
+        <iframe src="/static/pdfs/itbi/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
+    </div>
+    {% endif %}
+
+
+    <div class="row mx-auto px-5" style="height: 100px;">
+        <script>
+            document.getElementById('s-itbi').classList.add('s-nav-active');
+        </script>
+    </div>
+</div>
