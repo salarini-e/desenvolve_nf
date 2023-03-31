@@ -79,7 +79,33 @@
                   
                 </ul>
               </div></li>
-              <li class="menuMobile"><a href="#offcanvasExample" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" role="button" aria-controls="offcanvasExample">&#9776;</a></li>
+              <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a></li>
+            </ul>
+          </div>
+          <div class="my-auto mx-auto offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <ul class="d-flex nav-a offcanvas-body">
+              <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+              <li><a href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>              
+              <li><a href="{% url 'eventos:index' %}">Eventos</a></li>
+              <li><a href="{% url 'financas:index' %}">Finanças</a></li>
+              <li><div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+                  Outros sistemas
+                </a>                                  
+                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+                  <!-- <li><a class="btn btn-outline-primary" href="#">
+                    Acessar
+                  </a></li>
+                  <li><hr class="dropdown-divider"></li> -->
+                  <li class="mt-1"><b>Sistemas:</b></li>
+                  <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+                  <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
+                  <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+                  <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
+                  
+                </ul>
+              </div></li>
             </ul>
           </div>
           <div class="linkLogin nv-login my-auto ms-auto">
