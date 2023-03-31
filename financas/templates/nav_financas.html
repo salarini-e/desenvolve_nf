@@ -1,68 +1,75 @@
 <div id="navegacao" class="container">
-    <div class="row">
-      <div class="col  d-flex">
-        <a href="{% url 'financas:index' %}"  class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="index" class="s-nav rounded-circle "></div>
-            <p class="text-dark">Início</p>
-          </div>
-        </a>
-        <a href="{% url 'financas:alvara' 'opcoes' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
-            <p class="text-dark text-center">Alvará</p>
-          </div>
-        </a>
-        <a href="{% url 'financas:certidao' 'opcoes' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-certidoes" class="s-nav rounded-circle doc"></div>
-            <p class="text-dark">Certidões</p>
-          </div>
-        </a>        
-        <a href="{% url 'financas:iptu' 'opcoes' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-iptu" class="s-nav rounded-circle destaque doc"></div>
-            <p class="text-dark">IPTU</p>
-          </div>
-        </a> 
-        <a href="{% url 'financas:itbi' 'opcoes' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-itbi" class="s-nav rounded-circle destaque doc"></div>
-            <p class="text-dark">ITBI</p>            
-          </div>
-        </a>    
-        <a href="{% url 'financas:isencao' 'opcoes' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-isencao" class="s-nav rounded-circle destaque doc"></div>
-            <p class="text-dark">Isenção</p>
-          </div>
-        </a>   
-        <a href="{% url 'financas:diversos' 'opcoes' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-diversos" class="s-nav rounded-circle destaque doc"></div>
-            <p class="text-dark">Diversos</p>
-          </div>
-        </a>         
-        {% if request.user.is_staff %}
-        <a href="{% url 'administrativo' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="admin" class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">Admin</p>
-          </div>
-        </a>
-        {% endif %}
-      </div>
+  <div class="row">
+    <div class="col  d-flex">
+      <a href="{% url 'financas:index' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="index" class="s-nav rounded-circle "></div>
+          <p class="text-dark">Início</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:formularios' 'formularios' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+          <p class="text-dark text-center">Formulários e Declarações</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:alvara' 'opcoes' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+          <p class="text-dark text-center">Alvará</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:certidao' 'opcoes' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-certidoes" class="s-nav rounded-circle doc"></div>
+          <p class="text-dark">Certidões</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:iptu' 'opcoes' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-iptu" class="s-nav rounded-circle destaque doc"></div>
+          <p class="text-dark">IPTU</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:itbi' 'opcoes' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-itbi" class="s-nav rounded-circle destaque doc"></div>
+          <p class="text-dark">ITBI</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:isencao' 'opcoes' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-isencao" class="s-nav rounded-circle destaque doc"></div>
+          <p class="text-dark">Isenção</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:diversos' 'opcoes' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-diversos" class="s-nav rounded-circle destaque doc"></div>
+          <p class="text-dark">Diversos</p>
+        </div>
+      </a>
+      {% if request.user.is_staff %}
+      <a href="{% url 'administrativo' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="admin" class="s-nav rounded-circle destaque"></div>
+          <p class="text-dark">Admin</p>
+        </div>
+      </a>
+      {% endif %}
     </div>
   </div>
-  <style>
-    #index{      
-      background-color: white !important;
-      background-image: url(/static/images/icones/bemestaranimal_inicio.png);
-      background-size: contain;
-    }
-    .doc{      
-      background-color: white !important;
-      background-image: url(/static/images/icones/financas_doc.png);
-      background-size: contain;
-    }
-  </style>
+</div>
+<style>
+  #index {
+    background-color: white !important;
+    background-image: url(/static/images/icones/bemestaranimal_inicio.png);
+    background-size: contain;
+  }
+
+  .doc {
+    background-color: white !important;
+    background-image: url(/static/images/icones/financas_doc.png);
+    background-size: contain;
+  }
+</style>
