@@ -1,0 +1,49 @@
+{% extends 'template.html' %} {% load bootstrap5 %} {% load static%} 
+{% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
+{% block title %}Listar tipo materiais{% endblock %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}" />
+
+{% endblock %} {% block administrativo %}fw-bold{% endblock %} {% block main %}
+<div class="row">
+  <div class="col d-flex">
+    <div class="row w-100">
+      <div class="col-10 pb-4 m-auto bg-white">
+       
+        <div class="row">
+          <div class="col px-4">
+            <div class="px-2 d-flex">
+  
+              <a class="ms-4" href="{% url 'almoxarifado:index' %}">
+                <i class="fa-solid fa-rotate-left me-2"></i>Voltar
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col px-4 pt-4">
+            <div class="px-2">
+              <h4>Tipos de Materiais</h4>
+              <table class="table table-striped table-hover">
+                <tbody>
+                  {% for log in logs %}
+                  <tr>
+                    <td class="d-flex align-items-center">
+                      <span>{{log.material}} {% if log.tipo_movimentacao == 'S' %}-{% endif %} {{log.add_quantidade}}</span>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

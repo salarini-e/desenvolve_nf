@@ -109,20 +109,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'settings.wsgi.application'
 
 DATABASES = {
-     'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(PROJECT_ROOT, 'yourdatabasename.db'),
-        }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
+    #  'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(PROJECT_ROOT, 'yourdatabasename.db'),
+    #     }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
 
-    #     'NAME': db_name,
-    #     'PORT': '',
+        'NAME': db_name,
+        'PORT': '',
 
-    #     'USER': db_user,
-    #     'PASSWORD': db_passwd,
-    #     'HOST': db_host,
-    # }
+        'USER': db_user,
+        'PASSWORD': db_passwd,
+        'HOST': db_host,
+    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [

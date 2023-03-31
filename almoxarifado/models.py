@@ -28,8 +28,14 @@ class Material(models.Model):
         return self.nome
 
 class Log_estoque(models.Model):
+    CHOICES_TIPO_MOVIMENTACAO = (
+        ('E', 'Entrada'),
+        ('S', 'Saída'),
+    )
+
     material=models.ForeignKey(Material, on_delete=models.CASCADE)
-    add_quantidade=models.IntegerField(verbose_name='Quantidade p/ adicionar ao estoque')
+    tipo_movimentacao = models.CharField(max_length=1, choices=CHOICES_TIPO_MOVIMENTACAO, default='E')
+    add_quantidade=models.IntegerField(verbose_name='Quantidade movimentada')
     qnt_em_estoque=models.IntegerField(null=True)
     dt_inclusao=models.DateTimeField(auto_now_add=True, verbose_name='Dt. Inclusão')    
     
