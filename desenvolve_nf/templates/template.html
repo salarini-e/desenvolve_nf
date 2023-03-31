@@ -83,7 +83,7 @@
             </ul>
           </div>
           <div class="my-auto mx-auto offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-            <ul class="d-flex nav-a offcanvas-body">
+            <ul class="nav-a offcanvas-body">
               <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
               <li><a href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>              
               <li><a href="{% url 'eventos:index' %}">Eventos</a></li>
@@ -106,6 +106,31 @@
                   
                 </ul>
               </div></li>
+              <div class="nv-login my-auto ms-auto">
+                {% if not request.user.is_authenticated %}
+                <a href="{% url 'autenticacao:login' %}" class="btn my-auto btn-acesso" type="submit">
+                  <i class="fa-solid fa-user-check me-2"></i> Login</a>
+                {% else %}
+                <div class="dropdown">
+                  <button class="btn btn-acesso my-auto" type="button" id="dropdownMenuPerfil" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-user-check me-2"></i>
+                    {{ request.user.first_name }}
+                  </button>
+                  <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                    {% if request.user.is_superuser %}
+                    <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
+                    {% endif %}
+                    <!-- <li><a class="dropdown-item py-2 text-center" href="#">Meu perfil</a></li> -->
+                    <!-- <li><a class="dropdown-item py-2" href="#">Meu perfil</a></li> -->
+                    <li>
+                      <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
+                        <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </ul>
           </div>
           <div class="linkLogin nv-login my-auto ms-auto">
@@ -144,7 +169,7 @@
             </a>
           </div>
           <div class="nv-titulo my-auto ms-3">
-            <h2> {{titulo}}</h2>
+            <h1> {{titulo}}</h1>
           </div>
           <div class="nv-social ms-auto d-flex">
             <div class="d-flex my-auto me-3">
