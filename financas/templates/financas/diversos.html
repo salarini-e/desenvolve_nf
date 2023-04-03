@@ -14,28 +14,34 @@
         <h3>Documentos diversos</h3>
         <nav>
             <ul>
-                <li> <a class="btn btn-dark" href="{% url 'financas:get_diversos' 'declaracao_residencia' %}">Declaração
+                <li> <a class="btn btn-dark" href="{% url 'financas:diversos' 'declaracao_residencia' %}">Declaração
                         de
                         residência</a></li>
-                <li> <a class="btn btn-dark" href="{% url 'financas:get_diversos' 'requerimento_adesao' %}">Requerimento
+                <li> <a class="btn btn-dark" href="{% url 'financas:diversos' 'requerimento_adesao' %}">Requerimento
                         de
                         adesão</a></li>
                 <li>
                     <a class="btn btn-dark"
-                        href="{% url 'financas:get_diversos' 'requerimento_att_cadastral' %}">Requerimento
+                        href="{% url 'financas:diversos' 'requerimento_att_cadastral' %}">Requerimento
                         de
                         atualização cadastral</a>
                 </li>
                 <li> <a class="btn btn-dark"
-                        href="{% url 'financas:get_diversos' 'requerimento_autonomo' %}">Requerimento para
+                        href="{% url 'financas:diversos' 'requerimento_autonomo' %}">Requerimento para
                         autônomo</a></li>
             </ul>
         </nav>
     </div>
 
+    {% if not arg == 'opcoes' %}
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
+        <iframe src="/static/pdfs/diversos/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
+    </div>
+    {% endif %}
+
     <div class="row mx-auto px-5" style="height: 100px;">
         <script>
-            document.getElementById('index').classList.add('s-nav-active');
+            document.getElementById('s-diversos').classList.add('s-nav-active');
         </script>
     </div>
 </div>

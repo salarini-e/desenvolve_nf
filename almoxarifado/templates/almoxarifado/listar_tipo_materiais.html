@@ -17,9 +17,12 @@
               <a class="ms-auto" href="{% url 'almoxarifado:alm_adicionar_tipo' %}">
                 <i class="fa-solid fa-plus me-2"></i>Tipo Material
               </a>
-              <a class="ms-4" href="{% url 'almoxarifado:index' %}">
-                <i class="fa-solid fa-rotate-left me-2"></i>Voltar
+              <a class="ms-4" href="{% url 'almoxarifado:alm_adicionar_material_ao_estoque' %}">
+                <i class="fa-solid fa-plus me-2"></i>Adicionar material
               </a>
+              <!-- <a class="ms-4" href="{% url 'almoxarifado:index' %}">
+                <i class="fa-solid fa-rotate-left me-2"></i>Voltar
+              </a> -->
             </div>
           </div>
         </div>
@@ -68,95 +71,18 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- MODAL -->
-<div
-  class="modal fade"
-  id="formCandidato"
-  aria-hidden="true"
-  aria-labelledby="formCandidatoLabel"
-  tabindex="-1"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5
-          class="modal-title text-dark text-center"
-          id="exampleModalToggleLabel"
-        >
-          CANDIDATAR-SE A ESCOLINHA DE SKATE
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body text-dark">
-        <form id="form" action="#"></form>
-      </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-primary"
-          data-bs-target="#confirmarCadastro"
-          data-bs-toggle="modal"
-          onclick="enviarFormulario()"
-        >
-          Enviar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div
-  class="modal fade"
-  id="confirmarCadastro"
-  aria-hidden="true"
-  aria-labelledby="confirmarCadastroLabel2"
-  tabindex="-1"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-dark" id="exampleModalToggleLabel2">
-          RESPOSTA AQUI
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        Hide this modal and show the first with the button below.
-      </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-secondary"
-          data-bs-target="#formCandidato"
-          data-bs-toggle="modal"
-        >
-          Voltar ao formulário
-        </button>
-        <button
-          class="btn btn-success"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        >
-          Confirmar informações
-        </button>
+        <div class="row">
+          <div class="col pt-4">
+            <a href="{% url 'almoxarifado:historico' %}">Visualizar histórico de movimentação</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <script>
   async function listar_materiais(tipo) {
-    const response = await fetch(`/almoxarifado/listar-materiais`,{
+    const response = await fetch(`/almoxarifado/listar-materiais/`,{
       method: 'POST', 
       headers: {
           'X-CSRFToken': '{{ csrf_token }}',
@@ -170,11 +96,16 @@
     if(json.data.length){
       json.data.forEach(e=>{
         const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.className = "d-flex align-items-center"
+        const td1 = document.createElement('td');
+        const td2 = document.createElement('td');
+      
+        td1.className = "align-items-center"
+        td2.className = "align-items-center text-end"
   
-        td.innerHTML = e.nome
-        tr.appendChild(td)
+        td1.innerHTML = e.nome
+        td2.innerHTML = e.qnt_em_estoque
+        tr.appendChild(td1)
+        tr.appendChild(td2)
   
         materiais.append(tr)
       })

@@ -2,49 +2,49 @@
 <html lang="pt-br">
 
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
-    <title>
-        {% block title %}{{titulo}}{% endblock %}
-    </title>
-    <!-- GOOGLE FONTS -->
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+  <title>
+    {% block title %}{{titulo}}{% endblock %}
+  </title>
+  <!-- GOOGLE FONTS -->
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&family=Montserrat&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
    -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wghtt@100;200;400;500;600;700  &display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <!-- BOOTSTRAP 5 -->
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
-    <script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FONTAWESOME -->
-    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-    <!-- CUSTOM CSS -->
-    <link rel="stylesheet" href="/static/css/template_desenvolve_home.css">
-    <link rel="stylesheet" href="/static/css/carousel_desenvolve.css">
-    <link rel="stylesheet" href="/static/css/button_tremedera.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wghtt@100;200;400;500;600;700  &display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <!-- BOOTSTRAP 5 -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+  <script crossorigin="anonymous" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FONTAWESOME -->
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+  <!-- CUSTOM CSS -->
+  <link rel="stylesheet" href="/static/css/template_desenvolve_home.css">
+  <link rel="stylesheet" href="/static/css/carousel_desenvolve.css">
+  <link rel="stylesheet" href="/static/css/button_tremedera.css">
 
-    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
 
 
 </head>
 
 <body class="container-fluid">
-    <!-- <div id="preloading">
+  <!-- <div id="preloading">
         <img class="mx-auto mt-auto img-fluid logo" src="/static /images/logo_pmnf.png" alt="">
         <div class="mx-auto mb-auto lds-ellipsis">
             <div></div>
@@ -53,101 +53,151 @@
             <div></div>
         </div>
     </div> -->
-    <header class="row">
-        <div class="col" style="border-bottom: 1px solid rgb(255, 255, 255);">
-            <div class="row" id="nav-superior">
-                <div class="col d-flex text-light">
-                    <div class="logo-nf nv-sp">
-                        <img src="{% static 'images/brasao-nf.png' %}" class="img-fluid logo-1">
-                        <span class="barrinha">|</span>
-                        <img src="{% static 'images/logo_desenvolvenf.png' %}" class="img-fluid logo-2">
-                    </div>
-                    <div class="my-auto mx-auto">
-                        <ul class="d-flex nav-a">
-                            <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
-                            <li><a href="{% url 'cidade_inteligente' %}" class="mx-2">Cidade Inteligente</a></li>              
-                            <li><a href="{% url 'eventos:index' %}" class="mx-2">Eventos</a></li>
-                            <li><a href="{% url 'financas:index' %}">Finanças</a></li>
-                            <li>
-                              <div class="dropdown mx-2">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Outros sistemas
-                                </a>                                  
-                                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-                                  <!-- <li><a class="btn btn-outline-primary" href="#">
-                                    Acessar
-                                  </a></li>
-                                  <li><hr class="dropdown-divider"></li> -->
-                                  <li class="mt-1"><b>Sistemas:</b></li>
-                                  <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
-                                  <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
-                                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
-                                  <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
-                                  <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-                                  
-                                </ul>
-                              </div>
-                            </li>
-                            <!-- <li><div class="dropdown mx-2">
-                              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
-                                Outros sistemas
-                              </a>                                  
-                              <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">               
-                                <li class="mt-1"><b>Sistemas:</b></li>
-                                <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
-                                <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
-                                <li><a class="dropdown-item" href="{% url 'cidade_inteligente' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
-                                <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
-                                <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-                              </ul>
-                            </div></li> -->
-                        </ul>
-                    </div>
-                    <div class="nv-social ms-auto d-flex">
-                        <div class="d-flex my-auto">
-                            <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto"><i
-                                        class="fa-brands fa-instagram"></i></a></div>
-                            <div class="rounded-circle d-social d-flex"><a href="" class="a-social m-auto"><i
-                                        class="fa-brands fa-facebook-f"></i></a>
-                            </div>
-                            <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto"><i
-                                        class="fa-brands fa-twitter"></i></a></div>
-                        </div>
-                    </div>
-                    <div class="nv-login ms-5 my-auto">
-                        {% if not request.user.is_authenticated %}
-                        <a href="{% url 'autenticacao:login' %}" class="pe-3 btn btn-acesso" type="submit">
-                            <!-- <i class="fa-regular fa-user me-2"></i> -->
-                            <i class="fa-solid fa-user-check me-2"></i>
-                            Acessar</a>
-                        {% else %}
-                        <div class="dropdown">
-                            <button class="btn btn-acesso" type="button" id="dropdownMenuPerfil"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-user-check me-2"></i>                                
-                                {{ request.user.first_name }}
-                            </button>
-                            <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="dropdownMenuButton1">
-                                {% if request.user.is_superuser %}
-                                <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
-                                {% endif %}
-                                <!-- <li><a class="dropdown-item py-2 text-center" href="#">Meu perfil</a></li> -->
-                                <!-- <li><a class="dropdown-item py-2" href="#">Meu perfil</a></li> -->
-                                <li>
-                                    <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
-                                        <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        {% endif %}
-                    </div>
+  <header class="row">
+    <div class="col" style="border-bottom: 1px solid rgb(255, 255, 255);">
+      <div class="row" id="nav-superior">
+        <div class="col d-flex text-light">
+          <div class="logo-nf nv-sp">
+            <img src="{% static 'images/brasao-nf.png' %}" class="img-fluid logo-1">
+            <span class="barrinha">|</span>
+            <img src="{% static 'images/logo_desenvolvenf.png' %}" class="img-fluid logo-2">
+          </div>
+          <div class="my-auto mx-auto">
+            <ul class="d-flex nav-a ">
+              <li><a class="mx-2 navegacaoMobile" href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+              <li><a class="mx-2 navegacaoMobile" href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>              
+              <li><a class="mx-2 navegacaoMobile" href="{% url 'eventos:index' %}">Eventos</a></li>
+              <li><a class="mx-2 navegacaoMobile" href="{% url 'financas:index' %}">Finanças</a></li>
+              <li><div class="dropdown mx-2 ">
+                <a class="dropdown-toggle navegacaoMobile" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+                  Outros sistemas
+                </a>                                  
+                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+                  <!-- <li><a class="btn btn-outline-primary" href="#">
+                    Acessar
+                  </a></li>
+                  <li><hr class="dropdown-divider"></li> -->
+                  <li class="mt-1"><b>Sistemas:</b></li>
+                  <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+                  <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
+                  <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+                  <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
+                  
+                </ul> 
+              </div></li>
+              <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a></li>            </ul>
+          </div>
+          <div class="my-auto mx-auto offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <ul class="nav-a offcanvas-body navMob">
+              <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+              <li><a href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>              
+              <li><a href="{% url 'eventos:index' %}">Eventos</a></li>
+              <li><a href="{% url 'financas:index' %}">Finanças</a></li>
+              <li><div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+                  Outros sistemas
+                </a>                                  
+                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+                  <!-- <li><a class="btn btn-outline-primary" href="#">
+                    Acessar
+                  </a></li>
+                  <li><hr class="dropdown-divider"></li> -->
+                  <li class="mt-1"><b>Sistemas:</b></li>
+                  <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+                  <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
+                  <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+                  <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
+                  
+                </ul>
+              </div></li>
+              <div class="nv-login ms-3 mt-2 my-auto">
+                {% if not request.user.is_authenticated %}
+                <a href="{% url 'autenticacao:login' %}" class="pe-2 btn btn-acesso btLogin" type="submit">
+                  <!-- <i class="fa-regular fa-user me-2"></i> -->
+                  <i class="fa-solid fa-user-check me-2"></i>
+                  Acessar</a>
+                {% else %}
+                <div class="dropdown">
+                  <button class="btn btn-acesso" type="button" id="dropdownMenuPerfil" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-user-check me-2"></i>
+                    {{ request.user.first_name }}
+                  </button>
+                  <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                    {% if request.user.is_superuser %}
+                    <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
+                    {% endif %}
+                    <!-- <li><a class="dropdown-item py-2 text-center" href="#">Meu perfil</a></li> -->
+                    <!-- <li><a class="dropdown-item py-2" href="#">Meu perfil</a></li> -->
+                    <li>
+                      <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
+                        <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
+                      </a>
+                    </li>
+                  </ul>
                 </div>
+                {% endif %}
+              </div>
+            </ul>
+            <div class="nv-social ms-auto d-flex">
+              <div class="d-flex my-auto">
+                <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto MobileSocial"><i
+                      class="fa-brands fa-instagram"></i></a></div>
+                <div class="rounded-circle d-social d-flex"><a href="" class="a-social m-auto MobileSocial"><i
+                      class="fa-brands fa-facebook-f"></i></a>
+                </div>
+                <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto MobileSocial"><i
+                      class="fa-brands fa-twitter"></i></a></div>
+              </div>
             </div>
+
+          </div>
+          <div class="nv-social ms-auto d-flex navegacaoMobile">
+            <div class="d-flex my-auto navegacaoMobile">
+              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
+                    class="fa-brands fa-instagram"></i></a></div>
+              <div class="rounded-circle d-social d-flex navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
+                    class="fa-brands fa-facebook-f"></i></a>
+              </div>
+              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
+                    class="fa-brands fa-twitter"></i></a></div>
+            </div>
+          </div>
+          <div class="nv-login ms-5 my-auto navegacaoMobile">
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'autenticacao:login' %}" class="pe-3 btn btn-acesso btLogin" type="submit">
+              <!-- <i class="fa-regular fa-user me-2"></i> -->
+              <i class="fa-solid fa-user-check me-2"></i>
+              Acessar</a>
+            {% else %}
+            <div class="dropdown">
+              <button class="btn btn-acesso" type="button" id="dropdownMenuPerfil" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fa-solid fa-user-check me-2"></i>
+                {{ request.user.first_name }}
+              </button>
+              <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                {% if request.user.is_superuser %}
+                <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
+                {% endif %}
+                <!-- <li><a class="dropdown-item py-2 text-center" href="#">Meu perfil</a></li> -->
+                <!-- <li><a class="dropdown-item py-2" href="#">Meu perfil</a></li> -->
+                <li>
+                  <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
+                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {% endif %}
+          </div>
         </div>
-    </header>
-    <!-- <div class="row">
+      </div>
+    </div>
+  </header>
+  <!-- <div class="row">
             <div class="col" id="aviso">
                 <div class="titulo d-flex">
                     <h1 class="my-auto">ESTAMOS EM CONSTRUÇÃO</h1>
@@ -172,279 +222,336 @@
                 </div>
             </div>
         </div> -->
-    <div id="main-carousel" class="row">
-        <div class="col px-0">
-            <div class="owl-carousel owl-theme">
-              {% for item in carousel %}
-                <div class="item">
-                    {% if item.url %}<a href="{{item.url}}">{% endif %}
-                      <img src="{{item.image.url}}" class="d-block w-100" alt="{{item.nome}}">
-                    {% if item.url %}</a>{% endif %}
-                </div>                
-                {% endfor %}
-            </div>
- 
-              
+  <div id="main-carousel" class="row">
+    <div class="col px-0">
+      <div class="owl-carousel owl-theme">
+        {% for item in carousel %}
+        <div class="item">
+          {% if item.url %}<a href="{{item.url}}">{% endif %}
+            <img src="{{item.image.url}}" class="d-block w-100" alt="{{item.nome}}">
+            {% if item.url %}</a>{% endif %}
         </div>
-    </div>
-    <div id="navegacao" class="container">
-        <div class="row">
-            <div class="col">
-                <!-- <h2 class="text-center text-uppercase" style="font-weight: bolder;">Sistemas</h2> -->
-            </div>
-        </div>
-        <div class="row">
-          <div class="col  d-flex justify-content-center pt-4">
-            <a href="{% url 'bemestaranimal:index' %}"  class="me-3">
-              <div class="d-flex flex-column align-items-center btn-tremura">
-                <div id="bemestaranimal" class="s-nav rounded-circle"></div>
-                <p class="text-dark text-center">Bem Estar<br>Animal</p>
-              </div>
-            </a>
-             <a href="{% url 'cursos:home' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center btn-tremura">
-                  <div id="capacita" class="s-nav rounded-circle"></div>
-                  <p class="text-dark text-center">Capacitação<br>Profissional</p>
-                </div>
-            </a>
-            <a href="https://casadotrabalhador.pmnf.rj.gov.br" class="me-3">
-              <div class="d-flex flex-column align-items-center btn-tremura">
-                <div id="casadotrabalhador" class="s-nav rounded-circle"></div>
-                <p class="text-dark text-center">Casa do <br>Trabalhador</p>
-              </div>
-            </a>
-            <a href="#" class="me-3">
-              <div class="d-flex flex-column align-items-center btn-tremura">
-                <div id="adote" class="s-nav rounded-circle"></div>
-                <p class="text-dark text-center">Cidade <br>Limpa</p>
-              </div>
-            </a>
-             <a href="{% url 'eventos:index' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center btn-tremura">
-                  <div id="eventos" class="s-nav rounded-circle"></div>
-                  <p class="text-dark text-center">Eventos</p>
-                </div>
-            </a>
-            <a href="{% url 'financas:index' %}" class="me-3">
-                <div class="d-flex flex-column align-items-center btn-tremura">
-                  <div id="financas" class="s-nav rounded-circle"></div>
-                  <p class="text-dark text-center">Finanças</p>
-                </div>
-            </a> 
-            <a href="https://senhas.novafriburgo.rj.gov.br" class="me-3">
-                <div class="d-flex flex-column align-items-center btn-tremura">
-                  <div id="senhas" class="s-nav rounded-circle"></div>
-                  <p class="text-dark text-center">Senhas de<br>Turismo</p>
-                </div>
-            </a>
-            <a href="culturanf.novafriburgo.rj.gov.br" class="me-3">
-                <div class="d-flex flex-column align-items-center btn-tremura">
-                  <div id="mapeamento" class="s-nav rounded-circle"></div>
-                  <p class="text-dark text-center">Mapeamento<br>Cultural</p>
-                </div>
-            </a>                      
-            {% if request.user.is_staff %}
-            <a href="{% url 'administrativo' %}" class="me-3">
-              <div class="d-flex flex-column align-items-center btn-tremura">
-                <div id="admin" class="s-nav rounded-circle destaque"></div>
-                <p class="text-dark">Admin</p>
-              </div>
-            </a>
-            {% endif %}
-          </div>
-        </div>
+        {% endfor %}
       </div>
-      <style>
-         #bemestaranimal{                
-          background-color: rgb(255, 255, 255) !important;
-          background-image: url(/static/images/icones/home_bemestaranimal.png);
-          background-size: contain;          
-        }
-        #casadotrabalhador{      
-          background-color: rgb(255, 255, 255) !important;
-          background-image: url(/static/images/icones/home_casadotrabalhador.png);
-          background-size: contain;          
-        }
-        #senhas{      
-          background-color: rgb(255, 255, 255) !important;
-          background-image: url(/static/images/icones/home_senhas2.png);
-          background-size: contain;          
-        }
-        #mapeamento{
-          background-color: white !important;
-          background-image: url(/static/images/icones/home_mapeamento.png);
-          background-size: contain;
-        }
-        #capacita{
-          background-color: white !important;
-          background-image: url(/static/images/icones/home_capacita.png);
-          background-size: contain;
-        }
-        #eventos{
-          background-color: white !important;
-          background-image: url(/static/images/icones/home_eventos.png);
-          background-size: contain;
-        }
-        #financas{
-          background-color: white !important;
-          background-image: url(/static/images/icones/home_financas.png);
-          background-size: contain;
-        }
-        #admin{
-          background-color: white !important;
-          /* background-image: url(/static/images/icones/bemestaranimal_admin.png); */
-          background-size: contain;
-        }
-        .text-justify{
-          text-indent: 40px;
-        }
 
 
-      </style>
-    <main class="container-fluid px-0">  
-      <!-- <div class="row">
+    </div>
+  </div>
+  <div id="navegacao" class="container">
+    <div class="row">
+      <div class="col">
+        <!-- <h2 class="text-center text-uppercase" style="font-weight: bolder;">Sistemas</h2> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col  d-flex justify-content-center pt-4">
+        <a href="{% url 'bemestaranimal:index' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="bemestaranimal" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Bem Estar<br>Animal</p>
+          </div>
+        </a>
+        <a href="{% url 'cursos:home' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="capacita" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Capacitação<br>Profissional</p>
+          </div>
+        </a>
+        <a href="https://casadotrabalhador.pmnf.rj.gov.br" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="casadotrabalhador" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Casa do <br>Trabalhador</p>
+          </div>
+        </a>
+        <a href="#" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="adote" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Cidade <br>Limpa</p>
+          </div>
+        </a>
+        <a href="{% url 'eventos:index' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="eventos" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Eventos</p>
+          </div>
+        </a>
+        <a href="{% url 'financas:index' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="financas" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Finanças</p>
+          </div>
+        </a>
+        <a href="https://senhas.novafriburgo.rj.gov.br" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="senhas" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Senhas de<br>Turismo</p>
+          </div>
+        </a>
+        <a href="culturanf.novafriburgo.rj.gov.br" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="mapeamento" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Mapeamento<br>Cultural</p>
+          </div>
+        </a>
+        {% if request.user.is_staff %}
+        <a href="{% url 'administrativo' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="admin" class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">Admin</p>
+          </div>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <style>
+    #bemestaranimal {
+      background-color: rgb(255, 255, 255) !important;
+      background-image: url(/static/images/icones/home_bemestaranimal.png);
+      background-size: contain;
+    }
+
+    #casadotrabalhador {
+      background-color: rgb(255, 255, 255) !important;
+      background-image: url(/static/images/icones/home_casadotrabalhador.png);
+      background-size: contain;
+    }
+
+    #senhas {
+      background-color: rgb(255, 255, 255) !important;
+      background-image: url(/static/images/icones/home_senhas2.png);
+      background-size: contain;
+    }
+
+    #mapeamento {
+      background-color: white !important;
+      background-image: url(/static/images/icones/home_mapeamento.png);
+      background-size: contain;
+    }
+
+    #capacita {
+      background-color: white !important;
+      background-image: url(/static/images/icones/home_capacita.png);
+      background-size: contain;
+    }
+
+    #eventos {
+      background-color: white !important;
+      background-image: url(/static/images/icones/home_eventos.png);
+      background-size: contain;
+    }
+
+    #financas {
+      background-color: white !important;
+      background-image: url(/static/images/icones/home_financas.png);
+      background-size: contain;
+    }
+
+    #admin {
+      background-color: white !important;
+      /* background-image: url(/static/images/icones/bemestaranimal_admin.png); */
+      background-size: contain;
+    }
+
+    .text-justify {
+      text-indent: 40px;
+    }
+  </style>
+  <main class="container-fluid px-0">
+    <!-- <div class="row">
         <div class="col">
           <img src="/static/images/all.png" alt="" class="img-fluid">
         </div>
       </div> -->
-      <div class="row" style="background-image: url(/static/images/friburgo-bg.jpg); background-size:cover; background-position: center;">
-        <div class="col" style="background-color: #242525;">
-            <div class="row py-5 border">
-              <div class="col d-flex">
-                <div class="m-auto py-5" style="max-width: 500px;  color: #fff;">
-                  <h1 class="mb-4" style="color: #FFAD00; font-weight: bolder;">ID Friburguense Digital</h1>
-                  <p class="text-justify">Em vez de ter um novo cadastro, login e senha em cada lugar, sua ID Friburguense Digital é o login único que está sendo gradualmente integrado a cada serviço digital da Prefeitura de Nova Friburgo.</p>
-                  <p class="mt-4 text-justify">Você se cadastra apenas uma vez e navega de maneira transparente entre diferentes serviços da Prefeitura. O mesmo login servirá para todos os serviços que estejam integrados ao ID Friburguense Digital.</p>
-                  <p class="mt-4 text-justify">Além disso, queremos que seus dados informados anteriormente à Prefeitura não sejam pedidos novamente em outros serviços integrados. Tudo com respeito à sua privacidade e segurança. Para você não precisar informar os seus dados repetidamente em lugares diferentes.</p>
-                  <p class="mt-4 text-justify">Afinal, você é único. A sua identidade é friburguense.</p>
-                </div>
-              </div>
-              <div class="col py-5 d-flex flex-column justify-content-center me-5" style="border-radius: 30px;">                
-                      <!-- <a href="#" class="mx-auto"><h1 style="color: #FFAD00; font-weight: bolder;">ATUALIZE O SEU CADASTRO</h1></a> -->
-                      <div class="m-auto" style="width: 500px; height: 333px; border-radius: 30px; border: 1px dashed white;" src="/static/images/teste2.jpg" alt="" >
-                      </div>
-                      <button class="btn btn-outline-primary btn-details mx-auto mt-5 px-5" style="background-color: #FFAD00; color: white !important; font-weight: bolder;" id="esp3">ATUALIZE O SEU CADASTRO</button>            
-              </div>              
-            </div>   
-          </div>
-        </div>
-        <div class="row container mx-auto py-5 px-5 my-5">
-          <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
-            <div class="col d-flex pt-5">                
-              <div class="mx-auto pe-5" style="max-width: 800px;">                
-                <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>
-                <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>                                
-              </div>
-            </div> 
-            <div class="col d-flex pt-5">                
-              <div class="mx-auto ps-5" style="max-width: 800px;">                
-                <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>
-                <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>                
-              </div>
-            </div>            
-        </div>
-
-        <div class="row pb-5"  style="background-color: #2F2F2F;">            
-            <div class="col px-0 py-5 d-flex justify-content-evenly flex-wrap">  
-              <div class="owl-carousel owl-theme">
-                <div class="item d-flex">
-                  <div class=" d-flex flex-column ps-5 pe-3">                    
-                    <img class="me-auto mt-auto" src="/static/images/desenvolve_economia.png" alt="" style="max-width: 336px;">              
-                    <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                  </div>
-                  <div class=" d-flex flex-column pe-5 ps-3">
-                    <img class="me-auto mt-auto" src="/static/images/desenvolve_tecnologia.png" alt="" style="max-width: 336px;">              
-                    <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                  </div>
-                </div>
-              <div class="item d-flex">
-                <div class=" d-flex flex-column ps-5 pe-3">
-                  <img class="me-auto mt-auto" src="/static/images/desenvolve_turismo.png" alt="" style="max-width: 336px;">              
-                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                </div>
-                <div class="item d-flex flex-column pe-5 ps-3">
-                  <img class="me-auto mt-auto" src="/static/images/desenvolve_esportes.png" alt="" style="max-width: 336px;">              
-                  <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
-                </div>
-              </div>
-              
-            </div> 
-
-                <div class="d-flex flex-column">
-            
-                </div>
-                <div class="d-flex flex-column">
-                  
-                </div>
+    <div class="row"
+      style="background-image: url(/static/images/friburgo-bg.jpg); background-size:cover; background-position: center;">
+      <div class="col" style="background-color: #242525;">
+        <div class="row py-5 border">
+          <div class="col d-flex">
+            <div class="m-auto py-5" style="max-width: 500px;  color: #fff;">
+              <h1 class="mb-4" style="color: #FFAD00; font-weight: bolder;">ID Friburguense Digital</h1>
+              <p class="text-justify">Em vez de ter um novo cadastro, login e senha em cada lugar, sua ID Friburguense
+                Digital é o login único que está sendo gradualmente integrado a cada serviço digital da Prefeitura de
+                Nova Friburgo.</p>
+              <p class="mt-4 text-justify">Você se cadastra apenas uma vez e navega de maneira transparente entre
+                diferentes serviços da Prefeitura. O mesmo login servirá para todos os serviços que estejam integrados
+                ao ID Friburguense Digital.</p>
+              <p class="mt-4 text-justify">Além disso, queremos que seus dados informados anteriormente à Prefeitura não
+                sejam pedidos novamente em outros serviços integrados. Tudo com respeito à sua privacidade e segurança.
+                Para você não precisar informar os seus dados repetidamente em lugares diferentes.</p>
+              <p class="mt-4 text-justify">Afinal, você é único. A sua identidade é friburguense.</p>
             </div>
-        </div>   
-        <section id="plataformas" class="px-0">
-          <div class="row container mx-auto py-5 my-5 px-0">
-            <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
-            <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid mt-4" alt="">
-            <div class="col d-flex pt-5">                
-              <div class="mx-auto pe-5" style="max-width: 800px;">                
-                <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>
-                <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>                                
-              </div>
-            </div> 
-            <div class="col d-flex pt-5">                
-              <div class="mx-auto ps-5" style="max-width: 800px;">                
-                <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>
-                <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio repudiandae quaerat rem corrupti.</p>                
-              </div>
-            </div> 
           </div>
-        </section>
+          <div class="col py-5 d-flex flex-column justify-content-center me-5" style="border-radius: 30px;">
+            <!-- <a href="#" class="mx-auto"><h1 style="color: #FFAD00; font-weight: bolder;">ATUALIZE O SEU CADASTRO</h1></a> -->
+            <div class="m-auto" style="width: 500px; height: 333px; border-radius: 30px; border: 1px dashed white;"
+              src="/static/images/teste2.jpg" alt="">
+            </div>
+            <button class="btn btn-outline-primary btn-details mx-auto mt-5 px-5"
+              style="background-color: #FFAD00; color: white !important; font-weight: bolder;" id="esp3">ATUALIZE O SEU
+              CADASTRO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row container mx-auto py-5 px-5 my-5">
+      <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
+      <div class="col d-flex pt-5">
+        <div class="mx-auto pe-5" style="max-width: 800px;">
+          <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
+            aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi
+            rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos
+            eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
+            repudiandae quaerat rem corrupti.</p>
+          <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
+            aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi
+            rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos
+            eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
+            repudiandae quaerat rem corrupti.</p>
+        </div>
+      </div>
+      <div class="col d-flex pt-5">
+        <div class="mx-auto ps-5" style="max-width: 800px;">
+          <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
+            aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi
+            rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos
+            eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
+            repudiandae quaerat rem corrupti.</p>
+          <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
+            aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis quasi
+            rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eos
+            eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
+            repudiandae quaerat rem corrupti.</p>
+        </div>
+      </div>
+    </div>
 
-        <section class="px-0">
-            <div class="row px-0 border-top">
-                <div class="col px-0 py-5 my-5" id="particles">                   
-                      <div class="owl-carousel owl-theme">
-                        <div class="item d-flex flex-column p-5">                                                                         
-                              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/prefeito.png" alt="">                              
-                              <h2 class="text-center my-3">Johnny Maycon</h2>
-                              <h6 class="text-center mb-4"><b class="mx-auto">Prefeito de Nova Friburgo</b></h6>
-                              <img style="width: 60px;" class="mx-auto" src="/static/images/brasao.jpeg" alt="">                                                                
-                                                          
-                        </div>   
-                        <div class="item d-flex flex-column p-5">                                                      
-                          <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/vice.png" alt="">                              
-                          <h2 class="text-center my-3">Sergio Sobrenome</h2>
-                          <h6 class="text-center mb-4"><b class="mx-auto">Vice-Prefeito de Nova Friburgo</b></h6>
-                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">                                                                                                      
-                       </div>                          
-                        <div class="item d-flex flex-column p-5">                                                              
-                              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
-                              <h2 class="text-center my-3">Andre Montechiari 1</h2>                              
-                              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
-                              <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
-                                                   
-                        </div>
-                        <div class="item d-flex flex-column p-5">                                                              
-                          <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
-                          <h2 class="text-center my-3">Andre Montechiari 2</h2>                              
-                          <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
-                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
-                        </div>  
-                        <div class="item d-flex flex-column p-5">                                                              
-                          <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
-                          <h2 class="text-center my-3">Andre Montechiari 3</h2>                              
-                          <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
-                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
-                        </div>  
-                        <div class="item d-flex flex-column p-5">                                                              
-                          <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
-                          <h2 class="text-center my-3">Andre Montechiari 4</h2>                              
-                          <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia  </b></h6>
-                          <img style="width: 60px;"  class=" mx-auto" src="/static/images/brasao.jpeg" alt="">      
-                        </div>                          
-                    
-                
-                                    
-                    </div>
-                </div>
-                    <!-- <div class="row py-5 my-5">
+    <div class="row pb-5" style="background-color: #2F2F2F;">
+      <div class="col px-0 py-5 d-flex justify-content-evenly flex-wrap">
+        <div class="owl-carousel owl-theme">
+          <div class="item d-flex">
+            <div class=" d-flex flex-column ps-5 pe-3">
+              <img class="me-auto mt-auto" src="/static/images/desenvolve_economia.png" alt=""
+                style="max-width: 336px;">
+              <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+            </div>
+            <div class=" d-flex flex-column pe-5 ps-3">
+              <img class="me-auto mt-auto" src="/static/images/desenvolve_tecnologia.png" alt=""
+                style="max-width: 336px;">
+              <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+            </div>
+          </div>
+          <div class="item d-flex">
+            <div class=" d-flex flex-column ps-5 pe-3">
+              <img class="me-auto mt-auto" src="/static/images/desenvolve_turismo.png" alt="" style="max-width: 336px;">
+              <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+            </div>
+            <div class="item d-flex flex-column pe-5 ps-3">
+              <img class="me-auto mt-auto" src="/static/images/desenvolve_esportes.png" alt=""
+                style="max-width: 336px;">
+              <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="d-flex flex-column">
+
+        </div>
+        <div class="d-flex flex-column">
+
+        </div>
+      </div>
+    </div>
+    <section id="plataformas" class="px-0">
+      <div class="row container mx-auto py-5 my-5 px-0">
+        <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
+        <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid mt-4" alt="">
+        <div class="col d-flex pt-5">
+          <div class="mx-auto pe-5" style="max-width: 800px;">
+            <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
+              aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis
+              quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
+              eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
+              repudiandae quaerat rem corrupti.</p>
+            <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum
+              exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure
+              reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing
+              elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a?
+              Distinctio repudiandae quaerat rem corrupti.</p>
+          </div>
+        </div>
+        <div class="col d-flex pt-5">
+          <div class="mx-auto ps-5" style="max-width: 800px;">
+            <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
+              aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis
+              quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
+              eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
+              repudiandae quaerat rem corrupti.</p>
+            <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum
+              exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure
+              reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing
+              elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a?
+              Distinctio repudiandae quaerat rem corrupti.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-0">
+      <div class="row px-0 border-top">
+        <div class="col px-0 py-5 my-5" id="particles">
+          <div class="owl-carousel owl-theme">
+            <div class="item d-flex flex-column p-5">
+              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar"
+                src="/static/images/pessoas/prefeito.png" alt="">
+              <h2 class="text-center my-3">Johnny Maycon</h2>
+              <h6 class="text-center mb-4"><b class="mx-auto">Prefeito de Nova Friburgo</b></h6>
+              <img style="width: 60px;" class="mx-auto" src="/static/images/brasao.jpeg" alt="">
+
+            </div>
+            <div class="item d-flex flex-column p-5">
+              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar"
+                src="/static/images/pessoas/vice.png" alt="">
+              <h2 class="text-center my-3">Sergio Sobrenome</h2>
+              <h6 class="text-center mb-4"><b class="mx-auto">Vice-Prefeito de Nova Friburgo</b></h6>
+              <img style="width: 60px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
+            </div>
+            <div class="item d-flex flex-column p-5">
+              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar"
+                src="/static/images/pessoas/secretario.png" alt="">
+              <h2 class="text-center my-3">Andre Montechiari 1</h2>
+              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia </b></h6>
+              <img style="width: 60px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
+
+            </div>
+            <div class="item d-flex flex-column p-5">
+              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar"
+                src="/static/images/pessoas/secretario.png" alt="">
+              <h2 class="text-center my-3">Andre Montechiari 2</h2>
+              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia </b></h6>
+              <img style="width: 60px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
+            </div>
+            <div class="item d-flex flex-column p-5">
+              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar"
+                src="/static/images/pessoas/secretario.png" alt="">
+              <h2 class="text-center my-3">Andre Montechiari 3</h2>
+              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia </b></h6>
+              <img style="width: 60px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
+            </div>
+            <div class="item d-flex flex-column p-5">
+              <img style="width: 300px; height: 300px;" class="rounded-circle m-auto s-avatar"
+                src="/static/images/pessoas/secretario.png" alt="">
+              <h2 class="text-center my-3">Andre Montechiari 4</h2>
+              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia </b></h6>
+              <img style="width: 60px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
+            </div>
+
+
+
+          </div>
+        </div>
+        <!-- <div class="row py-5 my-5">
                         <div class="col d-flex flex-column">                            
                           
                               <img style="width: 180px; height: 180px;" class="rounded-circle m-auto" src="/static/images/pessoas/prefeito.png" alt="">
@@ -478,8 +585,8 @@
                         
                         </div>                        
                     </div> -->
-                  
-                    <!-- <div class="row">
+
+        <!-- <div class="row">
                         <div class="col grade">
                             <div class="row">
                                 <div class="col">
@@ -535,163 +642,167 @@
                             </div>
                         </div>
                     </div> -->
-                </div>
-            </div>
-        </section>
-        <section id="newsletter">
-          <div class="row border-top">
-            <div class="col d-flex d-flex px-5 pt-5">
-              <div class="mx-auto d-flex">
-                <img src="/static/images/blue-envelope.jpg" style="width: 100px; transform: rotate(-0.265rad);" alt="">
-                <span class="display-5 my-auto ms-4" style="font-family: 'Inter', sans-serif;">Receba nossas novidades!</span>                
-              </div>  
-            </div>          
-          </div>
-          <div class="row">
-            <div class="col d-flex pt-3">
-                  <div class="m-auto d-flex flex-column">               
-                    <p class="text-center">Fique por dentro dos nossos principais assuntos, basta socilitar abaixo esse serviço!</p>     
-                    <button class="mx-auto btn btn-primary mt-4 px-5">Solicitar</button>
-                  </div>
-                
-            </div>
-          </div>
-        </section>
-    </main>    
-    {% include 'instagram_desenvolve.html' %}
-    <footer class="row f-principal" style="border-top: 1px solid rgb(184, 184, 184);">        
-        <div class="col">
-          <div class="row  pt-5 pb-4 mobile-flex-column footer-sup text-light">
-            <div class="col d-flex flex-column justify-content-center">
-              <img class="img-fluid logo m-auto" src="/static/images/logo_desenvolvenfpmnf.png" alt="">
-              <p class="mx-auto mt-4 text-f">SECRETARIA MUNICIPAL DE CULTURA DE NOVA FRIBURGO
-                R. Farinha Filho, 50 - Centro, Nova Friburgo - RJ, 28610-175 <br>
-                09:00 às 17:00 de Seg. à Sex. <br>
-                (22) 2521-1558</p>
-              <p class="mx-auto mt-4 text-light">
-                <a class="text-light" target="_blank" href="https://www.facebook.com/polouerjnovafriburgo/">
-                  <i class="fa-brands fa-facebook me-4 mb-2"></i>
-                </a>                
-                <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
-                  <i class="fa-brands fa-instagram me-4 mb-2"></i>
-                </a>
-                <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
-                  <i class="fa-brands fa-twitter me-4"></i>
-                </a>
-              </p>
-            </div>
-            <div class="col d-flex justify-content-center">
-              <div class="me-5">
-                <p class="text-light pb-3">Páginas</p>
-                <ul>
-                  <li><a href="">Soluções</a></li>
-                  <li><a href="">Transmissão online</a></li>
-                  <li><a href="">Cursos online</a></li>
-                  <li><a href="">Preço</a></li>
-                  <li><a href="">Integrações</a></li>
-                  <li><a href="">Cases de sucesso</a></li>
-                  <li><a href="">Consultor de vendas</a></li>
-                  <li><a href="">Homologados</a></li>
-                  <li><a href="">API</a></li>
-                </ul>
-              </div>
-              <div>
-                <p class="text-light pb-3">Páginas</p>
-                <ul>
-                  <li><a href="">Soluções</a></li>
-                  <li><a href="">Transmissão online</a></li>
-                  <li><a href="">Cursos online</a></li>
-                  <li><a href="">Preço</a></li>
-                  <li><a href="">Integrações</a></li>
-                  <li><a href="">Cases de sucesso</a></li>
-                  <li><a href="">Consultor de vendas</a></li>
-                  <li><a href="">Homologados</a></li>
-                  <li><a href="">API</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col text-center py-2 bg-f">                
-                    <a href="#">
-                    © SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR.
-                    </a>                
-                    <a class="ms-4" href="">
-                        Política de Privacidade
-                    </a>                
-            </div>
-          </div>
-        </div>
-    </footer> 
-    <!-- Cidade Inteligente - Lado Esquerdo -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Cidade Inteligente</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body  d-flex flex-column">
-        <div>
-          <img class="img-fluid" src="/static/images/Screenshot_2.png" alt="">
+      </div>
+    </section>
+    <section id="newsletter">
+      <div class="row border-top">
+        <div class="col d-flex d-flex px-5 pt-5">
+          <div class="mx-auto d-flex">
+            <img src="/static/images/blue-envelope.jpg" style="width: 100px; transform: rotate(-0.265rad);" alt="">
+            <span class="display-5 my-auto ms-4" style="font-family: 'Inter', sans-serif;">Receba nossas
+              novidades!</span>
+          </div>
         </div>
-        <div>
-          <b>Status:</b>
-          <button class="btn btn-danger w-100">ALERTA</button>
+      </div>
+      <div class="row">
+        <div class="col d-flex pt-3">
+          <div class="m-auto d-flex flex-column">
+            <p class="text-center">Fique por dentro dos nossos principais assuntos, basta socilitar abaixo esse serviço!
+            </p>
+            <button class="mx-auto btn btn-primary mt-4 px-5">Solicitar</button>
+          </div>
+
         </div>
-        <div class="mt-3" style="text-align: justify; text-indent: 30px;">
-          Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+      </div>
+    </section>
+  </main>
+  {% include 'instagram_desenvolve.html' %}
+  <footer class="row f-principal" style="border-top: 1px solid rgb(184, 184, 184);">
+    <div class="col">
+      <div class="row  pt-5 pb-4 mobile-flex-column footer-sup text-light">
+        <div class="col d-flex flex-column justify-content-center">
+          <img class="img-fluid logo m-auto" src="/static/images/logo_desenvolvenfpmnf.png" alt="">
+          <p class="mx-auto mt-4 text-f">SECRETARIA MUNICIPAL DE CULTURA DE NOVA FRIBURGO
+            R. Farinha Filho, 50 - Centro, Nova Friburgo - RJ, 28610-175 <br>
+            09:00 às 17:00 de Seg. à Sex. <br>
+            (22) 2521-1558</p>
+          <p class="mx-auto mt-4 text-light">
+            <a class="text-light" target="_blank" href="https://www.facebook.com/polouerjnovafriburgo/">
+              <i class="fa-brands fa-facebook me-4 mb-2"></i>
+            </a>
+            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
+              <i class="fa-brands fa-instagram me-4 mb-2"></i>
+            </a>
+            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
+              <i class="fa-brands fa-twitter me-4"></i>
+            </a>
+          </p>
         </div>
-        <div class="mt-5">
-          <img class="img-fluid" src="/static/images/alerta_cheia.png" alt="">
+        <div class="col d-flex justify-content-center">
+          <div class="me-5">
+            <p class="text-light pb-3">Páginas</p>
+            <ul>
+              <li><a href="">Soluções</a></li>
+              <li><a href="">Transmissão online</a></li>
+              <li><a href="">Cursos online</a></li>
+              <li><a href="">Preço</a></li>
+              <li><a href="">Integrações</a></li>
+              <li><a href="">Cases de sucesso</a></li>
+              <li><a href="">Consultor de vendas</a></li>
+              <li><a href="">Homologados</a></li>
+              <li><a href="">API</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-light pb-3">Páginas</p>
+            <ul>
+              <li><a href="">Soluções</a></li>
+              <li><a href="">Transmissão online</a></li>
+              <li><a href="">Cursos online</a></li>
+              <li><a href="">Preço</a></li>
+              <li><a href="">Integrações</a></li>
+              <li><a href="">Cases de sucesso</a></li>
+              <li><a href="">Consultor de vendas</a></li>
+              <li><a href="">Homologados</a></li>
+              <li><a href="">API</a></li>
+            </ul>
+          </div>
         </div>
-        <button class="btn btn-primary px-5 m-auto">Acessar site</button>
+      </div>
+      <div class="row">
+        <div class="col text-center py-2 bg-f">
+          <a href="#">
+            © SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR.
+          </a>
+          <a class="ms-4" href="">
+            Política de Privacidade
+          </a>
+        </div>
       </div>
     </div>
-    
-    
+  </footer>
+  <!-- Cidade Inteligente - Lado Esquerdo -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Cidade Inteligente</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body  d-flex flex-column">
+      <div>
+        <img class="img-fluid" src="/static/images/Screenshot_2.png" alt="">
+      </div>
+      <div>
+        <b>Status:</b>
+        <button class="btn btn-danger w-100">ALERTA</button>
+      </div>
+      <div class="mt-3" style="text-align: justify; text-indent: 30px;">
+        Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists,
+        etc.
+      </div>
+      <div class="mt-5">
+        <img class="img-fluid" src="/static/images/alerta_cheia.png" alt="">
+      </div>
+      <button class="btn btn-primary px-5 m-auto">Acessar site</button>
+    </div>
+  </div>
 
-    <!-- <script>
+
+
+  <!-- <script>
         window.onload = () => {
           document.getElementById('body').style.overflow = 'auto'
           document.getElementById('preloading').style.display = 'none'
         }
     </script> -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script src="/static/js/owl.carousel.min.js"></script>
-    <script>
-  $('.owl-carousel').owlCarousel({
-    center: true,
-    items:2,
-    loop:true,
-    margin:10,
-    autoWidth: true,
-    autoplay: true,    
-    nav: true,    
-    responsive:{
-        0:{
-            items:1
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="/static/js/owl.carousel.min.js"></script>
+  <script>
+    $('.owl-carousel').owlCarousel({
+      center: true,
+      items: 2,
+      loop: true,
+      margin: 10,
+      autoWidth: true,
+      autoplay: true,
+      nav: true,
+      responsive: {
+        0: {
+          items: 1
         },
-        600:{
-            items:3
+        600: {
+          items: 3
         },
-        1000:{
-            items:5
+        1000: {
+          items: 5
         }
-    }
-});
-$('.loop').owlCarousel({
-    center: true,
-    items:2,
-    loop:true,
-    margin:5,
-    responsive:{
-        600:{
-            items:4
+      }
+    });
+    $('.loop').owlCarousel({
+      center: true,
+      items: 2,
+      loop: true,
+      margin: 5,
+      responsive: {
+        600: {
+          items: 4
         }
-    }
-});
+      }
+    });
 
 
-      </script>
+  </script>
 </body>
 
 </html>

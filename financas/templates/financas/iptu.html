@@ -11,16 +11,23 @@
 {% block main %}
 <div class="container">
     <h3>Documentos para IPTU</h3>
+    <p>Aqui você encontra formulários para processos de IPTU tratados pela Secretaria da Fazenda de Nova Friburgo. Procure pelo processo que deseja e baixe o formulário correspondente. A maioria dos formulários são PDFs com campos preenchíveis: você pode baixá-los, preencher no computador e depois imprimir. Os documentos necessários a cada processo estão descritos nos respectivos formulários.</p>
     <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_baixaDeb' %}">Requerimento de baixa de débito</a>
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_inclusao' %}">Requerimento de incusão de possuidor</a>
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_recolhimento' %}">Requerimento de recolhimento de tributos</a>
-        <a class="btn btn-dark" href="{% url 'financas:get_iptu' 'requerimento_reviptu' %}">Requerimento revisão de IPTU</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_baixaDeb' %}">Requerimento de baixa de débito</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_inclusao' %}">Requerimento de incusão de possuidor</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_recolhimento' %}">Requerimento de recolhimento de tributos</a>
+        <a class="btn btn-dark" href="{% url 'financas:iptu' 'requerimento_reviptu' %}">Requerimento revisão de IPTU</a>
     </div>
+
+    {% if not arg == 'opcoes' %}
+    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
+        <iframe src="/static/pdfs/iptu/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
+    </div>
+    {% endif %}
 
     <div class="row mx-auto px-5" style="height: 100px;">
     <script>
-        document.getElementById('index').classList.add('s-nav-active');
+        document.getElementById('s-iptu').classList.add('s-nav-active');
     </script>
 </div>
 </div>
