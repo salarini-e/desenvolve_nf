@@ -108,7 +108,7 @@ a{
 }
 /* template */
 main{
-  padding: 50px 0px;
+  padding: 50px 0px 0px 0px;
 }
 main .carousel-inner{
   height: 396px;
@@ -557,9 +557,6 @@ h1, h2, h3, h4{
       border-color: rgba(0,0,0,.15);
       -webkit-transform: rotate(45deg);    
 }
-#newsletter .row{
-  background: #ffffff;   
-}
 .menuMobile{
   display: none;
 }
@@ -604,4 +601,8 @@ h1, h2, h3, h4{
   .menuMobile{
     margin-left: 10vw;
   }
+}
+
+.item h2{
+  font-size: 20pt;
 }

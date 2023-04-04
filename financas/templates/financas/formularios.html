@@ -34,26 +34,26 @@
         <div id="alvara" class="categoria hidden_form">
             <h1>Alvará</h1>
             <p>{{ arquivos }}</p>
-            <!-- {% for arquivo in {{arquivos.alvara}} %}
+            {% for arquivo in arquivos.alvara %}
             <li>
 
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
             </li>
-            {% endfor %} -->
+            {% endfor %}
         </div>
         <div id="itbi" class="categoria hidden_form">
             <h1>ITBI</h1>
-            <!-- {% for arquivo in arquivos.itbi %}
+            {% for arquivo in arquivos.itbi %}
             <li>
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
             </li>
-            {% endfor %} -->
+            {% endfor %}
         </div>
         <div id="busca" class="categoria hidden_form">
             <h1>Resultado da busca</h1>
-            <!-- {% for arquivo in arquivos.alvara %}
+            {% for arquivo in arquivos.alvara %}
             <li>
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
@@ -64,7 +64,7 @@
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
             </li>
-            {% endfor %} -->
+            {% endfor %}
         </div>
     </div>
 
