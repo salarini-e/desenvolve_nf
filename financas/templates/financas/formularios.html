@@ -11,23 +11,60 @@
 {% block main %}
 <div class="container">
 
-    <div class="d-flex mb-5">
-        <h2>Formulários e documentos</h2>
+    <div class="d-flex">        
+        <h1 class="">Formulários e declarações</h1>        
         <div class="ms-auto input-group" style="position:relative; max-width: 300px ;">
+            <div class="d-flex rounded-circle border me-1" style="background-color: #fff; height: 38px; width: 38px; color: rgba(0, 0, 0, 0.685); font-size: 20pt;"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procurando um formulário? Use o campo ao lado para facilitar sua busca.">
+                <i class="m-auto fa-solid fa-circle-info"></i>
+            </div>
             <input style="border-radius: 30px !important; padding-right: 35px;" type="search" name="search" id="search"
-                class="form-control" onkeyup="filterLi(this)">
+                class="form-control mb-auto" onkeyup="filterLi(this)">
             <i class="fa-solid fa-magnifying-glass"
                 style="position: absolute; right: 0; margin: 10px 10px auto auto;"></i>
         </div>
     </div>
-    <p>Aqui você encontra formulários para os diversos processos tratados pela Secretaria da Fazenda de Nova Friburgo.
-        Procure pelo tipo de processo que deseja e baixe o formulário correspondente. A maioria dos formulários são PDFs
-        com campos preenchíveis: você pode baixá-los, preencher no computador e depois imprimir. Os documentos
-        necessários a cada processo estão descritos nos respectivos formulários.</p>
+    <div class="row">
+        <div class="col pb-5">
+            <p class="text-secondary mt-3" style="text-align: justify; text-indent: 40px;">
+            <i>
+                Aqui você encontra formulários para os diversos processos tratados pela Secretaria da Fazenda de Nova Friburgo. Procure pelo tipo de processo que deseja e baixe o formulário correspondente. A maioria dos formulários são PDFs com campos preenchíveis: você pode baixá-los, preencher no computador e depois imprimir. Os documentos necessários a cada processo estão descritos nos respectivos formulários.
+            </i>
+        </p>
+        </div>
+        </div>
+   
+    <div class="row">
+        <div class="col pb-5 filtros d-flex justify-content-between flex-wrap">
+            <button class="btn btn-primary" onclick="show('alvara')" data-bs-toggle="modal" data-bs-target="#exampleModal">Alvará</button>
+            <button class="btn btn-primary" onclick="show('alvara')" data-bs-toggle="modal" data-bs-target="#exampleModal">IPTU/Foro</button>
+            <button class="btn btn-primary" onclick="show('alvara')" data-bs-toggle="modal" data-bs-target="#exampleModal">Isenção/Imunidade</button>                        
+            <button class="btn btn-primary" onclick="show('itbi')" data-bs-toggle="modal" data-bs-target="#exampleModal">ITBI</button>
+            <button class="btn btn-primary" onclick="show('alvara')" data-bs-toggle="modal" data-bs-target="#exampleModal">Certidões e Averbações</button>
+            <button class="btn btn-primary" onclick="show('alvara')" data-bs-toggle="modal" data-bs-target="#exampleModal">Requerimentos Diversos</button>            
+            <style>
+                .filtros .btn-primary{
+                    background-color: #fff;
+                    color: gray;
+                    border-color: rgb(255, 255, 255);
+                    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                    min-width: 200px;
+                }
+            </style>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary" onclick="show('alvara')">Alvará</button>
-            <button class="btn btn-primary" onclick="show('itbi')">ITBI</button>
+            <h4>Como utilizar os formulários digitais:</h4>
+           <p>
+            <ul class="px-4 py-3">
+                <li>Acesse o formulário de requerimento desejado</li>
+                <li>Preencha todos os campos com as informações solicitadas</li>
+                <li>Baixe o formulário clicando no link de download</li>
+                <li>Abra o arquivo em seu computador e certifique-se que está preenchido corretamente</li>
+                <li>Agora é só imprimir e levar até nosso atendimento presencial.</li>
+            </ul>
+           </p>
         </div>
     </div>
     <div class="opcoes_formulario row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
@@ -137,5 +174,9 @@
         document.getElementById(`busca`).classList.remove("hidden_form");
         document.getElementById(`busca`).classList.add("show_form");
     }
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 </script>
 {% endblock %}
