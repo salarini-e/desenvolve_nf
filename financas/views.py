@@ -11,10 +11,10 @@ def index(request):
 
 def formularios(request):
     arquivos = {'alvara': [['Requerimento Alvará', 'alvara/REQUERIMENTO-DE-ALVARA.pdf'],
-                           ['REQUERIMENTO DE BAIXA DE DÉBITO',
+                           ['Requerimento de Baixa de Débito',
                             'alvara/REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf'],
-                           ['requerimento_iss', 'alvara/REQUERIMENTO-DE-CERTIDAO-DE-ISS-E-ALVARA-1-4-1.pdf'], ['requerimento_revisao', 'REQUERIMENTO-DE-REVISAO-DE-TAXA-DE-ALVARA-1.pdf']],
-                'certidao': [['autorizacao_predial', 'AUTORIZACAO-VISTORIA-PREDIAL-3.pdf'],
+                           ['Requerimento de Certidão de ISS e Alvará', 'alvara/REQUERIMENTO-DE-CERTIDAO-DE-ISS-E-ALVARA-1-4-1.pdf'], ['Requerimento de Revisão de Taxa de Alvará', 'REQUERIMENTO-DE-REVISAO-DE-TAXA-DE-ALVARA-1.pdf']],
+                'certidao': [['Autorizacao Vistoria Predial', 'certidoes/AUTORIZACAO-VISTORIA-PREDIAL-3.pdf'],
                              ['requerimento_escritura',
                               'REQUERIMENTO-DE-AVERBACAO-DE-ESCRITURA.pdf'],
                              ['requerimento_certicao', 'REQUERIMENTO-DE-CERTIDAO-1.pdf']],
