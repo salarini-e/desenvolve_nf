@@ -11,8 +11,8 @@
 {% block main %}
 <div class="container">
 
-    <div class="d-flex">
-        <h2>Documentos</h2>
+    <div class="d-flex mb-5">
+        <h2>Formulários e documentos</h2>
         <div class="ms-auto input-group" style="position:relative; max-width: 300px ;">
             <input style="border-radius: 30px !important; padding-right: 35px;" type="search" name="search" id="search"
                 class="form-control" onkeyup="filterLi(this)">
@@ -24,13 +24,6 @@
         Procure pelo tipo de processo que deseja e baixe o formulário correspondente. A maioria dos formulários são PDFs
         com campos preenchíveis: você pode baixá-los, preencher no computador e depois imprimir. Os documentos
         necessários a cada processo estão descritos nos respectivos formulários.</p>
-    <!-- <ol>
-        <li>Acesse o formulário de requerimento desejado</li>
-        <li>Preencha todos os campos com as informações solicitadas</li>
-        <li>Baixe o formulário clicando no link de download</li>
-        <li>Abra o arquivo em seu computador e certifique-se que está preenchido corretamente</li>
-        <li>Agora é só imprimir e levar até nosso atendimento presencial.</li>
-    </ol> -->
     <div class="row">
         <div class="col">
             <button class="btn btn-primary" onclick="show('alvara')">Alvará</button>
@@ -40,25 +33,27 @@
     <div class="opcoes_formulario row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
         <div id="alvara" class="categoria hidden_form">
             <h1>Alvará</h1>
-            {% for arquivo in arquivos.alvara %}
+            <p>{{ arquivos }}</p>
+            <!-- {% for arquivo in {{arquivos.alvara}} %}
             <li>
+
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
             </li>
-            {% endfor %}
+            {% endfor %} -->
         </div>
         <div id="itbi" class="categoria hidden_form">
             <h1>ITBI</h1>
-            {% for arquivo in arquivos.itbi %}
+            <!-- {% for arquivo in arquivos.itbi %}
             <li>
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
             </li>
-            {% endfor %}
+            {% endfor %} -->
         </div>
         <div id="busca" class="categoria hidden_form">
             <h1>Resultado da busca</h1>
-            {% for arquivo in arquivos.alvara %}
+            <!-- {% for arquivo in arquivos.alvara %}
             <li>
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
@@ -69,7 +64,7 @@
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                     onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
             </li>
-            {% endfor %}
+            {% endfor %} -->
         </div>
     </div>
 
