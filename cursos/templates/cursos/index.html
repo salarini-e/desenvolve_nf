@@ -3,6 +3,9 @@
 {% block nav %}
 {% include 'nav_cursos.html' %}
 {% endblock %}
+{% block css %}
+<script src="{% static '/css/cursos.css' %}"></script>
+{% endblock %}
 {% block main %}
 <div class="container">
 <div class="row mx-auto ps-4 pb-5 pt-1">
@@ -40,7 +43,7 @@
     <div class="item">
       <div class="c-img" style="position: relative;">
         <img class="banner-img" src="{{curso.banner.url}}" >
-        <span class="badge">
+        <span class="badge_item" style="background-color: {{curso.categoria.cor}}; position: absolute; top:0; right: 0; margin: 5px; padding: 0px 4px; border-radius: 6px; font-size: 10pt;">
           {{curso.categoria.nome}}          
         </span>
       </div>
