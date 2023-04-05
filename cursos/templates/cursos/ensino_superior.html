@@ -5,18 +5,120 @@
 {% include 'nav_cursos.html' %}
 {% endblock %}
 {% block css %}
+<link rel="stylesheet" href="/static/css/ensino_superior.css">
 <script src="{% static 'js/cursos.js' %}"></script>
 {% endblock %}
 {% block main %}
-<div class="row container mx-auto">
-    <h1>Ensino Superior</h1>
-</div>
+<div class="row container mx-auto div_main_enSup">
+  <h1 class="">Ensino Superior</h1>
+  <div class="row">
+    <div class="col pb-5">
+      <p class="text-secondary"><i>Conheça os cursos de nível superior ofertados em Nova Friburgo e suas respectivas instituições!</i></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col pb-3">
+      <div class="d-flex" style="font-size: 25pt; font-weight: 600;">
+        <div>Cursos</div>
+        <div class="dropdown ms-auto">
+          <a class="ps-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; font-size: 18pt;">
+            
+            Todos
+            <span style="font-size: 15pt;">
+              <i class="ps-2 fa-solid fa-chevron-down"></i>
+            </span>
+          </a>
+          <ul class="dropdown-menu dropend" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-filter me-2"></i>CECIERJ</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-filter me-2"></i>UERJ</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-filter me-2"></i>CEFET</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center align-items-center">
+    <div class="col d-flex flex-wrap">
+      <div class="item  mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Licenciatura em Letras</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="item mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Biblioteconomia</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="item mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Licenciatura em Geografia</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="item mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Ciências Contábeis</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="item  mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Tecnologia em segurança pública</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="item mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Licenciatura em ciências biológicas</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="item mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Licenciatura em Pedagogia</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="item mx-auto mb-4">
+        <div class="c-img px-4 pt-2" style="position: relative;">
+          <img class="img-fluid" class="mx-auto my-4" src="/static/images/logo-cecierj-1.png" alt="">
+        </div>
+        <div class="cursos-text mx-2 d-flex flex-column">
+          <h5 class="mb-3">Licenciatura em Química</h5>
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1  mt-auto" id="esp-2">Ver detalhes</a>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
-  
+
     document.getElementById('s-en-superior').classList.add('s-nav-active');
-    
+
   </script>
-{% endblock %}
-{% block footer %}
-{% include 'instagram_desenvolve.html' %}
-{% endblock %}
+  {% endblock %}
+  {% block footer %}
+  {% include 'instagram_desenvolve.html' %}
+  {% endblock %}

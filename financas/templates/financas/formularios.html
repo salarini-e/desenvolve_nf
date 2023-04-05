@@ -1,76 +1,262 @@
-{% extends 'template.html' %}
-{% load static %}
-{% block nav %}
-{% include 'nav_financas.html' %}
-{% endblock %}
-{% block css %}
-<link rel="stylesheet" href="/static/css/financas_tipo_processo/main.css">
-<link rel="stylesheet" href="/static/css/carrossel.css">
-<script src="/static/js/carrossel.js"></script>
-{% endblock %}
-{% block main %}
-<div class="container">
-    {% if arg == 'opcoes' %}
-    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
-        <h2>Documentos de ITBI</h2>
-        <p>Aqui você encontra formulários para processos de ITBI tratados pela Secretaria da Fazenda de Nova Friburgo.
-            Procure pelo processo que deseja e baixe o formulário correspondente. A maioria dos formulários são PDFs com
-            campos preenchíveis: você pode baixá-los, preencher no computador e depois imprimir. Os documentos
-            necessários a cada processo estão descritos nos respectivos formulários.</p>
-        <nav>
-            <ul>
-                <li><a href="{% url 'financas:itbi' 'declaracao_ciencia_itbi' %}" class="btn btn-dark">Declaração de
-                        Ciência para ITBI</a></li>
-                <li><a href="{% url 'financas:itbi' 'declaracao_transacao_imobiliaria' %}"
-                        class="btn btn-dark">Declaração de ITBI na Transação Imobiliária</a></li>
-                <li><a href="{% url 'financas:itbi' 'requerimento_revisao_itbi' %}" class="btn btn-dark">Requerimento de
-                        Revisão de ITBI</a></li>
-            </ul>
-        </nav>
-    </div>
-    {% else %}
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-        aria-controls="offcanvasExample">
-        <i class="fa-solid fa-bars"></i>
-    </a>
+    {% extends 'template.html' %}
+    {% load static %}
+    {% block nav %}
+    {% include 'nav_financas.html' %}
+    {% endblock %}
+    {% block css %}
+    <link rel="stylesheet" href="/static/css/financas_tipo_processo/main.css">
+    <link rel="stylesheet" href="/static/css/carrossel.css">
+    <script src="/static/js/carrossel.js"></script>
+    {% endblock %}
+    {% block main %}
+    <div class="container">
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Documentos de ITBI</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <div class="d-flex">        
+            <h1 id="go">Formulários e declarações</h1>        
+            <div class="ms-auto input-group" style="position:relative; max-width: 300px ;">
+                <div class="d-flex rounded-circle border me-1" style="background-color: #fff; height: 38px; width: 38px; color: rgba(0, 0, 0, 0.685); font-size: 20pt;"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procurando um formulário? Use o campo ao lado para facilitar sua busca.">
+                    <i class="m-auto fa-solid fa-circle-info"></i>
+                </div>
+                <input style="border-radius: 30px !important; padding-right: 35px;" type="search" name="search" id="search"
+                    class="form-control mb-auto" onkeyup="filterLi(this)">
+                <i class="fa-solid fa-magnifying-glass"
+                    style="position: absolute; right: 0; margin: 10px 10px auto auto;"></i>
+            </div>
         </div>
-        <div class="offcanvas-body">
-            <nav>
-                <ul>
-                    <li><a href="{% url 'financas:itbi' 'declaracao_ciencia_itbi' %}" class="btn btn-dark">Declaração de
-                            Ciência para ITBI</a></li>
-                    <li><a href="{% url 'financas:itbi' 'declaracao_transacao_imobiliaria' %}"
-                            class="btn btn-dark">Declaração de ITBI na Transação Imobiliária</a></li>
-                    <li><a href="{% url 'financas:itbi' 'requerimento_revisao_itbi' %}"
-                            class="btn btn-dark">Requerimento de
-                            Revisão de ITBI</a></li>
-                </ul>
-            </nav>
+        <div class="row">
+            <div class="col pb-5">
+                <p class="text-secondary mt-3" style="text-align: justify; text-indent: 40px;">
+                <i>
+                    Aqui você encontra formulários para os diversos processos tratados pela Secretaria da Fazenda de Nova Friburgo. Procure pelo tipo de processo que deseja e baixe o formulário correspondente. A maioria dos formulários são PDFs com campos preenchíveis: você pode baixá-los, preencher no computador e depois imprimir. Os documentos necessários a cada processo estão descritos nos respectivos formulários.
+                </i>
+            </p>
+            </div>
+            </div>
+    
+        <div class="row">
+            <div class="col pb-5 filtros d-flex justify-content-between flex-wrap">
+                <a href="#go" class="btn btn-primary" onclick="show('alvara')">Alvará</a>
+                <a href="#go" class="btn btn-primary" onclick="show('certidao')">IPTU/Foro</a>
+                <a href="#go" class="btn btn-primary" onclick="show('isencao')">Isenção/Imunidade</a>                        
+                <a href="#go" class="btn btn-primary" onclick="show('itbi')">ITBI</a>
+                <a href="#go" class="btn btn-primary" onclick="show('certidao')">Certidões e Averbações</a>
+                <a href="#go" class="btn btn-primary" onclick="show('diversos')">Requerimentos Diversos</a>            
+                <style>
+                    .filtros .btn-primary{
+                        background-color: #fff;
+                        color: rgb(59, 59, 59);
+                        border-color: rgb(255, 255, 255);
+                        box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                        min-width: 200px;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                    }
+                </style>
+            </div>
+        </div>
+        <div class="row">        
+            <div class="col-5">
+                <div class="opcoes_formulario row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
+                    <div id="alvara" class="categoria hidden_form">
+                        <h1 class="mb-4"><u>Alvará</u></h1>            
+                        {% for arquivo in arquivos.alvara %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </div>
+                    <div id="certidao" class="categoria hidden_form">
+                        <h1 class="mb-4"><u>Certidões</u></h1>            
+                        {% for arquivo in arquivos.certidao %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </div>
+                    <div id="iptu" class="categoria hidden_form">
+                        <h1 class="mb-4"><u>IPTU/Foro</u></h1>            
+                        {% for arquivo in arquivos.iptu %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </div>
+                    <div id="itbi" class="categoria hidden_form">
+                        <h1 class="mb-4"><u>ITBI</u></h1>
+                        {% for arquivo in arquivos.itbi %}
+                        <li>
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </div>
+                    <div id="isencao" class="categoria hidden_form">
+                        <h1 class="mb-4"><u>Isenção/Imunidade</u></h1>            
+                        {% for arquivo in arquivos.isencao %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </div>
+                    <div id="diversos" class="categoria hidden_form">
+                        <h1 class="mb-4"><u>Diversos</u></h1>            
+                        {% for arquivo in arquivos.diversos %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </div>
+                    <div id="busca" class="categoria hidden_form">
+                        <h1>Resultado da busca</h1>
+                        {% for arquivo in arquivos.alvara %}
+                        <li>
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                        {% for arquivo in arquivos.certidao %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                        {% for arquivo in arquivos.iptu %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}    
+                        {% for arquivo in arquivos.itbi %}
+                        <li>
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                        {% for arquivo in arquivos.isencao %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+                        {% for arquivo in arquivos.diversos %}
+                        <li>
+            
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                        </li>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex flex-column pt-4">
+                <h4 class="text-center mb-4">Como utilizar os formulários digitais:</h4>           
+                <ul class="px-4 py-3 mx-auto">
+                    <li class="mb-3"><b>1. </b> Acesse o formulário de requerimento desejado</li>
+                    <li class="mb-3"><b>2. </b> Preencha todos os campos com as informações solicitadas</li>
+                    <li class="mb-3"><b>3. </b> Baixe o formulário clicando no link de download</li>
+                    <li class="mb-3"><b>4. </b> Abra o arquivo em seu computador e certifique-se que está preenchido corretamente</li>
+                    <li class="mb-3"><b>5. </b> Agora é só imprimir e levar até nosso atendimento presencial.</li>
+                </ul>           
+            </div>
+        </div>
+        
+
+        <div class="row mx-auto px-5" style="height: 100px;">
+            <script>
+                document.getElementById('s-itbi').classList.add('s-nav-active');
+            </script>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">
+                        <span id="titulo"></span>
+                    </h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="leitor_pdf" src="" style="height: 800px; width: 100%;" frameborder="0"></iframe>
+                </div>
+            </div>
         </div>
     </div>
 
-    <h3>Documentos de ITBI</h3>
-    <ol>
-        <li>Acesse o formulário de requerimento desejado</li>
-        <li>Preencha todos os campos com as informações solicitadas</li>
-        <li>Baixe o formulário clicando no link de download</li>
-        <li>Abra o arquivo em seu computador e certifique-se que está preenchido corretamente</li>
-        <li>Agora é só imprimir e levar até nosso atendimento presencial.</li>
-    </ol>
-    <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
-        <iframe src="/static/pdfs/itbi/{{url_pdf}}" frameborder="0" style="height: 1200px;"></iframe>
-    </div>
-    {% endif %}
+    <script>
+        function mudar_pdf(titulo, url) {
+            document.getElementById('titulo').innerText = titulo
+            document.getElementById('leitor_pdf').src = '/static/pdfs/' + url
+        }
+        function hidden_all() {
+            elements = document.getElementsByClassName('categoria')
+            for (let index = 0; index < elements.length; index++) {
+                const element = elements[index];
 
+                element.classList.remove('show_form')
+                element.classList.add('hidden_form')
 
-    <div class="row mx-auto px-5" style="height: 100px;">
-        <script>
-            document.getElementById('s-itbi').classList.add('s-nav-active');
-        </script>
-    </div>
-</div>
+            }
+        }
+        function show(id) {
+            hidden_all()
+            document.getElementById(`search`).value = ``
+            document.getElementById(id).classList.remove('hidden_form')
+            document.getElementById(id).classList.add('show_form')
+        }
+        function filterLi(e) {
+            hidden_all()
+
+            const searchText = e.value.trim().toLowerCase();
+
+            if (searchText.length < 3) {
+                console.log('entrou aqui')
+                return;
+            }
+
+            const liElements = document.querySelectorAll("#busca li");
+
+            liElements.forEach((li) => {
+                const liText = li.textContent.trim().toLowerCase();
+                if (liText.includes(searchText)) {
+                    li.classList.remove("hidden_form");
+                    li.classList.add("show_form");
+                } else {
+                    li.classList.remove("show_form");
+                    li.classList.add("hidden_form");
+                }
+            });
+            document.getElementById(`busca`).classList.remove("hidden_form");
+            document.getElementById(`busca`).classList.add("show_form");
+        }
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
+    <style>
+        .opcoes_formulario li{
+            list-style: none;
+            margin-bottom: 10px;
+        }
+        .opcoes_formulario li button{
+            width: 100%;
+        }
+    </style>
+    {% endblock %}
