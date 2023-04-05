@@ -28,3 +28,16 @@
 .text-justify{
     text-indent: 40px;
 }
+
+#perguntas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgb(0, 255, 85);
+}
+
+.pergunta{
+    width: 40%;
+    background-color: rgb(248, 4, 4);
+    border-radius: 30px;
+}
