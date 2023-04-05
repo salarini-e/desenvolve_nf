@@ -39,7 +39,7 @@ def adicionar_tipo_materiais(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Tipo de material cadastrado!')
-            return redirect('almoxarifado:alm_listar_tipos')
+            return redirect('almoxarifado:index')
     else:
         form = Tipo_Material_Form()
 
@@ -48,7 +48,6 @@ def adicionar_tipo_materiais(request):
         'form': form
     }
     return render(request, 'almoxarifado/adicionar_tipo_materiais.html', context)
-
 
 def adicionar_material(request, tipo):
     tipo = Tipo_Material.objects.get(id=tipo)
@@ -84,7 +83,7 @@ def adicionar_material_ao_estoque(request):
                 messages.success(request, f"{log.add_quantidade} nova unidade adicionada ao estoque. Total: {material.qnt_em_estoque}.")
             else: 
                 messages.success(request, f"{log.add_quantidade} novas unidades adicionadas ao estoque. Total: {material.qnt_em_estoque}.")
-            return redirect('almoxarifado:alm_index')
+            return redirect('almoxarifado:index')
     else:
         form = Log_estoque_Form()
         form_tipo = Exibir_Tipo_Material_Form()
@@ -111,7 +110,7 @@ def retirar_material_do_estoque(request, id):
                 messages.success(request, f"{log.add_quantidade} unidade foi removida do estoque. Total: {material.qnt_em_estoque}.")
             else: 
                 messages.success(request, f"{log.add_quantidade} unidadesforam removidas do estoque. Total: {material.qnt_em_estoque}.")
-            return redirect('almoxarifado:alm_index')
+            return redirect('almoxarifado:index')
     else:
         form = Log_estoque_Form(initial={'tipo_movimentacao': 'S'})
         form_tipo = Exibir_Tipo_Material_Form()

@@ -32,7 +32,7 @@ def index(request):
     return render(request, 'cursos/index.html', context)
 
 
-@aluno_required
+
 def cursos(request, tipo):
     form = Aluno_form()
     categorias = Categoria.objects.all()
@@ -59,7 +59,7 @@ def cursos(request, tipo):
     }
     return render(request, 'cursos/cursos.html', context)
 
-@aluno_required
+
 def curso_detalhe(request, tipo, id):    
     curso=Curso.objects.get(id=id)
     context={

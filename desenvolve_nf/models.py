@@ -10,3 +10,24 @@ class Carousel_Index(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.nome, self.id)
+    
+
+class ClimaTempo(models.Model):
+    maxTemp = models.CharField(verbose_name="Temperatura máxima", max_length=3)
+    minTemp = models.CharField(verbose_name="Temperatura mínima", max_length=3)
+    madrugada = models.CharField("Clima na madrugada", max_length=50)
+    manha = models.CharField(verbose_name="Clima na manhã", max_length=50)
+    tarde = models.CharField(verbose_name="Clima na tarde", max_length=50)
+    noite = models.CharField(verbose_name="Clima na noite", max_length=50)
+    dt_inclusao = models.DateTimeField( auto_now_add=True, unique=True)
+
+    IMAGEM_URL={
+                'sol com muitas nuvens':    'static/icones_tempo/nublado.png',
+                'erro':                     '#',
+                }
+
+    class Meta:
+        ordering = ['-dt_inclusao']
+        verbose_name = "Relatório"
+        verbose_name_plural = "Relatórios de clima"
+
