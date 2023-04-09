@@ -752,7 +752,7 @@ def adm_justificativa_visualizar(request, presenca_id):
 @staff_member_required
 def adm_eventos_listar(request):
 
-    eventos = Evento.objects.all()
+    eventos = Evento.objects.filter(app_name='cursos')
 
     context = {
         'eventos': eventos
@@ -763,7 +763,7 @@ def adm_eventos_listar(request):
 
 @staff_member_required
 def adm_evento_cadastrar(request):
-    form = Evento_form()
+    form = Evento_form(initial={'app_name': 'cursos'})
     if request.method == 'POST':
         form = Evento_form(request.POST, request.FILES)
         if form.is_valid():

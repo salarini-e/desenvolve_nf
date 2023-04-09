@@ -17,7 +17,7 @@ from random import shuffle
 
 def index(request):
     try:
-        eventos = Evento.objects.get(is_destaque = True)
+        eventos = Evento.objects.filter(app_name='cursos', is_destaque = True)
     except:
         eventos=[]
     
@@ -25,7 +25,7 @@ def index(request):
     shuffle(cursos)
     context = { 
         'titulo': apps.get_app_config('cursos').verbose_name,
-        'evento_destaque': eventos,
+        'eventos': eventos,
         'cursos': cursos
     }
 

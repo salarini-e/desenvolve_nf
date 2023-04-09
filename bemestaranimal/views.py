@@ -7,6 +7,7 @@ from .models import *
 from .forms import *
 from .functions import generateToken
 from django.apps import apps
+from eventos.models import Evento
 
 def cadastro_tutor(request):
     if request.user.is_authenticated:
@@ -45,6 +46,7 @@ def index(request):
     context = {
         'catalogo':catalogo,
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
+        'eventos': Evento.objects.filter(app_name='bemestaranimal')
     }
     return render(request, 'index.html', context)
 

@@ -15,14 +15,17 @@
   <div class="row ">
     <div class="banner_destaque d-flex flex-column flex-xl-row bg-white img-txt">
       <div class="img-destaque">
-        <img class="banner_img_destaque" src="{{evento_destaque.banner_img.url}}">
+        <img class="banner_img_destaque h-100" src="{{eventos.0.banner_img.url}}">
       </div>
       <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
-        <h5 class="mb-1">{{evento_destaque.subtitulo}}</h5>
-        <h7 class="mb-1">{{evento_destaque.subtitulo}}</h7>
-        <p class="time">{{evento_destaque.data_inicio | date:"d/m/y"}} - {{evento_destaque.data_fim | date:"d/m/y"}}</p>
-        <p class="local"><a href="{{evento_destaque.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{evento_destaque.local}}</a></p>    
-        <p class="inf text-secondary">{{evento_destaque.descricao}}</p>
+        <h5 class="mb-1">{{eventos.0.titulo}}</h5>
+        <h6 class="mb-1" style="font-weight: 400;">{{eventos.0.subtitulo}}</h6>
+        <p class="local"><a href="{{eventos.0.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{eventos.0.local}}</a></p>
+        <p class="time mb-4 text-center">{{eventos.0.data_inicio}}{% if eventos.0.data_fim %} - {{eventos.0.data_fim}}{% endif %}</p>
+        <h7 class="mb-1 text-wrap">
+          {{eventos.0.descricao}}
+        </h7>
+        <p class="inf text-secondary mt-2">Com transmissão online</p>
         <button class="btn btn-outline-primary btn-details me-auto" id="esp">Detalhes</button>
       </div>
     </div>

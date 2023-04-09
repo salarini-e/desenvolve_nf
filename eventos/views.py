@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.apps import apps
-# Create your views here.
+from .models import Evento
+from desenvolve_nf.models import Carousel_Index
 
 def index(request):
     context={
         'titulo': apps.get_app_config('eventos').verbose_name,
+        'eventos': Evento.objects.filter(is_destaque=True),
+        'carousel': Carousel_Index.objects.filter(ativa=True)
     }
-    return render(request, "index.html", context)
+    return render(request, "evento.html", context)

@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.apps import apps
-
+from eventos.models import Evento
 
 def index(request):
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
+        'eventos': Evento.objects.filter(app_name='financas')
     }
     return render(request, 'financas/index.html', context)
 
