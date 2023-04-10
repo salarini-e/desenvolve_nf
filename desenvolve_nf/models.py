@@ -30,53 +30,39 @@ class ClimaTempo(models.Model):
                 'erro':                                 '/static/images/Screen.png',
                 }
 
-    TURNOS={
-            'madrugada': [0,6],
-            'manha':     [6,12],
-            'tarde':     [12,18],
-            'noite':     [18,00]
-    }
-
     class Meta:
         ordering = ['-dt_inclusao']
         verbose_name = "Relatório"
         verbose_name_plural = "Relatórios de clima"
 
-    def imgMadrugada(self):
-        if self.madrugada in self.IMAGEM_URL.keys():
-            return  self.IMAGEM_URL[self.madrugada]
-        return self.IMAGEM_URL['erro']
-    
-    def imgManha(self):
-        if self.manha in self.IMAGEM_URL.keys():
-            return  self.IMAGEM_URL[self.manha]
-        return self.IMAGEM_URL['erro']
 
-    def imgTarde(self):
-        if self.tarde in self.IMAGEM_URL.keys():
+    def getImg(self, turno):
+        if turno == "madrugada":
+            return self.IMAGEM_URL[self.madrugada]
+        elif turno == "manha":
+            return self.IMAGEM_URL[self.manha]
+        elif turno == "tarde":
             return  self.IMAGEM_URL[self.tarde]
-        return self.IMAGEM_URL['erro']
-
-    def imgNoite(self):
-        if self.noite in self.IMAGEM_URL.keys():
+        elif turno == "noite":
             return  self.IMAGEM_URL[self.Noite]
-        return self.IMAGEM_URL['erro']
+        else:
+            return self.IMAGEM_URL['erro']
     
     def turno(self):
+        TURNOS={
+                'madrugada': [0,6],
+                'manha':     [6,12],
+                'tarde':     [12,18],
+                'noite':     [18,00]
+        }
         hora = int(self.dt_inclusao.strftime('%H'))-3
-        for i in self.TURNOS:
-            if hora >= self.TURNOS[i][0] and hora < self.TURNOS[i][1]:
+        for i in TURNOS:
+            if hora >= TURNOS[i][0] and hora < TURNOS[i][1]:
                 return i
             
-    def getImg(self):
+    def timeBeholder(self):
         turno = self.turno()
-        if turno == "madrugada":
-            return self.imgMadrugada()
-        elif turno == "manha":
-            return self.imgManha()
-        elif turno == "tarde":
-            return self.imgTarde()
-        elif turno == "noite":
-            return self.imgNoite()
-        else:
+        try:
+            return self.getImg(turno)
+        except:
             return self.IMAGEM_URL['erro']
