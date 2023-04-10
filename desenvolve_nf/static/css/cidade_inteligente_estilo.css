@@ -33,11 +33,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    background-color: rgb(0, 255, 85);
+    background-color: aquamarine;
 }
 
 .pergunta{
     width: 40%;
-    background-color: rgb(248, 4, 4);
     border-radius: 30px;
 }
+
+
