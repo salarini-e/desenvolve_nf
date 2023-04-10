@@ -19,23 +19,23 @@ def ClimaTempoTemperaturas():
             altText = children[0]["alt"]
         except:
             continue
+        climaList.append(altText.lower())
         
-        if altText.lower() == "noite com muitas nuvens":
-            climaURL = 'static/icons/noite_nuvem.png'
-        elif altText.lower() == "sol com muitas nuvens":
-            climaURL = 'static/icons/sol_nuvem_vento.png'
-        elif altText.lower() == "sol, pancadas de chuva e trovoadas" or altText.lower() == "noite com pancadas de chuva e trovoadas":
-            climaURL = 'static/icons/tempestade.png'
+        # if altText.lower() == "noite com muitas nuvens":
+        #     climaURL = 'static/icons/noite_nuvem.png'
+        # elif altText.lower() == "sol com muitas nuvens":
+        #     climaURL = 'static/icons/sol_nuvem_vento.png'
+        # elif altText.lower() == "sol, pancadas de chuva e trovoadas" or altText.lower() == "noite com pancadas de chuva e trovoadas":
+        #     climaURL = 'static/icons/tempestade.png'
 
-        climaList.append({altText: climaURL})
+        # climaList.append({altText: climaURL})
 
-    print(climaList[1])
     clima = ClimaTempo(
-        maxTemp = maxTemp.text,
-        minTemp = minTemp.text,
+        maxTemp = maxTemp.text.replace('°', ''),
+        minTemp = minTemp.text.replace('°', ''),
         madrugada = climaList[0],
-        manha = climaList[1],
-        tarde = climaList[2],
-        noite = climaList[3])
+        manha =     climaList[1],
+        tarde =     climaList[2],
+        noite =     climaList[3])
     clima.save()
     print(clima)
