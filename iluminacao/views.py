@@ -8,8 +8,12 @@ from django.apps import apps
 def index(request):
     return render(request, 'os_index.html')
 
+@login_required
 def os_index(request):
-    data=OrdemDeServico.objects.all()
+    if request.user.is_superuser:
+        data=OrdemDeServico.objects.all()
+    else:
+        data=OrdemDeServico.objects.filter(contribuinte=Pessoa.objects.get(user=request.user))
     paginator = Paginator(data, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
@@ -48,8 +52,9 @@ def add_os(request):
 
 def detalhes_os(request, id):
     os=OrdemDeServico.objects.get(id=id)
-    if request.method=='POST':        
-        pass
+    if request.method=='POST': 
+        if request.POST['tipo_post']=='finalizar':
+            os.finalizar_chamado()
     else:
         pass
     context={
@@ -57,6 +62,7 @@ def detalhes_os(request, id):
         'os': os
     }
     return render(request, 'iluminacao/detalhes_os.html', context)
+
 
 def funcionarios_listar(request):
     funcionarios=Funcionario_OS.objects.all()

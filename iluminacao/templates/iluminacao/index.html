@@ -15,8 +15,8 @@
         <div class="row w-100">
             <div class="col-10 pb-4 m-auto bg-white">                           
                 <div class="row">
-                    <div class="col px-4">                                                
-                        <div class="px-2">
+                    <div class="col px-4 pb-5 ">                                                
+                        <div class="px-2 pt-4">
                         <h2>Serviços Solicitados</h2>
                         </div>
                         <div class="px-2 pt-4">                          
@@ -25,8 +25,8 @@
                               <tr>
                                 <th></th>
                                 <th>Prioridade</th>  
-                                <th>Tipo</th>                                                              
-                                <th>Nº de protocolo</th>
+                                <th class="text-center">Tipo</th>                                                              
+                                <th class="text-center">Nº de protocolo</th>
                                 <th class="text-center">Dt. de solicitação</th>
                                 <th>Bairro</th>
                                 <th>Atendente</th>
@@ -42,25 +42,39 @@
                                   </a>
                                 </td>
                                 <td>
-                                  <button class="btn {% if os.prioridade == '0'%}btn-success{% endif %} px-2 py-0">
+                                  <button class="btn w-100 {% if os.prioridade == '0'%}btn-success{% endif %} px-2 py-0">
                                   {{os.get_prioridade_display}}
                                   </button>
                                 </td>
-                                <td>{{os.tipo.sigla}}</td>                                
-                                <td>{{os.numero}}</td>
+                                <td class="text-center">{{os.tipo.sigla}}</td>                                
+                                <td class="text-center">
+                                  {% if os.numero %}
+                                  {{os.numero}}
+                                  {% else %}
+                                  {{os.gerar_protocolo}}
+                                  {% endif %}
+                                </td>
                                 <td class="text-center">{{os.dt_solicitacao|date:"d/m/Y"}}</td>
                                 <td>{{os.bairro}}</td>                                
                                 <td>
                                   {% if os.atendente %}
-                                  {{os.atendente}}
+                                  {{os.atendente.first_name}}
                                   {% else %}
                                   <span class="text-secondary">n/h</span>
                                   {% endif %}
                                 </td>
                                 <td>
-                                  <button class="text-capitalize btn {% if os.status == '0'%}btn-info text-white{% endif %} px-2 py-0">
+                                  <button class="w-100 ms-auto my-auto py-1 px-4 text-capitalize btn {% if os.status == '0'%} btn-info text-white {% elif os.status == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% elif os.status == 'f' %} btn-dark {% endif %} px-2 py-0">
                                     {{os.get_status_display}}
                                   </button>
+                                </td>
+                              </tr>
+                              {% empty %}
+                              <tr>
+                                <td colspan="8">
+                                  <i class="text-secondary">
+                                    Não há solicitações registradas.
+                                  </i>
                                 </td>
                               </tr>
                               {% endfor %}
