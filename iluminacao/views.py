@@ -52,6 +52,10 @@ def add_os(request):
 
 def detalhes_os(request, id):
     os=OrdemDeServico.objects.get(id=id)
+    try:
+        os_ext=OS_ext.objects.get(os=os)
+    except:
+        os_ext = None 
     if request.method=='POST': 
         if request.POST['tipo_post']=='finalizar':
             os.finalizar_chamado()
@@ -60,10 +64,15 @@ def detalhes_os(request, id):
     context={
         'titulo': apps.get_app_config('iluminacao').verbose_name,
         'os': os,
-        'os_ext': OS_ext.objects.get(os=os)
+        'os_ext': os_ext
     }
     return render(request, 'iluminacao/detalhes_os.html', context)
 
+def atender_os(request, id):
+    os=OrdemDeServico.objects.get(id=id)
+    os.atendente=request.user
+    os.save()
+    return redirect('iluminacao:detalhes_os', id=id)
 
 def funcionarios_listar(request):
     funcionarios=Funcionario_OS.objects.all()

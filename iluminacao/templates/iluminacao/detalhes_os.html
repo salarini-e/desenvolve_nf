@@ -24,7 +24,7 @@
                           <div class="row mb-2">
                             <div class="col px-0 d-flex">
                               <h4 class="pt-3">Detalhes da OS</h4>
-                              <button class="my-auto py-1 ms-3 btn {% if os.prioridade == '0'%} btn-primary {% elif os.prioridade == '1' %} btn-success {% elif os.status == '2' %} btn-danger{% endif %}">
+                              <button class="my-auto py-1 ms-3 btn {% if os.prioridade == '0'%} btn-success {% elif os.prioridade == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% endif %}">
                                 {{os.get_prioridade_display}}
                               </button>
                             </div>
@@ -34,7 +34,7 @@
                               {{os.atendente.first_name}}
                               </span>
                               {% else %}
-                              <a href="{% url 'atender' %}" class="ms-auto my-auto btn btn-secondary py-1">
+                              <a href="{% url 'iluminacao:atender_os' os.id %}" class="ms-auto my-auto btn btn-secondary py-1">
                                 Atender chamado
                               </a>
                               {% endif %}
@@ -91,7 +91,7 @@
                               <div class="border  py-4 px-4 mt-3">
                                 <p class="d-flex me-2"><b class="me-auto">Atribuir</b></p>
                                 {% if os_ext.equipe %}                                
-                                <a href="{% url 'iluminacao:atribuir equipe' os.id %}" tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover focus" title="Equipe" data-bs-content="{% for e in os_ext.equipe.all %}{{e}}{% endfor %}">Equipe</a>                                
+                                <a href="{% url 'iluminacao:atribuir equipe' os.id %}" tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover focus" title="Equipe" data-bs-content="{% for e in os_ext.equipe.all %}{{e}}{% if not forloop.last %}{% if forloop.revcounter == 1 %} | {% else %} | {% endif %}{% endif %} {% endfor %}">Equipe</a>                                
 
                                 {% else %}
                                 <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a>
@@ -193,6 +193,11 @@
       </div>
     </div>
   </div>
+  <script>
+    function finalizar(){
+    
+  }
+  </script>
   <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

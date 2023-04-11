@@ -54,8 +54,8 @@ class OrdemDeServico(models.Model):
         ('f','Finalizado')
     )
     PRIORIDADE_CHOICES=(
-        ('0','N/D'),
-        ('1','Normal'),
+        ('0','Normal'),
+        ('1','Moderada'),
         ('2','Urgente'),
     )
 

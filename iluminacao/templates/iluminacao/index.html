@@ -42,8 +42,8 @@
                                   </a>
                                 </td>
                                 <td>
-                                  <button class="btn w-100 {% if os.prioridade == '0'%}btn-success{% endif %} px-2 py-0">
-                                  {{os.get_prioridade_display}}
+                                  <button class="w-100 my-auto py-1 btn {% if os.prioridade == '0'%} btn-success {% elif os.prioridade == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% endif %}">
+                                    {{os.get_prioridade_display}}
                                   </button>
                                 </td>
                                 <td class="text-center">{{os.tipo.sigla}}</td>                                
@@ -107,6 +107,6 @@
   </div>
 </div>
 <script>
-  document.getElementById('os_painel').classList.add('s-nav-active');
+  document.getElementById('os_painel').classList.add('s-nav-active');  
 </script>
 {% endblock %}
