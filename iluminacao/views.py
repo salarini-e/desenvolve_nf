@@ -59,7 +59,8 @@ def detalhes_os(request, id):
         pass
     context={
         'titulo': apps.get_app_config('iluminacao').verbose_name,
-        'os': os
+        'os': os,
+        'os_ext': OS_ext.objects.get(os=os)
     }
     return render(request, 'iluminacao/detalhes_os.html', context)
 

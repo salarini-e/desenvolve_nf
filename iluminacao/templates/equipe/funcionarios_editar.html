@@ -1,7 +1,10 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
 {% load static%}
-{% block title %}Adicionar{% endblock %}
+{% block title %}Adicionar{% endblock %
+  {% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
 
@@ -12,11 +15,6 @@
   <div class="col d-flex py-5"> 
         <div class="row w-100">
             <div class="col-10 pb-4 m-auto bg-white">
-                <!-- <div class="row py-3 px-4">
-                    <div class="col bg p-5">
-                        <h1 class="display-4 text-center">ORDEM DE SERVIÇO</h1>
-                    </div>
-                </div>               -->
                 <div class="row">
                     <div class="col px-4">                                              
                         <div class="pt-4 px-2">

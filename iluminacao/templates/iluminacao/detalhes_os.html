@@ -22,8 +22,11 @@
                     <div class="col px-4">                                                                     
                         <div class="px-2">
                           <div class="row mb-2">
-                            <div class="col px-0">
-                              <h4>Detalhes da OS</h4>
+                            <div class="col px-0 d-flex">
+                              <h4 class="pt-3">Detalhes da OS</h4>
+                              <button class="my-auto py-1 ms-3 btn {% if os.prioridade == '0'%} btn-primary {% elif os.prioridade == '1' %} btn-success {% elif os.status == '2' %} btn-danger{% endif %}">
+                                {{os.get_prioridade_display}}
+                              </button>
                             </div>
                             <div class="col d-flex">                              
                               {% if os.atendente %}
@@ -87,9 +90,13 @@
                               </div>    
                               <div class="border  py-4 px-4 mt-3">
                                 <p class="d-flex me-2"><b class="me-auto">Atribuir</b></p>
-                                <a tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="popover" title="Equipe" data-bs-content="Equipe selecionada para o serviço">Equipe</a>
-                                <!-- <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a> -->
-                                <a class="btn btn-primary" href="">Equipamentos</a>
+                                {% if os_ext.equipe %}                                
+                                <a href="{% url 'iluminacao:atribuir equipe' os.id %}" tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover focus" title="Equipe" data-bs-content="{% for e in os_ext.equipe.all %}{{e}}{% endfor %}">Equipe</a>                                
+
+                                {% else %}
+                                <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a>
+                                {% endif %}
+                                <a class="btn btn-primary {% if not os.status == 'f' %}disabled{% endif %}" href="{% url 'almoxarifado:alm_remover_material_do_estoque' os.id %}">Equipamentos</a>
 
                               </div>                              
                             </div>
@@ -206,7 +213,7 @@
   <script>
     document.getElementById('os_painel').classList.add('s-nav-active');
     let popover = new bootstrap.Popover(document.querySelector('.popoverbutton'), {
-        trigger: 'popover'
+        trigger: 'hover'
     })
   </script>
 {% endblock %}
