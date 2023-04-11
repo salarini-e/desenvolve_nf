@@ -3,7 +3,8 @@ html, body{
     min-height: 100vh;    
 }
 :root{
-    --main-color: #0D578E;
+    /* --main-color: #0D578E; */    
+    --main-color: #084775;
 }
 body{
     overflow: hidden;
@@ -25,7 +26,7 @@ header{
 }
 #nav-superior{
   height: 38px;
-  background-color: #0D578E;
+  background-color: var(--main-color);
 
 
 }
