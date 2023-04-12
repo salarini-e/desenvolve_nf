@@ -307,6 +307,16 @@ def ensino_superior(request):
     }
     return render(request, 'cursos/ensino_superior.html', context)
 
+# def ensino_superior_detalhe(request, id):    
+#     curso=Curso.objects.get(id=id)
+#     context={
+#         'curso': curso,
+#         'tipo': tipo,
+#         'titulo': apps.get_app_config('cursos').verbose_name,
+#         'turmas': Turma.objects.filter(curso=curso)
+#     }
+#     return render(request, 'cursos/curso_detalhe.html', context)
+
 def ensino_tecnico(request):
     context = {
         'titulo': 'Capacitação Profissional'

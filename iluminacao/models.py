@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from almoxarifado.models import Material
 from autenticacao.models import Pessoa
 
+import uuid
+from django.utils import timezone
+
 class Bairro(models.Model):
     nome = models.CharField(max_length=150, verbose_name='Bairro')
 
@@ -47,17 +50,18 @@ class OrdemDeServico(models.Model):
     STATUS_CHOICES=(
         ('0','Novo'),
         ('1','Aguardando'),
-        ('2','Execução'),
+        ('2','Em execução'),
+        ('f','Finalizado')
     )
     PRIORIDADE_CHOICES=(
-        ('0','N/D'),
-        ('1','Normal'),
+        ('0','Normal'),
+        ('1','Moderada'),
         ('2','Urgente'),
     )
 
     
     tipo=models.ForeignKey(Tipo_OS, on_delete=models.PROTECT, null=True)
-    numero = models.CharField(max_length=130, verbose_name='Nº da OS')
+    numero = models.CharField(max_length=130, verbose_name='Nº da OS', blank=True)
     prioridade =models.CharField(max_length=1, verbose_name='Prioridade', default='0', choices=PRIORIDADE_CHOICES, null=True)
 
     dt_solicitacao = models.DateTimeField(auto_now_add=True, verbose_name='Data de solicitação', blank=True)
@@ -75,10 +79,21 @@ class OrdemDeServico(models.Model):
 
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
 
-    def gerar_protocolo(self):
-        self.tipo+numero
-        return 'ok'
+    def gerar_protocolo(self):        
+        self.numero = f"{self.tipo.sigla}{int(uuid.uuid4().hex[:10], 16)}/{self.dt_solicitacao.strftime('%y')}"
+        self.save()
+        return self.numero
+    
+    def finalizar_chamado(self):
         
+        if self.status == 'f':
+            return "Chamado já foi finalizado."
+            
+        self.status = 'f'
+        self.dt_conclusao = timezone.now()
+        self.save()
+        return "Chamado finalizado com sucesso."
+
 class OS_ext(models.Model):    
     os=models.ForeignKey(OrdemDeServico, on_delete=models.PROTECT)
     equipe=models.ManyToManyField(Funcionario_OS, blank=True, null=True)
@@ -86,6 +101,9 @@ class OS_ext(models.Model):
 
 class OS_Linha_Tempo(models.Model):
     pessoa=models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    mensagem=models.TextField()
+    anexo = models.FileField(upload_to='anexos/', blank=True, null=True)
+    dt_inclusao = models.DateTimeField(auto_now_add=True, verbose_name='Data da mensagem', blank=True)
     
 
 class MateriaisUsados(models.Model):

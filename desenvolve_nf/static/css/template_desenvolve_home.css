@@ -4,7 +4,8 @@ html, body{
     max-width: 100%;  
 }
 :root{
-    --main-color: #0D578E;
+    /* --main-color: #0D578E; */
+    --main-color: #084775;
 }
 body{
     /* overflow: hidden; */
@@ -24,7 +25,7 @@ header{
 #nav-superior{
   height: 90px; 
   padding: 0px 30px;
-  background-color: #0D578E; 
+  background-color: var(--main-color); 
   display: flex;
 }
 

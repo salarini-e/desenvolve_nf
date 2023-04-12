@@ -19,17 +19,26 @@
                     </div> -->
                 <!-- </div>               -->
                 <div class="row">
-                    <div class="col px-4">                                                
+                    <div class="col px-4">                                                                     
                         <div class="px-2">
-                        <h2>Painel Administrativo</h2>
-                        </div>
-                        <div class="px-2 pt-4">
                           <div class="row mb-2">
-                            <div class="col px-0">
-                              <h4>Detalhes da OS</h4>
+                            <div class="col px-0 d-flex">
+                              <h4 class="pt-3">Detalhes da OS</h4>
+                              <button class="my-auto py-1 ms-3 btn {% if os.prioridade == '0'%} btn-success {% elif os.prioridade == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% endif %}">
+                                {{os.get_prioridade_display}}
+                              </button>
                             </div>
                             <div class="col d-flex">                              
-                              <button class="ms-auto my-auto py-1 px-4 text-capitalize btn {% if os.status == '0'%}btn-info text-white{% endif %} px-2 py-0">
+                              {% if os.atendente %}
+                              <span class="ms-auto my-auto btn btn-secondary py-1">
+                              {{os.atendente.first_name}}
+                              </span>
+                              {% else %}
+                              <a href="{% url 'iluminacao:atender_os' os.id %}" class="ms-auto my-auto btn btn-secondary py-1">
+                                Atender chamado
+                              </a>
+                              {% endif %}
+                              <button class="ms-2 my-auto py-1 px-4 text-capitalize btn {% if os.status == '0'%} btn-info text-white {% elif os.status == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% elif os.status == 'f' %} btn-dark {% endif %} px-2 py-0">
                                   {{os.get_status_display}}
                               </button>                              
                             </div>
@@ -37,7 +46,7 @@
                           <div class="row">
                             <div class="col border p-3">
                               <div class="w-100 d-flex">
-                                <b>Protocolo: {{os.numero}}</b> 
+                                <b class="me-2">Protocolo:</b> {{os.numero}} 
                                 <span class="ms-auto">
                                   <b class="me-2">Tipo:</b>{{os.tipo}}
                                 </span>
@@ -63,7 +72,7 @@
                                     <p>{{os.dt_conclusao}}</p>
                                     {% else %}
                                     <br>
-                                    <button class="ms-auto my-auto py-1 px-4 text-capitalize btn btn-dark px-2 py-0">
+                                    <button class="ms-auto my-auto py-1 px-4 text-capitalize btn btn-dark px-2 py-0"  data-bs-toggle="modal" data-bs-target="#exampleModal">
                                       Concluir chamado
                                   </button> 
                                     {% endif %}
@@ -81,9 +90,13 @@
                               </div>    
                               <div class="border  py-4 px-4 mt-3">
                                 <p class="d-flex me-2"><b class="me-auto">Atribuir</b></p>
-                                <a tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="popover" title="Equipe" data-bs-content="Equipe selecionada para o serviço">Equipe</a>
-                                <!-- <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a> -->
-                                <a class="btn btn-primary" href="">Equipamentos</a>
+                                {% if os_ext.equipe %}                                
+                                <a href="{% url 'iluminacao:atribuir equipe' os.id %}" tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover focus" title="Equipe" data-bs-content="{% for e in os_ext.equipe.all %}{{e}}{% if not forloop.last %}{% if forloop.revcounter == 1 %} | {% else %} | {% endif %}{% endif %} {% endfor %}">Equipe</a>                                
+
+                                {% else %}
+                                <a class="btn btn-primary" href="{% url 'iluminacao:atribuir equipe' os.id %}">Equipe</a>
+                                {% endif %}
+                                <a class="btn btn-primary {% if not os.status == 'f' %}disabled{% endif %}" href="{% url 'almoxarifado:alm_remover_material_do_estoque' os.id %}">Equipamentos</a>
 
                               </div>                              
                             </div>
@@ -122,6 +135,37 @@
                             </div> 
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="col">
+                            <h4 class="mt-4">Nova Mensagem</h4>
+                            <div class="row">
+                              <div class="col">
+                                <input type="hidden" name="pessoa" value="{{request.user.id}}">
+                                <input class="form-control h-100" type="text" name="mensagem" id="">
+                              </div>
+                              <div class="col-4">
+                                <div class="border border-bottom-0 py-3 px-4" style="background-color: white;">
+                                  <h4 class="my-0">Anexar arquivo</h4>
+                                </div>
+                                <div class="border py-4 px-4" style="background-color: white;">
+                                  <p class="text-center py-3">
+                                    <input type="file" name="anexo">
+                                  </p>
+                                </div>    
+                                
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col d-flex">
+                                <button type="submit" class="btn btn-primary mt-3 px-5 mx-auto">
+                                  Enviar mensagem
+                                </button>
+                              </div>
+                            </div>
+                            
+                          </div>
+                        </div>
+                        
                     </div>                    
                 </div>
             </div>
@@ -129,24 +173,31 @@
   </div>
 </div>
 <!-- MODAL -->
-<div class="modal fade" id="formCandidato" aria-hidden="true" aria-labelledby="formCandidatoLabel" tabindex="-1">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">CANDIDATAR-SE A ESCOLINHA DE SKATE</h5>
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel">Deseja realmente finalizar o chamado?</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body text-dark">            
-            <form id="form" action="#">
-                
+        <div class="modal-body text-dark d-flex">            
+            <form id="form" method="POST" class="mx-auto py-3">
+              {% csrf_token %}
+                <input type="hidden" name="tipo_post" value="finalizar">
+                <button class="btn btn-danger" type="submit">SIM, finalizar chamado!</button>
             </form>
         </div>
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <button class="btn btn-primary" data-bs-target="#confirmarCadastro" data-bs-toggle="modal" onclick="enviarFormulario()">Enviar</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
+  <script>
+    function finalizar(){
+    
+  }
+  </script>
   <div class="modal fade" id="confirmarCadastro" aria-hidden="true" aria-labelledby="confirmarCadastroLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -167,7 +218,7 @@
   <script>
     document.getElementById('os_painel').classList.add('s-nav-active');
     let popover = new bootstrap.Popover(document.querySelector('.popoverbutton'), {
-        trigger: 'popover'
+        trigger: 'hover'
     })
   </script>
 {% endblock %}
