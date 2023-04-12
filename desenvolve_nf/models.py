@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Carousel_Index(models.Model):
     
@@ -10,7 +11,7 @@ class Carousel_Index(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.nome, self.id)
-    
+
 
 class ClimaTempo(models.Model):
     maxTemp = models.CharField(verbose_name="Temperatura máxima", max_length=3)
@@ -21,32 +22,41 @@ class ClimaTempo(models.Model):
     noite = models.CharField(verbose_name="Clima na noite", max_length=50, blank=True)
     dt_inclusao = models.DateTimeField( auto_now_add=True, unique=True)
 
-    IMAGEM_URL={
-                'sol com muitas nuvens':                '/static/images/clima_icons/sol_nuvem_vento.png',
-                'sol, pancadas de chuva e trovoadas':   '/static/images/clima_icons/chuva_tempestade.png',
-                'noite com muitas nuvens':              '/static/images/clima_icons/noite_nuvem.png',
-                'noite nublada com chuva':              '/static/images/clima_icons/#',
+    def imgNameMaker(self, texto):
+        texto.replace(",", "")
+        palavras = texto.split(" ")
+        if "noite" in palavras:
+            imgName = "noite"
+        elif "sol" in palavras:
+            imgName = "sol"
+        if "nuvens" in palavras:
+            imgName += "_nuvem"
+        if "chuva" in palavras:
+            imgName += "_chuva"
+        if "trovoada" in palavras:
+            imgName += "_trovoada"
+        print(imgName)
+        return imgName + ".png"
 
-                'erro':                                 '/static/images/Screen.png',
-                }
 
     class Meta:
         ordering = ['-dt_inclusao']
         verbose_name = "Relatório"
         verbose_name_plural = "Relatórios de clima"
 
-
     def getImg(self, turno):
+        imgUrl = "/static/images/clima_icons/"
         if turno == "madrugada":
-            return self.IMAGEM_URL[self.madrugada]
+            imgUrl += self.IMAGEM_URL[self.madrugada]
         elif turno == "manha":
-            return self.IMAGEM_URL[self.manha]
+            imgUrl += self.IMAGEM_URL[self.manha]
         elif turno == "tarde":
-            return  self.IMAGEM_URL[self.tarde]
+            imgUrl += self.imgNameMaker(self.tarde)
         elif turno == "noite":
-            return  self.IMAGEM_URL[self.Noite]
+            imgUrl += self.make[self.Noite]
         else:
-            return self.IMAGEM_URL['erro']
+            imgUrl += self.IMAGEM_URL['erro']
+        return imgUrl
     
     def turno(self):
         TURNOS={
