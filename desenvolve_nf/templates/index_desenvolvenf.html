@@ -250,7 +250,7 @@
             <div id="bemestaranimal" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Bem Estar<br>Animal</p>
           </div>
-        </a>
+        </a>        
         <a href="{% url 'cursos:home' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="capacita" class="s-nav rounded-circle"></div>
@@ -263,12 +263,12 @@
             <p class="text-dark text-center">Casa do <br>Trabalhador</p>
           </div>
         </a>
-        <a href="#" class="me-3">
+        <!-- <a href="#" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="adote" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Cidade <br>Limpa</p>
           </div>
-        </a>
+        </a> -->
         <a href="{% url 'eventos:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="eventos" class="s-nav rounded-circle"></div>
@@ -281,6 +281,12 @@
             <p class="text-dark text-center">Finanças</p>
           </div>
         </a>
+        <a href="https://www.pmnf.rj.gov.br/licitacao/" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="licitacao" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Licitações</p>
+          </div>
+        </a>        
         <a href="https://senhas.novafriburgo.rj.gov.br" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="senhas" class="s-nav rounded-circle"></div>
@@ -346,7 +352,11 @@
       background-image: url(/static/images/icones/home_financas.png);
       background-size: contain;
     }
-
+    #licitacao {
+      background-color: white !important;
+      background-image: url(/static/images/icones/home_licitacao.png);
+      background-size: contain;
+    }
     #admin {
       background-color: white !important;
       /* background-image: url(/static/images/icones/bemestaranimal_admin.png); */
@@ -403,7 +413,7 @@
           <p class="text-justify mt-3">Entre em contato conosco para saber mais sobre como podemos trabalhar juntos para construir um futuro melhor e mais próspero para nossa cidade. 
         </div>
       </div>
-      <div class="col d-flex">
+      <div class="col-5 d-flex">
         <div class="mx-auto d-flex" style="max-width: 800px;">
           <img class="img-fluid m-auto" style="border-radius: 30px;" src="/static/images/teste.png" alt="Desenvolve Nova Friburgo">
         </div>

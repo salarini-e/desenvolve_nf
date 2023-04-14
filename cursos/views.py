@@ -213,29 +213,21 @@ def matricular(request, tipo, id):
     form = Aluno_form(prefix="candidato")
     form_responsavel = CadastroResponsavelForm(prefix="responsavel")
 
-    categorias = Categoria.objects.all()
-    cursos = []
+    # Checa idade
+    dtnascimento = Pessoa.objects.get(user=request.user).dt_nascimento    
 
-    for i in categorias:
-        cursos.append(
-            {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
-
+    today = date.today()
+    age = today.year - dtnascimento.year - \
+            ((today.month, today.day) < (dtnascimento.month, dtnascimento.day))    
+    precisa_responsavel=age>=18
     if request.method == 'POST':
-        dtnascimento_cp = request.POST.get("candidato-dt_nascimento")
+        
         form = Aluno_form(request.POST, prefix="candidato")
+        if
         form_responsavel = CadastroResponsavelForm(
             request.POST, prefix="responsavel")
 
-        try:
-            dtnascimento_hr = datetime.strptime(dtnascimento_cp, "%d-%m-%Y")
-        except:
-            dtnascimento_hr = datetime.strptime(dtnascimento_cp, "%Y-%m-%d")
-
-        dt_nascimento = dtnascimento_hr.date()
-
-        today = date.today()
-        age = today.year - dt_nascimento.year - \
-            ((today.month, today.day) < (dt_nascimento.month, dt_nascimento.day))
+        
         teste = True
         candidato = ""
 
@@ -294,9 +286,9 @@ def matricular(request, tipo, id):
                 return redirect('/prematricula')
 
     context = {
+        'age': age,
         'form': form,
-        'form_responsavel': form_responsavel,
-        'categorias': cursos,
+        'form_responsavel': form_responsavel,     
         'titulo': 'Capacitação Profissional'
     }
     return render(request, 'cursos/pre_matricula.html', context)
