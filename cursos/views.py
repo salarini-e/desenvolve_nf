@@ -213,49 +213,40 @@ def matricular(request, tipo, id):
     form = Aluno_form(prefix="candidato")
     form_responsavel = CadastroResponsavelForm(prefix="responsavel")
 
-    # Checa idade
-    dtnascimento = Pessoa.objects.get(user=request.user).dt_nascimento    
-
+    #Pega o usuario
+    pessoa=Pessoa.objects.get(user=request.user)
+    
+    # Checa a idade e se precisa de responsavel
+    dtnascimento = pessoa.dt_nascimento    
     today = date.today()
     age = today.year - dtnascimento.year - \
             ((today.month, today.day) < (dtnascimento.month, dtnascimento.day))    
     precisa_responsavel=age>=18
+    
     if request.method == 'POST':
         
         form = Aluno_form(request.POST, prefix="candidato")
-        if
-        form_responsavel = CadastroResponsavelForm(
-            request.POST, prefix="responsavel")
+        if precisa_responsavel:
+            form_responsavel = CadastroResponsavelForm(
+                request.POST, prefix="responsavel")
 
         
         teste = True
-        candidato = ""
+        
 
-        try:
-            cpf = request.POST['cpf']
-            candidato = Aluno.objects.get(cpf=cpf)
-        except Exception as e:
-            pass
+        try:            
+            candidato = Aluno.objects.get(cpf=pessoa.cpf)
+        except:
+            candidato = ""        
 
-        for i in request.POST.getlist('turmas'):
-            turma = Turma.objects.get(id=i)
-            if candidato:
-                try:
-                    Matricula.objects.get(
-                        candidato=candidato, turma__curso=turma.curso)
-                    messages.error(
-                        request, 'Candidato já matriculado no curso ' + turma.curso.nome)
-                    return redirect('/prematricula')
-                except:
-                    pass
-
-            if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
-                teste = False
+        
+        # if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
+        #         teste = False
 
         if form.is_valid() and teste:
             candidato = form.save(commit=False)
 
-            if age < 18:
+            if precisa_responsavel:
 
                 if form_responsavel.is_valid():
 
