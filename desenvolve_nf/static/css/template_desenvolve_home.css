@@ -604,6 +604,42 @@ h1, h2, h3, h4{
   }
 }
 
+@media(min-width: 320px) and (max-width:400px){
+  .logo-nf{
+    width: 200px;
+  }
+  .logo-1{
+    display:none;
+  }
+  .barrinha{
+    display: none;
+  }
+  .logo-2{
+    width: 100px;
+  }
+  .item img{
+    width: 300px !important;
+    height: 200px !important;
+  }
+  .owl-nav{
+    display: none;
+  }
+  .text-left{
+    font-size: 1.2rem;
+  }
+  .px-5{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+  .col-5{
+    width: 100%;
+  }
+}
+
 .item h2{
   font-size: 20pt;
 }
