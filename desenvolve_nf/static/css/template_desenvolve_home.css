@@ -638,6 +638,16 @@ h1, h2, h3, h4{
   .col-5{
     width: 100%;
   }
+  .ps-5{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .pe-5{
+    padding-right: 0px !important;
+  }
+  .empregados_picas{
+    display: block !important;
+  }
 }
 
 .item h2{
