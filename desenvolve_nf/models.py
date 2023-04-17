@@ -29,7 +29,7 @@ class ClimaTempo(models.Model):
             imgName = "noite"
         elif "sol" in palavras:
             imgName = "sol"
-        if "nuvens" in palavras:
+        if "nuvens" in palavras or "nublada":
             imgName += "_nuvem"
         if "chuva" in palavras:
             imgName += "_chuva"
