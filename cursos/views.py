@@ -287,7 +287,7 @@ def matricular(request, tipo, id):
                         aluno=candidato, turma=turma, status='c')
                 except:
                     Alertar_Aluno_Sobre_Nova_Turma.objects.create(
-                        aluno=aluno,
+                        aluno=candidato,
                         curso=curso
                     )
                     messages.success(
