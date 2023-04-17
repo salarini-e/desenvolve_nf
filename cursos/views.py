@@ -212,14 +212,12 @@ def resultado(request):
 @login_required
 def matricular(request, tipo, id):
     curso=Curso.objects.get(id=id)
-    
-    #Pega o usuario    
     pessoa=Pessoa.objects.get(user=request.user)
+
+    #checa se já é aluno para por informações no formulario
     try:
         aluno=Aluno.objects.get(pessoa=pessoa)
-        print(aluno.pessoa.nome)
         form = Aluno_form(prefix="candidato", instance=aluno)
-        print(form)
         try:            
             form_responsavel = CadastroResponsavelForm(prefix="responsavel", instance=aluno)
         except:
@@ -252,13 +250,14 @@ def matricular(request, tipo, id):
         #checando idade minima e maxima para o curso
         turmas=Turma.objects.filter(curso=curso)
         pode_cursar=True
-        for turma in turmas:
-            if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
-                teste = False
-                if not teste:
-                    pode_cursar=False
-                    teste=True
-        
+        if len(turmas)!=0:
+            for turma in turmas:
+                if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
+                    teste = False
+                    if not teste:
+                        pode_cursar=False
+                        teste=True
+            
         #validação das informações do forms
         if form.is_valid() and pode_cursar:
             candidato = form.save(commit=False)
@@ -273,10 +272,10 @@ def matricular(request, tipo, id):
                 candidato.save()                                
             else:
                 candidato.pessoa=pessoa
-                candidato.save()
-                print(candidato)    
+                candidato.save()                    
+                print(candidato.pessoa.nome)
 
-            #criando matricula como candidato a turma
+            #criando matricula como candidato na turma
             try:
                 turma=Turma.objects.get(curso=curso, status='pre')
                 Matricula.objects.create(
