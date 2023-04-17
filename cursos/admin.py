@@ -16,6 +16,7 @@ admin.site.register(Matricula)
 admin.site.register(Justificativa)
 admin.site.register(Aula)
 admin.site.register(Presenca)
+admin.site.register(Alertar_Aluno_Sobre_Nova_Turma)
 
 
 

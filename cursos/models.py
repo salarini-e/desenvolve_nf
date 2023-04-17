@@ -384,9 +384,13 @@ class Presenca(models.Model):
     matricula = models.ForeignKey(Matricula, on_delete=models.PROTECT)
     justificativa = models.ForeignKey(Justificativa, on_delete=models.PROTECT, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
-    dt_inclusao = models.DateTimeField(
-        auto_now_add=True)
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.matricula} - {self.get_status_display()}"
-    
+
+class Alertar_Aluno_Sobre_Nova_Turma(models.Model):
+    aluno=models.ForeignKey(Aluno, on_delete=models.CASCADE, related_name='aluno_interessado')
+    curso=models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='curso_de_interesse')
+    alertado=models.BooleanField(default=False)
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
