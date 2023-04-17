@@ -15,6 +15,7 @@ from eventos.models import Evento
 from django.apps import apps
 from random import shuffle
 
+from django.urls import reverse
 def index(request):
     try:
         eventos = Evento.objects.filter(app_name='cursos', is_destaque = True)
@@ -211,12 +212,23 @@ def resultado(request):
 @login_required
 def matricular(request, tipo, id):
     curso=Curso.objects.get(id=id)
-    form = Aluno_form(prefix="candidato")
-    form_responsavel = CadastroResponsavelForm(prefix="responsavel")
-
+    
     #Pega o usuario    
     pessoa=Pessoa.objects.get(user=request.user)
-    
+    try:
+        aluno=Aluno.objects.get(pessoa=pessoa)
+        print(aluno.pessoa.nome)
+        form = Aluno_form(prefix="candidato", instance=aluno)
+        print(form)
+        try:            
+            form_responsavel = CadastroResponsavelForm(prefix="responsavel", instance=aluno)
+        except:
+            pass
+    except Exception as E:        
+        aluno=None     
+        form = Aluno_form(prefix="candidato")    
+        form_responsavel = CadastroResponsavelForm(prefix="responsavel")
+
     # Checa a idade e se precisa de responsavel
     dtnascimento = pessoa.dt_nascimento    
     today = date.today()
@@ -226,28 +238,29 @@ def matricular(request, tipo, id):
     
     if request.method == 'POST':
         
-        form = Aluno_form(request.POST, prefix="candidato")
+        form = Aluno_form(request.POST, prefix="candidato", instance=aluno)
         if precisa_responsavel:
             form_responsavel = CadastroResponsavelForm(
-                request.POST, prefix="responsavel")
+                request.POST, prefix="responsavel", instance=aluno)
 
         
-        teste = True
+        teste = True        
+        
+        candidato = aluno
         
 
-        try:            
-            candidato = Aluno.objects.get(cpf=pessoa.cpf)
-        except:
-            candidato = ""        
-
-        
+        #checando idade minima e maxima para o curso
         turmas=Turma.objects.filter(curso=curso)
+        pode_cursar=True
         for turma in turmas:
             if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
                 teste = False
-                break
-
-        if form.is_valid() and teste:
+                if not teste:
+                    pode_cursar=False
+                    teste=True
+        
+        #validação das informações do forms
+        if form.is_valid() and pode_cursar:
             candidato = form.save(commit=False)
 
             if precisa_responsavel:
@@ -257,15 +270,31 @@ def matricular(request, tipo, id):
                 else:
                     return redirect('/prematricula')
                 responsavel.save()
-                candidato.save()                
+                candidato.save()                                
             else:
                 candidato.pessoa=pessoa
                 candidato.save()
-                print(candidato)
+                print(candidato)    
 
-            for i in request.POST.getlist('turmas'):
+            #criando matricula como candidato a turma
+            try:
+                turma=Turma.objects.get(curso=curso, status='pre')
                 Matricula.objects.create(
                     aluno=candidato, turma=turma, status='c')
+            except:     
+                try:
+                    turma=Turma.objects.get(curso=curso, status='acc')
+                    Matricula.objects.create(
+                        aluno=candidato, turma=turma, status='c')
+                except:
+                    Alertar_Aluno_Sobre_Nova_Turma.objects.create(
+                        aluno=aluno,
+                        curso=curso
+                    )
+                    messages.success(
+                    request, 'Você será informado quando abrir o a inscrição de uma nova turma para este curso!')
+                    return redirect(reverse('cursos:matricula', args=[tipo,id]))
+
 
             messages.success(
                 request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
