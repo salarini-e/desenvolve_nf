@@ -61,7 +61,7 @@ def cursos(request, tipo):
 
 
 def curso_detalhe(request, tipo, id):    
-    curso=Curso.objects.get(id=id)
+    curso=Curso.objects.get(id=id)    
     context={
         'curso': curso,
         'tipo': tipo,
@@ -208,12 +208,13 @@ def alterarCad(request):
 def resultado(request):
     return render(request, 'cursos/resultado.html')
 
-
+@login_required
 def matricular(request, tipo, id):
+    curso=Curso.objects.get(id=id)
     form = Aluno_form(prefix="candidato")
     form_responsavel = CadastroResponsavelForm(prefix="responsavel")
 
-    #Pega o usuario
+    #Pega o usuario    
     pessoa=Pessoa.objects.get(user=request.user)
     
     # Checa a idade e se precisa de responsavel
@@ -221,7 +222,7 @@ def matricular(request, tipo, id):
     today = date.today()
     age = today.year - dtnascimento.year - \
             ((today.month, today.day) < (dtnascimento.month, dtnascimento.day))    
-    precisa_responsavel=age>=18
+    precisa_responsavel=age<18
     
     if request.method == 'POST':
         
@@ -240,28 +241,27 @@ def matricular(request, tipo, id):
             candidato = ""        
 
         
-        # if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
-        #         teste = False
+        turmas=Turma.objects.filter(curso=curso)
+        for turma in turmas:
+            if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
+                teste = False
+                break
 
         if form.is_valid() and teste:
             candidato = form.save(commit=False)
 
             if precisa_responsavel:
-
                 if form_responsavel.is_valid():
-
                     responsavel = form_responsavel.save(commit=False)
                     responsavel.aluno = candidato
-
                 else:
                     return redirect('/prematricula')
-
                 responsavel.save()
-                candidato.save()
-
+                candidato.save()                
             else:
-
+                candidato.pessoa=pessoa
                 candidato.save()
+                print(candidato)
 
             for i in request.POST.getlist('turmas'):
                 Matricula.objects.create(
@@ -280,7 +280,9 @@ def matricular(request, tipo, id):
         'age': age,
         'form': form,
         'form_responsavel': form_responsavel,     
-        'titulo': 'Capacitação Profissional'
+        'titulo': 'Capacitação Profissional',
+        'curso': curso,
+        'pessoa': pessoa
     }
     return render(request, 'cursos/pre_matricula.html', context)
 
