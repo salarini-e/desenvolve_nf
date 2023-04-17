@@ -213,57 +213,40 @@ def matricular(request, tipo, id):
     form = Aluno_form(prefix="candidato")
     form_responsavel = CadastroResponsavelForm(prefix="responsavel")
 
-    categorias = Categoria.objects.all()
-    cursos = []
-
-    for i in categorias:
-        cursos.append(
-            {'categoria': i, 'curso': Curso.objects.filter(categoria=i, ativo=True)})
-
+    #Pega o usuario
+    pessoa=Pessoa.objects.get(user=request.user)
+    
+    # Checa a idade e se precisa de responsavel
+    dtnascimento = pessoa.dt_nascimento    
+    today = date.today()
+    age = today.year - dtnascimento.year - \
+            ((today.month, today.day) < (dtnascimento.month, dtnascimento.day))    
+    precisa_responsavel=age>=18
+    
     if request.method == 'POST':
-        dtnascimento_cp = request.POST.get("candidato-dt_nascimento")
+        
         form = Aluno_form(request.POST, prefix="candidato")
-        form_responsavel = CadastroResponsavelForm(
-            request.POST, prefix="responsavel")
+        if precisa_responsavel:
+            form_responsavel = CadastroResponsavelForm(
+                request.POST, prefix="responsavel")
 
-        try:
-            dtnascimento_hr = datetime.strptime(dtnascimento_cp, "%d-%m-%Y")
-        except:
-            dtnascimento_hr = datetime.strptime(dtnascimento_cp, "%Y-%m-%d")
-
-        dt_nascimento = dtnascimento_hr.date()
-
-        today = date.today()
-        age = today.year - dt_nascimento.year - \
-            ((today.month, today.day) < (dt_nascimento.month, dt_nascimento.day))
+        
         teste = True
-        candidato = ""
+        
 
-        try:
-            cpf = request.POST['cpf']
-            candidato = Aluno.objects.get(cpf=cpf)
-        except Exception as e:
-            pass
+        try:            
+            candidato = Aluno.objects.get(cpf=pessoa.cpf)
+        except:
+            candidato = ""        
 
-        for i in request.POST.getlist('turmas'):
-            turma = Turma.objects.get(id=i)
-            if candidato:
-                try:
-                    Matricula.objects.get(
-                        candidato=candidato, turma__curso=turma.curso)
-                    messages.error(
-                        request, 'Candidato já matriculado no curso ' + turma.curso.nome)
-                    return redirect('/prematricula')
-                except:
-                    pass
-
-            if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
-                teste = False
+        
+        # if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
+        #         teste = False
 
         if form.is_valid() and teste:
             candidato = form.save(commit=False)
 
-            if age < 18:
+            if precisa_responsavel:
 
                 if form_responsavel.is_valid():
 
@@ -294,9 +277,9 @@ def matricular(request, tipo, id):
                 return redirect('/prematricula')
 
     context = {
+        'age': age,
         'form': form,
-        'form_responsavel': form_responsavel,
-        'categorias': cursos,
+        'form_responsavel': form_responsavel,     
         'titulo': 'Capacitação Profissional'
     }
     return render(request, 'cursos/pre_matricula.html', context)

@@ -34,7 +34,7 @@ def add_os(request):
         form=OS_Form(request.POST)
         if form.is_valid():
             os=form.save(commit=False)
-            os.contribuinte=Pessoa. objects.get(user=request.user)
+            os.contribuinte=Pessoa.objects.get(user=request.user)
             os.save()
 
             return redirect('index')

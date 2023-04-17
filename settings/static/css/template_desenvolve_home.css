@@ -4,7 +4,8 @@ html, body{
     max-width: 100%;  
 }
 :root{
-    --main-color: #0D578E;
+    /* --main-color: #0D578E; */
+    --main-color: #084775;
 }
 body{
     /* overflow: hidden; */
@@ -24,7 +25,7 @@ header{
 #nav-superior{
   height: 90px; 
   padding: 0px 30px;
-  background-color: #0D578E; 
+  background-color: var(--main-color); 
   display: flex;
 }
 
@@ -108,7 +109,7 @@ a{
 }
 /* template */
 main{
-  padding: 50px 0px;
+  padding: 50px 0px 0px 0px;
 }
 main .carousel-inner{
   height: 396px;
@@ -557,6 +558,52 @@ h1, h2, h3, h4{
       border-color: rgba(0,0,0,.15);
       -webkit-transform: rotate(45deg);    
 }
-#newsletter .row{
-  background: #ffffff;   
+.menuMobile{
+  display: none;
+}
+
+@media( max-width: 1200px){
+  .navegacaoMobile{
+    font-size: 1vw !important;
+  }
+}
+@media(max-width: 1114px){
+  .btLogin{
+    padding: 0.5vw;
+  }
+}
+@media(max-width:1110px){
+  .menuMobile{
+    display: block;
+    margin-left: 50vw;
+  }
+  .navegacaoMobile{
+    display: none !important;
+  }
+  .navMob{
+    display: block;
+  }
+  .navMob a{
+    color: black;
+  }
+}
+@media(max-width: 760px){
+  .menuMobile{
+    margin-left: 30vw;
+  }
+}
+@media(max-width: 542px){
+  .menuMobile{
+    margin-left: 20vw;
+  }
+}
+
+@media(max-width: 438px){
+  .menuMobile{
+    margin-left: 10vw;
+  }
+}
+
+.item h2{
+  font-size: 20pt;
 }

@@ -1,0 +1,44 @@
+#clima-tempo{
+    display: flex;
+    flex-direction: row;
+}
+
+#atual{
+    font-size: 480%;
+}
+
+#temperatura h2{
+    margin:0;
+}
+
+/* .celcius::after{
+    font-size: 50%;
+    vertical-align: top;
+    content: "°C";
+} */
+
+.sol p:first-child::before{
+    content: url(../images/clima_icons/sunrise.png) " ";
+}
+
+.sol p:last-child::before{
+    content: url(../images/clima_icons/sunset.png) " ";
+}
+
+.text-justify{
+    text-indent: 40px;
+}
+
+#perguntas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: aquamarine;
+}
+
+.pergunta{
+    width: 40%;
+    border-radius: 30px;
+}
+
+

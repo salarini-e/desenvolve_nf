@@ -244,13 +244,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col  d-flex justify-content-center pt-4">
+      <div class="col d-flex flex-wrap justify-content-center pt-4">
         <a href="{% url 'bemestaranimal:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="bemestaranimal" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Bem Estar<br>Animal</p>
           </div>
-        </a>
+        </a>        
         <a href="{% url 'cursos:home' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="capacita" class="s-nav rounded-circle"></div>
@@ -263,12 +263,12 @@
             <p class="text-dark text-center">Casa do <br>Trabalhador</p>
           </div>
         </a>
-        <a href="#" class="me-3">
+        <!-- <a href="#" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="adote" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Cidade <br>Limpa</p>
           </div>
-        </a>
+        </a> -->
         <a href="{% url 'eventos:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="eventos" class="s-nav rounded-circle"></div>
@@ -281,6 +281,12 @@
             <p class="text-dark text-center">Finanças</p>
           </div>
         </a>
+        <a href="https://www.pmnf.rj.gov.br/licitacao/" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="licitacao" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Licitações</p>
+          </div>
+        </a>        
         <a href="https://senhas.novafriburgo.rj.gov.br" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="senhas" class="s-nav rounded-circle"></div>
@@ -346,7 +352,11 @@
       background-image: url(/static/images/icones/home_financas.png);
       background-size: contain;
     }
-
+    #licitacao {
+      background-color: white !important;
+      background-image: url(/static/images/icones/home_licitacao.png);
+      background-size: contain;
+    }
     #admin {
       background-color: white !important;
       /* background-image: url(/static/images/icones/bemestaranimal_admin.png); */
@@ -395,27 +405,27 @@
       </div>
     </div> -->
     <div class="row container mx-auto py-5 px-5 mb-5">
-      <h1 class="text-cleft"><strong>Bem vindo a nossa plataforma!</strong></h1>
+      <h1 class="text-center"><strong>Bem vindo a nossa plataforma!</strong></h1>
       <div class="col d-flex pt-4">
-        <div class="mx-auto pe-5" style="max-width: 800px;">
+        <div class="mx-auto" style="max-width: 800px;">
           <p class="text-justify">Bem-vindo ao site da Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior - Desenvolvenf! Aqui você encontrará uma ampla gama de recursos e informações destinados a ajudar a promover o crescimento econômico e o desenvolvimento social em nossa cidade. Oferecemos serviços e programas para ajudar indivíduos e empresas a se manterem atualizados em relação às últimas tecnologias e inovações, bem como a aprimorar suas habilidades e oportunidades de carreira por meio de cursos, palestras e capacitações profissionais.</p>
           <p class="text-justify mt-3">Confira as várias abas de recursos da nossa secretaria e prefeitura navegando pelo nosso site, para descobrir como podemos ajudá-lo e se manter atualizado em relação à ciência, tecnologia, desenvolvimento inovador, além de fornecer informações sobre a cidade inteligente e as oportunidades de emprego e de carreira disponíveis na Casa do Trabalhador. E não se esqueça de conferir a seção de eventos, que contém informações sobre as próximas capacitações, palestras e cursos oferecidos pela nossa secretaria.</p>
           <p class="text-justify mt-3">Entre em contato conosco para saber mais sobre como podemos trabalhar juntos para construir um futuro melhor e mais próspero para nossa cidade. 
         </div>
       </div>
-      <div class="col d-flex">
+      <div class="col-5 d-flex">
         <div class="mx-auto d-flex" style="max-width: 800px;">
           <img class="img-fluid m-auto" style="border-radius: 30px;" src="/static/images/teste.png" alt="Desenvolve Nova Friburgo">
         </div>
       </div>
     </div>    
     <div class="row pb-5" style="background-color: #2F2F2F;">
-      <div class="col px-0 py-5 d-flex justify-content-evenly flex-wrap">
+      <div class="col px-0 py-4 d-flex justify-content-evenly flex-wrap">
         <div class="owl-carousel owl-theme">
           <div class="item d-flex">
             <div class=" d-flex flex-column ps-5 pe-3">
               <img class="me-auto mt-auto" src="/static/images/desenvolve_economia.png" alt=""
-                style="max-width: 336px;">
+                style="width: 336px;">
               <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
             </div>            
           </div>
@@ -452,7 +462,7 @@
       </div>
     </div>
     <div class="row container mx-auto py-5 px-5 mt-5">
-      <h1 class="text-left"><b>Lorem, ipsum dolor sit amet</b></h1>
+      <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
       <div class="col d-flex pt-5">
         <div class="mx-auto pe-5" style="max-width: 800px;">
           <p class="text-justify">Bem-vindo ao site da Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior - Desenvolvenf! Aqui você encontrará uma ampla gama de recursos e informações destinados a ajudar a promover o crescimento econômico e o desenvolvimento social em nossa cidade. Oferecemos serviços e programas para ajudar indivíduos e empresas a se manterem atualizados em relação às últimas tecnologias e inovações, bem como a aprimorar suas habilidades e oportunidades de carreira por meio de cursos, palestras e capacitações profissionais.</p>
@@ -467,7 +477,7 @@
     </div>    
     <section id="plataformas" class="px-0">
       <div class="row container mx-auto py-5 mb-5 px-0">
-        <h1 class="text-left"><b>Lorem, ipsum dolor sit amet</b></h1>
+        <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
         <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid mt-4" alt="">
         <div class="col d-flex pt-5">
           <div class="mx-auto pe-5" style="max-width: 800px;">
@@ -503,43 +513,37 @@
     <section class="px-0">
       <div class="row px-0 border-top">
         <div class="col px-0 py-5 mt-4" id="particles">
-          <div class="d-flex justify-content-evenly">
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/prefeito.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Johnny Maycon</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Prefeito de Nova Friburgo</b></h6>
-              <img style="width: 40px;" class="mx-auto" src="/static/images/brasao.jpeg" alt="">
-
+          <div class="empregados_destaque d-flex justify-content-evenly">
+            <div class="wrapper-1">
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/prefeito.png" alt="">
+                <h2 class="text-center mt-3 mb-2">Johnny Maycon</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Prefeito de Nova Friburgo</b></h6>
+                <img style="width: 40px;" class="mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/vice.png" alt="">
+                <h2 class="text-center mt-3 mb-2">Sergio Sobrenome</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Vice-Prefeito de Nova Friburgo</b></h6>
+                <img style="width: 40px;" class=" mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
             </div>
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/vice.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Sergio Sobrenome</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Vice-Prefeito de Nova Friburgo</b></h6>
-              <img style="width: 40px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
+            <div class="wrapper-2">
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
+                <h2 class="text-center mt-3 mb-2">Andre Montechiari</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia</b></h6>
+                <img style="width: 40px;" class="mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/secretario.png" alt="">
+                <h2 class="text-center mt-3 mb-2">Andre Montechiari</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Finanças</b></h6>
+                <img style="width: 40px;" class=" mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
             </div>
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/secretario.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Andre Montechiari</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia</b></h6>
-              <img style="width: 40px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
-            </div>
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/secretario.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Andre Montechiari</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Finanças</b></h6>
-              <img style="width: 40px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
-            </div>
-            
-            
-
-
-
           </div>
-        </div>
+        </div>        
         <!-- <div class="row py-5 my-5">
                         <div class="col d-flex flex-column">                            
                           
@@ -661,7 +665,7 @@
     <div class="col">
       <div class="row  pt-5 pb-4 mobile-flex-column footer-sup text-light">
         <div class="col d-flex flex-column justify-content-center">
-          <img class="img-fluid logo m-auto" src="/static/images/logo_desenvolvenfpmnf.png" alt="">
+          <img class="w-100 img-fluid logo m-auto" src="/static/images/logo_desenvolvenfpmnf.png" alt="">
           <p class="mx-auto mt-4 text-f">SECRETARIA MUNICIPAL DE CULTURA DE NOVA FRIBURGO
             R. Farinha Filho, 50 - Centro, Nova Friburgo - RJ, 28610-175 <br>
             09:00 às 17:00 de Seg. à Sex. <br>

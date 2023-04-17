@@ -14,8 +14,8 @@
     <div class="col d-flex pbp-5"> 
         <div class="row w-100">
             <div class="col-10 pb-4 m-auto bg-white">
-              <h2 class="px-4 py-2" style="background-color: rgba(228, 228, 228, 0.644); border-radius: 30px;">
-                Formulário de pré-inscrição
+              <h2 class="px-4 pt-4 pb-2">
+                Formulário de inscrição
                 </h2>    
                 <div class="row">
                     <div class="col text-dark px-4 pt-4">                      
@@ -47,28 +47,7 @@
 
                                 
                             </div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                          <label for="">Turmas</label>
-                          <hr>
-                          {% for cursos in categorias %}       
-                          <div class="curso">                               
-                          <h4 class="mt-2">{{cursos.categoria}}</h4>
-                          {% for i in cursos.curso %}
-                          <div class="">
-                          <b class="mt-1">{{i.nome}}</b>                                      
-                        
-                          {% load extras %}
-                          {{i|turmas_input}}                                        
-                        
-                          </div>
-
-                        {% endfor %}   
-                        </div>            
-                        <hr>
-                        {% endfor %}                                      
-                      </div>
+                        </div>                       
 
                         <div class="row">
                             <div class="col px-5 py-4 d-flex flex-column">
