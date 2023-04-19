@@ -68,19 +68,21 @@ def detalhes_os(request, id):
     os = OrdemDeServico.objects.get(id=id)
     form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})
     try:
-        os_ext=OS_ext.objects.get(os=os)
-        linha_tempo=OS_Linha_Tempo.objects.filter(os=os)
+        os_ext=OS_ext.objects.get(os=os)        
     except:
-        os_ext = None 
-        linha_tempo= []
+        os_ext = None         
     if request.method=='POST': 
-       form_mensagem=NovaMensagemForm(request.POST, request.FILES)
-       if form_mensagem.is_valid():
+        form_mensagem=NovaMensagemForm(request.POST, request.FILES)
+        if form_mensagem.is_valid():
            msg=form_mensagem.save(commit=False)
            msg.os=os
            msg.pessoa=pessoa
            msg.save()
            form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})       
+        else:
+            print('deu ruim aqui, irmão', form_mensagem.errors)
+
+    linha_tempo=OS_Linha_Tempo.objects.filter(os=os)
     context={
         'form_mensagem': form_mensagem,
         'linha_tempo': linha_tempo,
