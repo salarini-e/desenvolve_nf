@@ -32,6 +32,15 @@
     margin: auto;
 }
 
+.pergunta{
+    width: 48%;
+    border-radius: 30px;
+    background-color: white;
+    padding: 4%;
+    margin: 1%;
+    /* min-width: 150px; */
+}
+
 .pergunta img{
     width: 10%;
     height: 10%;
@@ -39,26 +48,18 @@
     margin-bottom: auto;
 }
 
-.pergunta{
-    width: 48%;
-    border-radius: 30px;
-    background-color: white;
-    padding: 1%;
-    margin: 1%;
-    /* min-width: 150px; */
-}
 
 .aviso{
     border-radius: 30px;
     background-color: white;
-    padding: 0 1% 1% 1%;
+    padding: 4%;
     margin: 1%;
 }
 
 .aviso img{
-    width: 5%;
+    max-width: 5%;
     height: 5%;
-    padding: 1%;
+    padding: 0 1%;
 }
 
 .pergunta-header{
@@ -72,7 +73,7 @@
 }
 
 .aviso .pergunta-header h5{
-    padding: 2% 2% 0% 0;
+    padding: 0 ;
 }
 
 h4{
@@ -80,15 +81,95 @@ h4{
 }
 
 .pergunta a{
-    color: blue;
+    color: blue !important;
 }
 
 #cidade-img{
     padding-left: 0;
+    padding-right: 0;
     max-width: 40%;
 }
 
 #cidade-banner{
     display: flex;
     flex-direction: row;
+    max-height: 100%;
+    max-width: 100%;
+}
+#cidade-banner img{
+    min-width: 100%;
+}
+
+h3{
+    margin: 0 0 1% 0;
+    padding-top: 1%;
+}
+#banner-txt{
+    padding: 1%;
+    width: 98%;
+}
+
+#info{
+    margin-top: 1%;
+    /* transition: linear 2s;
+    animation-fill-mode: forwards;
+    position: relative;
+    top: 0;
+    opacity: 0;*/
+}
+/*
+@keyframes mover{
+    from {top:-20;}
+    to {top:0;}
+} */
+
+.pergunta li{
+    list-style-type: disc !important;
+    font-size: 1rem !important;
+}
+.pergunta ul{
+    list-style-type: disc !important;
+    font-size: 1rem !important;
+}
+
+@media(max-width: 1440px){
+    #cidade-img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+    
+    #banner-txt{
+        width: 100%;
+        padding: 0 1% 0 1%;
+    }
+    h3{
+        text-align: center;
+        margin: 0;
+    }
+}
+
+
+@media(max-width: 1024px){
+    #banner-txt{
+        padding: 1% 2% 2% 2%;
+    }
+    h3{
+        margin-bottom: 1%;
+    }
+}
+
+@media(max-width: 425px){
+    .pergunta{
+        width: 100%;
+    }
+    
+    h4{
+        text-align: center;
+        margin-left: 0;
+    }
+    .aviso img{
+        max-width: 10%;
+        max-height: 5%;
+        padding: 1%;
+    }
 }
