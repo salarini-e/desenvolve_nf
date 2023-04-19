@@ -20,12 +20,12 @@ PRIORIDADE_CHOICES=(
         ('2','Urgente'),
     )
 
-@group_required('iluminacao_acesso')
+@group_required('os_acesso')
 def index(request):
     return render(request, 'os_index.html')
 
 @login_required
-@group_required('iluminacao_acesso')
+@group_required('os_acesso')
 def os_index(request):
     if request.user.is_superuser:
         data=OrdemDeServico.objects.all()
@@ -93,27 +93,28 @@ def detalhes_os(request, id):
     }
     return render(request, 'iluminacao/detalhes_os.html', context)
 
-@group_required('iluminacao_acesso', 'iluminacao_funcionario')
+@group_required('os_acesso', 'os_funcionario')
 def change_status_os(request, id, opcao):
     os=OrdemDeServico.objects.get(id=id)
     os.status=opcao
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
-@group_required('iluminacao_acesso', 'iluminacao_funcionario')
+@group_required('os_acesso', 'os_funcionario')
 def change_prioridade_os(request, id, opcao):
     os=OrdemDeServico.objects.get(id=id)
     os.prioridade=opcao
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
-@group_required('iluminacao_acesso', 'iluminacao_funcionario')
+@group_required('os_acesso', 'os_funcionario')
 def atender_os(request, id):
     os=OrdemDeServico.objects.get(id=id)
     os.atendente=request.user
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
+@group_required('os_acesso', 'os_funcionario')
 def funcionarios_listar(request):
     funcionarios=Funcionario_OS.objects.all()
     context={
@@ -122,7 +123,7 @@ def funcionarios_listar(request):
     }
     return render(request, 'equipe/funcionarios.html', context)
 
-@group_required('iluminacao_acesso', 'iluminacao_funcionario')
+@group_required('os_acesso', 'os_funcionario')
 def funcionario_cadastrar(request):
     if request.method=='POST':
         form=Funcionario_Form(request.POST)
@@ -137,7 +138,7 @@ def funcionario_cadastrar(request):
         }
     return render(request, 'equipe/funcionarios_cadastrar.html', context)
 
-@group_required('iluminacao_acesso', 'iluminacao_funcionario')
+@group_required('os_acesso', 'os_funcionario')
 def funcionario_editar(request, id):
     funcionario=Funcionario.objects.get(id=id)
     form=Funcionario_Form(instance=funcionario)
@@ -153,14 +154,14 @@ def funcionario_editar(request, id):
     }     
     return render(request, 'equipe/funcionarios_editar.html', context)
 
-@group_required('iluminacao_acesso', 'iluminacao_funcionario')
+@group_required('os_acesso', 'os_funcionario')
 def funcionario_deletar(request, id):
     funcionario=Funcionario.objects.get(id=id)
     funcionario.delete()
 
     return redirect('funcionarios')
 
-@group_required('iluminacao_acesso', 'iluminacao_funcionario')
+@group_required('os_acesso', 'os_funcionario')
 def atribuir_equipe(request, id):
     try:
         instancia=OS_ext.objects.get(os=id)
