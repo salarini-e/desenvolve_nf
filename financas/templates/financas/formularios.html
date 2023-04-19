@@ -4,21 +4,18 @@
     {% include 'nav_financas.html' %}
     {% endblock %}
     {% block css %}
-    <link rel="stylesheet" href="/static/css/financas_tipo_processo/main.css">
-    <link rel="stylesheet" href="/static/css/carrossel.css">
-    <script src="/static/js/carrossel.js"></script>
+    <link rel="stylesheet" href="/static/css/formulario.css">
     {% endblock %}
     {% block main %}
     <div class="container">
-
-        <div class="d-flex">        
+        <div class="d-flex flex-wrap">        
             <h1 id="go">Formulários e declarações</h1>        
-            <div class="ms-auto input-group" style="position:relative; max-width: 300px ;">
+            <div id="cabecalho" class="ms-auto input-group" style="max-width: 300px ;">
                 <div class="d-flex rounded-circle border me-1" style="background-color: #fff; height: 38px; width: 38px; color: rgba(0, 0, 0, 0.685); font-size: 20pt;"
                 data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procurando um formulário? Use o campo ao lado para facilitar sua busca.">
                     <i class="m-auto fa-solid fa-circle-info"></i>
                 </div>
-                <input style="border-radius: 30px !important; padding-right: 35px;" type="search" name="search" id="search"
+                <input style="border-radius: 30px; !important padding-right: 35px;" type="search" name="search" id="search"
                     class="form-control mb-auto" onkeyup="filterLi(this)">
                 <i class="fa-solid fa-magnifying-glass"
                     style="position: absolute; right: 0; margin: 10px 10px auto auto;"></i>
@@ -62,7 +59,6 @@
                         <h1 class="mb-4"><u>Alvará</u></h1>            
                         {% for arquivo in arquivos.alvara %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
@@ -72,7 +68,6 @@
                         <h1 class="mb-4"><u>Certidões</u></h1>            
                         {% for arquivo in arquivos.certidao %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
@@ -82,7 +77,6 @@
                         <h1 class="mb-4"><u>IPTU/Foro</u></h1>            
                         {% for arquivo in arquivos.iptu %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
@@ -101,7 +95,6 @@
                         <h1 class="mb-4"><u>Isenção/Imunidade</u></h1>            
                         {% for arquivo in arquivos.isencao %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
@@ -111,7 +104,6 @@
                         <h1 class="mb-4"><u>Diversos</u></h1>            
                         {% for arquivo in arquivos.diversos %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
@@ -127,14 +119,12 @@
                         {% endfor %}
                         {% for arquivo in arquivos.certidao %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                         {% for arquivo in arquivos.iptu %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
@@ -147,14 +137,12 @@
                         {% endfor %}
                         {% for arquivo in arquivos.isencao %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                         {% for arquivo in arquivos.diversos %}
                         <li>
-            
                             <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
@@ -211,27 +199,24 @@
 
                 element.classList.remove('show_form')
                 element.classList.add('hidden_form')
-
             }
         }
         function show(id) {
-            hidden_all()
-            document.getElementById(`search`).value = ``
+            hidden_all();
+            document.getElementById('search').value = '';
             document.getElementById(id).classList.remove('hidden_form')
             document.getElementById(id).classList.add('show_form')
         }
         function filterLi(e) {
-            hidden_all()
+            hidden_all();
 
             const searchText = e.value.trim().toLowerCase();
 
             if (searchText.length < 3) {
-                console.log('entrou aqui')
                 return;
             }
 
             const liElements = document.querySelectorAll("#busca li");
-
             liElements.forEach((li) => {
                 const liText = li.textContent.trim().toLowerCase();
                 if (liText.includes(searchText)) {
@@ -242,21 +227,12 @@
                     li.classList.add("hidden_form");
                 }
             });
-            document.getElementById(`busca`).classList.remove("hidden_form");
-            document.getElementById(`busca`).classList.add("show_form");
+            document.getElementById('busca').classList.remove("hidden_form");
+            document.getElementById('busca').classList.add("show_form");
         }
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
     })
     </script>
-    <style>
-        .opcoes_formulario li{
-            list-style: none;
-            margin-bottom: 10px;
-        }
-        .opcoes_formulario li button{
-            width: 100%;
-        }
-    </style>
     {% endblock %}
