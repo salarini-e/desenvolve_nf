@@ -4,6 +4,19 @@ from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.apps import apps
+from .models import * 
+
+STATUS_CHOICES=(
+        ('0','Novo'),
+        ('1','Aguardando'),
+        ('2','Em execução'),
+        ('f','Finalizado')
+    )
+PRIORIDADE_CHOICES=(
+        ('0','Normal'),
+        ('1','Moderada'),
+        ('2','Urgente'),
+    )
 
 def index(request):
     return render(request, 'os_index.html')
@@ -51,22 +64,45 @@ def add_os(request):
 
 
 def detalhes_os(request, id):
-    os=OrdemDeServico.objects.get(id=id)
+    pessoa = Pessoa.objects.get(user=request.user)
+    os = OrdemDeServico.objects.get(id=id)
+    form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})
     try:
         os_ext=OS_ext.objects.get(os=os)
+        linha_tempo=OS_Linha_Tempo.objects.filter(os=os)
     except:
         os_ext = None 
+        linha_tempo= []
     if request.method=='POST': 
-        if request.POST['tipo_post']=='finalizar':
-            os.finalizar_chamado()
-    else:
-        pass
+       form_mensagem=NovaMensagemForm(request.POST, request.FILES)
+       if form_mensagem.is_valid():
+           msg=form_mensagem.save(commit=False)
+           msg.os=os
+           msg.pessoa=pessoa
+           msg.save()
+           form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})       
     context={
+        'form_mensagem': form_mensagem,
+        'linha_tempo': linha_tempo,
+        'STATUS': STATUS_CHOICES,
+        'PRIORIDADES': PRIORIDADE_CHOICES, 
         'titulo': apps.get_app_config('iluminacao').verbose_name,
         'os': os,
         'os_ext': os_ext
     }
     return render(request, 'iluminacao/detalhes_os.html', context)
+
+def change_status_os(request, id, opcao):
+    os=OrdemDeServico.objects.get(id=id)
+    os.status=opcao
+    os.save()
+    return redirect('iluminacao:detalhes_os', id=id)
+
+def change_prioridade_os(request, id, opcao):
+    os=OrdemDeServico.objects.get(id=id)
+    os.prioridade=opcao
+    os.save()
+    return redirect('iluminacao:detalhes_os', id=id)
 
 def atender_os(request, id):
     os=OrdemDeServico.objects.get(id=id)

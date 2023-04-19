@@ -23,24 +23,50 @@
                         <div class="px-2">
                           <div class="row mb-2">
                             <div class="col px-0 d-flex">
-                              <h4 class="pt-3">Detalhes da OS</h4>
-                              <button class="my-auto py-1 ms-3 btn {% if os.prioridade == '0'%} btn-success {% elif os.prioridade == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% endif %}">
-                                {{os.get_prioridade_display}}
-                              </button>
+                              <h4 class="pt-4">Detalhes da OS</h4>                              
+                              <div class="dropdown">
+                                <button class="mt-3 py-1 ms-3 btn dropdown-toggle {% if os.prioridade == '0'%} btn-success {% elif os.prioridade == '1' %} btn-warning {% elif os.prioridade == '2' %} btn-danger {% endif %}" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                  {{os.get_prioridade_display}}
+                                </button>
+                                <ul class="dropdown-menu" style="padding: 3px;" aria-labelledby="dropdownMenuButton1">
+                                  {% for prioridade in PRIORIDADES %}
+                                  {% if not os.prioridade == prioridade.0 %}
+                                  <li>
+                                    <a class="dropdown-item {% if prioridade.0 == '0'%} bg-success text-white {% elif prioridade.0 == '1' %} bg-warning   {% elif prioridade.0  == '2' %} bg-danger text-white {% endif %}" href="{% url 'iluminacao:change_prioridade_os' id=os.id opcao=prioridade.0 %}"> 
+                                      <i class="fa-solid fa-hand-point-right me-4"></i>{{prioridade.1}}
+                                    </a>
+                                  </li>
+                                  {% endif %}                                  
+                                  {% endfor %}                                
+                                </ul>
+                              </div>
                             </div>
                             <div class="col d-flex">                              
                               {% if os.atendente %}
-                              <span class="ms-auto my-auto btn btn-secondary py-1">
+                              <span class="ms-auto mt-3  mb-auto btn btn-secondary py-1">
                               {{os.atendente.first_name}}
                               </span>
                               {% else %}
-                              <a href="{% url 'iluminacao:atender_os' os.id %}" class="ms-auto my-auto btn btn-secondary py-1">
+                              <a href="{% url 'iluminacao:atender_os' os.id %}" class="ms-auto mt-3 mb-auto btn btn-secondary py-1">
                                 Atender chamado
                               </a>
                               {% endif %}
-                              <button class="ms-2 my-auto py-1 px-4 text-capitalize btn {% if os.status == '0'%} btn-info text-white {% elif os.status == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% elif os.status == 'f' %} btn-dark {% endif %} px-2 py-0">
+                              <div class="dropdown">
+                                <button class="ms-2 mt-3 py-1 px-4 text-capitalize btn dropdown-toggle {% if os.status == '0'%} btn-info text-white {% elif os.status == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% elif os.status == 'f' %} btn-dark {% endif %} px-2 py-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                   {{os.get_status_display}}
-                              </button>                              
+                                </button>
+                                <ul class="dropdown-menu" style="padding: 3px;" aria-labelledby="dropdownMenuButton1">
+                                  {% for status in STATUS %}
+                                  {% if not os.status == status.0 %}
+                                  <li>
+                                    <a class="dropdown-item {% if status.0 == '0'%} bg-info text-white {% elif status.0 == '1' %} bg-warning   {% elif status.0  == '2' %} bg-danger text-white {% elif status.0  == 'f' %} bg-dark text-white{% endif %}" href="{% url 'iluminacao:change_status_os' id=os.id opcao=status.0 %}">
+                                      <i class="fa-solid fa-hand-point-right me-4"></i>{{status.1}}
+                                    </a>
+                                  </li>
+                                  {% endif %}                                  
+                                  {% endfor %}
+                                </ul>
+                              </div>                              
                             </div>
                           </div>
                           <div class="row">
@@ -107,41 +133,57 @@
                             <h4 class="mt-4">LINHA DO TEMPO</h4>
                           </div>
                         </div>
-                        <div class="row">
+                        {% for mensagem in linha_tempo %}
+                        <div class="row mb-3">
                           <div class="col px-4">
                             <div class="row">
-                              <div class="col border p-3">
+                              <div class="col border p-3" {% if forloop.counter|divisibleby:2 %}{%else%}style="background-color: #0095ff0c;"{% endif %}>
                                 <div class="w-100 d-flex">
-                                  <b>Luis Eduardo C. Salarini</b> 
+                                  <b>{{mensagem.pessoa.nome}}</b> 
                                   <span class="ms-auto">
-                                    <b class="me-2">06/02/2023 12:44</b>
+                                    <b class="me-2">{{mensagem.dt_inclusao|date:"d/m/y H:i"}}</b>
                                   </span>
                                 </div>
                                 <div class="w-100 pt-3">                                  
-                                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet labore minima est eaque magnam sed odio dolorem error assumenda reprehenderit culpa exercitationem, earum minus ipsum, beatae id sequi optio repellat.</p>
+                                  <p>
+                                    {{mensagem.mensagem}}
+                                  </p>
                                 </div>
                                
                                
                               </div>
                               <div class="col-4">
-                                <div class="border border-bottom-0 py-3 px-4">
+                                <div class="border border-bottom-0 py-3 px-4" {% if forloop.counter|divisibleby:2 %}{%else%}style="background-color: #0095ff0c;"{% endif %}>
                                   <h4 class="my-0">Anexos</h4>
                                 </div>
-                                <div class="border py-4 px-4">
+                                <div class="border py-4 px-4" {% if forloop.counter|divisibleby:2 %}{%else%}style="background-color: #0095ff0c;"{% endif %}>
+                                  {% if mensagem.anexo %}
+                                  <p class="text-center py-3"><i>
+                                    <a href="{{mensagem.anexo.url}}" target="_blank">
+                                      <i class="fa-solid fa-paperclip me-2"></i>Ver anexo                                      
+                                    </a>
+                                  </i></p>
+                                  {% else %}
                                   <p class="text-center py-3"><i>Não há.</i></p>
+                                  {% endif %}
                                 </div>    
                                 
                               </div>
                             </div> 
                           </div>
                         </div>
+                        {% endfor %}
+                        <form method="POST" enctype="multipart/form-data">
+                          {% csrf_token %}
                         <div class="row">
                           <div class="col">
                             <h4 class="mt-4">Nova Mensagem</h4>
                             <div class="row">
                               <div class="col">
-                                <input type="hidden" name="pessoa" value="{{request.user.id}}">
-                                <input class="form-control h-100" type="text" name="mensagem" id="">
+                                {{form_mensagem.os}}
+                                {{form_mensagem.pessoa}}
+                                {{form_mensagem.mensagem}}
+                                <!-- <textarea class="form-control h-100" name="mensagem" id=""></textarea> -->
                               </div>
                               <div class="col-4">
                                 <div class="border border-bottom-0 py-3 px-4" style="background-color: white;">
@@ -149,7 +191,7 @@
                                 </div>
                                 <div class="border py-4 px-4" style="background-color: white;">
                                   <p class="text-center py-3">
-                                    <input type="file" name="anexo">
+                                    {{form_mensagem.anexo}}
                                   </p>
                                 </div>    
                                 
@@ -165,7 +207,7 @@
                             
                           </div>
                         </div>
-                        
+                      </form>
                     </div>                    
                 </div>
             </div>
