@@ -42,9 +42,9 @@
                                   </a>
                                 </td>
                                 <td>
-                                  <button class="w-100 my-auto py-1 btn {% if os.prioridade == '0'%} btn-success {% elif os.prioridade == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% endif %}">
+                                  <a  href="{% url 'iluminacao:detalhes_os' os.id %}" class="w-100 my-auto py-1 btn {% if os.prioridade == '0'%} btn-success {% elif os.prioridade == '1' %} btn-warning {% elif os.prioridade == '2' %} btn-danger{% endif %}">
                                     {{os.get_prioridade_display}}
-                                  </button>
+                                  </a>
                                 </td>
                                 <td class="text-center">{{os.tipo.sigla}}</td>                                
                                 <td class="text-center">
@@ -64,9 +64,9 @@
                                   {% endif %}
                                 </td>
                                 <td>
-                                  <button class="w-100 ms-auto my-auto py-1 px-4 text-capitalize btn {% if os.status == '0'%} btn-info text-white {% elif os.status == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% elif os.status == 'f' %} btn-dark {% endif %} px-2 py-0">
+                                  <a href="{% url 'iluminacao:detalhes_os' os.id %}" class="w-100 ms-auto my-auto py-1 px-4 text-capitalize btn {% if os.status == '0'%} btn-info text-white {% elif os.status == '1' %} btn-warning {% elif os.status == '2' %} btn-danger{% elif os.status == 'f' %} btn-dark {% endif %} px-2 py-0">
                                     {{os.get_status_display}}
-                                  </button>
+                                  </a>
                                 </td>
                               </tr>
                               {% empty %}

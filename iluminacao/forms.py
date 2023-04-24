@@ -1,16 +1,15 @@
 from django import forms
 from django.forms import ModelForm, ValidationError
-from .models import OrdemDeServico, Funcionario_OS, OS_ext
+from .models import OrdemDeServico, Funcionario_OS, OS_ext, OS_Linha_Tempo
 
 
 class OS_Form(ModelForm):    
     
     class Meta:
         model = OrdemDeServico
-        # widgets = {                
-        #     'cpf': forms.TextInput(attrs={'onkeydown':'mascara(this, icpf)'}),
-        #     'telefone': forms.TextInput(attrs={'onkeydown':'mascara(this, itel)'})
-        # }
+        widgets = {
+            'tipo': forms.Select(attrs={'readonly': True}),
+        }
         exclude = ['numero', 'dt_inclusao', 'atendente', 'dt_conclusao', 'prioridade', 'status', 'contribuinte']
 
 class Funcionario_Form(ModelForm):
@@ -27,3 +26,14 @@ class Equipe_Form(ModelForm):
 
         }        
         exclude=[]
+
+class NovaMensagemForm(forms.ModelForm):
+    class Meta:
+        model = OS_Linha_Tempo
+        fields = ['os', 'pessoa', 'mensagem', 'anexo']
+        widgets = {
+            'os': forms.HiddenInput(),
+            'pessoa': forms.HiddenInput(),
+            'mensagem': forms.Textarea(attrs={'class': 'form-control h-100', 'rows': 6}),
+            'anexo': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        }

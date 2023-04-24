@@ -100,6 +100,7 @@ class OS_ext(models.Model):
     cod_veiculo=models.CharField(max_length=14, verbose_name='Código do veículo', blank=True)
 
 class OS_Linha_Tempo(models.Model):
+    os=models.ForeignKey(OrdemDeServico, on_delete=models.CASCADE)
     pessoa=models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     mensagem=models.TextField()
     anexo = models.FileField(upload_to='anexos/', blank=True, null=True)
