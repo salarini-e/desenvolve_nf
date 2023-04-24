@@ -289,8 +289,9 @@ def matricular(request, tipo, id):
                         'pessoa': pessoa
                     }             
                     return render(request, 'cursos/pre_matricula.html', context)
-                responsavel.save()
                 candidato.save()                                
+                responsavel.save()
+                
             else:
                 candidato.pessoa=pessoa
                 candidato.save()                    
