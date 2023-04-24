@@ -47,15 +47,15 @@ class ClimaTempo(models.Model):
     def getImg(self, turno):
         imgUrl = "/static/images/clima_icons/"
         if turno == "madrugada":
-            imgUrl += self.IMAGEM_URL[self.madrugada]
+            imgUrl += self.imgNameMaker(self.madrugada)
         elif turno == "manha":
-            imgUrl += self.IMAGEM_URL[self.manha]
+            imgUrl += self.imgNameMaker(self.manha)
         elif turno == "tarde":
             imgUrl += self.imgNameMaker(self.tarde)
         elif turno == "noite":
-            imgUrl += self.make[self.Noite]
+            imgUrl += self.imgNameMaker(self.noite)
         else:
-            imgUrl += self.IMAGEM_URL['erro']
+            imgUrl += self.imgNameMaker(self.erro)
         return imgUrl
     
     def turno(self):

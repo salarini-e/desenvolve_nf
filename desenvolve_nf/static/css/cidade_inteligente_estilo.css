@@ -1,3 +1,4 @@
+
 #clima-tempo{
     display: flex;
     flex-direction: row;
@@ -155,6 +156,15 @@ h3{
     }
     h3{
         margin-bottom: 1%;
+    }
+}
+
+@media(max-width: 768px){
+    #clima-nav{
+        margin-right: auto;
+    }
+    body{
+        background-color: brown;
     }
 }
 
