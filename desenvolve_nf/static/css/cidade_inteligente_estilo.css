@@ -1,4 +1,3 @@
-
 #clima-tempo{
     display: flex;
     flex-direction: row;
@@ -39,6 +38,7 @@
     background-color: white;
     padding: 4%;
     margin: 1%;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
     /* min-width: 150px; */
 }
 
@@ -55,6 +55,7 @@
     background-color: white;
     padding: 4%;
     margin: 1%;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .aviso img{
@@ -78,7 +79,7 @@
 }
 
 h4{
-    margin: 1% 0 0 3%;
+    margin: 3% 0 1% 3%;
 }
 
 .pergunta a{
@@ -96,7 +97,9 @@ h4{
     flex-direction: row;
     max-height: 100%;
     max-width: 100%;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
+
 #cidade-banner img{
     min-width: 100%;
 }
@@ -105,18 +108,34 @@ h3{
     margin: 0 0 1% 0;
     padding-top: 1%;
 }
-#banner-txt{
-    padding: 1%;
+
+
+#banner-txt, #info{
+    padding: 4%;
     width: 98%;
 }
 
+#banner-txt{
+    padding-bottom: 0;
+}
+
+
+.div-transicao {
+    transition: width 0.5s linear;
+  }
+  
+#ver-detalhes{
+    width: 90%;
+    margin: 4% 5% 0 5%;
+}
+
 #info{
-    margin-top: 1%;
-    /* transition: linear 2s;
+    margin: 0;
+    padding-top: 0;
+    transition: height linear 2s;
     animation-fill-mode: forwards;
     position: relative;
-    top: 0;
-    opacity: 0;*/
+    height: 0;
 }
 /*
 @keyframes mover{
@@ -133,6 +152,14 @@ h3{
     font-size: 1rem !important;
 }
 
+#min::before{
+    content: url(../images/clima_icons/min.png);
+}
+
+#max::before{
+    content: url(../images/clima_icons/max.png);
+}
+
 @media(max-width: 1440px){
     #cidade-img {
         max-height: 100%;
@@ -141,7 +168,6 @@ h3{
     
     #banner-txt{
         width: 100%;
-        padding: 0 1% 0 1%;
     }
     h3{
         text-align: center;
@@ -151,9 +177,6 @@ h3{
 
 
 @media(max-width: 1024px){
-    #banner-txt{
-        padding: 1% 2% 2% 2%;
-    }
     h3{
         margin-bottom: 1%;
     }
@@ -162,9 +185,6 @@ h3{
 @media(max-width: 768px){
     #clima-nav{
         margin-right: auto;
-    }
-    body{
-        background-color: brown;
     }
 }
 

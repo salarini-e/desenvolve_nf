@@ -45,16 +45,16 @@
         <div class="ms-auto d-flex" id="clima-nav">
           
           <img class="me-4" style="height: 80px;" src="{{ clima.timeBeholder }}" alt="">
-          <h2 id="atual">18</h2>
+          <h2 id="atual">{{clima.maxTemp}}</h2>
           <div id="temperatura">
             <h2>°C</h2>
             <div class="d-flex">
               <div class="d-flex ps-3 py-2">
-                <span data-weather="temp">{{clima.minTemp}}</span>
+                <span data-weather="temp" id="min">{{clima.minTemp}}</span>
                 <span style="font-size: 8pt;">ºC</span>
               </div>
               <div class="d-flex ps-2 py-2">
-                <span>{{clima.maxTemp}}</span>
+                <span id="max">{{clima.maxTemp}}</span>
                 <span style="font-size: 8pt;">ºC</span>
               </div>
             </div>
