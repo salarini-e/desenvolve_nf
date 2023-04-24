@@ -34,8 +34,8 @@
     <div  id="cidade-img" class="col">
       <img class="img-fluid margin-0" src="/static/images/main_cidade_inteligente.jpg" style="border-radius: 30px;" alt="">
     </div>
-    <div class="col">
-        <h3 class="mb-4">Central Integrada de Operações e Monitoramento</h3>
+    <div class="col" id='banner-txt'>
+        <h3>Central Integrada de Operações e Monitoramento</h3>
         <p class="text-justify">O programa Nova Friburgo Cidade Inteligente é um sistema de 
           monitoramento, mantido pela Prefeitura local, com foco na mobilidade urbana, 
           segurança pública e atendimento à população friburguense, prestando relevante 
@@ -47,33 +47,12 @@
           Ciência, Tecnologia e Inovação de Nova Friburgo, que é responsável pela gestão e 
           manutenção da Central.</p>
     </div>
+    <div id="info">
+      
+    </div>
+    <button id="ver-detalhes" class="btn-primary">Ver mais</button>
   </div>
   <div class="row">
-    <div class="col">
-      <p class="text-justify">Tendo sua inauguração oficial, ocorrido no dia 07 de agosto de 2015, 
-        contando inicialmente, com 32 câmeras de última geração, espalhadas do bairro de Conselheiro 
-        Paulino (lado norte da cidade), passando pela região central da cidade, até os bairros do 
-        Cônego e Ponte da Saudade (lado do sul da cidade), interligadas através de 25,5 km de fibra 
-        óptica.</p>
-        <p class="text-justify">No ano de 2016 a cidade de Nova Friburgo ficou entre os finalistas da 
-          9ª edição do Prêmio Sebrae "Prefeito Empreendedor – Rio de Janeiro". Concorrendo na categoria 
-          “Inovação e  com o projeto Cidade Inteligente, sistema de monitoramento de vias públicas por 
-          meio de câmeras de segurança, pioneiro das cidades do interior do estado.</p>
-        <p class="text-justify">Desde 2018 o sistema da Central de Operações e Monitoramento, vem sendo 
-          ampliado sem gerar nenhum custo aos cofres públicos, graças ao Programa Municipal de Vigilância 
-          Comunitária, por conta desse programa a Central , superou o quantitativo de 200 câmeras 
-          espalhadas por toda a cidade, entre as quais, câmeras originais do programa e câmeras integradas 
-          cedidas por comerciantes, representantes de escolas, moradores de condomínios e residências e 
-          através de parcerias com empresas do setor de segurança privada que fazem parte da história de 
-          Nova Friburgo.</p>
-        <p class="text-justify">Desde a inauguração da Central de Operações e Monitoramento, os indicies 
-          de criminalidade na cidade de Nova Friburgo reduziram significativamente. Em função desses 
-          fatores, desde 2017, segundo o Instituto de Pesquisa Econômica Aplicada (IPEA), a cidade de 
-          Nova Friburgo foi sendo considerada a 3° cidade mais segura do estado do Rio de Janeiro, até 
-          o ano de 2021, alcançando o 2° lugar, no ano de 2022.</p>
-        <p class="text-justify">Para mais informações sobre o Programa Municipal de Vigilância Comunitária, 
-          <a href="http://bit.ly/2FiItA8">clique aqui</a></p>
-      </div>
   </div>
 </section>
 <h4>Perguntas Frequentes</h4>
@@ -179,6 +158,39 @@
       }
     });
 
+    function verMais(){
+      const info = document.querySelector("#info");
+      info.innerHTML = `
+      <p class="text-justify">Tendo sua inauguração oficial, ocorrido no dia 07 de agosto de 2015, 
+        contando inicialmente, com 32 câmeras de última geração, espalhadas do bairro de Conselheiro 
+        Paulino (lado norte da cidade), passando pela região central da cidade, até os bairros do 
+        Cônego e Ponte da Saudade (lado do sul da cidade), interligadas através de 25,5 km de fibra 
+        óptica.</p>
+        <p class="text-justify">No ano de 2016 a cidade de Nova Friburgo ficou entre os finalistas da 
+          9ª edição do Prêmio Sebrae "Prefeito Empreendedor – Rio de Janeiro". Concorrendo na categoria 
+          “Inovação e  com o projeto Cidade Inteligente, sistema de monitoramento de vias públicas por 
+          meio de câmeras de segurança, pioneiro das cidades do interior do estado.</p>
+        <p class="text-justify">Desde 2018 o sistema da Central de Operações e Monitoramento, vem sendo 
+          ampliado sem gerar nenhum custo aos cofres públicos, graças ao Programa Municipal de Vigilância 
+          Comunitária, por conta desse programa a Central , superou o quantitativo de 200 câmeras 
+          espalhadas por toda a cidade, entre as quais, câmeras originais do programa e câmeras integradas 
+          cedidas por comerciantes, representantes de escolas, moradores de condomínios e residências e 
+          através de parcerias com empresas do setor de segurança privada que fazem parte da história de 
+          Nova Friburgo.</p>
+        <p class="text-justify">Desde a inauguração da Central de Operações e Monitoramento, os indicies 
+          de criminalidade na cidade de Nova Friburgo reduziram significativamente. Em função desses 
+          fatores, desde 2017, segundo o Instituto de Pesquisa Econômica Aplicada (IPEA), a cidade de 
+          Nova Friburgo foi sendo considerada a 3° cidade mais segura do estado do Rio de Janeiro, até 
+          o ano de 2021, alcançando o 2° lugar, no ano de 2022.</p>
+        <p class="text-justify">Para mais informações sobre o Programa Municipal de Vigilância Comunitária, 
+          <a href="http://bit.ly/2FiItA8">clique aqui</a></p>`;
+        // info.style.opacity="1";
+        // info.style.animationName = "mover";
+        // info.style.animationDuration = "2s"; 
+    }
+
+    document.querySelector("#ver-detalhes").addEventListener("click", verMais)
 
   </script>
 {% endblock %}
+

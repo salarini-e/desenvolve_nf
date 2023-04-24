@@ -116,7 +116,7 @@ def prematricula(request):
         age = today.year - dt_nascimento.year - \
             ((today.month, today.day) < (dt_nascimento.month, dt_nascimento.day))
         teste = True
-        candidato = ""
+        candidato = False
 
         try:
             cpf = request.POST['cpf']
@@ -124,7 +124,7 @@ def prematricula(request):
         except Exception as e:
             pass
 
-        for i in request.POST.getlist('turmas'):
+        if candidato:        
             turma = Turma.objects.get(id=i)
             if candidato:
                 try:
@@ -132,7 +132,7 @@ def prematricula(request):
                         candidato=candidato, turma__curso=turma.curso)
                     messages.error(
                         request, 'Candidato já matriculado no curso ' + turma.curso.nome)
-                    return redirect('/prematricula')
+                    return redirect('cursos:curso_detalhe')
                 except:
                     pass
 
@@ -150,7 +150,7 @@ def prematricula(request):
                     responsavel.aluno = candidato
 
                 else:
-                    return redirect('/prematricula')
+                    return redirect('cursos:curso_detalhe')
 
                 responsavel.save()
                 candidato.save()
@@ -255,19 +255,40 @@ def matricular(request, tipo, id):
                 if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
                     teste = False
                     if not teste:
+                        print('entrou aqui')
                         pode_cursar=False
                         teste=True
             
         #validação das informações do forms
         if form.is_valid() and pode_cursar:
+            if candidato:
+                for turma in turmas:
+                    try:
+                        Matricula.objects.get(
+                            aluno=candidato, turma__curso=turma.curso)
+                        messages.error(
+                            request, 'Candidato já matriculado no curso: ' + turma.curso.nome)
+                        return redirect(reverse('cursos:curso_detalhe', args=[tipo, id]))
+                    except Exception as E:                        
+                        pass
             candidato = form.save(commit=False)
 
             if precisa_responsavel:
                 if form_responsavel.is_valid():
                     responsavel = form_responsavel.save(commit=False)
                     responsavel.aluno = candidato
-                else:
-                    return redirect('/prematricula')
+                else:       
+                    messages.warning(
+                    request, 'Preencha corretamente os campos do formulário!')
+                    context = {
+                        'age': age,
+                        'form': form,
+                        'form_responsavel': form_responsavel,     
+                        'titulo': 'Capacitação Profissional',
+                        'curso': curso,
+                        'pessoa': pessoa
+                    }             
+                    return render(request, 'cursos/pre_matricula.html', context)
                 responsavel.save()
                 candidato.save()                                
             else:
@@ -293,16 +314,18 @@ def matricular(request, tipo, id):
                     messages.success(
                     request, 'Você será informado quando abrir o a inscrição de uma nova turma para este curso!')
                     return redirect(reverse('cursos:matricula', args=[tipo,id]))
-
+            
 
             messages.success(
                 request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
-            return redirect('/')
+            print('passou aqui 2')
+            return redirect(reverse('cursos:curso_detalhe', args=[tipo, id]))
         else:
+            print('passou aqui')
             if not teste:
                 messages.error(
                     request, 'Não foi possível realizar a inscrição na turma: A idade não atende a faixa etária da turma.')
-                return redirect('/prematricula')
+                return redirect(reverse('cursos:curso_detalhe', args=[tipo, id]))
 
     context = {
         'age': age,

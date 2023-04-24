@@ -70,7 +70,7 @@
                                     {% bootstrap_form form %}
 
                                     <div class="form_responsavel">                                      
-                                      {% if precisa_responsavel %}
+                                      {% if age < 18 %}
                                       <h2 class="pb-2">Formulário do responsável:</h2>
                                       {% bootstrap_form form_responsavel %}
                                       {% endif %}
