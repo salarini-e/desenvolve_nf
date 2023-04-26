@@ -162,12 +162,12 @@
             </p>
             <p class="mb-1 text-wrap">{{evento.descricao}}</p>
             <!-- <p class="inf text-secondary mt-2">Com transmissão online</p> -->
-            <button
+            <a href="{% url 'eventos:detalhe' evento.id %}"
               class="mt-2 w-100 btn btn-outline-primary btn-details me-auto"
               id="esp"
             >
               Detalhes
-            </button>
+          </a>
           </div>
         </div>
         {% endfor %}
