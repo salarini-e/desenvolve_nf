@@ -33,9 +33,8 @@ class ClimaTempo(models.Model):
             imgName += "_nuvem"
         if "chuva" in palavras:
             imgName += "_chuva"
-        if "trovoada" in palavras:
+        if "trovoada" in palavras or "trovoadas" in palavras:
             imgName += "_trovoada"
-        print(imgName)
         return imgName + ".png"
 
 
@@ -55,7 +54,7 @@ class ClimaTempo(models.Model):
         elif turno == "noite":
             imgUrl += self.imgNameMaker(self.noite)
         else:
-            imgUrl += self.imgNameMaker(self.erro)
+            imgUrl += "error.png"
         return imgUrl
     
     def turno(self):
@@ -75,4 +74,4 @@ class ClimaTempo(models.Model):
         try:
             return self.getImg(turno)
         except:
-            return self.IMAGEM_URL['erro']
+            return self.getImg("erro")
