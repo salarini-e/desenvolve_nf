@@ -16,7 +16,7 @@ def cadastro_tutor(request):
             if pessoa:
                 pass
         except:
-            return redirect('cadastrar_usuario')
+            return redirect('bemestaranimal:cadastrar_usuario')
         try:
             tutor = Tutor.objects.get(pessoa_id=pessoa.id)
             verify = True
@@ -29,7 +29,7 @@ def cadastro_tutor(request):
         else:
             return redirect('index')
     else:
-        return redirect('cadastrar_usuario')
+        return redirect('autenticacao:cadastrar_usuario')
     if request.method == "POST":
         form_tutor = Form_Tutor(request.POST)
         if form_tutor.is_valid():
@@ -58,7 +58,7 @@ def area_tutor(request):
         tutor = Tutor.objects.get(pessoa_id=pessoa.id)
     except:
         messages.error(request, 'Você não é cadastrado como tutor!')
-        return redirect('completar_cadastro')
+        return redirect('bemestaranimal:completar_cadastro')
     context={
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
