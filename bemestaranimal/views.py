@@ -165,7 +165,20 @@ def catalogo(request):
 
 def entrevistaAdocao(request, id):
     animal = Catalogo.objects.get(pk=id)
-    entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={'animal':animal})
+    try:
+        pessoa=Pessoa.objects.get(user=request.user)
+        entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={
+            'animal':animal,
+            'nome': pessoa.nome,
+            'cpf': pessoa.cpf,
+            'telefone': pessoa.telefone,
+            'bairro': pessoa.bairro,
+            'endereco': pessoa.endereco
+            })
+    except:
+        pessoa=None
+        entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={'animal':animal})
+    
     if request.method == "POST":
         entrevistaPrevia_Form = Form_EntrevistaPrevia(request.POST)
         if entrevistaPrevia_Form.is_valid():
