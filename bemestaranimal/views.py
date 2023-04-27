@@ -34,7 +34,7 @@ def cadastro_tutor(request):
         form_tutor = Form_Tutor(request.POST)
         if form_tutor.is_valid():
             form_tutor.save()
-            return redirect('index')
+            return redirect('bemestaranimal:index')
     context={
         'form_tutor':form_tutor,
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,

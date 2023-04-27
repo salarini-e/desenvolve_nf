@@ -20,3 +20,13 @@ class Pessoa(models.Model):
     complemento=models.CharField(max_length=128, verbose_name='Complemento', blank=True, null=True)
     cep = models.CharField(max_length=9, verbose_name='CEP', null=True)
     dt_inclusao=models.DateField(auto_now_add=True, verbose_name='Data de inclusão')
+
+
+# class Contribuinte(models.Model):
+#     cnpj
+#     nome_da_empresa
+#     porte
+#     atividade
+#     ramo
+#     outro_ramo
+#     Deseja receber notificações sobre compras da prefeitura?

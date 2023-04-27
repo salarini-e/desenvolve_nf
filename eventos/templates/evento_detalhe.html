@@ -1,16 +1,13 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
 {% load static%}
-{% block nav %}
-{% include 'nav_cursos.html' %}
-{% endblock %}
 {% block css %}
 <script src="{% static 'js/cursos.js' %}"></script>
 {% endblock %}
 {% block main %}
 <div class="row">
     <div class="col d-flex py-5"> 
-        <div class="row w-100">
+        <div class="row w-100 mt-3 pt-5">
             <div class="col-10 pb-4 m-auto bg-white px-5" style="border-radius: 30px;">                                
                 <div class="row">
                     <div class="col d-flex flex-column">
@@ -19,7 +16,7 @@
                                 <h1 class="my-auto">
                                     {{evento.titulo}}
                                 </h1>   
-                                
+                                <a href="{% url 'eventos:index' %}" class="btn btn-primary ms-auto my-auto">Voltar</a>
                             </div>
                         </div>
                         <img class="w-100 mx-auto" src="{{evento.banner_img.url}}" alt="" style="border-radius: 30px;">
