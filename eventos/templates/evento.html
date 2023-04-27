@@ -138,11 +138,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col d-flex evento_teste2">
+      <div class="col d-flex flex-wrap evento_teste2">
         {% for evento in eventos %}
         <div
           class="banner_destaque d-flex flex-column flex-xl-column bg-white img-txt"
-          style="width: 48%; margin: auto"
+          style="width: 35vw; margin: auto"
         >
           <div class="img-destaque" style="width: 100%">
             <img class="img-fluid" src="{{evento.banner_img.url}}" />
@@ -160,7 +160,6 @@
               {{evento.data_inicio|date:'d/m/y'}}{% if evento.data_fim %} -
               {{evento.data_fim|date:'d/m/y'}}{% endif %}
             </p>
-            <p class="mb-1 text-wrap">{{evento.descricao}}</p>
             <!-- <p class="inf text-secondary mt-2">Com transmissão online</p> -->
             <a href="{% url 'eventos:detalhe' evento.id %}"
               class="mt-2 w-100 btn btn-outline-primary btn-details me-auto"
