@@ -10,11 +10,6 @@
   <title>
     {% block title %}{{titulo}}{% endblock %}
   </title>
-  <!-- GOOGLE FONTS -->
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&family=Montserrat&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
-   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -44,15 +39,6 @@
 </head>
 
 <body class="container-fluid">
-  <!-- <div id="preloading">
-        <img class="mx-auto mt-auto img-fluid logo" src="/static /images/logo_pmnf.png" alt="">
-        <div class="mx-auto mb-auto lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div> -->
   <header class="row">
     <div class="col" style="border-bottom: 1px solid rgb(255, 255, 255);">
       <div class="row" id="nav-superior">
@@ -73,20 +59,16 @@
                   Outros sistemas
                 </a>                                  
                 <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-                  <!-- <li><a class="btn btn-outline-primary" href="#">
-                    Acessar
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li> -->
                   <li class="mt-1"><b>Sistemas:</b></li>
                   <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
                   <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
                   <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                        
                   <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
                   <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-                  
                 </ul> 
               </div></li>
-              <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a></li>            </ul>
+              <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a></li>           
+            </ul>
           </div>
           <div class="my-auto mx-auto offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <ul class="nav-a offcanvas-body navMob">
@@ -99,23 +81,17 @@
                   Outros sistemas
                 </a>                                  
                 <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-                  <!-- <li><a class="btn btn-outline-primary" href="#">
-                    Acessar
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li> -->
                   <li class="mt-1"><b>Sistemas:</b></li>
                   <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
                   <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
                   <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
                   <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
                   <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-                  
                 </ul>
               </div></li>
               <div class="nv-login ms-3 mt-2 my-auto">
                 {% if not request.user.is_authenticated %}
                 <a href="{% url 'autenticacao:login' %}" class="pe-2 btn btn-acesso btLogin" type="submit">
-                  <!-- <i class="fa-regular fa-user me-2"></i> -->
                   <i class="fa-solid fa-user-check me-2"></i>
                   Acessar</a>
                 {% else %}
@@ -129,8 +105,6 @@
                     {% if request.user.is_superuser %}
                     <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
                     {% endif %}
-                    <!-- <li><a class="dropdown-item py-2 text-center" href="#">Meu perfil</a></li> -->
-                    <!-- <li><a class="dropdown-item py-2" href="#">Meu perfil</a></li> -->
                     <li>
                       <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
                         <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
@@ -143,26 +117,22 @@
             </ul>
             <div class="nv-social ms-auto d-flex">
               <div class="d-flex my-auto">
-                <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto MobileSocial"><i
+                <div class="rounded-circle d-social d-flex mx-2"><a href="https://www.instagram.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i
                       class="fa-brands fa-instagram"></i></a></div>
-                <div class="rounded-circle d-social d-flex"><a href="" class="a-social m-auto MobileSocial"><i
+                <div class="rounded-circle d-social d-flex"><a href="https://www.facebook.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i
                       class="fa-brands fa-facebook-f"></i></a>
                 </div>
-                <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto MobileSocial"><i
-                      class="fa-brands fa-twitter"></i></a></div>
               </div>
             </div>
 
           </div>
           <div class="nv-social ms-auto d-flex navegacaoMobile">
             <div class="d-flex my-auto navegacaoMobile">
-              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
+              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="https://www.instagram.com/desenvolvenf/" class="a-social m-auto navegacaoMobile"><i
                     class="fa-brands fa-instagram"></i></a></div>
-              <div class="rounded-circle d-social d-flex navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
+              <div class="rounded-circle d-social d-flex navegacaoMobile"><a href="https://www.facebook.com/desenvolvenf/" class="a-social m-auto navegacaoMobile"><i
                     class="fa-brands fa-facebook-f"></i></a>
               </div>
-              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
-                    class="fa-brands fa-twitter"></i></a></div>
             </div>
           </div>
           <div class="nv-login ms-5 my-auto navegacaoMobile">
@@ -293,7 +263,7 @@
             <p class="text-dark text-center">Senhas de<br>Turismo</p>
           </div>
         </a>
-        <a href="culturanf.novafriburgo.rj.gov.br" class="me-3">
+        <a href="https://culturanf.novafriburgo.rj.gov.br/" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="mapeamento" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Mapeamento<br>Cultural</p>
@@ -649,14 +619,11 @@
             09:00 às 17:00 de Seg. à Sex. <br>
             (22) 2521-1558</p>
           <p class="mx-auto mt-4 text-light">
-            <a class="text-light" target="_blank" href="https://www.facebook.com/polouerjnovafriburgo/">
+            <a class="text-light" target="_blank" href="https://www.facebook.com/desenvolvenf//">
               <i class="fa-brands fa-facebook me-4 mb-2"></i>
             </a>
-            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
+            <a class="text-light" target="_blank" href="https://www.instagram.com/desenvolvenf//">
               <i class="fa-brands fa-instagram me-4 mb-2"></i>
-            </a>
-            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
-              <i class="fa-brands fa-twitter me-4"></i>
             </a>
           </p>
         </div>
@@ -669,20 +636,16 @@
               <li><a href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>
               <li><a href="{% url 'eventos:index' %}">Eventos</a></li>
               <li><a href="{% url 'financas:index' %}">Finanças</a></li>
-              <!-- <li><a href="">APIs</a></li> -->
             </ul>
           </div>
           <div class="my-auto">
             <p class="text-light pb-3 text-center">Sistemas</p>
             <ul>
               <li><a href="{% url 'bemestaranimal:index' %}">Bem Estar Animal</a></li>
-              <li><a href="https://casadotrabalhador.pmnf.rj.gov.br/">Casa do Trabalhador  </a></li>
-              <!-- <li><a href="">Cidade Segura</a></li> -->
+              <li><a href="https://casadotrabalhador.pmnf.rj.gov.br/">Casa do Trabalhador</a></li>
               <li><a href="{% url 'iluminacao:os_index' %}">Iluminação Pública</a></li>
               <li><a href="https://senhas.novafriburgo.rj.gov.br/login/?next=/">Senhas de Turismo</a></li>              
               <li><a href="https://culturanf.novafriburgo.rj.gov.br/">Mapeamento Cultural</a></li>
-              <!-- <li><a href="">Homologados</a></li>
-              <li><a href="">API</a></li> -->
             </ul>
           </div>
         </div>
@@ -690,7 +653,7 @@
       <div class="row">
         <div class="col text-center py-2 bg-f">
           <a href="#">
-            © SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR.
+            &copy SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR.
           </a>
           <a class="ms-4" href="">
             Política de Privacidade

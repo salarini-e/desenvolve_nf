@@ -8,14 +8,11 @@
             09:00 às 17:00 de Seg. à Sex. <br>
             (22) 2521-1558</p>
           <p class="mx-auto mt-4 text-light">
-            <a class="text-light" target="_blank" href="https://www.facebook.com/polouerjnovafriburgo/">
+            <a class="text-light" target="_blank" href="https://www.facebook.com/desenvolvenf/">
               <i class="fa-brands fa-facebook me-4 mb-2"></i>
             </a>                
-            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
+            <a class="text-light" target="_blank" href="https://www.instagram.com/desenvolvenf/">
               <i class="fa-brands fa-instagram me-4 mb-2"></i>
-            </a>
-            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
-              <i class="fa-brands fa-twitter me-4"></i>
             </a>
           </p>
         </div>
@@ -23,28 +20,20 @@
           <div class="me-5">
             <p class="text-light pb-3 text-center">Plataformas</p>
             <ul>
-              <li><a href="">Capacitação Profissional</a></li>
-              <li><a href="">Cidade Inteligente</a></li>
-              <li><a href="">Eventos</a></li>
-              <li><a href="">Finanças</a></li>
-              <li><a href="">APIs</a></li>
-              <!-- <li><a href=""></a></li>
-              <li><a href=""></a></li>
-              <li><a href=""></a></li>
-              <li><a href=""></a></li> -->
+              <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+              <li><a href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>
+              <li><a href="{% url 'eventos:index' %}">Eventos</a></li>
+              <li><a href="{% url 'financas:index' %}">Finanças</a></li>
             </ul>
           </div>
           <div>
             <p class="text-light pb-3 text-center">Sistemas</p>
             <ul>
-              <li><a href="">Bem Estar Animal</a></li>
-              <li><a href="">Casa do Trabalhador  </a></li>
-              <li><a href="">Cidade Segura</a></li>
-              <li><a href="">Cidade Limpa</a></li>
-              <li><a href="">Senhas de Turismo</a></li>              
-              <li><a href="">Mapeamento Cultural</a></li>
-              <!-- <li><a href="">Homologados</a></li>
-              <li><a href="">API</a></li> -->
+              <li><a href="{% url 'bemestaranimal:index' %}">Bem Estar Animal</a></li>
+              <li><a href="https://casadotrabalhador.pmnf.rj.gov.br/">Casa do Trabalhador</a></li>
+              <li><a href="{% url 'iluminacao:os_index' %}">Iluminação Pública</a></li>
+              <li><a href="https://senhas.novafriburgo.rj.gov.br/login/?next=/">Senhas de Turismo</a></li>              
+              <li><a href="https://culturanf.novafriburgo.rj.gov.br/">Mapeamento Cultural</a></li>
             </ul>
           </div>
         </div>
@@ -52,7 +41,7 @@
       <div class="row">
         <div class="col text-center py-2 bg-f">
           <a href="#">
-            © SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR - 2023.
+            &copy SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR - 2023.
           </a>
         </div>
       </div>
