@@ -29,6 +29,7 @@
                     <th>Castrado</th>
                     <th>Espécie</th>
                     <th>Anilha</th>
+                    <th>Foto</th>
                     <th>Editar</th>
                 </tr>
             </thead>
@@ -45,7 +46,7 @@
                     <td>-</td>
                     {% endif %}
                     <td>{{animal.tipo}}</td>
-                    {% if animal.sexo == 'm' %}
+                    {% if animal.sexo == 'o' %}
                     <td>Macho</td>
                     {% else %}
                     <td>Fêmea</td>
@@ -62,6 +63,12 @@
                     {% endif %}
                     {% if animal.tipo.id == 1 %}    
                     <td>{{animal.anilha}}</td>
+                    {% else %}
+                    <td>-</td>
+                    {% endif %}
+                    {% if animal.animal_image %}
+                    <td>
+                        <a target="_blank" href="{{animal.animal_image.url}}"><i class="fa-solid fa-image"></i></a></td>
                     {% else %}
                     <td>-</td>
                     {% endif %}

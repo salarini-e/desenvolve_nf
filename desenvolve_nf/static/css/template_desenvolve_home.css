@@ -604,6 +604,214 @@ h1, h2, h3, h4{
   }
 }
 
+/* Responsividade daqui para baixo. Os de cima não sei. */
+@media(min-width: 1368px){
+  .empregados_destaque .s-avatar{
+    width: 10vw !important;
+    height: 10vw !important;
+  }
+  .empregados_destaque .brasao{
+    width: 3vw !important;
+    height: 3vw !important;
+  }
+  .wrapper-1,
+  .wrapper-2 {
+    display: flex;
+  }
+  .wrapper-1 .item,
+  .wrapper-2 .item{
+    margin-left: 0px;
+  }
+}
+@media(min-width: 1001px) and (max-width: 1367px){
+  .logo-nf{
+    width: 500px;
+  }
+  .logo-1{
+    width: 60px;
+  }
+  .logo-2{
+    width: 100px;
+  }
+  .item img{
+    width: 800px !important;
+    height: 350px !important;
+  }
+  .owl-nav{
+    display: none;
+  }
+  .text-left{
+    font-size: 1.2rem;
+  }
+  .px-5{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+  .col-5{
+    width: 100%;
+  }
+  .ps-5{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .pe-5{
+    padding-right: 0px !important;
+  }
+  .empregados_destaque{
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+  .empregados_destaque .s-avatar{
+    width: 20vw !important;
+    height: 20vw !important;
+  }
+  .empregados_destaque .brasao{
+    width: 10vw !important;
+    height: 10vw !important;
+  }
+  .p-5{
+    padding: 0px !important;
+    padding-bottom: 50px !important;
+  }
+  .wrapper-1,
+  .wrapper-2 {
+    display: flex;
+    flex-direction: row;
+  }
+  .wrapper-1 .item,
+  .wrapper-2 .item{
+    margin-left: 40px;
+  }
+}
+@media(min-width: 601px) and (max-width:1000px){
+  .logo-nf{
+    width: 200px;
+  }
+  .logo-1{
+    display:none;
+  }
+  .barrinha{
+    display: none;
+  }
+  .logo-2{
+    width: 100px;
+  }
+  .item img{
+    width: 300px !important;
+    height: 200px !important;
+  }
+  .owl-nav{
+    display: none;
+  }
+  .text-left{
+    font-size: 1.2rem;
+  }
+  .px-5{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+  .col-5{
+    width: 100%;
+  }
+  .ps-5{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .pe-5{
+    padding-right: 0px !important;
+  }
+  .empregados_destaque{
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+  .empregados_destaque .s-avatar{
+    width: 30vw !important;
+    height: 30vw !important;
+  }
+  .empregados_destaque .brasao{
+    width: 20vw !important;
+    height: 20vw !important;
+  }
+  .p-5{
+    padding: 0px !important;
+    padding-bottom: 50px !important;
+  }
+  .wrapper-1,
+  .wrapper-2 {
+    display: flex;
+    flex-direction: row;
+  }
+  .wrapper-1 .item,
+  .wrapper-2 .item{
+    margin-left: 50px;
+  }
+}
+@media(min-width: 320px) and (max-width:600px){
+  .logo-nf{
+    width: 200px;
+  }
+  .logo-1{
+    display:none !important;
+  }
+  .barrinha{
+    display: none !important;
+  }
+  .logo-2{
+    width: 100px;
+  }
+  .item img{
+    width: 300px !important;
+    height: 200px !important;
+  }
+  .owl-nav{
+    display: none;
+  }
+  .text-left{
+    font-size: 1.2rem;
+  }
+  .px-5{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+  .col-5{
+    width: 100%;
+  }
+  .ps-5{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .pe-5{
+    padding-right: 0px !important;
+  }
+  .empregados_destaque{
+    display: block !important;
+  }
+  .empregados_destaque .s-avatar{
+    width: 100px !important;
+    height: 100px !important;
+  }
+  .p-5{
+    padding: 0px !important;
+    padding-bottom: 50px !important;
+  }
+  .empregados_destaque .brasao{
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+
 .item h2{
   font-size: 20pt;
 }

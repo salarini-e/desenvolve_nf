@@ -1,7 +1,7 @@
 <script src="https://assets.hgbrasil.com/weather/js/hg-weather-1.0.js" type="text/javascript"></script>
 <div id="navegacao" class="container">
     <div class="row">
-      <div class="col  d-flex">
+      <div class="col d-flex">
         <a href="/"  class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div class="s-nav rounded-circle {% block index %}{% endblock %}"></div>
@@ -41,19 +41,20 @@
         </a>
         {% endif %}
       </div>
-      <div class="col-5 d-flex" data-key="development" data-woeid="455827">
-        <div class="ms-auto d-flex">
-          <img class="me-4" style="height: 80px;" src="/static/images/clima_icons/chuva.png" alt="">
-          <h2 id="atual">18</h2>
+      <div class="col d-flex" data-key="development" data-woeid="455827">
+        <div class="ms-auto d-flex" id="clima-nav">
+          
+          <img class="me-4" style="height: 80px;" src="{{ clima.timeBeholder }}" alt="">
+          <h2 id="atual">{{clima.maxTemp}}</h2>
           <div id="temperatura">
             <h2>°C</h2>
             <div class="d-flex">
               <div class="d-flex ps-3 py-2">
-                <span data-weather="temp">00</span>
+                <span data-weather="temp" id="min">{{clima.minTemp}}</span>
                 <span style="font-size: 8pt;">ºC</span>
               </div>
               <div class="d-flex ps-2 py-2">
-                <span>99</span>
+                <span id="max">{{clima.maxTemp}}</span>
                 <span style="font-size: 8pt;">ºC</span>
               </div>
             </div>

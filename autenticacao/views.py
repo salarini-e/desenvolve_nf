@@ -22,7 +22,10 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')
+            try:
+                return redirect(request.GET['next'])
+            except:
+                return redirect('/')
         else:
             context = {
                 'error': True,
@@ -87,7 +90,10 @@ def cadastro_user(request):
                         pessoa.save()
                         messages.success(
                             request, 'Usuário cadastrado com sucesso!')
-                        return redirect('/login')
+                        try:
+                            return redirect(request.GET['next'])
+                        except:
+                            return redirect('/login')
                     except Exception as e:
                         messages.error(
                             request, 'Email de usuário já cadastrado')
@@ -100,7 +106,7 @@ def cadastro_user(request):
     context = {
         'form_pessoa': form_pessoa,
         'is_user': is_user
-    }
+    }    
     return render(request, 'adm/cadastro.html', context)
 
 @login_required
@@ -116,7 +122,11 @@ def cadastro_aluno(request):
             aluno.save()
 
             messages.success(request, "Cadastro completo!")
-            return redirect('cursos:home')
+            try:
+                return redirect(request.GET['next'])
+            except:
+                return redirect('cursos:home')
+            
 
 
     context = {

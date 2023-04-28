@@ -10,11 +10,6 @@
   <title>
     {% block title %}{{titulo}}{% endblock %}
   </title>
-  <!-- GOOGLE FONTS -->
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&family=Montserrat&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
-   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -44,15 +39,6 @@
 </head>
 
 <body class="container-fluid">
-  <!-- <div id="preloading">
-        <img class="mx-auto mt-auto img-fluid logo" src="/static /images/logo_pmnf.png" alt="">
-        <div class="mx-auto mb-auto lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div> -->
   <header class="row">
     <div class="col" style="border-bottom: 1px solid rgb(255, 255, 255);">
       <div class="row" id="nav-superior">
@@ -73,20 +59,16 @@
                   Outros sistemas
                 </a>                                  
                 <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-                  <!-- <li><a class="btn btn-outline-primary" href="#">
-                    Acessar
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li> -->
                   <li class="mt-1"><b>Sistemas:</b></li>
                   <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
                   <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
-                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
+                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                        
                   <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
                   <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-                  
                 </ul> 
               </div></li>
-              <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a></li>            </ul>
+              <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a></li>           
+            </ul>
           </div>
           <div class="my-auto mx-auto offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <ul class="nav-a offcanvas-body navMob">
@@ -99,23 +81,17 @@
                   Outros sistemas
                 </a>                                  
                 <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-                  <!-- <li><a class="btn btn-outline-primary" href="#">
-                    Acessar
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li> -->
                   <li class="mt-1"><b>Sistemas:</b></li>
                   <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
                   <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
                   <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
                   <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
                   <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-                  
                 </ul>
               </div></li>
               <div class="nv-login ms-3 mt-2 my-auto">
                 {% if not request.user.is_authenticated %}
                 <a href="{% url 'autenticacao:login' %}" class="pe-2 btn btn-acesso btLogin" type="submit">
-                  <!-- <i class="fa-regular fa-user me-2"></i> -->
                   <i class="fa-solid fa-user-check me-2"></i>
                   Acessar</a>
                 {% else %}
@@ -129,8 +105,6 @@
                     {% if request.user.is_superuser %}
                     <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
                     {% endif %}
-                    <!-- <li><a class="dropdown-item py-2 text-center" href="#">Meu perfil</a></li> -->
-                    <!-- <li><a class="dropdown-item py-2" href="#">Meu perfil</a></li> -->
                     <li>
                       <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
                         <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
@@ -143,26 +117,22 @@
             </ul>
             <div class="nv-social ms-auto d-flex">
               <div class="d-flex my-auto">
-                <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto MobileSocial"><i
+                <div class="rounded-circle d-social d-flex mx-2"><a href="https://www.instagram.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i
                       class="fa-brands fa-instagram"></i></a></div>
-                <div class="rounded-circle d-social d-flex"><a href="" class="a-social m-auto MobileSocial"><i
+                <div class="rounded-circle d-social d-flex"><a href="https://www.facebook.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i
                       class="fa-brands fa-facebook-f"></i></a>
                 </div>
-                <div class="rounded-circle d-social d-flex mx-2"><a href="" class="a-social m-auto MobileSocial"><i
-                      class="fa-brands fa-twitter"></i></a></div>
               </div>
             </div>
 
           </div>
           <div class="nv-social ms-auto d-flex navegacaoMobile">
             <div class="d-flex my-auto navegacaoMobile">
-              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
+              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="https://www.instagram.com/desenvolvenf/" class="a-social m-auto navegacaoMobile"><i
                     class="fa-brands fa-instagram"></i></a></div>
-              <div class="rounded-circle d-social d-flex navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
+              <div class="rounded-circle d-social d-flex navegacaoMobile"><a href="https://www.facebook.com/desenvolvenf/" class="a-social m-auto navegacaoMobile"><i
                     class="fa-brands fa-facebook-f"></i></a>
               </div>
-              <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="" class="a-social m-auto navegacaoMobile"><i
-                    class="fa-brands fa-twitter"></i></a></div>
             </div>
           </div>
           <div class="nv-login ms-5 my-auto navegacaoMobile">
@@ -244,7 +214,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col  d-flex justify-content-center pt-4">
+      <div class="col d-flex flex-wrap justify-content-center pt-4">
         <a href="{% url 'bemestaranimal:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="bemestaranimal" class="s-nav rounded-circle"></div>
@@ -293,7 +263,7 @@
             <p class="text-dark text-center">Senhas de<br>Turismo</p>
           </div>
         </a>
-        <a href="culturanf.novafriburgo.rj.gov.br" class="me-3">
+        <a href="https://culturanf.novafriburgo.rj.gov.br/" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="mapeamento" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Mapeamento<br>Cultural</p>
@@ -405,27 +375,38 @@
       </div>
     </div> -->
     <div class="row container mx-auto py-5 px-5 mb-5">
-      <h1 class="text-cleft"><strong>Bem vindo a nossa plataforma!</strong></h1>
+      <h1 class="text-center"><strong>Bem vindo a nossa plataforma!</strong></h1>
       <div class="col d-flex pt-4">
-        <div class="mx-auto pe-5" style="max-width: 800px;">
-          <p class="text-justify">Bem-vindo ao site da Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior - Desenvolvenf! Aqui você encontrará uma ampla gama de recursos e informações destinados a ajudar a promover o crescimento econômico e o desenvolvimento social em nossa cidade. Oferecemos serviços e programas para ajudar indivíduos e empresas a se manterem atualizados em relação às últimas tecnologias e inovações, bem como a aprimorar suas habilidades e oportunidades de carreira por meio de cursos, palestras e capacitações profissionais.</p>
+        <div class="mx-auto" style="max-width: 800px;">
+          <p class="text-justify">Bem-vindo ao site da Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior: Desenvolve NF! Aqui você encontrará uma ampla gama de recursos e informações destinados a ajudar a promover o crescimento econômico e o desenvolvimento social em nossa cidade. Oferecemos serviços e programas para ajudar indivíduos e empresas a se manterem atualizados em relação às últimas tecnologias e inovações, bem como a aprimorar suas habilidades e oportunidades de carreira por meio de cursos, palestras e capacitações profissionais.</p>
+          <img class="img-fluid m-auto" style="border-radius: 30px;" src="/static/images/laptop.png" alt="Desenvolve Nova Friburgo">
           <p class="text-justify mt-3">Confira as várias abas de recursos da nossa secretaria e prefeitura navegando pelo nosso site, para descobrir como podemos ajudá-lo e se manter atualizado em relação à ciência, tecnologia, desenvolvimento inovador, além de fornecer informações sobre a cidade inteligente e as oportunidades de emprego e de carreira disponíveis na Casa do Trabalhador. E não se esqueça de conferir a seção de eventos, que contém informações sobre as próximas capacitações, palestras e cursos oferecidos pela nossa secretaria.</p>
+          <div class="row container mx-auto pt-5 px-5 mb-5">      
+            <h2 class="text-center"><strong>Faça seu cadastro!</strong></h2>
+            <div class="col d-flex pt-4">
+              <div class="mx-auto" style="max-width: 800px;">
+               <div class="row">
+                <div class="col p-0">
+                  <a href="{% url 'autenticacao:cadastrar_usuario' %}" class="h-100 2-100 btn btn-primary px-5 py-3" style="background: linear-gradient(0deg, rgb(241, 176, 55) 0%, rgba(223,146,0,1) 100%); border: none; color: black; border-radius: 10px !important; font-family: 'Inter'; font-style: normal; font-weight: 600;">
+                    <h4 class="py-0 my-0">Cadastrar-se</h4>
+                  </a>
+                </div>                
+               </div>
+              </div>
+            </div>          
+          </div>
           <p class="text-justify mt-3">Entre em contato conosco para saber mais sobre como podemos trabalhar juntos para construir um futuro melhor e mais próspero para nossa cidade. 
         </div>
-      </div>
-      <div class="col-5 d-flex">
-        <div class="mx-auto d-flex" style="max-width: 800px;">
-          <img class="img-fluid m-auto" style="border-radius: 30px;" src="/static/images/teste.png" alt="Desenvolve Nova Friburgo">
-        </div>
-      </div>
-    </div>    
+      </div>      
+    </div>  
+      
     <div class="row pb-5" style="background-color: #2F2F2F;">
-      <div class="col px-0 py-5 d-flex justify-content-evenly flex-wrap">
+      <div class="col px-0 py-4 d-flex justify-content-evenly flex-wrap">
         <div class="owl-carousel owl-theme">
           <div class="item d-flex">
             <div class=" d-flex flex-column ps-5 pe-3">
               <img class="me-auto mt-auto" src="/static/images/desenvolve_economia.png" alt=""
-                style="max-width: 336px;">
+                style="width: 336px;">
               <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid " alt="">
             </div>            
           </div>
@@ -461,8 +442,8 @@
         </div>
       </div>
     </div>
-    <div class="row container mx-auto py-5 px-5 mt-5">
-      <h1 class="text-left"><b>Lorem, ipsum dolor sit amet</b></h1>
+    <!-- <div class="row container mx-auto py-5 px-5 mt-5">
+      <h1 class="text-center"><b>Lorem, ipsum dolor sit amet</b></h1>
       <div class="col d-flex pt-5">
         <div class="mx-auto pe-5" style="max-width: 800px;">
           <p class="text-justify">Bem-vindo ao site da Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior - Desenvolvenf! Aqui você encontrará uma ampla gama de recursos e informações destinados a ajudar a promover o crescimento econômico e o desenvolvimento social em nossa cidade. Oferecemos serviços e programas para ajudar indivíduos e empresas a se manterem atualizados em relação às últimas tecnologias e inovações, bem como a aprimorar suas habilidades e oportunidades de carreira por meio de cursos, palestras e capacitações profissionais.</p>
@@ -473,83 +454,44 @@
         <div class="mx-auto ps-5" style="max-width: 800px;">
           <img class="img-fluid" style="border-radius: 30px;" src="/static/images/img_1.png" alt="Desenvolve Nova Friburgo">
         </div>
-      </div>
+      </div> -->
     </div>    
-    <section id="plataformas" class="px-0">
-      <div class="row container mx-auto py-5 mb-5 px-0">
-        <h1 class="text-left"><b>Lorem, ipsum dolor sit amet</b></h1>
-        <img style="border-radius: 30px;" src="/static/images/c.png" class="img-fluid mt-4" alt="">
-        <div class="col d-flex pt-5">
-          <div class="mx-auto pe-5" style="max-width: 800px;">
-            <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
-              aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis
-              quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
-              eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
-              repudiandae quaerat rem corrupti.</p>
-            <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum
-              exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure
-              reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a?
-              Distinctio repudiandae quaerat rem corrupti.</p>
-          </div>
-        </div>
-        <div class="col d-flex pt-5">
-          <div class="mx-auto ps-5" style="max-width: 800px;">
-            <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum exercitationem,
-              aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure reiciendis
-              quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
-              eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a? Distinctio
-              repudiandae quaerat rem corrupti.</p>
-            <p class="text-justify mt-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorum
-              exercitationem, aperiam dolore tempore quas culpa, nisi officiis odio cum et pariatur asperiores sint iure
-              reiciendis quasi rerum nesciunt consequatur voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Illo eos eius nulla in enim mollitia perferendis commodi ipsam dolorum nam, neque sed, at veniam a?
-              Distinctio repudiandae quaerat rem corrupti.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    
 
     <section class="px-0">
-      <div class="row px-0 border-top">
+      <div class="row px  ">
         <div class="col px-0 py-5 mt-4" id="particles">
-          <div class="d-flex justify-content-evenly">
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/prefeito.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Johnny Maycon</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Prefeito de Nova Friburgo</b></h6>
-              <img style="width: 40px;" class="mx-auto" src="/static/images/brasao.jpeg" alt="">
-
+          <div class="empregados_destaque d-flex justify-content-evenly">
+            <div class="wrapper-1">
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/jony.jfif" alt="">
+                <h2 class="text-center mt-3 mb-2">Johnny Maycon</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Prefeito de Nova Friburgo</b></h6>
+                <img style="width: 40px;" class="mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/sergio.jfif" alt="">
+                <h2 class="text-center mt-3 mb-2">Sergio Sobrenome</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Vice-Prefeito de Nova Friburgo</b></h6>
+                <img style="width: 40px;" class=" mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
             </div>
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/vice.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Sergio Sobrenome</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Vice-Prefeito de Nova Friburgo</b></h6>
-              <img style="width: 40px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
+            <div class="wrapper-2">
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/andre.jfif" alt="">
+                <h2 class="text-center mt-3 mb-2">Andre Montechiari</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia</b></h6>
+                <img style="width: 40px;" class="mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
+              <div class="item d-flex flex-column p-5">
+                <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar" src="/static/images/pessoas/rodrigo.png" alt="">
+                <h2 class="text-center mt-3 mb-2">Rodrigo França</h2>
+                <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Finanças</b></h6>
+                <img style="width: 40px;" class=" mx-auto brasao" src="/static/images/brasao.jpeg" alt="">
+              </div>
             </div>
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/secretario.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Andre Montechiari</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Ciência e Tecnologia</b></h6>
-              <img style="width: 40px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
-            </div>
-            <div class="item d-flex flex-column p-5">
-              <img style="width: 200px; height: 200px;" class="rounded-circle m-auto s-avatar"
-                src="/static/images/pessoas/secretario.png" alt="">
-              <h2 class="text-center mt-3 mb-2">Andre Montechiari</h2>
-              <h6 class="text-center mb-4"><b class="mx-auto">Secretario de Finanças</b></h6>
-              <img style="width: 40px;" class=" mx-auto" src="/static/images/brasao.jpeg" alt="">
-            </div>
-            
-            
-
-
-
           </div>
-        </div>
+        </div>        
         <!-- <div class="row py-5 my-5">
                         <div class="col d-flex flex-column">                            
                           
@@ -671,50 +613,39 @@
     <div class="col">
       <div class="row  pt-5 pb-4 mobile-flex-column footer-sup text-light">
         <div class="col d-flex flex-column justify-content-center">
-          <img class="img-fluid logo m-auto" src="/static/images/logo_desenvolvenfpmnf.png" alt="">
+          <img class="img-fluid logo m-auto" src="/static/images/logo_desenvolve_2.png" alt="">
           <p class="mx-auto mt-4 text-f">SECRETARIA MUNICIPAL DE CULTURA DE NOVA FRIBURGO
             R. Farinha Filho, 50 - Centro, Nova Friburgo - RJ, 28610-175 <br>
             09:00 às 17:00 de Seg. à Sex. <br>
             (22) 2521-1558</p>
           <p class="mx-auto mt-4 text-light">
-            <a class="text-light" target="_blank" href="https://www.facebook.com/polouerjnovafriburgo/">
+            <a class="text-light" target="_blank" href="https://www.facebook.com/desenvolvenf//">
               <i class="fa-brands fa-facebook me-4 mb-2"></i>
             </a>
-            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
+            <a class="text-light" target="_blank" href="https://www.instagram.com/desenvolvenf//">
               <i class="fa-brands fa-instagram me-4 mb-2"></i>
-            </a>
-            <a class="text-light" target="_blank" href="https://www.instagram.com/polouerjnovafriburgo/">
-              <i class="fa-brands fa-twitter me-4"></i>
             </a>
           </p>
         </div>
         <div class="col d-flex justify-content-center">
-          <div class="me-5">
-            <p class="text-light pb-3">Páginas</p>
+          <div class="me-5 my-auto">
+            <p class="text-light pb-3 text-center">Plataformas</p>
             <ul>
-              <li><a href="">Soluções</a></li>
-              <li><a href="">Transmissão online</a></li>
-              <li><a href="">Cursos online</a></li>
-              <li><a href="">Preço</a></li>
-              <li><a href="">Integrações</a></li>
-              <li><a href="">Cases de sucesso</a></li>
-              <li><a href="">Consultor de vendas</a></li>
-              <li><a href="">Homologados</a></li>
-              <li><a href="">API</a></li>
+              <li><a href="https://pmnf.rj.gov.br/site/">Prefeitura Municipal</a></li>
+              <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+              <li><a href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>
+              <li><a href="{% url 'eventos:index' %}">Eventos</a></li>
+              <li><a href="{% url 'financas:index' %}">Finanças</a></li>
             </ul>
           </div>
-          <div>
-            <p class="text-light pb-3">Páginas</p>
+          <div class="my-auto">
+            <p class="text-light pb-3 text-center">Sistemas</p>
             <ul>
-              <li><a href="">Soluções</a></li>
-              <li><a href="">Transmissão online</a></li>
-              <li><a href="">Cursos online</a></li>
-              <li><a href="">Preço</a></li>
-              <li><a href="">Integrações</a></li>
-              <li><a href="">Cases de sucesso</a></li>
-              <li><a href="">Consultor de vendas</a></li>
-              <li><a href="">Homologados</a></li>
-              <li><a href="">API</a></li>
+              <li><a href="{% url 'bemestaranimal:index' %}">Bem Estar Animal</a></li>
+              <li><a href="https://casadotrabalhador.pmnf.rj.gov.br/">Casa do Trabalhador</a></li>
+              <li><a href="{% url 'iluminacao:os_index' %}">Iluminação Pública</a></li>
+              <li><a href="https://senhas.novafriburgo.rj.gov.br/login/?next=/">Senhas de Turismo</a></li>              
+              <li><a href="https://culturanf.novafriburgo.rj.gov.br/">Mapeamento Cultural</a></li>
             </ul>
           </div>
         </div>
@@ -722,7 +653,7 @@
       <div class="row">
         <div class="col text-center py-2 bg-f">
           <a href="#">
-            © SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR.
+            &copy SECRETARIA DE CIÊNCIA, TECNOLOGIA, INOVAÇÃO E EDUCAÇÃO PROFISSIONALIZANTE E SUPERIOR.
           </a>
           <a class="ms-4" href="">
             Política de Privacidade

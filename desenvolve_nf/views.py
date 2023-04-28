@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Carousel_Index
 from .models import ClimaTempo
+from .functions import ClimaTempoTemperaturas
+
 
 # Create your views here.
 def index(request):
@@ -9,18 +11,21 @@ def index(request):
     }
     return render(request, 'index_desenvolvenf.html', context)
 
-def cidade_inteligente(request):
+def getClimaTempo(request):
     #processos
-    climaTempo = ClimaTempo.objects.all()[0]
+    ClimaTempoTemperaturas()
     
     #fim de processos
     context={
-        'climaTempo': climaTempo
+
     }
     return render(request, 'cidade_inteligente.html', context)
 
 def cidade_inteligente_home(request):
+    clima = ClimaTempo.objects.first()
+    print(clima.turno())
     context = {
-        'titulo': 'Cidade Inteligente'
+        'titulo': 'Cidade Inteligente',
+        'clima': clima
     }
     return render(request, 'cidade_inteligente.html', context)

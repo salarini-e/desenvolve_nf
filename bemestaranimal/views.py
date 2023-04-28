@@ -16,7 +16,7 @@ def cadastro_tutor(request):
             if pessoa:
                 pass
         except:
-            return redirect('cadastrar_usuario')
+            return redirect('bemestaranimal:cadastrar_usuario')
         try:
             tutor = Tutor.objects.get(pessoa_id=pessoa.id)
             verify = True
@@ -29,12 +29,12 @@ def cadastro_tutor(request):
         else:
             return redirect('index')
     else:
-        return redirect('cadastrar_usuario')
+        return redirect('autenticacao:cadastrar_usuario')
     if request.method == "POST":
         form_tutor = Form_Tutor(request.POST)
         if form_tutor.is_valid():
             form_tutor.save()
-            return redirect('index')
+            return redirect('bemestaranimal:index')
     context={
         'form_tutor':form_tutor,
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
@@ -58,7 +58,7 @@ def area_tutor(request):
         tutor = Tutor.objects.get(pessoa_id=pessoa.id)
     except:
         messages.error(request, 'Você não é cadastrado como tutor!')
-        return redirect('completar_cadastro')
+        return redirect('bemestaranimal:completar_cadastro')
     context={
         'titulo': apps.get_app_config('bemestaranimal').verbose_name,
     }
@@ -165,7 +165,20 @@ def catalogo(request):
 
 def entrevistaAdocao(request, id):
     animal = Catalogo.objects.get(pk=id)
-    entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={'animal':animal})
+    try:
+        pessoa=Pessoa.objects.get(user=request.user)
+        entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={
+            'animal':animal,
+            'nome': pessoa.nome,
+            'cpf': pessoa.cpf,
+            'telefone': pessoa.telefone,
+            'bairro': pessoa.bairro,
+            'endereco': pessoa.endereco
+            })
+    except:
+        pessoa=None
+        entrevistaPrevia_Form = Form_EntrevistaPrevia(initial={'animal':animal})
+    
     if request.method == "POST":
         entrevistaPrevia_Form = Form_EntrevistaPrevia(request.POST)
         if entrevistaPrevia_Form.is_valid():

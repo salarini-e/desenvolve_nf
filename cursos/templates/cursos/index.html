@@ -25,8 +25,8 @@
         <h7 class="mb-1 text-wrap">
           {{eventos.0.descricao}}
         </h7>
-        <p class="inf text-secondary mt-2">Com transmissão online</p>
-        <button class="btn btn-outline-primary btn-details me-auto" id="esp">Detalhes</button>
+        <!-- <p class="inf text-secondary mt-2">Com transmissão online</p> -->
+        <a href="{% url 'eventos:detalhe' eventos.0.id %}" class="btn btn-outline-primary btn-details me-auto" id="esp">Detalhes</a>
       </div>
     </div>
   </div>
@@ -63,7 +63,6 @@
 <!-- <div class="row">
   <h2 class="ms-5 pt-5 pb-4">Ensino Superior e Técnico</h2>
 </div>
-
 <div class="row mx-auto px-5">
   <div class="d-flex justify-content-evenly">
     <div class="item">
@@ -85,6 +84,54 @@
   </script>
 </div>
 </div>
+{% if messages %}              
+<!-- MODAL -->
+<div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        {% for message in messages %}
+        <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
+          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
+          <button type="button" onclick="myModal.hide();" class="btn-close"></button>
+        </div>
+        <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
+           
+          <p class="px-4 py-3 text-center">
+            {{ message|escape }}
+          </p>
+          
+          
+        </div>
+        <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
+          
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>   
+  <script>
+   var myModal = new bootstrap.Modal(document.getElementById('resposta'))
+   myModal.toggle()
+  </script>
+  <style>
+    .error{
+      background-color: rgb(238, 171, 171);
+      color: darkred;
+      font-weight: 600;
+    }
+    .success{
+      background-color: rgb(182, 238, 171);
+      color: rgb(0, 139, 19);
+      font-weight: 600
+    }
+    .warning{
+      background-color: rgb(238, 226, 171);
+      color: rgb(139, 107, 0);
+      font-weight: 600
+    }
+  </style>
+{% endif %} 
 {% endblock %}
 {% block footer %}
 {% include 'instagram_desenvolve.html' %}

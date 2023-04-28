@@ -15,7 +15,7 @@
         <div class="row w-100">
             <div class="col-10 pb-4 m-auto bg-white">
               <h2 class="px-4 py-2" style="background-color: rgba(228, 228, 228, 0.644); border-radius: 30px;">
-                Formulário de pré-inscrição
+                Formulário de pré-inscrição {{age}}
                 </h2>    
                 <div class="row">
                     <div class="col text-dark px-4 pt-4">                      
@@ -37,9 +37,10 @@
                                       <br>
                                       <hr>
                                       <br>
-
+                                      {% if age < 18 %}
                                       <h2 class="pb-2">Formulário do responsável:</h2>
                                       {% bootstrap_form form_responsavel %}
+                                      {% endif %}
                                       <div>
 
                                       
