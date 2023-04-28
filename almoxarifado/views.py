@@ -109,8 +109,8 @@ def retirar_material_do_estoque(request, id):
             if log.add_quantidade == 1:
                 messages.success(request, f"{log.add_quantidade} unidade foi removida do estoque. Total: {material.qnt_em_estoque}.")
             else: 
-                messages.success(request, f"{log.add_quantidade} unidadesforam removidas do estoque. Total: {material.qnt_em_estoque}.")
-            return redirect('almoxarifado:index')
+                messages.success(request, f"{log.add_quantidade} unidades foram removidas do estoque. Total: {material.qnt_em_estoque}.")
+            return redirect('iluminacao:detalhes_os', id)
     else:
         form = Log_estoque_Form(initial={'tipo_movimentacao': 'S'})
         form_tipo = Exibir_Tipo_Material_Form()
@@ -120,7 +120,7 @@ def retirar_material_do_estoque(request, id):
         'form': form,
         'form_tipo': form_tipo
     }
-    return render(request, 'almoxarifado/adicionar_material_ao_estoque.html', context)
+    return render(request, 'almoxarifado/remover_material_ao_estoque.html', context)
 
 
 @login_required

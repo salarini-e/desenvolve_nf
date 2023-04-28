@@ -1,0 +1,41 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
+
+{% endblock %}
+{% block administrativo %}fw-bold{% endblock %}
+{% block main %}
+<div class="row">
+    <div class="col d-flex"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">                  
+                <div class="row">
+                    <div class="col px-4 d-flex">
+                        <a class="ms-auto" href="{% url 'almoxarifado:index' %}">
+                          <i class="fa-solid fa-rotate-left me-2"></i>Voltar
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col px-4">
+                        <form method="POST">
+                          <h3>Formulário para remover material do estoque</h3>                          
+                          {% csrf_token %}
+                          {% bootstrap_form form_tipo %}
+                          {% bootstrap_form form %}
+                          <button type="submit" class="btn btn-primary">
+                            Remover
+                          </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+{% endblock %}
