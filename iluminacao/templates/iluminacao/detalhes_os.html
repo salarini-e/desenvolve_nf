@@ -66,7 +66,10 @@
                                   {% endif %}                                  
                                   {% endfor %}
                                 </ul>
-                              </div>                              
+                              </div> 
+                              <a href="{% url 'iluminacao:imprimir' os.id %}" target="_blank" class="btn btn-dark mt-3 mb-auto py-1 ms-2">
+                                <i class="fa-solid fa-print"></i>
+                              </a>                             
                             </div>
                           </div>
                           <div class="row">
@@ -78,8 +81,16 @@
                                 </span>
                               </div>
                               <div class="w-100 pt-3">
-                                <b>Motivo da OS</b>
-                                <p>{{os.motivo_reclamacao}}</p>
+                                <div class="row">
+                                  <div class="col">
+                                    <b>Motivo da OS</b>
+                                    <p>{{os.motivo_reclamacao}}</p>
+                                  </div>
+                                  <div class="col">
+                                    <b>Cadastrado por:</b>
+                                    <p>{{os.cadastrado_por.nome}} ({{os.cadastrado_por.email}})</p>
+                                  </div>
+                                </div>
                               </div>
                               <div class="w-100 py-2">
                                 <b>Endereço:</b>
@@ -93,14 +104,9 @@
                                     <p>{{os.dt_solicitacao}}</p>
                                   </div>
                                   <div class="col">
-                                    <b>Dt. de conclusão:</b>
                                     {% if os.dt_conclusao %}
-                                    <p>{{os.dt_conclusao}}</p>
-                                    {% else %}
-                                    <br>
-                                    <button class="ms-auto my-auto py-1 px-4 text-capitalize btn btn-dark px-2 py-0"  data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                      Concluir chamado
-                                  </button> 
+                                    <b>Dt. de conclusão:</b>                                    
+                                    <p>{{os.dt_conclusao}}</p>                                    
                                     {% endif %}
                                   </div>
                                 </div>
@@ -111,8 +117,8 @@
                                 <h4 class="my-0">Contribuinte</h4>
                               </div>
                               <div class="border py-4 px-4">
-                                <p class="d-flex"><b class="me-auto">Nome:</b>{{os.contribuinte.nome}}</p>
-                                <p class="d-flex"><b class="me-auto">Telefone:</b>{{os.contribuinte.telefone}}</p>
+                                <p class="d-flex"><b class="me-auto">Nome:</b>{{os.nome_do_contribuinte}}</p>
+                                <p class="d-flex"><b class="me-auto">Telefone:</b>{{os.telefone_do_contribuinte}}</p>                                
                               </div>    
                               <div class="border  py-4 px-4 mt-3">
                                 <p class="d-flex me-2"><b class="me-auto">Atribuir</b></p>

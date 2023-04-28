@@ -16,8 +16,23 @@
             <div class="col-10 pb-4 m-auto bg-white">                           
                 <div class="row">
                     <div class="col px-4 pb-5 ">                                                
-                        <div class="px-2 pt-4">
-                        <h2>Serviços Solicitados</h2>
+                        <div class="px-2 pt-4 d-flex">
+                        <h2 style="display: inline;">Serviços Solicitados</h2>
+                        <form method="POST" class="ms-auto my-auto d-flex">                          
+                          {% csrf_token %}
+                          <input name="valor_da_busca" id="id_valor_da_busca" type="search" class="form-control" placeholder="Buscar" style="width: 300px;  border-radius: 8px !important;">
+                          <select name="tipo_da_busca" class="form-select ms-2" id="" style="width: 130px; border-radius: 8px;">
+                            <option value=""> Filtro </option>
+                            <option value="atendente">Atendente</option>
+                            <option value="bairro">Bairro</option>
+                            <option value="data">Data</option>
+                            <option value="protocolo">Protocolo</option>                            
+                            <option value="rua">Rua</option>                                                        
+                          </select>
+                          <button type="submit" class="btn btn-outline-secondary ms-2">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                          </button>
+                        </form>
                         </div>
                         <div class="px-2 pt-4">                          
                           <table class="table">

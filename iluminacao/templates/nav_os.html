@@ -13,6 +13,12 @@
             <p class="text-dark text-center">Solicitar</p>
           </div>
         </a>
+        <a href="{% url 'iluminacao:kpi' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="os_kpi" class="s-nav rounded-circle "></div>
+            <p class="text-dark text-center">Indicadores</p>
+          </div>
+        </a>
         <a href="{% url 'almoxarifado:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="os_almoxarifado" class="s-nav rounded-circle"></div>
@@ -39,6 +45,11 @@
     #os_solicitar{
       background-color: white !important;
       background-image: url(/static/images/icones/os_solicitar.png);
+      background-size: contain;
+    }
+    #os_kpi{
+      background-color: white !important;
+      background-image: url(/static/images/icones/os_kpi.png);
       background-size: contain;
     }
     #os_almoxarifado{

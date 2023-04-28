@@ -7,6 +7,7 @@ from django.apps import apps
 from .models import * 
 from settings.decorators import group_required
 from django.contrib.auth.models import Group
+from datetime import datetime
 
 STATUS_CHOICES=(
         ('0','Novo'),
@@ -31,6 +32,27 @@ def os_index(request):
         data=OrdemDeServico.objects.all()
     else:
         data=OrdemDeServico.objects.filter(contribuinte=Pessoa.objects.get(user=request.user))
+    if request.method=='POST':
+        valor_da_busca=request.POST['valor_da_busca']
+        tipo=request.POST['tipo_da_busca']
+        print(valor_da_busca, tipo)
+        if tipo == 'atendente':
+            data=data.filter(atendente__first_name__icontains=valor_da_busca)
+        elif tipo == 'bairro':
+            data=data.filter(bairro__icontains=valor_da_busca)
+        elif tipo == 'data':
+            try:
+                valor_da_busca_date = datetime.strptime(valor_da_busca, '%d/%m/%Y').date()            
+                data=data.filter(dt_solicitacao__date=valor_da_busca_date.strftime('%Y-%m-%d'))
+            except:
+                valores=valor_da_busca.split('/')
+                print(valores)
+                data=data.filter(dt_solicitacao__year=valores[1], dt_solicitacao__month=valores[0])
+        elif tipo == 'protocolo':
+            data=data.filter(numero__icontains=valor_da_busca)
+        elif tipo == 'rua':
+            data=data.filter(logradouro__icontains=valor_da_busca)
+
     paginator = Paginator(data, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
@@ -51,10 +73,10 @@ def add_os(request):
         form=OS_Form(request.POST)
         if form.is_valid():
             os=form.save(commit=False)
-            os.contribuinte=Pessoa.objects.get(user=request.user)
+            os.cadastrado_por=Pessoa.objects.get(user=request.user)
             os.save()
 
-            return redirect('iluminacao:index')                
+            return redirect('iluminacao:os_index')                
 
     context={
         'titulo': apps.get_app_config('iluminacao').verbose_name,
@@ -97,6 +119,8 @@ def detalhes_os(request, id):
 def change_status_os(request, id, opcao):
     os=OrdemDeServico.objects.get(id=id)
     os.status=opcao
+    if opcao=='f':
+        os.dt_conclusao=datetime.now()
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
@@ -183,3 +207,26 @@ def atribuir_equipe(request, id):
             'form':form,
         }
     return render(request, 'iluminacao/adicionar_ext.html', context)
+
+from django.db.models import Count
+
+def imprimir_os(request, id):
+    context={
+
+    }
+    return render(request, 'iluminacao/imprimir_os.html', context)
+
+def graficos(request):
+    pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('pontos_atendidos')).order_by('-total')
+    os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')
+    finalizados = OrdemDeServico.objects.filter(status='f').count()
+    nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
+    os_por_funcionario = Funcionario_OS.objects.annotate(total=Count('id')).order_by('-total')
+    context = {
+        'pontos_por_bairro': pontos_por_bairro,
+        'os_por_bairro': os_por_bairro,
+        'finalizados': finalizados,
+        'nao_finalizados': nao_finalizados,
+        'os_por_funcionario': os_por_funcionario,
+    }
+    return render(request, 'iluminacao/graficos.html', context)

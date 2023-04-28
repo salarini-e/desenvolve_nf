@@ -1,0 +1,53 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
+{% endblock %}
+{% block os %}fw-bolder{% endblock %}
+{% block main %}
+<div class="row">
+  <div class="col d-flex py-5"> 
+        <div class="row w-100">
+            <div class="col-10 pb-4 m-auto bg-white">                           
+                <div class="row">
+                    <div class="col px-4 pb-5 ">                                                
+                        <div class="px-2 pt-4 d-flex">
+                        <h2 style="display: inline;">Indicadores</h2>                        
+                        </div>                    
+                    </div>
+                </div>     
+                                 
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-center">
+                  
+                      {% if ordens_de_servico.has_previous %}
+                      {% comment %} <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li> {% endcomment %}
+                        <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.previous_page_number }}">&laquo; anterior</a></li>
+                      {% endif %}
+                  
+                      {% for x in ordens_de_servico.page_range %}
+                        <li class="page-item {% if x == ordens_de_servico.number  %} disabled {% endif %}"><a class="page-link" href="?page={{ x }}">{{x}}</a></li>
+                      {% endfor %}
+                  
+                        {% if ordens_de_servico.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.next_page_number }}">próximo &raquo;</a></li>
+                          {% comment %} <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.paginator.num_pages }}">last &raquo;</a></li> {% endcomment %}
+                      {% endif %}
+                        </li>
+                      </ul>
+                      </nav>
+                </div>
+            </div>
+        </div>    
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.getElementById('os_painel').classList.add('s-nav-active');  
+
+</script>
+{% endblock %}

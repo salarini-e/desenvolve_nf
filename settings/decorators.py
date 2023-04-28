@@ -23,14 +23,14 @@ def group_required(*groups: str):
             qnt_verificar=len([group for group in groups])
             verificacao=[]            
             for grupo in request.user.groups.all():
-                print(grupo)
+                # print(grupo)
                 for group in [group for group in groups]:
-                    print(group)
-                    print(group, grupo)
+                    # print(group)
+                    # print(group, grupo)
                     if str(group)==str(grupo):
                         verificacao.append(True)
-            print(verificacao)
-            print(qnt_verificar)
+            # print(verificacao)
+            # print(qnt_verificar)
             if len(verificacao)==qnt_verificar:
                 return function(request, *args, **kwargs)            
             return HttpResponseForbidden()

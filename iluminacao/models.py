@@ -71,13 +71,19 @@ class OrdemDeServico(models.Model):
     bairro = models.CharField(max_length=150, verbose_name='Bairro')
     referencia = models.CharField(max_length=200, verbose_name='Referência', blank=True)
 
-    contribuinte = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True)   
+    nome_do_contribuinte = models.CharField(max_length=200, verbose_name='Nome do contribuinte', blank=True)
+    telefone_do_contribuinte = models.CharField(max_length=12, verbose_name='Telefone do contribuinte', blank=True)
+
+    cadastrado_por = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True)   
 
     motivo_reclamacao = models.TextField(verbose_name='Motivo da reclamação')            
     
     status =models.CharField(max_length=1, verbose_name='Status', choices=STATUS_CHOICES, null=True, default='0')
-
+    pontos_atendidos=models.PositiveIntegerField(default=0)
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
+
+    class Meta:
+        ordering = ['-dt_solicitacao']
 
     def gerar_protocolo(self):        
         self.numero = f"{self.tipo.sigla}{int(uuid.uuid4().hex[:10], 16)}/{self.dt_solicitacao.strftime('%y')}"
@@ -111,3 +117,4 @@ class MateriaisUsados(models.Model):
     os=models.ForeignKey(OrdemDeServico, on_delete=models.PROTECT)
     material=models.ForeignKey(Material, on_delete=models.PROTECT)
     quantidade=models.IntegerField()
+
