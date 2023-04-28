@@ -32,7 +32,7 @@
                                 
                                     {% csrf_token %}
                                     {% bootstrap_form form %}
-
+                                    {% if form_responsavel %}
                                     <div class="form_responsavel">
                                       <br>
                                       <hr>
@@ -41,6 +41,7 @@
                                       <h2 class="pb-2">Formulário do responsável:</h2>
                                       {% bootstrap_form form_responsavel %}
                                       <div>
+                                    {% endif %}
 
                                       
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse
 
 from autenticacao.functions import aluno_required
 from .models import *
@@ -208,20 +209,26 @@ def alterarCad(request):
 def resultado(request):
     return render(request, 'cursos/resultado.html')
 
-
 def matricular(request, tipo, id):
-    form = Aluno_form(prefix="candidato")
-    form_responsavel = CadastroResponsavelForm(prefix="responsavel")
-
     #Pega o usuario
-    pessoa=Pessoa.objects.get(user=request.user)
+    try:        
+        pessoa=Pessoa.objects.get(user=request.user)
+    except:
+        return redirect('autenticacao:cadastrar_usuario')
+    #testa se já é matriculado:
+    try:
+        aluno=Aluno.obects.get(pessoa=pessoa)
+        form = Aluno_form(instance=aluno, prefix="candidato")
+    except:
+        form = Aluno_form(prefix="candidato")
+        
     
     # Checa a idade e se precisa de responsavel
     dtnascimento = pessoa.dt_nascimento    
     today = date.today()
     age = today.year - dtnascimento.year - \
             ((today.month, today.day) < (dtnascimento.month, dtnascimento.day))    
-    precisa_responsavel=age>=18
+    precisa_responsavel=age<18
     
     if request.method == 'POST':
         
@@ -229,30 +236,30 @@ def matricular(request, tipo, id):
         if precisa_responsavel:
             form_responsavel = CadastroResponsavelForm(
                 request.POST, prefix="responsavel")
-
         
         teste = True
         
-
         try:            
             candidato = Aluno.objects.get(cpf=pessoa.cpf)
         except:
             candidato = ""        
 
+        turmas=Turma.objects.filter(categoria=Categoria.objects.get(id=id))
         
-        # if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
-        #         teste = False
+        #testanto idade e idade necessaria para o curso
+        for turma in turmas:
+            if (turma.idade_minima is not None and age < turma.idade_minima) or (turma.idade_maxima is not None and age > turma.idade_maxima):
+                teste = False
+            else:
+                break
 
         if form.is_valid() and teste:
             candidato = form.save(commit=False)
 
             if precisa_responsavel:
-
                 if form_responsavel.is_valid():
-
                     responsavel = form_responsavel.save(commit=False)
                     responsavel.aluno = candidato
-
                 else:
                     return redirect('/prematricula')
 
@@ -275,6 +282,13 @@ def matricular(request, tipo, id):
                 messages.error(
                     request, 'Não foi possível realizar a inscrição na turma: A idade não atende a faixa etária da turma.')
                 return redirect('/prematricula')
+
+    
+    print(precisa_responsavel)
+    if precisa_responsavel:
+        form_responsavel = CadastroResponsavelForm(prefix="responsavel")
+    else:
+        form_responsavel= False
 
     context = {
         'age': age,
