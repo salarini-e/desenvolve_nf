@@ -5,6 +5,7 @@ app_name='almoxarifado'
 urlpatterns = [
     path('', views.listar_tipo_materiais, name="index"),
     
+    path('getMaterial/<int:id>/', views.getMaterial, name='get_material'),
     path('listar-tipo-materiais/', views.listar_tipo_materiais, name="alm_listar_tipos"),
     path('listar-materiais/', views.listar_materiais, name="alm_listar_materiais"),
     path('adicionar-tipo-materiais/', views.adicionar_tipo_materiais, name="alm_adicionar_tipo"),

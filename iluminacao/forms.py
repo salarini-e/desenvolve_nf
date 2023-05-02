@@ -12,6 +12,13 @@ class OS_Form(ModelForm):
         }
         exclude = ['numero', 'dt_inclusao', 'atendente', 'dt_conclusao', 'prioridade', 'status', 'contribuinte', 'pontos_atendidos', 'cadastrado_por']
 
+
+class OS_Form_Ponto(ModelForm):    
+    
+    class Meta:
+        model = OrdemDeServico       
+        fields = ['pontos_atendidos']
+
 class Funcionario_Form(ModelForm):
     class Meta:
         model = Funcionario_OS

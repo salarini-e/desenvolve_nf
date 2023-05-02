@@ -31,13 +31,16 @@ def os_index(request):
     if request.user.is_superuser:
         data=OrdemDeServico.objects.all()
     else:
-        data=OrdemDeServico.objects.filter(contribuinte=Pessoa.objects.get(user=request.user))
+        data=OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user))
     if request.method=='POST':
         valor_da_busca=request.POST['valor_da_busca']
         tipo=request.POST['tipo_da_busca']
         print(valor_da_busca, tipo)
         if tipo == 'atendente':
-            data=data.filter(atendente__first_name__icontains=valor_da_busca)
+            if valor_da_busca=='':
+                data=data.filter(atendente=None)
+            else:
+                data=data.filter(atendente__first_name__icontains=valor_da_busca)
         elif tipo == 'bairro':
             data=data.filter(bairro__icontains=valor_da_busca)
         elif tipo == 'data':
@@ -208,11 +211,41 @@ def atribuir_equipe(request, id):
         }
     return render(request, 'iluminacao/adicionar_ext.html', context)
 
+@group_required('os_acesso', 'os_funcionario')
+def pontos_os(request, id):
+    instancia=OrdemDeServico.objects.get(id=id)
+    form=OS_Form_Ponto(instance=instancia)            
+        
+    if request.method=='POST':       
+        form=OS_Form_Ponto(request.POST, instance=instancia)
+        if form.is_valid:
+            form.save()
+            return redirect('iluminacao:detalhes_os', id)
+    context={
+            'titulo': apps.get_app_config('iluminacao').verbose_name,   
+            'form':form,
+        }
+    return render(request, 'iluminacao/adicionar_ext.html', context)
+
 from django.db.models import Count
 
 def imprimir_os(request, id):
+    lista_de_os=[OrdemDeServico.objects.get(id=id)]
     context={
+        'lista_de_os': lista_de_os
+    }
+    return render(request, 'iluminacao/imprimir_os.html', context)
 
+def imprimir_varias_os(request, ids):
+    ids=ids.split('-')
+    ids.pop()
+    lista_de_os=[]
+    for i in ids:
+        lista_de_os.append(OrdemDeServico.objects.get(id=i))
+    print(len(lista_de_os))
+    print(ids)
+    context={
+        'lista_de_os': lista_de_os
     }
     return render(request, 'iluminacao/imprimir_os.html', context)
 

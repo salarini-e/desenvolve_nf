@@ -67,7 +67,12 @@ def adicionar_material(request, tipo):
     }
     return render(request, 'almoxarifado/adicionar_novo_material.html', context)
 
+@login_required
+def getMaterial(request, id):
+    opcoes = Material.objects.filter(tipo=id).values('id', 'nome')
+    return JsonResponse(list(opcoes), safe=False)
 
+@login_required
 def adicionar_material_ao_estoque(request):
     if request.method == 'POST':
         form = Log_estoque_Form(request.POST)
@@ -91,6 +96,7 @@ def adicionar_material_ao_estoque(request):
     context = {
         'titulo': apps.get_app_config('almoxarifado').verbose_name,
         'form': form,
+        'tipos': Tipo_Material.objects.all(),
         'form_tipo': form_tipo
     }
     return render(request, 'almoxarifado/adicionar_material_ao_estoque.html', context)
@@ -118,6 +124,7 @@ def retirar_material_do_estoque(request, id):
     context = {
         'titulo': apps.get_app_config('almoxarifado').verbose_name,
         'form': form,
+        'tipos': Tipo_Material.objects.all(),
         'form_tipo': form_tipo
     }
     return render(request, 'almoxarifado/remover_material_ao_estoque.html', context)
