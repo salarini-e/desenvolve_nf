@@ -1,10 +1,9 @@
-
 .filtro{
-    align-items: center
+    align-items: center;
 }
 .btnacor{
     border-color: #104a74;
-    background-color: #104a74;;
+    background-color: #104a74;
     color: white;
 }
 .btnacor:hover{

@@ -126,21 +126,30 @@ h3{
   
 #ver-detalhes{
     width: 90%;
-    margin: 4% 5% 0 5%;
+    margin: 1% 5% 1% 5%;
 }
 
-#info{
+.info{
     margin: 0;
-    padding: 0;
-    transition: height linear 2s;
-    animation-fill-mode: forwards;
+    padding: 0 4% 0 4%;
+    transition: 2s;
     position: relative;
+    overflow: hidden;
+    height: 0;
+    box-sizing: border-box;
+    
 }
-/*
-@keyframes mover{
-    from {top:-20;}
-    to {top:0;}
-} */
+
+.open-info{
+    margin: 0;
+    padding: 0 4% 0 4%;
+    transition: 2s;
+    position: relative;
+    overflow: hidden;
+    height: 5000000px;
+    box-sizing: border-box;
+}
+
 
 .pergunta li{
     list-style-type: disc !important;

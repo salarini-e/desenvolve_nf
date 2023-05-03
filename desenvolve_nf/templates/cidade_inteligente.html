@@ -47,9 +47,9 @@
           Civil Municipal, Policia Militar, Policia Civil e e representantes da Secretaria de 
           Ciência, Tecnologia e Inovação de Nova Friburgo, que é responsável pela gestão e 
           manutenção da Central.</p>
-          <button id="ver-detalhes" class="btn btn-outline-primary rounded-1 btn-details">Ver mais</button>
+          <button id="ver-detalhes" class="btn btn-outline-primary rounded-1 btn-details">Ver Mais</button>
       </div>
-    <div id="info">
+    <div class="info">
       <p class="text-justify">Tendo sua inauguração oficial, ocorrido no dia 07 de agosto de 2015, 
       contando inicialmente, com 32 câmeras de última geração, espalhadas do bairro de Conselheiro 
       Paulino (lado norte da cidade), passando pela região central da cidade, até os bairros do 
@@ -181,24 +181,24 @@
     });
     
     function verMais(){
-      const info = document.querySelector("#info");
+      const info = document.querySelector(".info");
       const ver = document.querySelector("#ver-detalhes");
+      const fontSize = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
+      console.log(fontSize);
       //info.style.opacity="1";
       // info.style.animationName = "mover";
       // info.style.animationDuration = "2s"; 
-      if(info.style.height != "5000000px"){
-        info.removeAttribute("id");
-        info.classList.add("openInfo");
+      if(ver.innerHTML != "Ver Menos"){
         // info.innerHTML =
-        
-          ver.innerHTML = "Ver Menos";
-          info.setAttribute("style", "padding: 3% 4% 4% 4%;;");
-          }
+        ver.innerHTML = "Ver Menos";
+        info.classList.add("open-info");
+        //info.setAttribute("style", " height: 400px; padding-top: 3%; padding-bottom: 4%;");
+        }
       else{
-            // info.innerHTML = "";
-            ver.innerHTML = "Ver Mais";
-            info.setAttribute("height","0");
-            info.setAttribute("style", "padding: 0;");
+          // info.innerHTML = "";
+          ver.innerHTML = "Ver Mais";
+          info.classList.remove("open-info");
+          //info.setAttribute("style", "padding-top: 0; padding-bottom: 0; height: 0;");
       }
     }
 
