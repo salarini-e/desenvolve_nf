@@ -27,9 +27,7 @@
 #perguntas{
     display: flex;
     flex-wrap: wrap;
-    border-radius: 30px;
     padding: 0 20px 20px 20px;
-    margin: auto;
 }
 
 .pergunta{
@@ -39,12 +37,46 @@
     padding: 4%;
     margin: 1%;
     box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-    /* min-width: 150px; */
 }
 
 .pergunta img{
     width: 10%;
     height: 10%;
+    margin: auto;
+}
+
+#fales{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#fales h4{
+    padding-left: 0;
+}
+
+.fale{
+    width: 31.3%;
+    border-radius: 30px;
+    background-color: white;
+    padding: 4%;
+    margin: 1%;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+    min-height: 150px;
+    text-align: center;
+}
+
+.fale p, .fale h4, .fale a{
+    color: black !important;
+}
+
+.fale a:hover{
+    text-decoration: underline;
+    transition: 2s;
+}
+
+.fale img{
+    width: 10%;
+    height: 25%;
     margin-top: auto;
     margin-bottom: auto;
 }
@@ -229,5 +261,10 @@ h3{
     .open-info{
         height: 80rem;
         padding-top: 3%; padding-bottom: 4%;
+    }
+    .fale{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
     }
 }
