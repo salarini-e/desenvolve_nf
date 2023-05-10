@@ -35,7 +35,7 @@ def os_index(request):
     if request.method=='POST':
         valor_da_busca=request.POST['valor_da_busca']
         tipo=request.POST['tipo_da_busca']
-        print(valor_da_busca, tipo)
+        # print(valor_da_busca, tipo)
         if tipo == 'atendente':
             if valor_da_busca=='':
                 data=data.filter(atendente=None)
@@ -49,7 +49,7 @@ def os_index(request):
                 data=data.filter(dt_solicitacao__date=valor_da_busca_date.strftime('%Y-%m-%d'))
             except:
                 valores=valor_da_busca.split('/')
-                print(valores)
+                # print(valores)
                 data=data.filter(dt_solicitacao__year=valores[1], dt_solicitacao__month=valores[0])
         elif tipo == 'protocolo':
             data=data.filter(numero__icontains=valor_da_busca)
@@ -158,8 +158,8 @@ def funcionario_cadastrar(request):
             form.save()
             funcionario=Funcionario_OS()
             return redirect('iluminacao:funcionarios')
-        else:
-            print(form.errors)
+        # else:
+            # print(form.errors)
     else:
         form=Funcionario_Form(initial={'tipo_os': Tipo_OS.objects.get(sigla='IP')})
     context={
@@ -245,8 +245,8 @@ def imprimir_varias_os(request, ids):
     lista_de_os=[]
     for i in ids:
         lista_de_os.append(OrdemDeServico.objects.get(id=i))
-    print(len(lista_de_os))
-    print(ids)
+    # print(len(lista_de_os))
+    # print(ids)
     context={
         'lista_de_os': lista_de_os
     }
