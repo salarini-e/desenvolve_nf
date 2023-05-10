@@ -4,7 +4,7 @@ from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.apps import apps
-from .models import * 
+from .models import *
 from settings.decorators import group_required
 from django.contrib.auth.models import Group
 from datetime import datetime
@@ -153,24 +153,27 @@ def funcionarios_listar(request):
 @group_required('os_acesso', 'os_funcionario')
 def funcionario_cadastrar(request):
     if request.method=='POST':
-        form=Funcionario_Form(request.POST)
+        form=Funcionario_Form({'pessoa':request.POST['pessoa'], 'nivel': request.POST['nivel'], 'tipo_os': [1]})
         if form.is_valid():
             form.save()
-            return redirect('funcionarios')
+            funcionario=Funcionario_OS()
+            return redirect('iluminacao:funcionarios')
+        else:
+            print(form.errors)
     else:
-        form=Funcionario_Form()
-        context={
-            'titulo': apps.get_app_config('iluminacao').verbose_name,
-            'form': form
-        }
+        form=Funcionario_Form(initial={'tipo_os': Tipo_OS.objects.get(sigla='IP')})
+    context={
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'form': form
+    }
     return render(request, 'equipe/funcionarios_cadastrar.html', context)
 
 @group_required('os_acesso', 'os_funcionario')
 def funcionario_editar(request, id):
-    funcionario=Funcionario.objects.get(id=id)
-    form=Funcionario_Form(instance=funcionario)
+    funcionario=Funcionario_OS.objects.get(id=id)
+    form=Funcionario_Form_editar(instance=funcionario)
     if request.method=='POST':
-        form=Funcionario_Form(request.POST, instance=funcionario)
+        form=Funcionario_Form_editar(request.POST, instance=funcionario)
         if form.is_valid():
             form.save()
             return redirect('funcionarios')
@@ -183,10 +186,10 @@ def funcionario_editar(request, id):
 
 @group_required('os_acesso', 'os_funcionario')
 def funcionario_deletar(request, id):
-    funcionario=Funcionario.objects.get(id=id)
+    funcionario=Funcionario_OS.objects.get(id=id)
     funcionario.delete()
 
-    return redirect('funcionarios')
+    return redirect('iluminacao:funcionarios')
 
 @group_required('os_acesso', 'os_funcionario')
 def atribuir_equipe(request, id):

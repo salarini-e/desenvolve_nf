@@ -1,6 +1,9 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
 {% load static%}
+{% block nav %}
+{% include 'nav_os.html' %}
+{% endblock %}
 {% block title %}BEM VINDO{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
@@ -19,7 +22,7 @@
                 </div>               -->
                 <div class="row">
                     <div class="col px-4">                                                
-                        <div class="px-2">
+                        <div class="px-2 py-3">
                         <h2>Painel Administrativo</h2>
                         </div>
                         <div class="px-2 pt-4">
@@ -41,9 +44,9 @@
                             <tbody>
                               {% for f in funcionarios %}
                               <tr>
-                                <td>{{f.nome}}</td>                                
-                                <td>{{f.telefone}}</td>
-                                <td>{{f.cpf}}</td>
+                                <td>{{f.pessoa.nome}}</td>                                
+                                <td>{{f.pessoa.telefone}}</td>
+                                <td>{{f.pessoa.cpf}}</td>
                                 <td><a href="{% url 'iluminacao:editar funcionario' f.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>
                               </tr>
                               {% endfor %}

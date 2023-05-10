@@ -35,10 +35,10 @@ class Funcionario_OS(models.Model):
     def __str__(self):
         return self.pessoa.nome
     NIVEL_CHOICES=(
-        ('0','0'),
-        ('1','1'),
-        ('2','2'),
-        ('3','3'),
+        ('0','0 - Agente de atendimento'),
+        ('1','1 - Suporte de campo'),
+        ('2','2 - Suporte avançado'),
+        ('3','3 - Coordenador de serviços públicos'),
     )
 
     pessoa = models.ForeignKey(Pessoa, models.CASCADE)
