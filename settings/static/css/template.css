@@ -2,6 +2,7 @@
 html,
 body {
   min-height: 100vh;
+  min-width: 450px;
 }
 :root {
   /* --main-color: #0D578E; */
