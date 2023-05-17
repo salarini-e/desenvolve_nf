@@ -55,6 +55,18 @@ def os_index(request):
             data=data.filter(numero__icontains=valor_da_busca)
         elif tipo == 'rua':
             data=data.filter(logradouro__icontains=valor_da_busca)
+        elif tipo == 'status':
+            status={'Novo': 0,
+            'Aguardando': 1,
+            'Em execução': 2,
+            'Finalizado': 3}
+            data=data.filter(status=status[valor_da_busca.capitalize()])
+        elif tipo == 'prioridades':
+            prioridades={'Normal': 0,
+            'Moderada': 1,
+            'Urgente': 2
+            }
+            data=data.filter(prioridade=prioridades[valor_da_busca.capitalize()])
 
     paginator = Paginator(data, 30)
     page = request.GET.get('page', 1)
