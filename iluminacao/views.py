@@ -61,7 +61,7 @@ def os_index(request):
             'Em execução': 2,
             'Finalizado': 3}
             data=data.filter(status=status[valor_da_busca.capitalize()])
-        elif tipo == 'prioridades':
+        elif tipo == 'prioridade':
             prioridades={'Normal': 0,
             'Moderada': 1,
             'Urgente': 2
