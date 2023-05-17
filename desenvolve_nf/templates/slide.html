@@ -7,15 +7,16 @@
             <img class="banner_img_destaque w-100 h-100" src="{{evento.banner_img.url}}">
           </div>
           <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
-            <h5 class="mb-1">{{evento.titulo}}</h5>
+            <h3 class="mb-1">{{evento.titulo}}</h3>
             <h6 class="mb-1" style="font-weight: 400;">{{evento.subtitulo}}</h6>
-            <p class="local"><a href="{{evento.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{evento.local}}</a></p>
-            <p class="time mb-4 text-center">{{evento.data_inicio}}{% if evento.data_fim %} - {{evento.data_fim}}{% endif %}</p>
-            <h7 class="mb-1 text-wrap">
+            
+            <h4 class="my-auto  text-center"><i class="fa fa-calendar-days me-2"></i>{{evento.data_inicio|date:"d/m/y"}}{% if evento.data_fim %} <span style="color: gray;"><i class="fa-solid fa-arrow-right mx-2"></i></span> <i class="fa fa-calendar-days me-2"></i>{{evento.data_fim|date:"d/m/y"}}{% endif %}</h4>
+            <!-- <h7 class="mb-1 text-wrap">
               {{evento.descricao}}
-            </h7>
-            <p class="inf text-secondary mt-2">Com transmissão online</p>
-            <a href="{% url 'eventos:detalhe' evento.id %}" class="btn btn-outline-primary btn-details w-100 mx-auto" id="esp">Detalhes</a>
+            </h7> -->
+            <!-- <p class="inf text-secondary mt-2">Com transmissão online</p> -->
+            <p class="local mt-auto"><a href="{{evento.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{evento.local}}</a></p>
+            <a href="{% url 'eventos:detalhe' evento.id %}" class="btn btn-outline-primary btn-details mt-0 pt-0w-100 mx-auto" id="esp">Detalhes</a>
           </div>
         </div>
       </div>
