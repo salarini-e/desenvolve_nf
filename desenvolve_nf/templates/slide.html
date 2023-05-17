@@ -1,0 +1,61 @@
+<div id="slideContainer">
+    {% for evento in eventos %}
+    <div class="slide {% if forloop.first %}active{% endif %}">
+      <div class="row">
+        <div class="banner_destaque d-flex flex-column flex-xl-row bg-white img-txt">
+          <div class="img-destaque">
+            <img class="banner_img_destaque w-100 h-100" src="{{evento.banner_img.url}}">
+          </div>
+          <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
+            <h5 class="mb-1">{{evento.titulo}}</h5>
+            <h6 class="mb-1" style="font-weight: 400;">{{evento.subtitulo}}</h6>
+            <p class="local"><a href="{{evento.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{evento.local}}</a></p>
+            <p class="time mb-4 text-center">{{evento.data_inicio}}{% if evento.data_fim %} - {{evento.data_fim}}{% endif %}</p>
+            <h7 class="mb-1 text-wrap">
+              {{evento.descricao}}
+            </h7>
+            <p class="inf text-secondary mt-2">Com transmissão online</p>
+            <a href="{% url 'eventos:detalhe' evento.id %}" class="btn btn-outline-primary btn-details w-100 mx-auto" id="esp">Detalhes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+  
+    function showSlide(slideIndex) {
+      if (slideIndex >= slides.length) {
+        slideIndex = 0;
+      } else if (slideIndex < 0) {
+        slideIndex = slides.length - 1;
+      }
+  
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove('active');
+      }
+  
+      slides[slideIndex].classList.add('active');
+      currentSlide = slideIndex;
+    }
+  
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+    }
+  
+    function previousSlide() {
+      showSlide(currentSlide - 1);
+    }
+      
+    document.getElementById('slideContainer').addEventListener('click', function(e) {
+      if (e.target.classList.contains('next')) {
+        nextSlide();
+      } else if (e.target.classList.contains('previous')) {
+        previousSlide();
+      }
+    });
+      
+    setInterval(nextSlide, 9000);
+  </script>

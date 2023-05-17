@@ -27,7 +27,7 @@ def index(request):
     context = { 
         'titulo': apps.get_app_config('cursos').verbose_name,
         'eventos': eventos,
-        'cursos': cursos
+        'cursos': cursos,          
     }
 
     return render(request, 'cursos/index.html', context)

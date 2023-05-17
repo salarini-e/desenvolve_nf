@@ -12,74 +12,7 @@
   <div class="row">
     <h2 class="ms-2 py-1">Destaque</h2>
   </div>
-
-
-  {% comment %} <div class="row ">
-    <div class="banner_destaque d-flex flex-column flex-xl-row bg-white img-txt">
-      <div class="img-destaque">
-        <img class="banner_img_destaque h-100" src="{{eventos.0.banner_img.url}}">
-      </div>
-      <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
-        <h5 class="mb-1">{{eventos.0.titulo}}</h5>
-        <h6 class="mb-1" style="font-weight: 400;">{{eventos.0.subtitulo}}</h6>
-        <p class="local"><a href="{{eventos.0.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{eventos.0.local}}</a></p>
-        <p class="time mb-4 text-center">{{eventos.0.data_inicio}}{% if eventos.0.data_fim %} - {{eventos.0.data_fim}}{% endif %}</p>
-        <h7 class="mb-1 text-wrap">
-          {{eventos.0.descricao}}
-        </h7>
-        <p class="inf text-secondary mt-2">Com transmissão online</p>
-        <a href="{% url 'eventos:detalhe' eventos.0.id %}" class="btn btn-outline-primary btn-details me-auto" id="esp">Detalhes</a>
-      </div>
-    </div>
-  </div>
-</div> {% endcomment %}
-
-<div class="row ">
-  <div class="banner_destaque d-flex flex-column flex-xl-row bg-white img-txt">
-    <div class="img-destaque">
-      <img class="banner_img_destaque w-100 h-100" src="{{eventos.0.banner_img.url}}">
-    </div>
-    <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
-      <h5 class="mb-1">{{eventos.0.titulo}}</h5>
-      <h6 class="mb-1" style="font-weight: 400;">{{eventos.0.subtitulo}}</h6>
-      <p class="local"><a href="{{eventos.0.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{eventos.0.local}}</a></p>
-      <p class="time mb-4 text-center">{{eventos.0.data_inicio}}{% if eventos.0.data_fim %} - {{eventos.0.data_fim}}{% endif %}</p>
-      <h7 class="mb-1 text-wrap">
-        {{eventos.0.descricao}}
-      </h7>
-      <p class="inf text-secondary mt-2">Com transmissão online</p>
-      <a href="{% url 'eventos:detalhe' eventos.0.id %}" class="btn btn-outline-primary btn-details w-100 mx-auto" id="esp">Detalhes</a>
-    </div>
-  </div>
-</div>
-  <!-- <div class="carousel ">
-    <div class="button-wrapper prev" id="prev"><button  class="button-control previous">  </button></div>
-
-    <div class="slides">
-    {% for evento in eventos %}
-    <div class="slide">
-      <div class="img-wrapper">
-        <img class="banner" src="{{evento.banner_img.url}}">
-      </div>
-      <div class="text-wrapper ">
-        <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
-        <h2 class="title">{{evento.titulo}}</h2>
-        <h3 class="subtitle mb-1">{{evento.subtitulo}}</h3>
-        <p class="location local"><a href="{{evento.google_maps}}"><i class="fa-solid fa-location-dot mb-3 me-2"></i>{{evento.local}}</a></p>
-        <h4 class="date time mb-4 text-center">{{evento.data_inicio}}{% if evento.data_fim %} - {{evento.data_fim}}{% endif %}</h4>
-        </div>
-        <p class="mb-1 text-wrap">{{evento.descricao}}</p>
-        
-        <a href="{% url 'eventos:detalhe' evento.id %}" class="btn btn-outline-primary btn-details me-auto" id="esp">Detalhes</a>
-      </div>
-    </div>
-    {% endfor %}
-  </div> 
-
-  <div class="button-wrapper next" id="next"><button  class="button-control next">  </button></div>
-  </div>
-  -->
-
+  {% include 'slide.html' %}
 </div>
 <div class="row">
   <div class="col d-flex pe-4">
@@ -176,62 +109,62 @@
 </div>
 
 <script>
-  const carousel = document.querySelector(".carousel");
-const slides = Array.from(document.querySelectorAll(".slide"));
-const prevButton = document.querySelector("#prev");
-const nextButton = document.querySelector("#next");
-let current_active = 0
-let interval;
+//   const carousel = document.querySelector(".carousel");
+// const slides = Array.from(document.querySelectorAll(".slide"));
+// const prevButton = document.querySelector("#prev");
+// const nextButton = document.querySelector("#next");
+// let current_active = 0
+// let interval;
 
-make_active(slides[current_active])
+// make_active(slides[current_active])
 
-prevButton.addEventListener('click', () => {cancel_auto_slider(); previous_slide(); start_auto_slide(6000)})
+// prevButton.addEventListener('click', () => {cancel_auto_slider(); previous_slide(); start_auto_slide(6000)})
 
-nextButton.addEventListener('click', () => {cancel_auto_slider(); next_slide(); start_auto_slide(6000)})
+// nextButton.addEventListener('click', () => {cancel_auto_slider(); next_slide(); start_auto_slide(6000)})
 
-document.querySelector('.slides').addEventListener('mouseover', () => {
-  cancel_auto_slider()})
-document.querySelector('.slides').addEventListener('mouseout', () => {
-  start_auto_slide(4500)
-})
+// document.querySelector('.slides').addEventListener('mouseover', () => {
+//   cancel_auto_slider()})
+// document.querySelector('.slides').addEventListener('mouseout', () => {
+//   start_auto_slide(4500)
+// })
 
-function next_slide(){
-  const old = current_active
-  if(current_active + 1 > slides.length - 1) current_active = 0
-  else current_active += 1
-  change_slide(slides[old], slides[current_active])
-}
+// function next_slide(){
+//   const old = current_active
+//   if(current_active + 1 > slides.length - 1) current_active = 0
+//   else current_active += 1
+//   change_slide(slides[old], slides[current_active])
+// }
 
-function previous_slide(){
-  const old = current_active
-  if(current_active - 1 < 0) current_active = slides.length - 1
-  else current_active -= 1
-  change_slide(slides[old], slides[current_active])
-}
+// function previous_slide(){
+//   const old = current_active
+//   if(current_active - 1 < 0) current_active = slides.length - 1
+//   else current_active -= 1
+//   change_slide(slides[old], slides[current_active])
+// }
 
-function change_slide(old_element, new_element){
-  make_hidden(old_element)
-  make_active(new_element)
-}
+// function change_slide(old_element, new_element){
+//   make_hidden(old_element)
+//   make_active(new_element)
+// }
 
-function make_active(element){
-  element.classList.add("active")
-}
+// function make_active(element){
+//   element.classList.add("active")
+// }
 
-function make_hidden(element){
-  element.classList.remove('active')
-}
+// function make_hidden(element){
+//   element.classList.remove('active')
+// }
 
-function start_auto_slide(ms = 4500){
-  interval = setInterval(()=>{
-    next_slide()
-  }, ms)
-}
-start_auto_slide()
+// function start_auto_slide(ms = 4500){
+//   interval = setInterval(()=>{
+//     next_slide()
+//   }, ms)
+// }
+// start_auto_slide()
 
-function cancel_auto_slider(){
-  clearInterval(interval)
-}
+// function cancel_auto_slider(){
+//   clearInterval(interval)
+// }
 
 </script>
 
