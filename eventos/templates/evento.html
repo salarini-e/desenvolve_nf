@@ -149,17 +149,18 @@
           </div>
           <div class="text-destaque pt-4 pb-0 px-4 d-flex flex-column">
             <h5 class="mb-1">{{evento.titulo}}</h5>
+            <h6 style="color: gray;">
+              {{evento.data_inicio|date:'d/m/y'}}{% if evento.data_fim %} -
+              {{evento.data_fim|date:'d/m/y'}}{% endif %}
+            </h6>
             <h6 class="mb-1" style="font-weight: 400">{{evento.subtitulo}}</h6>
-            <p class="local">
+            
+            <p class="local mt-3">
               <a href="{{evento.google_maps}}"
                 ><i class="fa-solid fa-location-dot mb-3 me-2"></i
                 >{{evento.local}}</a
               >
-            </p>
-            <p class="time mb-4 text-center">
-              {{evento.data_inicio|date:'d/m/y'}}{% if evento.data_fim %} -
-              {{evento.data_fim|date:'d/m/y'}}{% endif %}
-            </p>
+            </p>            
             <!-- <p class="inf text-secondary mt-2">Com transmissão online</p> -->
             <a href="{% url 'eventos:detalhe' evento.id %}"
               class="mt-2 w-100 btn btn-outline-primary btn-details me-auto"
