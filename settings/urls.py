@@ -17,6 +17,7 @@ urlpatterns = [
     path('bem-estar-animal/', include('bemestaranimal.urls')),
     path('servicos/iluminacao/', include('iluminacao.urls')),
     path('almoxarifado/', include('almoxarifado.urls')),
+    path('estagio/', include('estagio.urls')),
 
     path('administracao/', include('administracao.urls')),    
     path('admin/', admin.site.urls),

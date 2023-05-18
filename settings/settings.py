@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'casa_do_trabalhador',
     'iluminacao',
     'almoxarifado',
+    'estagio',
 ]
 
 MIDDLEWARE = [
