@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Estágiarios</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="{% url 'estagio:secretaria' %}">S</a></li>
-                <li><a href="{% url 'estagio:vagas'%}">H</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h1>Para que serve o sistema?</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt culpa et possimus sed consequatur unde saepe dolorum, temporibus quidem cum modi architecto ex. Neque, nesciunt animi velit unde repellendus est.</p>
-    </main>
-</body>
-</html>
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+
+    <h1>Para que serve o sistema?</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt culpa et possimus sed consequatur unde saepe dolorum, temporibus quidem cum modi architecto ex. Neque, nesciunt animi velit unde repellendus est.</p>
+
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}
