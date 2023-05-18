@@ -23,7 +23,7 @@ class Secretaria(models.Model):
 class Supervisor(models.Model):
     nome = models.CharField(max_length=200, verbose_name="nome_supervisor")
     supervisor_id_secretaria = models.ForeignKey(Secretaria, on_delete= models.CASCADE)
-   
+
     def __str__(self):
         return self.name
 
@@ -38,3 +38,10 @@ class Aluno(models.Model):
 
     def __str__(self):
         return self.name
+
+class Vagas(models.Model):
+    nome = models.CharField(max_length=50, verbose_name="nome_vagas")
+    quantidade_de_vagas = models.IntegerField(verbose_name="quantidade_de_vagas")
+    vagas_id_aluno = models.ForeignKey(Aluno, on_delete=models.RESTRICT)
+    vagas_id_supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
+    vagas_id_secretaria = models.ForeignKey(Secretaria, on_delete=models.CASCADE)
