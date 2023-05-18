@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'iluminacao',
     'almoxarifado',
     'estagio',
+    'newsletter',
 ]
 
 MIDDLEWARE = [

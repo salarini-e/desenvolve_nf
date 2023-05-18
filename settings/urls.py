@@ -18,6 +18,7 @@ urlpatterns = [
     path('servicos/iluminacao/', include('iluminacao.urls')),
     path('almoxarifado/', include('almoxarifado.urls')),
     path('estagio/', include('estagio.urls')),
+    path('newsletter/', include('newsletter.urls')),
 
     path('administracao/', include('administracao.urls')),    
     path('admin/', admin.site.urls),
