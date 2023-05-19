@@ -319,7 +319,7 @@ class Matricula(models.Model):
 
         if total_length > 16:
             raise ValueError(
-                "O tamanho total de turma_id, aluno_id e instituicao deve ser menor ou igual a 16")
+                "The total length of turma_id, aluno_id and instituicao must be less than or equal to 16")
 
         self.matricula = instituicao + curso + \
             turma_id.rjust(16 - total_length + len(turma_id), "0") + aluno_id
