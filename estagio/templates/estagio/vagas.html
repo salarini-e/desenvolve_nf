@@ -7,39 +7,13 @@
 {% block main %}
         <div class="row">
             <div class="col">
-                <h3 class="titulo_vaga">Manutenção</h3>
-                <p class="local_estagio">Local: Prefeitura municipal</p>
+                {% for vaga in vagas %}
+                    <h3 class="titulo_vaga">{{vaga.nome}}</h3>
+                    <p class="local_estagio">{{vaga.vagas_id_secretaria}}</p>
                 <button class="btn_detalhes">
                     <a href="#">Ver Mais</a>
                 </button>
-            </div>
-            <div class="col">
-                <h3 class="titulo_vaga">Eletricista</h3>
-                <p class="local_estagio">Local: Prefeitura municipal</p>
-                <button class="btn_detalhes">
-                    <a href="#">Ver Mais</a>
-                </button>
-            </div>
-            <div class="col">
-                <h3 class="titulo_vaga">Administração</h3>
-                <p class="local_estagio">Local: Prefeitura municipal</p>
-                <button class="btn_detalhes">
-                    <a href="#">Ver Mais</a>
-                </button>
-            </div>
-            <div class="col">
-                <h3 class="titulo_vaga">Ensino Médio</h3>
-                <p class="local_estagio">Local: Instituto de Ensino de Nova Friburgo</p>
-                <button class="btn_detalhes">
-                    <a href="#">Ver Mais</a>
-                </button>
-            </div>
-            <div class="col">
-                <h3 class="titulo_vaga">Enfermagem</h3>
-                <p class="local_estagio">Local: Hospital Raul Sertã</p>
-                <button class="btn_detalhes">
-                    <a href="#">Ver Mais</a>
-                </button>
+                {% endfor %}
             </div>
         </div>
 

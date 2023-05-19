@@ -9,12 +9,14 @@ def index(request):
 
 def vagas(request):
     context = {
-        'titulo':'Vagas de Estágio'
+        'titulo':'Vagas de Estágio',
+        'vagas': Vagas.objects.all()
     }
     return render(request, 'estagio/vagas.html', context)
 
 def secretaria(request):
     context = {
-        'titulo':'Secretaria'
+        'titulo':'Secretaria',
+        'secretarias': Secretaria.objects.all()
     }
     return render(request, 'estagio/secretaria.html', context)
