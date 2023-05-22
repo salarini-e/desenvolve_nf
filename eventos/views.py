@@ -6,7 +6,7 @@ from desenvolve_nf.models import Carousel_Index
 def index(request):
     context={
         'titulo': apps.get_app_config('eventos').verbose_name,
-        'eventos': Evento.objects.filter(is_destaque=True),
+        'eventos': Evento.objects.filter(is_destaque=True).order_by('data_inicio'),
         'carousel': Carousel_Index.objects.filter(ativa=True)
     }
     return render(request, "evento.html", context)
