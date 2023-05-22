@@ -20,26 +20,13 @@
                         </div>                    
                     </div>
                 </div>     
-                                 
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-center">
-                  
-                      {% if ordens_de_servico.has_previous %}
-                      {% comment %} <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li> {% endcomment %}
-                        <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.previous_page_number }}">&laquo; anterior</a></li>
-                      {% endif %}
-                  
-                      {% for x in ordens_de_servico.page_range %}
-                        <li class="page-item {% if x == ordens_de_servico.number  %} disabled {% endif %}"><a class="page-link" href="?page={{ x }}">{{x}}</a></li>
-                      {% endfor %}
-                  
-                        {% if ordens_de_servico.has_next %}
-                        <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.next_page_number }}">próximo &raquo;</a></li>
-                          {% comment %} <li class="page-item"><a class="page-link" href="?page={{ ordens_de_servico.paginator.num_pages }}">last &raquo;</a></li> {% endcomment %}
-                      {% endif %}
-                        </li>
-                      </ul>
-                      </nav>
+                <div class="row">
+                  <div class="col">
+                    <div id="chart_div"></div>                    
+                  </div>
+                </div>
+                                               
+                    
                 </div>
             </div>
         </div>    
@@ -48,6 +35,39 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   document.getElementById('os_painel').classList.add('s-nav-active');  
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
 
+  // Load the Visualization API and the corechart package.
+  google.charts.load('current', {'packages':['corechart']});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    data.addRows([
+      {% for item in pontos_por_bairro %}
+      ['{{item.bairro}}', {{item.total}}],
+      {% endfor %}
+    ]);
+
+    // Set chart options
+    var options = {'title':'Pontos por bairro',
+                   'width':800,
+                   'height':300};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
 </script>
 {% endblock %}

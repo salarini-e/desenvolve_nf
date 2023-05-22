@@ -8,6 +8,7 @@ from .models import *
 from settings.decorators import group_required
 from django.contrib.auth.models import Group
 from datetime import datetime
+from django.db.models import Count
 
 STATUS_CHOICES=(
         ('0','Novo'),
