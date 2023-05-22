@@ -8,7 +8,7 @@ from .models import *
 from settings.decorators import group_required
 from django.contrib.auth.models import Group
 from datetime import datetime
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 STATUS_CHOICES=(
         ('0','Novo'),
@@ -266,7 +266,7 @@ def imprimir_varias_os(request, ids):
     return render(request, 'iluminacao/imprimir_os.html', context)
 
 def graficos(request):
-    pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('pontos_atendidos')).order_by('-total')[:10]
+    pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
     os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
     finalizados = OrdemDeServico.objects.filter(status='f').count()
     nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
