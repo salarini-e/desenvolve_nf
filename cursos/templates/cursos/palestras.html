@@ -61,9 +61,10 @@
     <div id="filtros" class="col d-flex pb-5 visually-hidden">
       {% for categoria in categorias %}
       <a href="{% url 'cursos:filtrar' tipo categoria.nome %}" class="card-universidade btn btn-primary me-3">
-        <img class="ms-auto my-auto" style="height: 30px;" src="{{categoria.icone.url}}" alt="">
+        <img class="{% if not categoria.nome == 'CEVEST' %}ms-auto{% else %}mx-auto{% endif %} my-auto" style="height: 30px;" src="{{categoria.icone.url}}" alt="">
+        {% if not categoria.nome == 'CEVEST' %}
         <span class="me-auto ms-1 pe-1 my-auto">{{categoria.nome}}</span>
-        
+        {% endif %}        
       </a>
       {% endfor %}
       <a href="{% url 'cursos:cursos' tipo %}" class="card-universidade btn btn-primary me-3">
