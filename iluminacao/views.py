@@ -267,10 +267,10 @@ def imprimir_varias_os(request, ids):
 
 def graficos(request):
     pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('pontos_atendidos')).order_by('-total')[:10]
-    os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')
+    os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
     finalizados = OrdemDeServico.objects.filter(status='f').count()
     nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
-    os_por_funcionario = Funcionario_OS.objects.annotate(total=Count('id')).order_by('-total')
+    os_por_funcionario = Funcionario_OS.objects.annotate(total=Count('id')).order_by('-total')[:10]
     context = {
         'pontos_por_bairro': pontos_por_bairro,
         'os_por_bairro': os_por_bairro,

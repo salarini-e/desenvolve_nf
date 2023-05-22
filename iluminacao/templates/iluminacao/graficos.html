@@ -12,21 +12,54 @@
 <div class="row">
   <div class="col d-flex py-5"> 
         <div class="row w-100">
-            <div class="col-10 pb-4 m-auto bg-white">                           
+            <div class="col-10 m-auto bg-white" style="border-radius: 30px;">                           
                 <div class="row">
-                    <div class="col px-4 pb-5 ">                                                
+                    <div class="col px-4">                                                
                         <div class="px-2 pt-4 d-flex">
                         <h2 style="display: inline;">Indicadores</h2>                        
                         </div>                    
                     </div>
-                </div>     
+                </div>  
                 <div class="row">
-                  <div class="col">
-                    <div id="chart_div"></div>                    
+                  <div class="col d-flex pb-4">
+                    <div href="https://www.cecierj.edu.br/" class="card-universidade btn btn-primary me-1 ms-auto d-flex flex-column">
+                      Finalizados:
+                      <h1>{{finalizados}}</h1>
+                    </div>
+                    <div href="http://www.cefet-rj.br/" class="card-universidade btn btn-primary ms-1 me-auto d-flex flex-column">
+                      Não finalizados:
+                      <h1>{{nao_finalizados}}</h1>
+                    </div>  
+                  </div>
+                </div>                
+                <div class="row">
+                  <div class="col d-flex">
+                    <div id="chart_div mx-auto"></div>                    
                   </div>
                 </div>
                                                
-                    
+                <style>
+                  .card-universidade{                    
+                    display: flex;
+                    background-color: white;
+                    width: 300px;
+                    height: 110px;
+                    border-radius: 30px;          
+                    color: rgb(59, 59, 59);
+                    border-color: rgb(255, 255, 255);
+                    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);          
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                  }
+                  .card-universidade:hover{
+                    background-color: white !important;
+                    border-color: whitesmoke !important;
+                  }
+                  .card-universidade img{
+                    max-height: 100px;
+          
+                  }
+                </style>
                 </div>
             </div>
         </div>    
@@ -52,8 +85,8 @@
 
     // Create the data table.
     var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topping');
-    data.addColumn('number', 'Slices');
+    data.addColumn('string', 'Bairro');
+    data.addColumn('number', 'Pontos');
     data.addRows([
       {% for item in pontos_por_bairro %}
       ['{{item.bairro}}', {{item.total}}],
@@ -63,7 +96,7 @@
     // Set chart options
     var options = {'title':'Pontos por bairro',
                    'width':800,
-                   'height':800};
+                   'height':500};
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
