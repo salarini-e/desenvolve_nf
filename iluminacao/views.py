@@ -277,5 +277,6 @@ def graficos(request):
         'finalizados': finalizados,
         'nao_finalizados': nao_finalizados,
         'os_por_funcionario': os_por_funcionario,
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
     }
     return render(request, 'iluminacao/graficos.html', context)
