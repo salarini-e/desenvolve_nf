@@ -266,7 +266,7 @@ def imprimir_varias_os(request, ids):
     return render(request, 'iluminacao/imprimir_os.html', context)
 
 def graficos(request):
-    pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('pontos_atendidos')).order_by('-total')
+    pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('pontos_atendidos')).order_by('-total')[:10]
     os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')
     finalizados = OrdemDeServico.objects.filter(status='f').count()
     nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
