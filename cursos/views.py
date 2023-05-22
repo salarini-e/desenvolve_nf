@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import Http404
 
 from autenticacao.functions import aluno_required
 from .models import *
@@ -22,12 +23,14 @@ def index(request):
     except:
         eventos=[]
     
-    cursos = list(Curso.objects.all().order_by('?')[:4])
+    cursos = list(Curso.objects.filter(tipo='C', ativo=True).order_by('?')[:4])
+    palestras = list(Curso.objects.filter(tipo='P', ativo=True).order_by('?')[:4])
     shuffle(cursos)
     context = { 
         'titulo': apps.get_app_config('cursos').verbose_name,
         'eventos': eventos,
-        'cursos': cursos,          
+        'cursos': cursos,   
+        'palestras': palestras 
     }
 
     return render(request, 'cursos/index.html', context)
@@ -38,28 +41,46 @@ def cursos(request, tipo):
     form = Aluno_form()
     categorias = Categoria.objects.all()
     cursos = []
-    if tipo == 'cursos':
-        filtro_titulo='Cursos → Todos'
-        for i in categorias:
-            cursos.append(
-                {'categoria': i, 'curso': Curso.objects.filter(tipo='C', categoria=i, ativo=True)})
+    if tipo == 'cursos':        
+            cursos=Curso.objects.filter(tipo='C', ativo=True)
     elif tipo == 'palestras':
-        filtro_titulo='Palestra → Todas'
-        for i in categorias:
-            cursos.append(
-                {'categoria': i, 'curso': Curso.objects.filter(tipo='P', categoria=i, ativo=True)})
-    else:         
-        filtro_titulo='O que você está procurando?'
+            cursos=Curso.objects.filter(tipo='P', ativo=True)    
 
     context = {
-        'categorias': cursos,
+        'categorias':categorias,
+        'cursos': cursos,
         'form': form,
-        'titulo': apps.get_app_config('cursos').verbose_name,
-        'filtro': filtro_titulo,
+        'titulo': apps.get_app_config('cursos').verbose_name,        
         'tipo': tipo
     }
-    return render(request, 'cursos/cursos.html', context)
+    if tipo == 'cursos':
+        return render(request, 'cursos/cursos.html', context)
+    elif tipo == 'palestras':  
+        return render(request, 'cursos/palestras.html', context)
+    raise Http404("Página não encontrada")  
 
+def cursos_filtrado(request, tipo, filtro):
+    form = Aluno_form()
+    categorias = Categoria.objects.all()
+    cursos = []
+    if tipo == 'cursos':       
+       cursos=Curso.objects.filter(tipo='C', categoria__nome=filtro, ativo=True)
+    elif tipo == 'palestras':                
+        cursos=Curso.objects.filter(tipo='P', categoria__nome=filtro, ativo=True)
+
+    context = {
+        'categorias': categorias,
+        'cursos': cursos,
+        'form': form,
+        'titulo': apps.get_app_config('cursos').verbose_name,
+        'filtro': filtro,
+        'tipo': tipo
+    }
+    if tipo == 'cursos':
+        return render(request, 'cursos/cursos.html', context)
+    elif tipo == 'palestras':  
+        return render(request, 'cursos/palestras.html', context)
+    raise Http404("Página não encontrada")
 
 def curso_detalhe(request, tipo, id):    
     curso=Curso.objects.get(id=id)    

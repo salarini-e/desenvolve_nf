@@ -36,7 +36,7 @@
 </head>
 
 <body id="body" class="container-fluid d-flex flex-column">
-  <div id="preloading">
+  <div id="preloading" style="background-color: white;">
     <img class="mx-auto mt-auto img-fluid logo" src="/static/images/logo_pmnf.png" alt="">
     <div class="mx-auto mb-auto lds-ellipsis">
       <div></div>
@@ -45,6 +45,14 @@
       <div></div>
     </div>
   </div>
+  <style>
+    #preloading{
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100000;
+    }
+  </style>
   <header class="row fixed-top">
     <div class="col" style="border-bottom: 1px solid rgb(255, 255, 255);">
       <div class="row" id="nav-superior">
