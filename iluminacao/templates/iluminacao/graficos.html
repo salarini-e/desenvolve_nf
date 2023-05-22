@@ -128,7 +128,7 @@
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Bairro');
-    data.addColumn('number', 'Pontos');
+    data.addColumn('number', 'OS');
     data.addRows([
       {% for item in os_por_bairro %}
       ['{{item.bairro}}', {{item.total}}],
