@@ -5,10 +5,43 @@
 {% endblock %}
 {% block css %} {% endblock %}
 {% block main %}
+    
+    <div class="row" style="border-radius: 30px;  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);">
+        <div class="col bg-white ps-5 d-flex flex-column pt-4" style="border-top-left-radius: 30px; border-bottom-left-radius: 30px; ">
+            <h2 class="text-center">Programa de Estágio para Estudantes</h2>  
+            <p class="text-secondary mb-3 mt-3">A Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior, é responsável pelo gerenciamento dos estágios no âmbito da administração pública municipal compreendendo o cadastramento de alunos, acompanhamento da oferta de vagas de estágio, supervisão, acompanhamento dos estágios e a distribuição dos estagiários.</p>           
+            <strong>CONDIÇÕES PARA INSCRIÇÃO NOS ESTÁGIOS:</strong>
+            <p class="mt-1">A candidatura à vaga de estágio obrigatório, estágio previsto na grade curricular, é realizada por meio do preenchimento do formulário “Carta de Apresentação”. Este formulário somente poderá ser preenchido por um responsável da Instituição de Ensino que possuir convênio com o Município de Nova Friburgo. O seu preenchimento não garante a vaga, mas se faz parte indispensável para que o PDEE verifique a disponibilidade da mesma.</p>            
+            <button class="px-5 py-2 btn btn-secondary m-auto">
+                Ver vagas
+            </button>
+        </div>
+        <div class="col bg-white px-0 ps-5" style="border-top-right-radius: 30px; border-bottom-right-radius: 30px;">
+            <img src="/static/images/estagio.jpg" alt="" class="img-fluid" style="border-radius: 30px;">
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col "  ">
+            <button class="px-5 py-2 btn btn-secondary mx-auto">
+                Ver vagas
+            </button>
+        </div>
+    </div> -->
+    <div class="row bg-white mt-4 p-5" style="border-radius: 30px; box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);">
+        <div class="col">
+            <strong>DÚVIDAS:</strong>
+            <p>Gerência do Programa de Desenvolvimentos de Estágios de Estudantes</p>
+            <p>Telefone: (22) 2525-9231</p>
+            <p>E mail: gerenciaestagio@sme.novafriburgo.rj.gov.br</p>
+        </div>
+    </div>
 
-    <h1>Para que serve o sistema?</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt culpa et possimus sed consequatur unde saepe dolorum, temporibus quidem cum modi architecto ex. Neque, nesciunt animi velit unde repellendus est.</p>
-
+    <style>
+        .bg-white p{
+            text-indent: 40px;
+            text-align: justify;
+        }
+    </style>
 {% endblock %}
 {% block footer %}
 {% include 'instagram_desenvolve.html' %}

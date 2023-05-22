@@ -251,13 +251,19 @@
             <p class="text-dark text-center">Eventos</p>
           </div>
         </a>
+        <a href="{% url 'estagio:index' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="estagio" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Estágio</p>
+          </div>
+        </a>
         <a href="{% url 'financas:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="financas" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Finanças</p>
           </div>
         </a>
-        <a href="https://casadotrabalhador.pmnf.rj.gov.br" class="me-3">
+        <a href="{% url 'iluminacao:os_index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="iluminacaopublica" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Iluminação<br>Pública</p>
@@ -335,6 +341,11 @@
     #eventos {
       background-color: white !important;
       background-image: url(/static/images/icones/home_eventos.png);
+      background-size: contain;
+    }
+    #estagio {
+      background-color: white !important;
+      background-image: url(/static/images/icones/home_estagio.png);
       background-size: contain;
     }
 
