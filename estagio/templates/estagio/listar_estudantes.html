@@ -6,6 +6,7 @@
 {% block css %} {% endblock %}
 {% block main %}
 
+
 <div class="row w-75 mx-auto">
     <div class="col bg-info p-2 d-flex justify-content-center align-items-center">
         <table>
@@ -15,17 +16,15 @@
                     <th class="pe-5">Vaga de Estágio</th>
                     <th class="pe-5">Supervisor</th>
                     <th class="pe-5">Data de Solicitação</th>
-                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                {% for i in aluno %}
+                {% for i in estudante %}
                 <tr>
                     <td class="pe-5">{{i.pessoa.nome}}</td>
                     <td class="pe-5">{{i.supervisor.vaga.nome}}</td>
                     <td class="pe-5">{{i.supervisor.nome}}</td>
                     <td class="pe-5">{{i.data_inclusao}}</td>
-                    <td class="pe-5">{{i.get_status_display}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

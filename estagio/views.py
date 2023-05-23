@@ -14,10 +14,16 @@ def vagas(request):
     }
     return render(request, 'estagio/vagas.html', context)
 
-def secretaria(request):
+def listar_candidato(request):
     context = {
         'titulo':'Secretaria',
-        'aluno': Estudante.objects.all(),
- 
+        'estudante': Estudante.objects.filter(status=0),
     }
-    return render(request, 'estagio/secretaria.html', context)
+    return render(request, 'estagio/listar_estudantes.html', context)
+
+def listar_estagiario(request):
+    context = {
+        'titulo':'Secretaria',
+        'estudante': Estudante.objects.filter(status=1), 
+    }
+    return render(request, 'estagio/listar_estudantes.html', context)
