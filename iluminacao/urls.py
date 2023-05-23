@@ -5,6 +5,7 @@ app_name='iluminacao'
 urlpatterns = [
     # path('', views.index, name='os_index'),
     path('', views.os_index, name='os_index'),
+    path('painel/', views.os_painel, name='os_painel'),
     path('os/', views.add_os, name='add_os'),
 
     path('os/painel/<id>/', views.detalhes_os, name='detalhes_os'),

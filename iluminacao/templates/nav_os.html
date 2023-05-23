@@ -1,10 +1,16 @@
 <div id="navegacao" class="container">
     <div class="row">
       <div class="col  d-flex">
-        <a href="{% url 'iluminacao:os_index' %}" class="me-3">
+        <a href="{% url 'iluminacao:os_painel' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="os_painel" class="s-nav rounded-circle"></div>
             <p class="text-dark">Painel</p>
+          </div>
+        </a>  
+        <a href="{% url 'iluminacao:os_index' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="os_index" class="s-nav rounded-circle"></div>
+            <p class="text-dark">Serviços</p>
           </div>
         </a>  
         <a href="{% url 'iluminacao:add_os' %}" class="me-3">

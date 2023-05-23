@@ -28,6 +28,43 @@ def index(request):
 
 @login_required
 @group_required('os_acesso')
+def os_painel(request):    
+    meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+    bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
+    data = []
+    
+    for bairro in bairros:
+        total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
+        os_por_mes = OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
+            jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
+            fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
+            mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
+            abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
+            mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
+            jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
+            jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
+            ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
+            set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
+            out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
+            nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
+            dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
+        ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
+
+        data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total})
+
+    
+    # if request.method=='POST':
+    #     pass
+
+    
+    context={
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'data': data,        
+    }
+    return render(request, 'iluminacao/painel.html', context)
+
+@login_required
+@group_required('os_acesso')
 def os_index(request):
     if request.user.is_superuser:
         data=OrdemDeServico.objects.all()
