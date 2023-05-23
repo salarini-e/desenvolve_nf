@@ -80,28 +80,23 @@
     </a>
   </div>
 </div>
-
 <div class="row mx-auto px-5">
   <div class="d-flex flex-wrap">
-    {% for curso in cursos %}
+    {% for curso in cursos_en %}
     <div class="item me-2">
       <div class="c-img" style="position: relative;">
-        <img class="banner-img" src="{{curso.banner.url}}" >
-        <span class="badge_item" style="background-color: {{curso.categoria.cor}}; position: absolute; top:0; right: 0; margin: 5px; padding: 0px 4px; border-radius: 6px; font-size: 10pt; color: white;">
-          {{curso.categoria.nome}}          
-        </span>
+        <img class="banner-img" src="{{curso.img.url}}" >      
       </div>
       <div class="curso-text mx-2 d-flex flex-column py-1">
-        <h6 class="mt-2">{{curso.nome}}</h6>
-        <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
+        <h6 class="mt-2">{{curso.nome}}</h6>        
         <!-- <p class="mb-3 mt-2" style="padding: 0px 10px;">{{curso.descricao}}</p> -->
-        <a href="{% url 'cursos:curso_detalhe' tipo=curso.get_tipo_display id=curso.id %}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
+        <a href="{{curso.url}}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
-<div class="row">
+<!-- <div class="row">
   <div class="col d-flex pe-4">
     <h2 class="ms-5 pt-5 pb-4">Ensino Técnico</h2>
     <a class="ms-auto mt-auto mb-5 me-5" href="#">
@@ -122,14 +117,13 @@
       </div>
       <div class="curso-text mx-2 d-flex flex-column py-1">
         <h6 class="mt-2">{{curso.nome}}</h6>
-        <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
-        <!-- <p class="mb-3 mt-2" style="padding: 0px 10px;">{{curso.descricao}}</p> -->
+        <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>        
         <a href="{% url 'cursos:curso_detalhe' tipo=curso.get_tipo_display id=curso.id %}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
       </div>
     </div>
     {% endfor %}
   </div>
-</div>
+</div> -->
 <div class="row mx-auto px-5">
   <script>
     document.getElementById('s-index').classList.add('s-nav-active');

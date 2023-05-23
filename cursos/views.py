@@ -30,6 +30,7 @@ def index(request):
         'titulo': apps.get_app_config('cursos').verbose_name,
         'eventos': eventos,
         'cursos': cursos,   
+        'cursos_en': Curso_Ensino_Superior.objects.all()[:4],
         'palestras': palestras 
     }
 
@@ -362,7 +363,8 @@ def matricular(request, tipo, id):
 
 def ensino_superior(request):
     context = {
-        'titulo': 'Capacitação Profissional'
+        'titulo': 'Capacitação Profissional',
+        'cursos': Curso_Ensino_Superior.objects.all()
     }
     return render(request, 'cursos/ensino_superior.html', context)
 
@@ -378,7 +380,8 @@ def ensino_superior(request):
 
 def ensino_tecnico(request):
     context = {
-        'titulo': 'Capacitação Profissional'
+        'titulo': 'Capacitação Profissional',
+        # 'cursos': Curso_Ensino_Superior.objects.all()
     }
     return render(request, 'cursos/ensino_tecnico.html', context)
 

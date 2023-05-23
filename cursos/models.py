@@ -35,6 +35,33 @@ class Instituicao(models.Model):
     def __str__(self):
         return '%s' % (self.nome)
 
+
+class Instituicao_Ensino_Superior(models.Model):
+    class Meta:
+        verbose_name = 'Instituição de Ensino Superior'
+        verbose_name_plural = "Instituições de Ensino Superior"
+        ordering = ['nome']
+
+    nome = models.CharField(max_length=150)
+    url = models.URLField()
+
+    def __str__(self):
+        return '%s' % (self.nome)
+    
+class Curso_Ensino_Superior(models.Model):
+    class Meta:
+        verbose_name = 'Curso de Ensino Superior'
+        verbose_name_plural = "Cursos de Ensino Superior"
+        ordering = ['nome']
+
+    instituicao = models.ForeignKey(Instituicao_Ensino_Superior, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=150)
+    img = models.ImageField(upload_to = 'cursos_livres/media/banner_cursos_ensino_superior/', null=True)
+    
+
+    def __str__(self):
+        return '%s - %s' % (self.nome, self.instituicao)
+    
 class Categoria(models.Model):
     class Meta:
         verbose_name = 'Categoria'
