@@ -40,14 +40,18 @@ class Supervisor(models.Model):
     
 
 class Aluno(models.Model):
+    STATUS_CHOICES = (
+        ('0', 'Candidato'),
+        ('1', 'Estágiario'),
+    )
     nome = models.CharField(max_length=200, verbose_name= "nome_aluno")
     contato = models.IntegerField(verbose_name= "contato_aluno")
     matricula = models.IntegerField(verbose_name= "matricula")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     data_incio = models.DateField(verbose_name= "data_inicio", blank=True, null=True)
     data_fim = models.DateField(verbose_name="data_termino", blank=True, null=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
     aluno_id_curso = models.ForeignKey(Curso, on_delete=models.RESTRICT, blank=True, null=True)
     aluno_id_supervisor = models.ForeignKey(Supervisor, on_delete=models.RESTRICT, blank=True, null=True)
-
     def __str__(self):
         return self.nome
