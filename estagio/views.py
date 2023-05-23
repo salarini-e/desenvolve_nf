@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Vagas, Curso, Secretaria, Universidade
+from .models import Vagas, Curso, Secretaria, Universidade, Aluno, Supervisor
 
 def index(request):
     context = {
@@ -17,6 +17,7 @@ def vagas(request):
 def secretaria(request):
     context = {
         'titulo':'Secretaria',
-        'secretarias': Secretaria.objects.all()
+        'aluno': Aluno.objects.all(),
+ 
     }
     return render(request, 'estagio/secretaria.html', context)
