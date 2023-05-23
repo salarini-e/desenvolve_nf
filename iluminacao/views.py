@@ -26,8 +26,6 @@ PRIORIDADE_CHOICES=(
 def index(request):
     return render(request, 'os_index.html')
 
-from django.db import connection
-
 @login_required
 @group_required('os_acesso')
 def os_painel(request):    
@@ -35,34 +33,24 @@ def os_painel(request):
     bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
     data = []
     
-    with connection.cursor() as cursor:
-        for bairro in bairros:
-            query = """
-                SELECT
-                    SUM(CASE WHEN status IN ('0', '1', '2') THEN 1 ELSE 0 END) AS total,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 1 THEN 1 ELSE 0 END) AS jan,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 2 THEN 1 ELSE 0 END) AS fev,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 3 THEN 1 ELSE 0 END) AS mar,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 4 THEN 1 ELSE 0 END) AS abr,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 5 THEN 1 ELSE 0 END) AS mai,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 6 THEN 1 ELSE 0 END) AS jun,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 7 THEN 1 ELSE 0 END) AS jul,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 8 THEN 1 ELSE 0 END) AS ago,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 9 THEN 1 ELSE 0 END) AS et,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 10 THEN 1 ELSE 0 END) AS out,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 11 THEN 1 ELSE 0 END) AS nov,
-                    SUM(CASE WHEN status IN ('0', '1', '2') AND MONTH(dt_solicitacao) = 12 THEN 1 ELSE 0 END) AS dez
-                FROM iluminacao_ordemdeservico
-                WHERE bairro = %s
-                AND YEAR(dt_solicitacao) = %s
-            """
-            cursor.execute(query, [bairro, '2023'])
-            result = cursor.fetchone()
-            
-            total_do_ano = result[0]
-            os_por_mes = dict(zip(meses, result[1:]))
+    for bairro in bairros:
+        total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
+        os_por_mes = OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
+            jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
+            fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
+            mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
+            abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
+            mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
+            jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
+            jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
+            ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
+            set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
+            out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
+            nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
+            dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
+        ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
 
-        data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total_do_ano})
+        data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total})
 
     
     # if request.method=='POST':
