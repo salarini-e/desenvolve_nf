@@ -54,4 +54,4 @@ class Estudante(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.RESTRICT, blank=True, null=True)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.RESTRICT, blank=True, null=True)
     def __str__(self):
-        return self.nome
+        return self.pessoa.nome
