@@ -13,18 +13,28 @@
             <thead>
                 <tr>
                     <th class="pe-5">Nome do Aluno</th> 
+                    <th class="pe-5">Curso</th>
                     <th class="pe-5">Vaga de Estágio</th>
+                    {% if supervisor %}
                     <th class="pe-5">Supervisor</th>
+                    <th class="pe-5">Secretária</th>
+                    {% endif %}
                     <th class="pe-5">Data de Solicitação</th>
+                    <th class="pe-5">Editar</th>
                 </tr>
             </thead>
             <tbody>
                 {% for i in estudante %}
                 <tr>
-                    <td class="pe-5">{{i.pessoa.nome}}</td>
-                    <td class="pe-5">{{i.supervisor.vaga.nome}}</td>
+                    <td class="pe-5">{{i.estudante.pessoa.nome}}</td>
+                    <td class="pe-5">{{i.estudante.curso.nome}}</td>
+                    <td class="pe-5">{{i.vaga.nome}}</td>
+                    {% if supervisor %}                    
                     <td class="pe-5">{{i.supervisor.nome}}</td>
-                    <td class="pe-5">{{i.data_inclusao}}</td>
+                    <td class="pe-5">{{i.supervisor.secretaria.nome}}</td>
+                    {% endif %}
+                    <td class="pe-5">{{i.estudante.data_inclusao}}</td>
+                    <td class="pe-5"><a href="{% url 'estagio:editar_candidato' i.id %}" class="px-3">X</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

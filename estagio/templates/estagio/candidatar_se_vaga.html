@@ -1,0 +1,38 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+        <div class="row">
+            <div class="col">
+                {{vaga.nome}}
+            </div>
+        </div>
+       <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                {% bootstrap_form forms_estudante %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{forms_vaga}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit">
+                    Enviar
+                </button>
+            </div>
+        </div>
+       </form>
+
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}
