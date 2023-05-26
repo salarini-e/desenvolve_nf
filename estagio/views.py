@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Vagas, Estudante_Vaga, Estudante
 from autenticacao.models import Pessoa
-from .forms import Estudante_form, Estudante_vaga_form, Editar_estudante_forms, Cadatrar_Vaga_form
+from .forms import Estudante_form, Estudante_vaga_form, Editar_estudante_forms, Universidade_form, Cadatrar_Vaga_form
 
 def index(request):
     context = {
@@ -38,7 +38,7 @@ def candidatar_se_vaga(request, id):
         instance=Estudante.objects.get(pessoa=pessoa)
         forms_estudante = Estudante_form(instance=instance, initial={'universidade': instance.universidade.id, 'curso': instance.curso.id})
     except:
-         forms_estudante = Estudante_form(initial={'pessoa': pessoa.id})
+        forms_estudante = Estudante_form(initial={'pessoa': pessoa.id})
 
     vaga =  Vagas.objects.get(id=id)
     forms_vaga = Estudante_vaga_form(initial={'status': 0, 'vaga': id})
@@ -61,9 +61,6 @@ def candidatar_se_vaga(request, id):
                 estudante_vaga.status='0'
                 estudante_vaga.vaga=vaga
                 estudante_vaga.save()
-
-        
-
     context = {
         'forms_estudante': forms_estudante,
         'forms_vaga': forms_vaga,
@@ -82,6 +79,13 @@ def editar_estudante(request, id):
         'forms':forms
     }
     return render(request, 'estagio/editar_estudante.html', context)
+
+def cadastrar_universidade(request):
+    form_universidade = Universidade_form()
+    context = {
+        'forms_universidade': form_universidade
+    }
+    return render(request, 'estagio/cadastrar_universidade.html', context)
 
 def cadastro_vaga(resquest):
     forms = Cadatrar_Vaga_form()

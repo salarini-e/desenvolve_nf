@@ -1,0 +1,16 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+    <div class="col">
+        {% csrf_token %}
+        {{form_universidade}}
+    <div>
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}

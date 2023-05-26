@@ -6,7 +6,6 @@ class Date(forms.DateInput):
     input_type = 'date'
 
 class Estudante_form(ModelForm):
-
     class Meta:
         model = Estudante
         widgets = {
@@ -15,6 +14,11 @@ class Estudante_form(ModelForm):
         
         exclude = ['data_inclusao']
 
+class Universidade_form(ModelForm):
+    class Meta:
+        model = Universidade
+        exclude = ['data_inclusao']
+    
 class Editar_estudante_forms(ModelForm):
 
     class Meta:
@@ -63,7 +67,7 @@ class Estudante_vaga_form(ModelForm):
             else:
                 self.add_error('vaga', "O seu curso não corresponde com o da vaga! Tente outro.")        
                 return False
-
+                
 class Cadatrar_Vaga_form(ModelForm):
     class Meta:
         model = Vagas
