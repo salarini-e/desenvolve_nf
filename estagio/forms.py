@@ -63,4 +63,8 @@ class Estudante_vaga_form(ModelForm):
             else:
                 self.add_error('vaga', "O seu curso não corresponde com o da vaga! Tente outro.")        
                 return False
-        
+
+class Cadatrar_Vaga_form(ModelForm):
+    class Meta:
+        model = Vagas
+        exclude = []

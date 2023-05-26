@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Vagas, Estudante_Vaga, Estudante
 from autenticacao.models import Pessoa
-from .forms import Estudante_form, Estudante_vaga_form, Editar_estudante_forms
+from .forms import Estudante_form, Estudante_vaga_form, Editar_estudante_forms, Cadatrar_Vaga_form
 
 def index(request):
     context = {
@@ -82,3 +82,14 @@ def editar_estudante(request, id):
         'forms':forms
     }
     return render(request, 'estagio/editar_estudante.html', context)
+
+def cadastro_vaga(resquest):
+    forms = Cadatrar_Vaga_form()
+    if resquest.method == 'POST':
+        forms = Cadatrar_Vaga_form(resquest.POST, resquest.FILES)
+        if forms.is_valid():
+            forms.save()
+    context = {
+        'forms':forms
+    }
+    return render(resquest, 'estagio/cadastrar_vagas.html', context)
