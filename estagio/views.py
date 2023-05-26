@@ -61,6 +61,7 @@ def candidatar_se_vaga(request, id):
                 estudante_vaga.status='0'
                 estudante_vaga.vaga=vaga
                 estudante_vaga.save()
+
         
 
     context = {

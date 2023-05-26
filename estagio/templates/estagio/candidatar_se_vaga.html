@@ -12,11 +12,12 @@
             </div>
         </div>
        <form method="POST">
-        <p class="text-white bg-danger text-center rounded py-3">
-            {% if forms_vaga.errors.vaga %}
-            O seu curso não corresponde com o da vaga! Tente outro.
-            {% endif %}
-        </p>
+        {% if forms_vaga.errors.vaga %}
+        <div class="text-white bg-danger text-center rounded py-3">
+            {{forms_vaga.vaga.errors}}
+            <!-- O seu curso não corresponde com o da vaga! Tente outro. -->
+        </div>
+        {% endif %}
         {% csrf_token %}
         <div class="row">
             <div class="col">
@@ -37,7 +38,10 @@
         </div>
        </form>
 <style>
-    .errorlist{
+    li{
+        list-style: none;
+    }
+    .nonfield{
         display: none;
     }
 </style>
