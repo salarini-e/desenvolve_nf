@@ -12,6 +12,11 @@
             </div>
         </div>
        <form method="POST">
+        <p class="text-white bg-danger text-center rounded py-3">
+            {% if forms_vaga.errors.vaga %}
+            O seu curso não corresponde com o da vaga! Tente outro.
+            {% endif %}
+        </p>
         {% csrf_token %}
         <div class="row">
             <div class="col">
@@ -31,7 +36,11 @@
             </div>
         </div>
        </form>
-
+<style>
+    .errorlist{
+        display: none;
+    }
+</style>
 {% endblock %}
 {% block footer %}
 {% include 'instagram_desenvolve.html' %}

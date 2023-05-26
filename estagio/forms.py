@@ -5,17 +5,6 @@ from .models import *
 
 class Estudante_form(ModelForm):
 
-    # def __init__(self, *args, **kwargs):
-    #     super(Estudante_form, self).__init__(*args, **kwargs)
-    #     self.fields['universidade'].queryset = Universidade.objects.all()
-    #     self.fields['curso'].queryset = Curso.objects.all()
-
-    #     print(self.instance, 'AQUI')
-       
-    #     if self.instance:  # Verifica se existe uma instância do modelo
-    #             self.fields['universidade'].initial = self.instance.universidade.id
-    #             self.fields['curso'].initial = self.instance.curso.id
-
     class Meta:
         model = Estudante
         widgets = {
@@ -42,7 +31,15 @@ class Estudante_vaga_form(ModelForm):
             'vaga': forms.HiddenInput(),
             'status': forms.HiddenInput(),
         }
+        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor']   
 
-        #tem que verificar ao salvar se ja n existe uma relacao do estudante com a vaga
+    def is_valid(self, estudante):
+        valid = super().is_valid()
+        vaga=Vagas.objects.get(nome=self.cleaned_data['vaga'])
+        print("Campo 'curso da vaga':", vaga.curso.all())
+        print("Campo 'curso do estudante':", estudante.curso)
+        if estudante.curso in vaga.curso.all():
+            return True
+        self.add_error('vaga', "O seu curso não corresponde com o da vaga! Tente outro.")    
+        return False
         
-        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor']

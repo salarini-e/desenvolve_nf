@@ -51,13 +51,16 @@ def candidatar_se_vaga(request, id):
 
         forms_vaga = Estudante_vaga_form(request.POST)
         
-        if forms_estudante.is_valid() and forms_vaga.is_valid():
+        if forms_estudante.is_valid():
             estudante=forms_estudante.save()
             estudante.pessoa=pessoa
             estudante.save()
-            estudante_vaga=forms_vaga.save()
-            estudante_vaga.estudante=estudante
-            estudante_vaga.save()
+            if  forms_vaga.is_valid(estudante):
+                estudante_vaga=forms_vaga.save(commit=False)
+                estudante_vaga.estudante=estudante
+                estudante_vaga.status='0'
+                estudante_vaga.vaga=vaga
+                estudante_vaga.save()
         
 
     context = {
