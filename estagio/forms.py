@@ -72,3 +72,13 @@ class Cadatrar_Vaga_form(ModelForm):
     class Meta:
         model = Vagas
         exclude = []
+
+class Supervisor_form(ModelForm):
+    class Meta:
+        model = Supervisor
+        exclude = ['data_inclusao']
+
+class Secretaria_form(ModelForm):
+    class Meta:
+        model = Secretaria
+        exclude = ['data_inclusao']

@@ -28,19 +28,25 @@
             <p class="text-dark">Estágiarios</p>
           </div>
         </a>
-        <!-- <a href="{% url 'cursos:ensino_superior' %}" class="">
+        <a href="{% url 'estagio:listar_universidade' %}" class="">
           <div class="d-flex flex-column align-items-center">
-            <div id="s-en-superior" class="s-nav rounded-circle"></div>
-            <p class="text-dark">En. Superior</p>
+            <div id="s-secretaria" class="s-nav rounded-circle"></div>
+            <p class="text-dark">Universidade</p>
           </div>
-        </a> -->
-        <!-- <a href="{% url 'cursos:ensino_tecnico' %}" class="">
+        </a>
+        <a href="{% url 'estagio:listar_supervisor' %}" class="">
+          <div class="d-flex flex-column align-items-center">
+            <div id="s-secretaria" class="s-nav rounded-circle"></div>
+            <p class="text-dark">Supervisor</p>
+          </div>
+        </a>
+        <a href="{% url 'estagio:listar_secretaria' %}" class="">
             <div class="d-flex flex-column align-items-center">
               <div id="s-en-tecnico" class="s-nav rounded-circle"></div>
-              <p class="text-dark">En. Técnico</p>
+              <p class="text-dark">Secretária</p>
             </div>
           </a>
-          <a href="{% url 'cursos:curriculo_vitae' %}" class="">
+          <!-- <a href="{% url 'cursos:curriculo_vitae' %}" class="">
             <div class="d-flex flex-column align-items-center">
               <div id="s-curriculo" class="s-nav rounded-circle"></div>
               <p class="text-dark text-center">Currículo<br>Vitae</p>

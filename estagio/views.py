@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from .models import Vagas, Estudante_Vaga, Estudante
+from .models import *
 from autenticacao.models import Pessoa
-from .forms import Estudante_form, Estudante_vaga_form, Editar_estudante_forms, Universidade_form, Cadatrar_Vaga_form
-
+from .forms import *
 def index(request):
     context = {
         'titulo':'Sistema de Estágio',
@@ -80,13 +79,6 @@ def editar_estudante(request, id):
     }
     return render(request, 'estagio/editar_estudante.html', context)
 
-def cadastrar_universidade(request):
-    form_universidade = Universidade_form()
-    context = {
-        'forms_universidade': form_universidade
-    }
-    return render(request, 'estagio/cadastrar_universidade.html', context)
-
 def cadastro_vaga(resquest):
     forms = Cadatrar_Vaga_form()
     if resquest.method == 'POST':
@@ -97,3 +89,57 @@ def cadastro_vaga(resquest):
         'forms':forms
     }
     return render(resquest, 'estagio/cadastrar_vagas.html', context)
+
+def cadastrar_universidade(request):
+    forms = Universidade_form()
+    if request.method == 'POST':
+        forms = Universidade_form(request.POST)
+        if forms.is_valid():
+            forms.save()
+    context = {
+        'forms': forms
+    }
+    return render(request, 'estagio/cadastrar_universidade.html', context)
+
+def listar_universidade(request):
+    context = {
+        'titulo':'Secretaria',
+        'universidades': Universidade.objects.all(),
+    }
+    return render(request, 'estagio/universidade.html', context)
+
+def listar_supervisor(request):
+    context = {
+        'titulo':'Secretria',
+        'supervisores':Supervisor.objects.all(),
+    }
+    return render(request, 'estagio/supervisor.html', context)
+
+def cadastrar_supervisor(request):
+    forms = Supervisor_form()
+    if request.method == 'POST':
+        forms = Supervisor_form(request.POST)
+        if forms.is_valid():
+            forms.save()
+    context = {
+        'forms':forms
+    }
+    return render(request, 'estagio/cadastrar_supervisor.html', context)
+
+def listar_secretaria(request):
+    context = {
+        'titulo':'Secretria',
+        'secretarias':Secretaria.objects.all(),
+    }
+    return render(request, 'estagio/secretaria.html', context)
+
+def cadastrar_secretaria(request):
+    forms = Secretaria_form()
+    if request.method == 'POST':
+        forms = Secretaria_form(request.POST)
+        if forms.is_valid():
+            forms.save()
+    context = {
+        'forms':forms
+    }
+    return render(request, 'estagio/cadastrar_secretaria.html', context)
