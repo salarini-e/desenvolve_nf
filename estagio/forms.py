@@ -18,7 +18,15 @@ class Universidade_form(ModelForm):
     class Meta:
         model = Universidade
         exclude = ['data_inclusao']
-    
+
+class Curso_form(ModelForm):
+    class Meta:
+        model = Curso
+        widgets = {
+            'universidade': forms.HiddenInput(),
+        }
+        exclude = ['data_inclusao']
+
 class Editar_estudante_forms(ModelForm):
 
     class Meta:

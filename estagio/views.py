@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from autenticacao.models import Pessoa
 from .forms import *
@@ -107,6 +107,33 @@ def listar_universidade(request):
         'universidades': Universidade.objects.all(),
     }
     return render(request, 'estagio/universidade.html', context)
+
+def cadastrar_curso(request, id):
+    forms = Curso_form(initial={
+        'universidade':id 
+    })
+    if request.method == 'POST':
+        # Valida o id no form se n vai dar merda
+        forms = Curso_form(request.POST)
+        if forms.is_valid():
+            curso = forms.save()
+            curso.universidade = Universidade.objects.get(id=id)
+            curso.save()
+            return redirect('estagio:curso', id)
+    context={
+        'titulo':'Secretaria',
+        'forms':forms,
+        'id': id
+    }
+    return render(request, 'estagio/cadastrar_curso.html', context)
+
+def listar_curso(request, id):
+    context = {
+        'titulo':'Secretria',
+        'cursos':Curso.objects.filter(universidade__id=id),
+        'id': id
+    }
+    return render(request, 'estagio/cursos.html', context)
 
 def listar_supervisor(request):
     context = {

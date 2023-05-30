@@ -18,32 +18,32 @@
         </a>
         <a href="{% url 'estagio:candidato' %}" class="">
           <div class="d-flex flex-column align-items-center">
-            <div id="s-secretaria" class="s-nav rounded-circle"></div>
+            <div id="s-candidatos" class="s-nav rounded-circle"></div>
             <p class="text-dark">Candidatos</p>
           </div>
         </a>
         <a href="{% url 'estagio:estagiario' %}" class="">
           <div class="d-flex flex-column align-items-center">
-            <div id="s-secretaria" class="s-nav rounded-circle"></div>
+            <div id="s-estagiarios" class="s-nav rounded-circle"></div>
             <p class="text-dark">Estágiarios</p>
           </div>
         </a>
         <a href="{% url 'estagio:listar_universidade' %}" class="">
           <div class="d-flex flex-column align-items-center">
-            <div id="s-secretaria" class="s-nav rounded-circle"></div>
+            <div id="s-universidade" class="s-nav rounded-circle"></div>
             <p class="text-dark">Universidade</p>
           </div>
         </a>
         <a href="{% url 'estagio:listar_supervisor' %}" class="">
           <div class="d-flex flex-column align-items-center">
-            <div id="s-secretaria" class="s-nav rounded-circle"></div>
+            <div id="s-supervisor" class="s-nav rounded-circle"></div>
             <p class="text-dark">Supervisor</p>
           </div>
         </a>
         <a href="{% url 'estagio:listar_secretaria' %}" class="">
             <div class="d-flex flex-column align-items-center">
-              <div id="s-en-tecnico" class="s-nav rounded-circle"></div>
-              <p class="text-dark">Secretária</p>
+              <div id="s-secretaria" class="s-nav rounded-circle"></div>
+              <p class="text-dark">Secretaria</p>
             </div>
           </a>
           <!-- <a href="{% url 'cursos:curriculo_vitae' %}" class="">
@@ -73,19 +73,43 @@
     #s-index {
       margin-right: 1rem !important;
       background-color: white !important;
-      background-image: url(/static/images/icones/curso_home.png);
-      background-size: contain;
-    }
-    #s-secretaria {
-      margin-right: 1rem !important;
-      background-color: white !important;
-      background-image: url(/static/images/icones/curso_palestras.png);
+      background-image: url(/static/images/icones/estagio_.png);
       background-size: contain;
     }
     #s-vagas {
       margin-right: 1rem !important;
       background-color: white !important;
-      background-image: url(/static/images/icones/casa_do_trabalhador.png);
+      background-image: url(/static/images/icones/estagio_vagas.png);
+      background-size: contain;
+    }
+    #s-candidatos {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      background-image: url(/static/images/icones/estagio_candidatos.png);
+      background-size: contain;
+    }
+    #s-estagiarios {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      background-image: url(/static/images/icones/estagio_estagiarios.png);
+      background-size: contain;
+    }
+    #s-universidade {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      background-image: url(/static/images/icones/estagio_universidade.png);
+      background-size: contain;
+    }
+    #s-supervisor {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      background-image: url(/static/images/icones/estagio_supervisor.png);
+      background-size: contain;
+    }
+    #s-secretaria {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      background-image: url(/static/images/icones/estagio_secretaria.png);
       background-size: contain;
     }
 

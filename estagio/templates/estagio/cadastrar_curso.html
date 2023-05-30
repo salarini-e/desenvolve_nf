@@ -1,0 +1,27 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+        <div class="row">
+            <div class="col">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% bootstrap_form forms %}
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit">
+                                Enviar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}
