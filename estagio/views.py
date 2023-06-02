@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import *
 from autenticacao.models import Pessoa
 from .forms import *
+
 def index(request):
     context = {
         'titulo':'Programa de Estágio para Estudantes',
@@ -14,6 +16,21 @@ def vagas(request):
         'vagas': Vagas.objects.all()
     }
     return render(request, 'estagio/vagas.html', context)
+
+@login_required
+def area_do_estudante(request):
+    context = {
+        'titulo':'Programa de Estágio para Estudantes',
+        'vagas': Vagas.objects.all()
+    }
+    return render(request, 'estagio/vagas.html', context)
+
+@login_required
+def adm(request):
+    context = {
+        'titulo':'Programa de Estágio para Estudantes',
+    }
+    return render(request, 'estagio/adm.html', context)
 
 def listar_candidato(request):
     context = {
@@ -30,6 +47,7 @@ def listar_estagiario(request):
     }
     return render(request, 'estagio/listar_estudantes.html', context)
 
+@login_required
 def candidatar_se_vaga(request, id):
     pessoa = Pessoa.objects.get(user=request.user)
     

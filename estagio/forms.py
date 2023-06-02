@@ -46,7 +46,7 @@ class Estudante_vaga_form(ModelForm):
             'vaga': forms.HiddenInput(),
             'status': forms.HiddenInput(),
         }
-        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor']   
+        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor', 'local_do_estagio']   
 
     def is_valid(self, estudante):
         valid = super().is_valid()

@@ -5,12 +5,25 @@
 {% endblock %}
 {% block css %} {% endblock %}
 {% block main %}
-    <div class="row">
-      <div class="col">
-        <a href="{% url 'estagio:cadastro_vaga' %}" class="btn btn-primary mb-5 mx-5">Cadastrar Vaga</a>
+
+    <div class="d-flex flex-wrap">        
+      <h1 id="go">Vagas de estágio</h1>        
+      <div id="cabecalho" class="ms-auto input-group" style="max-width: 300px ;">
+          <div class="d-flex rounded-circle border me-1" style="background-color: #fff; height: 38px; width: 38px; color: rgba(0, 0, 0, 0.685); font-size: 20pt;"
+          data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procurando um formulário? Use o campo ao lado para facilitar sua busca.">
+              <i class="m-auto fa-solid fa-circle-info"></i>
+          </div>
+          <input style="border-radius: 30px !important; padding-right: 35px;" type="search" name="search" id="search"
+              class="form-control mb-auto">
+          <i class="fa-solid fa-magnifying-glass"
+              style="position: absolute; right: 0; margin: 10px 10px auto auto;"></i>
       </div>
     </div>
-
+    <div class="row">
+      <div class="col pb-5">
+        <p class="text-secondary"><i>Conheça as vagas de nível tecnico esuperior ofertados pela Prefeitura de Nova Friburgo e suas respectivas instituições!</i></p>
+      </div>
+    </div>
     <div class="row">
       <div class="col d-flex">
         {% for vaga in vagas %}

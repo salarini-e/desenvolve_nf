@@ -13,39 +13,10 @@
         <a href="{% url 'estagio:vagas' %}" class="">
           <div class="d-flex flex-column align-items-center">
             <div id="s-vagas" class="s-nav rounded-circle"></div>
-            <p class="text-dark text-center">Vagas<br>Livres</p>
+            <p class="text-dark text-center">Vagas de <br>estágio</p>
           </div>
-        </a>
-        <a href="{% url 'estagio:candidato' %}" class="">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-candidatos" class="s-nav rounded-circle"></div>
-            <p class="text-dark">Candidatos</p>
-          </div>
-        </a>
-        <a href="{% url 'estagio:estagiario' %}" class="">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-estagiarios" class="s-nav rounded-circle"></div>
-            <p class="text-dark">Estágiarios</p>
-          </div>
-        </a>
-        <a href="{% url 'estagio:listar_universidade' %}" class="">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-universidade" class="s-nav rounded-circle"></div>
-            <p class="text-dark">Universidade</p>
-          </div>
-        </a>
-        <a href="{% url 'estagio:listar_supervisor' %}" class="">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-supervisor" class="s-nav rounded-circle"></div>
-            <p class="text-dark">Supervisor</p>
-          </div>
-        </a>
-        <a href="{% url 'estagio:listar_secretaria' %}" class="">
-            <div class="d-flex flex-column align-items-center">
-              <div id="s-secretaria" class="s-nav rounded-circle"></div>
-              <p class="text-dark">Secretaria</p>
-            </div>
-          </a>
+        </a>  
+
           <!-- <a href="{% url 'cursos:curriculo_vitae' %}" class="">
             <div class="d-flex flex-column align-items-center">
               <div id="s-curriculo" class="s-nav rounded-circle"></div>
@@ -58,8 +29,20 @@
             <p class="text-dark text-center">Casa do<br />Trabalhador</p>
           </div>
         </a> -->
+        <a href="{% url 'estagio:area_do_estudante' %}" class="">
+          <div class="d-flex flex-column align-items-center">
+            <div id="s-estudante" class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">Área do <br>estudante</p>
+          </div>
+        </a>
+        <a href="{% url 'estagio:area_do_estudante' %}" class="">
+          <div class="d-flex flex-column align-items-center">
+            <div id="s-estudante" class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">Área da <br>universidade</p>
+          </div>
+        </a>
         {% if request.user.is_staff %}
-        <a href="{% url 'administrativo2' %}" class="">
+        <a href="{% url 'estagio:adm' %}" class="">
           <div class="d-flex flex-column align-items-center">
             <div id="s-admin" class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">Admin</p>
@@ -112,11 +95,16 @@
       background-image: url(/static/images/icones/estagio_secretaria.png);
       background-size: contain;
     }
-
-    #s-admin {
+    #s-estudante {
       margin-right: 1rem !important;
       background-color: white !important;
       background-image: url(/static/images/icones/curso_admin.png);
+      background-size: contain;
+    }
+    #s-admin {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      /* background-image: url(/static/images/icones/curso_admin.png); */
       background-size: contain;
     }
   </style>

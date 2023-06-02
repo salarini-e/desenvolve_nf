@@ -16,39 +16,47 @@ class Curso(models.Model):
         return self.nome
     
 class Secretaria(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Nome secretaria")
-    local = models.CharField(max_length=200, verbose_name="Local Secretaria")
+    nome = models.CharField(max_length=100, verbose_name="Nome secretaria")    
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     
     def __str__(self):
         return self.nome
+
+class Locais_de_Estagio(models.Model):
+    secretaria =  models.ForeignKey(Secretaria, on_delete=models.CASCADE)
+    local = models.CharField(max_length=100, verbose_name="Nome secretaria")    
+    quantidade_maxima = models.IntegerField()
 
 class Vagas(models.Model):
     nome = models.CharField(max_length=50, verbose_name="Nome vagas")
     quantidade_de_vagas = models.IntegerField(verbose_name="Quantidade de vagas")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     img = models.ImageField(upload_to = 'estagio/media/banner_vagas/', null=True)
-    secretaria = models.ForeignKey(Secretaria, on_delete=models.CASCADE)
-    curso = models.ManyToManyField(Curso)
-    
+    secretaria = models.ManyToManyField(Secretaria)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    locais = models.ManyToManyField(Locais_de_Estagio)
+    quantidade_maxima = models.IntegerField(blank=True, null=True)
+
     def __str__(self):
         return self.nome
     
 class Supervisor(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True, blank=True)
     nome = models.CharField(max_length=200, verbose_name="Nome supervisor")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     secretaria = models.ForeignKey(Secretaria, on_delete= models.CASCADE)
-    vaga = models.ForeignKey(Vagas, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nome
+
+class Vaga_Supervisor(models.Model): 
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True, blank=True)
+    vaga = models.ForeignKey(Vagas, on_delete=models.CASCADE)
     
+    def __str__(self):
+        return self.vaga     + ' - ' + self.pessoa
 
 class Estudante(models.Model):
-    STATUS_CHOICES = (
-        ('0', 'Candidato'),
-        ('1', 'Estágiario'),
-    )
     pessoa = models.ForeignKey(Pessoa, related_name='aluno_pessoa', on_delete=models.PROTECT)
     matricula = models.CharField(max_length=50, verbose_name= "Matricula")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
@@ -71,6 +79,33 @@ class Estudante_Vaga(models.Model):
     vaga = models.ForeignKey(Vagas, on_delete=models.RESTRICT)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.RESTRICT, blank=True, null=True)
     estudante = models.ForeignKey(Estudante, on_delete=models.RESTRICT, blank=True, null=True)
+    local_do_estagio_de_pretensao = models.ForeignKey(Locais_de_Estagio, related_name='pretensao', on_delete=models.RESTRICT, blank=True, null=True)
+    local_do_estagio = models.ForeignKey(Locais_de_Estagio, on_delete=models.RESTRICT, blank=True, null=True)
 
     def __str__(self):
         return self.estudante.pessoa.nome
+    
+class Processo(models.Model):
+    STATUS_CHOICES = (
+        ('0', 'Aguardando documentação do aluno'),
+        ('1', 'Aguardando liberação da univerdade'),
+        ('2', 'Aguardando liberação de vaga'),
+        ('3', 'Aguardando termo assinado pela universidade'),
+        ('4', 'Processo de seleção concluída'),
+        ('5', 'Estágio concluído'),
+    )
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
+    estudante_vaga = models.ForeignKey(Estudante_Vaga, on_delete=models.CASCADE)
+    data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
+        
+
+class Historico_Processo(models.Model):
+    STATUS_CHOICES = (
+        ('0', 'Aguardando documentação do aluno'),
+        ('1', 'Aguardando liberação de vaga'),
+        ('2', 'Aguardando termo assinado pela universidade')
+    )
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
+    processo=models.ForeignKey(Processo, on_delete=models.CASCADE)
+    # Inserir umas mensagens padrão no front-end, mas deixando liberdade de mensagens customizadas
+    mensagem=models.TextField()

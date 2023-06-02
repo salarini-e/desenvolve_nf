@@ -1,9 +1,9 @@
 '''
-1 - Linkar supervisor com usuário
+FEITO 1 - Linkar supervisor com usuário
 
-2 -  Uma vaga pode ter mais de uma secretaria (Criar relação de vaga e secretaria)
+FEITO  2 -  Uma vaga pode ter mais de uma secretaria (Criar relação de vaga e secretaria)
 
-3 - Ter uma relação de supervisor e a vaga
+FEITO  3 - Ter uma relação de supervisor e a vaga
 
 4 - Criar filtragem de vagas
 
