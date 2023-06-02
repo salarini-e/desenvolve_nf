@@ -7,11 +7,12 @@
 {% block main %}
 
 
-<div class="row w-75 mx-auto">
-    <div class="col bg-info p-2 d-flex justify-content-center align-items-center">
+<div class="row mx-auto">
+    <div class="col p-2 d-flex justify-content-center align-items-center">
         <table>
             <thead>
                 <tr>
+                    <th class="pe-5">Status</th>
                     <th class="pe-5">Nome do Aluno</th> 
                     <th class="pe-5">Curso</th>
                     <th class="pe-5">Vaga de Estágio</th>
@@ -26,6 +27,7 @@
             <tbody>
                 {% for i in estudante %}
                 <tr>
+                    <td class="pe-5">teste</td>
                     <td class="pe-5">{{i.estudante.pessoa.nome}}</td>
                     <td class="pe-5">{{i.estudante.curso.nome}}</td>
                     <td class="pe-5">{{i.vaga.nome}}</td>

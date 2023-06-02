@@ -4,27 +4,27 @@ from autenticacao.models import Pessoa
 from .forms import *
 def index(request):
     context = {
-        'titulo':'Sistema de Estágio',
+        'titulo':'Programa de Estágio para Estudantes',
     }
     return render(request, 'estagio/index.html', context)
 
 def vagas(request):
     context = {
-        'titulo':'Vagas de Estágio',
+        'titulo':'Programa de Estágio para Estudantes',
         'vagas': Vagas.objects.all()
     }
     return render(request, 'estagio/vagas.html', context)
 
 def listar_candidato(request):
     context = {
-        'titulo':'Secretaria',
+         'titulo':'Programa de Estágio para Estudantes',
         'estudante': Estudante_Vaga.objects.filter(status=0),
     }
     return render(request, 'estagio/listar_estudantes.html', context)
 
 def listar_estagiario(request):
     context = {
-        'titulo':'Secretaria',
+        'titulo':'Programa de Estágio para Estudantes',
         'estudante': Estudante_Vaga.objects.filter(status=1), 
         'supervisor': True
     }
@@ -86,7 +86,8 @@ def cadastro_vaga(resquest):
         if forms.is_valid():
             forms.save()
     context = {
-        'forms':forms
+        'forms':forms,
+        'titulo':'Programa de Estágio para Estudantes',
     }
     return render(resquest, 'estagio/cadastrar_vagas.html', context)
 
@@ -97,20 +98,21 @@ def cadastrar_universidade(request):
         if forms.is_valid():
             forms.save()
     context = {
-        'forms': forms
+        'forms': forms,
+        'titulo':'Programa de Estágio para Estudantes',
     }
     return render(request, 'estagio/cadastrar_universidade.html', context)
 
 def listar_universidade(request):
     context = {
-        'titulo':'Secretaria',
+        'titulo':'Programa de Estágio para Estudantes',
         'universidades': Universidade.objects.all(),
     }
     return render(request, 'estagio/universidade.html', context)
 
 def cadastrar_curso(request, id):
     forms = Curso_form(initial={
-        'universidade':id 
+        'universidade':id,
     })
     if request.method == 'POST':
         # Valida o id no form se n vai dar merda
@@ -121,7 +123,7 @@ def cadastrar_curso(request, id):
             curso.save()
             return redirect('estagio:curso', id)
     context={
-        'titulo':'Secretaria',
+        'titulo':'Programa de Estágio para Estudantes',
         'forms':forms,
         'id': id
     }
@@ -129,7 +131,7 @@ def cadastrar_curso(request, id):
 
 def listar_curso(request, id):
     context = {
-        'titulo':'Secretria',
+        'titulo':'Programa de Estágio para Estudantes',
         'cursos':Curso.objects.filter(universidade__id=id),
         'id': id
     }
@@ -137,7 +139,7 @@ def listar_curso(request, id):
 
 def listar_supervisor(request):
     context = {
-        'titulo':'Secretria',
+        'titulo':'Programa de Estágio para Estudantes',
         'supervisores':Supervisor.objects.all(),
     }
     return render(request, 'estagio/supervisor.html', context)
@@ -155,7 +157,7 @@ def cadastrar_supervisor(request):
 
 def listar_secretaria(request):
     context = {
-        'titulo':'Secretria',
+        'titulo':'Programa de Estágio para Estudantes',
         'secretarias':Secretaria.objects.all(),
     }
     return render(request, 'estagio/secretaria.html', context)
