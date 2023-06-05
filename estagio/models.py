@@ -1,7 +1,14 @@
+import random
+import string
 from django.db import models
 from autenticacao.models import Pessoa
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+# Grupos: estagio_responsavel_universidade
+#         estagio_responsavel_prefeitura
+#
 
-class Universidade(models.Model):
+class Universidade(models.Model):    
     nome = models.CharField(max_length=50, verbose_name="Nome universidade")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     def __str__(self):
@@ -86,6 +93,27 @@ class Estudante_Vaga(models.Model):
         return self.estudante.pessoa.nome
     
 class Processo(models.Model):
+
+    n_processo=models.CharField(max_length=8, verbose_name='Número do processo', null=True)    
+    estudante_vaga = models.ForeignKey(Estudante_Vaga, on_delete=models.CASCADE)
+    data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
+    
+@receiver(post_save, sender=Processo)
+def generate_process_number(sender, instance, created, **kwargs):
+    if created and not instance.n_processo:  # Verifica se o objeto foi criado recentemente e se o número do processo já existe
+        random_part = ''.join(random.choices(string.digits, k=5))
+        print('ID:', instance.id)
+        n_processo='{}{}'.format(random_part, instance.id)
+        aux=len(n_processo)
+        if aux>8:
+            while aux>8:
+                n_processo = n_processo[1:]
+                aux=len(n_processo)
+                print(n_processo)
+        instance.n_processo='{:8}'.format(n_processo.zfill(8))
+        instance.save()
+
+class Historico_Processo(models.Model):
     STATUS_CHOICES = (
         ('0', 'Aguardando documentação do aluno'),
         ('1', 'Aguardando liberação da univerdade'),
@@ -93,17 +121,6 @@ class Processo(models.Model):
         ('3', 'Aguardando termo assinado pela universidade'),
         ('4', 'Processo de seleção concluída'),
         ('5', 'Estágio concluído'),
-    )
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
-    estudante_vaga = models.ForeignKey(Estudante_Vaga, on_delete=models.CASCADE)
-    data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
-        
-
-class Historico_Processo(models.Model):
-    STATUS_CHOICES = (
-        ('0', 'Aguardando documentação do aluno'),
-        ('1', 'Aguardando liberação de vaga'),
-        ('2', 'Aguardando termo assinado pela universidade')
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
     processo=models.ForeignKey(Processo, on_delete=models.CASCADE)

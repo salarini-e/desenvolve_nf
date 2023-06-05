@@ -69,8 +69,8 @@ class Estudante_vaga_form(ModelForm):
             self.add_error('vaga', "Você já se candidatou a essa vaga.")    
             return False
         else:
-            if estudante.curso in vaga.curso.all():
-                if valid:
+            if estudante.curso == vaga.curso:
+                if valid:                    
                     return True
             else:
                 self.add_error('vaga', "O seu curso não corresponde com o da vaga! Tente outro.")        

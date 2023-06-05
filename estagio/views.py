@@ -19,11 +19,30 @@ def vagas(request):
 
 @login_required
 def area_do_estudante(request):
+    try:
+        estudante=Estudante.objects.get(pessoa=Pessoa.objects.get(user=request.user))
+        estudante_vagas=Estudante_Vaga.objects.filter(estudante=estudante)
+    except:
+        estudante=False
+        estudante_vagas=False
     context = {
         'titulo':'Programa de Estágio para Estudantes',
-        'vagas': Vagas.objects.all()
+        'vagas': Vagas.objects.all(),
+        'estudante': estudante,
+        'estudante_vagas': estudante_vagas
     }
-    return render(request, 'estagio/vagas.html', context)
+    return render(request, 'estagio/area_do_estudante.html', context)
+
+def processo_da_vaga(request, id):
+    estudante_vaga=Estudante_Vaga.objects.get(id=id) 
+    processo=Processo.objects.get(estudante_vaga=estudante_vaga.id)
+    context = {
+        'titulo':'Programa de Estágio para Estudantes',
+        'processo': processo,
+        'historico': Historico_Processo.objects.filter(processo=processo)
+
+    }
+    return render(request, 'estagio/processo_da_vaga.html', context)
 
 @login_required
 def adm(request):
@@ -55,6 +74,7 @@ def candidatar_se_vaga(request, id):
         instance=Estudante.objects.get(pessoa=pessoa)
         forms_estudante = Estudante_form(instance=instance, initial={'universidade': instance.universidade.id, 'curso': instance.curso.id})
     except:
+        instance=False
         forms_estudante = Estudante_form(initial={'pessoa': pessoa.id})
 
     vaga =  Vagas.objects.get(id=id)
@@ -78,6 +98,10 @@ def candidatar_se_vaga(request, id):
                 estudante_vaga.status='0'
                 estudante_vaga.vaga=vaga
                 estudante_vaga.save()
+                start_processo=Processo(estudante_vaga=estudante_vaga)
+                start_processo.save()
+                start_historico=Historico_Processo(status=0, processo=start_processo, mensagem='')
+                start_historico.save()
     context = {
         'forms_estudante': forms_estudante,
         'forms_vaga': forms_vaga,

@@ -1,0 +1,42 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+
+    <div class="d-flex flex-wrap">        
+      <h2 id="go">Área do Estudante - Processo nº {{processo.n_processo}}</h2>              
+    </div>
+    <div class="row ">
+      <div class="col pt-3 pb-4">
+       <div class="table-responsive pt-4 border" style="background-color: white; border-radius: 30px; padding: 20px;">             
+        <table class="table table-borderless ">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Mensagem</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for h in historico %}
+          
+            <tr>
+              <td>{{h.get_status_display}}</td>
+              <td>{{h.mensagem}}</td>
+            </tr>
+          
+          {% endfor %}
+          </tbody>
+        </table>
+       </div>
+      </div>
+    </div>
+
+    
+
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}
