@@ -79,6 +79,9 @@ INSTALLED_APPS = [
     'almoxarifado',
     'estagio',
     'newsletter',
+    'cevest_almoxarifado',
+    'cevest_os',
+    
 ]
 
 MIDDLEWARE = [
