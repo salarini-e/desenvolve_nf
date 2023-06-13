@@ -3,7 +3,8 @@ from . import views
  
 app_name='iluminacao'
 urlpatterns = [
-    # path('', views.index, name='os_index'),
+    path('os/reset/conclusao/123654/', views.mudadados, name='mudados'),
+
     path('', views.os_index, name='os_index'),
     path('painel/', views.os_painel, name='os_painel'),
     path('os/', views.add_os, name='add_os'),

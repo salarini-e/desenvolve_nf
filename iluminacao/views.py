@@ -317,3 +317,22 @@ def graficos(request):
         'titulo': apps.get_app_config('iluminacao').verbose_name,
     }
     return render(request, 'iluminacao/graficos.html', context)
+
+def mudadados(request):
+    finalizados = OrdemDeServico.objects.filter(status='f')
+    count = 0
+    for item in finalizados:
+        mensagens = OS_Linha_Tempo.objects.filter(os=item)
+        for mensagem in mensagens:
+            if mensagem.mensagem[0] == '*':
+                data = mensagem.mensagem[1:11]
+                dt = datetime.strptime(data, "%d/%m/%Y")
+                dt = dt.strftime("%Y-%m-%d")
+                item.dt_conclusao = dt
+                item.save()
+                msg = mensagem.mensagem.replace(mensagem.mensagem[0:11], "")
+                if msg == "":
+                   msg = "Data de conclusão alterada devido a registro retroativo."
+                mensagem.mensagem = msg
+                mensagem.save()
+    return render(request, 'template.html')
