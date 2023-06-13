@@ -53,18 +53,19 @@
                 {% for d in data %}           
                 <tr>
                   <td class="fw-bolder" colspan="2">{{d.bairro}}</td>
-                  <td>{{d.mes.0.jan}}</td>
-                  <td>{{d.mes.0.fev}}</td>
-                  <td>{{d.mes.0.mar}}</td>
-                  <td>{{d.mes.0.abr}}</td>
-                  <td>{{d.mes.0.mai}}</td>
-                  <td>{{d.mes.0.jun}}</td>
-                  <td>{{d.mes.0.jul}}</td>
-                  <td>{{d.mes.0.ago}}</td>
-                  <td>{{d.mes.0.set}}</td>
-                  <td>{{d.mes.0.out}}</td>
-                  <td>{{d.mes.0.nov}}</td>
-                  <td>{{d.mes.0.dez}}</td>                  
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.jan}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.fev}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.mar}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.abr}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.mai}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.jun}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.jul}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.ago}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.ago}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.set}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.out}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.nov}}</td>
+                  <td>{% if d.mes.0.jan == None %}0{% endif %}{{d.mes.0.dez}}</td>                  
                   <td class="text-center text-danger fw-bold">{{d.total}}</td>
                 </tr>
                 {% endfor %}
