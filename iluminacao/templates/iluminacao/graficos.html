@@ -59,7 +59,24 @@
                 <div class="row">
                   <div class="col d-flex">
                     <div class="mx-auto">
-                      <div id="chart_div3"></div>                    
+                      <div id="chart_div3"></div>  
+                      <p class="text-center">
+                        <a href="#">
+                          Ver mais
+                        </a>                 
+                      </p>                  
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col d-flex">
+                    <div class="mx-auto">
+                      <div id="chart_div4"></div>  
+                      <p class="text-center">
+                        <a href="#">
+                          Ver mais
+                        </a>                 
+                      </p>                  
                     </div>
                   </div>
                 </div>
@@ -152,6 +169,66 @@
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
+    chart.draw(data, options);
+  }
+</script>
+<script type="text/javascript">
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart3);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart3() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Funcionário');
+    data.addColumn('number', 'OS');
+    data.addRows([
+      {% for item in pontos_por_funcionario %}
+      ['{{item}}', {{item.total_pontos}}],
+      {% endfor %}
+    ]);
+
+    // Set chart options
+    var options = {'title':'Pontos do Funcionario',
+                   'width':800,
+                   'height':500};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div3'));
+    chart.draw(data, options);
+  }
+</script>
+<script type="text/javascript">
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart4);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart4() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Funcionário');
+    data.addColumn('number', 'Quantidade de bairros atendidos');
+    data.addRows([
+      {% for item in os_por_funcionario %}
+      ['{{item}}', {{item.total_os}}],
+      {% endfor %}
+    ]);
+
+    // Set chart options
+    var options = {'title':'Bairros por Funcionario',
+                   'width':800,
+                   'height':500};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div4'));
     chart.draw(data, options);
   }
 </script>

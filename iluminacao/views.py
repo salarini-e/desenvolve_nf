@@ -26,6 +26,8 @@ PRIORIDADE_CHOICES=(
 def index(request):
     return render(request, 'os_index.html')
 
+from django.db import connection
+
 @login_required
 @group_required('os_acesso')
 def os_painel(request):    
@@ -50,13 +52,91 @@ def os_painel(request):
             dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
         ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
 
-        data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total})
+        dt={'bairro': bairro, 'mes': os_por_mes, 'total': total}
+        if not any(item['bairro'] == bairro for item in data):
+            data.append(dt)
+    # bairros = (
+    #     OrdemDeServico.objects
+    #     .filter(status__in=['0', '1', '2'], dt_solicitacao__year='2023')
+    #     .values('bairro')
+    #     .annotate(
+    #         total=Count('id'),
+    #         jan=Sum(models.Case(models.When(dt_solicitacao__month=1, then=1), default=0, output_field=models.IntegerField())),
+    #         fev=Sum(models.Case(models.When(dt_solicitacao__month=2, then=1), default=0, output_field=models.IntegerField())),
+    #         mar=Sum(models.Case(models.When(dt_solicitacao__month=3, then=1), default=0, output_field=models.IntegerField())),
+    #         abr=Sum(models.Case(models.When(dt_solicitacao__month=4, then=1), default=0, output_field=models.IntegerField())),
+    #         mai=Sum(models.Case(models.When(dt_solicitacao__month=5, then=1), default=0, output_field=models.IntegerField())),
+    #         jun=Sum(models.Case(models.When(dt_solicitacao__month=6, then=1), default=0, output_field=models.IntegerField())),
+    #         jul=Sum(models.Case(models.When(dt_solicitacao__month=7, then=1), default=0, output_field=models.IntegerField())),
+    #         ago=Sum(models.Case(models.When(dt_solicitacao__month=8, then=1), default=0, output_field=models.IntegerField())),
+    #         set=Sum(models.Case(models.When(dt_solicitacao__month=9, then=1), default=0, output_field=models.IntegerField())),
+    #         out=Sum(models.Case(models.When(dt_solicitacao__month=10, then=1), default=0, output_field=models.IntegerField())),
+    #         nov=Sum(models.Case(models.When(dt_solicitacao__month=11, then=1), default=0, output_field=models.IntegerField())),
+    #         dez=Sum(models.Case(models.When(dt_solicitacao__month=12, then=1), default=0, output_field=models.IntegerField()))
+    #     )
+    # )
 
-    
-    # if request.method=='POST':
-    #     pass
+    # data = []
+    # for bairro in bairros:
+    #     bairro_data = {
+    #         'bairro': bairro['bairro'],
+    #         'mes': {
+    #             'jan': bairro['jan'],
+    #             'fev': bairro['fev'],
+    #             'mar': bairro['mar'],
+    #             'abr': bairro['abr'],
+    #             'mai': bairro['mai'],
+    #             'jun': bairro['jun'],
+    #             'jul': bairro['jul'],
+    #             'ago': bairro['ago'],
+    #             'set': bairro['set'],
+    #             'out': bairro['out'],
+    #             'nov': bairro['nov'],
+    #             'dez': bairro['dez'],
+    #         },
+    #         'total': bairro['total']
+    #     }
+    #     data.append(bairro_data)
 
-    
+    # query = '''
+    # SELECT
+    #     bairro,
+    #     COUNT(*) AS total,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 1) AS `jan`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 2) AS `fev`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 3) AS `mar`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 4) AS `abr`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 5) AS `mai`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 6) AS `jun`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 7) AS `jul`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 8) AS `ago`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 9) AS `et`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 10) AS `out`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 11) AS `nov`,
+    #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 12) AS `dez`
+    # FROM
+    #     iluminacao_ordemdeservico
+    # WHERE
+    #     bairro IS NOT NULL
+    #     AND status IN ('0', '1', '2')
+    #     AND YEAR(dt_solicitacao) = 2023
+    # GROUP BY
+    #     bairro
+    # '''
+
+    # with connection.cursor() as cursor:
+    #     cursor.execute(query)
+    #     rows = cursor.fetchall()
+
+    # data = []
+    # for row in rows:
+    #     bairro = row[0]
+    #     total = row[1]
+    #     meses = row[2:]
+    #     os_por_mes = {meses[i]: value for i, value in enumerate(meses)}
+    #     data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total})
+
+
     context={
         'titulo': apps.get_app_config('iluminacao').verbose_name,
         'data': data,        
@@ -305,15 +385,21 @@ def imprimir_varias_os(request, ids):
 def graficos(request):
     pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
     os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
+
     finalizados = OrdemDeServico.objects.filter(status='f').count()
     nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
-    os_por_funcionario = Funcionario_OS.objects.annotate(total=Count('id')).order_by('-total')[:10]
-    context = {
+
+    # os_por_funcionario = Funcionario_OS.objects.annotate(total=Count('id')).order_by('-total')[:10]
+    os_por_funcionario = Funcionario_OS.objects.annotate(total_os=Count('os_ext__os')).order_by('-total_os')
+    pontos_por_funcionario = Funcionario_OS.objects.annotate(total_pontos=Sum('os_ext__os__pontos_atendidos')).order_by('-total_pontos')    
+
+    context = {    
         'pontos_por_bairro': pontos_por_bairro,
         'os_por_bairro': os_por_bairro,
         'finalizados': finalizados,
         'nao_finalizados': nao_finalizados,
         'os_por_funcionario': os_por_funcionario,
+        'pontos_por_funcionario': pontos_por_funcionario,
         'titulo': apps.get_app_config('iluminacao').verbose_name,
     }
     return render(request, 'iluminacao/graficos.html', context)

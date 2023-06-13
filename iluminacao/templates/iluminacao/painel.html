@@ -53,18 +53,18 @@
                 {% for d in data %}           
                 <tr>
                   <td class="fw-bolder" colspan="2">{{d.bairro}}</td>
-                  <td>{{d.mes.0.jan}}</td>
-                  <td>{{d.mes.0.fev}}</td>
-                  <td>{{d.mes.0.mar}}</td>
-                  <td>{{d.mes.0.abr}}</td>
-                  <td>{{d.mes.0.mai}}</td>
-                  <td>{{d.mes.0.jun}}</td>
-                  <td>{{d.mes.0.jul}}</td>
-                  <td>{{d.mes.0.ago}}</td>
-                  <td>{{d.mes.0.set}}</td>
-                  <td>{{d.mes.0.out}}</td>
-                  <td>{{d.mes.0.nov}}</td>
-                  <td>{{d.mes.0.dez}}</td>                  
+                  <td>{% if d.mes.0.jan == None %}0{% elif d.mes.0.jan == 0 %}{{d.mes.0.jan}}{% else %}<strong class="text-primary">{{d.mes.0.jan}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.fev == None %}0{% elif d.mes.0.fev == 0 %}{{d.mes.0.fev}}{% else %}<strong class="text-primary">{{d.mes.0.fev}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.mar == None %}0{% elif d.mes.0.mar == 0 %}{{d.mes.0.mar}}{% else %}<strong class="text-primary">{{d.mes.0.mar}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.abr == None %}0{% elif d.mes.0.abr == 0 %}{{d.mes.0.abr}}{% else %}<strong class="text-primary">{{d.mes.0.abr}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.mai == None %}0{% elif d.mes.0.mai == 0 %}{{d.mes.0.mai}}{% else %}<strong class="text-primary">{{d.mes.0.mai}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.jun == None %}0{% elif d.mes.0.jun == 0 %}{{d.mes.0.jun}}{% else %}<strong class="text-primary">{{d.mes.0.jun}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.jul == None %}0{% elif d.mes.0.jul == 0 %}{{d.mes.0.jul}}{% else %}<strong class="text-primary">{{d.mes.0.jul}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.ago == None %}0{% elif d.mes.0.ago == 0 %}{{d.mes.0.ago}}{% else %}<strong class="text-primary">{{d.mes.0.ago}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.set == None %}0{% elif d.mes.0.set == 0 %}{{d.mes.0.set}}{% else %}<strong class="text-primary">{{d.mes.0.set}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.out == None %}0{% elif d.mes.0.out == 0 %}{{d.mes.0.out}}{% else %}<strong class="text-primary">{{d.mes.0.out}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.nov == None %}0{% elif d.mes.0.nov == 0 %}{{d.mes.0.nov}}{% else %}<strong class="text-primary">{{d.mes.0.nov}}</strong>{% endif %}</td>
+                  <td>{% if d.mes.0.dez == None %}0{% elif d.mes.0.dez == 0 %}{{d.mes.0.dez}}{% else %}<strong class="text-primary">{{d.mes.0.dez}}</strong>{% endif %}</td>                  
                   <td class="text-center text-danger fw-bold">{{d.total}}</td>
                 </tr>
                 {% endfor %}
