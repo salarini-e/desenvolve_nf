@@ -31,73 +31,72 @@ from django.db import connection
 @login_required
 @group_required('os_acesso')
 def os_painel(request):    
-    # meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
-    # bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
-    # data = []
-    
-    # for bairro in bairros:
-    #     total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
-    #     os_por_mes = OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
-    #         jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
-    #         fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
-    #         mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
-    #         abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
-    #         mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
-    #         jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
-    #         jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
-    #         ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
-    #         set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
-    #         out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
-    #         nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
-    #         dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
-    #     ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
-
-        # dt={'bairro': bairro, 'mes': os_por_mes, 'total': total}
-        # if not dt in data:
-        #     data.append(dt)
-
-    bairros = (
-        OrdemDeServico.objects
-        .filter(status__in=['0', '1', '2'], dt_solicitacao__year='2023')
-        .values('bairro')
-        .annotate(
-            total=Count('id'),
-            jan=Sum(models.Case(models.When(dt_solicitacao__month=1, then=1), default=0, output_field=models.IntegerField())),
-            fev=Sum(models.Case(models.When(dt_solicitacao__month=2, then=1), default=0, output_field=models.IntegerField())),
-            mar=Sum(models.Case(models.When(dt_solicitacao__month=3, then=1), default=0, output_field=models.IntegerField())),
-            abr=Sum(models.Case(models.When(dt_solicitacao__month=4, then=1), default=0, output_field=models.IntegerField())),
-            mai=Sum(models.Case(models.When(dt_solicitacao__month=5, then=1), default=0, output_field=models.IntegerField())),
-            jun=Sum(models.Case(models.When(dt_solicitacao__month=6, then=1), default=0, output_field=models.IntegerField())),
-            jul=Sum(models.Case(models.When(dt_solicitacao__month=7, then=1), default=0, output_field=models.IntegerField())),
-            ago=Sum(models.Case(models.When(dt_solicitacao__month=8, then=1), default=0, output_field=models.IntegerField())),
-            set=Sum(models.Case(models.When(dt_solicitacao__month=9, then=1), default=0, output_field=models.IntegerField())),
-            out=Sum(models.Case(models.When(dt_solicitacao__month=10, then=1), default=0, output_field=models.IntegerField())),
-            nov=Sum(models.Case(models.When(dt_solicitacao__month=11, then=1), default=0, output_field=models.IntegerField())),
-            dez=Sum(models.Case(models.When(dt_solicitacao__month=12, then=1), default=0, output_field=models.IntegerField()))
-        )
-    )
-
+    meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+    bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
     data = []
+    
     for bairro in bairros:
-        bairro_data = {
-            'bairro': bairro['bairro'],
-            'mes': {
-                'jan': bairro['jan'],
-                'fev': bairro['fev'],
-                'mar': bairro['mar'],
-                'abr': bairro['abr'],
-                'mai': bairro['mai'],
-                'jun': bairro['jun'],
-                'jul': bairro['jul'],
-                'ago': bairro['ago'],
-                'set': bairro['set'],
-                'out': bairro['out'],
-                'nov': bairro['nov'],
-                'dez': bairro['dez'],
-            },
-            'total': bairro['total']
-        }
-        data.append(bairro_data)
+        total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
+        os_por_mes = OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
+            jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
+            fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
+            mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
+            abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
+            mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
+            jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
+            jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
+            ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
+            set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
+            out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
+            nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
+            dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
+        ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
+
+        dt={'bairro': bairro, 'mes': os_por_mes, 'total': total}
+        if not any(item['bairro'] == bairro for item in data):
+            data.append(dt)
+    # bairros = (
+    #     OrdemDeServico.objects
+    #     .filter(status__in=['0', '1', '2'], dt_solicitacao__year='2023')
+    #     .values('bairro')
+    #     .annotate(
+    #         total=Count('id'),
+    #         jan=Sum(models.Case(models.When(dt_solicitacao__month=1, then=1), default=0, output_field=models.IntegerField())),
+    #         fev=Sum(models.Case(models.When(dt_solicitacao__month=2, then=1), default=0, output_field=models.IntegerField())),
+    #         mar=Sum(models.Case(models.When(dt_solicitacao__month=3, then=1), default=0, output_field=models.IntegerField())),
+    #         abr=Sum(models.Case(models.When(dt_solicitacao__month=4, then=1), default=0, output_field=models.IntegerField())),
+    #         mai=Sum(models.Case(models.When(dt_solicitacao__month=5, then=1), default=0, output_field=models.IntegerField())),
+    #         jun=Sum(models.Case(models.When(dt_solicitacao__month=6, then=1), default=0, output_field=models.IntegerField())),
+    #         jul=Sum(models.Case(models.When(dt_solicitacao__month=7, then=1), default=0, output_field=models.IntegerField())),
+    #         ago=Sum(models.Case(models.When(dt_solicitacao__month=8, then=1), default=0, output_field=models.IntegerField())),
+    #         set=Sum(models.Case(models.When(dt_solicitacao__month=9, then=1), default=0, output_field=models.IntegerField())),
+    #         out=Sum(models.Case(models.When(dt_solicitacao__month=10, then=1), default=0, output_field=models.IntegerField())),
+    #         nov=Sum(models.Case(models.When(dt_solicitacao__month=11, then=1), default=0, output_field=models.IntegerField())),
+    #         dez=Sum(models.Case(models.When(dt_solicitacao__month=12, then=1), default=0, output_field=models.IntegerField()))
+    #     )
+    # )
+
+    # data = []
+    # for bairro in bairros:
+    #     bairro_data = {
+    #         'bairro': bairro['bairro'],
+    #         'mes': {
+    #             'jan': bairro['jan'],
+    #             'fev': bairro['fev'],
+    #             'mar': bairro['mar'],
+    #             'abr': bairro['abr'],
+    #             'mai': bairro['mai'],
+    #             'jun': bairro['jun'],
+    #             'jul': bairro['jul'],
+    #             'ago': bairro['ago'],
+    #             'set': bairro['set'],
+    #             'out': bairro['out'],
+    #             'nov': bairro['nov'],
+    #             'dez': bairro['dez'],
+    #         },
+    #         'total': bairro['total']
+    #     }
+    #     data.append(bairro_data)
 
     # query = '''
     # SELECT
