@@ -4,7 +4,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from almoxarifado.models import Material
 from autenticacao.models import Pessoa
-
+from django.db.models import Count
+from django.db.models.functions import Extract
 import uuid
 from django.utils import timezone
 
@@ -46,6 +47,18 @@ class Funcionario_OS(models.Model):
     nivel = models.CharField(max_length=1, verbose_name='Nível de acesso', choices=NIVEL_CHOICES, null=True, default='0')
     dt_inclusao=models.DateField(auto_now_add=True, verbose_name='Data de inclusão')
 
+
+class TotalOSPorSemanaAno(models.Model):
+    ano = models.IntegerField()
+    semana = models.IntegerField()
+    total_os = models.IntegerField()
+
+
+class TotalOSPorMesAno(models.Model):
+    ano = models.IntegerField()
+    mes = models.IntegerField()
+    total_os = models.IntegerField()
+
 class OrdemDeServico(models.Model):
     STATUS_CHOICES=(
         ('0','Novo'),
@@ -81,6 +94,37 @@ class OrdemDeServico(models.Model):
     status =models.CharField(max_length=1, verbose_name='Status', choices=STATUS_CHOICES, null=True, default='0')
     pontos_atendidos=models.PositiveIntegerField(default=0)
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
+
+    def semana_atendimento(self):
+        return self.dt_conclusao.isocalendar()[1]
+
+    @staticmethod
+    def total_os_por_semana_ano():
+        # Obtém a contagem de OS por semana e ano
+        os_por_semana_ano = OrdemDeServico.objects.filter(status='f').annotate(ano=Extract('dt_conclusao', 'year'), semana=Extract('dt_conclusao', 'week')).values('ano', 'semana').annotate(total_os=Count('id'))
+
+        # print(os_por_semana_ano)
+        # Salva os valores na tabela TotalOSPorSemanaAno
+        for item in os_por_semana_ano:
+            ano = item['ano']
+            semana = item['semana']
+            total_os = item['total_os']
+            # print(semana, ano, total_os)
+            TotalOSPorSemanaAno.objects.create(ano=ano, semana=semana, total_os=total_os)
+    
+    @staticmethod
+    def total_os_por_mes_ano():
+        # Obtém a contagem de OS por mês
+        os_por_mes = OrdemDeServico.objects.filter(status='f').annotate(ano=Extract('dt_conclusao', 'year'), mes=Extract('dt_conclusao', 'month')).values('ano', 'mes').annotate(total=Count('id'))
+
+        # Salva os valores na tabela TotalOSPorMes
+        for item in os_por_mes:            
+            ano = item['ano']
+            mes = item['mes']
+            total_os = item['total']
+            print(mes, ano, total_os)
+            TotalOSPorMesAno.objects.create(ano=ano, mes=mes, total_os=total_os)
+
 
     class Meta:
         ordering = ['-dt_solicitacao']

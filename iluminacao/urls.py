@@ -8,6 +8,8 @@ urlpatterns = [
     path('', views.os_index, name='os_index'),
     path('painel/', views.os_painel, name='os_painel'),
     path('os/', views.add_os, name='add_os'),
+    path('os/contar-os/', views.contagem_os, name='contagem_os'),
+    path('os/salvar-contagem/', views.salvar_contagem_os, name='salvar_contagem_os'),
 
     path('os/painel/<id>/', views.detalhes_os, name='detalhes_os'),
     path('os/painel/<id>/pontos', views.pontos_os, name='pontos_os'),

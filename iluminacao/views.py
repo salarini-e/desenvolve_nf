@@ -422,3 +422,28 @@ def mudadados(request):
                 mensagem.mensagem = msg
                 mensagem.save()
     return render(request, 'template.html')
+
+def salvar_contagem_os(request):
+    # Limpa as tabelas existentes antes de salvar os novos dados
+    TotalOSPorSemanaAno.objects.all().delete()
+    TotalOSPorMesAno.objects.all().delete()
+
+    # Chama os métodos estáticos para obter e salvar os dados
+    OrdemDeServico.total_os_por_semana_ano()
+    OrdemDeServico.total_os_por_mes_ano()
+
+    return redirect('iluminacao:contagem_os')
+
+def contagem_os(request):
+    # Obtém a contagem de OS por semana e ano
+    total_os_semana_ano = TotalOSPorSemanaAno.objects.all()
+
+    # Obtém a contagem de OS por mês
+    total_os_mes_ano = TotalOSPorMesAno.objects.all()
+
+    context = {
+        'total_os_semana_ano': total_os_semana_ano,
+        'total_os_mes': total_os_mes_ano
+    }
+
+    return render(request, 'iluminacao/contagem_os.html', context)
