@@ -17,6 +17,7 @@ urlpatterns = [
     path('bem-estar-animal/', include('bemestaranimal.urls')),
     path('servicos/iluminacao/', include('iluminacao.urls')),
     path('servicos/cevest/', include('cevest_os.urls')),
+    path('servicos/dev/', include('chamados_dev.urls')),
     path('almoxarifado/', include('almoxarifado.urls')),
     path('cevest/almoxarifado/', include('cevest_almoxarifado.urls')),
     path('estagio/', include('estagio.urls')),
