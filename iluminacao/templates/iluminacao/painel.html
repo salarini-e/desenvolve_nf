@@ -31,6 +31,7 @@
         <div class="row">
           <div class="col">
             <table class="table table-striped table-borderless table-hover">
+              
               <thead class="thead-dark ">
                 <tr>
                   <th scope="col" colspan="2">Bairro</th>                  
@@ -49,7 +50,27 @@
                   <th scope="col">Total</th>
                 </tr>
               </thead>
-              <tbody>     
+              <tbody>
+                {% for item in results %}
+                    <tr>
+                      <td colspan="2">{{ item.bairro }}</td>
+                      <td>{% if item.mes == 'Janeiro' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Fevereiro' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Março' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Abril' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Maio' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Junho' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Julho' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Agosto' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Setembro' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Outubro' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Novembro' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{% if item.mes == 'Dezembro' %}{{item.total_por_mes}}{% else %}0{% endif %}</td>
+                      <td>{{ item.total }}</td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+              <!-- <tbody>      
                 {% for d in data %}           
                 <tr>
                   <td class="fw-bolder" colspan="2">{{d.bairro}}</td>
@@ -68,7 +89,7 @@
                   <td class="text-center text-danger fw-bold">{{d.total}}</td>
                 </tr>
                 {% endfor %}
-              </tbody>
+              </tbody> -->
             </table>
           </div>
         </div>

@@ -31,30 +31,34 @@ from django.db import connection
 @login_required
 @group_required('os_acesso')
 def os_painel(request):    
-    meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
-    bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
-    data = []
-    
-    for bairro in bairros:
-        total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
-        os_por_mes = OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
-            jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
-            fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
-            mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
-            abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
-            mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
-            jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
-            jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
-            ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
-            set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
-            out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
-            nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
-            dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
-        ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
+    # meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+    # bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
+    # data = []
 
-        dt={'bairro': bairro, 'mes': os_por_mes, 'total': total}
-        if not any(item['bairro'] == bairro for item in data):
-            data.append(dt)
+    # with connection.cursor() as cursor:
+    #     cursor.execute("SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total,bairro, COUNT(dt_solicitacao), MONTHNAME(dt_solicitacao) AS nome_mes FROM iluminacao_ordemdeservico as main WHERE status != 'f' GROUP BY bairro, MONTH(dt_solicitacao) ORDER BY bairro;")
+    #     query = cursor.fetchall()     
+
+    # for bairro in bairros:
+    #     total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
+    #     os_por_mes = OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
+    #         jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
+    #         fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
+    #         mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
+    #         abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
+    #         mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
+    #         jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
+    #         jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
+    #         ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
+    #         set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
+    #         out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
+    #         nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
+    #         dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
+    #     ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
+
+    #     dt={'bairro': bairro, 'mes': os_por_mes, 'total': total}
+    #     if not any(item['bairro'] == bairro for item in data):
+    #         data.append(dt)
     # bairros = (
     #     OrdemDeServico.objects
     #     .filter(status__in=['0', '1', '2'], dt_solicitacao__year='2023')
@@ -136,12 +140,49 @@ def os_painel(request):
     #     os_por_mes = {meses[i]: value for i, value in enumerate(meses)}
     #     data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total})
 
+    query = """
+        SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total, bairro, COUNT(dt_solicitacao), 
+            CASE
+                WHEN strftime('%m', dt_solicitacao) = '01' THEN 'Janeiro'
+                WHEN strftime('%m', dt_solicitacao) = '02' THEN 'Fevereiro'
+                WHEN strftime('%m', dt_solicitacao) = '03' THEN 'Março'
+                WHEN strftime('%m', dt_solicitacao) = '04' THEN 'Abril'
+                WHEN strftime('%m', dt_solicitacao) = '05' THEN 'Maio'
+                WHEN strftime('%m', dt_solicitacao) = '06' THEN 'Junho'
+                WHEN strftime('%m', dt_solicitacao) = '07' THEN 'Julho'
+                WHEN strftime('%m', dt_solicitacao) = '08' THEN 'Agosto'
+                WHEN strftime('%m', dt_solicitacao) = '09' THEN 'Setembro'
+                WHEN strftime('%m', dt_solicitacao) = '10' THEN 'Outubro'
+                WHEN strftime('%m', dt_solicitacao) = '11' THEN 'Novembro'
+                WHEN strftime('%m', dt_solicitacao) = '12' THEN 'Dezembro'
+                ELSE NULL
+        END AS nome_mes
+        FROM iluminacao_ordemdeservico as main
+        WHERE status != 'f'
+        GROUP BY bairro, strftime('%m', dt_solicitacao)
+        ORDER BY bairro;
+        """
 
-    context={
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
-        'data': data,        
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+    resultados_formatados = []
+    for row in results:
+        total, bairro, count_dt_solicitacao, nome_mes = row
+        resultado_dict = {
+            'bairro': bairro,
+            'total': total,
+            'mes': nome_mes,
+            'total_por_mes': count_dt_solicitacao
+        }
+        resultados_formatados.append(resultado_dict)
+    context = {
+        'titulo': apps.get_app_config('iluminacao').verbose_name,   
+        'results': resultados_formatados     
     }
     return render(request, 'iluminacao/painel.html', context)
+
 
 @login_required
 @group_required('os_acesso')
