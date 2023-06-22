@@ -2,7 +2,6 @@ from tabnanny import verbose
 from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth.models import User
-from almoxarifado.models import Material
 from autenticacao.models import Pessoa
 from django.db.models import Count
 from django.db.models.functions import Extract
@@ -32,7 +31,15 @@ class Tipo_OS(models.Model):
     def __str__(self):
         return self.nome
 
-class Funcionario_OS(models.Model):
+class Sub_Tipo_OS(models.Model):
+    
+    tipo_os=models.ForeignKey(Tipo_OS, on_delete=models.CASCADE)
+    nome=models.CharField(max_length=100, verbose_name='Sistema', blank=True)
+    sigla=models.CharField(max_length=10, verbose_name='Sigla', blank=True, null=True)
+    def __str__(self):
+        return self.nome
+    
+class Funcionario_DEV_OS(models.Model):
     def __str__(self):
         return self.pessoa.nome
     NIVEL_CHOICES=(
@@ -59,7 +66,7 @@ class TotalOSPorMesAno(models.Model):
     mes = models.IntegerField()
     total_os = models.IntegerField()
 
-class OrdemDeServico(models.Model):
+class DevOrdemDeServico(models.Model):
     STATUS_CHOICES=(
         ('0','Novo'),
         ('1','Aguardando'),
@@ -80,12 +87,13 @@ class OrdemDeServico(models.Model):
     dt_solicitacao = models.DateTimeField(auto_now_add=True, verbose_name='Data de solicitação', blank=True)
     atendente = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True)
     
-    logradouro = models.CharField(max_length=150, verbose_name='Logradouro')
-    bairro = models.CharField(max_length=150, verbose_name='Bairro')
-    referencia = models.CharField(max_length=200, verbose_name='Referência', blank=True)
+    # logradouro = models.CharField(max_length=150, verbose_name='Logradouro')
+    # bairro = models.CharField(max_length=150, verbose_name='Bairro')
+    # referencia = models.CharField(max_length=200, verbose_name='Referência', blank=True)
 
     nome_do_contribuinte = models.CharField(max_length=200, verbose_name='Nome do contribuinte', blank=True)
     telefone_do_contribuinte = models.CharField(max_length=12, verbose_name='Telefone do contribuinte', blank=True)
+    secretaria_solicitante = models.CharField(max_length=200, verbose_name='Secretária solicitante', blank=True)
 
     cadastrado_por = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True)   
 
@@ -101,7 +109,7 @@ class OrdemDeServico(models.Model):
     @staticmethod
     def total_os_por_semana_ano():
         # Obtém a contagem de OS por semana e ano
-        os_por_semana_ano = OrdemDeServico.objects.filter(status='f').annotate(ano=Extract('dt_conclusao', 'year'), semana=Extract('dt_conclusao', 'week')).values('ano', 'semana').annotate(total_os=Count('id'))
+        os_por_semana_ano = DevOrdemDeServico.objects.filter(status='f').annotate(ano=Extract('dt_conclusao', 'year'), semana=Extract('dt_conclusao', 'week')).values('ano', 'semana').annotate(total_os=Count('id'))
 
         # print(os_por_semana_ano)
         # Salva os valores na tabela TotalOSPorSemanaAno
@@ -115,7 +123,7 @@ class OrdemDeServico(models.Model):
     @staticmethod
     def total_os_por_mes_ano():
         # Obtém a contagem de OS por mês
-        os_por_mes = OrdemDeServico.objects.filter(status='f').annotate(ano=Extract('dt_conclusao', 'year'), mes=Extract('dt_conclusao', 'month')).values('ano', 'mes').annotate(total=Count('id'))
+        os_por_mes = DevOrdemDeServico.objects.filter(status='f').annotate(ano=Extract('dt_conclusao', 'year'), mes=Extract('dt_conclusao', 'month')).values('ano', 'mes').annotate(total=Count('id'))
 
         # Salva os valores na tabela TotalOSPorMes
         for item in os_por_mes:            
@@ -145,20 +153,13 @@ class OrdemDeServico(models.Model):
         return "Chamado finalizado com sucesso."
 
 class OS_ext(models.Model):    
-    os=models.ForeignKey(OrdemDeServico, on_delete=models.PROTECT)
-    equipe=models.ManyToManyField(Funcionario_OS, blank=True, null=True)
+    os=models.ForeignKey(DevOrdemDeServico, on_delete=models.PROTECT)
+    equipe=models.ManyToManyField(Funcionario_DEV_OS, blank=True, null=True)
     cod_veiculo=models.CharField(max_length=14, verbose_name='Código do veículo', blank=True)
 
-class OS_Linha_Tempo(models.Model):
-    os=models.ForeignKey(OrdemDeServico, on_delete=models.CASCADE)
+class DEV_OS_Linha_Tempo(models.Model):
+    os=models.ForeignKey(DevOrdemDeServico, on_delete=models.CASCADE)
     pessoa=models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     mensagem=models.TextField()
     anexo = models.FileField(upload_to='anexos/', blank=True, null=True)
     dt_inclusao = models.DateTimeField(auto_now_add=True, verbose_name='Data da mensagem', blank=True)
-    
-
-class MateriaisUsados(models.Model):
-    os=models.ForeignKey(OrdemDeServico, on_delete=models.PROTECT)
-    material=models.ForeignKey(Material, on_delete=models.PROTECT)
-    quantidade=models.IntegerField()
-

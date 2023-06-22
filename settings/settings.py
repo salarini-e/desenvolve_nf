@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'newsletter',
     'cevest_almoxarifado',
     'cevest_os',
+    'chamados_dev',
     
 ]
 

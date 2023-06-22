@@ -31,36 +31,32 @@ from django.db import connection
 @login_required
 @group_required('os_acesso')
 def os_painel(request):    
-    # meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
-    # bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
-    # data = []
+    meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+    bairros = DevOrdemDeServico.objects.values_list('bairro', flat=True).distinct()
+    data = []
+    
+    for bairro in bairros:
+        total=DevOrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
+        os_por_mes = DevOrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
+            jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
+            fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
+            mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
+            abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
+            mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
+            jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
+            jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
+            ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
+            set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
+            out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
+            nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
+            dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
+        ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
 
-    # with connection.cursor() as cursor:
-    #     cursor.execute("SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total,bairro, COUNT(dt_solicitacao), MONTHNAME(dt_solicitacao) AS nome_mes FROM iluminacao_ordemdeservico as main WHERE status != 'f' GROUP BY bairro, MONTH(dt_solicitacao) ORDER BY bairro;")
-    #     query = cursor.fetchall()     
-
-    # for bairro in bairros:
-    #     total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
-    #     os_por_mes = OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').annotate(
-    #         jan=Count('id', filter=models.Q(dt_solicitacao__month=1)),
-    #         fev=Count('id', filter=models.Q(dt_solicitacao__month=2)),
-    #         mar=Count('id', filter=models.Q(dt_solicitacao__month=3)),
-    #         abr=Count('id', filter=models.Q(dt_solicitacao__month=4)),
-    #         mai=Count('id', filter=models.Q(dt_solicitacao__month=5)),
-    #         jun=Count('id', filter=models.Q(dt_solicitacao__month=6)),
-    #         jul=Count('id', filter=models.Q(dt_solicitacao__month=7)),
-    #         ago=Count('id', filter=models.Q(dt_solicitacao__month=8)),
-    #         set=Count('id', filter=models.Q(dt_solicitacao__month=9)),
-    #         out=Count('id', filter=models.Q(dt_solicitacao__month=10)),
-    #         nov=Count('id', filter=models.Q(dt_solicitacao__month=11)),
-    #         dez=Count('id', filter=models.Q(dt_solicitacao__month=12)),
-    #     ).values('jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez')
-
-    #     dt={'bairro': bairro, 'mes': os_por_mes, 'total': total}
-    #     if not any(item['bairro'] == bairro for item in data):
-    #         data.append(dt)
+        dt={'bairro': bairro, 'mes': os_por_mes, 'total': total}
+        if not any(item['bairro'] == bairro for item in data):
+            data.append(dt)
     # bairros = (
-    #     OrdemDeServico.objects
+    #     DevOrdemDeServico.objects
     #     .filter(status__in=['0', '1', '2'], dt_solicitacao__year='2023')
     #     .values('bairro')
     #     .annotate(
@@ -119,7 +115,7 @@ def os_painel(request):
     #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 11) AS `nov`,
     #     SUM(EXTRACT(MONTH FROM dt_solicitacao) = 12) AS `dez`
     # FROM
-    #     iluminacao_ordemdeservico
+    #     chamados_dev_DevOrdemDeServico
     # WHERE
     #     bairro IS NOT NULL
     #     AND status IN ('0', '1', '2')
@@ -140,57 +136,20 @@ def os_painel(request):
     #     os_por_mes = {meses[i]: value for i, value in enumerate(meses)}
     #     data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total})
 
-    query = """
-        SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total, bairro, COUNT(dt_solicitacao), 
-            CASE
-                WHEN strftime('%m', dt_solicitacao) = '01' THEN 'Janeiro'
-                WHEN strftime('%m', dt_solicitacao) = '02' THEN 'Fevereiro'
-                WHEN strftime('%m', dt_solicitacao) = '03' THEN 'Março'
-                WHEN strftime('%m', dt_solicitacao) = '04' THEN 'Abril'
-                WHEN strftime('%m', dt_solicitacao) = '05' THEN 'Maio'
-                WHEN strftime('%m', dt_solicitacao) = '06' THEN 'Junho'
-                WHEN strftime('%m', dt_solicitacao) = '07' THEN 'Julho'
-                WHEN strftime('%m', dt_solicitacao) = '08' THEN 'Agosto'
-                WHEN strftime('%m', dt_solicitacao) = '09' THEN 'Setembro'
-                WHEN strftime('%m', dt_solicitacao) = '10' THEN 'Outubro'
-                WHEN strftime('%m', dt_solicitacao) = '11' THEN 'Novembro'
-                WHEN strftime('%m', dt_solicitacao) = '12' THEN 'Dezembro'
-                ELSE NULL
-        END AS nome_mes
-        FROM iluminacao_ordemdeservico as main
-        WHERE status != 'f'
-        GROUP BY bairro, strftime('%m', dt_solicitacao)
-        ORDER BY bairro;
-        """
 
-    with connection.cursor() as cursor:
-        cursor.execute(query)
-        results = cursor.fetchall()
-
-    resultados_formatados = []
-    for row in results:
-        total, bairro, count_dt_solicitacao, nome_mes = row
-        resultado_dict = {
-            'bairro': bairro,
-            'total': total,
-            'mes': nome_mes,
-            'total_por_mes': count_dt_solicitacao
-        }
-        resultados_formatados.append(resultado_dict)
-    context = {
-        'titulo': apps.get_app_config('iluminacao').verbose_name,   
-        'results': resultados_formatados     
+    context={
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
+        'data': data,        
     }
-    return render(request, 'iluminacao/painel.html', context)
-
+    return render(request, 'chamados_dev/painel.html', context)
 
 @login_required
 @group_required('os_acesso')
 def os_index(request):
     if request.user.is_superuser:
-        data=OrdemDeServico.objects.all()
+        data=DevOrdemDeServico.objects.all()
     else:
-        data=OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user))
+        data=DevOrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user))
     if request.method=='POST':
         valor_da_busca=request.POST['valor_da_busca']
         tipo=request.POST['tipo_da_busca']
@@ -232,16 +191,16 @@ def os_index(request):
     ordens_de_servico = paginator.get_page(page)
     
     context={
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
         'ordens_de_servico': ordens_de_servico
     }
-    return render(request, 'iluminacao/index.html', context)
+    return render(request, 'chamados_dev/index.html', context)
 
 
 @login_required
 def add_os(request):
     
-    form = OS_Form(initial={'tipo': Tipo_OS.objects.get(sigla='IP').id})
+    form = OS_Form()
 
     if request.method=='POST':
         form=OS_Form(request.POST)
@@ -250,19 +209,20 @@ def add_os(request):
             os.cadastrado_por=Pessoa.objects.get(user=request.user)
             os.save()
 
-            return redirect('iluminacao:os_index')                
+            return redirect('chamados_dev:os_index')                
 
     context={
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
         'form': form,
+        'tipos': Tipo_OS.objects.all()
     }
 
-    return render(request, 'iluminacao/adicionar_os.html', context)
+    return render(request, 'chamados_dev/adicionar_os.html', context)
 
 
 def detalhes_os(request, id):
     pessoa = Pessoa.objects.get(user=request.user)
-    os = OrdemDeServico.objects.get(id=id)
+    os = DevOrdemDeServico.objects.get(id=id)
     form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})
     try:
         os_ext=OS_ext.objects.get(os=os)        
@@ -277,46 +237,46 @@ def detalhes_os(request, id):
            msg.save()
            form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})       
 
-    linha_tempo=OS_Linha_Tempo.objects.filter(os=os)
+    linha_tempo=DEV_OS_Linha_Tempo.objects.filter(os=os)
     context={
         'form_mensagem': form_mensagem,
         'linha_tempo': linha_tempo,
         'STATUS': STATUS_CHOICES,
         'PRIORIDADES': PRIORIDADE_CHOICES, 
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
         'os': os,
         'os_ext': os_ext
     }
-    return render(request, 'iluminacao/detalhes_os.html', context)
+    return render(request, 'chamados_dev/detalhes_os.html', context)
 
 @group_required('os_acesso', 'os_funcionario')
 def change_status_os(request, id, opcao):
-    os=OrdemDeServico.objects.get(id=id)
+    os=DevOrdemDeServico.objects.get(id=id)
     os.status=opcao
     if opcao=='f':
         os.dt_conclusao=datetime.now()
     os.save()
-    return redirect('iluminacao:detalhes_os', id=id)
+    return redirect('chamados_dev:detalhes_os', id=id)
 
 @group_required('os_acesso', 'os_funcionario')
 def change_prioridade_os(request, id, opcao):
-    os=OrdemDeServico.objects.get(id=id)
+    os=DevOrdemDeServico.objects.get(id=id)
     os.prioridade=opcao
     os.save()
-    return redirect('iluminacao:detalhes_os', id=id)
+    return redirect('chamados_dev:detalhes_os', id=id)
 
 @group_required('os_acesso', 'os_funcionario')
 def atender_os(request, id):
-    os=OrdemDeServico.objects.get(id=id)
+    os=DevOrdemDeServico.objects.get(id=id)
     os.atendente=request.user
     os.save()
-    return redirect('iluminacao:detalhes_os', id=id)
+    return redirect('chamados_dev:detalhes_os', id=id)
 
 @group_required('os_acesso', 'os_funcionario')
 def funcionarios_listar(request):
-    funcionarios=Funcionario_OS.objects.all()
+    funcionarios=Funcionario_DEV_OS.objects.all()
     context={
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
         'funcionarios': funcionarios
     }
     return render(request, 'equipe/funcionarios.html', context)
@@ -327,21 +287,21 @@ def funcionario_cadastrar(request):
         form=Funcionario_Form({'pessoa':request.POST['pessoa'], 'nivel': request.POST['nivel'], 'tipo_os': [1]})
         if form.is_valid():
             form.save()
-            funcionario=Funcionario_OS()
-            return redirect('iluminacao:funcionarios')
+            funcionario=Funcionario_DEV_OS()
+            return redirect('chamados_dev:funcionarios')
         # else:
             # print(form.errors)
     else:
-        form=Funcionario_Form(initial={'tipo_os': Tipo_OS.objects.get(sigla='IP')})
+        form=Funcionario_Form(initial={'tipo_os': Tipo_OS.objects.get(sigla='MS')})
     context={
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
         'form': form
     }
     return render(request, 'equipe/funcionarios_cadastrar.html', context)
 
 @group_required('os_acesso', 'os_funcionario')
 def funcionario_editar(request, id):
-    funcionario=Funcionario_OS.objects.get(id=id)
+    funcionario=Funcionario_DEV_OS.objects.get(id=id)
     form=Funcionario_Form_editar(instance=funcionario)
     if request.method=='POST':
         form=Funcionario_Form_editar(request.POST, instance=funcionario)
@@ -349,7 +309,7 @@ def funcionario_editar(request, id):
             form.save()
             return redirect('funcionarios')
     context={
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
         'form': form,
         'funcionario': funcionario
     }     
@@ -357,10 +317,10 @@ def funcionario_editar(request, id):
 
 @group_required('os_acesso', 'os_funcionario')
 def funcionario_deletar(request, id):
-    funcionario=Funcionario_OS.objects.get(id=id)
+    funcionario=Funcionario_DEV_OS.objects.get(id=id)
     funcionario.delete()
 
-    return redirect('iluminacao:funcionarios')
+    return redirect('chamados_dev:funcionarios')
 
 @group_required('os_acesso', 'os_funcionario')
 def atribuir_equipe(request, id):
@@ -378,61 +338,61 @@ def atribuir_equipe(request, id):
             form=Equipe_Form(request.POST)
         if form.is_valid:
             form.save()
-            return redirect('iluminacao:detalhes_os', id)
+            return redirect('chamados_dev:detalhes_os', id)
     context={
-            'titulo': apps.get_app_config('iluminacao').verbose_name,   
+            'titulo': apps.get_app_config('chamados_dev').verbose_name,   
             'form':form,
         }
-    return render(request, 'iluminacao/adicionar_ext.html', context)
+    return render(request, 'chamados_dev/adicionar_ext.html', context)
 
 @group_required('os_acesso', 'os_funcionario')
 def pontos_os(request, id):
-    instancia=OrdemDeServico.objects.get(id=id)
+    instancia=DevOrdemDeServico.objects.get(id=id)
     form=OS_Form_Ponto(instance=instancia)            
         
     if request.method=='POST':       
         form=OS_Form_Ponto(request.POST, instance=instancia)
         if form.is_valid:
             form.save()
-            return redirect('iluminacao:detalhes_os', id)
+            return redirect('chamados_dev:detalhes_os', id)
     context={
-            'titulo': apps.get_app_config('iluminacao').verbose_name,   
+            'titulo': apps.get_app_config('chamados_dev').verbose_name,   
             'form':form,
         }
-    return render(request, 'iluminacao/adicionar_ext.html', context)
+    return render(request, 'chamados_dev/adicionar_ext.html', context)
 
 from django.db.models import Count
 
 def imprimir_os(request, id):
-    lista_de_os=[OrdemDeServico.objects.get(id=id)]
+    lista_de_os=[DevOrdemDeServico.objects.get(id=id)]
     context={
         'lista_de_os': lista_de_os
     }
-    return render(request, 'iluminacao/imprimir_os.html', context)
+    return render(request, 'chamados_dev/imprimir_os.html', context)
 
 def imprimir_varias_os(request, ids):
     ids=ids.split('-')
     ids.pop()
     lista_de_os=[]
     for i in ids:
-        lista_de_os.append(OrdemDeServico.objects.get(id=i))
+        lista_de_os.append(DevOrdemDeServico.objects.get(id=i))
     # print(len(lista_de_os))
     # print(ids)
     context={
         'lista_de_os': lista_de_os
     }
-    return render(request, 'iluminacao/imprimir_os.html', context)
+    return render(request, 'chamados_dev/imprimir_os.html', context)
 
 def graficos(request):
-    pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
-    os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
+    pontos_por_bairro = DevOrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
+    os_por_bairro = DevOrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
 
-    finalizados = OrdemDeServico.objects.filter(status='f').count()
-    nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
+    finalizados = DevOrdemDeServico.objects.filter(status='f').count()
+    nao_finalizados = DevOrdemDeServico.objects.exclude(status='f').count()
 
-    # os_por_funcionario = Funcionario_OS.objects.annotate(total=Count('id')).order_by('-total')[:10]
-    os_por_funcionario = Funcionario_OS.objects.annotate(total_os=Count('os_ext__os')).order_by('-total_os')
-    pontos_por_funcionario = Funcionario_OS.objects.annotate(total_pontos=Sum('os_ext__os__pontos_atendidos')).order_by('-total_pontos')    
+    # os_por_funcionario = Funcionario_DEV_OS.objects.annotate(total=Count('id')).order_by('-total')[:10]
+    os_por_funcionario = Funcionario_DEV_OS.objects.annotate(total_os=Count('os_ext__os')).order_by('-total_os')
+    pontos_por_funcionario = Funcionario_DEV_OS.objects.annotate(total_pontos=Sum('os_ext__os__pontos_atendidos')).order_by('-total_pontos')    
 
     context = {    
         'pontos_por_bairro': pontos_por_bairro,
@@ -441,15 +401,15 @@ def graficos(request):
         'nao_finalizados': nao_finalizados,
         'os_por_funcionario': os_por_funcionario,
         'pontos_por_funcionario': pontos_por_funcionario,
-        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'titulo': apps.get_app_config('chamados_dev').verbose_name,
     }
-    return render(request, 'iluminacao/graficos.html', context)
+    return render(request, 'chamados_dev/graficos.html', context)
 
 def mudadados(request):
-    finalizados = OrdemDeServico.objects.filter(status='f')
+    finalizados = DevOrdemDeServico.objects.filter(status='f')
     count = 0
     for item in finalizados:
-        mensagens = OS_Linha_Tempo.objects.filter(os=item)
+        mensagens = DEV_OS_Linha_Tempo.objects.filter(os=item)
         for mensagem in mensagens:
             if mensagem.mensagem[0] == '*':
                 data = mensagem.mensagem[1:11]
@@ -470,10 +430,10 @@ def salvar_contagem_os(request):
     TotalOSPorMesAno.objects.all().delete()
 
     # Chama os métodos estáticos para obter e salvar os dados
-    OrdemDeServico.total_os_por_semana_ano()
-    OrdemDeServico.total_os_por_mes_ano()
+    DevOrdemDeServico.total_os_por_semana_ano()
+    DevOrdemDeServico.total_os_por_mes_ano()
 
-    return redirect('iluminacao:contagem_os')
+    return redirect('chamados_dev:contagem_os')
 
 def contagem_os(request):
     # Obtém a contagem de OS por semana e ano
@@ -487,4 +447,14 @@ def contagem_os(request):
         'total_os_mes': total_os_mes_ano
     }
 
-    return render(request, 'iluminacao/contagem_os.html', context)
+    return render(request, 'chamados_dev/contagem_os.html', context)
+
+import pdfkit
+def teste(request):
+    path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+    url_pdf='C:\\Users\\luiseduardo.salarini\\Documents\\GitHub\\desenvolve_nf\\desenvolve_nf\\static\\home.pdf'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)    
+    pdfkit.from_url("https://www.google.com/", url_pdf, configuration=config)   
+
+    
+    return render(request, 'chamados_dev/teste.html', {'url_pdf':url_pdf})
