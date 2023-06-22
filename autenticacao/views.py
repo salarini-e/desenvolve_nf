@@ -41,6 +41,34 @@ def login_view(request):
             }
     return render(request, 'adm/login.html', context)
 
+def passwd_reset(request):
+    if request.method == "POST":
+        password_reset_form = PasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            associated_users = User.objects.filter(email=data)
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = "Alteração de Senha do Sistema desenvolve da Secretária municipal de ciência e tecnologia de Nova Friburgo"
+                    email_template_name = "adm/email_passwd_reset.txt"
+                    c = {
+                        "email": user.email,
+                        'domain': '127.0.0.1:8000',
+                        'site_name': 'Website',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "user": user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http',
+                    }
+                    email = render_to_string(email_template_name, c)
+                    try:
+                        send_mail(subject, email, user.email, [
+                                  user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+                    return redirect("autenticacao:passwd_reset_done")
+    password_reset_form = PasswordResetForm()
+    return render(request=request, template_name="adm/passwd_reset.html", context={"password_reset_form": password_reset_form})
 
 def logout_view(request):
     if request.user.is_authenticated:
@@ -144,31 +172,3 @@ def cadastro_aluno(request):
 
     return render(request, 'adm/completar_cadastro.html', context)
 
-def passwd_reset(request):
-    if request.method == "POST":
-        password_reset_form = PasswordResetForm(request.POST)
-        if password_reset_form.is_valid():
-            data = password_reset_form.cleaned_data['email']
-            associated_users = User.objects.filter(email=data)
-            if associated_users.exists():
-                for user in associated_users:
-                    subject = "Alteração de Senha do Sistema de Senhas da Secretária Municipal de Turismo de Nova Friburgo"
-                    email_template_name = "admin/email_passwd_reset.txt"
-                    c = {
-                        "email": user.email,
-                        'domain': '127.0.0.1:8000',
-                        'site_name': 'Website',
-                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                        "user": user,
-                        'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
-                    }
-                    email = render_to_string(email_template_name, c)
-                    try:
-                        send_mail(subject, email, user.email, [
-                                  user.email], fail_silently=False)
-                    except BadHeaderError:
-                        return HttpResponse('Invalid header found.')
-                    return redirect("passwd_reset_done")
-    password_reset_form = PasswordResetForm()
-    return render(request=request, template_name="adm/passwd_reset.html", context={"password_reset_form": password_reset_form})
