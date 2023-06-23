@@ -26,8 +26,8 @@
         </div>
     </div>
     <div class="col-4 d-flex">
-        <div class="m-auto">
-            <a href="/">
+        <div class="m-auto d-flex flex-column">
+            <a href="/" class="mx-auto">
                 <img style="max-width: 300px;" class="img-fluid mb-5" src="{% static 'images/logo_desenvolvenf_white.png' %}" alt="">                
             </a>
             {% if messages %}
@@ -45,33 +45,20 @@
             {% if error %}
             <p class="bg-danger text-white mb-4 py-2 text-center">Usuário ou senha não conferem.</p>
             {% endif %}
-            <h3>Redefinir Senha</h3>
+            
+            <h3>Gerar nova senha</h3>
 
-            <p class="text-justify">Esqueceu sua senha? Entre com seu e-mail abaixo, <br> para enviarmos instruções para criar a nova senha.</p>
-
-            <form class="pt-3" method="POST">
+            <form class="pt-3 px-5" method="POST">
                 {% csrf_token %}
-                {% bootstrap_form password_reset_form %}
-                <!-- <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div> -->
-                <button type="submit" class="btn btn-primary w-100 mb-3">Enviar Email</button>
-                
-                <a href="{% url 'autenticacao:login' %}">
-                    <small>                        
-                            Voltar                    
-                    </small>
-                </a>        
-                <br>                                    
+                {% bootstrap_form form %}
+                <button type="submit" class="btn btn-primary">Trocar Senha</button>   
+                <style>
+                    ul{
+                        margin-top: 20px;
+                        margin-bottom: 10px;
+                    }
+                </style>            
             </form>
-            <!-- <style>
-                p{
-                    padding-right: 100px;
-                    padding-left: 100px;
-                    margin-top: 15px;
-                }
-            </style>  -->
         </div>
     </div>
 </div>
