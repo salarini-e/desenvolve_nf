@@ -33,11 +33,7 @@ from django.db import connection
 def os_painel(request):    
     # meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
     # bairros = OrdemDeServico.objects.values_list('bairro', flat=True).distinct()
-    # data = []
-
-    # with connection.cursor() as cursor:
-    #     cursor.execute("SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total,bairro, COUNT(dt_solicitacao), MONTHNAME(dt_solicitacao) AS nome_mes FROM iluminacao_ordemdeservico as main WHERE status != 'f' GROUP BY bairro, MONTH(dt_solicitacao) ORDER BY bairro;")
-    #     query = cursor.fetchall()     
+    # data = []  
 
     # for bairro in bairros:
     #     total=OrdemDeServico.objects.filter(bairro=bairro, status__in=['0', '1', '2'], dt_solicitacao__year='2023').count()
@@ -140,33 +136,42 @@ def os_painel(request):
     #     os_por_mes = {meses[i]: value for i, value in enumerate(meses)}
     #     data.append({'bairro': bairro, 'mes': os_por_mes, 'total': total})
 
+    # query = """
+    #     SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total, bairro, (SELECT COUNT(dt_solicitacao) FROM iluminacao_ordemdeservico GROUP BY bairro), 
+    #         CASE
+    #             WHEN strftime('%m', dt_solicitacao) = '01' THEN 'Janeiro'
+    #             WHEN strftime('%m', dt_solicitacao) = '02' THEN 'Fevereiro'
+    #             WHEN strftime('%m', dt_solicitacao) = '03' THEN 'Março'
+    #             WHEN strftime('%m', dt_solicitacao) = '04' THEN 'Abril'
+    #             WHEN strftime('%m', dt_solicitacao) = '05' THEN 'Maio'
+    #             WHEN strftime('%m', dt_solicitacao) = '06' THEN 'Junho'
+    #             WHEN strftime('%m', dt_solicitacao) = '07' THEN 'Julho'
+    #             WHEN strftime('%m', dt_solicitacao) = '08' THEN 'Agosto'
+    #             WHEN strftime('%m', dt_solicitacao) = '09' THEN 'Setembro'
+    #             WHEN strftime('%m', dt_solicitacao) = '10' THEN 'Outubro'
+    #             WHEN strftime('%m', dt_solicitacao) = '11' THEN 'Novembro'
+    #             WHEN strftime('%m', dt_solicitacao) = '12' THEN 'Dezembro'
+    #             ELSE NULL
+    #     END AS nome_mes
+    #     FROM iluminacao_ordemdeservico as main
+    #     WHERE status != 'f'
+    #     GROUP BY bairro
+    #     ORDER BY bairro;
+    #     """
     query = """
-        SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total, bairro, COUNT(dt_solicitacao), 
-            CASE
-                WHEN strftime('%m', dt_solicitacao) = '01' THEN 'Janeiro'
-                WHEN strftime('%m', dt_solicitacao) = '02' THEN 'Fevereiro'
-                WHEN strftime('%m', dt_solicitacao) = '03' THEN 'Março'
-                WHEN strftime('%m', dt_solicitacao) = '04' THEN 'Abril'
-                WHEN strftime('%m', dt_solicitacao) = '05' THEN 'Maio'
-                WHEN strftime('%m', dt_solicitacao) = '06' THEN 'Junho'
-                WHEN strftime('%m', dt_solicitacao) = '07' THEN 'Julho'
-                WHEN strftime('%m', dt_solicitacao) = '08' THEN 'Agosto'
-                WHEN strftime('%m', dt_solicitacao) = '09' THEN 'Setembro'
-                WHEN strftime('%m', dt_solicitacao) = '10' THEN 'Outubro'
-                WHEN strftime('%m', dt_solicitacao) = '11' THEN 'Novembro'
-                WHEN strftime('%m', dt_solicitacao) = '12' THEN 'Dezembro'
-                ELSE NULL
-        END AS nome_mes
-        FROM iluminacao_ordemdeservico as main
-        WHERE status != 'f'
-        GROUP BY bairro, strftime('%m', dt_solicitacao)
-        ORDER BY bairro;
-        """
-
+        SELECT (SELECT COUNT(*) FROM iluminacao_ordemdeservico WHERE status!='f' and bairro = main.bairro GROUP BY bairro) as total,bairro, 
+        COUNT(dt_solicitacao), 
+        MONTHNAME(dt_solicitacao) AS nome_mes 
+        FROM iluminacao_ordemdeservico as main 
+        WHERE status != 'f' 
+        GROUP BY bairro, MONTH(dt_solicitacao) 
+        ORDER BY bairro; 
+    """
     with connection.cursor() as cursor:
         cursor.execute(query)
         results = cursor.fetchall()
 
+    # print(results)
     resultados_formatados = []
     for row in results:
         total, bairro, count_dt_solicitacao, nome_mes = row
@@ -177,9 +182,42 @@ def os_painel(request):
             'total_por_mes': count_dt_solicitacao
         }
         resultados_formatados.append(resultado_dict)
+
+    bairros=[]
+    for result in resultados_formatados:  
+        bairros.append(result['bairro'])
+    bairros_ = list(set(bairros))
+
+    resultados_agrupados = []
+    for b in bairros_:
+        resultados_agrupados.append(
+            {'bairro': b}
+        )
+
+    for result in resultados_formatados:
+        bairro = result['bairro']
+        mes = result['mes']
+        total_por_mes = result['total_por_mes']
+        total = result['total']
+        print(bairro, mes, total_por_mes, total)
+        for i in resultados_agrupados:
+            print(i)
+            if i['bairro'] == bairro:
+                i[mes]=total_por_mes
+                i['total']=total
+       
+                
+    #     else:
+            # resultados_agrupados.append({'bairro': bairro, f'{mes}':  total_por_mes, 'total': total})   
+    #       for item in resultados_agrupados:
+    #           if item.bairro ==  bairro:
+    #               item[result.mes]=result.total_por_mes
+
+
+    # print(resultados_agrupados)
     context = {
         'titulo': apps.get_app_config('iluminacao').verbose_name,   
-        'results': resultados_formatados     
+        'results': resultados_agrupados  
     }
     return render(request, 'iluminacao/painel.html', context)
 
