@@ -10,10 +10,18 @@ from django.dispatch import receiver
 
 class Universidade(models.Model):    
     nome = models.CharField(max_length=50, verbose_name="Nome universidade")
+    dt_vencimento_do_termo = models.DateField(null=True, blank=True)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     def __str__(self):
         return self.nome
 
+class Responsavel_Universidade(models.Model):
+    universidade = models.ForeignKey(Universidade, on_delete=models.CASCADE)
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    cargo = models.CharField(max_length=20, default='Responsável')
+    email_institucional = models.EmailField()
+    telefone_institucional = models.CharField(max_length=15, verbose_name='Telefone', null=True)
+    
 class Curso(models.Model):
     nome = models.CharField(max_length=50, verbose_name="Nome curso")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)

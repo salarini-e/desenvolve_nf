@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.forms import ModelChoiceField
 
 class OS_Form(ModelForm):    
-    sistema = forms.ModelChoiceField(queryset=Sub_Tipo_OS.objects.all(), widget=forms.Select())
+    sistema = forms.ModelChoiceField(queryset=Sub_Tipo_OS.objects.all(), widget=forms.Select(attrs={'required': False}))
     class Meta:
         model = DevOrdemDeServico
         widgets = {

@@ -122,9 +122,6 @@
                               </div>    
                               <div class="border  py-4 px-4 mt-3">
                                 <p class="d-flex me-2"><b class="me-auto">Atribuir</b></p>
-                                {% if os.status == 'f' %}                                
-                                <a class="btn btn-primary" href="{% url 'chamados_dev:pontos_os' os.id %}">Qnt. Pontos</a>
-                                {% endif %}
                                 {% if os_ext.equipe %}                                
                                 <a href="{% url 'chamados_dev:atribuir equipe' os.id %}" tabindex="0" class="popoverbutton btn btn-md btn-primary" role="button" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover focus" title="Equipe" data-bs-content="{% for e in os_ext.equipe.all %}{{e}}{% if not forloop.last %}{% if forloop.revcounter == 1 %} | {% else %} | {% endif %}{% endif %} {% endfor %}">Equipe</a>                                
 
@@ -132,7 +129,6 @@
                                 <a class="btn btn-primary" href="{% url 'chamados_dev:atribuir equipe' os.id %}">Equipe</a>
                                 {% endif %}
                                 
-                                <a class="btn btn-primary {% if not os.status == 'f' %}disabled{% endif %}" href="{% url 'almoxarifado:alm_remover_material_do_estoque' os.id %}">Equipamentos</a>
 
                               </div>                              
                             </div>

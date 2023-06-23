@@ -449,12 +449,3 @@ def contagem_os(request):
 
     return render(request, 'chamados_dev/contagem_os.html', context)
 
-import pdfkit
-def teste(request):
-    path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
-    url_pdf='C:\\Users\\luiseduardo.salarini\\Documents\\GitHub\\desenvolve_nf\\desenvolve_nf\\static\\home.pdf'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)    
-    pdfkit.from_url("https://www.google.com/", url_pdf, configuration=config)   
-
-    
-    return render(request, 'chamados_dev/teste.html', {'url_pdf':url_pdf})

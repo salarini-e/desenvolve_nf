@@ -6,7 +6,16 @@
 {% block css %} {% endblock %}
 {% block main %}
 
-
+<div class="row mb-3">
+    <div class="col d-flex">       
+        <div class="m-auto py-0 w-100">           
+          <div class="cursos-text mx-2 d-flex w-100">
+            <h2 class="my-auto">Listar {{subtitulo}}</h2>                        
+            <a href="{% url 'estagio:adm' %}" class="ms-auto mt-2 me-3 btn btn-primary mb-2">Voltar</a>              
+          </div>            
+      </div>
+    </div>
+  </div>
 <div class="row mx-auto">
     <div class="col p-2 d-flex justify-content-center align-items-center">
         <table>

@@ -33,6 +33,28 @@ def area_do_estudante(request):
     }
     return render(request, 'estagio/area_do_estudante.html', context)
 
+@login_required
+def area_da_universidade(request):
+    try: 
+        responsavel=Responsavel_Universidade.objects.get(pessoa=Pessoa.objects.get(user=request.user))
+        print(responsavel)
+        estudante_vagas=Estudante_Vaga.objects.filter(vaga__curso__universidade=responsavel.universidade)
+    except:
+        responsavel=[]   
+        print(request.user.is_superuser)     
+        if request.user.is_superuser:
+            estudante_vagas=Estudante_Vaga.objects.all()
+        else:
+            return redirect('/')
+    
+    context = {
+        'titulo':'Programa de Estágio para Estudantes',
+        # 'vagas': Vagas.objects.filter(),
+        'estudante': responsavel,
+        'estudante_vagas': estudante_vagas
+    }
+    return render(request, 'estagio/area_da_universidade.html', context)
+
 def processo_da_vaga(request, id):
     estudante_vaga=Estudante_Vaga.objects.get(id=id) 
     processo=Processo.objects.get(estudante_vaga=estudante_vaga.id)
@@ -53,7 +75,8 @@ def adm(request):
 
 def listar_candidato(request):
     context = {
-         'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Estágio para Estudantes',
+        'subtitulo': 'candidatos',
         'estudante': Estudante_Vaga.objects.filter(status=0),
     }
     return render(request, 'estagio/listar_estudantes.html', context)
@@ -61,6 +84,7 @@ def listar_candidato(request):
 def listar_estagiario(request):
     context = {
         'titulo':'Programa de Estágio para Estudantes',
+        'subtitulo': 'estagiários',
         'estudante': Estudante_Vaga.objects.filter(status=1), 
         'supervisor': True
     }
@@ -203,6 +227,14 @@ def listar_secretaria(request):
         'secretarias':Secretaria.objects.all(),
     }
     return render(request, 'estagio/secretaria.html', context)
+
+def listar_secretaria_locais(request, id):
+    context = {
+        'titulo':'Programa de Estágio para Estudantes',
+        'secretaria': Secretaria.objects.get(id=id),
+        'locais': Locais_de_Estagio.objects.filter(secretaria__id=id),
+    }
+    return render(request, 'estagio/secretaria_locais.html', context)
 
 def cadastrar_secretaria(request):
     forms = Secretaria_form()

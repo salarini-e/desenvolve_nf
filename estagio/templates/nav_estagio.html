@@ -35,9 +35,9 @@
             <p class="text-dark">Área do <br>estudante</p>
           </div>
         </a>
-        <a href="{% url 'estagio:area_do_estudante' %}" class="">
+        <a href="{% url 'estagio:area_da_universidade' %}" class="">
           <div class="d-flex flex-column align-items-center">
-            <div id="s-estudante" class="s-nav rounded-circle destaque"></div>
+            <div id="s-universidade" class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">Área da <br>universidade</p>
           </div>
         </a>
@@ -96,6 +96,12 @@
       background-size: contain;
     }
     #s-estudante {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      background-image: url(/static/images/icones/curso_admin.png);
+      background-size: contain;
+    }
+    #s-universidade {
       margin-right: 1rem !important;
       background-color: white !important;
       background-image: url(/static/images/icones/curso_admin.png);
