@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Pessoa(models.Model):
 
     def __str__(self):
-        return '%s' % (self.email)
+        return '%s - Email: %s' % (self.nome, self.email)
     
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     nome=models.CharField(max_length=64, verbose_name='Nome')

@@ -19,6 +19,12 @@ class Universidade_form(ModelForm):
         model = Universidade
         exclude = ['data_inclusao']
 
+class Universidade_local_form(ModelForm):
+    class Meta:
+        model = Locais_de_Estagio
+        
+        exclude = ['data_inclusao']
+
 class Curso_form(ModelForm):
     class Meta:
         model = Curso
@@ -36,6 +42,24 @@ class Editar_estudante_forms(ModelForm):
             'data_fim': Date(),
         }
         
+        exclude = []
+
+class Processo_estudante_forms(ModelForm):
+
+    class Meta:
+        model = Processo       
+        widgets = {
+            'estudante_vaga': forms.HiddenInput()
+        }
+        exclude = ['n_processo']
+
+class Historico_processo_estudante_forms(ModelForm):
+
+    class Meta:
+        model = Historico_Processo
+        widgets = {
+            'processo': forms.HiddenInput()
+        }
         exclude = []
 
 class Estudante_vaga_form(ModelForm):

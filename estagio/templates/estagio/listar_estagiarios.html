@@ -10,8 +10,14 @@
     <div class="col d-flex">       
         <div class="m-auto py-0 w-100">           
           <div class="cursos-text mx-2 d-flex w-100">
-            <h2 class="my-auto">Listar {{subtitulo}}</h2>                        
-            <a href="{% url 'estagio:adm' %}" class="ms-auto mt-2 me-3 btn btn-primary mb-2">Voltar</a>              
+            <h2 class="my-auto">Listar {{subtitulo}} <span class="text-secondary">(Total: {{total}})</span></h2>                        
+            <a href="{% url 'estagio:adm' %}" class="ms-auto mt-2 btn btn-secondary mb-2">
+                <i class="fa-sharp fa-solid fa-folder-closed me-2"></i>Estágios concluídos
+            </a>        
+            <a href="{% url 'estagio:adm' %}" class="ms-2 mt-2 btn btn-primary mb-2">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>Pesquisar estagiário
+            </a>                          
+            <a href="{% url 'estagio:adm' %}" class="ms-2 mt-2 me-3 btn btn-primary mb-2"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a>              
           </div>            
       </div>
     </div>
@@ -30,13 +36,13 @@
                     <th class="pe-5">Secretária</th>
                     {% endif %}
                     <th class="pe-5">Data de Solicitação</th>
-                    <th class="pe-5">Editar</th>
+                    <th class="pe-5">Processo</th>
                 </tr>
             </thead>
             <tbody>
                 {% for i in estudante %}
                 <tr>
-                    <td class="pe-5">teste</td>
+                    <td class="pe-5">{{i.get_status_display}}</td>
                     <td class="pe-5">{{i.estudante.pessoa.nome}}</td>
                     <td class="pe-5">{{i.estudante.curso.nome}}</td>
                     <td class="pe-5">{{i.vaga.nome}}</td>
@@ -45,7 +51,9 @@
                     <td class="pe-5">{{i.supervisor.secretaria.nome}}</td>
                     {% endif %}
                     <td class="pe-5">{{i.estudante.data_inclusao}}</td>
-                    <td class="pe-5"><a href="{% url 'estagio:editar_candidato' i.id %}" class="px-3">X</a></td>
+                    <td class="pe-5 text-center"><a href="{% url 'estagio:adm_processo_da_vaga' i.id %}?next=/estagio/estagiario">
+                        Visualizar 
+                    </a></td>
                 </tr>
                 {% endfor %}
             </tbody>

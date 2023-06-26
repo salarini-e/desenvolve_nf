@@ -1,0 +1,35 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+
+
+<div class="row">
+    <div class="col p-2 justify-content-center align-items-center">
+        <form method="POST">
+            <div class="row">
+                <div class="col">
+                    {% csrf_token %}
+                    {% bootstrap_form forms %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">
+                        Criar processo
+                    </button>
+                    <a href="#" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}

@@ -6,13 +6,13 @@ from .forms import *
 
 def index(request):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
     }
     return render(request, 'estagio/index.html', context)
 
 def vagas(request):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'vagas': Vagas.objects.all()
     }
     return render(request, 'estagio/vagas.html', context)
@@ -26,10 +26,10 @@ def area_do_estudante(request):
         estudante=False
         estudante_vagas=False
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'vagas': Vagas.objects.all(),
         'estudante': estudante,
-        'estudante_vagas': estudante_vagas
+        'estudante_vagas': estudante_vagas.order_by('-id')
     }
     return render(request, 'estagio/area_do_estudante.html', context)
 
@@ -48,10 +48,10 @@ def area_da_universidade(request):
             return redirect('/')
     
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         # 'vagas': Vagas.objects.filter(),
         'estudante': responsavel,
-        'estudante_vagas': estudante_vagas
+        'estudante_vagas': estudante_vagas.order_by('-id')
     }
     return render(request, 'estagio/area_da_universidade.html', context)
 
@@ -59,36 +59,53 @@ def processo_da_vaga(request, id):
     estudante_vaga=Estudante_Vaga.objects.get(id=id) 
     processo=Processo.objects.get(estudante_vaga=estudante_vaga.id)
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'processo': processo,
-        'historico': Historico_Processo.objects.filter(processo=processo)
+        'historico': Historico_Processo.objects.filter(processo=processo).order_by('-id')
 
     }
     return render(request, 'estagio/processo_da_vaga.html', context)
 
+def adm_processo_da_vaga(request, id):
+    estudante_vaga=Estudante_Vaga.objects.get(id=id) 
+    processo=Processo.objects.get(estudante_vaga=estudante_vaga.id)
+    context = {
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'processo': processo,
+        'historico': Historico_Processo.objects.filter(processo=processo).order_by('-id'),
+        'back_to': request.GET.get('next'),
+        'id': id
+
+    }
+    return render(request, 'estagio/adm_processo_da_vaga.html', context)
+
 @login_required
 def adm(request):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
     }
     return render(request, 'estagio/adm.html', context)
 
 def listar_candidato(request):
+    candidatos=Estudante_Vaga.objects.filter(status=0)
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'subtitulo': 'candidatos',
-        'estudante': Estudante_Vaga.objects.filter(status=0),
+        'estudante': candidatos.order_by('-id'),
+        'total': candidatos.count()
     }
-    return render(request, 'estagio/listar_estudantes.html', context)
+    return render(request, 'estagio/listar_candidatos.html', context)
 
 def listar_estagiario(request):
+    candidatos=Estudante_Vaga.objects.filter(status=1)
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'subtitulo': 'estagiários',
-        'estudante': Estudante_Vaga.objects.filter(status=1), 
+        'estudante': candidatos,
+        'total': candidatos.count(),
         'supervisor': True
     }
-    return render(request, 'estagio/listar_estudantes.html', context)
+    return render(request, 'estagio/listar_estagiarios.html', context)
 
 @login_required
 def candidatar_se_vaga(request, id):
@@ -140,10 +157,30 @@ def editar_estudante(request, id):
         forms = Editar_estudante_forms(request.POST, instance=instance)
         if forms.is_valid():
             forms.save()
+            return redirect('estagio:editar_candidato_processo', id)
     context = {
         'forms':forms
     }
     return render(request, 'estagio/editar_estudante.html', context)
+
+def editar_estudante_processo(request, id):
+    instance = Estudante_Vaga.objects.get(id=id)    
+    processo=Processo.objects.get(estudante_vaga=instance)
+    try:
+        historico_anterior=Historico_Processo.objects.get(processo=processo)
+    except:
+        historico_anterior='0'
+    forms=Historico_processo_estudante_forms(initial={'statuts': historico_anterior, 'processo': processo.id})
+    if request.method == 'POST':
+        forms=Historico_processo_estudante_forms(request.POST)
+        if forms.is_valid():
+            forms.save()
+
+            
+    context = {
+        'forms':forms
+    }
+    return render(request, 'estagio/criar_processo_estudante.html', context)
 
 def cadastro_vaga(resquest):
     forms = Cadatrar_Vaga_form()
@@ -153,7 +190,7 @@ def cadastro_vaga(resquest):
             forms.save()
     context = {
         'forms':forms,
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
     }
     return render(resquest, 'estagio/cadastrar_vagas.html', context)
 
@@ -165,13 +202,13 @@ def cadastrar_universidade(request):
             forms.save()
     context = {
         'forms': forms,
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
     }
     return render(request, 'estagio/cadastrar_universidade.html', context)
 
 def listar_universidade(request):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'universidades': Universidade.objects.all(),
     }
     return render(request, 'estagio/universidade.html', context)
@@ -189,15 +226,28 @@ def cadastrar_curso(request, id):
             curso.save()
             return redirect('estagio:curso', id)
     context={
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'forms':forms,
         'id': id
     }
     return render(request, 'estagio/cadastrar_curso.html', context)
 
+def cadastrar_universidade_local(request, id):
+    forms = Universidade_local_form(secretaria=id)
+    if request.method == 'POST':
+        forms = Universidade_local_form(request.POST)
+        if forms.is_valid():
+            forms.save()
+    context = {
+        'forms': forms,
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+    }
+    return render(request, 'estagio/cadastrar_universidade.html', context)
+
 def listar_curso(request, id):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'universidade': Universidade.objects.get(id=id),
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'cursos':Curso.objects.filter(universidade__id=id),
         'id': id
     }
@@ -205,7 +255,7 @@ def listar_curso(request, id):
 
 def listar_supervisor(request):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'supervisores':Supervisor.objects.all(),
     }
     return render(request, 'estagio/supervisor.html', context)
@@ -223,14 +273,14 @@ def cadastrar_supervisor(request):
 
 def listar_secretaria(request):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'secretarias':Secretaria.objects.all(),
     }
     return render(request, 'estagio/secretaria.html', context)
 
 def listar_secretaria_locais(request, id):
     context = {
-        'titulo':'Programa de Estágio para Estudantes',
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'secretaria': Secretaria.objects.get(id=id),
         'locais': Locais_de_Estagio.objects.filter(secretaria__id=id),
     }

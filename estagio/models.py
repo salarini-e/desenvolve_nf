@@ -13,7 +13,7 @@ class Universidade(models.Model):
     dt_vencimento_do_termo = models.DateField(null=True, blank=True)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     def __str__(self):
-        return self.nome
+         return '%s' % (self.nome)
 
 class Responsavel_Universidade(models.Model):
     universidade = models.ForeignKey(Universidade, on_delete=models.CASCADE)
@@ -21,6 +21,9 @@ class Responsavel_Universidade(models.Model):
     cargo = models.CharField(max_length=20, default='Responsável')
     email_institucional = models.EmailField()
     telefone_institucional = models.CharField(max_length=15, verbose_name='Telefone', null=True)
+
+    def __str__(self):
+         return '%s - %s' % (self.pessoa.nome, self.universidade.nome)
     
 class Curso(models.Model):
     nome = models.CharField(max_length=50, verbose_name="Nome curso")
@@ -28,7 +31,7 @@ class Curso(models.Model):
     universidade = models.ForeignKey(Universidade, on_delete= models.CASCADE)
    
     def __str__(self):
-        return self.nome
+         return '%s - %s' % (self.nome, self.universidade.nome)
     
 class Secretaria(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome secretaria")    
@@ -41,12 +44,17 @@ class Locais_de_Estagio(models.Model):
     secretaria =  models.ForeignKey(Secretaria, on_delete=models.CASCADE)
     local = models.CharField(max_length=100, verbose_name="Nome secretaria")    
     quantidade_maxima = models.IntegerField()
+    
+    def __str__(self):
+        return '%s - %s' % (self.local, self.local)
 
 class Vagas(models.Model):
     nome = models.CharField(max_length=50, verbose_name="Nome vagas")
+    descricao = models.TextField(blank=True, null=True)
     quantidade_de_vagas = models.IntegerField(verbose_name="Quantidade de vagas")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     img = models.ImageField(upload_to = 'estagio/media/banner_vagas/', null=True)
+    img2 = models.ImageField(upload_to = 'estagio/media/banner_vagas/', null=True)
     secretaria = models.ManyToManyField(Secretaria)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     locais = models.ManyToManyField(Locais_de_Estagio)
@@ -84,25 +92,25 @@ class Estudante(models.Model):
 class Estudante_Vaga(models.Model):
     STATUS_CHOICES = (
         ('0', 'Candidato'),
-        ('1', 'Estágiario'),
-        ('2', 'Concluido')
+        ('1', 'Estagiando'),
+        ('2', 'Estágio concluído')
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
-    data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
-    data_fim = models.DateField(verbose_name="Data termino", blank=True, null=True)
-    data_inicio = models.DateField(verbose_name= "Data inicio", blank=True, null=True)
+    data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)        
     vaga = models.ForeignKey(Vagas, on_delete=models.RESTRICT)
     supervisor = models.ForeignKey(Supervisor, on_delete=models.RESTRICT, blank=True, null=True)
     estudante = models.ForeignKey(Estudante, on_delete=models.RESTRICT, blank=True, null=True)
     local_do_estagio_de_pretensao = models.ForeignKey(Locais_de_Estagio, related_name='pretensao', on_delete=models.RESTRICT, blank=True, null=True)
     local_do_estagio = models.ForeignKey(Locais_de_Estagio, on_delete=models.RESTRICT, blank=True, null=True)
+    data_inicio = models.DateField(verbose_name= "Data inicio", blank=True, null=True)
+    data_fim = models.DateField(verbose_name="Data termino", blank=True, null=True)
 
     def __str__(self):
         return self.estudante.pessoa.nome
     
 class Processo(models.Model):
 
-    n_processo=models.CharField(max_length=8, verbose_name='Número do processo', null=True)    
+    n_processo = models.CharField(max_length=8, verbose_name='Número do processo', null=True)  
     estudante_vaga = models.ForeignKey(Estudante_Vaga, on_delete=models.CASCADE)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     
@@ -131,6 +139,6 @@ class Historico_Processo(models.Model):
         ('5', 'Estágio concluído'),
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
-    processo=models.ForeignKey(Processo, on_delete=models.CASCADE)
-    # Inserir umas mensagens padrão no front-end, mas deixando liberdade de mensagens customizadas
-    mensagem=models.TextField()
+    processo=models.ForeignKey(Processo, on_delete=models.CASCADE, null=True)
+    data_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
+    mensagem=models.TextField(blank=True)

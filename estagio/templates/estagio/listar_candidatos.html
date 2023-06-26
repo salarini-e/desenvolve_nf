@@ -1,0 +1,66 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+
+<div class="row mb-3">
+    <div class="col d-flex">       
+        <div class="m-auto py-0 w-100">           
+          <div class="cursos-text mx-2 d-flex w-100">
+            <h2 class="my-auto">Listar {{subtitulo}} <span class="text-secondary">(Total: {{total}})</span></h2>                        
+            <a href="{% url 'estagio:adm' %}" class="ms-auto mt-2 btn btn-primary mb-2">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>Pesquisar candidato
+            </a>              
+            <a href="{% url 'estagio:adm' %}" class="ms-2 mt-2 me-3 btn btn-primary mb-2">
+                <i class="fa-solid fa-backward-step me-2"></i>Voltar
+            </a>    
+          </div>            
+      </div>
+    </div>
+  </div>
+<div class="row mx-auto">
+    <div class="col p-2 d-flex justify-content-center align-items-center">
+        <table>
+            <thead>
+                <tr>
+                    <th class="pe-5">Status</th>
+                    <th class="pe-5">Nome do Aluno</th> 
+                    <th class="pe-5">Curso</th>
+                    <th class="pe-5">Vaga de Estágio</th>
+                    {% if supervisor %}
+                    <th class="pe-5">Supervisor</th>
+                    <th class="pe-5">Secretária</th>
+                    {% endif %}
+                    <th class="pe-5">Data de Solicitação</th>
+                    <th class="pe-5">Processo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in estudante %}
+                <tr>
+                    <td class="pe-5">{{i.get_status_display}}</td>
+                    <td class="pe-5">{{i.estudante.pessoa.nome}}</td>
+                    <td class="pe-5">{{i.estudante.curso.nome}}</td>
+                    <td class="pe-5">{{i.vaga.nome}}</td>
+                    {% if supervisor %}                    
+                    <td class="pe-5">{{i.supervisor.nome}}</td>
+                    <td class="pe-5">{{i.supervisor.secretaria.nome}}</td>
+                    {% endif %}
+                    <td class="pe-5">{{i.estudante.data_inclusao}}</td>
+                    <td class="pe-5 text-center"><a href="{% url 'estagio:adm_processo_da_vaga' i.id %}?next=/estagio/candidato">
+                        Visualizar 
+                    </a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}

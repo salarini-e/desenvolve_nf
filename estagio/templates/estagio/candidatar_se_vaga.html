@@ -6,43 +6,64 @@
 {% endblock %}
 {% block css %} {% endblock %}
 {% block main %}
-        <div class="row">
-            <div class="col">
-                {{vaga.nome}}
+<div class="d-flex flex-wrap">        
+    <h1 id="go">Vaga de estágio</h1>   
+    <a href="{% url 'estagio:vagas' %}" class="btn btn-secondary ms-auto my-auto">
+        Voltar
+    </a>          
+  </div>
+  {% if forms_vaga.errors.vaga %}
+                <div class="text-white bg-danger text-center rounded mt-3  py-3">
+                    {{forms_vaga.vaga.errors}}
+                    <!-- O seu curso não corresponde com o da vaga! Tente outro. -->
+                </div>
+                {% endif %}
+       <div class="row mb-5">
+        <div class="col pt-4 pe-5">
+            <h2 class="">{{vaga.nome}}</h2>
+            <div class="w-100 d-flex">
+                {% if vaga.img2 %}
+                <img style="border-radius: 30px;" class="img-fluid mx-auto" src="{{vaga.img2.url}}" alt="">
+                {% endif %}
             </div>
+            <p style="text-indent: 40px;" class="text-secondary text-justify mt-4"><i>{{vaga.descricao}}</i></p>
+            
         </div>
-       <form method="POST">
-        {% if forms_vaga.errors.vaga %}
-        <div class="text-white bg-danger text-center rounded py-3">
-            {{forms_vaga.vaga.errors}}
-            <!-- O seu curso não corresponde com o da vaga! Tente outro. -->
+        <div class="col-sm-4 pt-5 col-12 mx-auto">
+            <form method="POST">                
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        {% bootstrap_form forms_estudante %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {% bootstrap_form forms_vaga %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary w-100">
+                            Candidatar-se
+                        </button>                       
+                    </div>
+                </div>
+               </form>
         </div>
-        {% endif %}
-        {% csrf_token %}
-        <div class="row">
-            <div class="col">
-                {% bootstrap_form forms_estudante %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                {{forms_vaga}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <button type="submit">
-                    Enviar
-                </button>
-            </div>
-        </div>
-       </form>
+       </div>
 <style>
     li{
         list-style: none;
     }
     .nonfield{
         display: none;
+    }
+    .form-control{
+        border-radius: 10px !important;
+    }
+    .form-select{
+        border-radius: 10px !important;
     }
 </style>
 {% endblock %}

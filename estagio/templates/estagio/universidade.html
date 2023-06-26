@@ -6,8 +6,13 @@
 {% block css %} {% endblock %}
 {% block main %}
     <div class="row">
-      <div class="col">
-        <a href="{% url 'estagio:cadastrar_universidade' %}" class="btn btn-primary mb-5 mx-5">Cadastrar Universidade</a>
+      <div class="col d-flex">
+        <h2 class="my-auto">Universidades</h2>                                
+        <a href="{% url 'estagio:cadastrar_universidade' %}" class="btn btn-primary ms-auto my-auto"><i class="fa-solid fa-school me-2"></i>Cadastrar Universidade</a>
+        <a href="{% url 'estagio:adm' %}" class="btn btn-primary my-auto ms-1">
+          <i class="fa-solid fa-backward-step me-2"></i>
+          Voltar
+        </a>
       </div>
     </div>
 
@@ -19,8 +24,8 @@
               <img class="img-fluid" style="border-radius: 10px;" src="https://logodownload.org/wp-content/uploads/2014/09/google-logo-1-1.png" alt="">
             </div>
             <div class="cursos-text mx-2 d-flex flex-column">
-              <strong>{{universidade.nome}}</strong>
-              <a href="{% url 'estagio:curso' universidade.id %}" class="my-3 mx-auto">Ver cursos</a>
+              <strong class="text-secondary">{{universidade.nome}}</strong>
+              <a href="{% url 'estagio:curso' universidade.id %}" class="my-3 mx-auto">Ver/editar</a>
             </div>
         </div>
         {% endfor %}

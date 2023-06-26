@@ -6,20 +6,26 @@
 {% block css %} {% endblock %}
 {% block main %}
     <div class="row">
-      <div class="col">
-        <a href="{% url 'estagio:cadastrar_curso' id %}" class="btn btn-primary mb-5 mx-5">Cadastrar Cursos</a>
+      <div class="col d-flex pb-5">
+        <h2>{{universidade}}</h2>
+        <a href="{% url 'estagio:cadastrar_universidade' %}" class="btn btn-primary ms-auto my-auto"><i class="fa-solid fa-pen-to-square"></i></a>
+        <a href="{% url 'estagio:cadastrar_curso' id %}" class="btn btn-primary ms-2 my-auto"><i class="fa-solid fa-clipboard me-2"></i>Cadastrar Cursos</a>
+        <a href="{% url 'estagio:listar_universidade' %}" class="btn btn-primary ms-2 my-auto"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a>
       </div>
     </div>
 
     <div class="row">
       <div class="col d-flex">
         {% for curso in cursos %}
-          <div class="item mx-auto mb-4">
+          <div class="item mx-auto">
             <!-- <div class="c-img" style="position: relative;">
               <img class="img-fluid" style="border-radius: 10px;" src="{{vaga.img.url}}" alt="">
             </div> -->
-            <div class="cursos-text mx-2 d-flex flex-column">
-              <h5 class="mb-3">{{curso.nome}}</h5>
+            <div class="cursos-text mx-2 d-flex">
+              <h5 class="my-auto">{{curso.nome}}</h5>
+              <a href="#" class="ms-auto my-auto">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
             </div>
         </div>
         {% endfor %}
