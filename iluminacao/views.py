@@ -526,7 +526,6 @@ def graficos_ver_mais(request, tipo):
         context['x'] = 'Pontos'
     else:
         return redirect('iluminacao:kpi')
-    print(dados)
     return render(request, 'iluminacao/graficos_ver_mais.html', context)
 
 @login_required
