@@ -22,8 +22,11 @@
                 </div>   
                 <div class="row">
                   <div class="col d-flex">                    
-                    <a href="{% url 'iluminacao:kpi_ver_mais' 'pontos-por-bairro' 'imprimir' %}" class="btn btn-secondary mx-auto  ">
+                    <a href="{% url 'iluminacao:kpi_ver_mais' 'pontos-por-bairro' 'imprimir' %}" class="btn btn-secondary ms-auto  ">
                       <i class="fa-solid fa-print me-2"></i> Imprimir
+                    </a>
+                    <a href="{% url 'iluminacao:kpi_ver_mais' 'pontos-por-bairro' 'download' %}" class="btn btn-secondary ms-2 me-auto  ">
+                      <i class="fa-solid fa-file-excel me-2"></i> Download Excel
                     </a>
                   </div>
                 </div>
