@@ -21,6 +21,7 @@ urlpatterns = [
     path('os/painel/<id>/atender', views.atender_os, name='atender_os'),
 
     path('os/kpi', views.graficos, name='kpi'),
+    path('os/kpi/ver-mais/<tipo>/<subtipo>/', views.graficos_ver_mais, name='kpi_ver_mais'),
     path('funcionario', views.funcionarios_listar, name='funcionarios'),
     path('funcionario/cadastrar/', views.funcionario_cadastrar, name='cadastrar funcionario'),
     path('funcionario/editar/<id>/', views.funcionario_editar, name='editar funcionario'),
