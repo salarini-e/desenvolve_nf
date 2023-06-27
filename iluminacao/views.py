@@ -10,6 +10,10 @@ from django.contrib.auth.models import Group
 from datetime import datetime
 from django.db.models import Count, Sum
 
+from django.http import HttpResponse
+from openpyxl import Workbook
+from datetime import datetime
+
 STATUS_CHOICES=(
         ('0','Novo'),
         ('1','Aguardando'),
@@ -506,28 +510,71 @@ def graficos_ver_mais(request, tipo, subtipo):
         'tipo': tipo,
         'titulo': apps.get_app_config('iluminacao').verbose_name,
     }
+    workbook = Workbook()
     if tipo == 'pontos-por-bairro':
         pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')
         dados = [{'y': item['bairro'], 'total': item['total']} for item in pontos_por_bairro]
         context['dados'] = dados
         context['y'] = 'Bairros'
         context['x'] = 'Pontos'
+        
+        # Crie uma planilha no workbook
+        planilha = workbook.active
+        planilha.title = 'Pontos por Bairro'
+        # Adicione os cabeçalhos das colunas
+        planilha['A1'] = 'Bairros'
+        planilha['B1'] = 'Pontos'
+        # Preencha os dados
+        for index, item in enumerate(dados, start=2):
+            planilha.cell(row=index, column=1, value=item['y'])
+            planilha.cell(row=index, column=2, value=item['total'])
+
     elif tipo == 'os-por-bairro':
         os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')
         dados = [{'y': item['bairro'], 'total': item['total']} for item in os_por_bairro]
         context['dados'] = dados
         context['y'] = 'Bairros'
         context['x'] = 'Nº de OS'
+        
+        planilha = workbook.active
+        planilha.title = 'OS por Bairro'
+        # Adicione os cabeçalhos das colunas
+        planilha['A1'] = 'Bairros'
+        planilha['B1'] = 'Nº de OS'
+        # Preencha os dados
+        for index, item in enumerate(dados, start=2):
+            planilha.cell(row=index, column=1, value=item['y'])
+            planilha.cell(row=index, column=2, value=item['total'])
+
     elif tipo == 'pontos-por-funcionario':
         pontos_por_funcionario = Funcionario_OS.objects.annotate(total=Sum('os_ext__os__pontos_atendidos')).order_by('-total')
         dados = [{'y': str(item), 'total': item.total} for item in pontos_por_funcionario]
         context['dados'] = dados
         context['y'] = 'Funcionarios'
         context['x'] = 'Pontos'
+
+         # Crie uma planilha no workbook
+        planilha = workbook.active
+        planilha.title = 'Pontos por Funcionário'
+        # Adicione os cabeçalhos das colunas
+        planilha['A1'] = 'Funcionários'
+        planilha['B1'] = 'Pontos'
+        # Preencha os dados
+        for index, item in enumerate(dados, start=2):
+            planilha.cell(row=index, column=1, value=item['y'])
+            planilha.cell(row=index, column=2, value=item['total'])
+
     else:
         return redirect('iluminacao:kpi')
     if subtipo=='imprimir':
         return render(request, 'iluminacao/graficos_ver_mais_imprimir.html', context)
+    elif subtipo=='download':
+        data_atual = datetime.now()
+        data_formatada = data_atual.strftime("%d-%m-%y")
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename={tipo}-{data_formatada}.xlsx'        
+        workbook.save(response)
+        return response
     return render(request, 'iluminacao/graficos_ver_mais.html', context)
 
 @login_required
