@@ -1,28 +1,6 @@
-{% extends 'template.html' %}
-{% load bootstrap5 %}
-{% load static%}
-{% block nav %}
-{% include 'nav_os.html' %}
-{% endblock %}
-{% block css %}
-<link rel="stylesheet" href="{% static 'css/almoxarifado.css' %}">
-{% endblock %}
-{% block os %}fw-bolder{% endblock %}
-{% block main %}
 <div class="row">
   <div class="col d-flex py-5"> 
-        <div class="row w-100">
-            <div class="col pb-5 m-auto bg-white" style="border-radius: 30px;">                           
-                <div class="row">
-                    <div class="col px-4">                                                
-                        <div class="px-2 pt-4 d-flex">
-                        <h2 style="display: inline;">Indicadores - {{tipo}}</h2>                        
-                        </div>                    
-                    </div>
-                </div>   
-                <button class="btn btn-secondary">
-                  Imprimir
-                </button>
+        <div class="row w-100">                                  
                 <div class="row">
                   <div class="col d-flex">                    
                       <div class="w-100" id="chart_div"></div>                                                                       
@@ -90,13 +68,7 @@
     var options = {
       'title':'Pontos por bairro',
       'width':1200,
-      'height':4200,
-      'annotations': {
-        'textStyle': {
-          'fontSize': 9,
-          'bold': true,
-        }
-      }
+      'height':2200
     };
 
     // Instantiate and draw our chart, passing in some options.
@@ -105,4 +77,3 @@
     chart.draw(data, options);
   }
 </script>
-{% endblock %}
