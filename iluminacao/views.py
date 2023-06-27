@@ -507,13 +507,13 @@ def graficos_ver_mais(request, tipo):
         'titulo': apps.get_app_config('iluminacao').verbose_name,
     }
     if tipo == 'pontos-por-bairro':
-        pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
+        pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')
         dados = [{'y': item['bairro'], 'total': item['total']} for item in pontos_por_bairro]
         context['dados'] = dados
         context['y'] = 'Bairros'
         context['x'] = 'Pontos'
     elif tipo == 'os-por-bairro':
-        os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
+        os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')
         dados = [{'y': item['bairro'], 'total': item['total']} for item in os_por_bairro]
         context['dados'] = dados
         context['y'] = 'Bairros'
