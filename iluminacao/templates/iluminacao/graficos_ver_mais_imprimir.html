@@ -39,9 +39,25 @@
 
     // Set chart options
     var options = {
-      'title':'Pontos por bairro',
-      'width':1000,
-      'height':2200
+      'title':'Pontos por bairro',      
+      'width':1200,
+      'height':4200,
+      'hAxis': { 
+        'textStyle' : {
+            'fontSize': 15 // or the number you want
+        }        
+      },
+      'vAxis': { 
+        'textStyle' : {            
+            'fontSize': 10   // or the number you want
+        }        
+      },
+      'annotations': {
+        'textStyle': {
+          'fontSize': 9,
+          'bold': true,
+        }
+      }
     };
 
     // Instantiate and draw our chart, passing in some options.
