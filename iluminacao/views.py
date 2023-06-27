@@ -297,7 +297,8 @@ def add_os(request):
 
     return render(request, 'iluminacao/adicionar_os.html', context)
 
-
+@login_required
+@group_required('os_acesso')
 def detalhes_os(request, id):
     pessoa = Pessoa.objects.get(user=request.user)
     os = OrdemDeServico.objects.get(id=id)
@@ -327,7 +328,8 @@ def detalhes_os(request, id):
     }
     return render(request, 'iluminacao/detalhes_os.html', context)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def change_status_os(request, id, opcao):
     os=OrdemDeServico.objects.get(id=id)
     os.status=opcao
@@ -336,21 +338,24 @@ def change_status_os(request, id, opcao):
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def change_prioridade_os(request, id, opcao):
     os=OrdemDeServico.objects.get(id=id)
     os.prioridade=opcao
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def atender_os(request, id):
     os=OrdemDeServico.objects.get(id=id)
     os.atendente=request.user
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def funcionarios_listar(request):
     funcionarios=Funcionario_OS.objects.all()
     context={
@@ -359,7 +364,8 @@ def funcionarios_listar(request):
     }
     return render(request, 'equipe/funcionarios.html', context)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def funcionario_cadastrar(request):
     if request.method=='POST':
         form=Funcionario_Form({'pessoa':request.POST['pessoa'], 'nivel': request.POST['nivel'], 'tipo_os': [1]})
@@ -377,7 +383,8 @@ def funcionario_cadastrar(request):
     }
     return render(request, 'equipe/funcionarios_cadastrar.html', context)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def funcionario_editar(request, id):
     funcionario=Funcionario_OS.objects.get(id=id)
     form=Funcionario_Form_editar(instance=funcionario)
@@ -393,14 +400,16 @@ def funcionario_editar(request, id):
     }     
     return render(request, 'equipe/funcionarios_editar.html', context)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def funcionario_deletar(request, id):
     funcionario=Funcionario_OS.objects.get(id=id)
     funcionario.delete()
 
     return redirect('iluminacao:funcionarios')
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def atribuir_equipe(request, id):
     try:
         instancia=OS_ext.objects.get(os=id)
@@ -423,7 +432,8 @@ def atribuir_equipe(request, id):
         }
     return render(request, 'iluminacao/adicionar_ext.html', context)
 
-@group_required('os_acesso', 'os_funcionario')
+@login_required
+@group_required('os_acesso')
 def pontos_os(request, id):
     instancia=OrdemDeServico.objects.get(id=id)
     form=OS_Form_Ponto(instance=instancia)            
@@ -441,6 +451,8 @@ def pontos_os(request, id):
 
 from django.db.models import Count
 
+@login_required
+@group_required('os_acesso')
 def imprimir_os(request, id):
     lista_de_os=[OrdemDeServico.objects.get(id=id)]
     context={
@@ -448,6 +460,8 @@ def imprimir_os(request, id):
     }
     return render(request, 'iluminacao/imprimir_os.html', context)
 
+@login_required
+@group_required('os_acesso')
 def imprimir_varias_os(request, ids):
     ids=ids.split('-')
     ids.pop()
@@ -461,6 +475,8 @@ def imprimir_varias_os(request, ids):
     }
     return render(request, 'iluminacao/imprimir_os.html', context)
 
+@login_required
+@group_required('os_acesso')
 def graficos(request):
     pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
     os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
@@ -483,6 +499,38 @@ def graficos(request):
     }
     return render(request, 'iluminacao/graficos.html', context)
 
+@login_required
+@group_required('os_acesso')
+def graficos_ver_mais(request, tipo):
+    context = {
+        'tipo': tipo,
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
+    }
+    if tipo == 'pontos-por-bairro':
+        pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
+        dados = [{'y': item['bairro'], 'total': item['total']} for item in pontos_por_bairro]
+        context['dados'] = dados
+        context['y'] = 'Bairros'
+        context['x'] = 'Pontos'
+    elif tipo == 'os-por-bairro':
+        os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
+        dados = [{'y': item['bairro'], 'total': item['total']} for item in os_por_bairro]
+        context['dados'] = dados
+        context['y'] = 'Bairros'
+        context['x'] = 'Nº de OS'
+    elif tipo == 'pontos-por-funcionario':
+        pontos_por_funcionario = Funcionario_OS.objects.annotate(total=Sum('os_ext__os__pontos_atendidos')).order_by('-total')
+        dados = [{'y': str(item), 'total': item.total} for item in pontos_por_funcionario]
+        context['dados'] = dados
+        context['y'] = 'Funcionarios'
+        context['x'] = 'Pontos'
+    else:
+        return redirect('iluminacao:kpi')
+    print(dados)
+    return render(request, 'iluminacao/graficos_ver_mais.html', context)
+
+@login_required
+@group_required('os_acesso')
 def mudadados(request):
     finalizados = OrdemDeServico.objects.filter(status='f')
     count = 0
@@ -502,6 +550,8 @@ def mudadados(request):
                 mensagem.save()
     return render(request, 'template.html')
 
+@login_required
+@group_required('os_acesso')
 def salvar_contagem_os(request):
     # Limpa as tabelas existentes antes de salvar os novos dados
     TotalOSPorSemanaAno.objects.all().delete()
@@ -513,6 +563,8 @@ def salvar_contagem_os(request):
 
     return redirect('iluminacao:contagem_os')
 
+@login_required
+@group_required('os_acesso')
 def contagem_os(request):
     # Obtém a contagem de OS por semana e ano
     total_os_semana_ano = TotalOSPorSemanaAno.objects.all()
