@@ -24,7 +24,7 @@
           <div class="item border mx-auto">
             <div class="cursos-text mx-2 d-flex">
               <h5 class="">{{supervisor.nome}}</h5>
-              <i class="ms-auto my-auto fa-solid fa-pen-to-square"></i>
+              <a href="{% url 'estagio:editar_supervisor' supervisor.id %}" class="ms-auto my-auto"><i class="ms-auto my-auto fa-solid fa-pen-to-square"></i></a>
             </div><div class="cursos-text pt-0 pb-3 mx-2 d-flex">
               <i>{{supervisor.secretaria}}</i>
             </div>

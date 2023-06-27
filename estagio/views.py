@@ -265,7 +265,8 @@ def editar_curso(request, id):
     context = {
         'forms':forms
     }
-    return render(request, 'estagio/editar_estudante.html', context)
+    return render(request, 'estagio/editar_curso.html', context)
+
 def listar_supervisor(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
@@ -283,6 +284,19 @@ def cadastrar_supervisor(request):
         'forms':forms
     }
     return render(request, 'estagio/cadastrar_supervisor.html', context)
+
+def editar_supervisor(request, id):
+    instance = Supervisor.objects.get(id=id)
+    forms = Editar_Supervisor_forms(instance=instance)
+    if request.method == 'POST':
+        forms = Editar_Supervisor_forms(request.POST, instance=instance)
+        if forms.is_valid():
+            forms.save()
+            return redirect('estagio:listar_supervisor')
+    context = {
+        'forms':forms
+    }
+    return render(request, 'estagio/editar_supervisor.html', context)
 
 def listar_secretaria(request):
     context = {
