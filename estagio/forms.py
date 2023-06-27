@@ -114,3 +114,13 @@ class Secretaria_form(ModelForm):
     class Meta:
         model = Secretaria
         exclude = ['data_inclusao']
+
+class Editar_Curso_forms(ModelForm):
+
+    class Meta:
+        model = Curso
+        widgets = {
+            
+        }
+        
+        exclude = ['data_inclusao', 'universidade']

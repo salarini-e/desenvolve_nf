@@ -21,7 +21,8 @@ def vagas(request):
 def area_do_estudante(request):
     try:
         estudante=Estudante.objects.get(pessoa=Pessoa.objects.get(user=request.user))
-        estudante_vagas=Estudante_Vaga.objects.filter(estudante=estudante)
+        estudante_vagas=Estudante_Vaga.objects.filter(estudante=estudante).order_by('-id')
+    
     except:
         estudante=False
         estudante_vagas=False
@@ -29,7 +30,7 @@ def area_do_estudante(request):
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'vagas': Vagas.objects.all(),
         'estudante': estudante,
-        'estudante_vagas': estudante_vagas.order_by('-id')
+        'estudante_vagas': estudante_vagas
     }
     return render(request, 'estagio/area_do_estudante.html', context)
 
@@ -253,6 +254,18 @@ def listar_curso(request, id):
     }
     return render(request, 'estagio/cursos.html', context)
 
+def editar_curso(request, id):
+    instance = Curso.objects.get(id=id)
+    forms = Editar_Curso_forms(instance=instance)
+    if request.method == 'POST':
+        forms = Editar_Curso_forms(request.POST, instance=instance)
+        if forms.is_valid():
+            forms.save()
+            return redirect('estagio:curso', id)
+    context = {
+        'forms':forms
+    }
+    return render(request, 'estagio/editar_estudante.html', context)
 def listar_supervisor(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',

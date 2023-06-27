@@ -23,7 +23,7 @@
             </div> -->
             <div class="cursos-text mx-2 d-flex">
               <h5 class="my-auto">{{curso.nome}}</h5>
-              <a href="#" class="ms-auto my-auto">
+              <a href="{% url 'estagio:editar_curso' curso.id %}" class="ms-auto my-auto">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
             </div>
