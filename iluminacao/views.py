@@ -501,7 +501,7 @@ def graficos(request):
 
 @login_required
 @group_required('os_acesso')
-def graficos_ver_mais(request, tipo):
+def graficos_ver_mais(request, tipo, subtipo):
     context = {
         'tipo': tipo,
         'titulo': apps.get_app_config('iluminacao').verbose_name,
@@ -526,6 +526,8 @@ def graficos_ver_mais(request, tipo):
         context['x'] = 'Pontos'
     else:
         return redirect('iluminacao:kpi')
+    if subtipo=='imprimir':
+        return render(request, 'iluminacao/graficos_ver_mais_imprimir.html', context)
     return render(request, 'iluminacao/graficos_ver_mais.html', context)
 
 @login_required

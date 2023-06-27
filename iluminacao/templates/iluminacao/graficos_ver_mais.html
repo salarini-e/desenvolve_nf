@@ -20,9 +20,14 @@
                         </div>                    
                     </div>
                 </div>   
-                <button class="btn btn-secondary">
-                  Imprimir
-                </button>
+                <div class="row">
+                  <div class="col d-flex">                    
+                    <a href="{% url 'iluminacao:kpi_ver_mais' 'pontos-por-bairro' 'imprimir' %}" class="btn btn-secondary mx-auto  ">
+                      <i class="fa-solid fa-print me-2"></i> Imprimir
+                    </a>
+                  </div>
+                </div>
+                                  
                 <div class="row">
                   <div class="col d-flex">                    
                       <div class="w-100" id="chart_div"></div>                                                                       

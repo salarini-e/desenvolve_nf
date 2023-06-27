@@ -1,33 +1,6 @@
 <div class="row">
-  <div class="col d-flex py-5"> 
-        <div class="row w-100">                                  
-                <div class="row">
-                  <div class="col d-flex">                    
-                      <div class="w-100" id="chart_div"></div>                                                                       
-                  </div>              
-                </div>                
-                                               
-                <style>
-                  .card-universidade{                    
-                    display: flex;
-                    background-color: white;
-                    width: 300px;
-                    height: 110px;
-                    border-radius: 30px;          
-                    color: rgb(59, 59, 59);
-                    border-color: rgb(255, 255, 255);
-                    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);          
-                    padding-top: 20px;
-                    padding-bottom: 20px;
-                  }                
-                  .card-universidade img{
-                    max-height: 100px;
-          
-                  }
-                </style>
-                </div>
-            </div>
-        </div>    
+  <div class="col d-flex bg-info"> 
+    <div class="w-100" id="chart_div"></div>                                                                       
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -67,7 +40,7 @@
     // Set chart options
     var options = {
       'title':'Pontos por bairro',
-      'width':1200,
+      'width':1000,
       'height':2200
     };
 
@@ -76,4 +49,8 @@
     
     chart.draw(data, options);
   }
+  window.print();
+    setTimeout(function(){
+        window.close();
+    },2000);
 </script>
