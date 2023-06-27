@@ -4,6 +4,7 @@ from . import views
 app_name='iluminacao'
 urlpatterns = [
     path('os/reset/conclusao/123654/', views.mudadados, name='mudados'),
+    path('os/alterar_equipes/123456/', views.alterar_equipes, name='alterar_equipes'),
 
     path('', views.os_index, name='os_index'),
     path('painel/', views.os_painel, name='os_painel'),

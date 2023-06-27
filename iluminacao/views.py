@@ -551,6 +551,22 @@ def mudadados(request):
                 mensagem.save()
     return render(request, 'template.html')
 
+def alterar_equipes(request):
+    os_finalizadas = OrdemDeServico.objects.filter(status='f')
+    for os in os_finalizadas:
+        extensoes_dos_OS = OS_ext.objects.filter(os=os)
+        for extensao in extensoes_dos_OS:
+            if extensao.cod_veiculo != '':
+                codigo_do_veiculo = extensao.cod_veiculo.split('/')
+                for funcionario in codigo_do_veiculo:
+                    funcionario_pessoa = Funcionario_OS.objects.get(funcionario)
+                    print(funcionario_pessoa)
+                    #funcionarios = Funcionario_OS.objects.filter(nome__startswith=funcionario)
+                    #print(funcionarios)
+
+    return render(request, 'template.html')
+    
+
 @login_required
 @group_required('os_acesso')
 def salvar_contagem_os(request):
