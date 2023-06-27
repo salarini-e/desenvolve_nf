@@ -124,3 +124,13 @@ class Editar_Curso_forms(ModelForm):
         }
         
         exclude = ['data_inclusao', 'universidade']
+
+class Editar_Supervisor_forms(ModelForm):
+
+    class Meta:
+        model = Supervisor
+        widgets = {
+            
+        }
+        
+        exclude = ['data_inclusao', 'secretaria', 'pessoa']
