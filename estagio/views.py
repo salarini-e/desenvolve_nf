@@ -263,7 +263,8 @@ def editar_curso(request, id):
             forms.save()
             return redirect('estagio:curso', id)
     context = {
-        'forms':forms
+        'forms':forms,
+        'id': id
     }
     return render(request, 'estagio/editar_curso.html', context)
 
@@ -310,6 +311,7 @@ def listar_secretaria_locais(request, id):
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'secretaria': Secretaria.objects.get(id=id),
         'locais': Locais_de_Estagio.objects.filter(secretaria__id=id),
+        'id':id
     }
     return render(request, 'estagio/secretaria_locais.html', context)
 
@@ -323,3 +325,18 @@ def cadastrar_secretaria(request):
         'forms':forms
     }
     return render(request, 'estagio/cadastrar_secretaria.html', context)
+
+def cadastrar_local(request,id):
+    forms = Local_form(initial={'secretaria':id})
+    if request.method == 'POST':
+        forms = Local_form(request.POST)
+        if forms.is_valid():
+            local = forms.save()
+            local.secretaria = Secretaria.objects.get(id=id)
+            local.save()
+            return redirect('estagio:listar_secretaria_locais', id)
+    context = {
+        'forms':forms,
+        'id':id
+    }
+    return render(request, 'estagio/cadastrar_local.html', context)

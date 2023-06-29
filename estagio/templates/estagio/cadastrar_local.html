@@ -6,11 +6,11 @@
 {% endblock %}
 {% block css %} {% endblock %}
 {% block main %}
-    <div class="row">
-        <div class="col d-flex">
-            <a href="{% url 'estagio:curso' id %}" class="ms-auto btn btn-primary"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a> 
+        <div class="row">
+            <div class="col d-flex">
+                <a href="{% url 'estagio:listar_secretaria_locais' id %}" class="ms-auto btn btn-primary"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a> 
+            </div>
         </div>
-    </div>
         <div class="row">
             <div class="col">
                 <form method="POST" enctype="multipart/form-data">

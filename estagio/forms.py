@@ -115,6 +115,14 @@ class Secretaria_form(ModelForm):
         model = Secretaria
         exclude = ['data_inclusao']
 
+class Local_form(ModelForm):
+    class Meta:
+        model = Locais_de_Estagio
+        widgets = {
+            'secretaria':forms.HiddenInput()
+        }
+        exclude = []
+
 class Editar_Curso_forms(ModelForm):
 
     class Meta:

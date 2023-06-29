@@ -29,4 +29,5 @@ urlpatterns = [
     path('secretaria/', views.listar_secretaria, name='listar_secretaria'),
     path('secretaria/<id>/locais/', views.listar_secretaria_locais, name='listar_secretaria_locais'),
     path('secretaria/cadastrar_secretaria', views.cadastrar_secretaria, name='cadastrar_secretaria'),
+    path('secretaria/<id>/cadastrar_local', views.cadastrar_local, name='cadastrar_local'),
 ]
