@@ -133,4 +133,4 @@ class Editar_Supervisor_forms(ModelForm):
             
         }
         
-        exclude = ['data_inclusao', 'secretaria', 'pessoa']
+        exclude = ['data_inclusao', 'pessoa']
