@@ -86,7 +86,7 @@ def adm_curso_editar(request, id):
     form = CadastroCursoForm(instance=curso)
 
     if request.method == 'POST':
-        form = CadastroCursoForm(request.POST, instance=curso)
+        form = CadastroCursoForm(request.POST, request.FILES, instance=curso)
         if form.is_valid():
             form.save()
 
