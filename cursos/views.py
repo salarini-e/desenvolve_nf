@@ -49,7 +49,7 @@ def cursos(request, tipo):
 
     context = {
         'categorias':categorias,
-        'cursos': cursos,
+        'cursos': cursos.order_by('?'),
         'form': form,
         'titulo': apps.get_app_config('cursos').verbose_name,        
         'tipo': tipo
