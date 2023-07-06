@@ -165,7 +165,7 @@ def adm_turmas_cadastrar(request):
 @staff_member_required
 def adm_turmas_listar(request):
 
-    turmas = Turma.objects.all()
+    turmas = Turma.objects.all().order_by('data_final')
 
     context = {
         'turmas': turmas
