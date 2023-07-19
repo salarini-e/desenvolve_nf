@@ -7,6 +7,7 @@ urlpatterns = [
     path('os/alterar_equipes/123456/', views.alterar_equipes, name='alterar_equipes'),
 
     path('', views.os_index, name='os_index'),
+    path('finalizados/', views.os_finalizados, name='os_finalizados'),
     path('painel/', views.os_painel, name='os_painel'),
     path('os/', views.add_os, name='add_os'),
     path('os/contar-os/', views.contagem_os, name='contagem_os'),

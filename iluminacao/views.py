@@ -230,9 +230,9 @@ def os_painel(request):
 @group_required('os_acesso')
 def os_index(request):
     if request.user.is_superuser:
-        data=OrdemDeServico.objects.all()
+        data=OrdemDeServico.objects.all().exclude(status='f')
     else:
-        data=OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user))
+        data=OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user)).exclude(status='f')
     if request.method=='POST':
         valor_da_busca=request.POST['valor_da_busca']
         tipo=request.POST['tipo_da_busca']
@@ -279,6 +279,58 @@ def os_index(request):
     }
     return render(request, 'iluminacao/index.html', context)
 
+@login_required
+@group_required('os_acesso')
+def os_finalizados(request):
+    if request.user.is_superuser:
+        data=OrdemDeServico.objects.filter(status='f')
+    else:
+        data=OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user), status='f')
+    if request.method=='POST':
+        valor_da_busca=request.POST['valor_da_busca']
+        tipo=request.POST['tipo_da_busca']
+        # print(valor_da_busca, tipo)
+        if tipo == 'atendente':
+            if valor_da_busca=='':
+                data=data.filter(atendente=None)
+            else:
+                data=data.filter(atendente__first_name__icontains=valor_da_busca)
+        elif tipo == 'bairro':
+            data=data.filter(bairro__icontains=valor_da_busca)
+        elif tipo == 'data':
+            try:
+                valor_da_busca_date = datetime.strptime(valor_da_busca, '%d/%m/%Y').date()            
+                data=data.filter(dt_solicitacao__date=valor_da_busca_date.strftime('%Y-%m-%d'))
+            except:
+                valores=valor_da_busca.split('/')
+                # print(valores)
+                data=data.filter(dt_solicitacao__year=valores[1], dt_solicitacao__month=valores[0])
+        elif tipo == 'protocolo':
+            data=data.filter(numero__icontains=valor_da_busca)
+        elif tipo == 'rua':
+            data=data.filter(logradouro__icontains=valor_da_busca)
+        elif tipo == 'status':
+            status={'Novo': 0,
+            'Aguardando': 1,
+            'Em execução': 2,
+            'Finalizado': 3}
+            data=data.filter(status=status[valor_da_busca.capitalize()])
+        elif tipo == 'prioridade':
+            prioridades={'Normal': 0,
+            'Moderada': 1,
+            'Urgente': 2
+            }
+            data=data.filter(prioridade=prioridades[valor_da_busca.capitalize()])
+
+    paginator = Paginator(data, 30)
+    page = request.GET.get('page', 1)
+    ordens_de_servico = paginator.get_page(page)
+    
+    context={
+        'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'ordens_de_servico': ordens_de_servico
+    }
+    return render(request, 'iluminacao/finalizados.html', context)
 
 @login_required
 def add_os(request):
