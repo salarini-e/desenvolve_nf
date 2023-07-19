@@ -331,8 +331,8 @@ def os_index(request):
         }
         ordem_de_servico = OrdemDeServico(**data)
         queryset.append(ordem_de_servico)
-        queryset = sorted(queryset, key=lambda x: x.dt_alteracao, reverse=True)
-        
+        queryset = sorted(queryset, key=lambda x: (x.dt_alteracao if x.dt_alteracao else x.dt_solicitacao), reverse=True)
+
     paginator = Paginator(queryset, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
