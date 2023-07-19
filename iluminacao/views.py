@@ -225,111 +225,267 @@ def os_painel(request):
     }
     return render(request, 'iluminacao/painel.html', context)
 
-
 @login_required
 @group_required('os_acesso')
 def os_index(request):
     if request.user.is_superuser:
-        data=OrdemDeServico.objects.all().exclude(status='f')
+        queryset = OrdemDeServico.objects.all().exclude(status='f')
     else:
-        data=OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user)).exclude(status='f')
-    if request.method=='POST':
-        valor_da_busca=request.POST['valor_da_busca']
-        tipo=request.POST['tipo_da_busca']
-        # print(valor_da_busca, tipo)
-        if tipo == 'atendente':
-            if valor_da_busca=='':
-                data=data.filter(atendente=None)
-            else:
-                data=data.filter(atendente__first_name__icontains=valor_da_busca)
-        elif tipo == 'bairro':
-            data=data.filter(bairro__icontains=valor_da_busca)
-        elif tipo == 'data':
-            try:
-                valor_da_busca_date = datetime.strptime(valor_da_busca, '%d/%m/%Y').date()            
-                data=data.filter(dt_solicitacao__date=valor_da_busca_date.strftime('%Y-%m-%d'))
-            except:
-                valores=valor_da_busca.split('/')
-                # print(valores)
-                data=data.filter(dt_solicitacao__year=valores[1], dt_solicitacao__month=valores[0])
-        elif tipo == 'protocolo':
-            data=data.filter(numero__icontains=valor_da_busca)
-        elif tipo == 'rua':
-            data=data.filter(logradouro__icontains=valor_da_busca)
-        elif tipo == 'status':
-            status={'Novo': 0,
-            'Aguardando': 1,
-            'Em execução': 2,
-            'Finalizado': 3}
-            data=data.filter(status=status[valor_da_busca.capitalize()])
-        elif tipo == 'prioridade':
-            prioridades={'Normal': 0,
-            'Moderada': 1,
-            'Urgente': 2
-            }
-            data=data.filter(prioridade=prioridades[valor_da_busca.capitalize()])
+        queryset = OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user)).exclude(status='f')
 
-    paginator = Paginator(data, 30)
+    if request.method == 'POST':
+        # Obtenha os parâmetros da consulta do formulário
+        protocolo = request.POST.get('protocolo')
+        tipo_os = request.POST.get('tipo')
+        prioridade = request.POST.get('prioridade')
+        status = request.POST.get('status')
+        bairro = request.POST.get('bairro')
+        motivo = request.POST.get('motivo')
+        dt_solicitacao1 = request.POST.get('dt_solicitacao1')
+        dt_solicitacao2 = request.POST.get('dt_solicitacao2')
+        dt_execucao1 = request.POST.get('dt_execucao1')
+        dt_execucao2 = request.POST.get('dt_execucao2')
+        dt_alteracao1 = request.POST.get('dt_alteracao1')
+        dt_alteracao2 = request.POST.get('dt_alteracao2')
+
+        # Armazene os parâmetros da consulta na sessão
+        request.session['protocolo'] = protocolo
+        request.session['tipo_os'] = tipo_os
+        request.session['prioridade'] = prioridade
+        request.session['status'] = status
+        request.session['bairro'] = bairro
+        request.session['motivo'] = motivo
+        request.session['dt_solicitacao1'] = dt_solicitacao1
+        request.session['dt_solicitacao2'] = dt_solicitacao2
+        request.session['dt_execucao1'] = dt_execucao1
+        request.session['dt_execucao2'] = dt_execucao2
+        request.session['dt_alteracao1'] = dt_alteracao1
+        request.session['dt_alteracao2'] = dt_alteracao2
+    else:
+        # Recupere os parâmetros da consulta da sessão
+        protocolo = request.session.get('protocolo', '')
+        tipo_os = request.session.get('tipo_os', '')
+        prioridade = request.session.get('prioridade', '')
+        status = request.session.get('status', '')
+        bairro = request.session.get('bairro', '')
+        motivo = request.session.get('motivo', '')
+        dt_solicitacao1 = request.session.get('dt_solicitacao1', '')
+        dt_solicitacao2 = request.session.get('dt_solicitacao2', '')
+        dt_execucao1 = request.session.get('dt_execucao1', '')
+        dt_execucao2 = request.session.get('dt_execucao2', '')
+        dt_alteracao1 = request.session.get('dt_alteracao1', '')
+        dt_alteracao2 = request.session.get('dt_alteracao2', '')
+
+    # Construa a consulta personalizada
+    sql = "SELECT * FROM iluminacao_ordemdeservico WHERE status != 'f'"
+
+    if protocolo:
+        sql += f" AND numero LIKE '%{protocolo}%'"
+    if tipo_os != 'todos':
+        sql += f" AND tipo_id = {tipo_os}"
+    if prioridade != 'todos':
+        sql += f" AND prioridade = '{prioridade}'"
+    if status != 'todos':
+        sql += f" AND status = '{status}'"
+    if bairro:
+        sql += f" AND bairro LIKE '%{bairro}%'"
+    if motivo:
+        sql += f" AND motivo_reclamacao LIKE '%{motivo}%'"
+    if dt_solicitacao1 and dt_solicitacao2:
+        sql += f" AND dt_solicitacao BETWEEN '{dt_solicitacao1}' AND '{dt_solicitacao2}'"
+    if dt_execucao1 and dt_execucao2:
+        sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
+    if dt_alteracao1 and dt_alteracao2:
+        sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
+
+    # Executar a consulta SQL personalizada
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+
+    # Processar os resultados
+    queryset = []
+    for row in results:
+        # Mapear os campos do modelo e seus valores correspondentes
+        data = {
+            'id': row[0],
+            'numero': row[1],
+            'prioridade': row[2],
+            'dt_solicitacao': row[3],
+            'logradouro': row[4],
+            'bairro': row[5],
+            'referencia': row[6],
+            'motivo_reclamacao': row[7],
+            'status': row[8],
+            'dt_conclusao': row[9],
+            'atendente_id': row[10],
+            'cadastrado_por_id': row[11],
+            'tipo_id': row[12],
+            'pontos_atendidos': row[13],
+            'nome_do_contribuinte': row[14],
+            'telefone_do_contribuinte': row[15],
+            'dt_alteracao': row[16],
+            'dt_execucao': row[17],
+            'observacao_pontos': row[18]
+            # Mapear os demais campos conforme necessário
+        }
+        ordem_de_servico = OrdemDeServico(**data)
+        queryset.append(ordem_de_servico)
+
+    paginator = Paginator(queryset, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
-    
-    context={
+
+    context = {
         'titulo': apps.get_app_config('iluminacao').verbose_name,
-        'ordens_de_servico': ordens_de_servico
+        'ordens_de_servico': ordens_de_servico,
+        'tipo_os': Tipo_OS.objects.all(),
+        'protocolo': protocolo,
+        'tipo_os_selecionado': tipo_os,
+        'prioridade': prioridade,
+        'status': status,
+        'bairro': bairro,
+        'motivo': motivo,
+        'dt_solicitacao1': dt_solicitacao1,
+        'dt_solicitacao2': dt_solicitacao2,
+        'dt_execucao1': dt_execucao1,
+        'dt_execucao2': dt_execucao2,
+        'dt_alteracao1': dt_alteracao1,
+        'dt_alteracao2': dt_alteracao2,
     }
+
     return render(request, 'iluminacao/index.html', context)
+
 
 @login_required
 @group_required('os_acesso')
 def os_finalizados(request):
     if request.user.is_superuser:
-        data=OrdemDeServico.objects.filter(status='f')
+        queryset = OrdemDeServico.objects.filter(status='f')
     else:
-        data=OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user), status='f')
-    if request.method=='POST':
-        valor_da_busca=request.POST['valor_da_busca']
-        tipo=request.POST['tipo_da_busca']
-        # print(valor_da_busca, tipo)
-        if tipo == 'atendente':
-            if valor_da_busca=='':
-                data=data.filter(atendente=None)
-            else:
-                data=data.filter(atendente__first_name__icontains=valor_da_busca)
-        elif tipo == 'bairro':
-            data=data.filter(bairro__icontains=valor_da_busca)
-        elif tipo == 'data':
-            try:
-                valor_da_busca_date = datetime.strptime(valor_da_busca, '%d/%m/%Y').date()            
-                data=data.filter(dt_solicitacao__date=valor_da_busca_date.strftime('%Y-%m-%d'))
-            except:
-                valores=valor_da_busca.split('/')
-                # print(valores)
-                data=data.filter(dt_solicitacao__year=valores[1], dt_solicitacao__month=valores[0])
-        elif tipo == 'protocolo':
-            data=data.filter(numero__icontains=valor_da_busca)
-        elif tipo == 'rua':
-            data=data.filter(logradouro__icontains=valor_da_busca)
-        elif tipo == 'status':
-            status={'Novo': 0,
-            'Aguardando': 1,
-            'Em execução': 2,
-            'Finalizado': 3}
-            data=data.filter(status=status[valor_da_busca.capitalize()])
-        elif tipo == 'prioridade':
-            prioridades={'Normal': 0,
-            'Moderada': 1,
-            'Urgente': 2
-            }
-            data=data.filter(prioridade=prioridades[valor_da_busca.capitalize()])
+        queryset = OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user), status='f')
 
-    paginator = Paginator(data, 30)
+    if request.method == 'POST':
+        # Obtenha os parâmetros da consulta do formulário
+        protocolo = request.POST.get('protocolo')
+        tipo_os = request.POST.get('tipo')
+        prioridade = request.POST.get('prioridade')
+        status = request.POST.get('status')
+        bairro = request.POST.get('bairro')
+        motivo = request.POST.get('motivo')
+        dt_solicitacao1 = request.POST.get('dt_solicitacao1')
+        dt_solicitacao2 = request.POST.get('dt_solicitacao2')
+        dt_execucao1 = request.POST.get('dt_execucao1')
+        dt_execucao2 = request.POST.get('dt_execucao2')
+        dt_alteracao1 = request.POST.get('dt_alteracao1')
+        dt_alteracao2 = request.POST.get('dt_alteracao2')
+
+        # Armazene os parâmetros da consulta na sessão
+        request.session['protocolo'] = protocolo
+        request.session['tipo_os'] = tipo_os
+        request.session['prioridade'] = prioridade
+        request.session['status'] = status
+        request.session['bairro'] = bairro
+        request.session['motivo'] = motivo
+        request.session['dt_solicitacao1'] = dt_solicitacao1
+        request.session['dt_solicitacao2'] = dt_solicitacao2
+        request.session['dt_execucao1'] = dt_execucao1
+        request.session['dt_execucao2'] = dt_execucao2
+        request.session['dt_alteracao1'] = dt_alteracao1
+        request.session['dt_alteracao2'] = dt_alteracao2
+    else:
+        # Recupere os parâmetros da consulta da sessão
+        protocolo = request.session.get('protocolo', '')
+        tipo_os = request.session.get('tipo_os', '')
+        prioridade = request.session.get('prioridade', '')
+        status = request.session.get('status', '')
+        bairro = request.session.get('bairro', '')
+        motivo = request.session.get('motivo', '')
+        dt_solicitacao1 = request.session.get('dt_solicitacao1', '')
+        dt_solicitacao2 = request.session.get('dt_solicitacao2', '')
+        dt_execucao1 = request.session.get('dt_execucao1', '')
+        dt_execucao2 = request.session.get('dt_execucao2', '')
+        dt_alteracao1 = request.session.get('dt_alteracao1', '')
+        dt_alteracao2 = request.session.get('dt_alteracao2', '')
+
+    # Construa a consulta personalizada
+    sql = "SELECT * FROM iluminacao_ordemdeservico WHERE status = 'f'"
+
+    if protocolo:
+        sql += f" AND numero LIKE '%{protocolo}%'"
+    if tipo_os != 'todos':
+        sql += f" AND tipo_id = {tipo_os}"
+    if prioridade != 'todos':
+        sql += f" AND prioridade = '{prioridade}'"
+    if status != 'todos':
+        sql += f" AND status = '{status}'"
+    if bairro:
+        sql += f" AND bairro LIKE '%{bairro}%'"
+    if motivo:
+        sql += f" AND motivo_reclamacao LIKE '%{motivo}%'"
+    if dt_solicitacao1 and dt_solicitacao2:
+        sql += f" AND dt_solicitacao BETWEEN '{dt_solicitacao1}' AND '{dt_solicitacao2}'"
+    if dt_execucao1 and dt_execucao2:
+        sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
+    if dt_alteracao1 and dt_alteracao2:
+        sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
+
+    # Executar a consulta SQL personalizada
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+
+    # Processar os resultados
+    queryset = []
+    for row in results:
+        # Mapear os campos do modelo e seus valores correspondentes
+        data = {
+            'id': row[0],
+            'numero': row[1],
+            'prioridade': row[2],
+            'dt_solicitacao': row[3],
+            'logradouro': row[4],
+            'bairro': row[5],
+            'referencia': row[6],
+            'motivo_reclamacao': row[7],
+            'status': row[8],
+            'dt_conclusao': row[9],
+            'atendente_id': row[10],
+            'cadastrado_por_id': row[11],
+            'tipo_id': row[12],
+            'pontos_atendidos': row[13],
+            'nome_do_contribuinte': row[14],
+            'telefone_do_contribuinte': row[15],
+            'dt_alteracao': row[16],
+            'dt_execucao': row[17],
+            'observacao_pontos': row[18]
+            # Mapear os demais campos conforme necessário
+        }
+        ordem_de_servico = OrdemDeServico(**data)
+        queryset.append(ordem_de_servico)
+
+    paginator = Paginator(queryset, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
-    
-    context={
+
+    context = {
         'titulo': apps.get_app_config('iluminacao').verbose_name,
-        'ordens_de_servico': ordens_de_servico
+        'ordens_de_servico': ordens_de_servico,
+        'tipo_os': Tipo_OS.objects.all(),
+        'protocolo': protocolo,
+        'tipo_os_selecionado': tipo_os,
+        'prioridade': prioridade,
+        'status': status,
+        'bairro': bairro,
+        'motivo': motivo,
+        'dt_solicitacao1': dt_solicitacao1,
+        'dt_solicitacao2': dt_solicitacao2,
+        'dt_execucao1': dt_execucao1,
+        'dt_execucao2': dt_execucao2,
+        'dt_alteracao1': dt_alteracao1,
+        'dt_alteracao2': dt_alteracao2,
     }
+
     return render(request, 'iluminacao/finalizados.html', context)
 
 @login_required
