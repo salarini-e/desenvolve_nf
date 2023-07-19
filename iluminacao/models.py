@@ -96,7 +96,7 @@ class OrdemDeServico(models.Model):
     observacao_pontos=models.TextField(verbose_name='Observação', default='', null=True, blank=True)
     
     dt_alteracao = models.DateTimeField(verbose_name='Data de alteração', blank=True, null=True)
-    dt_execucao = models.DateTimeField(verbose_name='Data de alteração', blank=True, null=True)
+    dt_execucao = models.DateTimeField(verbose_name='Data de execução', blank=True, null=True)
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
     
     def semana_atendimento(self):

@@ -5,6 +5,9 @@ from autenticacao.models import Pessoa
 from django.contrib.auth.models import Group
 from django.forms import ModelChoiceField
 
+class Date(forms.DateInput):
+    input_type = 'date'
+
 class OS_Form(ModelForm):    
     
     class Meta:
@@ -16,10 +19,13 @@ class OS_Form(ModelForm):
 
 
 class OS_Form_Ponto(ModelForm):    
-    
+        
     class Meta:
         model = OrdemDeServico       
-        fields = ['pontos_atendidos', 'observacao_pontos']
+        widgets={
+         'dt_execucao': Date(attrs={'class': 'form-control'}),
+         }
+        fields = ['pontos_atendidos', 'observacao_pontos', 'dt_execucao']
 
 class PessoaChoiceField(ModelChoiceField):
     def label_from_instance(self, obj):
