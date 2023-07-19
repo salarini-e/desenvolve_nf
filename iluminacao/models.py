@@ -93,8 +93,12 @@ class OrdemDeServico(models.Model):
     
     status =models.CharField(max_length=1, verbose_name='Status', choices=STATUS_CHOICES, null=True, default='0')
     pontos_atendidos=models.PositiveIntegerField(default=0)
+    observacao_pontos=models.TextField(verbose_name='Observação', default='')
+    
+    dt_alteracao = models.DateTimeField(verbose_name='Data de alteração', blank=True, null=True)
+    dt_execucao = models.DateTimeField(verbose_name='Data de alteração', blank=True, null=True)
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
-
+    
     def semana_atendimento(self):
         return self.dt_conclusao.isocalendar()[1]
 
@@ -127,13 +131,18 @@ class OrdemDeServico(models.Model):
 
 
     class Meta:
-        ordering = ['-dt_solicitacao']
+        ordering = ['-dt_alteracao', '-dt_solicitacao']
 
     def gerar_protocolo(self):        
         self.numero = f"{self.tipo.sigla}{int(uuid.uuid4().hex[:10], 16)}/{self.dt_solicitacao.strftime('%y')}"
         self.save()
         return self.numero
     
+    def save(self, *args, **kwargs):
+        # Atualiza a data de alteração antes de salvar o modelo
+        self.dt_alteracao = timezone.now()
+        super().save(*args, **kwargs)
+
     def finalizar_chamado(self):
         
         if self.status == 'f':
