@@ -281,11 +281,11 @@ def os_index(request):
 
     if protocolo:
         sql += f" AND numero LIKE '%{protocolo}%'"
-    if tipo_os != 'todos':
+    if tipo_os and tipo_os != 'todos':
         sql += f" AND tipo_id = {tipo_os}"
-    if prioridade != 'todos':
+    if prioridade and prioridade != 'todos':
         sql += f" AND prioridade = '{prioridade}'"
-    if status != 'todos':
+    if status and status != 'todos':
         sql += f" AND status = '{status}'"
     if bairro:
         sql += f" AND bairro LIKE '%{bairro}%'"
@@ -355,6 +355,7 @@ def os_index(request):
     }
 
     return render(request, 'iluminacao/index.html', context)
+
 
 
 @login_required
