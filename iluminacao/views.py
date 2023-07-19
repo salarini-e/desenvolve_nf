@@ -297,7 +297,7 @@ def os_index(request):
         sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
     if dt_alteracao1 and dt_alteracao2:
         sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
-    sql += " ORDER BY dt_alteracao, dt_solicitacao"
+    # sql += " ORDER BY dt_alteracao, dt_solicitacao"
     # Executar a consulta SQL personalizada
     with connection.cursor() as cursor:
         cursor.execute(sql)
@@ -331,7 +331,8 @@ def os_index(request):
         }
         ordem_de_servico = OrdemDeServico(**data)
         queryset.append(ordem_de_servico)
-
+        queryset = sorted(queryset, key=lambda x: x.dt_alteracao, reverse=True)
+        
     paginator = Paginator(queryset, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
