@@ -9,6 +9,9 @@ from django.db.models.functions import Extract
 import uuid
 from django.utils import timezone
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 class Bairro(models.Model):
     nome = models.CharField(max_length=150, verbose_name='Bairro')
 
@@ -165,6 +168,16 @@ class OS_Linha_Tempo(models.Model):
     anexo = models.FileField(upload_to='anexos/', blank=True, null=True)
     dt_inclusao = models.DateTimeField(auto_now_add=True, verbose_name='Data da mensagem', blank=True)
     
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        # Atualizar a data de alteração da OrdemDeServico relacionada
+        self.os.save()
+
+# Sinal para atualizar a data de alteração da OrdemDeServico após salvar uma instância de OS_Linha_Tempo
+@receiver(post_save, sender=OS_Linha_Tempo)
+def update_os_alteracao(sender, instance, **kwargs):
+    instance.os.save()
 
 class MateriaisUsados(models.Model):
     os=models.ForeignKey(OrdemDeServico, on_delete=models.PROTECT)
