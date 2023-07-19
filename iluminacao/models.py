@@ -92,7 +92,7 @@ class OrdemDeServico(models.Model):
 
     cadastrado_por = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True)   
 
-    motivo_reclamacao = models.TextField(verbose_name='Motivo da reclamação')            
+    motivo_reclamacao = models.TextField(verbose_name='Motivo da solicitação')            
     
     status =models.CharField(max_length=1, verbose_name='Status', choices=STATUS_CHOICES, null=True, default='0')
     pontos_atendidos=models.PositiveIntegerField(default=0)
