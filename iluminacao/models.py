@@ -93,7 +93,7 @@ class OrdemDeServico(models.Model):
     
     status =models.CharField(max_length=1, verbose_name='Status', choices=STATUS_CHOICES, null=True, default='0')
     pontos_atendidos=models.PositiveIntegerField(default=0)
-    observacao_pontos=models.TextField(verbose_name='Observação', default='')
+    observacao_pontos=models.TextField(verbose_name='Observação', default='', null=True, blank=True)
     
     dt_alteracao = models.DateTimeField(verbose_name='Data de alteração', blank=True, null=True)
     dt_execucao = models.DateTimeField(verbose_name='Data de alteração', blank=True, null=True)
