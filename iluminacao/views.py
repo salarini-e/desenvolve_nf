@@ -297,7 +297,7 @@ def os_index(request):
         sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
     if dt_alteracao1 and dt_alteracao2:
         sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
-
+    sql += " ORDER BY dt_alteracao"
     # Executar a consulta SQL personalizada
     with connection.cursor() as cursor:
         cursor.execute(sql)
@@ -498,7 +498,9 @@ def add_os(request):
         form=OS_Form(request.POST)
         if form.is_valid():
             os=form.save(commit=False)
-            os.cadastrado_por=Pessoa.objects.get(user=request.user)
+            os.cadastrado_por=Pessoa.objects.get(user=request.user)            
+            os.save()
+            os.dt_alteracao=os.dt_dt_solicitacao
             os.save()
 
             return redirect('iluminacao:os_index')                
