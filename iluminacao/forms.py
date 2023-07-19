@@ -19,7 +19,7 @@ class OS_Form_Ponto(ModelForm):
     
     class Meta:
         model = OrdemDeServico       
-        fields = ['pontos_atendidos']
+        fields = ['pontos_atendidos', 'observacao_pontos']
 
 class PessoaChoiceField(ModelChoiceField):
     def label_from_instance(self, obj):
