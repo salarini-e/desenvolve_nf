@@ -12,7 +12,7 @@ class OS_Form(ModelForm):
         widgets = {
             'tipo': forms.Select(attrs={'readonly': True}),
         }
-        exclude = ['numero', 'dt_inclusao', 'atendente', 'dt_conclusao', 'prioridade', 'status', 'contribuinte', 'pontos_atendidos', 'cadastrado_por']
+        exclude = ['numero', 'dt_inclusao', 'dt_alteracao','dt_execucao', 'observacao_pontos','atendente', 'dt_conclusao', 'prioridade', 'status', 'contribuinte', 'pontos_atendidos', 'cadastrado_por']
 
 
 class OS_Form_Ponto(ModelForm):    
