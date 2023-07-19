@@ -297,7 +297,7 @@ def os_index(request):
         sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
     if dt_alteracao1 and dt_alteracao2:
         sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
-    sql += " ORDER BY dt_alteracao"
+    sql += " ORDER BY -dt_alteracao, -dt_solicitacao"
     # Executar a consulta SQL personalizada
     with connection.cursor() as cursor:
         cursor.execute(sql)
