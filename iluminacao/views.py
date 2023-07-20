@@ -240,6 +240,7 @@ def os_index(request):
         prioridade = request.POST.get('prioridade')
         status = request.POST.get('status')
         bairro = request.POST.get('bairro')
+        rua = request.POST.get('rua')
         motivo = request.POST.get('motivo')
         dt_solicitacao1 = request.POST.get('dt_solicitacao1')
         dt_solicitacao2 = request.POST.get('dt_solicitacao2')
@@ -254,6 +255,7 @@ def os_index(request):
         request.session['prioridade'] = prioridade
         request.session['status'] = status
         request.session['bairro'] = bairro
+        request.session['rua'] = rua
         request.session['motivo'] = motivo
         request.session['dt_solicitacao1'] = dt_solicitacao1
         request.session['dt_solicitacao2'] = dt_solicitacao2
@@ -268,6 +270,7 @@ def os_index(request):
         prioridade = request.session.get('prioridade', '')
         status = request.session.get('status', '')
         bairro = request.session.get('bairro', '')
+        rua = request.session.get('rua', '')
         motivo = request.session.get('motivo', '')
         dt_solicitacao1 = request.session.get('dt_solicitacao1', '')
         dt_solicitacao2 = request.session.get('dt_solicitacao2', '')
@@ -289,6 +292,8 @@ def os_index(request):
         sql += f" AND status = '{status}'"
     if bairro:
         sql += f" AND bairro LIKE '%{bairro}%'"
+    if rua:
+        sql += f" AND logradouro LIKE '%{rua}%'"
     if motivo:
         sql += f" AND motivo_reclamacao LIKE '%{motivo}%'"
     if dt_solicitacao1 and dt_solicitacao2:
@@ -346,6 +351,7 @@ def os_index(request):
         'prioridade': prioridade,
         'status': status,
         'bairro': bairro,
+        'rua': rua,
         'motivo': motivo,
         'dt_solicitacao1': dt_solicitacao1,
         'dt_solicitacao2': dt_solicitacao2,
@@ -501,7 +507,7 @@ def add_os(request):
             os=form.save(commit=False)
             os.cadastrado_por=Pessoa.objects.get(user=request.user)            
             os.save()
-            os.dt_alteracao=os.dt_dt_solicitacao
+            os.dt_alteracao=os.dt_solicitacao
             os.save()
 
             return redirect('iluminacao:os_index')                
