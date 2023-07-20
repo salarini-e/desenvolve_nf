@@ -8,11 +8,12 @@ from .models import *
 from settings.decorators import group_required
 from django.contrib.auth.models import Group
 from datetime import datetime
-from django.db.models import Count, Sum
+from django.db.models import Case, When, Count, Sum, IntegerField
 
 from django.http import HttpResponse
 from openpyxl import Workbook
 from datetime import datetime
+
 
 STATUS_CHOICES=(
         ('0','Novo'),
@@ -706,20 +707,32 @@ def graficos(request):
     finalizados = OrdemDeServico.objects.filter(status='f').count()
     nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
 
-    # os_por_funcionario = Funcionario_OS.objects.annotate(total=Count('id')).order_by('-total')[:10]
-    os_por_funcionario = Funcionario_OS.objects.annotate(total_os=Count('os_ext__os')).order_by('-total_os')
-    pontos_por_funcionario = Funcionario_OS.objects.annotate(total_pontos=Sum('os_ext__os__pontos_atendidos')).order_by('-total_pontos')    
+    # Quantitativo de OS finalizadas por tipo
+    os_finalizadas_por_tipo = OrdemDeServico.objects.filter(status='f').values('tipo__sigla').annotate(
+        total_finalizadas=Count('id'),
+    ).order_by('-total_finalizadas')
 
-    context = {    
+    # Quantitativo de OS não finalizadas por tipo
+    os_nao_finalizadas_por_tipo = OrdemDeServico.objects.exclude(status='f').values('tipo__sigla').annotate(
+        total_nao_finalizadas=Count('id'),
+    ).order_by('-total_nao_finalizadas')
+
+    os_por_funcionario = Funcionario_OS.objects.annotate(total_os=Count('os_ext__os')).order_by('-total_os')
+    pontos_por_funcionario = Funcionario_OS.objects.annotate(total_pontos=Sum('os_ext__os__pontos_atendidos')).order_by('-total_pontos')
+
+    context = {
         'pontos_por_bairro': pontos_por_bairro,
         'os_por_bairro': os_por_bairro,
         'finalizados': finalizados,
         'nao_finalizados': nao_finalizados,
         'os_por_funcionario': os_por_funcionario,
         'pontos_por_funcionario': pontos_por_funcionario,
+        'os_finalizadas_por_tipo': os_finalizadas_por_tipo,
+        'os_nao_finalizadas_por_tipo': os_nao_finalizadas_por_tipo,
         'titulo': apps.get_app_config('iluminacao').verbose_name,
     }
     return render(request, 'iluminacao/graficos.html', context)
+
 
 @login_required
 @group_required('os_acesso')
