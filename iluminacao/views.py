@@ -702,8 +702,18 @@ def imprimir_varias_os(request, ids):
 @login_required
 @group_required('os_acesso')
 def graficos(request):
-    pontos_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')[:10]
-    os_por_bairro = OrdemDeServico.objects.values('bairro').annotate(total=Count('id')).order_by('-total')[:10]
+    
+    pontos_por_bairro_finalizados = OrdemDeServico.objects.filter(status='f').values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')
+    pontos_por_bairro_nao_finalizados = OrdemDeServico.objects.exclude(status='f').values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')
+    
+    # Consulta para os bairros com ordens de serviço finalizadas
+    servicos_por_bairro_finalizados = OrdemDeServico.objects.filter(status='f').values('bairro').annotate(total=Count('id')).order_by('-total')
+    print(len(servicos_por_bairro_finalizados))
+    # Consulta para os bairros com ordens de serviço não finalizadas
+    servicos_por_bairro_nao_finalizados = OrdemDeServico.objects.exclude(status='f').values('bairro').annotate(total=Count('id')).order_by('-total')
+    print(len(servicos_por_bairro_nao_finalizados))
+    # Combina os resultados em uma única lista, se necessário
+    servicos_por_bairro = pontos_por_bairro_finalizados.union(pontos_por_bairro_nao_finalizados)
 
     finalizados = OrdemDeServico.objects.filter(status='f').count()
     nao_finalizados = OrdemDeServico.objects.exclude(status='f').count()
@@ -754,8 +764,10 @@ def graficos(request):
        
         servicos_grafico_linha_dados.append([month_translate(mes), int(total_finalizadas), int(total_nao_finalizadas)])
     context = {
-        'pontos_por_bairro': pontos_por_bairro,
-        'os_por_bairro': os_por_bairro,
+        'pontos_por_bairro_nao_finalizados': pontos_por_bairro_nao_finalizados,
+        'pontos_por_bairro_finalizados': pontos_por_bairro_finalizados,
+        'servicos_por_bairro_finalizados': servicos_por_bairro_finalizados,
+        'servicos_por_bairro_nao_finalizados': servicos_por_bairro_nao_finalizados,
         'finalizados': finalizados,
         'nao_finalizados': nao_finalizados,
         'os_por_funcionario': os_por_funcionario,

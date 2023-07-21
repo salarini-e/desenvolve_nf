@@ -51,6 +51,37 @@
                     }
                     chartAtual = selectChart;
                   }
+
+                  function exibirGraficoBairro(exibir){
+                    let buttonElement=document.getElementById('btn-'+exibir)
+                    if (exibir=='servicosPorBairro'){
+                      let outroBtn=document.getElementById('btn-pontosPorBairro');
+
+                      buttonElement.classList.remove('btn-dark');
+                      buttonElement.classList.add('btn-outline-dark');
+                      outroBtn.classList.remove('btn-outline-dark');
+                      outroBtn.classList.add('btn-dark');
+
+                      document.getElementById('pontosPorBairro').style.display='none';
+                      document.getElementById('servicosPorBairro').style.display='flex';
+
+                      
+                      
+                      
+                    }else{                      
+                      let outroBtn=document.getElementById('btn-servicosPorBairro');
+
+                      buttonElement.classList.remove('btn-dark');
+                      buttonElement.classList.add('btn-outline-dark');
+                      outroBtn.classList.remove('btn-outline-dark');
+                      outroBtn.classList.add('btn-dark');
+
+                      document.getElementById('servicosPorBairro').style.display='none';
+                      document.getElementById('pontosPorBairro').style.display='flex';
+                      
+                      
+                    }
+                  }
                 </script> 
                 <div class="row" id="servicos">
                   <div class="col">
@@ -198,10 +229,170 @@
                   </div>                  
                 </div>
                 <div class="row" id="bairros">
-                  <div class="col d-flex">
-                    <span class="m-auto">
-                      EM CONSTRUÇÃO
-                    </span>
+                  <div class="col d-flex flex-column">
+                    <div class="d-flex m-auto py-5">
+                      <button id="btn-servicosPorBairro" onclick="exibirGraficoBairro('servicosPorBairro')" class="btn btn-dark">
+                        Serviços por bairros
+                      </button>
+                      <button id="btn-pontosPorBairro" onclick="exibirGraficoBairro('pontosPorBairro')" class="ms-2 btn btn-dark">
+                        Pontos por bairros
+                      </button>
+                    </div>
+                    <script src="https://code.highcharts.com/highcharts.js"></script>
+                    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+                
+                    <div id="servicosPorBairro">
+                      <div id="barChart" style="width: 100%; height:2000px;"></div>
+                      <div id="barChart2" style="width: 100%; height:2000px;"></div>
+                    </div>
+                    <div id="pontosPorBairro">
+                      teste...
+                      <div id="barChart3" style="width: 100%; height:2000px;"></div>
+                      <div id="barChart4" style="width: 100%; height:2000px;"></div>
+                    </div>
+                    <script>
+                        // Dados dos bairros não finalizados
+                        var bairros = [{% for item in servicos_por_bairro_nao_finalizados %}"{{ item.bairro }}", {% endfor %}];
+                        var nao_finalizados = [{% for item in servicos_por_bairro_nao_finalizados %}{{ item.total }}, {% endfor %}];
+                        
+                        var dataFormatted = bairros.map(function(bairro, index) {
+                            return bairro + ' - ' + nao_finalizados[index];
+                        });
+                        // Criação do gráfico
+                        Highcharts.chart('barChart', {
+                            chart: {
+                                type: 'bar', // Define o tipo de gráfico como barras
+                                height: 2000// Altura do gráfico
+                            },
+                            title: {
+                                text: 'Serviços por bairros, não finalizados' // Título do gráfico
+                            },
+                            xAxis: {
+                                categories: dataFormatted, // Eixo x com os nomes dos bairros formatados
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Bairro' // Título do eixo y
+                                }
+                            },
+                            series: [{
+                                name: 'Não finalizados',
+                                data: nao_finalizados // Dados das barras não finalizadas
+                            }],
+                            plotOptions: {
+                                bar: {
+                                    horizontal: true // Define as barras como horizontais
+                                }
+                            }
+                        });
+                    
+                      // Dados dos bairros finalizados
+                      var bairros2 = [{% for item in servicos_por_bairro_finalizados %}"{{ item.bairro }}", {% endfor %}];
+                      var finalizados = [{% for item in servicos_por_bairro_finalizados %}{{ item.total }}, {% endfor %}];
+                      
+                      var dataFormatted = bairros2.map(function(bairro, index) {
+                          return bairro + ' - ' + finalizados[index];
+                      });
+
+                      // Criação do gráfico
+                      Highcharts.chart('barChart2', {
+                          chart: {
+                              type: 'bar', // Define o tipo de gráfico como barras
+                              height: 2000// Altura do gráfico
+                          },
+                          title: {
+                              text: 'Serviços por bairros, finalizados' // Título do gráfico
+                          },
+                          xAxis: {
+                              categories: dataFormatted, // Eixo x com os nomes dos bairros formatados
+                          },
+                          yAxis: {
+                              title: {
+                                  text: 'Bairro' // Título do eixo y
+                              }
+                          },
+                          series: [{
+                              name: 'Finalizados',
+                              data: finalizados // Dados das barras não finalizadas
+                          }],
+                          plotOptions: {
+                              bar: {
+                                  horizontal: true // Define as barras como horizontais
+                              }
+                          }
+                      });
+
+                      // Dados dos pontos não finalizados
+                      var bairros3 = [{% for item in pontos_por_bairro_nao_finalizados %}"{{ item.bairro }}", {% endfor %}];
+                      var p_n_finalizados = [{% for item in pontos_por_bairro_nao_finalizados %}{{ item.total }}, {% endfor %}];
+                        
+                      var dataFormatted = bairros3.map(function(bairro, index) {
+                          return bairro + ' - ' + p_n_finalizados[index];
+                      });
+                      // Criação do gráfico
+                      Highcharts.chart('barChart3', {
+                          chart: {
+                              type: 'bar', // Define o tipo de gráfico como barras
+                              height: 2000// Altura do gráfico
+                          },
+                          title: {
+                              text: 'Pontos por bairros, não finalizados' // Título do gráfico
+                          },
+                          xAxis: {
+                              categories: dataFormatted, // Eixo x com os nomes dos bairros formatados
+                          },
+                          yAxis: {
+                              title: {
+                                  text: 'Bairro' // Título do eixo y
+                              }
+                          },
+                          series: [{
+                              name: 'Pontos não finalizados',
+                              data: p_n_finalizados // Dados das barras não finalizadas
+                          }],
+                          plotOptions: {
+                              bar: {
+                                  horizontal: true // Define as barras como horizontais
+                              }
+                          }
+                      });
+                      // Dados dos pontos não finalizados
+                      var bairros4 = [{% for item in pontos_por_bairro_finalizados %}"{{ item.bairro }}", {% endfor %}];
+                      var p_finalizados = [{% for item in pontos_por_bairro_finalizados %}{{ item.total }}, {% endfor %}];
+                        
+                      var dataFormatted = bairros4.map(function(bairro, index) {
+                          return bairro + ' - ' + p_finalizados[index];
+                      });
+                      // Criação do gráfico
+                      Highcharts.chart('barChart4', {
+                          chart: {
+                              type: 'bar', // Define o tipo de gráfico como barras
+                              height: 2000// Altura do gráfico
+                          },
+                          title: {
+                              text: 'Pontos por bairros, finalizados' // Título do gráfico
+                          },
+                          xAxis: {
+                              categories: dataFormatted, // Eixo x com os nomes dos bairros formatados
+                          },
+                          yAxis: {
+                              title: {
+                                  text: 'Bairro' // Título do eixo y
+                              }
+                          },
+                          series: [{
+                              name: 'Pontos finalizados',
+                              data: p_finalizados // Dados das barras não finalizadas
+                          }],
+                          plotOptions: {
+                              bar: {
+                                  horizontal: true // Define as barras como horizontais
+                              }
+                          }
+                      });
+                  </script>
+                    
                   </div>
                 </div>
                 <div class="row" id="funcionarios">
@@ -240,9 +431,10 @@
                     max-height: 100px;
           
                   }
-                  #bairros, #funcionarios{
+                  #bairros, #funcionarios, #servicosPorBairro, #pontosPorBairro{
                     display: none;
                   }
+
                 </style>
                 </div>
             </div>
