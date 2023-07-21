@@ -1,6 +1,7 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
-{% load static%}
+{% load static %}
+{% load custom_filters %}
 {% block nav %}
 {% include 'nav_os.html' %}
 {% endblock %}
@@ -105,7 +106,7 @@
                                   </div>
                                   <div class="col">                                    
                                     <b>Dt. da execução:</b>                                    
-                                    <p>{% if os.dt_execucao %}{{os.dt_execucao}}{% endif %}</p>                                                                        
+                                    <p>{% if os.dt_execucao %}{{os.dt_execucao|mes_extenso}}{% endif %}</p>                                                                        
                                   </div>
                                 </div>
                               </div>
