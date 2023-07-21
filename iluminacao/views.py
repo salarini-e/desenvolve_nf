@@ -668,6 +668,7 @@ def atribuir_equipe(request, id):
 @group_required('os_acesso')
 def pontos_os(request, id):
     instancia=OrdemDeServico.objects.get(id=id)
+    print(instancia.dt_execucao)
     form=OS_Form_Ponto(instance=instancia)            
         
     if request.method=='POST':       
@@ -675,6 +676,10 @@ def pontos_os(request, id):
         if form.is_valid:
             form.save()
             return redirect('iluminacao:detalhes_os', id)
+    else:
+        # Converta a data para o formato correto AAAA-MM-DD antes de inicializar o formulário
+        instancia.dt_execucao = instancia.dt_execucao.strftime('%Y-%m-%d')
+        form = OS_Form_Ponto(instance=instancia)
     context={
             'titulo': apps.get_app_config('iluminacao').verbose_name,   
             'form':form,
