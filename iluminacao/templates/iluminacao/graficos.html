@@ -14,10 +14,10 @@
 <div class="row">
   <div class="col d-flex py-5"> 
         <div class="row w-100">
-            <div class="col-10 pb-5 m-auto bg-white" style="border-radius: 30px;">                           
+            <div class="col pb-5 m-auto bg-white" style="border-radius: 30px;">                           
                 <div class="row">
-                    <div class="col px-4">                                                
-                        <div class="px-2 pt-4 d-flex">
+                    <div class="col">                                                
+                        <div class="pt-4 d-flex">
                         <h2 style="display: inline;">Indicadores</h2>   
                         <button id="btnServicos" class="btn btn-outline-dark my-auto ms-auto" onclick="changeChart('servicos')"><i class="fa-solid fa-chart-pie me-2"></i>Serviços</button>                     
                         <button id="btnBairros" class="btn btn-dark my-auto ms-1" onclick="changeChart('bairros')"><i class="fa-solid fa-chart-bar me-2"></i>Bairros</button>                     
@@ -108,75 +108,41 @@
                             chart.draw(data, options);
                           }
                         </script>
-                        <div id="piechart" style="width: 600px; height: 400px;"></div>
-                      </div>
-                      <div class="col d-flex flex-column pb-4">
-                        <div href="https://www.cecierj.edu.br/" class="card-universidade btn  mx-auto mt-auto d-flex flex-column">
-                          Finalizados:
-                          <h1>{{finalizados}}</h1>
+                        <div id="piechart" style="width: 500px; height: 400px;"></div>
+                      </div>                                            
+                      <div class="col d-flex pb-4">                        
+                        <div class="card-grafico me-5 my-auto p-4">
+                          <table class="table text-center" style="width: 450px;">
+                            <thead>
+                              <th>Mês ano</th>
+                              <th>Finalizados</th>
+                              <th>Não finalizados</th>
+                            </thead>
+                            <tbody>
+                              {% for i in servicos_grafico_linha_dados %}
+                              <tr>
+                                <td>{{i.0}}</td>
+                                <td>{{i.1}}</td>
+                                <td>{{i.2}}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
                         </div>
-                        <div href="http://www.cefet-rj.br/" class="card-universidade btn  mx-auto mt-3 mb-auto d-flex flex-column">
-                          Não finalizados:
-                          <h1>{{nao_finalizados}}</h1>
+                        <div class="d-flex flex-column me-4">
+                          <div href="https://www.cecierj.edu.br/" class="card-universidade btn  mx-auto mt-auto d-flex flex-column">
+                            Finalizados:
+                            <h1>{{finalizados}}</h1>
+                          </div>
+                          <div href="http://www.cefet-rj.br/" class="card-universidade btn  mx-auto mt-3 mb-auto d-flex flex-column">
+                            Não finalizados:
+                            <h1>{{nao_finalizados}}</h1>
+                          </div>
                         </div>  
                       </div>                  
-                    </div>                
-                    <div class="row">
-                      <div class="col d-flex">                                          
-    
-                          <script type="text/javascript">
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-    
-                            function drawChart() {
-    
-                              var data = google.visualization.arrayToDataTable([
-                                ['Sigla', 'Total'],
-                                {% for item in os_finalizadas_por_tipo %}
-                                ['{{item.tipo__sigla}}: {{item.total_finalizadas}}',     {{item.total_finalizadas}}],
-                                {% endfor %}                            
-                              ]);
-    
-                              var options = {
-                                title: 'Finalizados por tipo'
-                              };
-    
-                              var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
-    
-                              chart.draw(data, options);
-                            }
-                          </script>
-                          <div id="piechart2" style="width: 600px; height: 400px;"></div>
-    
-                          <script type="text/javascript">
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-    
-                            function drawChart() {
-    
-                              var data = google.visualization.arrayToDataTable([
-                                ['Sigla', 'Total'],
-                                {% for item in os_nao_finalizadas_por_tipo %}
-                                ['{{item.tipo__sigla}}: {{item.total_nao_finalizadas}}',     {{item.total_nao_finalizadas}}],
-                                {% endfor %}      
-                              ]);
-    
-                              var options = {
-                                title: 'Não finalizados por tipo'
-                              };
-    
-                              var chart = new google.visualization.PieChart(document.getElementById('piechart3'));
-    
-                              chart.draw(data, options);
-                            }
-                          </script>
-                          <div id="piechart3" style="width: 600px; height: 400px;"></div>
-                      </div>
-                    </div>
+                    </div> 
                     <div class="row">
                       <div class="col">                            
-         
-                                    
                         <script type="text/javascript">
                           google.charts.load('current', {'packages':['corechart']});
                           google.charts.setOnLoadCallback(drawChart);
@@ -200,32 +166,61 @@
                             chart.draw(data, options);
                           }
                         </script>
-                        <div id="curve_chart" class="m-auto" style="width: 100%; height: 400px;"></div>
+                        <div id="curve_chart" class="mx-auto" style="width: 100%; height: 400px; margin-top: -60px;"></div>
                       </div>
-                    </div>
+                    </div>               
                     <div class="row">
-                      <div class="col">
-                        <div class="card-grafico mt-5 mx-auto p-4">
-                          <table class="table text-center" style="width: 450px;">
-                            <thead>
-                              <th>Mês ano</th>
-                              <th>Finalizados</th>
-                              <th>Não finalizados</th>
-                            </thead>
-                            <tbody>
-                              {% for i in servicos_grafico_linha_dados %}
-                              <tr>
-                                <td>{{i.0}}</td>
-                                <td>{{i.1}}</td>
-                                <td>{{i.2}}</td>
-                              </tr>
-                              {% endfor %}
-                            </tbody>
-                          </table>
-                        </div>
-                        
+                      <div class="col d-flex pt-4">                                          
+    
+                          <script type="text/javascript">
+                            google.charts.load('current', {'packages':['corechart']});
+                            google.charts.setOnLoadCallback(drawChart);
+    
+                            function drawChart() {
+    
+                              var data = google.visualization.arrayToDataTable([
+                                ['Sigla', 'Total'],
+                                {% for item in os_finalizadas_por_tipo %}
+                                ['{{item.tipo__sigla}}: {{item.total_finalizadas}}',     {{item.total_finalizadas}}],
+                                {% endfor %}                            
+                              ]);
+    
+                              var options = {
+                                title: 'Finalizados por tipo'
+                              };
+    
+                              var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+    
+                              chart.draw(data, options);
+                            }
+                          </script>
+                          <div id="piechart2" class="mx-auto" style="width: 600px; height: 400px;"></div>
+    
+                          <script type="text/javascript">
+                            google.charts.load('current', {'packages':['corechart']});
+                            google.charts.setOnLoadCallback(drawChart);
+    
+                            function drawChart() {
+    
+                              var data = google.visualization.arrayToDataTable([
+                                ['Sigla', 'Total'],
+                                {% for item in os_nao_finalizadas_por_tipo %}
+                                ['{{item.tipo__sigla}}: {{item.total_nao_finalizadas}}',     {{item.total_nao_finalizadas}}],
+                                {% endfor %}      
+                              ]);
+    
+                              var options = {
+                                title: 'Não finalizados por tipo'
+                              };
+    
+                              var chart = new google.visualization.PieChart(document.getElementById('piechart3'));
+    
+                              chart.draw(data, options);
+                            }
+                          </script>
+                          <div id="piechart3" class="mx-auto" style="width: 600px; height: 400px;"></div>
                       </div>
-                    </div>
+                    </div>                                        
                   </div>                  
                 </div>
                 <div class="row" id="bairros">
@@ -246,8 +241,7 @@
                       <div id="barChart" style="width: 100%; height:2000px;"></div>
                       <div id="barChart2" style="width: 100%; height:2000px;"></div>
                     </div>
-                    <div id="pontosPorBairro">
-                      teste...
+                    <div id="pontosPorBairro">                      
                       <div id="barChart3" style="width: 100%; height:2000px;"></div>
                       <div id="barChart4" style="width: 100%; height:2000px;"></div>
                     </div>
@@ -420,7 +414,7 @@
                     border: 1px solid rgb(247, 247, 247);
                     width: 480px;
                     background-color: white;                    
-                    border-radius: 30px;
+                    border-radius: 20px;
                     color: rgb(59, 59, 59);
                     
                     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
