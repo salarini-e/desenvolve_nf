@@ -281,65 +281,67 @@ def os_index(request):
         dt_alteracao1 = request.session.get('dt_alteracao1', '')
         dt_alteracao2 = request.session.get('dt_alteracao2', '')
 
-    # Construa a consulta personalizada
-    sql = "SELECT * FROM iluminacao_ordemdeservico WHERE status != 'f'"
+    try:
+        # Construa a consulta personalizada
+        sql = "SELECT * FROM iluminacao_ordemdeservico WHERE status != 'f'"
 
-    if protocolo:
-        sql += f" AND numero LIKE '%{protocolo}%'"
-    if tipo_os and tipo_os != 'todos':
-        sql += f" AND tipo_id = {tipo_os}"
-    if prioridade and prioridade != 'todos':
-        sql += f" AND prioridade = '{prioridade}'"
-    if status and status != 'todos':
-        sql += f" AND status = '{status}'"
-    if bairro:
-        sql += f" AND bairro LIKE '%{bairro}%'"
-    if rua:
-        sql += f" AND logradouro LIKE '%{rua}%'"
-    if motivo:
-        sql += f" AND motivo_reclamacao LIKE '%{motivo}%'"
-    if dt_solicitacao1 and dt_solicitacao2:
-        sql += f" AND dt_solicitacao BETWEEN '{dt_solicitacao1}' AND '{dt_solicitacao2}'"
-    if dt_execucao1 and dt_execucao2:
-        sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
-    if dt_alteracao1 and dt_alteracao2:
-        sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
-    # sql += " ORDER BY dt_alteracao, dt_solicitacao"
-    # Executar a consulta SQL personalizada
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        results = cursor.fetchall()
+        if protocolo:
+            sql += f" AND numero LIKE '%{protocolo}%'"
+        if tipo_os and tipo_os != 'todos':
+            sql += f" AND tipo_id = {tipo_os}"
+        if prioridade and prioridade != 'todos':
+            sql += f" AND prioridade = '{prioridade}'"
+        if status and status != 'todos':
+            sql += f" AND status = '{status}'"
+        if bairro:
+            sql += f" AND bairro LIKE '%{bairro}%'"
+        if rua:
+            sql += f" AND logradouro LIKE '%{rua}%'"
+        if motivo:
+            sql += f" AND motivo_reclamacao LIKE '%{motivo}%'"
+        if dt_solicitacao1 and dt_solicitacao2:
+            sql += f" AND dt_solicitacao BETWEEN '{dt_solicitacao1}' AND '{dt_solicitacao2}'"
+        if dt_execucao1 and dt_execucao2:
+            sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
+        if dt_alteracao1 and dt_alteracao2:
+            sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
+        # sql += " ORDER BY dt_alteracao, dt_solicitacao"
+        # Executar a consulta SQL personalizada
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            results = cursor.fetchall()
 
-    # Processar os resultados
-    queryset = []
-    for row in results:
-        # Mapear os campos do modelo e seus valores correspondentes
-        data = {
-            'id': row[0],
-            'numero': row[1],
-            'prioridade': row[2],
-            'dt_solicitacao': row[3],
-            'logradouro': row[4],
-            'bairro': row[5],
-            'referencia': row[6],
-            'motivo_reclamacao': row[7],
-            'status': row[8],
-            'dt_conclusao': row[9],
-            'atendente_id': row[10],
-            'cadastrado_por_id': row[11],
-            'tipo_id': row[12],
-            'pontos_atendidos': row[13],
-            'nome_do_contribuinte': row[14],
-            'telefone_do_contribuinte': row[15],
-            'dt_alteracao': row[16],
-            'dt_execucao': row[17],
-            'observacao_pontos': row[18]
-            # Mapear os demais campos conforme necessário
-        }
-        ordem_de_servico = OrdemDeServico(**data)
-        queryset.append(ordem_de_servico)
-        queryset = sorted(queryset, key=lambda x: (x.dt_alteracao if x.dt_alteracao else x.dt_solicitacao), reverse=True)
-
+        # Processar os resultados
+        queryset = []
+        for row in results:
+            # Mapear os campos do modelo e seus valores correspondentes
+            data = {
+                'id': row[0],
+                'numero': row[1],
+                'prioridade': row[2],
+                'dt_solicitacao': row[3],
+                'logradouro': row[4],
+                'bairro': row[5],
+                'referencia': row[6],
+                'motivo_reclamacao': row[7],
+                'status': row[8],
+                'dt_conclusao': row[9],
+                'atendente_id': row[10],
+                'cadastrado_por_id': row[11],
+                'tipo_id': row[12],
+                'pontos_atendidos': row[13],
+                'nome_do_contribuinte': row[14],
+                'telefone_do_contribuinte': row[15],
+                'dt_alteracao': row[16],
+                'dt_execucao': row[17],
+                'observacao_pontos': row[18]
+                # Mapear os demais campos conforme necessário
+            }
+            ordem_de_servico = OrdemDeServico(**data)
+            queryset.append(ordem_de_servico)
+            queryset = sorted(queryset, key=lambda x: (x.dt_alteracao if x.dt_alteracao else x.dt_solicitacao), reverse=True)
+    except:
+        pass
     paginator = Paginator(queryset, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
@@ -382,6 +384,7 @@ def os_finalizados(request):
         prioridade = request.POST.get('prioridade')
         status = request.POST.get('status')
         bairro = request.POST.get('bairro')
+        rua = request.POST.get('rua')
         motivo = request.POST.get('motivo')
         dt_solicitacao1 = request.POST.get('dt_solicitacao1')
         dt_solicitacao2 = request.POST.get('dt_solicitacao2')
@@ -391,89 +394,94 @@ def os_finalizados(request):
         dt_alteracao2 = request.POST.get('dt_alteracao2')
 
         # Armazene os parâmetros da consulta na sessão
-        request.session['protocolo'] = protocolo
-        request.session['tipo_os'] = tipo_os
-        request.session['prioridade'] = prioridade
-        request.session['status'] = status
-        request.session['bairro'] = bairro
-        request.session['motivo'] = motivo
-        request.session['dt_solicitacao1'] = dt_solicitacao1
-        request.session['dt_solicitacao2'] = dt_solicitacao2
-        request.session['dt_execucao1'] = dt_execucao1
-        request.session['dt_execucao2'] = dt_execucao2
-        request.session['dt_alteracao1'] = dt_alteracao1
-        request.session['dt_alteracao2'] = dt_alteracao2
+        request.session['protocolo_f'] = protocolo
+        request.session['tipo_os_f'] = tipo_os
+        request.session['prioridade_f'] = prioridade
+        request.session['status_f'] = status
+        request.session['bairro_f'] = bairro
+        request.session['rua_f'] = rua
+        request.session['motivo_f'] = motivo
+        request.session['dt_solicitacao1_f'] = dt_solicitacao1
+        request.session['dt_solicitacao2_f'] = dt_solicitacao2
+        request.session['dt_execucao1_f'] = dt_execucao1
+        request.session['dt_execucao2_f'] = dt_execucao2
+        request.session['dt_alteracao1_f'] = dt_alteracao1
+        request.session['dt_alteracao2_f'] = dt_alteracao2
     else:
         # Recupere os parâmetros da consulta da sessão
-        protocolo = request.session.get('protocolo', '')
-        tipo_os = request.session.get('tipo_os', '')
-        prioridade = request.session.get('prioridade', '')
-        status = request.session.get('status', '')
-        bairro = request.session.get('bairro', '')
-        motivo = request.session.get('motivo', '')
-        dt_solicitacao1 = request.session.get('dt_solicitacao1', '')
-        dt_solicitacao2 = request.session.get('dt_solicitacao2', '')
-        dt_execucao1 = request.session.get('dt_execucao1', '')
-        dt_execucao2 = request.session.get('dt_execucao2', '')
-        dt_alteracao1 = request.session.get('dt_alteracao1', '')
-        dt_alteracao2 = request.session.get('dt_alteracao2', '')
+        protocolo = request.session.get('protocolo_f', '')
+        tipo_os = request.session.get('tipo_os_f', '')
+        prioridade = request.session.get('prioridade_f', '')
+        status = request.session.get('status_f', '')
+        bairro = request.session.get('bairro_f', '')
+        rua = request.session.get('rua_f', '')
+        motivo = request.session.get('motivo_f', '')
+        dt_solicitacao1 = request.session.get('dt_solicitacao1_f', '')
+        dt_solicitacao2 = request.session.get('dt_solicitacao2_f', '')
+        dt_execucao1 = request.session.get('dt_execucao1_f', '')
+        dt_execucao2 = request.session.get('dt_execucao2_f', '')
+        dt_alteracao1 = request.session.get('dt_alteracao1_f', '')
+        dt_alteracao2 = request.session.get('dt_alteracao2_f', '')
+    try:
+        # Construa a consulta personalizada
+        sql = "SELECT * FROM iluminacao_ordemdeservico WHERE status = 'f'"
 
-    # Construa a consulta personalizada
-    sql = "SELECT * FROM iluminacao_ordemdeservico WHERE status = 'f'"
+        if protocolo:
+            sql += f" AND numero LIKE '%{protocolo}%'"
+        if tipo_os != 'todos':
+            sql += f" AND tipo_id = {tipo_os}"
+        if prioridade != 'todos':
+            sql += f" AND prioridade = '{prioridade}'"
+        if status != 'todos':
+            sql += f" AND status = '{status}'"
+        if bairro:
+            sql += f" AND bairro LIKE '%{bairro}%'"
+        if rua:
+            sql += f" AND logradouro LIKE '%{rua}%'"
+        if motivo:
+            sql += f" AND motivo_reclamacao LIKE '%{motivo}%'"
+        if dt_solicitacao1 and dt_solicitacao2:
+            sql += f" AND dt_solicitacao BETWEEN '{dt_solicitacao1}' AND '{dt_solicitacao2}'"
+        if dt_execucao1 and dt_execucao2:
+            sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
+        if dt_alteracao1 and dt_alteracao2:
+            sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
 
-    if protocolo:
-        sql += f" AND numero LIKE '%{protocolo}%'"
-    if tipo_os != 'todos':
-        sql += f" AND tipo_id = {tipo_os}"
-    if prioridade != 'todos':
-        sql += f" AND prioridade = '{prioridade}'"
-    if status != 'todos':
-        sql += f" AND status = '{status}'"
-    if bairro:
-        sql += f" AND bairro LIKE '%{bairro}%'"
-    if motivo:
-        sql += f" AND motivo_reclamacao LIKE '%{motivo}%'"
-    if dt_solicitacao1 and dt_solicitacao2:
-        sql += f" AND dt_solicitacao BETWEEN '{dt_solicitacao1}' AND '{dt_solicitacao2}'"
-    if dt_execucao1 and dt_execucao2:
-        sql += f" AND dt_execucao BETWEEN '{dt_execucao1}' AND '{dt_execucao2}'"
-    if dt_alteracao1 and dt_alteracao2:
-        sql += f" AND dt_alteracao BETWEEN '{dt_alteracao1}' AND '{dt_alteracao2}'"
+        # Executar a consulta SQL personalizada
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            results = cursor.fetchall()
 
-    # Executar a consulta SQL personalizada
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-
-    # Processar os resultados
-    queryset = []
-    for row in results:
-        # Mapear os campos do modelo e seus valores correspondentes
-        data = {
-            'id': row[0],
-            'numero': row[1],
-            'prioridade': row[2],
-            'dt_solicitacao': row[3],
-            'logradouro': row[4],
-            'bairro': row[5],
-            'referencia': row[6],
-            'motivo_reclamacao': row[7],
-            'status': row[8],
-            'dt_conclusao': row[9],
-            'atendente_id': row[10],
-            'cadastrado_por_id': row[11],
-            'tipo_id': row[12],
-            'pontos_atendidos': row[13],
-            'nome_do_contribuinte': row[14],
-            'telefone_do_contribuinte': row[15],
-            'dt_alteracao': row[16],
-            'dt_execucao': row[17],
-            'observacao_pontos': row[18]
-            # Mapear os demais campos conforme necessário
-        }
-        ordem_de_servico = OrdemDeServico(**data)
-        queryset.append(ordem_de_servico)
-
+        # Processar os resultados
+        queryset = []
+        for row in results:
+            # Mapear os campos do modelo e seus valores correspondentes
+            data = {
+                'id': row[0],
+                'numero': row[1],
+                'prioridade': row[2],
+                'dt_solicitacao': row[3],
+                'logradouro': row[4],
+                'bairro': row[5],
+                'referencia': row[6],
+                'motivo_reclamacao': row[7],
+                'status': row[8],
+                'dt_conclusao': row[9],
+                'atendente_id': row[10],
+                'cadastrado_por_id': row[11],
+                'tipo_id': row[12],
+                'pontos_atendidos': row[13],
+                'nome_do_contribuinte': row[14],
+                'telefone_do_contribuinte': row[15],
+                'dt_alteracao': row[16],
+                'dt_execucao': row[17],
+                'observacao_pontos': row[18]
+                # Mapear os demais campos conforme necessário
+            }
+            ordem_de_servico = OrdemDeServico(**data)
+            queryset.append(ordem_de_servico)
+    except:
+        pass
     paginator = Paginator(queryset, 30)
     page = request.GET.get('page', 1)
     ordens_de_servico = paginator.get_page(page)
