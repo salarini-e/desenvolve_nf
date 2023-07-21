@@ -12,8 +12,9 @@ from django.db.models import Case, When, Count, Sum, IntegerField
 
 from django.http import HttpResponse
 from openpyxl import Workbook
-from datetime import datetime
-
+from datetime import datetime, timedelta
+from django.utils import timezone
+from .custom import month_translate
 
 STATUS_CHOICES=(
         ('0','Novo'),
@@ -720,6 +721,38 @@ def graficos(request):
     os_por_funcionario = Funcionario_OS.objects.annotate(total_os=Count('os_ext__os')).order_by('-total_os')
     pontos_por_funcionario = Funcionario_OS.objects.annotate(total_pontos=Sum('os_ext__os__pontos_atendidos')).order_by('-total_pontos')
 
+    today = timezone.now()
+    last_12_months = today - timedelta(days=365)
+
+    # Consulta SQL bruta para obter os dados
+    sql_query = """
+        SELECT
+            DATE_FORMAT(dt_solicitacao, '%%b %%Y') AS month_label,
+            SUM(CASE WHEN status = 'f' THEN 1 ELSE 0 END) AS total_finalizadas,
+            SUM(CASE WHEN status <> 'f' THEN 1 ELSE 0 END) AS total_nao_finalizadas
+        FROM
+            iluminacao_ordemdeservico
+        WHERE
+            dt_solicitacao >= %s
+        GROUP BY
+            month_label
+        ORDER BY
+            dt_solicitacao
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(sql_query, [last_12_months])
+        result = cursor.fetchall()
+
+    # Extraindo dados para o gráfico
+    servicos_grafico_linha_dados = []
+
+    for row in result:
+        mes, total_finalizadas, total_nao_finalizadas = row
+
+        # Anexar dados às respectivas listas
+       
+        servicos_grafico_linha_dados.append([month_translate(mes), int(total_finalizadas), int(total_nao_finalizadas)])
     context = {
         'pontos_por_bairro': pontos_por_bairro,
         'os_por_bairro': os_por_bairro,
@@ -730,6 +763,7 @@ def graficos(request):
         'os_finalizadas_por_tipo': os_finalizadas_por_tipo,
         'os_nao_finalizadas_por_tipo': os_nao_finalizadas_por_tipo,
         'titulo': apps.get_app_config('iluminacao').verbose_name,
+        'servicos_grafico_linha_dados': servicos_grafico_linha_dados
     }
     return render(request, 'iluminacao/graficos.html', context)
 

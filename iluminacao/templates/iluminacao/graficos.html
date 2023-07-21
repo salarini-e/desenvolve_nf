@@ -142,6 +142,59 @@
                           <div id="piechart3" style="width: 600px; height: 400px;"></div>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col">                            
+         
+                                    
+                        <script type="text/javascript">
+                          google.charts.load('current', {'packages':['corechart']});
+                          google.charts.setOnLoadCallback(drawChart);
+                    
+                          function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                              ['Year', 'Finalizados', 'Não finalizados'],
+                              {% for i in servicos_grafico_linha_dados %}
+                                        ['{{ i.0 }}', {{ i.1 }}, {{ i.2 }}],
+                              {% endfor %}
+                            ]);
+                    
+                            var options = {
+                              title: 'Serviços por mês',
+                              curveType: 'function',
+                              legend: { position: 'bottom' }
+                            };
+                    
+                            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                    
+                            chart.draw(data, options);
+                          }
+                        </script>
+                        <div id="curve_chart" class="m-auto" style="width: 100%; height: 400px;"></div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="card-grafico mt-5 mx-auto p-4">
+                          <table class="table text-center" style="width: 450px;">
+                            <thead>
+                              <th>Mês ano</th>
+                              <th>Finalizados</th>
+                              <th>Não finalizados</th>
+                            </thead>
+                            <tbody>
+                              {% for i in servicos_grafico_linha_dados %}
+                              <tr>
+                                <td>{{i.0}}</td>
+                                <td>{{i.1}}</td>
+                                <td>{{i.2}}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                        
+                      </div>
+                    </div>
                   </div>                  
                 </div>
                 <div class="row" id="bairros">
@@ -166,11 +219,23 @@
                     height: 110px;
                     border-radius: 30px;          
                     color: rgb(59, 59, 59);
-                    border-color: rgb(255, 255, 255);
+                    border: 1px solid rgb(247, 247, 247);
                     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);          
                     padding-top: 20px;
                     padding-bottom: 20px;
-                  }                
+                  }  
+                  .card-grafico{
+                    display: flex;
+                    border: 1px solid rgb(247, 247, 247);
+                    width: 480px;
+                    background-color: white;                    
+                    border-radius: 30px;
+                    color: rgb(59, 59, 59);
+                    
+                    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                  }              
                   .card-universidade img{
                     max-height: 100px;
           
