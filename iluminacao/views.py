@@ -205,9 +205,9 @@ def os_painel(request):
         mes = result['mes']
         total_por_mes = result['total_por_mes']
         total = result['total']
-        print(bairro, mes, total_por_mes, total)
+        # print(bairro, mes, total_por_mes, total)
         for i in resultados_agrupados:
-            print(i)
+            # print(i)
             if i['bairro'] == bairro:
                 i[mes]=total_por_mes
                 i['total']=total
@@ -668,7 +668,7 @@ def atribuir_equipe(request, id):
 @group_required('os_acesso')
 def pontos_os(request, id):
     instancia=OrdemDeServico.objects.get(id=id)
-    print(instancia.dt_execucao)
+    # print(instancia.dt_execucao)
     form=OS_Form_Ponto(instance=instancia)            
         
     if request.method=='POST':       
@@ -721,10 +721,10 @@ def graficos(request):
     
     # Consulta para os bairros com ordens de serviço finalizadas
     servicos_por_bairro_finalizados = OrdemDeServico.objects.filter(status='f').values('bairro').annotate(total=Count('id')).order_by('-total')
-    print(len(servicos_por_bairro_finalizados))
+    # print(len(servicos_por_bairro_finalizados))
     # Consulta para os bairros com ordens de serviço não finalizadas
     servicos_por_bairro_nao_finalizados = OrdemDeServico.objects.exclude(status='f').values('bairro').annotate(total=Count('id')).order_by('-total')
-    print(len(servicos_por_bairro_nao_finalizados))
+    # print(len(servicos_por_bairro_nao_finalizados))
     # Combina os resultados em uma única lista, se necessário
     servicos_por_bairro = pontos_por_bairro_finalizados.union(pontos_por_bairro_nao_finalizados)
 
@@ -897,7 +897,7 @@ def alterar_equipes(request):
                 codigo_do_veiculo = extensao.cod_veiculo.split('/')
                 for funcionario in codigo_do_veiculo:
                     funcionario_pessoa = Funcionario_OS.objects.get(funcionario)
-                    print(funcionario_pessoa)
+                    # print(funcionario_pessoa)
                     #funcionarios = Funcionario_OS.objects.filter(nome__startswith=funcionario)
                     #print(funcionarios)
 
