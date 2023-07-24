@@ -678,7 +678,9 @@ def pontos_os(request, id):
             return redirect('iluminacao:detalhes_os', id)
     else:
         # Converta a data para o formato correto AAAA-MM-DD antes de inicializar o formulário
-        instancia.dt_execucao = instancia.dt_execucao.strftime('%Y-%m-%d')
+        if instancia.dt_execucao is not None:
+            # Convert the date to the correct format (YYYY-MM-DD) before initializing the form
+            instancia.dt_execucao = instancia.dt_execucao.strftime('%Y-%m-%d')
         form = OS_Form_Ponto(instance=instancia)
     context={
             'titulo': apps.get_app_config('iluminacao').verbose_name,   
