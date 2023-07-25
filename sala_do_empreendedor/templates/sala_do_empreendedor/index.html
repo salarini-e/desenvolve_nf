@@ -1,0 +1,159 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container">
+<div class="row mx-auto ps-4 pb-5 pt-1">
+  {% include 'slide_empreendedor.html' %}
+</div>
+<div class="row">
+  <div class="col d-flex pe-4">
+    <h2 class="ms-5 pt-0 pb-4">SERVIÇOS EM DESTAQUE</h2>
+  </div>
+</div>
+
+<div class="row mx-auto px-5">
+  <div class="d-flex flex-wrap justify-content-around">
+    
+    <div class="item d-flex flex-column me-2 div_cursos">
+      <div class="c-img" style="position: relative;">
+        <img class="banner-img" src="/static/images/icons_servicos/01.png" >
+      </div>
+      <div class="curso-text h-100 mx-2 d-flex flex-column py-1">
+        <!-- <h6 class="mt-2">Nome'</h6> -->
+        <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-2 mb-2" id="esp-2">Acessar</a>
+      </div>
+    </div>
+    <div class="item d-flex flex-column me-2 div_cursos">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/02.jpg" >
+        </div>
+        <div class="curso-text h-100 mx-2 d-flex flex-column py-1">
+          <!-- <h6 class="mt-2">Nome'</h6> -->
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-2 mb-2" id="esp-2">Acessar</a>
+        </div>
+      </div>
+      <div class="item d-flex flex-column me-2 div_cursos">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/03.png" >
+        </div>
+        <div class="curso-text h-100 mx-2 d-flex flex-column py-1">
+          <!-- <h6 class="mt-2">Nome'</h6> -->
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-2 mb-2" id="esp-2">Acessar</a>
+        </div>
+      </div>
+      <div class="item d-flex flex-column me-2 div_cursos">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/04.png" >
+        </div>
+        <div class="curso-text h-100 mx-2 d-flex flex-column py-1">
+          <!-- <h6 class="mt-2">Nome'</h6> -->
+          <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-2 mb-2" id="esp-2">Acessar</a>
+        </div>
+      </div>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col d-flex pe-4">
+    <h2 class="ms-5 pt-3 pb-4">PRINCIPAIS NOTÍCIAS</h2>
+  </div>
+</div>
+
+<div class="row mx-auto px-5">
+  <div class="d-flex flex-wrap">
+    <div class="item me-2">
+      <div class="c-img" style="position: relative;">
+        <img class="banner-img" src="{{curso.banner.url}}" >
+        <span class="badge_item" style="background-color: {{curso.categoria.cor}}; position: absolute; top:0; right: 0; margin: 5px; padding: 0px 4px; border-radius: 6px; font-size: 10pt; color: white;">
+          Sei lá          
+        </span>
+      </div>
+      <div class="curso-text mx-2 d-flex flex-column py-1">
+        <h6 class="mt-2">Nome</h6>
+        <a href="#" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+    <div class="col d-flex pe-4">
+      <h2 class="ms-5 pt-3 pb-4">PROGRAMAS E AÇÕES</h2>
+    </div>
+  </div>
+<div class="row mx-auto px-5">
+  <script>
+    document.getElementById('empreendedor_inicio').classList.add('s-nav-active');
+  </script>
+</div>
+</div>
+
+<script>
+//   const carousel = document.querySelector(".carousel");
+// const slides = Array.from(document.querySelectorAll(".slide"));
+// const prevButton = document.querySelector("#prev");
+// const nextButton = document.querySelector("#next");
+// let current_active = 0
+// let interval;
+
+// make_active(slides[current_active])
+
+// prevButton.addEventListener('click', () => {cancel_auto_slider(); previous_slide(); start_auto_slide(6000)})
+
+// nextButton.addEventListener('click', () => {cancel_auto_slider(); next_slide(); start_auto_slide(6000)})
+
+// document.querySelector('.slides').addEventListener('mouseover', () => {
+//   cancel_auto_slider()})
+// document.querySelector('.slides').addEventListener('mouseout', () => {
+//   start_auto_slide(4500)
+// })
+
+// function next_slide(){
+//   const old = current_active
+//   if(current_active + 1 > slides.length - 1) current_active = 0
+//   else current_active += 1
+//   change_slide(slides[old], slides[current_active])
+// }
+
+// function previous_slide(){
+//   const old = current_active
+//   if(current_active - 1 < 0) current_active = slides.length - 1
+//   else current_active -= 1
+//   change_slide(slides[old], slides[current_active])
+// }
+
+// function change_slide(old_element, new_element){
+//   make_hidden(old_element)
+//   make_active(new_element)
+// }
+
+// function make_active(element){
+//   element.classList.add("active")
+// }
+
+// function make_hidden(element){
+//   element.classList.remove('active')
+// }
+
+// function start_auto_slide(ms = 4500){
+//   interval = setInterval(()=>{
+//     next_slide()
+//   }, ms)
+// }
+// start_auto_slide()
+
+// function cancel_auto_slider(){
+//   clearInterval(interval)
+// }
+
+</script>
+
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}

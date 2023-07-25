@@ -10,6 +10,7 @@ urlpatterns = [
     
     path('capacitacao-profissional/', include('cursos.urls')),    
     # path('capacitacao-profissional/palestras/', include(('palestras.urls', 'palestras'), namespace ='palestras')),
+    path('sala-do-empreendedor/', include('sala_do_empreendedor.urls')),
     path('financas/', include('financas.urls')),
     path('eventos/', include('eventos.urls')),
 

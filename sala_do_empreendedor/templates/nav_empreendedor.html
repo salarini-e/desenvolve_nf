@@ -1,0 +1,49 @@
+<div id="navegacao" class="container">
+    <div class="row">
+      <div class="col  d-flex">
+        <a href="{% url 'empreendedor:index' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="empreendedor_inicio" class="s-nav rounded-circle"></div>
+            <p class="text-dark">Início</p>
+          </div>
+        </a>             
+        <a href="{% url 'empreendedor:index' %}" class="me-3">
+            <div class="d-flex flex-column align-items-center">
+              <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
+              <p class="text-dark text-center">Formulários<br>e declarações</p>
+            </div>
+          </a>                 
+        {% if request.user.is_staff %}
+        <a href="{% url 'iluminacao:funcionarios' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="os_funcionarios" class="s-nav rounded-circle"></div>
+            <p class="text-dark">Admin</p>
+          </div>
+        </a> 
+        <!-- <a href="{% url 'administrativo' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="admin" class="s-nav rounded-circle destaque"></div>
+            <p class="text-dark">DJ-Admin</p>
+          </div>
+        </a> -->
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <style>
+    #empreendedor_inicio{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_inicio.png);
+      background-size: contain;
+    }
+    #empreendedor_forms{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/financas_doc.png);
+      background-size: contain;
+    }
+    #admin{
+      background-color: white !important;
+      background-image: url(/static/images/icones/bemestaranimal_admin.png);
+      background-size: contain;
+    }
+  </style>

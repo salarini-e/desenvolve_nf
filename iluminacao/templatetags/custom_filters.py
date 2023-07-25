@@ -18,7 +18,7 @@ def qntMsg(value):
         resp = str(qnt_msg) + '<i class="fa-solid fa-envelope-open ms-1"></i>'
     elif status=='1':
         resp =  str(qnt_msg) + '<i class="fa-solid fa-envelope-open-text ms-1"></i>'
-    elif status=='2':
+    elif status=='2     ':
         resp = str(qnt_msg) + '<i class="fa-solid fa-envelope ms-1"></i>'
     else:
         resp = 'ops'

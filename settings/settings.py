@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'cevest_almoxarifado',
     'cevest_os',
     'chamados_dev',
+    'sala_do_empreendedor'
     
 ]
 
