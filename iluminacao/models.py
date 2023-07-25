@@ -74,6 +74,11 @@ class OrdemDeServico(models.Model):
         ('1','Moderada'),
         ('2','Urgente'),
     )
+    MESSAGE_STATUS_CHOICES=(
+        ('0','Sem mensagens'),
+        ('1','Mensagens lidas'),
+        ('2','Nova mensagem'),
+    )
 
     
     tipo=models.ForeignKey(Tipo_OS, on_delete=models.PROTECT, null=True)
@@ -101,7 +106,7 @@ class OrdemDeServico(models.Model):
     dt_alteracao = models.DateTimeField(verbose_name='Data de alteração', blank=True, null=True)
     dt_execucao = models.DateTimeField(verbose_name='Data de execução', blank=True, null=True)
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
-    
+    message_status = models.CharField(max_length=1, verbose_name='Status de mensagens', default='0', choices=MESSAGE_STATUS_CHOICES, null=True)
     def semana_atendimento(self):
         return self.dt_conclusao.isocalendar()[1]
 

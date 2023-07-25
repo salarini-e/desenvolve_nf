@@ -1,7 +1,7 @@
 from django import template
 from datetime import date
 import locale
-from ..models import OS_Linha_Tempo
+from ..models import OS_Linha_Tempo, OrdemDeServico
 register = template.Library()
 
 # Função para obter o nome do mês por extenso em português
@@ -13,4 +13,13 @@ def mes_extenso(value):
 @register.filter(name='qntMsg')
 def qntMsg(value):
     qnt_msg=OS_Linha_Tempo.objects.filter(os_id=value).count()
-    return qnt_msg
+    status=OrdemDeServico.objects.get(id=value).message_status
+    if status=='0':
+        resp = str(qnt_msg) + '<i class="fa-solid fa-envelope-open ms-1"></i>'
+    elif status=='1':
+        resp =  str(qnt_msg) + '<i class="fa-solid fa-envelope-open-text ms-1"></i>'
+    elif status=='2':
+        resp = str(qnt_msg) + '<i class="fa-solid fa-envelope ms-1"></i>'
+    else:
+        resp = 'ops'
+    return resp

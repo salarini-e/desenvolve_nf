@@ -546,7 +546,13 @@ def detalhes_os(request, id):
            msg.os=os
            msg.pessoa=pessoa
            msg.save()
-           form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})       
+           form_mensagem = NovaMensagemForm(initial={'os': os.id, 'pessoa': pessoa.id})
+           os.message_status='2'
+           os.save()
+    else:
+        if os.message_status=='2':
+            os.message_status='1'
+            os.save()
 
     linha_tempo=OS_Linha_Tempo.objects.filter(os=os)
     context={
