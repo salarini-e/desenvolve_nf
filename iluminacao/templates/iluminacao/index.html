@@ -116,7 +116,8 @@
                                 <th>Prioridade</th>  
                                 <th class="text-center">Tipo</th>                                                              
                                 <th class="text-center">Nº de protocolo</th>
-                                <th class="text-center">Dt. de solicitação</th>                                
+                                <th class="text-center">Dt. de solicitação</th>
+                                <th class="text-center">Dt. de alteração</th>                                    
                                 <th>Bairro</th>
                                 <th>Atendente</th>
                                 <th>Msg's</th>
@@ -143,7 +144,8 @@
                                   {{os.gerar_protocolo}}
                                   {% endif %}
                                 </td>
-                                <td class="text-center">{{os.dt_solicitacao|date:"d/m/Y"}}</td>                                
+                                <td class="text-center">{{os.dt_solicitacao|date:"d/m/Y - H:i"}}</td> 
+                                <td class="text-center">{{os.dt_alteracao|date:"d/m/Y - H:i"}}</td>                                
                                 <td>{{os.bairro}}</td>                                
                                 <td>
                                   {% if os.atendente %}
