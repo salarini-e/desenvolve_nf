@@ -7,3 +7,6 @@ def index(request):
         # 'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'sala_do_empreendedor/index.html', context)
+
+def quero_ser_mei(request):
+    return render(request, 'sala_do_empreendedor/quero-ser-mei.html')
