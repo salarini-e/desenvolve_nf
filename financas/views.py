@@ -40,8 +40,7 @@ def formularios(request):
          'diversos/REQUERIMENTO-DE-ADESAO.pdf'],
         ['Requerimento de Atualização Cadastral',
          'diversos/REQUERIMENTO-DE-ATUALIZACAO-CADASTRAL-1.pdf'],
-        ['Requerimento para Autonomo',
-         'diversos/REQUERIMENTO-PARA-AUTONOMO.pdf']
+       
     ]}
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
