@@ -9,34 +9,34 @@
         </a>             
         <a href="https://servicoonline.novafriburgo.rj.gov.br/services/protocolo_consulta.php" class="me-3">
             <div class="d-flex flex-column align-items-center">
-              <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
+              <div id="empreendedor_protocolo" class="s-nav rounded-circle"></div>
               <p class="text-dark text-center">Consultar<br>protocolo</p>
             </div>
         </a>  
-        <a href="{% url 'empreendedor:index' %}" class="me-3">
+        <!-- <a href="{% url 'empreendedor:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
+            <div id="empreendedor_cert" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Certidões</p>
           </div>
         </a>        
         <a href="{% url 'empreendedor:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
+            <div id="empreendedor_nota" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Nota Fiscal</p>
           </div>
-        </a>
+        </a> -->
         <a href="{% url 'empreendedor:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="empreendedor_inicio" class="s-nav rounded-circle"></div>
+            <div id="empreendedor_legis" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Legislação</p>
           </div>
         </a>
-        <a href="{% url 'empreendedor:index' %}" class="me-3">
+        <!-- <a href="{% url 'empreendedor:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="empreendedor_inicio" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Sobre</p>
           </div>
-        </a>       
+        </a>        -->
         <!-- <a href="{% url 'empreendedor:index' %}" class="me-3">
             <div class="d-flex flex-column align-items-center">
               <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
@@ -78,6 +78,26 @@
     #empreendedor_inicio{      
       background-color: white !important;
       background-image: url(/static/images/icones/empreendedor_inicio.png);
+      background-size: contain;
+    }
+    #empreendedor_protocolo{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_protocolo.png);
+      background-size: contain;
+    }
+    #empreendedor_nota{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_nota.png);
+      background-size: contain;
+    }
+    #empreendedor_cert{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_cert.png);
+      background-size: contain;
+    }
+    #empreendedor_legis{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_legis.png);
       background-size: contain;
     }
     #empreendedor_forms{      
