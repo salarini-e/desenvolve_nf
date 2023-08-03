@@ -6,7 +6,13 @@
             <div id="empreendedor_inicio" class="s-nav rounded-circle"></div>
             <p class="text-dark">Início</p>
           </div>
-        </a>             
+        </a>    
+        <a href="{% url 'empreendedor:index' %}#servicos" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="empreendedor_servicos" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Serviços</p>
+          </div>
+      </a>           
         <a href="https://servicoonline.novafriburgo.rj.gov.br/services/protocolo_consulta.php" class="me-3">
             <div class="d-flex flex-column align-items-center">
               <div id="empreendedor_protocolo" class="s-nav rounded-circle"></div>
@@ -25,13 +31,13 @@
             <p class="text-dark text-center">Nota Fiscal</p>
           </div>
         </a> -->
-        <a href="https://servicoonline.novafriburgo.rj.gov.br/services/protocolo_consulta.php" class="me-3">
+        <a href="{% url 'empreendedor:vitrine_virtual' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="empreendedor_protocolo" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Vitrine<br> virtual</p>
           </div>
       </a>  
-      <a href="https://servicoonline.novafriburgo.rj.gov.br/services/protocolo_consulta.php" class="me-3">
+      <a href="{% url 'empreendedor:faccao_legal' %}" class="me-3">
         <div class="d-flex flex-column align-items-center">
           <div id="empreendedor_protocolo" class="s-nav rounded-circle"></div>
           <p class="text-dark text-center">Facção<br>legal</p>
@@ -90,6 +96,11 @@
     #empreendedor_inicio{      
       background-color: white !important;
       background-image: url(/static/images/icones/empreendedor_inicio.png);
+      background-size: contain;
+    }
+    #empreendedor_servicos{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_servicos.png);
       background-size: contain;
     }
     #empreendedor_protocolo{      
