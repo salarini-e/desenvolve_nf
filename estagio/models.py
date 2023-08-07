@@ -104,6 +104,7 @@ class Estudante_Vaga(models.Model):
     local_do_estagio = models.ForeignKey(Locais_de_Estagio, on_delete=models.RESTRICT, blank=True, null=True)
     data_inicio = models.DateField(verbose_name= "Data inicio", blank=True, null=True)
     data_fim = models.DateField(verbose_name="Data termino", blank=True, null=True)
+    TCE = models.FileField(upload_to='TCE', verbose_name='Termo de Compromisso de Estágio')
 
     def __str__(self):
         return self.estudante.pessoa.nome

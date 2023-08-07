@@ -52,6 +52,8 @@ except:
     SOCIAL_AUTH_FACEBOOK_KEY = ''
     SOCIAL_AUTH_FACEBOOK_SECRET = ''
 
+el_api_token = env_vars['el_api_token']
+el_id_client = env_vars['el_id_client']
 
 INSTALLED_APPS = [
     #padrão

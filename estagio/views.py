@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from autenticacao.models import Pessoa
 from .forms import *
+from .api import ApiProtocolo
 
 def index(request):
     context = {
@@ -144,6 +145,14 @@ def candidatar_se_vaga(request, id):
                 start_processo.save()
                 start_historico=Historico_Processo(status=0, processo=start_processo, mensagem='')
                 start_historico.save()
+                # parametros = {
+                #     'numeroDocumentoJuridico': estudante.pessoa.cpf,
+                #     # 'numeroProcesso': '2023',
+                #     'anoProcesso': '2023',
+                #     'dataProcesso': '2023-08-04 16:24:04',
+                #     'resumoEcm': 'Testando API 2'
+                # }
+                # api = ApiProtocolo.cadastrarProcesso(parametros)
     context = {
         'forms_estudante': forms_estudante,
         'forms_vaga': forms_vaga,
