@@ -60,3 +60,10 @@ def ja_sou_mei(request):
         # 'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'sala_do_empreendedor/ja-sou-mei.html', context)
+
+def abertura_de_empresa(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/abertura-de-empresa.html', context)
