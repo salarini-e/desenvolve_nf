@@ -267,20 +267,22 @@ def os_index(request):
         request.session['dt_alteracao2'] = dt_alteracao2
     else:
         # Recupere os parâmetros da consulta da sessão
-        protocolo = request.session.get('protocolo', '')
-        tipo_os = request.session.get('tipo_os', '')
-        prioridade = request.session.get('prioridade', '')
-        status = request.session.get('status', '')
-        bairro = request.session.get('bairro', '')
-        rua = request.session.get('rua', '')
-        motivo = request.session.get('motivo', '')
-        dt_solicitacao1 = request.session.get('dt_solicitacao1', '')
-        dt_solicitacao2 = request.session.get('dt_solicitacao2', '')
-        dt_execucao1 = request.session.get('dt_execucao1', '')
-        dt_execucao2 = request.session.get('dt_execucao2', '')
-        dt_alteracao1 = request.session.get('dt_alteracao1', '')
-        dt_alteracao2 = request.session.get('dt_alteracao2', '')
-
+        try:
+            protocolo = request.session.get('protocolo', '')
+            tipo_os = request.session.get('tipo_os', '')
+            prioridade = request.session.get('prioridade', '')
+            status = request.session.get('status', '')
+            bairro = request.session.get('bairro', '')
+            rua = request.session.get('rua', '')
+            motivo = request.session.get('motivo', '')
+            dt_solicitacao1 = request.session.get('dt_solicitacao1', '')
+            dt_solicitacao2 = request.session.get('dt_solicitacao2', '')
+            dt_execucao1 = request.session.get('dt_execucao1', '')
+            dt_execucao2 = request.session.get('dt_execucao2', '')
+            dt_alteracao1 = request.session.get('dt_alteracao1', '')
+            dt_alteracao2 = request.session.get('dt_alteracao2', '')
+        except:
+            pass
     try:
         # Construa a consulta personalizada
         sql = "SELECT * FROM iluminacao_ordemdeservico WHERE status != 'f'"
