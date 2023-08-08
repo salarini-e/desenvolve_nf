@@ -67,10 +67,22 @@ def o_que_precisa_saber_para_ser_mei(request):
         # 'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'sala_do_empreendedor/quero-ser-mei/o-que-voce-precisa-saber-antes-de-se-tornar-um-mei.html', context)
-
+def jornada_empreendedora(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/jornada-empreendedora.html', context)
 def ja_sou_mei(request):
     context = {
          'titulo': 'Sala do Empreendedor',
         # 'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'sala_do_empreendedor/ja-sou-mei.html', context)
+
+def abertura_de_empresa(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/abertura-de-empresa.html', context)
