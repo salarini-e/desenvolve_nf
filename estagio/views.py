@@ -8,6 +8,7 @@ from .api import ApiProtocolo
 def index(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'vagas': Vagas.objects.all()[:8]
     }
     return render(request, 'estagio/index.html', context)
 
