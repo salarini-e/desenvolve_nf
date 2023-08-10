@@ -19,18 +19,6 @@
               <p class="text-dark text-center">Consultar<br>processo</p>
             </div>
         </a>  
-        <!-- <a href="{% url 'empreendedor:index' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="empreendedor_cert" class="s-nav rounded-circle"></div>
-            <p class="text-dark text-center">Certidões</p>
-          </div>
-        </a>        
-        <a href="{% url 'empreendedor:index' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="empreendedor_nota" class="s-nav rounded-circle"></div>
-            <p class="text-dark text-center">Nota Fiscal</p>
-          </div>
-        </a> -->
         <a href="{% url 'empreendedor:vitrine_virtual' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="empreendedor_protocolo" class="s-nav rounded-circle"></div>
@@ -49,32 +37,6 @@
             <p class="text-dark text-center">Legislação</p>
           </div>
         </a>
-        <!-- <a href="{% url 'empreendedor:index' %}" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div id="empreendedor_inicio" class="s-nav rounded-circle"></div>
-            <p class="text-dark text-center">Sobre</p>
-          </div>
-        </a>        -->
-        <!-- <a href="{% url 'empreendedor:index' %}" class="me-3">
-            <div class="d-flex flex-column align-items-center">
-              <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
-              <p class="text-dark text-center">Abertura de<br>Empresa</p>
-            </div>
-        </a>                 
-         
-                                
-        <a href="{% url 'empreendedor:index' %}" class="me-3">
-            <div class="d-flex flex-column align-items-center">
-              <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
-              <p class="text-dark text-center">M.E.I.</p>
-            </div>
-        </a>                 
-        <a href="{% url 'empreendedor:index' %}" class="me-3">
-            <div class="d-flex flex-column align-items-center">
-              <div id="empreendedor_forms" class="s-nav rounded-circle"></div>
-              <p class="text-dark text-center">Formulários e<br>declarações</p>
-            </div>
-        </a>      -->
         {% if request.user.is_staff %}
         <a href="{% url 'iluminacao:funcionarios' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
