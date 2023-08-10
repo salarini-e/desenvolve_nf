@@ -12,6 +12,10 @@ urlpatterns = [
     path('quero-ser-mei/por-que-ser-mei', views.por_que_ser_mei, name='por_que_ser_mei'),
     path('quero-ser-mei/o-que-voce-precisa-saber-antes-de-se-tornar-um-mei', views.o_que_precisa_saber_para_ser_mei, name='o_que_precisa_saber_para_ser_mei'),
     path('quero-ser-mei/jornada-empreendedora', views.jornada_empreendedora, name='jornada_empreendedora'),
+    path('quero-ser-mei/documentosNecessarios', views.documentosNecessarios, name='documentosNecessarios'),
+    path('quero-ser-mei/quaisAsOcupacoesQuePodemSerMei', views.quaisAsOcupacoesQuePodemSerMei, name='quaisAsOcupacoesQuePodemSerMei'),
+    path('quero-ser-mei/dicasDeSegurancaDaVigilanciaSanitaria', views.dicasDeSegurancaDaVigilanciaSanitaria, name='dicasDeSegurancaDaVigilanciaSanitaria'),
+    path('quero-ser-mei/dicasDeSegurançaDoCorpoDeBombeiros', views.dicasDeSegurançaDoCorpoDeBombeiros, name='dicasDeSegurançaDoCorpoDeBombeiros'),
     path('ja-sou-mei', views.ja_sou_mei, name='ja_sou_mei'),
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
 

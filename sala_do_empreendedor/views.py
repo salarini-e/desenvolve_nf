@@ -73,6 +73,31 @@ def jornada_empreendedora(request):
         # 'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'sala_do_empreendedor/quero-ser-mei/jornada-empreendedora.html', context)
+def documentosNecessarios(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/documentosNecessarios.html', context)
+
+def quaisAsOcupacoesQuePodemSerMei(request):
+    context = {
+        'titulo':'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/quaisAsOcupacoesQuePodemSerMei.html', context)
+
+def dicasDeSegurancaDaVigilanciaSanitaria(request):
+    context = {
+        'titulo':'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/dicasDeSegurancaDaVigilanciaSanitaria.html', context)
+
+def dicasDeSegurançaDoCorpoDeBombeiros(request):
+    context = {
+        'titulo':'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/dicasDeSegurançaDoCorpoDeBombeiros.html', context)
+
 def ja_sou_mei(request):
     context = {
          'titulo': 'Sala do Empreendedor',
