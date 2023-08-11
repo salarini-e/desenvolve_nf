@@ -16,7 +16,13 @@ urlpatterns = [
     path('quero-ser-mei/quaisAsOcupacoesQuePodemSerMei', views.quaisAsOcupacoesQuePodemSerMei, name='quaisAsOcupacoesQuePodemSerMei'),
     path('quero-ser-mei/dicasDeSegurancaDaVigilanciaSanitaria', views.dicasDeSegurancaDaVigilanciaSanitaria, name='dicasDeSegurancaDaVigilanciaSanitaria'),
     path('quero-ser-mei/dicasDeSegurançaDoCorpoDeBombeiros', views.dicasDeSegurançaDoCorpoDeBombeiros, name='dicasDeSegurançaDoCorpoDeBombeiros'),
+    path('quero-ser-mei/dicasDeMeioAmbiente', views.dicasDeMeioAmbiente, name='dicasDeMeioAmbiente'),
+    path('quero-ser-mei/prepareSe', views.prepareSe, name='prepareSe'),
+    path('quero-ser-mei/transportadorAutonomoDeCargas', views.transportadorAutonomoDeCargas, name='transportadorAutonomoDeCargas'),
+    path('quero-ser-mei/direitosEObrigacoes', views.direitosEObrigacoes, name='direitosEObrigacoes'),
+    path('quero-ser-mei/registrocadastur', views.registrocadastur, name="registrocadastur"),
     path('ja-sou-mei', views.ja_sou_mei, name='ja_sou_mei'),
+    path('ja-sou-mei/emissaoDeComprovante', views.emissaoDeComprovante, name="emissaoDeComprovante"),
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
 
 ]

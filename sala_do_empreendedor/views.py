@@ -98,6 +98,36 @@ def dicasDeSegurançaDoCorpoDeBombeiros(request):
     }
     return render(request, 'sala_do_empreendedor/quero-ser-mei/dicasDeSegurançaDoCorpoDeBombeiros.html', context)
 
+def dicasDeMeioAmbiente(request):
+    context = {
+        'titulo':'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/dicasDeMeioAmbiente.html', context)
+
+def prepareSe(request):
+    context = {
+        'titulo':'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/prepareSe.html', context)
+
+def transportadorAutonomoDeCargas(request):
+    context = {
+        'titulo':'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/transportadorAutonomoDeCargas.html', context)
+
+def direitosEObrigacoes(request):
+    context = {
+        'titulo':'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/direitosEObrigacoes.html', context)
+
+def registrocadastur(request):
+    context = {
+         'titulo': 'Sala do Empreendedor'
+    }
+    return render(request, 'sala_do_empreendedor/quero-ser-mei/registrocadastur.html', context)
+
 def ja_sou_mei(request):
     context = {
          'titulo': 'Sala do Empreendedor',
@@ -105,9 +135,17 @@ def ja_sou_mei(request):
     }
     return render(request, 'sala_do_empreendedor/ja-sou-mei.html', context)
 
+def emissaoDeComprovante(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/jaSouMei/emissaoDeComprovante.html', context)
+
 def abertura_de_empresa(request):
     context = {
          'titulo': 'Sala do Empreendedor',
         # 'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'sala_do_empreendedor/abertura-de-empresa.html', context)
+
