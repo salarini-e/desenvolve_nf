@@ -107,6 +107,7 @@ class OrdemDeServico(models.Model):
     dt_execucao = models.DateTimeField(verbose_name='Data de execução', blank=True, null=True)
     dt_conclusao = models.DateTimeField(verbose_name='Data de conclusão', blank=True, null=True)
     message_status = models.CharField(max_length=1, verbose_name='Status de mensagens', default='0', choices=MESSAGE_STATUS_CHOICES, null=True)
+    atendente_conclusao = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True)
     def semana_atendimento(self):
         return self.dt_conclusao.isocalendar()[1]
 
@@ -151,12 +152,13 @@ class OrdemDeServico(models.Model):
         self.dt_alteracao = timezone.now()
         super().save(*args, **kwargs)
 
-    def finalizar_chamado(self):
+    def finalizar_chamado(self, user):
         
         if self.status == 'f':
             return "Chamado já foi finalizado."
             
         self.status = 'f'
+        self.atendente_conclusao = user
         self.dt_conclusao = timezone.now()
         self.save()
         return "Chamado finalizado com sucesso."
