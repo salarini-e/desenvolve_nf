@@ -21,5 +21,5 @@ def qntMsg(value):
     elif status=='2     ':
         resp = str(qnt_msg) + '<i class="fa-solid fa-envelope ms-1"></i>'
     else:
-        resp = 'ops'
+        resp = str(qnt_msg) + '<i class="fa-solid fa-envelope ms-1"></i>'
     return resp
