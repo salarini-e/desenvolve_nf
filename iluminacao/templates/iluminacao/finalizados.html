@@ -118,6 +118,7 @@
                                 <th class="text-center">Dt. de solicitação</th>
                                 <th>Bairro</th>
                                 <th>Atendente</th>
+                                <th>Finalizado por</th>
                                 <th>Status</th>
                                 <th></th>
                               </tr>
@@ -146,6 +147,13 @@
                                 <td>
                                   {% if os.atendente %}
                                   {{os.atendente.first_name}}
+                                  {% else %}
+                                  <span class="text-secondary">n/h</span>
+                                  {% endif %}
+                                </td>
+                                <td>
+                                  {% if os.finalizado_por %}
+                                  {{os.finalizado_por.first_name}}
                                   {% else %}
                                   <span class="text-secondary">n/h</span>
                                   {% endif %}
