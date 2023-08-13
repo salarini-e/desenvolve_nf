@@ -233,7 +233,7 @@ def os_index(request):
     if request.user.is_superuser:
         queryset = OrdemDeServico.objects.all().exclude(status='f')
     else:
-        queryset = OrdemDeServico.objects.filter(atendente=request.user).exclude(status='f')
+        queryset = OrdemDeServico.objects.filter(atendente=request.user ).exclude(status='f')
 
     if request.method == 'POST':
         # Obtenha os parâmetros da consulta do formulário
@@ -575,7 +575,7 @@ def change_status_os(request, id, opcao):
     os.status=opcao
     if opcao=='f':
         os.dt_conclusao=datetime.now()
-        os.atendente_conclusao=request.user
+        os.finalizado_por=request.user
     os.save()
     return redirect('iluminacao:detalhes_os', id=id)
 
