@@ -28,7 +28,11 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        try:
+            pessoa=Pessoa.objects.get(cpf=username)    
+            user = authenticate(request, username=pessoa.email, password=password)
+        except:
+            user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             try:
@@ -125,12 +129,20 @@ def cadastro_user(request):
                         pessoa.user = user
 
                         pessoa.save()
-                        messages.success(
-                            request, 'Usuário cadastrado com sucesso!')
-                        try:
-                            return redirect(request.GET['next'])
-                        except:
-                            return redirect('/login')
+                        messages.success(request, 'Usuário cadastrado com sucesso!')
+                        user = authenticate(request, username=request.POST['email'], password=request.POST['password'])
+                        if user is not None:
+                                login(request, user)
+                                if pessoa.possui_cnpj:
+                                    return redirect('empreendedor:cadastrar_empresa')
+                                try:
+                                    return redirect(request.GET['next'])
+                                except:
+                                    return redirect('/')
+                        else:
+                                context = {
+                                    'error': True,
+                                }
                     except Exception as e:
                         messages.error(
                             request, 'Email de usuário já cadastrado')

@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .api import ApiProtocolo
+from .views_folder.minha_empresa import *
+
 
 # Create your views here.
 def index(request):

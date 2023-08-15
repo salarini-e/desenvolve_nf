@@ -36,7 +36,7 @@ class Form_Pessoa(ModelForm):
             'cpf':forms.TextInput(attrs={'onkeydown':'mascara(this, icpf)'}),
             'telefone':forms.TextInput(attrs={'onkeydown':'mascara(this, itel)'}),
         }
-
+        fields=['cpf','nome', 'email', 'telefone', 'dt_nascimento', 'cep','bairro', 'endereco', 'numero', 'complemento', 'possui_cnpj']
         exclude = ['user']
 
     def clean_cpf(self):
