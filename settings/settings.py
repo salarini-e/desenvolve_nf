@@ -15,7 +15,6 @@ MESSAGE_TAGS = {
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-
 env_vars = envvars.load_envars(BASE_DIR)
 
 db_name = env_vars['db_name']

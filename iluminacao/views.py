@@ -377,7 +377,7 @@ def os_finalizados(request):
     if request.user.is_superuser:
         queryset = OrdemDeServico.objects.filter(status='f')
     else:
-        queryset = OrdemDeServico.objects.filter(atendente=Pessoa.objects.get(user=request.user), status='f')
+        queryset = OrdemDeServico.objects.filter(atendente=request.user, status='f')
 
     if request.method == 'POST':
         # Obtenha os parâmetros da consulta do formulário
@@ -573,6 +573,7 @@ def detalhes_os(request, id):
 def change_status_os(request, id, opcao):
     os=OrdemDeServico.objects.get(id=id)
     os.status=opcao
+    print(opcao)
     if opcao=='f':
         os.dt_conclusao=datetime.now()
         os.finalizado_por=request.user
