@@ -142,6 +142,27 @@ def emissaoDeComprovante(request):
     }
     return render(request, 'sala_do_empreendedor/jaSouMei/emissaoDeComprovante.html', context)
 
+def atualizacaoCadastral(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/jaSouMei/atualizacaoCadastral.html', context)
+
+def capacita(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/jaSouMei/capacita.html', context)
+
+def notaFiscal(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/jaSouMei/notaFiscal.html', context)
+
 def abertura_de_empresa(request):
     context = {
          'titulo': 'Sala do Empreendedor',

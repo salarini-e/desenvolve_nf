@@ -23,6 +23,9 @@ urlpatterns = [
     path('quero-ser-mei/registrocadastur', views.registrocadastur, name="registrocadastur"),
     path('ja-sou-mei', views.ja_sou_mei, name='ja_sou_mei'),
     path('ja-sou-mei/emissaoDeComprovante', views.emissaoDeComprovante, name="emissaoDeComprovante"),
+    path('ja-sou-mei/atualizacaoCadastral', views.atualizacaoCadastral, name="atualizacaoCadastral"),
+    path('ja-sou-mei/capacita', views.capacita, name="capacita"),
+    path('ja-sou-mei/notaFiscal', views.notaFiscal, name="notaFiscal"),
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
 
 ]
