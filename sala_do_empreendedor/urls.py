@@ -7,6 +7,7 @@ urlpatterns = [
     path('consultar-protocolo', views.consultar_protocolo, name='consultar_protocolo'),
     path('minha-empresa', views.minha_empresa, name='minha_empresa'),
     path('minha-empresa/cadastrar', views.cadastrar_empresa, name='cadastrar_empresa'),
+    path('minha-empresa/<id>/editar/', views.editar_empresa, name='editar_empresa'),
     path('faccao-legal', views.faccao_legal, name='faccao_legal'),
     path('vitrine-virtual', views.vitrine_virtual, name='vitrine_virtual'),
     

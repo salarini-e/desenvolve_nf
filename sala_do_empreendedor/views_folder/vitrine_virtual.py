@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa
+from ..models import Empresa, Registro_no_vitrine_virtual
 from ..forms import FormEmpresa, FormAlterarEmpresa
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
 
 @login_required()
-def minha_empresa(request):
-    empresas=Empresa.objects.filter(user_register=request.user)
+def minha_vitrine(request, id):
+    empresa=Empresa.objects.get(id=id)
+    rg_vitrine=Registro_no_vitrine_virtual.objects.get(empresa=empresa)
     context = {
         'titulo': 'Sala do Empreendedor',
-        'empresas': empresas
+        'empresa': empresa
     }
     return render(request, 'sala_do_empreendedor/minha-empresa/index.html', context)
 

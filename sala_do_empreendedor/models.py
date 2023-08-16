@@ -31,18 +31,16 @@ class Empresa(models.Model):
     ramo=models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Ramo de atuação')
     outro_ramo=models.CharField(max_length=64, verbose_name='Outro ramo', blank=True, null=True)
     receber_noticias=models.BooleanField(default=False, verbose_name='Deseja receber notificações sobre compras da prefeitura?')
+    telefone=models.CharField(max_length=15, verbose_name='Telefone de contato', null=True, blank=True)
+    whatsapp=models.CharField(max_length=15, verbose_name='Whatsapp da empresa', null=True, blank=True)
+    email=models.EmailField(verbose_name='E-mail da empresa', null=True, blank=True)
     descricao = models.TextField(null=True, blank=True, verbose_name='Descrição da empresa')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     validacao=models.BooleanField(default=False, verbose_name='Validação da empresa')
     cadastrada_na_vitrine=models.BooleanField(default=False, verbose_name='Cadastrado na Vitrine Virtual?')
     cadastrada_como_fornecedor=models.BooleanField(default=False, verbose_name='Cadastrado como fornecedor da prefeitura?')
-
-class Fornecedor(models.Model):
-    empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
-    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
-    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
-
+    
 class Produto(models.Model):
     empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
     nome=models.CharField(max_length=128, verbose_name='Nome do produto')

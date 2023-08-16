@@ -5,9 +5,22 @@ from .models import *
 class FormEmpresa(ModelForm):
     class Meta:
         model = Empresa
-        fields = [ 'cnpj', 'nome', 'porte', 'atividade','ramo', 'outro_ramo', 'receber_noticias', 'descricao']
+        fields = [ 'cnpj', 'nome', 'porte', 'atividade','ramo', 'outro_ramo','telefone', 'whatsapp', 'email', 'descricao',  'receber_noticias']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da Empresa'}),
-            'cnpj': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CNPJ'}),
+            'cnpj': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CNPJ', 'onkeydown':'mascara(this, icnpj)'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'onkeydown':'mascara(this, itel)'}),
+            'whatsapp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Whatsapp', 'onkeydown':'mascara(this, itel)'}),
+            'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
+        }
+        
+class FormAlterarEmpresa(ModelForm):
+    class Meta:
+        model = Empresa
+        fields = ['nome', 'porte', 'atividade','ramo', 'outro_ramo', 'telefone', 'whatsapp', 'email','descricao', 'receber_noticias']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da Empresa'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'onkeydown':'mascara(this, itel)'}),
+            'whatsapp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Whatsapp', 'onkeydown':'mascara(this, itel)'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
         }
