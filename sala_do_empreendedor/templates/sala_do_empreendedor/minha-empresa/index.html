@@ -87,11 +87,11 @@
                       </td>
                       <td class="text-center">
                         {% if empresa.cadastrada_na_vitrine %}
-                        <a style="max-width: 180px;" href="#" class="w-100 m-auto py-0 btn btn-success">
+                        <a style="max-width: 180px;" href="{% url 'empreendedor:minha_vitrine' empresa.id %}" class="w-100 m-auto py-0 btn btn-success">
                           Ver sua vitrine
                         </a>
                         {% else %}
-                        <a style="max-width: 180px;" href="#" class="w-100 m-auto py-0 btn btn-primary">
+                        <a style="max-width: 180px;" href="{% url 'empreendedor:cadastrar_vitrine' empresa.id %}" class="w-100 m-auto py-0 btn btn-primary">
                           Cadastrar
                         </a>
                         {% endif %}

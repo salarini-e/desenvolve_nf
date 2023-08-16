@@ -24,3 +24,17 @@ class FormAlterarEmpresa(ModelForm):
             'whatsapp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Whatsapp', 'onkeydown':'mascara(this, itel)'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
         }
+        
+class FormLogoEmpresa(ModelForm):
+    class Meta:
+        model = Registro_no_vitrine_virtual
+        fields = ['logo']
+
+class FormCadastrarProduto(ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['imagem', 'nome', 'descricao']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do Produto'}),
+            'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
+        }

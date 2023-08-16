@@ -41,17 +41,18 @@ class Empresa(models.Model):
     cadastrada_na_vitrine=models.BooleanField(default=False, verbose_name='Cadastrado na Vitrine Virtual?')
     cadastrada_como_fornecedor=models.BooleanField(default=False, verbose_name='Cadastrado como fornecedor da prefeitura?')
     
-class Produto(models.Model):
+class Registro_no_vitrine_virtual(models.Model):
     empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
-    nome=models.CharField(max_length=128, verbose_name='Nome do produto')
+    logo=models.ImageField(upload_to='logos/', verbose_name='Logo da empresa', null=True, blank=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+
+class Produto(models.Model):
+    rg_vitrine=models.ForeignKey(Registro_no_vitrine_virtual, on_delete=models.CASCADE, verbose_name='Registro da vitrine virtual')
+    nome=models.CharField(max_length=128, verbose_name='Nome do produto ou serviço')
     descricao=models.TextField(verbose_name='Descrição do produto')
-    preco=models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço')
     imagem=models.ImageField(upload_to='produtos/', verbose_name='Imagem do produto')
+    validacao_da_equipe=models.BooleanField(default=False, verbose_name='Validação da Sala do Empreendedor')
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     
-class Registro_no_vitrine_virtual(models.Model):
-    empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
-    produtos=models.ManyToManyField(Produto, verbose_name='Produtos')
-    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
-    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
