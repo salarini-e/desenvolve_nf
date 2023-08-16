@@ -7,16 +7,21 @@ class Porte_da_Empresa(models.Model):
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
+    __str__ = lambda self: self.porte
 
 class Atividade(models.Model):
     atividade=models.CharField(max_length=64, verbose_name='Atividade')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
+    __str__ = lambda self: self.atividade
+    
 class Ramo_de_Atuacao(models.Model):
     ramo=models.CharField(max_length=64, verbose_name='Ramo de atuação')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    
+    __str__ = lambda self: self.ramo
     
 class Empresa(models.Model):
     cnpj=models.CharField(max_length=18, verbose_name='CNPJ', unique=True)
@@ -30,10 +35,25 @@ class Empresa(models.Model):
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     validacao=models.BooleanField(default=False, verbose_name='Validação da empresa')
+    cadastrada_na_vitrine=models.BooleanField(default=False, verbose_name='Cadastrado na Vitrine Virtual?')
+    cadastrada_como_fornecedor=models.BooleanField(default=False, verbose_name='Cadastrado como fornecedor da prefeitura?')
 
-# class Produto(models.Model):
-#     nome = models.CharField(max_length=100)
-#     descricao = models.TextField()
-#     preco = models.DecimalField(max_digits=10, decimal_places=2)
-#     imagem = models.ImageField(upload_to='produtos/')
-#     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+class Fornecedor(models.Model):
+    empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+
+class Produto(models.Model):
+    empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
+    nome=models.CharField(max_length=128, verbose_name='Nome do produto')
+    descricao=models.TextField(verbose_name='Descrição do produto')
+    preco=models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço')
+    imagem=models.ImageField(upload_to='produtos/', verbose_name='Imagem do produto')
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+    
+class Registro_no_vitrine_virtual(models.Model):
+    empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
+    produtos=models.ManyToManyField(Produto, verbose_name='Produtos')
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)

@@ -17,7 +17,7 @@
         <div class="d-flex flex-wrap justify-content-center">
           
           <div class="item border border d-flex flex-column mx-2 div_cursos">
-            <a href="{% url 'empreendedor:quero_ser_mei' %}">
+            <a href="{% url 'empreendedor:cadastrar_empresa' %}">
               <div class="c-img" style="position: relative;">
                 <img class="banner-img" src="/static/images/icons_servicos/conheca.jpeg" >
               </div>
@@ -47,36 +47,66 @@
       </div>
     </div>
     <div class="row">
+      <div class="col">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="row">
         <div class="col">
             <div class="table-responsive pt-4 border" style="background-color: white; border-radius: 30px; padding: 20px;">
                 <table class="table table-borderless">
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Editar</th>
                       <th>CNPJ</th>
                       <th>Nome</th>
-                      <th>Porte</th>
-                      <th>Vitrine Virtual</th>
+                      <th>Porte da empresa</th>
+                      <th class="text-center">Vitrine Virtual</th>
+                      <th class="text-center">Cadastro de Fornecedores</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for empresa in empresas %}
                     <tr>
                       <td>
-                        <i class="fa-solid fa-pen-to-square"></i>
+                        
                       </td>
                       <td>
-                       CNPJ
+                       {{empresa.cnpj}} <a class="ms-3" href="#"><i class="fa-solid fa-pen-to-square"></i></a>
                       </td>
                       <td>
-                       Nome
+                       {{empresa.nome}}
                       </td>
                       <td>
-                        Porte
+                        {{empresa.porte}}
                       </td>
-                      <td>
-                        Vitrine Virtual
+                      <td class="text-center">
+                        {% if empresa.cadastrada_na_vitrine %}
+                        <a style="max-width: 180px;" href="#" class="w-100 m-auto py-0 btn btn-success">
+                          Ver sua vitrine
+                        </a>
+                        {% else %}
+                        <a style="max-width: 180px;" href="#" class="w-100 m-auto py-0 btn btn-primary">
+                          Cadastrar
+                        </a>
+                        {% endif %}
+                      </td>
+                      <td class="text-center">
+                        {% if empresa.cadastrada_como_fornecedor %}
+                        <a style="max-width: 180px;" href="#" class="w-100 m-auto py-0 btn btn-success">
+                          Ver cadastro
+                        </a>
+                        {% else %}
+                        <a style="max-width: 180px;" href="#" class="w-100 m-auto py-0 btn btn-primary">
+                          Cadastrar
+                        </a>
+                        {% endif %}
                       </td>
                     </tr>
                     {% empty %}
