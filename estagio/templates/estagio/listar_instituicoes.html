@@ -25,7 +25,7 @@
             <p class="text-center">{{instituicao.nome}}</p>
             {% endif %}
             <a href="{% url 'estagio:curso' instituicao.id %}" class="my-3 mx-auto">Ver cursos e locais de estágio</a>
-            <p class="text-secondary" style="font-size: 7pt; text-align: right;">Vencimento: {{instituicao.dt_vencimento_do_termo|date:"d/m/y"}}</p>
+            <p class="text-secondary" style="font-size: 7pt; text-align: right;">Vencimento: {% if instituicao.dt_vencimento_do_termo %}{{instituicao.dt_vencimento_do_termo|date:"d/m/y"}}{% else %}Não cadastrado{% endif %}</p>
           </div>
       </div>
       {% endfor %}

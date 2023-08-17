@@ -24,8 +24,9 @@
               <img class="img-fluid" style="border-radius: 10px;" src="{% if instituicao.logo %}{{instituicao.logo.url}}{% else %}{% static 'images/sem-imagem.png' %}{% endif %}" alt="">
             </div>
             <div class="cursos-text mx-2 d-flex flex-column">
-              <strong class="text-secondary">{{universidade.nome}}</strong>
+              <strong class="text-secondary mx-auto">{{universidade.nome}}</strong>
               <a href="{% url 'estagio:curso' universidade.id %}" class="my-3 mx-auto">Ver/editar</a>
+              <p class="text-secondary" style="font-size: 7pt; text-align: right;">Vencimento: {% if instituicao.dt_vencimento_do_termo %}{{instituicao.dt_vencimento_do_termo|date:"d/m/y"}}{% else %}Não cadastrado{% endif %}</p>
             </div>
         </div>
         {% endfor %}
