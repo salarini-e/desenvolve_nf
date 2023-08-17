@@ -38,6 +38,7 @@ urlpatterns = [
     path('ja-sou-mei/solucoesFinanceiras', views.solucoesFinanceiras, name="solucoesFinanceiras"),
     path('ja-sou-mei/certidoesEComprovantes', views.certidoesEComprovantes, name="certidoesEComprovantes"),
     path('ja-sou-mei/declaracaoAnualDeFaturamento', views.declaracaoAnualDeFaturamento, name="declaracaoAnualDeFaturamento"),
+    path('ja-sou-mei/dispensaDeAlvara', views.dispensaDeAlvara, name="dispensaDeAlvara"),
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
 
 ]
