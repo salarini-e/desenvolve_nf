@@ -28,6 +28,24 @@ def listar_instituicoes(request):
     }
     return render(request, 'estagio/listar_instituicoes.html', context)
 
+def listar_cursos_e_locais(request, id):
+    instituicao = Universidade.objects.get(id=id)
+    cursos = Curso.objects.filter(universidade__id=instituicao.id)
+    context = {
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'instituicao': instituicao,
+        'cursos': cursos,
+    }
+    return render(request, 'estagio/listar_cursos_e_locais.html', context)
+ 
+def getLocais(request, id):    
+    #api locais
+    locais = Locais_de_Estagio.objects.filter(cursos__id=id)
+    context = {
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'locais': locais,
+    }
+    return render(request, 'estagio/getLocais.html', context)
 
 @login_required
 def area_do_estudante(request):

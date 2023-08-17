@@ -1,0 +1,28 @@
+<div class="mx-auto mb-auto bg-white border px-4 py-2" style="border-radius: 30px;">
+    <table class="table table-borderless">
+        <thead>
+            <th>
+                Secretaria
+            </th>
+            <th>
+                Local
+            </th>
+            <th>
+                Bairro
+            </th>
+        </thead>
+        <tbody>
+            {% for local in locais %}
+        <tr>
+            <td>{{local.secretaria}}</td>
+            <td>{{local.local}}</td>
+            <td>{{local.bairro}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" class="text-center">Não há locais no momento.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

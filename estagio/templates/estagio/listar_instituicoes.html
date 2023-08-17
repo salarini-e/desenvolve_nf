@@ -6,13 +6,15 @@
 {% block css %} {% endblock %}
 {% block main %}
     <div class="row">
-      <div class="col d-flex pb-5">
-        <h2>{{universidade}}</h2>
-        <a href="{% url 'estagio:cadastrar_universidade' %}" class="btn btn-primary ms-auto my-auto"><i class="fa-solid fa-pen-to-square"></i></a>
-        <a href="{% url 'estagio:listar_universidade' %}" class="btn btn-primary ms-2 my-auto"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a>
+      <div class="col d-flex">
+        <h1>Instituições conveniadas</h1>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col pb-5 d-flex">
+        <p class="text-secondary"><i>Conheça as instituições de nível tecnico e superior conveniadas a Prefeitura de Nova Friburgo e suas respectivas possibilidades de estágio!</i></p>
       </div>
     </div>
-
     <div class="row">
       <div class="col d-flex flex-wrap">
         {% for instituicao in  instituicoes %}
@@ -24,14 +26,16 @@
             {% if not instituicao.logo %}
             <p class="text-center">{{instituicao.nome}}</p>
             {% endif %}
-            <a href="{% url 'estagio:curso' instituicao.id %}" class="my-3 mx-auto">Ver cursos e locais de estágio</a>
+            <a href="{% url 'estagio:listar_cursos_e_locais' instituicao.id %}" class="my-3 mx-auto">Ver cursos e locais de estágio</a>
             <p class="text-secondary" style="font-size: 7pt; text-align: right;">Vencimento: {% if instituicao.dt_vencimento_do_termo %}{{instituicao.dt_vencimento_do_termo|date:"d/m/y"}}{% else %}Não cadastrado{% endif %}</p>
           </div>
       </div>
       {% endfor %}
       </div>
     </div>
-
+    <script>
+      document.getElementById('s-instituicao').classList.add('s-nav-active');
+    </script>
 {% endblock %}
 {% block footer %}
 {% include 'instagram_desenvolve.html' %}

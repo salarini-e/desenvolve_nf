@@ -7,7 +7,7 @@
 {% block main %}
     <div class="row">
       <div class="col d-flex">
-        <h2 class="my-auto">Universidades</h2>                                
+        <h2 class="my-auto">Instituições</h2>                                
         <a href="{% url 'estagio:cadastrar_universidade' %}" class="btn btn-primary ms-auto my-auto"><i class="fa-solid fa-school me-2"></i>Cadastrar Universidade</a>
         <a href="{% url 'estagio:adm' %}" class="btn btn-primary my-auto ms-1">
           <i class="fa-solid fa-backward-step me-2"></i>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="row">
-      <div class="col d-flex">
+      <div class="col d-flex flex-wrap">
         {% for universidade in  universidades %}
           <div class="item mx-auto mb-4 border">
             <div class="c-img pt-4 px-4" style="position: relative;">

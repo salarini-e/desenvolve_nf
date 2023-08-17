@@ -1,0 +1,74 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+    <div class="row">
+      <div class="col d-flex">
+        <h1>Instituições conveniadas</h1>
+        <a href="{% url 'estagio:listar_instituicoes' %}" class="btn btn-primary ms-auto my-auto"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="text-secondary mb-4"><i>Conheça as instituições de nível tecnico e superior conveniadas a Prefeitura de Nova Friburgo e suas respectivas possibilidades de estágio!</i></p>
+            <h2>{{instituicao}}</h2>
+            <hr>
+        </div>
+    </div>
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="col-3 d-flex flex-column flex-wrap">
+        <b>Cursos</b>
+        {% for curso in  cursos %}
+        <button onclick="getLocais({{curso.id}})" class="item me-auto mb-3 border">
+  
+          <div class="cursos-text mx-2 d-flex flex-column">
+            {% if not instituicao.logo %}
+            <p class="text-center">{{curso.nome}}</p>
+            {% endif %}
+          </div>
+        </button>
+      {% endfor %}
+      </div>
+      <div class="col" >
+        <b>Locais</b>
+        <div class="w-100 h-100 p-5 d-flex" id="exibir-locais">
+        </div>
+      </div>
+    </div>
+    <script>
+        document.getElementById('s-instituicao').classList.add('s-nav-active');
+
+        // funcao usando API fetch que pega os locais na views getLocais
+        function getLocais(id) {
+            const csrfToken = getCsrfToken();
+            fetch('/estagio/getLocais/' + id + '/', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Aqui insira o HTML na div exibir-locais
+                document.getElementById('exibir-locais').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Erro ao obter locais:', error);
+            });
+        }
+
+        function getCsrfToken() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            return csrfToken;
+        }
+    </script>
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}
