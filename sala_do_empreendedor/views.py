@@ -186,6 +186,20 @@ def solucoesFinanceiras(request):
     }
     return render(request, 'sala_do_empreendedor/jaSouMei/solucoesFinanceiras.html', context)
 
+def certidoesEComprovantes(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/jaSouMei/certidoesEComprovantes.html', context)
+
+def declaracaoAnualDeFaturamento(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/jaSouMei/declaracaoAnualDeFaturamento.html', context)
+
 def abertura_de_empresa(request):
     context = {
          'titulo': 'Sala do Empreendedor',
