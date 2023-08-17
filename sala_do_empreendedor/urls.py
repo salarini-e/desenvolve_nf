@@ -34,6 +34,8 @@ urlpatterns = [
     path('ja-sou-mei/capacita', views.capacita, name="capacita"),
     path('ja-sou-mei/notaFiscal', views.notaFiscal, name="notaFiscal"),
     path('ja-sou-mei/relatorioMensal', views.relatorioMensal, name="relatorioMensal"),
+    path('ja-sou-mei/pagamentoDeContribuicaoMensal', views.pagamentoDeContribuicaoMensal, name="pagamentoDeContribuicaoMensal"),
+    path('ja-sou-mei/solucoesFinanceiras', views.solucoesFinanceiras, name="solucoesFinanceiras"),
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
 
 ]
