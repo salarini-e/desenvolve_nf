@@ -18,11 +18,14 @@
         {% for instituicao in  instituicoes %}
         <div class="item mx-auto mb-4 border">
           <div class="c-img pt-4 px-4" style="position: relative;">
-            <img class="img-fluid" style="border-radius: 10px;" src="https://logodownload.org/wp-content/uploads/2014/09/google-logo-1-1.png" alt="">
+            <img class="img-fluid" style="border-radius: 10px;" src="{% if instituicao.logo %}{{instituicao.logo.url}}{% else %}{% static 'images/sem-imagem.png' %}{% endif %}" alt="">
           </div>
           <div class="cursos-text mx-2 d-flex flex-column">
-            <strong class="text-secondary">{{instituicao.nome}}</strong>
+            {% if not instituicao.logo %}
+            <p class="text-center">{{instituicao.nome}}</p>
+            {% endif %}
             <a href="{% url 'estagio:curso' instituicao.id %}" class="my-3 mx-auto">Ver cursos e locais de estágio</a>
+            <p class="text-secondary" style="font-size: 7pt; text-align: right;">Vencimento: {{instituicao.dt_vencimento_do_termo|date:"d/m/y"}}</p>
           </div>
       </div>
       {% endfor %}

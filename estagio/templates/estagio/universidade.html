@@ -21,7 +21,7 @@
         {% for universidade in  universidades %}
           <div class="item mx-auto mb-4 border">
             <div class="c-img pt-4 px-4" style="position: relative;">
-              <img class="img-fluid" style="border-radius: 10px;" src="https://logodownload.org/wp-content/uploads/2014/09/google-logo-1-1.png" alt="">
+              <img class="img-fluid" style="border-radius: 10px;" src="{% if instituicao.logo %}{{instituicao.logo.url}}{% else %}{% static 'images/sem-imagem.png' %}{% endif %}" alt="">
             </div>
             <div class="cursos-text mx-2 d-flex flex-column">
               <strong class="text-secondary">{{universidade.nome}}</strong>
