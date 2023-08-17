@@ -12,7 +12,7 @@ class Universidade(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da instituição")
     nome_responsavel = models.CharField(max_length=150, verbose_name="Nome do responsável de estágio da instituição")
     contato = models.CharField(max_length=50, verbose_name="Contato do responsável de estágio da instituição")
-    logo = models.ImageField(upload_to = 'estagio/media/logo_universidade/', null=True)
+    logo = models.ImageField(upload_to = 'estagio/media/logo_universidade/', null=True, blank=True)
     dt_inicio_do_termo = models.DateField(null=True, blank=True)
     dt_vencimento_do_termo = models.DateField(null=True, blank=True)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
