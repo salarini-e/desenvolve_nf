@@ -9,7 +9,11 @@ from django.dispatch import receiver
 #
 
 class Universidade(models.Model):    
-    nome = models.CharField(max_length=50, verbose_name="Nome universidade")
+    nome = models.CharField(max_length=100, verbose_name="Nome da instituição")
+    nome_responsavel = models.CharField(max_length=150, verbose_name="Nome do responsável de estágio da instituição")
+    contato = models.CharField(max_length=50, verbose_name="Contato do responsável de estágio da instituição")
+    logo = models.ImageField(upload_to = 'estagio/media/logo_universidade/', null=True)
+    dt_inicio_do_termo = models.DateField(null=True, blank=True)
     dt_vencimento_do_termo = models.DateField(null=True, blank=True)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     def __str__(self):
@@ -18,7 +22,7 @@ class Universidade(models.Model):
 class Responsavel_Universidade(models.Model):
     universidade = models.ForeignKey(Universidade, on_delete=models.CASCADE)
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
-    cargo = models.CharField(max_length=20, default='Responsável')
+    cargo = models.CharField(max_length=20, default='Cargo do Responsável')
     email_institucional = models.EmailField()
     telefone_institucional = models.CharField(max_length=15, verbose_name='Telefone', null=True)
 
@@ -26,7 +30,7 @@ class Responsavel_Universidade(models.Model):
          return '%s - %s' % (self.pessoa.nome, self.universidade.nome)
     
 class Curso(models.Model):
-    nome = models.CharField(max_length=50, verbose_name="Nome curso")
+    nome = models.CharField(max_length=50, verbose_name="Nome do curso")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     universidade = models.ForeignKey(Universidade, on_delete= models.CASCADE)
    
@@ -34,7 +38,8 @@ class Curso(models.Model):
          return '%s - %s' % (self.nome, self.universidade.nome)
     
 class Secretaria(models.Model):
-    nome = models.CharField(max_length=100, verbose_name="Nome secretaria")    
+    nome = models.CharField(max_length=100, verbose_name="Nome da secretaria")    
+    telefone = models.CharField(max_length=15, verbose_name='Telefone da secretaria', null=True)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     
     def __str__(self):
@@ -42,9 +47,12 @@ class Secretaria(models.Model):
 
 class Locais_de_Estagio(models.Model):
     secretaria =  models.ForeignKey(Secretaria, on_delete=models.CASCADE)
-    local = models.CharField(max_length=100, verbose_name="Nome secretaria")    
+    local = models.CharField(max_length=100, verbose_name="Nome do local")
+    bairro = models.CharField(max_length=100, verbose_name="Bairro")
+    telefone_responsavel = models.CharField(max_length=15, verbose_name='Telefone do responsável do local', null=True)
+    telefone_local = models.CharField(max_length=15, verbose_name='Telefone do local', null=True)    
     quantidade_maxima = models.IntegerField()
-    
+    cursos = models.ManyToManyField(Curso)
     def __str__(self):
         return '%s - %s' % (self.local, self.local)
 
