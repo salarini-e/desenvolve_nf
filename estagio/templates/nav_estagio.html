@@ -15,6 +15,12 @@
             <div id="s-vagas" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Vagas de <br>estágio</p>
           </div>
+        </a> 
+        <a href="{% url 'estagio:listar_instituicoes' %}" class="">
+          <div class="d-flex flex-column align-items-center">
+            <div id="s-instituicao" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Instituições<br>conveniadas</p>
+          </div>
         </a>  
 
           <!-- <a href="{% url 'cursos:curriculo_vitae' %}" class="">
@@ -63,6 +69,12 @@
       margin-right: 1rem !important;
       background-color: white !important;
       background-image: url(/static/images/icones/estagio_vagas.png);
+      background-size: contain;
+    }
+    #s-instituicao {
+      margin-right: 1rem !important;
+      background-color: white !important;
+      background-image: url(/static/images/icones/estagio_instituicao.png);
       background-size: contain;
     }
     #s-candidatos {

@@ -19,6 +19,16 @@ def vagas(request):
     }
     return render(request, 'estagio/vagas.html', context)
 
+def listar_instituicoes(request):
+    instituicoes = Universidade.objects.filter(ativa=True)
+    context = {
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'vagas': Vagas.objects.all(),
+        'instituicoes': instituicoes
+    }
+    return render(request, 'estagio/listar_instituicoes.html', context)
+
+
 @login_required
 def area_do_estudante(request):
     try:

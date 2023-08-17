@@ -16,6 +16,7 @@ class Universidade(models.Model):
     dt_inicio_do_termo = models.DateField(null=True, blank=True)
     dt_vencimento_do_termo = models.DateField(null=True, blank=True)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
+    ativa = models.BooleanField(default=True)
     def __str__(self):
          return '%s' % (self.nome)
 

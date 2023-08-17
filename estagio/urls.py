@@ -7,6 +7,7 @@ app_name = 'estagio'
 urlpatterns = [
     path('', views.index, name= 'index'),
     path('vagas/', views.vagas, name='vagas'),
+    path('instituicoes/', views.listar_instituicoes, name='listar_instituicoes'),
     path('area-do-estudante/', views.area_do_estudante, name='area_do_estudante'),
     path('area-da-universidade/', views.area_da_universidade, name='area_da_universidade'),
     path('area-do-estudante/processo/156f165f1<id>4f654f', views.processo_da_vaga, name='processo_da_vaga'),
