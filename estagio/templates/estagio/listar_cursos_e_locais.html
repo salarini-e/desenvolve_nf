@@ -34,18 +34,31 @@
         </button>
       {% endfor %}
       </div>
-      <div class="col" >
+      <div class="col d-flex flex-column" >
         <b>Locais</b>
+        <div id="loading" class="w-100 h-100">
+            <div class="m-auto">
+                <div class="mx-auto mb-auto lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+            </div>
+        </div>
+        
         <div class="w-100 h-100 p-5 d-flex" id="exibir-locais">
         </div>
       </div>
     </div>
     <script>
         document.getElementById('s-instituicao').classList.add('s-nav-active');
-
+        document.getElementById('loading').style.display = 'none';
         // funcao usando API fetch que pega os locais na views getLocais
         function getLocais(id) {
+            const loadingElement = document.getElementById('loading');
             const csrfToken = getCsrfToken();
+            loadingElement.style.display = 'block';
             fetch('/estagio/getLocais/' + id + '/', {
                 method: "GET",
                 headers: {
@@ -60,6 +73,9 @@
             })
             .catch(error => {
                 console.error('Erro ao obter locais:', error);
+            })
+            .finally(() => {
+                 loadingElement.style.display = 'none'; // Esconde o elemento de carregamento quando a solicitação terminar
             });
         }
 
