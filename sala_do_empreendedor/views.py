@@ -165,6 +165,13 @@ def notaFiscal(request):
     }
     return render(request, 'sala_do_empreendedor/jaSouMei/notaFiscal.html', context)
 
+def relatorioMensal(request):
+    context = {
+         'titulo': 'Sala do Empreendedor',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/jaSouMei/relatorioMensal.html', context)
+
 def abertura_de_empresa(request):
     context = {
          'titulo': 'Sala do Empreendedor',
