@@ -117,6 +117,7 @@ def adm(request):
     }
     return render(request, 'estagio/adm.html', context)
 
+@login_required
 def listar_candidato(request):
     candidatos=Estudante_Vaga.objects.filter(status=0)
     context = {
@@ -127,6 +128,7 @@ def listar_candidato(request):
     }
     return render(request, 'estagio/listar_candidatos.html', context)
 
+@login_required
 def listar_estagiario(request):
     candidatos=Estudante_Vaga.objects.filter(status=1)
     context = {
@@ -343,6 +345,39 @@ def listar_secretaria(request):
         'secretarias':Secretaria.objects.all(),
     }
     return render(request, 'estagio/secretaria.html', context)
+
+def listar_vagas(request):
+    context = {
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'vagas': Vagas.objects.all(),
+        
+    }
+    return render(request, 'estagio/listar_vagas.html', context)
+
+def cadastrar_vagas(request):
+    forms = Cadatrar_Vaga_form()
+    if request.method == 'POST':
+        forms = Cadatrar_Vaga_form(request.POST, request.FILES)
+        if forms.is_valid():
+            forms.save()
+            return redirect('estagio:listar_vagas')
+    context = {
+        'forms':forms
+    }
+    return render(request, 'estagio/cadastrar_vagas.html', context)
+
+def editar_vagas(request, id):
+    instance = Vagas.objects.get(id=id)
+    forms = Editar_Vaga_form(instance=instance)
+    if request.method == 'POST':
+        forms = Editar_Vaga_form(request.POST, request.FILES, instance=instance)
+        if forms.is_valid():
+            forms.save()
+            return redirect('estagio:listar_vagas')
+    context = {
+        'forms':forms
+    }
+    return render(request, 'estagio/editar_vagas.html', context)
 
 def listar_secretaria_locais(request, id):
     context = {

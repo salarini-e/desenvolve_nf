@@ -25,25 +25,29 @@
   
       <div class="row">
           <div class="col pb-5 filtros d-flex justify-content-between flex-wrap">
-              <a href="{% url 'estagio:candidato' %}" class="btn btn-primary border d-flex flex-column">
+              <a href="{% url 'estagio:candidato' %}" class="btn mb-3 btn-primary border d-flex flex-column">
                 <img src="/static/images/icones/estagio_candidatos.png" class="mx-auto" style="width: 100px;" alt="">
                 <span class="mt-2">Candidatos</span>
               </a>
-              <a href="{% url 'estagio:estagiario' %}" class="btn btn-primary border d-flex flex-column">
+              <a href="{% url 'estagio:estagiario' %}" class="btn mb-3 btn-primary border d-flex flex-column">
                 <img src="/static/images/icones/estagio_estagiarios.png" class="mx-auto" style="width: 100px;" alt="">
                 <span class="mt-2">Estagiarios</span>
               </a>
-              <a href="{% url 'estagio:listar_secretaria' %}" class="btn btn-primary border d-flex flex-column">
+              <a href="{% url 'estagio:listar_secretaria' %}" class="btn mb-3 btn-primary border d-flex flex-column">
                 <img src="/static/images/icones/estagio_secretaria.png" class="mx-auto" style="width: 100px;" alt="">
                 <span class="mt-2">Secretarias</span>
               </a>
-              <a href="{% url 'estagio:listar_universidade' %}" class="btn btn-primary border d-flex flex-column">
+              <a href="{% url 'estagio:listar_universidade' %}" class="btn mb-3 btn-primary border d-flex flex-column">
                 <img src="/static/images/icones/estagio_universidade.png" class="mx-auto" style="width: 100px;" alt="">
                 <span class="mt-2">Universidades</span>
               </a>
-              <a href="{% url 'estagio:listar_supervisor' %}" class="btn btn-primary border d-flex flex-column">
+              <a href="{% url 'estagio:listar_supervisor' %}" class="btn mb-3 btn-primary border d-flex flex-column">
                 <img src="/static/images/icones/estagio_supervisor.png" class="mx-auto" style="width: 100px;" alt="">
                 <span class="mt-2">Supervisores</span>
+              </a>
+              <a href="{% url 'estagio:listar_vagas' %}" class="btn mb-3 btn-primary border d-flex flex-column">
+                <img src="/static/images/icones/estagio_adm_vagas.png" class="mx-auto" style="width: 100px;" alt="">
+                <span class="mt-2">Vagas</span>
               </a>
               <style>
                   .filtros .btn-primary{

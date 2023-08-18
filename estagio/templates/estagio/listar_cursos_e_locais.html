@@ -38,7 +38,7 @@
         <b>Locais</b>
         <div id="loading" class="w-100 h-100">
             <div class="m-auto">
-                <div class="mx-auto mb-auto lds-ellipsis">
+                <div class="m-auto mb-auto lds-ellipsis">
                     <div></div>
                     <div></div>
                     <div></div>
@@ -58,7 +58,7 @@
         function getLocais(id) {
             const loadingElement = document.getElementById('loading');
             const csrfToken = getCsrfToken();
-            loadingElement.style.display = 'block';
+            loadingElement.style.display = 'flex';
             fetch('/estagio/getLocais/' + id + '/', {
                 method: "GET",
                 headers: {

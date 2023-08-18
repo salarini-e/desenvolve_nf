@@ -105,6 +105,11 @@ class Cadatrar_Vaga_form(ModelForm):
         model = Vagas
         exclude = []
 
+class Editar_Vaga_form(ModelForm):
+    class Meta:
+        model = Vagas
+        exclude = ['data_inclusao', 'curso']
+        
 class Supervisor_form(ModelForm):
     class Meta:
         model = Supervisor

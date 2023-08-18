@@ -33,4 +33,7 @@ urlpatterns = [
     path('secretaria/<id>/locais/', views.listar_secretaria_locais, name='listar_secretaria_locais'),
     path('secretaria/cadastrar_secretaria', views.cadastrar_secretaria, name='cadastrar_secretaria'),
     path('secretaria/<id>/cadastrar_local', views.cadastrar_local, name='cadastrar_local'),
+    path('adm/vagas/', views.listar_vagas, name='listar_vagas'),
+    path('adm/vagas/cadastrar', views.cadastrar_vagas, name='cadastrar_vagas'),
+    path('adm/vagas/<id>/editar', views.editar_vagas, name='editar_vagas'),
 ]
