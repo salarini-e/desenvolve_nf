@@ -53,7 +53,7 @@ class Locais_de_Estagio(models.Model):
     telefone_responsavel = models.CharField(max_length=15, verbose_name='Telefone do responsável do local', null=True)
     telefone_local = models.CharField(max_length=15, verbose_name='Telefone do local', null=True)    
     quantidade_maxima = models.IntegerField()
-    cursos = models.ManyToManyField(Curso)
+    # cursos = models.ManyToManyField(Curso)
     def __str__(self):
         return '%s - %s' % (self.local, self.local)
 
@@ -65,7 +65,7 @@ class Vagas(models.Model):
     img = models.ImageField(upload_to = 'estagio/media/banner_vagas/', null=True)
     img2 = models.ImageField(upload_to = 'estagio/media/banner_vagas/', null=True)
     secretaria = models.ManyToManyField(Secretaria)
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    curso = models.ManyToManyField(Curso)
     locais = models.ManyToManyField(Locais_de_Estagio)
     quantidade_maxima = models.IntegerField(blank=True, null=True)
 
@@ -104,6 +104,8 @@ class Estudante_Vaga(models.Model):
         ('1', 'Estagiando'),
         ('2', 'Estágio concluído')
     )
+    universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT, blank=True, null=True)
+    matricula = models.CharField(max_length=50, verbose_name= "Matricula", blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)        
     vaga = models.ForeignKey(Vagas, on_delete=models.RESTRICT)

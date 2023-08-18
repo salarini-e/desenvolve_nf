@@ -38,12 +38,21 @@ def listar_cursos_e_locais(request, id):
     }
     return render(request, 'estagio/listar_cursos_e_locais.html', context)
  
-def getLocais(request, id):    
+def getVagas(request, id):    
     #api locais
-    locais = Locais_de_Estagio.objects.filter(cursos__id=id)
+    vagas = Vagas.objects.filter(curso__id=id)
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
-        'locais': locais,
+        'vagas': vagas,
+    }
+    return render(request, 'estagio/getVagas.html', context)
+ 
+def getLocais(request, id):    
+    #api locais
+    vaga = Vagas.objects.get(curso__id=id)
+    context = {
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'vaga': vaga,
     }
     return render(request, 'estagio/getLocais.html', context)
 

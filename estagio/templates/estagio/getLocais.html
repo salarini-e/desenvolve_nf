@@ -12,11 +12,11 @@
             </th>
         </thead>
         <tbody>
-            {% for local in locais %}
+            {% for local in vaga.locais.all %}
         <tr>
             <td>{{local.secretaria}}</td>
             <td>{{local.local}}</td>
-            <td>{{local.bairro}}</td>
+            <td>{{local.bairro}} </td>
         </tr>
         {% empty %}
         <tr>
