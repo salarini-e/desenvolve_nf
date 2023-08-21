@@ -38,8 +38,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col d-flex flex-column">
                         {% bootstrap_form forms_vaga %}
+                        <small class="mx-auto mb-3 text-danger w-100 text-center" id="checkResponse"></small>
+
+                        <div class="mb-3">
+                        <label class="form-label" for="id_local_do_estagio_de_pretensao">Local de pretensão do estágio</label>
+                            <select name="local_do_estagio_de_pretensao" class="mb-3 form-select" title="" id="id_local_do_estagio_de_pretensao">
+                                <option value="" selected>---------</option> 
+                                {% for local in vaga.locais.all %}
+                                <option value="{{local.id}}">{{local.secretaria}} - {{local.local}}</option>   
+                                {% endfor %}                   
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -66,6 +77,65 @@
         border-radius: 10px !important;
     }
 </style>
+<script>
+    cursos=[
+        {% for curso in vaga.curso.all %}
+        
+            '{{curso.nome}}',
+        {% endfor %}
+    ]
+    curso_atual = '{{forms_estudante.curso.value}}'
+
+    function get_cursos(id){
+        const csrfToken = getCsrfToken();
+        fetch('/estagio/getCursos/'+id+'/',{
+            method: 'GET',
+            headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                }
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('id_curso').innerHTML = data;
+        })
+        .catch(error => {
+                console.error('Erro ao obter locais:', error);
+        })
+    }
+    function getCsrfToken() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            return csrfToken;
+        }
+    function checkVaga(selectElement){
+        var selectedIndex = selectElement.selectedIndex;
+        var selectedText = selectElement.options[selectedIndex].text;
+        console.log(selectedText)
+        console.log(cursos.includes(selectedText))
+        if(cursos.includes(selectedText)){
+            document.getElementById('checkResponse').innerHTML = '';
+            document.querySelector('button[type="submit"]').disabled = false;
+        }else{
+            document.getElementById('checkResponse').innerHTML = 'O seu curso não corresponde com o da vaga! Tente outro.';
+            document.querySelector('button[type="submit"]').disabled = true;
+        }
+    }
+    // quero que o campo universidade caso seja difretente de '---------' rode a funcao get_cursos
+    document.addEventListener('DOMContentLoaded', function() {
+        var universidadeSelect = document.getElementById('id_universidade'); // Substitua pelo ID correto do elemento
+        var selectedValue = universidadeSelect.value;
+        
+        if (selectedValue !== '---------' && selectedValue !== '') {
+            get_cursos(selectedValue);
+        }else{
+            document.getElementById('id_curso').innerHTML = '<option value="" selected>---------</option>';
+        }
+       
+    })
+
+ 
+
+</script>
 {% endblock %}
 {% block footer %}
 {% include 'instagram_desenvolve.html' %}

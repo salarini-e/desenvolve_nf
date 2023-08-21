@@ -90,10 +90,10 @@ class Vaga_Supervisor(models.Model):
 
 class Estudante(models.Model):
     pessoa = models.ForeignKey(Pessoa, related_name='aluno_pessoa', on_delete=models.PROTECT)
-    matricula = models.CharField(max_length=50, verbose_name= "Matricula")
+    matricula = models.CharField(max_length=50, verbose_name= "Sua matricula")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
-    universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT)
-    curso = models.ForeignKey(Curso, on_delete=models.RESTRICT, blank=True, null=True)
+    universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT, verbose_name='Sua universidade')
+    curso = models.ForeignKey(Curso, on_delete=models.RESTRICT, blank=True, null=True, verbose_name='Seu curso')
     
     def __str__(self):
         return self.pessoa.nome
@@ -105,7 +105,7 @@ class Estudante_Vaga(models.Model):
         ('2', 'Estágio concluído')
     )
     universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT, blank=True, null=True)
-    matricula = models.CharField(max_length=50, verbose_name= "Matricula", blank=True, null=True)
+    matricula = models.CharField(max_length=50, verbose_name= "Sua matricula", blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)        
     vaga = models.ForeignKey(Vagas, on_delete=models.RESTRICT)

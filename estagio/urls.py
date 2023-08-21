@@ -11,6 +11,7 @@ urlpatterns = [
     path('instituicoes/<id>/', views.listar_cursos_e_locais, name='listar_cursos_e_locais'),
     path('getLocais/<id>/', views.getLocais, name='get_locais'),
     path('getVagas/<id>/', views.getVagas, name='get_vagas'),
+    path('getCursos/<id>/', views.getCursos, name='get_cursos'),
     path('area-do-estudante/', views.area_do_estudante, name='area_do_estudante'),
     path('area-da-universidade/', views.area_da_universidade, name='area_da_universidade'),
     path('area-do-estudante/processo/156f165f1<id>4f654f', views.processo_da_vaga, name='processo_da_vaga'),

@@ -10,6 +10,8 @@ class Estudante_form(ModelForm):
         model = Estudante
         widgets = {
             'pessoa':forms.HiddenInput(),
+            'universidade': forms.Select(attrs={'class':'form-control', 'onchange':'get_cursos(this.value)'}),
+            'curso': forms.Select(attrs={'class':'form-control', 'onchange':'checkVaga(this)'}),
         }
         
         exclude = ['data_inclusao']
@@ -70,7 +72,7 @@ class Estudante_vaga_form(ModelForm):
             'vaga': forms.HiddenInput(),
             'status': forms.HiddenInput(),
         }
-        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor', 'local_do_estagio']   
+        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor', 'local_do_estagio', 'universidade', 'matricula', 'TCE', 'local_do_estagio_de_pretensao']   
 
     def is_valid(self, estudante):
         valid = super().is_valid()
@@ -93,12 +95,21 @@ class Estudante_vaga_form(ModelForm):
             self.add_error('vaga', "Você já se candidatou a essa vaga.")    
             return False
         else:
-            if estudante.curso == vaga.curso:
-                if valid:                    
-                    return True
-            else:
-                self.add_error('vaga', "O seu curso não corresponde com o da vaga! Tente outro.")        
-                return False
+            cursos = vaga.curso.all()
+            teste_valid = []
+            for curso in cursos:
+                if curso.nome == estudante.curso.nome:
+                    teste_valid.append(True)
+                else:
+                    teste_valid.append(False)
+                    
+            for teste in teste_valid:
+                if teste:
+                   return True
+                else:
+                    self.add_error('vaga', "Você não pode se candidatar a essa vaga pois seu curso não é compativel.")                    
+                    return False
+
                 
 class Cadatrar_Vaga_form(ModelForm):
     class Meta:
@@ -108,7 +119,7 @@ class Cadatrar_Vaga_form(ModelForm):
 class Editar_Vaga_form(ModelForm):
     class Meta:
         model = Vagas
-        exclude = ['data_inclusao', 'curso']
+        exclude = ['data_inclusao']
         
 class Supervisor_form(ModelForm):
     class Meta:

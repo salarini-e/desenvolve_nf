@@ -4,7 +4,7 @@ from .models import *
 from autenticacao.models import Pessoa
 from .forms import *
 from .api import ApiProtocolo
-
+from django.contrib import messages
 def index(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
@@ -149,6 +149,14 @@ def listar_estagiario(request):
     }
     return render(request, 'estagio/listar_estagiarios.html', context)
 
+def getCursos(request, id):
+    cursos = Curso.objects.filter(universidade__id=id)
+    print(cursos)
+    context = {
+        'cursos': cursos,
+    } 
+    return render(request, 'estagio/getCursos.html', context)
+
 @login_required
 def candidatar_se_vaga(request, id):
     pessoa = Pessoa.objects.get(user=request.user)
@@ -170,16 +178,19 @@ def candidatar_se_vaga(request, id):
             forms_estudante = Estudante_form(request.POST)
 
         forms_vaga = Estudante_vaga_form(request.POST)
-        
+        # print(request.POST)
         if forms_estudante.is_valid():
             estudante=forms_estudante.save()
             estudante.pessoa=pessoa
             estudante.save()
+            # print('curso:', estudante.curso)
             if  forms_vaga.is_valid(estudante):
                 estudante_vaga=forms_vaga.save(commit=False)
                 estudante_vaga.estudante=estudante
                 estudante_vaga.status='0'
                 estudante_vaga.vaga=vaga
+                estudante_vaga.universidade=estudante.universidade
+                estudante_vaga.matricula=estudante.matricula
                 estudante_vaga.save()
                 start_processo=Processo(estudante_vaga=estudante_vaga)
                 start_processo.save()
@@ -193,6 +204,8 @@ def candidatar_se_vaga(request, id):
                 #     'resumoEcm': 'Testando API 2'
                 # }
                 # api = ApiProtocolo.cadastrarProcesso(parametros)
+                messages.success(request, 'Candidatura realizada com sucesso!')
+                return redirect('estagio:area_do_estudante')
     context = {
         'forms_estudante': forms_estudante,
         'forms_vaga': forms_vaga,

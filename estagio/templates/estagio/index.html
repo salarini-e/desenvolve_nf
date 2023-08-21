@@ -5,47 +5,21 @@
 {% endblock %}
 {% block css %} {% endblock %}
 {% block main %}
-    
+<div class="row mx-auto ps-4 pb-5">
+    {% include 'slide_estagio.html' %}
+  </div>
     <div class="row border bg-white " style="border-radius: 30px;  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);">
         <div class="col py-4">
             <div class="row">
-                <div class="col pb-3 pt-4">
-                    <h1 class="text-center">SEJA BEM VINDO</h1>  
-                </div>
-            </div>
-            <div class="row">
-                <div class="col ps-5 pe-5 d-flex flex-column" style="border-top-left-radius: 30px; border-bottom-left-radius: 30px; ">
-        
+                <div class="col ps-5 pe-5 d-flex flex-column" style="border-top-left-radius: 30px; border-bottom-left-radius: 30px; ">        
                         <p class="mb-3">A Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior, é responsável pelo gerenciamento dos estágios no âmbito da administração pública municipal compreendendo o cadastramento de alunos, acompanhamento da oferta de vagas de estágio, supervisão, acompanhamento dos estágios e a distribuição dos estagiários através do <strong>Programa de Desenvolvimento de Estágio de Estudantes – PDEE</strong>.</p>                       
-                        <!-- <p class="">O Programa de Desenvolvimento de Estágio de Estudantes – PDEE da Secretaria Municipal de Ciência, Tecnologia, Inovação e Educação Profissionalizante e Superior, é responsável pelo gerenciamento dos estágios no âmbito da administração pública municipal compreendendo o cadastramento de alunos, acompanhamento da oferta de vagas de estágio, supervisão, acompanhamento dos estágios e a distribuição dos estagiários.</p> -->
-                        <!-- <strong class="mt-4">CONDIÇÕES PARA INSCRIÇÃO NOS ESTÁGIOS:</strong> -->
-                        <p class="mt-2 text-justify mb-5" style="text-indent: 40px;">A candidatura à vaga de estágio obrigatório, estágio previsto na grade curricular, é realizada por meio do preenchimento do formulário “Carta de Apresentação”. Este formulário somente poderá ser preenchido por um responsável da Instituição de Ensino que possuir convênio com o Município de Nova Friburgo. O seu preenchimento não garante a vaga, mas se faz parte indispensável para que o PDEE verifique a disponibilidade da mesma.</p>                               
+                        <p class="mt-2 text-justify" style="text-indent: 40px;">A candidatura à vaga de estágio obrigatório, estágio previsto na grade curricular, é realizada por meio do preenchimento do formulário “Carta de Apresentação”. Este formulário somente poderá ser preenchido por um responsável da Instituição de Ensino que possuir convênio com o Município de Nova Friburgo. O seu preenchimento não garante a vaga, mas se faz parte indispensável para que o PDEE verifique a disponibilidade da mesma.</p>                               
                 </div>
-                
             </div>
         </div>
     </div>    
-    <div class="row bg-white  border mt-5" style="border-radius: 30px;  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);">
-        <div class="col m-0 p-0 d-flex flex-column">            
-            <img src="/static/images/estagio.jpg" alt="" class="img-fluid" style="border-radius: 30px;">  
-        </div>
-        <div class="col pt-3 d-flex flex-column">
-            <p class="mt-auto px-4 text-justify">O estágio é um elo vital entre a educação e a carreira, moldando habilidades práticas e conhecimentos específicos. Ele fornece pontes entre teoria e aplicação, impulsionando profissionais a contribuir de forma eficaz para nossa sociedade em constante evolução.</p>
-            <p class="text-center mt-5"><b>Gerência do Programa de Desenvolvimentos de Estágios de Estudantes</b></p>
-            <div class="mt-2 d-flex flex-column text-center">
-                <span>gerenciaestagio@sme.novafriburgo.rj.gov.br</span>
-                <span>(22) 2525-9231</span>
-            </div>
-            
-            <button class="py-0 btn btn-outline-light m-auto d-flex flex-column text-dark">
-                <img class="mx-auto ps-2" src="https://cdn-icons-png.flaticon.com/512/4288/4288089.png" style="max-height: 50px;" alt="">
-                <span class="mx-auto">Vagas</span>
-            </button>   
-        </div>
-        
-    </div>
     <div class="row">
-        <div class="col px-5 pt-5 d-flex flex-column">
+        <div class="col px-5 pt-5 d-flex">
             {% for vaga in vagas %}
             <div class="item mx-auto mb-4">
               <div class="c-img" style="position: relative;">
@@ -57,6 +31,16 @@
               </div>
           </div>
           {% endfor %}
+        </div>
+        <div class="row bg-white  border mt-5" style="border-radius: 30px;  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);">
+            <div class="col pt-3 d-flex flex-column">
+                <p class="text-center mt-5"><b>Gerência do Programa de Desenvolvimentos de Estágios de Estudantes</b></p>
+                <div class="mt-2 mb-5 d-flex flex-column text-center">
+                    <span>gerenciaestagio@sme.novafriburgo.rj.gov.br</span>
+                    <span>(22) 2525-9231</span>
+                </div>
+                        </div>
+            
         </div>
     </div>
     <style>
