@@ -77,7 +77,10 @@ class Supervisor(models.Model):
     nome = models.CharField(max_length=200, verbose_name="Nome supervisor")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     secretaria = models.ForeignKey(Secretaria, on_delete= models.CASCADE)
-
+    n_vagas = models.IntegerField(verbose_name="Número de vagas")
+    email = models.EmailField(verbose_name="Email", null=True, blank=True)
+    celular =models.CharField(max_length=15, verbose_name="Celular", null=True, blank=True)
+    
     def __str__(self):
         return self.nome
 

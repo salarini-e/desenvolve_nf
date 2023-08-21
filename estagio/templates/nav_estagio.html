@@ -38,13 +38,13 @@
         <a href="{% url 'estagio:area_do_estudante' %}" class="">
           <div class="d-flex flex-column align-items-center">
             <div id="s-estudante" class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">Área do <br>estudante</p>
+            <p class="text-dark  text-center">Área do <br>estudante</p>
           </div>
         </a>
         <a href="{% url 'estagio:area_da_universidade' %}" class="">
           <div class="d-flex flex-column align-items-center">
             <div id="s-universidade" class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">Área da <br>universidade</p>
+            <p class="text-dark  text-center">Área da <br>universidade</p>
           </div>
         </a>
         {% if request.user.is_staff %}
