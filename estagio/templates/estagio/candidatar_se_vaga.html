@@ -122,6 +122,7 @@
     }
     // quero que o campo universidade caso seja difretente de '---------' rode a funcao get_cursos
     document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('s-vagas').classList.add('s-nav-active');
         var universidadeSelect = document.getElementById('id_universidade'); // Substitua pelo ID correto do elemento
         var selectedValue = universidadeSelect.value;
         
