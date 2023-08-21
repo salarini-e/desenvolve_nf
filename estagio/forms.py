@@ -64,6 +64,14 @@ class Historico_processo_estudante_forms(ModelForm):
         }
         exclude = []
 
+class Estudante_TCE_form(ModelForm):
+    class Meta:
+        model = Estudante_Vaga
+        widgets = {
+            'TCE': forms.FileInput(attrs={'class':'form-control'}),
+        }
+        exclude = ['estudante', 'vaga', 'status', 'data_inclusao', 'data_fim', 'data_inicio', 'supervisor', 'local_do_estagio', 'universidade', 'matricula', 'local_do_estagio_de_pretensao']
+        
 class Estudante_vaga_form(ModelForm):
     class Meta:
         model = Estudante_Vaga

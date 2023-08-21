@@ -9,12 +9,17 @@ urlpatterns = [
     path('vagas/', views.vagas, name='vagas'),
     path('instituicoes/', views.listar_instituicoes, name='listar_instituicoes'),
     path('instituicoes/<id>/', views.listar_cursos_e_locais, name='listar_cursos_e_locais'),
+    
     path('getLocais/<id>/', views.getLocais, name='get_locais'),
     path('getVagas/<id>/', views.getVagas, name='get_vagas'),
     path('getCursos/<id>/', views.getCursos, name='get_cursos'),
+    
     path('area-do-estudante/', views.area_do_estudante, name='area_do_estudante'),
     path('area-da-universidade/', views.area_da_universidade, name='area_da_universidade'),
     path('area-do-estudante/processo/156f165f1<id>4f654f', views.processo_da_vaga, name='processo_da_vaga'),
+    path('area-do-estudante/processo/156f165f1<id>4f654f/anexar-tce/', views.anexar_tce, name='anexar_tce'),
+    path('area-do-estudante/processo/156f165f1<id>4f654f/vizualiar-tce/', views.visualizar_tce, name='visualizar_tce'),
+    
     path('adm/', views.adm, name='adm'),
     path('vagas/cadastrar/', views.cadastro_vaga, name='cadastro_vaga'),
     path('vagas/<id>/canditar-se/', views.candidatar_se_vaga, name='candidatar_se_vaga'),

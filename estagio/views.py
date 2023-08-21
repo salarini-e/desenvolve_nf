@@ -5,6 +5,7 @@ from autenticacao.models import Pessoa
 from .forms import *
 from .api import ApiProtocolo
 from django.contrib import messages
+
 def index(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
@@ -95,17 +96,19 @@ def area_da_universidade(request):
     }
     return render(request, 'estagio/area_da_universidade.html', context)
 
+@login_required
 def processo_da_vaga(request, id):
     estudante_vaga=Estudante_Vaga.objects.get(id=id) 
     processo=Processo.objects.get(estudante_vaga=estudante_vaga.id)
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'processo': processo,
-        'historico': Historico_Processo.objects.filter(processo=processo).order_by('-id')
-
+        'historico': Historico_Processo.objects.filter(processo=processo).order_by('-id'),
+        'id': id,
     }
     return render(request, 'estagio/processo_da_vaga.html', context)
 
+@login_required
 def adm_processo_da_vaga(request, id):
     estudante_vaga=Estudante_Vaga.objects.get(id=id) 
     processo=Processo.objects.get(estudante_vaga=estudante_vaga.id)
@@ -119,6 +122,34 @@ def adm_processo_da_vaga(request, id):
     }
     return render(request, 'estagio/adm_processo_da_vaga.html', context)
 
+@login_required
+def anexar_tce(request, id):
+    estudante_vaga=Estudante_Vaga.objects.get(id=id)
+    if request.method == 'POST':
+        forms = Estudante_TCE_form(request.POST, request.FILES, instance=estudante_vaga)
+        if forms.is_valid():
+            forms.save()
+    context={
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'form': Estudante_TCE_form(instance=estudante_vaga),
+        'id': id,
+        'url': estudante_vaga.TCE.url if estudante_vaga.TCE else False
+        
+    }
+    return render(request, 'estagio/anexar_tce.html', context)
+
+@login_required
+def visualizar_tce(request, id):
+    estudante_vaga=Estudante_Vaga.objects.get(id=id)
+    context={
+        'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
+        'form': False,
+        'id': id,
+        'url': estudante_vaga.TCE.url if estudante_vaga.TCE else False
+        
+    }
+    return render(request, 'estagio/anexar_tce.html', context)
+    
 @login_required
 def adm(request):
     context = {

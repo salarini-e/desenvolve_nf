@@ -7,7 +7,8 @@
 {% block main %}
 
     <div class="d-flex flex-wrap">        
-      <h2 id="go">Área do Estudante - Processo nº {{processo.n_processo}}</h2>              
+      <h2 id="go">Área do Estudante - Processo nº {{processo.n_processo}}</h2> 
+      <a class="btn btn-secondary ms-auto my-auto" href="{% url 'estagio:area_do_estudante' %}">Voltar</a>             
     </div>
     <div class="row ">
       <div class="col pt-3 pb-4">
@@ -24,10 +25,23 @@
           <tr class="border-top">
             {% if forloop.first %}
             <td style="background-color: rgba(255, 210, 127, 0.356);"><i><strong>{{h.get_status_display}}</strong></i></td>
-            <td style="background-color: rgba(255, 210, 127, 0.356);"><i><strong>{{h.mensagem}}</strong></i></td>
+            <td class="d-flex" style="background-color: rgba(255, 210, 127, 0.356);">
+              <i><strong>{{h.mensagem}}</strong></i>
+                {% if h.status == '3' %}
+              <a href="{% url 'estagio:anexar_tce' id %}" class="ms-auto py-1 btn btn-success">
+                Anexar TCE
+              </a>
+              {% endif %}</td>
             {% else %}
             <td>{{h.get_status_display}}</td>
-            <td><i>{{h.mensagem}}</i></td>
+            <td class="d-flex">
+              <i>{{h.mensagem}}</i>
+              {% if h.status == '3' %}
+              <a href="{% url 'estagio:visualizar_tce' id %}" class="ms-auto py-1 btn btn-secondary">
+                Visualizar TCE
+              </a>
+              {% endif %}
+            </td>
             {% endif %}              
           </tr>             
           {% endfor %}

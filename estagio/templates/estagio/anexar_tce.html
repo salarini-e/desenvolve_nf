@@ -1,0 +1,44 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block nav %}
+{% include 'nav_estagio.html' %}
+{% endblock %}
+{% block css %} {% endblock %}
+{% block main %}
+    <div class="row">
+      <div class="col d-flex">
+        <h1>Área do Estudante - Anexar TCE</h1>
+        <a href="{% url 'estagio:processo_da_vaga' id %}" class="btn btn-secondary my-auto ms-auto">
+          Voltar
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col pb-5 d-flex">
+        <p class="text-secondary"><i>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae optio pariatur veritatis in. Earum assumenda eveniet sint blanditiis nobis!</i></p>
+      </div>
+    </div>
+    <div class="row">
+      {% if form %}
+      <div class="col-4 d-flex flex-wrap">
+      <form method="post" enctype="multipart/form-data">
+        {% bootstrap_form form %}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary ms-auto">Enviar</button>
+      </form>  
+      </div>
+      {% endif %}
+      <div class="col">
+        {% if url %}
+        <iframe style="width: 100% !important; height: 750px;" src="{{url}}" frameborder="0"></iframe>
+        {% endif %}
+      </div>
+    </div>
+    <script>
+      document.getElementById('s-instituicao').classList.add('s-nav-active');
+    </script>
+{% endblock %}
+{% block footer %}
+{% include 'instagram_desenvolve.html' %}
+{% endblock %}
