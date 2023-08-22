@@ -28,6 +28,7 @@ class Empresa(models.Model):
     nome=models.CharField(max_length=128, verbose_name='Nome da empresa')
     porte=models.ForeignKey(Porte_da_Empresa, on_delete=models.CASCADE, verbose_name='Porte da empresa')
     atividade=models.ManyToManyField(Atividade, verbose_name='Atividade (Segure CTRL para selecionar mais de uma)')
+    outra_atividade=models.CharField(max_length=64, verbose_name='Outra atividade', blank=True, null=True)
     ramo=models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Ramo de atuação (Segure CTRL para selecionar mais de um)')
     outro_ramo=models.CharField(max_length=64, verbose_name='Outro ramo', blank=True, null=True)
     receber_noticias=models.BooleanField(default=False, verbose_name='Deseja receber notificações sobre compras da prefeitura?')
