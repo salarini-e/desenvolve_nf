@@ -17,7 +17,7 @@ class Atividade(models.Model):
     __str__ = lambda self: self.atividade
     
 class Ramo_de_Atuacao(models.Model):
-    ramo=models.CharField(max_length=64, verbose_name='Ramo de atuação')
+    ramo=models.CharField(max_length=164, verbose_name='Ramo de atuação')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     
