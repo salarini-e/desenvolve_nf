@@ -28,6 +28,7 @@ urlpatterns = [
     path('quero-ser-mei/transportadorAutonomoDeCargas', views.transportadorAutonomoDeCargas, name='transportadorAutonomoDeCargas'),
     path('quero-ser-mei/direitosEObrigacoes', views.direitosEObrigacoes, name='direitosEObrigacoes'),
     path('quero-ser-mei/registrocadastur', views.registrocadastur, name="registrocadastur"),
+   
     path('ja-sou-mei', views.ja_sou_mei, name='ja_sou_mei'),
     path('ja-sou-mei/emissaoDeComprovante', views.emissaoDeComprovante, name="emissaoDeComprovante"),
     path('ja-sou-mei/atualizacaoCadastral', views.atualizacaoCadastral, name="atualizacaoCadastral"),
@@ -39,6 +40,9 @@ urlpatterns = [
     path('ja-sou-mei/certidoesEComprovantes', views.certidoesEComprovantes, name="certidoesEComprovantes"),
     path('ja-sou-mei/declaracaoAnualDeFaturamento', views.declaracaoAnualDeFaturamento, name="declaracaoAnualDeFaturamento"),
     path('ja-sou-mei/dispensaDeAlvara', views.dispensaDeAlvara, name="dispensaDeAlvara"),
+    
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
 
+    path('admin/', views.sala_do_empreendedor_admin, name='admin'),
+    path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores')
 ]
