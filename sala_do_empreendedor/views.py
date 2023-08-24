@@ -12,6 +12,12 @@ def index(request):
     }
     return render(request, 'sala_do_empreendedor/index.html', context)
 
+def conheca_nossa_sala(request):
+    context = { 
+        'titulo': 'Sala do Empreendedor',   
+    }
+    return render(request, 'sala_do_empreendedor/conheca-nossa-sala.html', context)
+
 def em_construcao(request):
     context = {
          'titulo': 'Sala do Empreendedor',
