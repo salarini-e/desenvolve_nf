@@ -17,7 +17,7 @@ class Atividade(models.Model):
     __str__ = lambda self: self.atividade
     
 class Ramo_de_Atuacao(models.Model):
-    ramo=models.CharField(max_length=64, verbose_name='Ramo de atuação')
+    ramo=models.CharField(max_length=164, verbose_name='Ramo de atuação')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     
@@ -27,8 +27,9 @@ class Empresa(models.Model):
     cnpj=models.CharField(max_length=18, verbose_name='CNPJ', unique=True)
     nome=models.CharField(max_length=128, verbose_name='Nome da empresa')
     porte=models.ForeignKey(Porte_da_Empresa, on_delete=models.CASCADE, verbose_name='Porte da empresa')
-    atividade=models.ManyToManyField(Atividade, verbose_name='Atividade')
-    ramo=models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Ramo de atuação')
+    atividade=models.ManyToManyField(Atividade, verbose_name='Atividade (Segure CTRL para selecionar mais de uma)')
+    outra_atividade=models.CharField(max_length=64, verbose_name='Outra atividade', blank=True, null=True)
+    ramo=models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Ramo de atuação (Segure CTRL para selecionar mais de um)')
     outro_ramo=models.CharField(max_length=64, verbose_name='Outro ramo', blank=True, null=True)
     receber_noticias=models.BooleanField(default=False, verbose_name='Deseja receber notificações sobre compras da prefeitura?')
     telefone=models.CharField(max_length=15, verbose_name='Telefone de contato', null=True, blank=True)

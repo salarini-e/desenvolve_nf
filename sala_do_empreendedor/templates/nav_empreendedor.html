@@ -45,9 +45,9 @@
           </div>
         </a>
         {% if request.user.is_staff %}
-        <a href="#" class="me-3">
+        <a href="{% url 'empreendedor:admin' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div id="os_funcionarios" class="s-nav rounded-circle"></div>
+            <div id="empreendedor_admin" class="s-nav rounded-circle"></div>
             <p class="text-dark">Admin</p>
           </div>
         </a> 

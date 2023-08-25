@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
+from .views_folder.admin import *
 
 # Create your views here.
 def index(request):
@@ -10,6 +11,12 @@ def index(request):
         # 'titulo': apps.get_app_config('financas').verbose_name,
     }
     return render(request, 'sala_do_empreendedor/index.html', context)
+
+def conheca_nossa_sala(request):
+    context = { 
+        'titulo': 'Sala do Empreendedor',   
+    }
+    return render(request, 'sala_do_empreendedor/conheca-nossa-sala.html', context)
 
 def em_construcao(request):
     context = {

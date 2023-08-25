@@ -4,7 +4,11 @@ from . import views
 app_name='empreendedor'
 urlpatterns = [
     path('', views.index, name='index'),
+    
     path('consultar-protocolo', views.consultar_protocolo, name='consultar_protocolo'),
+    
+    path('conheca-nossa-sala', views.conheca_nossa_sala, name='conheca_nossa_sala'),
+    
     path('minha-empresa', views.minha_empresa, name='minha_empresa'),
     path('minha-empresa/cadastrar', views.cadastrar_empresa, name='cadastrar_empresa'),
     path('minha-empresa/<id>/editar/', views.editar_empresa, name='editar_empresa'),
@@ -28,6 +32,7 @@ urlpatterns = [
     path('quero-ser-mei/transportadorAutonomoDeCargas', views.transportadorAutonomoDeCargas, name='transportadorAutonomoDeCargas'),
     path('quero-ser-mei/direitosEObrigacoes', views.direitosEObrigacoes, name='direitosEObrigacoes'),
     path('quero-ser-mei/registrocadastur', views.registrocadastur, name="registrocadastur"),
+   
     path('ja-sou-mei', views.ja_sou_mei, name='ja_sou_mei'),
     path('ja-sou-mei/emissaoDeComprovante', views.emissaoDeComprovante, name="emissaoDeComprovante"),
     path('ja-sou-mei/atualizacaoCadastral', views.atualizacaoCadastral, name="atualizacaoCadastral"),
@@ -39,6 +44,9 @@ urlpatterns = [
     path('ja-sou-mei/certidoesEComprovantes', views.certidoesEComprovantes, name="certidoesEComprovantes"),
     path('ja-sou-mei/declaracaoAnualDeFaturamento', views.declaracaoAnualDeFaturamento, name="declaracaoAnualDeFaturamento"),
     path('ja-sou-mei/dispensaDeAlvara', views.dispensaDeAlvara, name="dispensaDeAlvara"),
+    
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
 
+    path('admin/', views.sala_do_empreendedor_admin, name='admin'),
+    path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores')
 ]

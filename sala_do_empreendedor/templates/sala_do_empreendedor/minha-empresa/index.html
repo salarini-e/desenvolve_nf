@@ -8,45 +8,15 @@
 {% endblock %}
 {% block main %}
 <div class="container">
-    <!-- <div class="row pb-5">
-        <div class="col pb-3">
-            <img class="banner_img_destaque w-100 h-100" style="border-radius: 30px;" src="/static/images/banner_teste.png">
-        </div>
-    </div> -->
-    <div class="row">
-        <div class="d-flex flex-wrap justify-content-center">
-          
-          <div class="item border border d-flex flex-column mx-2 div_cursos">
-            <a href="{% url 'empreendedor:cadastrar_empresa' %}">
-              <div class="c-img" style="position: relative;">
-                <img class="banner-img" src="/static/images/icons_servicos/conheca.jpeg" >
-              </div>
-            </a> 
-          </div>
-          <div class="item border border d-flex flex-column mx-2 div_cursos">
-            <a target="_blank" href="https://servicoonline.novafriburgo.rj.gov.br/services/site_login.php">
-              <div class="c-img" style="position: relative;">
-                <img class="banner-img" src="/static/images/icons_servicos/debitos-e-taxas.jpeg" >
-              </div>
-            </a> 
-          </div>
-          <div class="item border border d-flex flex-column mx-2 div_cursos">
-            <a href="{% url 'empreendedor:quero_ser_mei' %}">
-              <div class="c-img" style="position: relative;">
-                <img class="banner-img" src="/static/images/icons_servicos/cadastro-fornecedor.jpeg" >
-              </div>
-            </a> 
-          </div>
-          <div class="item border border d-flex flex-column mx-2 div_cursos">
-            <a href="{% url 'empreendedor:quero_ser_mei' %}">
-              <div class="c-img" style="position: relative;">
-                <img class="banner-img" src="/static/images/icons_servicos/empreendedor.jpeg" >
-              </div>
-            </a>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col">
+      <h1>Minha empresa</h1>
+      <p class="text-secondary">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia, repellendus. 
+      </p>    
     </div>
-    <div class="row">
+  </div>
+    <div class="row mt-4">
       <div class="col">
         {% if messages %}
           {% for message in messages %}
@@ -114,6 +84,43 @@
         </div>
     </div>
     </div>
+</div>
+<div class="row mt-4">
+  <div class="col px-5">
+    <h3>Serviços</h3>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="d-flex flex-wrap px-5">
+    <div class="item border border d-flex flex-column mx-2 div_cursos">
+      <a href="{% url 'empreendedor:cadastrar_empresa' %}">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/sala_cadastrar_empresa.jpg" >
+        </div>
+      </a> 
+    </div>
+    <div class="item border border d-flex flex-column mx-2 div_cursos">
+      <a target="_blank" href="https://servicoonline.novafriburgo.rj.gov.br/services/site_login.php">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/debitos-e-taxas.jpeg" >
+        </div>
+      </a> 
+    </div>
+    <div class="item border border d-flex flex-column mx-2 div_cursos">
+      <a href="#">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/cadastro-fornecedor.jpeg" >
+        </div>
+      </a> 
+    </div>
+    <!-- <div class="item border border d-flex flex-column mx-2 div_cursos">
+      <a href="{% url 'empreendedor:quero_ser_mei' %}">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/empreendedor.jpeg" >
+        </div>
+      </a> -->
+  </div>
+</div>
 </div>
 <div class="row mx-auto px-5">
   <script>
