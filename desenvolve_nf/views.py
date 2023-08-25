@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from .models import Carousel_Index
-from .models import ClimaTempo
+from .models import Carousel_Index, ClimaTempo
 from .functions import ClimaTempoTemperaturas
 
 

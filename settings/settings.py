@@ -21,6 +21,7 @@ db_name = env_vars['db_name']
 db_user = env_vars['db_user']
 db_host = env_vars['db_host']
 db_passwd = env_vars['db_pw']
+db_port = env_vars['db_port']
 SECRET_KEY = env_vars['django_secret_key']
 debug_mode = env_vars['debug_mode']
 email_user = env_vars['email_sistema']
@@ -128,7 +129,7 @@ else:
                 'ENGINE': 'django.db.backends.mysql',
 
                 'NAME': db_name,
-                'PORT': '',
+                'PORT': db_port,
 
                 'USER': db_user,
                 'PASSWORD': db_passwd,

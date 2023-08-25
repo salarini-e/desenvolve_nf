@@ -34,13 +34,13 @@ header{
   margin-top: auto;
   margin-bottom: auto;
   font-size: 30pt;
-  
+
 }
 .logo-nf .logo-1{
   height: 64px;
   margin-right: 10px;
 } 
-.logo-nf .barrinha{   
+.logo-nf span{   
   font-weight: 200;
 }
 .logo-nf .logo-2{
@@ -702,7 +702,7 @@ h1, h2, h3, h4{
   .logo-1{
     display:none;
   }
-  .barrinha{
+  .logo-nf span{
     display: none;
   }
   .logo-2{
@@ -769,7 +769,7 @@ h1, h2, h3, h4{
   .logo-1{
     display:none !important;
   }
-  .barrinha{
+  .logo-nf span{
     display: none !important;
   }
   .logo-2{

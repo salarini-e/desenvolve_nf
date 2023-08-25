@@ -14,6 +14,4 @@ urlpatterns = [
 
     path('cadastro/', views.cadastro_user, name='cadastrar_usuario'),
     path('cadastro_aluno/', views.cadastro_aluno, name='cadastrar_aluno'),
-
-
 ]
