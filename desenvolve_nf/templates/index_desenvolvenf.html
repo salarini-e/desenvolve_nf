@@ -50,11 +50,22 @@
         </div>
         <div class="my-auto mx-auto">
           <ul class="nav-a">
-            <li><a href="{% url 'cursos:home' %}" alt="Redirecionamento para Capacitação Profissional">Capacitação Profissional</a></li>
-            <li><a href="{% url 'cidade_inteligente' %}" alt="Redirecionamento para Cidade Inteligente">Cidade Inteligente</a></li>              
-            <li><a href="{% url 'estagio:index' %}" alt="Redirecionamento para Estágios">Estágios</a></li>
-            <li><a href="{% url 'empreendedor:index' %}" alt="Redirecionamento para Sala do Empreendedor">Sala do Empreendedor</a></li>
-            <li>
+            <li><a href="{% url 'cursos:home' %}" alt="Acesso à Capacitação Profissional">Capacitação Profissional</a></li>
+            <li><a href="{% url 'cidade_inteligente' %}" alt="Acesso à Cidade Inteligente">Cidade Inteligente</a></li>  
+            <li><a href="{% url 'estagio:index' %}" alt="Acesso aos Estágios">Estágios</a></li>
+            <li><a href="{% url 'empreendedor:index' %}" alt="Acesso à Sala do Empreendedor">Sala do Empreendedor</a></li>
+	    <!-- Dropdown teste sem utilizar bootstrap -->
+	    <li>
+		<div class="dropdown">
+			<button>Outros sistemas</button>
+			<div class="dropdown-content">
+				<ul>
+					<li><a href="{% url 'bemestaranimal:index' %}" alt="Acesso ao Bem Estar Animal"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+				<ul>
+			</div>
+		</div>
+	    </li>
+           <!-- <li>
               <div class="dropdown mx-2 ">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
                   Outros sistemas
@@ -69,12 +80,12 @@
                   <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
                 </ul> 
               </div>
-            </li>
+	   </li>-->
             <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a>
             </li>
           </ul>
         </div>
-        <!-- Navegação para mobile (Necessita de alterações)-->
+        <!-- Menu de navegação mobile (Necessita de alterações)-->
         <div class="my-auto mx-auto offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
           <ul class="nav-a offcanvas-body navMob">
             <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
@@ -167,6 +178,7 @@
           </div>
           {% endif %}
         </div>
+	<!-- Fim do menu de navegação mobile -->
       </div>
     </nav>
   </header>
