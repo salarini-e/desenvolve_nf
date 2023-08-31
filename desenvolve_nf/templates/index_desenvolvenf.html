@@ -37,6 +37,10 @@
   <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
   <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
   {% endblock %}
+  <!-- CUSTOM JS-->
+  {% block custom_js %}
+  <script src="{% static 'js/index_desenvolvenf.js' %}" defer></script>
+  {% endblock %}
 </head>
 
 <body class="container-fluid">
@@ -54,18 +58,24 @@
             <li><a href="{% url 'cidade_inteligente' %}" alt="Acesso à Cidade Inteligente">Cidade Inteligente</a></li>  
             <li><a href="{% url 'estagio:index' %}" alt="Acesso aos Estágios">Estágios</a></li>
             <li><a href="{% url 'empreendedor:index' %}" alt="Acesso à Sala do Empreendedor">Sala do Empreendedor</a></li>
-	    <!-- Dropdown teste sem utilizar bootstrap -->
-	    <li>
-		<div class="dropdown">
-			<button>Outros sistemas</button>
-			<div class="dropdown-content">
-				<ul>
-					<li><a href="{% url 'bemestaranimal:index' %}" alt="Acesso ao Bem Estar Animal"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
-				<ul>
-			</div>
-		</div>
-	    </li>
-           <!-- <li>
+	          <!-- Dropdown teste sem utilizar bootstrap -->
+	          <li>
+              <div class="dropDown">
+                <button>Outros sistemas</button>
+                <div class="dropDownContent">
+                  <h2>Sistemas</h2>
+                  <ul>
+                    <li><a class="dropDownItem" href="{% url 'bemestaranimal:index' %}" alt="Acesso ao Bem Estar Animal"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+                    <li><a class="dropDownItem" href="{% url 'financas:index' %}" alt="Acesso às Finanças"><i class="fa-solid fa-money-bill-wheat me-2"></i>Finanças</a></li>
+                    <li><a class="dropDownItem" href="https://casadotrabalhador.pmnf.rj.gov.br" alt="Acesso à Casa Do Trabalhador"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+                    <li><a class="dropDownItem" href="{% url 'iluminacao:os_index' %}" alt="Acesso ao Serviço de Iluminação"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                        
+                    <li><a class="dropDownItem" href="https://senhas.novafriburgo.rj.gov.br" alt="Acesso às Senhas da Secretária de Turismo"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+                    <li><a class="dropDownItem" href="https://culturanf.novafriburgo.rj.gov.br" alt="Acesso ao site da Secretária de Turismo"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
+                  <ul>
+                </div>
+              </div>
+	          </li>
+            <!--<li>
               <div class="dropdown mx-2 ">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
                   Outros sistemas
@@ -80,7 +90,7 @@
                   <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
                 </ul> 
               </div>
-	   </li>-->
+	          </li>-->
             <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a>
             </li>
           </ul>

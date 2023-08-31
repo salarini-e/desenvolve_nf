@@ -65,9 +65,8 @@ li a:hover{
 }
 .nav-a li a{
   display: inline-block;
-  word-wrap: break-word;
   text-align: center;
-  font-size: .8em;
+  font-size: .9em;
   font-weight: 400;
   margin: 0 .5em;
 }
@@ -472,24 +471,39 @@ footer a{
   flex: 0 0 100%;
   min-width: 0;
 }
-/* Dropdown */
-.nav-a .dropdown{
+/* Dropdown do .nav-a*/
+.nav-a .dropDown{
 	position: relative;
 	display: inline-block;
+  border-style: hidden;
 }
-.nav-a .dropdown .dropdown-content{
+.nav-a .dropDown button{
+  background-color: var(--main-color);
+  border-style: hidden;
+  color: #ffffff;
+  font-size: .9em;
+}
+.nav-a .dropDownContent ul{
+  display: flex;
+  flex-direction: column;
+  padding-left: 0px; /* Making Bootstrap get off my foot*/
+}
+.nav-a .dropDownContent li{
+  display: inline-block;
+}
+.nav-a .dropDownContent h2{
+  color: #000000;
+}
+.nav-a .dropDown .dropDownContent{
 	display: none;
 	position: absolute;
-	background-color: var(--main-color);
+  background-color: #ffffff;
 	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	padding: 12px 12px;
-	z-index: 1;
+  z-index: 1;
 }
-.dropdown:hover .dropdown-content{
-	display:block;
+.dropDownItem{
+  color: #000000;
 }
-
 
 /*.nav-a .dropdown .dropdown-menu{
   border-radius: 0;
