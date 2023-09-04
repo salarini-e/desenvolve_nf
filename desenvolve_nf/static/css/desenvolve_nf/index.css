@@ -1,4 +1,4 @@
-@import url('template_desenvolve_home_responsive.css');
+@import url('index_responsive.css');
 
 html, body{
   height: 100vh;  
@@ -66,7 +66,7 @@ li a:hover{
 .nav-a li a{
   display: inline-block;
   text-align: center;
-  font-size: .9em;
+  font-size: max(1vw,.9em);
   font-weight: 400;
   margin: 0 .5em;
 }
@@ -475,13 +475,16 @@ footer a{
 .nav-a .dropDown{
 	position: relative;
 	display: inline-block;
-  border-style: hidden;
 }
 .nav-a .dropDown button{
   background-color: var(--main-color);
-  border-style: hidden;
+  border: none;
   color: #ffffff;
   font-size: .9em;
+}
+.nav-a .dropDown.activate > button,
+.nav-a .dropDown button:hover{
+  color: rgb(228, 224, 224);
 }
 .nav-a .dropDownContent ul{
   display: flex;
@@ -492,17 +495,32 @@ footer a{
   display: inline-block;
 }
 .nav-a .dropDownContent h2{
-  color: #000000;
+  text-align: center;
+  font-size: 20px;
+  color: black;
 }
-.nav-a .dropDown .dropDownContent{
-	display: none;
-	position: absolute;
-  background-color: #ffffff;
+.nav-a .dropDownContent{
 	min-width: 160px;
+	position: absolute;
+  background-color: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,.2);
+  left: 0;
+  top: calc(100% + .5rem);
+  padding: .75rem;
+  opacity: 0;
+  pointer-events: none;
   z-index: 1;
+  transform: translateY(-10px);
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
-.dropDownItem{
-  color: #000000;
+.nav-a .dropDown.activate > button + .dropDownContent{
+  opacity: 1;
+  transform: translateX(0px);
+  pointer-events: auto;
+}
+.nav-a .dropDownItem{
+  color: black;
 }
 
 /*.nav-a .dropdown .dropdown-menu{

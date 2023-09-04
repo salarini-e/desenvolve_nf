@@ -30,7 +30,7 @@
   <!-- CUSTOM CSS -->
   {% block custom_css %}
   <!--<link rel="stylesheet" href={% static 'css/reset.css'%}>-->
-  <link rel="stylesheet" href="/static/css/template_desenvolve_home.css">
+  <link rel="stylesheet" href="{% static 'css/desenvolve_nf/index.css'%}">
   <link rel="stylesheet" href="/static/css/carousel_desenvolve.css">
   <link rel="stylesheet" href="/static/css/button_tremedera.css">
 
@@ -60,8 +60,8 @@
             <li><a href="{% url 'empreendedor:index' %}" alt="Acesso à Sala do Empreendedor">Sala do Empreendedor</a></li>
 	          <!-- Dropdown teste sem utilizar bootstrap -->
 	          <li>
-              <div class="dropDown">
-                <button>Outros sistemas</button>
+              <div class="dropDown" data-dropdown>
+                <button class="dropDownLink" data-dropdown-button>Outros sistemas</button>
                 <div class="dropDownContent">
                   <h2>Sistemas</h2>
                   <ul>
@@ -489,7 +489,7 @@
       </div>
     </section>
   </main>
-  {% include 'instagram_desenvolve.html' %}
+  {% include 'desenvolve_nf/instagram.html' %}
   <footer class="row f-principal" style="border-top: 1px solid rgb(184, 184, 184);">
     <div class="col">
       <div class="row  pt-5 pb-4 mobile-flex-column footer-sup text-light">

@@ -1,6 +1,6 @@
+#Importando bibliotecas padrões do Django.
 from django.db import models
 
-# Create your models here.
 class Tipo_Material(models.Model):
     nome=models.CharField('Tipo de Material', max_length=120)
     dt_inclusao=models.DateTimeField(auto_now_add=True, verbose_name='Dt. Inclusão')

@@ -1,14 +1,14 @@
+#Importações das estruturas padrões do Django.
 from django.shortcuts import render
+#Importações das estruturas das aplicações do projeto.
 from .models import Carousel_Index, ClimaTempo
 from .functions import ClimaTempoTemperaturas
 
-
-# Create your views here.
 def index(request):
     context = {
         'carousel': Carousel_Index.objects.filter(ativa=True)
     }
-    return render(request, 'index_desenvolvenf.html', context)
+    return render(request, 'desenvolve_nf/index.html', context)
 
 def getClimaTempo(request):
     #processos

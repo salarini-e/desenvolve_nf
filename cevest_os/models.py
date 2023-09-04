@@ -1,20 +1,20 @@
-from tabnanny import verbose
-from unittest.util import _MAX_LENGTH
+#Importações de estruturas padrões do Django.
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+#Importações de estruturas de terceiros.
+from tabnanny import verbose
+from unittest.util import _MAX_LENGTH
+import uuid
+#Importações de estruturas dos aplicativos do projeto.
 from cevest_almoxarifado.models import Material
 from autenticacao.models import Pessoa
 
-import uuid
-from django.utils import timezone
-
 class Bairro(models.Model):
     nome = models.CharField(max_length=150, verbose_name='Bairro')
-
-
+    
 class Logradouro(models.Model):
     nome = models.CharField(max_length=150, verbose_name='Logradouro')
-
 
 class Endereco(models.Model):
     referencia = models.CharField(
@@ -25,11 +25,10 @@ class Endereco(models.Model):
         Logradouro, verbose_name='Logradouro', on_delete=models.PROTECT)
 
 class CEVEST_Tipo_OS(models.Model):
-    
-    nome=models.CharField(max_length=100, verbose_name='Tipo de OS', blank=True)
-    sigla=models.CharField(max_length=10, verbose_name='Sigla', blank=True, null=True)
     def __str__(self):
         return self.nome
+    nome=models.CharField(max_length=100, verbose_name='Tipo de OS', blank=True)
+    sigla=models.CharField(max_length=10, verbose_name='Sigla', blank=True, null=True)
 
 class Funcionario_CEVEST_OS(models.Model):
     def __str__(self):
@@ -91,7 +90,6 @@ class CEVEST_OrdemDeServico(models.Model):
         return self.numero
     
     def finalizar_chamado(self):
-        
         if self.status == 'f':
             return "Chamado já foi finalizado."
             

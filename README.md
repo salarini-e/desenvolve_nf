@@ -22,12 +22,15 @@ Após a inicialização do ambiente(*venv*) com o nome desejado(*nomeDoAmbienteV
 **Windows**
 
 Usando PowerShell:
+
 `venv\Scripts\Activate.ps1`
 
 Usando o _prompt_ de comando:
+
 `venv\Scripts\activate.bat`
 
 **Distribuições GNU/Linux e MacOS**
+
 `source venv/bin/activate`
 
 Agora, basta inserir os pacotes cruciais para o sistema através do comando que deve ser utilizado dentro do diretório onde o ambient virtual se encontra:
@@ -89,17 +92,21 @@ FACEBOOK_DEVELOPER_SECRET_KEY: '494d231479ff65cb6307b3'
 Comece criando as tabelas do banco com o seguinte comando feito na linha de comando dentro da pasta do projeto:
 
 **Windows**
+
 `python manage.py migrate`
 
 **Distribuições GNU/Linux e MacOS**
+
 `python3 manage.py migrate`
 
 Para entrar dentro do *Django Admin*, é fundamental criar um super usuário usando o comando:
 
 **Windows**
+
 `python manage.py createsuperuser`
 
 **Distribuições GNU/Linux e MacOS**
+
 `python3 manage.py createsuperuser`
 
 No campo de usuário, deve-se informar o **e-mail**. As credenciais(e-mail e senha) serão utilizados para acessar o *Django Admin*.

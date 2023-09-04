@@ -1,11 +1,8 @@
+#Importações das estruturas padrões do Django.
 from django.db import models
 from django.contrib.auth.models import User
 
-
-# Create your models here.
-
 class Pessoa(models.Model):
-
     def __str__(self):
         return '%s - Email: %s' % (self.nome, self.email)
     

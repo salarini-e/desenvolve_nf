@@ -1,3 +1,9 @@
+/* Tamanhos dos dispositivos:
+320px - 480px: dispositivos móveis.
+481px - 768px: iPads, tablets.
+769px - 1024px: telas pequenas, laptops.
+1025px - 1200px: desktops e telas grandes.
+*/
 @media(min-width: 1368px){
     #empregados_destaque .s-avatar{
       width: 10vw !important;
@@ -78,11 +84,6 @@
     .wrapper-1 .item,
     .wrapper-2 .item{
       margin-left: 40px;
-    }
-}
-@media(max-width: 1200px){
-    .nav-a li a{
-      font-size: 1vw !important;
     }
 }
 @media(max-width: 1114px){
