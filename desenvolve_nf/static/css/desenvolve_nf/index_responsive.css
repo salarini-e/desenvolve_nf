@@ -4,7 +4,19 @@
 769px - 1024px: telas pequenas, laptops.
 1025px - 1200px: desktops e telas grandes.
 */
-@media(min-width: 1368px){
+/* Desktops e telas grandes */
+@media(min-width:1025px) and (max-width:1200px){
+
+}
+/* Telas pequenas e laptops*/
+@media(min-width:769px) and (max-width:1024px){
+
+}
+/* iPads e tablets*/
+@media(min-width:481px) and (max-width:768px){
+
+}
+/*@media(min-width: 1368px){
     #empregados_destaque .s-avatar{
       width: 10vw !important;
       height: 10vw !important;
@@ -192,9 +204,9 @@
 }
 @media (max-width: 600px)
 {
-    /* .navbar>.container-fluid{
+    .navbar>.container-fluid{
         flex-wrap: nowrap;
-    } */
+    }
     .navbar-toggler{
         margin: 30px auto;
     }
@@ -272,4 +284,4 @@
       width: 100px !important;
       height: 100px !important;
     }
-}
+}*/
