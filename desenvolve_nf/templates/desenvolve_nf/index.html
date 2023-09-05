@@ -31,6 +31,7 @@
   {% block custom_css %}
   <!--<link rel="stylesheet" href={% static 'css/reset.css'%}>-->
   <link rel="stylesheet" href="{% static 'css/desenvolve_nf/index.css'%}">
+  <link rel="stylesheet" href="{% static 'css/desenvolve_nf/index_responsive.css'%}">
   <link rel="stylesheet" href="/static/css/carousel_desenvolve.css">
   <link rel="stylesheet" href="/static/css/button_tremedera.css">
 
@@ -57,7 +58,7 @@
           <li><a href="{% url 'cidade_inteligente' %}" alt="Acesso à Cidade Inteligente">Cidade Inteligente</a></li>  
           <li><a href="{% url 'estagio:index' %}" alt="Acesso aos Estágios">Estágios</a></li>
           <li><a href="{% url 'empreendedor:index' %}" alt="Acesso à Sala do Empreendedor">Sala do Empreendedor</a></li>
-          <!-- Dropdown teste sem utilizar bootstrap -->
+          <!-- Dropdown sem utilizar bootstrap -->
           <li>
             <div class="dropDown" data-dropdown>
               <button class="dropDownLink" data-dropdown-button>Outros sistemas</button>
@@ -74,81 +75,71 @@
               </div>
             </div>
           </li>
-          <!--<li>
-            <div class="dropdown mx-2 ">
-              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
-                Outros sistemas
-              </a>
-              <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-                <li class="mt-1"><b>Sistemas:</b></li>
-                <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
-                <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
-                <li><a class="dropdown-item" href="{% url 'financas:index' %}"><i class="fa-solid fa-money-bill-wheat me-2"></i>Finanças</a></li>
-                <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                        
-                <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
-                <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-              </ul> 
-            </div>
-          </li>-->
-          <li class="menuMobile"><a href="#offcanvasExample" data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">&#9776;</a></li>
+          <!-- Fim do dropdown -->
+          <li>
+            <button class="menu-open" aria-label="abre menu">
+            <div class="menu-icon"><svg viewBox="0 0 20" width="20" height="20"><title>menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path></svg></div>
+            <div class="screen-reader-text">Menu</div>
+          </li>
         </ul>
       </div>
       <!-- Menu de navegação mobile (Necessita de alterações)-->
-      <div class="my-auto mx-auto offcanvas offcanvas-start" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <ul class="nav-a offcanvas-body navMob">
+      <!-- Offcanvas sem utilizar bootstrap-->
+      <div class="menu-wrapper">
+        <ul class="menu">
           <li><a href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
           <li><a href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>              
           <li><a href="{% url 'eventos:index' %}">Eventos</a></li>
           <li><a href="{% url 'financas:index' %}">Finanças</a></li>
-          <li><div class="dropdown">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
-              Outros sistemas
-            </a>                                  
-            <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
-              <li class="mt-1"><b>Sistemas:</b></li>
-              <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
-              <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
-              <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
-              <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
-              <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-            </ul>
-          </div></li>
-          <div class="nv-login ms-3 mt-2 my-auto">
-            {% if not request.user.is_authenticated %}
-            <a href="{% url 'autenticacao:login' %}" class="pe-2 btn btn-acesso btLogin" type="submit">
-              <i class="fa-solid fa-user-check me-2"></i>
-              Acessar</a>
-            {% else %}
+          <li>
             <div class="dropdown">
-              <button class="btn btn-acesso" type="button" id="dropdownMenuPerfil" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <i class="fa-solid fa-user-check me-2"></i>
-                {{ request.user.first_name }}
-              </button>
-              <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                {% if request.user.is_superuser %}
-                <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
-                {% endif %}
-                <li>
-                  <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
-                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
-                  </a>
-                </li>
+              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">Outros sistemas</a>
+              <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">
+                <li class="mt-1"><b>Sistemas:</b></li>
+                <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+                <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+                <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-person-military-pointing me-2"></i>Iluminação Pública</a></li>                                        
+                <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+                <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
               </ul>
             </div>
-            {% endif %}
-          </div>
+          </li>
         </ul>
+        <div class="nv-login ms-3 mt-2 my-auto">
+          {% if not request.user.is_authenticated %}
+          <a href="{% url 'autenticacao:login' %}" class="pe-2 btn btn-acesso btLogin" type="submit">
+            <i class="fa-solid fa-user-check me-2"></i>
+            Acessar</a>
+          {% else %}
+          <div class="dropdown">
+            <button class="btn btn-acesso" type="button" id="dropdownMenuPerfil" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fa-solid fa-user-check me-2"></i>
+              {{ request.user.first_name }}
+            </button>
+            <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+              {% if request.user.is_superuser %}
+              <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
+              {% endif %}
+              <li>
+                <a class="dropdown-item text-center py-2" href="{% url 'autenticacao:logout' %}">
+                  <i class="fa-solid fa-arrow-right-from-bracket me-2"></i></i> Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+          {% endif %}
+        </div>
         <div class="nv-social ms-auto d-flex">
           <div class="d-flex my-auto">
-            <div class="rounded-circle d-social d-flex mx-2"><a href="https://www.instagram.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i
-                  class="fa-brands fa-instagram"></i></a></div>
-            <div class="rounded-circle d-social d-flex"><a href="https://www.facebook.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i
-                  class="fa-brands fa-facebook-f"></i></a>
-            </div>
+            <div class="rounded-circle d-social d-flex mx-2"><a href="https://www.instagram.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i class="fa-brands fa-instagram"></i></a></div>
+            <div class="rounded-circle d-social d-flex"><a href="https://www.facebook.com/desenvolvenf/" class="a-social m-auto MobileSocial"><i class="fa-brands fa-facebook-f"></i></a></div>
           </div>
         </div>
+        <button class="menu-close" aria-label="fecha menu">x</button>
       </div>
+      <!-- Fim do offcanvas -->
+
       <div class="nv-social ms-auto d-flex navegacaoMobile">
         <div class="d-flex my-auto navegacaoMobile">
           <div class="rounded-circle d-social d-flex mx-2 navegacaoMobile"><a href="https://www.instagram.com/desenvolvenf/" class="a-social m-auto navegacaoMobile"><i
@@ -161,7 +152,6 @@
       <div class="nv-login ms-5 my-auto navegacaoMobile">
         {% if not request.user.is_authenticated %}
         <a href="{% url 'autenticacao:login' %}" class="pe-3 btn btn-acesso btLogin" type="submit">
-          <!-- <i class="fa-regular fa-user me-2"></i> -->
           <i class="fa-solid fa-user-check me-2"></i>
           Acessar</a>
         {% else %}

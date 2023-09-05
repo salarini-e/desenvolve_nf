@@ -1,21 +1,29 @@
-/* Tamanhos dos dispositivos:
-320px - 480px: dispositivos móveis.
-481px - 768px: iPads, tablets.
-769px - 1024px: telas pequenas, laptops.
-1025px - 1200px: desktops e telas grandes.
-*/
 /* Desktops e telas grandes */
 @media(min-width:1025px) and (max-width:1200px){
 
 }
 /* Telas pequenas e laptops*/
 @media(min-width:769px) and (max-width:1024px){
-
+  .nav-a{
+    display: none;
+  }
 }
 /* iPads e tablets*/
 @media(min-width:481px) and (max-width:768px){
-
+  .nav-a,
+  .logo-nf span,
+  .logo-nf .logo-1{
+    display:none;
+  }
 }
+/* Celulares */
+@media(min-width:320px) and (max-width:480px){
+  .nav-a,
+  .logo-nf span,
+  .logo-nf .logo-1{
+    display:none;
+  }
+} 
 /*@media(min-width: 1368px){
     #empregados_destaque .s-avatar{
       width: 10vw !important;

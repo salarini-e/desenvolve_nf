@@ -14,3 +14,12 @@ document.addEventListener("click", e=>{
         dropDown.classList.remove("activate");
     })
 });
+/* Definindo a lógica por trás do offcanvas do nav */
+document.querySelector(".menu-open").addEventListener("click", ()=>{
+    document.querySelector(".menu-wrapper").style.width = "240px";
+    document.querySelector("body").style.marginRight = "240px";
+});
+document.querySelector(".menu-close").addEventListener("click", ()=>{
+    document.querySelector(".menu-wrapper").style.width = "0";
+    document.querySelector("body").style.width = "0";
+});
