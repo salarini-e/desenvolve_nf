@@ -14,7 +14,7 @@ urlpatterns = [
     path('locais', views.adm_locais_listar, name="adm_locais_listar"),
     path('local/cadastrar', views.adm_locais_cadastrar, name="cadastrar_local"),
     path('local/<id>/editar', views.adm_locais_editar, name="adm_locais_editar"),
-    path('locai/<id>/excluir', views.adm_locais_excluir, name="adm_locais_excluir"),
+    path('locais/<id>/excluir', views.adm_locais_excluir, name="adm_locais_excluir"),
     # MISSING VISUALIZAR
 
     path('categorias', views.adm_categorias_listar, name="adm_categorias_listar"),

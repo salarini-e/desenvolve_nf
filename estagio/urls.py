@@ -6,9 +6,9 @@ from . import views
 app_name = 'estagio'
 urlpatterns = [
     path('', views.index, name= 'index'),
-    path('vagas/', views.vagas, name='vagas'),
-    path('instituicoes/', views.listar_instituicoes, name='listar_instituicoes'),
-    path('instituicoes/<id>/', views.listar_cursos_e_locais, name='listar_cursos_e_locais'),
+    # path('vagas/', views.vagas, name='vagas'),
+    path('vagas/', views.listar_instituicoes, name='vagas'),
+    path('vagas/<id>/', views.listar_cursos_e_locais, name='listar_cursos_e_locais'),
     
     path('getLocais/<id>/', views.getLocais, name='get_locais'),
     path('getVagas/<id>/', views.getVagas, name='get_vagas'),
@@ -22,7 +22,7 @@ urlpatterns = [
     
     path('adm/', views.adm, name='adm'),
     path('vagas/cadastrar/', views.cadastro_vaga, name='cadastro_vaga'),
-    path('vagas/<id>/canditar-se/', views.candidatar_se_vaga, name='candidatar_se_vaga'),
+    path('vagas/<id>/<id_curso>/canditar-se/', views.candidatar_se_vaga, name='candidatar_se_vaga'),
     path('candidato/', views.listar_candidato, name='candidato'),
     path('estagiario/', views.listar_estagiario, name='estagiario'),
     path('adm/processo/156f165f1<id>4f654f/', views.adm_processo_da_vaga, name='adm_processo_da_vaga'),
@@ -40,6 +40,8 @@ urlpatterns = [
     path('secretaria/<id>/locais/', views.listar_secretaria_locais, name='listar_secretaria_locais'),
     path('secretaria/cadastrar_secretaria', views.cadastrar_secretaria, name='cadastrar_secretaria'),
     path('secretaria/<id>/cadastrar_local', views.cadastrar_local, name='cadastrar_local'),
+    path('secretaria/<id>/locais/detalhes/<id_local>', views.locais_detalhes, name="listar_detalhes_do_local"),
+    path('secretaria/<id>/locais/detalhes/<id_local>/adicionar-ou-remover', views.locais_detalhes_adicionar_ou_remover, name="listar_detalhes_do_local_add_ou_rmv"),    
     path('adm/vagas/', views.listar_vagas, name='listar_vagas'),
     path('adm/vagas/cadastrar', views.cadastrar_vagas, name='cadastrar_vagas'),
     path('adm/vagas/<id>/editar', views.editar_vagas, name='editar_vagas'),

@@ -182,7 +182,6 @@ def adm_cursos_listar(request):
     }
     return render(request, 'app_cursos/cursos/adm_cursos_listar.html', context)
 
-
 @staff_member_required
 def adm_locais(request):
     return render(request, 'app_cursos/locais/adm_locais.html')

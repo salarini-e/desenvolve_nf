@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col d-flex">
         <h1>Instituições conveniadas</h1>
-        <a href="{% url 'estagio:listar_instituicoes' %}" class="btn btn-primary ms-auto my-auto"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a>
+        <a href="{% url 'estagio:vagas' %}" class="btn btn-primary ms-auto my-auto"><i class="fa-solid fa-backward-step me-2"></i>Voltar</a>
       </div>
     </div>
     <div class="row">
@@ -24,7 +24,7 @@
       <div class="col-3 d-flex flex-column flex-wrap">
         <b class="mb-3">Cursos</b>
         {% for curso in  cursos %}
-        <button onclick="getVagas({{curso.id}})" class="item me-auto mb-3 border">
+        <button onclick="getLocais({{curso.id}})" class="item me-auto mb-3 border">
   
           <div class="cursos-text mx-2 d-flex flex-column">
             {% if not instituicao.logo %}
@@ -34,7 +34,7 @@
         </button>
       {% endfor %}
       </div>
-      <div class="col-3 d-flex flex-column" >
+      <div class="col d-flex flex-column" >
         <b>Vagas</b>
         <div id="loading2" class="w-100 h-100">
             <div class="mx-auto">
@@ -48,7 +48,7 @@
         </div>
         <div id="exibir-vagas"></div>
       </div>
-      <div class="col d-flex flex-column" >
+      <!-- <div class="col d-flex flex-column" >
         <b>Locais</b>
         <div id="loading" class="w-100 h-100">
             <div class="mx-auto">
@@ -63,40 +63,41 @@
         
         <div class="w-100 h-100 d-flex" id="exibir-locais">
         </div>
-      </div>
+      </div> -->
     </div>
     <script>
-        document.getElementById('s-instituicao').classList.add('s-nav-active');
-        document.getElementById('loading').style.display = 'none';
+        document.getElementById('s-vagas').classList.add('s-nav-active');
+        // document.getElementById('loading').style.display = 'none';
         document.getElementById('loading2').style.display = 'none';
         // funcao usando API fetch que pega os locais na views getLocais
-        function getVagas(id) {
-            document.getElementById('exibir-locais').innerHTML = '';
-            const loadingElement = document.getElementById('loading2');
-            const csrfToken = getCsrfToken();
-            loadingElement.style.display = 'flex';
-            fetch('/estagio/getVagas/' + id + '/', {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrfToken
-                }
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Aqui insira o HTML na div exibir-locais
-                document.getElementById('exibir-vagas').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Erro ao obter vagas:', error);
-            })
-            .finally(() => {
-                 loadingElement.style.display = 'none'; // Esconde o elemento de carregamento quando a solicitação terminar
-            });
-        }
+        // function getVagas(id) {
+        //     document.getElementById('exibir-locais').innerHTML = '';
+        //     const loadingElement = document.getElementById('loading2');
+        //     const csrfToken = getCsrfToken();
+        //     loadingElement.style.display = 'flex';
+        //     fetch('/estagio/getVagas/' + id + '/', {
+        //         method: "GET",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             "X-CSRFToken": csrfToken
+        //         }
+        //     })
+        //     .then(response => response.text())
+        //     .then(data => {
+        //         // Aqui insira o HTML na div exibir-locais
+        //         document.getElementById('exibir-vagas').innerHTML = data;
+        //     })
+        //     .catch(error => {
+        //         console.error('Erro ao obter vagas:', error);
+        //     })
+        //     .finally(() => {
+        //          loadingElement.style.display = 'none'; // Esconde o elemento de carregamento quando a solicitação terminar
+        //     });
+        // }
 
         function getLocais(id) {
-            const loadingElement = document.getElementById('loading');
+            document.getElementById('exibir-vagas').innerHTML = '';
+            const loadingElement = document.getElementById('loading2');
             const csrfToken = getCsrfToken();
             loadingElement.style.display = 'flex';
             fetch('/estagio/getLocais/' + id + '/', {
@@ -109,7 +110,7 @@
             .then(response => response.text())
             .then(data => {
                 // Aqui insira o HTML na div exibir-locais
-                document.getElementById('exibir-locais').innerHTML = data;
+                document.getElementById('exibir-vagas').innerHTML = data;
             })
             .catch(error => {
                 console.error('Erro ao obter locais:', error);

@@ -7,8 +7,8 @@
 {% block css %} {% endblock %}
 {% block main %}
 <div class="d-flex flex-wrap">        
-    <h1 id="go">Vaga de estágio</h1>   
-    <a href="{% url 'estagio:vagas' %}" class="btn btn-secondary ms-auto my-auto">
+    <!-- <h1 id="go">Vaga de estágio</h1>    -->
+    <a href="{% url 'estagio:listar_cursos_e_locais' curso.id %}" class="btn btn-secondary ms-auto my-auto">
         Voltar
     </a>          
   </div>
@@ -19,17 +19,8 @@
                 </div>
                 {% endif %}
        <div class="row mb-5">
-        <div class="col pt-4 pe-5">
-            <h2 class="">{{vaga.nome}}</h2>
-            <div class="w-100 d-flex">
-                {% if vaga.img2 %}
-                <img style="border-radius: 30px;" class="img-fluid mx-auto" src="{{vaga.img2.url}}" alt="">
-                {% endif %}
-            </div>
-            <p style="text-indent: 40px;" class="text-secondary text-justify mt-4"><i>{{vaga.descricao}}</i></p>
-            
-        </div>
-        <div class="col-sm-4 pt-5 col-12 mx-auto">
+        <div class="col-6 mx-auto pt-4 pe-5">
+            <h2 class="">Formulário para solicitação de estágio</h2>                    
             <form method="POST">                
                 {% csrf_token %}
                 <div class="row">
@@ -41,16 +32,7 @@
                     <div class="col d-flex flex-column">
                         {% bootstrap_form forms_vaga %}
                         <small class="mx-auto mb-3 text-danger w-100 text-center" id="checkResponse"></small>
-
-                        <div class="mb-3">
-                        <label class="form-label" for="id_local_do_estagio_de_pretensao">Local de pretensão do estágio</label>
-                            <select name="local_do_estagio_de_pretensao" class="mb-3 form-select" title="" id="id_local_do_estagio_de_pretensao">
-                                <option value="" selected>---------</option> 
-                                {% for local in vaga.locais.all %}
-                                <option value="{{local.id}}">{{local.secretaria}} - {{local.local}}</option>   
-                                {% endfor %}                   
-                            </select>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -86,23 +68,6 @@
     ]
     curso_atual = '{{forms_estudante.curso.value}}'
 
-    function get_cursos(id){
-        const csrfToken = getCsrfToken();
-        fetch('/estagio/getCursos/'+id+'/',{
-            method: 'GET',
-            headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrfToken
-                }
-        })
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('id_curso').innerHTML = data;
-        })
-        .catch(error => {
-                console.error('Erro ao obter locais:', error);
-        })
-    }
     function getCsrfToken() {
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             return csrfToken;
@@ -121,18 +86,18 @@
         }
     }
     // quero que o campo universidade caso seja difretente de '---------' rode a funcao get_cursos
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('s-vagas').classList.add('s-nav-active');
-        var universidadeSelect = document.getElementById('id_universidade'); // Substitua pelo ID correto do elemento
-        var selectedValue = universidadeSelect.value;
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     document.getElementById('s-vagas').classList.add('s-nav-active');
+    //     var universidadeSelect = document.getElementById('id_universidade'); // Substitua pelo ID correto do elemento
+    //     var selectedValue = universidadeSelect.value;
         
-        if (selectedValue !== '---------' && selectedValue !== '') {
-            get_cursos(selectedValue);
-        }else{
-            document.getElementById('id_curso').innerHTML = '<option value="" selected>---------</option>';
-        }
+    //     if (selectedValue !== '---------' && selectedValue !== '') {
+    //         get_cursos(selectedValue);
+    //     }else{
+    //         document.getElementById('id_curso').innerHTML = '<option value="" selected>---------</option>';
+    //     }
        
-    })
+    // })
 
  
 

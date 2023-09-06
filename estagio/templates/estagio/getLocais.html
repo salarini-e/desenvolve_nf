@@ -10,18 +10,25 @@
             <th>
                 Bairro
             </th>
+            <th></th>
         </thead>
         <tbody>
-            {% for local in vaga.locais.all %}
+            {% for local in vaga %}
         <tr>
             <td>{{local.secretaria}}</td>
             <td>{{local.local}}</td>
             <td>{{local.bairro}} </td>
+            <td>
+                <a href="{% url 'estagio:candidatar_se_vaga' local.id id %}" class="btn btn-primary py-1">
+                    Candidatar-se
+                </a>
+            </td>
         </tr>
         {% empty %}
         <tr>
             <td colspan="3" class="text-center">Não há locais no momento.</td>
         </tr>
+        
         {% endfor %}
         </tbody>
     </table>

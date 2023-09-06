@@ -39,7 +39,32 @@ def listar_cursos_e_locais(request, id):
         'cursos': cursos,
     }
     return render(request, 'estagio/listar_cursos_e_locais.html', context)
- 
+
+@staff_member_required
+def locais_detalhes(request, id, id_local):
+    local=Locais_de_Estagio.objects.get(id=id_local)
+    context = {
+        'local': local,
+        'id': id
+    }
+    return render(request, 'estagio/secretaria_locais_detalhes.html', context)
+
+@staff_member_required
+def locais_detalhes_adicionar_ou_remover(request, id, id_local):
+    local=Locais_de_Estagio.objects.get(id=id_local)
+    if request.method == 'POST':
+        form=Form_locais_adicionar_ou_remover_cursos(request.POST, instance=local)
+        if form.is_valid():
+            form.save()
+            return redirect('estagio:listar_detalhes_do_local', id, id_local)    
+    form=Form_locais_adicionar_ou_remover_cursos(instance=local)
+    context = {
+        'local': local,
+        'id': id,
+        'form': form
+    }
+    return render(request, 'estagio/secretaria_locais_detalhes_adicionar_ou_remover.html', context)
+    
 def getVagas(request, id):    
     #api locais
     vagas = Vagas.objects.filter(curso__id=id)
@@ -51,10 +76,13 @@ def getVagas(request, id):
  
 def getLocais(request, id):    
     #api locais
-    vaga = Vagas.objects.get(curso__id=id)
+    print(id)
+    vaga = Locais_de_Estagio.objects.filter(cursos__id=id)
+    print(vaga)
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'vaga': vaga,
+        'id': id
     }
     return render(request, 'estagio/getLocais.html', context)
 
@@ -190,18 +218,18 @@ def getCursos(request, id):
     return render(request, 'estagio/getCursos.html', context)
 
 @login_required
-def candidatar_se_vaga(request, id):
+def candidatar_se_vaga(request, id, id_curso):
     pessoa = Pessoa.objects.get(user=request.user)
-    
+    curso = Curso.objects.get(id=id_curso)
     try:
         instance=Estudante.objects.get(pessoa=pessoa)
         forms_estudante = Estudante_form(instance=instance, initial={'universidade': instance.universidade.id, 'curso': instance.curso.id})
     except:
         instance=False
-        forms_estudante = Estudante_form(initial={'pessoa': pessoa.id})
+        forms_estudante = Estudante_form(initial={'pessoa': pessoa.id, 'universidade': curso.universidade.id, 'curso': curso.id})
 
-    vaga =  Vagas.objects.get(id=id)
-    forms_vaga = Estudante_vaga_form(initial={'status': 0, 'vaga': id})
+    local =  Locais_de_Estagio.objects.get(id=id)
+    forms_vaga = Estudante_vaga_form(initial={'status': 0, 'local_do_estagio_de_pretensao': id})
 
     if request.method == 'POST':
         if instance:
@@ -220,7 +248,7 @@ def candidatar_se_vaga(request, id):
                 estudante_vaga=forms_vaga.save(commit=False)
                 estudante_vaga.estudante=estudante
                 estudante_vaga.status='0'
-                estudante_vaga.vaga=vaga
+                # estudante_vaga.vaga=vaga
                 estudante_vaga.universidade=estudante.universidade
                 estudante_vaga.matricula=estudante.matricula
                 estudante_vaga.save()
@@ -241,7 +269,8 @@ def candidatar_se_vaga(request, id):
     context = {
         'forms_estudante': forms_estudante,
         'forms_vaga': forms_vaga,
-        'vaga': vaga
+        'local': local,
+        'curso': curso
     }
     return render(request, 'estagio/candidatar_se_vaga.html', context)
 

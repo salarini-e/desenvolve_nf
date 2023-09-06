@@ -80,11 +80,12 @@ class Estudante_vaga_form(ModelForm):
             'vaga': forms.HiddenInput(),
             'status': forms.HiddenInput(),
         }
-        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor', 'local_do_estagio', 'universidade', 'matricula', 'TCE', 'local_do_estagio_de_pretensao']   
+        exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor', 'local_do_estagio', 'universidade', 'matricula', 'TCE']   
 
     def is_valid(self, estudante):
         valid = super().is_valid()
-        vaga=Vagas.objects.get(nome=self.cleaned_data['vaga'])
+        print(self.cleaned_data['local_do_estagio_de_pretensao'])
+        local=Locais_de_Estagio.objects.get(id=self.cleaned_data['local_do_estagio_de_pretensao'].id)
         try:
             tem_estagio=Estudante_Vaga.objects.get(estudante=estudante, status='1')
         except:
@@ -95,7 +96,7 @@ class Estudante_vaga_form(ModelForm):
             return False
         
         try:
-            jaehcandidato=Estudante_Vaga.objects.get(estudante=estudante, vaga=vaga, status='0')
+            jaehcandidato=Estudante_Vaga.objects.get(estudante=estudante, local_do_estagio_de_pretensao=local, status='0')
         except:
             jaehcandidato=False
         
@@ -103,7 +104,7 @@ class Estudante_vaga_form(ModelForm):
             self.add_error('vaga', "Você já se candidatou a essa vaga.")    
             return False
         else:
-            cursos = vaga.curso.all()
+            cursos = local.cursos.all()
             teste_valid = []
             for curso in cursos:
                 if curso.nome == estudante.curso.nome:
@@ -166,3 +167,13 @@ class Editar_Supervisor_forms(ModelForm):
         }
         
         exclude = ['data_inclusao', 'pessoa']
+        
+class Form_locais_adicionar_ou_remover_cursos(ModelForm):
+    
+        class Meta:
+            model = Locais_de_Estagio
+            widgets = {
+                'cursos': forms.CheckboxSelectMultiple(),
+            }            
+            exclude = ['data_inclusao', 'secretaria', 'local', 'bairro', 'telefone_responsavel', 'telefone_local', 'quantidade_maxima']
+    
