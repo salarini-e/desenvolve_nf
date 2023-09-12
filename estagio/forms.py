@@ -77,14 +77,14 @@ class Estudante_vaga_form(ModelForm):
         model = Estudante_Vaga
         widgets = {
             'estudante':forms.HiddenInput(),
-            'vaga': forms.HiddenInput(),
+            # 'vaga': forms.HiddenInput(),
             'status': forms.HiddenInput(),
         }
         exclude = ['data_inclusao', 'data_fim', 'data_inicio', 'supervisor', 'local_do_estagio', 'universidade', 'matricula', 'TCE']   
 
     def is_valid(self, estudante):
         valid = super().is_valid()
-        print(self.cleaned_data['local_do_estagio_de_pretensao'])
+        # print(self.cleaned_data['local_do_estagio_de_pretensao'])
         local=Locais_de_Estagio.objects.get(id=self.cleaned_data['local_do_estagio_de_pretensao'].id)
         try:
             tem_estagio=Estudante_Vaga.objects.get(estudante=estudante, status='1')
@@ -92,7 +92,7 @@ class Estudante_vaga_form(ModelForm):
             tem_estagio=False
 
         if tem_estagio:
-            self.add_error('vaga', "Você já está estagiando! É necessario concluir o estagio para se candidatar novamente.")    
+            self.add_error('local_do_estagio_de_pretensao', "Você já está estagiando! É necessario concluir o estagio para se candidatar novamente.")    
             return False
         
         try:
@@ -101,7 +101,7 @@ class Estudante_vaga_form(ModelForm):
             jaehcandidato=False
         
         if jaehcandidato:
-            self.add_error('vaga', "Você já se candidatou a essa vaga.")    
+            self.add_error('local_do_estagio_de_pretensao', "Você já se candidatou a essa vaga.")    
             return False
         else:
             cursos = local.cursos.all()
@@ -116,7 +116,7 @@ class Estudante_vaga_form(ModelForm):
                 if teste:
                    return True
                 else:
-                    self.add_error('vaga', "Você não pode se candidatar a essa vaga pois seu curso não é compativel.")                    
+                    self.add_error('local_do_estagio_de_pretensao', "Você não pode se candidatar a essa vaga pois seu curso não é compativel.")                    
                     return False
 
                 

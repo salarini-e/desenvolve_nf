@@ -300,6 +300,7 @@ def editar_estudante_processo(request, id):
         forms=Historico_processo_estudante_forms(request.POST)
         if forms.is_valid():
             forms.save()
+            return redirect('estagio:editar_candidato_processo', id)
 
             
     context = {
