@@ -5,7 +5,7 @@ from .models import *
 class FormEmpresa(ModelForm):
     class Meta:
         model = Empresa
-        fields = [ 'cnpj', 'nome', 'porte', 'atividade','ramo', 'outro_ramo','telefone', 'whatsapp', 'email', 'descricao',  'receber_noticias']
+        fields = [ 'cnpj', 'nome', 'porte', 'atividade','ramo', 'outro_ramo','telefone', 'whatsapp', 'email', 'site', 'descricao',  'receber_noticias']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da Empresa'}),
             'cnpj': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CNPJ', 'onkeydown':'mascara(this, icnpj)'}),
@@ -17,7 +17,7 @@ class FormEmpresa(ModelForm):
 class FormAlterarEmpresa(ModelForm):
     class Meta:
         model = Empresa
-        fields = ['nome', 'porte', 'atividade','ramo', 'outro_ramo', 'telefone', 'whatsapp', 'email','descricao', 'receber_noticias']
+        fields = ['nome', 'porte', 'atividade','ramo', 'outro_ramo', 'telefone', 'whatsapp', 'email', 'site', 'descricao', 'receber_noticias']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da Empresa'}),
             'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'onkeydown':'mascara(this, itel)'}),

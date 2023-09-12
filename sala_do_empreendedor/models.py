@@ -35,6 +35,7 @@ class Empresa(models.Model):
     telefone=models.CharField(max_length=15, verbose_name='Telefone de contato', null=True, blank=True)
     whatsapp=models.CharField(max_length=15, verbose_name='Whatsapp da empresa', null=True, blank=True)
     email=models.EmailField(verbose_name='E-mail da empresa', null=True, blank=True)
+    site=models.URLField(verbose_name='Site da empresa', null=True, blank=True)
     descricao = models.TextField(null=True, blank=True, verbose_name='Descrição da empresa')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
