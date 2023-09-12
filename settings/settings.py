@@ -20,6 +20,7 @@ env_vars = envvars.load_envars(BASE_DIR)
 db_name = env_vars['db_name']
 db_user = env_vars['db_user']
 db_host = env_vars['db_host']
+db_port = env_vars['db_port']
 db_passwd = env_vars['db_pw']
 SECRET_KEY = env_vars['django_secret_key']
 debug_mode = env_vars['debug_mode']
