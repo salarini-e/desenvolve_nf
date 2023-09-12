@@ -10,7 +10,7 @@ from django.contrib import messages
 def index(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
-        'vagas': Locais_de_Estagio.objects.all()[:8]
+        # 'vagas': Locais_de_Estagio.objects.all()[:8]
     }
     return render(request, 'estagio/index.html', context)
 
