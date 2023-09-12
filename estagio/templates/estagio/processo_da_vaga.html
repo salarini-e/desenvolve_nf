@@ -25,7 +25,7 @@
           <tr class="border-top">
             {% if forloop.first %}
             <td style="background-color: rgba(255, 210, 127, 0.356);"><i><strong>{{h.get_status_display}}</strong></i></td>
-            <td class="d-flex" style="background-color: rgba(255, 210, 127, 0.356);">
+            <td class="d-flex h-100" style="background-color: rgba(255, 210, 127, 0.356);">
               <i><strong>{{h.mensagem}}</strong></i>
                 {% if h.status == '3' %}
               <a href="{% url 'estagio:anexar_tce' id %}" class="ms-auto py-1 btn btn-success">
