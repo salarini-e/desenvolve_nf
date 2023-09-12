@@ -51,11 +51,26 @@ def faccao_legal(request):
     return render(request, 'sala_do_empreendedor/em-construcao.html', context)
 
 def vitrine_virtual(request):
+    registros=Registro_no_vitrine_virtual.objects.all().order_by('?')
+    empresa_e_produtos=[]
+    for registro in registros:
+        produtos=Produto.objects.filter(rg_vitrine=registro)
+        print(produtos)
+        if registro.logo:
+            empresa_e_produtos.append({"empresa": registro.empresa, "logo": str(registro.logo.url), "produtos": produtos})
+        else:
+            empresa_e_produtos.append({"empresa": registro.empresa, "logo": None, "produtos": produtos})
+            
+    paginator = Paginator(empresa_e_produtos, 10) 
+    page = request.GET.get('page')
+    registros_paginated = paginator.get_page(page)
+
     context = {
         'titulo': 'Sala do Empreendedor',
         'titulo_pag': 'Vitrine Virtual',
+        'registros': registros_paginated,
     }
-    return render(request, 'sala_do_empreendedor/em-construcao.html', context)
+    return render(request, 'sala_do_empreendedor/vitrine-virtual/vitrine.html', context)
 
 def quero_ser_mei(request):
     context = {

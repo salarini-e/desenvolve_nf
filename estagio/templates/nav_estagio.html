@@ -16,20 +16,6 @@
             <p class="text-dark text-center">Vagas de <br>estágio</p>
           </div>
         </a> 
-  
-
-          <!-- <a href="{% url 'cursos:curriculo_vitae' %}" class="">
-            <div class="d-flex flex-column align-items-center">
-              <div id="s-curriculo" class="s-nav rounded-circle"></div>
-              <p class="text-dark text-center">Currículo<br>Vitae</p>
-            </div>
-          </a>   -->
-        <!-- <a href="https://casadotrabalhador.pmnf.rj.gov.br/" class="">
-          <div class="d-flex flex-column align-items-center">
-            <div id="s-vaga" class="s-nav rounded-circle"></div>
-            <p class="text-dark text-center">Casa do<br />Trabalhador</p>
-          </div>
-        </a> -->
         <a href="{% url 'estagio:area_do_estudante' %}" class="">
           <div class="d-flex flex-column align-items-center">
             <div id="s-estudante" class="s-nav rounded-circle destaque"></div>
@@ -39,7 +25,7 @@
         <a href="{% url 'estagio:area_da_universidade' %}" class="">
           <div class="d-flex flex-column align-items-center">
             <div id="s-universidade" class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark  text-center">Área da <br>universidade</p>
+            <p class="text-dark  text-center">Área da <br>instituição</p>
           </div>
         </a>
         {% if request.user.is_staff %}
