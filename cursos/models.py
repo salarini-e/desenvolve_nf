@@ -390,7 +390,7 @@ class Aula(models.Model):
 
     # IDEIA => Materiais de apoio
     def __str__(self):
-        return f"Aula de {self.associacao_turma_turno.turma} em {self.dt_aula} das {self.horario_inicio} às {self.horario_fim}"
+        return f"Aula de {self.associacao_turma_turno.turma} em {self.dt_aula}"
 
 
 class Presenca(models.Model):
