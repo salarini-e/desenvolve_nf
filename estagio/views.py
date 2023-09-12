@@ -10,7 +10,7 @@ from django.contrib import messages
 def index(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
-        'vagas': Vagas.objects.all()[:8]
+        'vagas': Locais_de_Estagio.objects.all()[:8]
     }
     return render(request, 'estagio/index.html', context)
 
@@ -76,9 +76,8 @@ def getVagas(request, id):
  
 def getLocais(request, id):    
     #api locais
-    print(id)
     vaga = Locais_de_Estagio.objects.filter(cursos__id=id)
-    print(vaga)
+    # print(vaga)
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'vaga': vaga,
