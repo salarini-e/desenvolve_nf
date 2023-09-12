@@ -4,34 +4,17 @@
       <div class="col d-flex">
         <a href="/"  class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle {% block index %}{% endblock %}"></div>
+            <div id="cidade-home" class="s-nav rounded-circle {% block index %}{% endblock %}"></div>
             <p class="text-dark">Início</p>
           </div>
         </a>
         <a href="#" class="me-3">
           <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle"></div>
-            <p class="text-dark text-center">Cursos Livres</p>
+            <div id="cidade-vigilancia" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Vigilância<br>Comunitária</p>
           </div>
         </a>
-        <a href="#" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">Palestras</p>
-          </div>
-        </a>        
-        <a href="#" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">En. Superior</p>
-          </div>
-        </a>
-        <a href="#" class="me-3">
-          <div class="d-flex flex-column align-items-center">
-            <div class="s-nav rounded-circle destaque"></div>
-            <p class="text-dark">En. Técnico</p>
-          </div>
-        </a>
+        
         {% if request.user.is_staff %}
         <a href="#" class="me-3">
           <div class="d-flex flex-column align-items-center">
@@ -67,6 +50,14 @@
       </div>
     </div>
   </div>
+  <style>
+    #cidade-home {
+          margin-right: 1rem !important;
+          background-color: white !important;
+          background-image: url(/static/images/icons_cidade_inteligente/home.png);
+          background-size: contain;
+        }
+  </style>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       HGWeather.initialize();

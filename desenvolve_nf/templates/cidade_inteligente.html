@@ -30,9 +30,10 @@
   </div>
 </div>
 <section  class="container">
-  <div class="row banner_destaque d-flex flex-column flex-xl-row bg-white img-txt" id="cidade-banner">
+  {% include 'slide_cidade_inteligente.html' %}
+  <!-- <div class="row banner_destaque d-flex flex-column flex-xl-row bg-white img-txt" id="cidade-banner">
     <div  id="cidade-img" class="col">
-      <img class="img-fluid margin-0" src="/static/images/main_cidade_inteligente.png" style="border-radius: 30px;" alt="">
+      <img class="img-fluid margin-0" src="/static/images/cidade_inteligente_destaque.png" style="border-radius: 30px;" alt="">
       
     </div>
       <div class="col" id='banner-txt'>
@@ -73,18 +74,18 @@
         o ano de 2021, alcançando o 2° lugar, no ano de 2022.</p>
       <p class="text-justify">Para mais informações sobre o Programa Municipal de Vigilância Comunitária, 
         <a href="http://bit.ly/2FiItA8">clique aqui</a></p></div>
-  </div>
+  </div> -->
   <div class="row">
   </div>
 </section>
-<h4>Perguntas Frequentes</h4>
-<section id="perguntas">
+<!-- <h4>Perguntas Frequentes</h4> -->
+<section class="mt-5" id="perguntas">
     <div class="pergunta">
-      <div class="pergunta-header">
-        <img src="/static/images/perguntas_icons/car-collision.png">
-        <h5>Sofri um acidente de trâsito, posso ver as imagens?</h5>
+      <div class="d-flex mb-3">
+        <img class="ms-0 me-3" src="/static/images/perguntas_icons/car-collision.png">
+        <h6 class="my-auto ms-3">Sofri um acidente de trâsito, posso ver as imagens?</h6>
       </div>
-      <p>Sim, desde que sejam cumpridos os procedimentos legais, são eles:</p>
+      <p class="mb-3">Sim, desde que sejam cumpridos os procedimentos legais, são eles:</p>
       <ul>
         <li>Faça o BRAT on-line, <a href="https://ebrat.pmerj.rj.gov.br/brat/">cliando aqui</a> ou vá ao 
           Posto Policial Comunitário mais próximo</li>
@@ -97,11 +98,11 @@
       </ul>
     </div>
     <div class="pergunta">
-      <div class="pergunta-header">
-        <img src="/static/images/perguntas_icons/tracking.png">
-        <h5>Fui furtado/assaltado, posso ver as imagens?</h5>
+      <div class="d-flex mb-3">
+        <img class="ms-0 me-3" src="/static/images/perguntas_icons/tracking.png">
+        <h6 class="my-auto ms-3">Fui furtado/assaltado, posso ver as imagens?</h6>
       </div>
-      <p>Sim, desde que sejam cumpridos os procedimento legais, são eles:</p>
+      <p class="mb-3">Sim, desde que sejam cumpridos os procedimento legais, são eles:</p>
       <ul>
         <li>Vá a delegacia e faça o registro de ocorrência;</li>
         <li>Xerox do registro de ocorrência e do seu documento com foto; Munido de original e xerox, venha até a Central de Operações;</li>
@@ -112,26 +113,26 @@
       </ul>
     </div>
     <div class="pergunta">
-      <div class="pergunta-header">
-        <img src="/static/images/perguntas_icons/car.png">
-        <h5>Recebi uma multa, o que fazer?</h5>
+      <div class="d-flex mb-3">
+        <img class="ms-0 me-3" src="/static/images/perguntas_icons/car.png">
+        <h5 class="my-auto ms-3">Recebi uma multa, o que fazer?</h5>
       </div>
       <p>O setor responsável pela gestão de infrações de trânsito, é a Secretaria Municipal de Ordem e Mobilidade Urbana - SMOMU.</p>
       <p>Munido com o registro da infração, documento com foto e o requerimento, o cidadão deve se dirigir a Secretaria Municipal de Ordem e Mobilidade Urbana, localizada na rua Vicente Sobrinho, 80 - Olaria, Nova Friburgo/RJ, 28623-400.</p>
       <p>Tenha acesso ao requerimento, <a href="http://www.pmnf.rj.gov.br/uploads/pagina/arquivos/Defesa-Previa-Recurso-SMOMU-Novo.pdf">clicando aqui.</a></p>
     </div>
     <div class="pergunta">
-      <div class="pergunta-header">
-        <img src="/static/images/perguntas_icons/visitor.png">
-        <h5>Posso conhecer a Central de Operações e Monitoramento?</h5>
+      <div class="d-flex mb-3">
+        <img class="ms-0 me-3" src="/static/images/perguntas_icons/visitor.png">
+        <h5 class="my-auto ms-3">Posso conhecer a Central de Operações e Monitoramento?</h5>
       </div>
       <p>Claro!</p>
       <p>A Central de Operações e Monitoramento, recebe visitas previamente agendadas através dos nossos canais de comunicação.</p>
     </div>
     <div class="aviso">
-      <div class="pergunta-header">
-        <img src="/static/images/perguntas_icons/warning.png">
-        <h5>Atenção!</h5>
+      <div class="d-flex mb-3">
+        <img class="ms-auto my-auto" src="/static/images/perguntas_icons/warning.png">
+        <h5 class="me-auto my-auto">Atenção!</h5>
       </div>
       <p class="text-justify">Imagens captadas pelas câmeras do sistema ficam disponíveis por um prazo de 30 dias, a contar da data do ocorrido, seguindo a Lei Municipal Nº 4.417, DE 16/10/2015. Imagens das câmeras cedidas a Central de Operações, através do Programa Vigilância Comunitária, não se enquadram na mesma lei que rege o programa, em função dessas imagens serem uma cessão por parte do responsável, que pode ser revogada.</p>
       <p class="text-justify">As integrações são complementares ao sistema pré-existente da Central de Operações, não figurando como parte do sistema da Central, servindo apenas como complemento, eximindo tanto o responsável pelas imagens cedidas, quanto a Central de Operações, de quaisquer responsabilidade sob as imagens e outras questões que possam as envolver, de mesma forma, que a Central de Operações está isenta de disponibilizar quaisquer informações sobre as integrações sem prévia outorga por parte do responsável concedente das integrações.</p>
@@ -164,59 +165,59 @@
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   <script src="/static/js/owl.carousel.min.js"></script>
   <script>
-    $('.owl-carousel').owlCarousel({
-      center: true,
-      items: 2,
-      loop: true,
-      margin: 10,
-      autoWidth: true,
-      autoplay: true,
-      nav: true,
-      responsive: {
-        0: {
-          items: 1
-        },
-        600: {
-          items: 3
-        },
-        1000: {
-          items: 5
-        }
-      }
-    });
-    $('.loop').owlCarousel({
-      center: true,
-      items: 2,
-      loop: true,
-      margin: 5,
-      responsive: {
-        600: {
-          items: 4
-        }
-      }
-    });
+    // $('.owl-carousel').owlCarousel({
+    //   center: true,
+    //   items: 2,
+    //   loop: true,
+    //   margin: 10,
+    //   autoWidth: true,
+    //   autoplay: true,
+    //   nav: true,
+    //   responsive: {
+    //     0: {
+    //       items: 1
+    //     },
+    //     600: {
+    //       items: 3
+    //     },
+    //     1000: {
+    //       items: 5
+    //     }
+    //   }
+    // });
+    // $('.loop').owlCarousel({
+    //   center: true,
+    //   items: 2,
+    //   loop: true,
+    //   margin: 5,
+    //   responsive: {
+    //     600: {
+    //       items: 4
+    //     }
+    //   }
+    // });
     
-    function verMais(){
-      const info = document.querySelector(".info");
-      const ver = document.querySelector("#ver-detalhes");
-      const fontSize = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
-      console.log(fontSize);
-      //info.style.opacity="1";
-      // info.style.animationName = "mover";
-      // info.style.animationDuration = "2s"; 
-      if(ver.innerHTML != "Ver Menos"){
-        // info.innerHTML =
-        ver.innerHTML = "Ver Menos";
-        info.classList.add("open-info");
-        //info.setAttribute("style", " height: 400px; padding-top: 3%; padding-bottom: 4%;");
-        }
-      else{
-          // info.innerHTML = "";
-          ver.innerHTML = "Ver Mais";
-          info.classList.remove("open-info");
-          //info.setAttribute("style", "padding-top: 0; padding-bottom: 0; height: 0;");
-      }
-    }
+    // function verMais(){
+    //   const info = document.querySelector(".info");
+    //   const ver = document.querySelector("#ver-detalhes");
+    //   const fontSize = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
+    //   console.log(fontSize);
+    //   //info.style.opacity="1";
+    //   // info.style.animationName = "mover";
+    //   // info.style.animationDuration = "2s"; 
+    //   if(ver.innerHTML != "Ver Menos"){
+    //     // info.innerHTML =
+    //     ver.innerHTML = "Ver Menos";
+    //     info.classList.add("open-info");
+    //     //info.setAttribute("style", " height: 400px; padding-top: 3%; padding-bottom: 4%;");
+    //     }
+    //   else{
+    //       // info.innerHTML = "";
+    //       ver.innerHTML = "Ver Mais";
+    //       info.classList.remove("open-info");
+    //       //info.setAttribute("style", "padding-top: 0; padding-bottom: 0; height: 0;");
+    //   }
+    // }
 
     document.querySelector("#ver-detalhes").addEventListener("click", verMais)
 
