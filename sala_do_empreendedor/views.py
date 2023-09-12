@@ -1,10 +1,11 @@
+#Importações de estruturas do Django.
 from django.shortcuts import render
+
 from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
 
-# Create your views here.
 def index(request):
     context = {
          'titulo': 'Sala do Empreendedor',
