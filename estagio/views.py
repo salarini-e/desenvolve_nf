@@ -88,15 +88,17 @@ def getLocais(request, id):
 @login_required
 def area_do_estudante(request):
     try:
-        estudante=Estudante.objects.get(pessoa=Pessoa.objects.get(user=request.user))
+        estudante=Estudante.objects.filter(pessoa=Pessoa.objects.get(user=request.user)).last()
+        print(estudante)
         estudante_vagas=Estudante_Vaga.objects.filter(estudante=estudante).order_by('-id')
-    
-    except:
+        print(estudante_vagas)
+    except Exception as e:
+        print(e)
         estudante=False
         estudante_vagas=False
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
-        'vagas': Vagas.objects.all(),
+        # 'vagas': Vagas.objects.all(),
         'estudante': estudante,
         'estudante_vagas': estudante_vagas
     }
