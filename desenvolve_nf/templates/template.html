@@ -212,126 +212,66 @@
       document.getElementById('preloading').style.display = 'none'
     }
   </script>
-  <a href="#" id="whatsapp-button" class="whatsapp-button">
-    <i class="fa-solid fa-comment"></i>
-    Olá, posso ajudar?
-    </a>
-    <div id="chatbot" class="chatbot">
-      <button id="close-button" class="close-button">&times;</button>
-      <div id="chat-messages" class="chat-messages"></div>
-      <input type="text" id="user-input" class="user-input" placeholder="Digite sua mensagem">
-  </div>
-<style>
-/* Estilos para o chatbot */
-.chatbot {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 10px;
-    width: 300px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-}
-
-.chat-messages {
-    height: 200px;
-    overflow-y: scroll;
-    padding: 10px;
-}
-
-.user-input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-top: 1px solid #ccc;
-    outline: none;
-}
-
-
-
-
-.whatsapp-button {
-  display: block;
-  position: fixed;
-  bottom: 10px; /* Distância do fundo */
-  right: 10px; /* Distância da direita */
-  background-color: #256dd3; /* Cor de fundo do botão */
-  color: #fff; /* Cor do texto do botão */
-  padding: 10px 20px; /* Espaçamento interno do botão */
-  border-radius: 50px; /* Borda arredondada */
-  text-decoration: none; /* Remover sublinhado do link */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
-  z-index: 9999; /* Posição na frente de outros elementos */
-  font-size: 16px; /* Tamanho do texto */
-}
-.whatsapp-button:hover {
-  color: whitesmoke;
-} 
-/* Estilos para o ícone do WhatsApp (Font Awesome) */
-.whatsapp-button i   {
-  margin-right: 10px; /* Espaçamento à direita do ícone */
-}
-/* Estilos para o botão de fechamento */
-.close-button {
-    position: absolute;
-    top: 0%;
-    right: 15px;
-    background-color: transparent;
-    color: #555;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-}
-
-.close-button:hover {
-    color: #ff0000; /* Cor quando o mouse passa por cima */
-}
-</style>
-<script>// Elementos do chatbot
-  const whatsappButton = document.getElementById('whatsapp-button');
-  const chatbot = document.getElementById('chatbot');
-  const chatMessages = document.getElementById('chat-messages');
-  const userInput = document.getElementById('user-input');
-  const closeButton = document.getElementById('close-button');
-
-  // Quando o botão de contato via WhatsApp for clicado
-  whatsappButton.addEventListener('click', () => {
-      chatbot.style.display = 'block';
-      setTimeout(() => {
-              const botMessage = 'Olá, bem vindo ao portal do Desenvolve NF. Meu nome é Sheldon, seu atendente virtual. Como posso ajudar?';
-
-              appendMessage('Chatbot', botMessage);
-          }, 1000);
-  });
-  
-  // Quando o botão de fechamento for clicado
-closeButton.addEventListener('click', () => {
-    chatbot.style.display = 'none';
-});
-  // Quando o usuário pressionar Enter no campo de entrada
-  userInput.addEventListener('keyup', (event) => {
-      if (event.key === 'Enter') {
-          const userMessage = userInput.value;
-          appendMessage('Você', userMessage);
-          userInput.value = '';
-  
-          // Simulação de resposta do chatbot após 1 segundo
-          setTimeout(() => {
-              const botMessage = 'Olá! Como posso ajudar você?';
-              appendMessage('Chatbot', botMessage);
-          }, 1000);
-      }
-  });
-  
-  // Função para adicionar uma mensagem ao chat
-  function appendMessage(sender, message) {
-      const messageDiv = document.createElement('div');
-      messageDiv.innerHTML = `<strong>${sender}</strong>: ${message}`;
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-  }   </script>
+  <script>
+    window.embeddedChatbotConfig = {
+    chatbotId: "z7UIFuZtloxQWbjvmlYWt",
+    domain: "www.chatbase.co"
+    }
+    </script>
+    <script
+    src="https://www.chatbase.co/embed.min.js"
+    chatbotId="z7UIFuZtloxQWbjvmlYWt"
+    domain="www.chatbase.co"
+    defer>
+    </script>
+    {% if messages %}              
+    <!-- MODAL -->
+    <div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            {% for message in messages %}
+            <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
+              <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
+              <button type="button" onclick="myModal.hide();" class="btn-close"></button>
+            </div>
+            <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
+               
+              <p class="px-4 py-3 text-center">
+                {{ message|escape }}
+              </p>
+              
+              
+            </div>
+            <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
+              
+            </div>
+            {% endfor %}
+          </div>
+    
+        </div>
+      </div>   
+      <script>
+       var myModal = new bootstrap.Modal(document.getElementById('resposta'))
+       myModal.toggle()
+      </script>
+      <style>
+        .error{
+          background-color: rgb(238, 171, 171);
+          color: darkred;
+          font-weight: 600;
+        }
+        .success{
+          background-color: rgb(182, 238, 171);
+          color: rgb(0, 139, 19);
+          font-weight: 600
+        }
+        .warning{
+          background-color: rgb(238, 226, 171);
+          color: rgb(139, 107, 0);
+          font-weight: 600
+        }
+      </style>
+    {% endif %} 
 </body>
 
 </html>

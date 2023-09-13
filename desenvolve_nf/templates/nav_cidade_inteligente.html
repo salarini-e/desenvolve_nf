@@ -8,7 +8,7 @@
             <p class="text-dark">Início</p>
           </div>
         </a>
-        <a href="#" class="me-3">
+        <a href="{% url 'cidade_inteligente_cadastro_camera' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="cidade-vigilancia" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Cadastre<br>sua câmera!</p>
@@ -52,7 +52,6 @@
   </div>
   <style>
     #cidade-home {
-          margin-right: 1rem !important;
           background-color: white !important;
           background-image: url(/static/images/icons_cidade_inteligente/home.png);
           background-size: contain;
@@ -63,3 +62,4 @@
       HGWeather.initialize();
     });
   </script>
+  

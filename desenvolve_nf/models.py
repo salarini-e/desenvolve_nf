@@ -1,5 +1,5 @@
 from django.db import models
-
+from autenticacao.models import Pessoa
 
 # Create your models here.
 class Carousel_Index(models.Model):
@@ -75,3 +75,30 @@ class ClimaTempo(models.Model):
             return self.getImg(turno)
         except:
             return self.getImg("erro")
+        
+class Solicitacao_de_cadastro_de_camera(models.Model):
+    
+    AUTORIZACAO_CHOICES=(
+        ('S', 'Sim, eu autorizo a exibição das imagens das câmeras disponibilizadas para transmissão AO VIVO nas Redes sociais da Central de Operações e Monitoramento - Nova Friburgo Cidade Inteligente'),
+        ('N', 'Não, eu não autorizo a exibição das imagens das câmeras disponibilizadas para transmissão AO VIVO'),
+    )
+    TIPO_CAMERA_CHOICES=(
+        ('CFTV', 'CFTV - Circuito Fechado de Televisão'),
+        ('VDM', 'Videomonitoramento'),
+    )
+    INFORMACOES_DE_ACESSO_CHOICES=(
+        ('0', 'IP/DOMÍNIO'),
+        ('1', 'Intelbras Cloud'),
+        ('2', 'Meu equipamento NÃO É Intelbras'),
+    )
+    
+    devidos_fins = models.BooleanField(default=False, verbose_name="Declaro para os devidos fins que meus equipamentos possuem as configurações mínimas descritas.")
+    autorizacao_de_imagem = models.CharField(max_length=1, verbose_name="Autoriza a Central de Operações Nova Friburgo Cidade Inteligente a exibir as imagens captadas pelas câmeras disponibilizadas durante as transmissões ao vivo?", default='N', choices=AUTORIZACAO_CHOICES)
+    tipo_camera = models.CharField(max_length=4, verbose_name="Tipo de câmera", default='CFTV', choices=TIPO_CAMERA_CHOICES)
+    n_cameras = models.IntegerField(verbose_name="Número de câmeras", default=1)
+    informacoes_de_acesso = models.CharField(max_length=1, verbose_name="Informações de acesso", default='0', choices=INFORMACOES_DE_ACESSO_CHOICES)
+    nao_eh_intelbrass = models.CharField(max_length=64, verbose_name="Se não é Intelbras, qual a marca do seu equipamento?", blank=True)
+    ip_ou_sn = models.CharField(max_length=64, verbose_name="IP/ Dominio ou (S/N) - Número de série pra acesso remoto", blank=False)
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True)
+    atendido = models.BooleanField(default=False)
+    dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
