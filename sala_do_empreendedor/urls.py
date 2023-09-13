@@ -18,7 +18,7 @@ urlpatterns = [
     path('minha-empresa/<id>/vitrine/cadastrar-produto', views.casdastrar_produto, name='cadastrar_produto'),
     path('faccao-legal', views.faccao_legal, name='faccao_legal'),
     path('vitrine-virtual', views.vitrine_virtual, name='vitrine_virtual'),
-    
+    path('cadastro-fornecedores-e-compras-publicas', views.cadastro_fornecedores_e_compras_publicas, name='compras_publicas'),
     path('quero-ser-mei', views.quero_ser_mei, name='quero_ser_mei'),
     path('quero-ser-mei/por-que-ser-mei', views.por_que_ser_mei, name='por_que_ser_mei'),
     path('quero-ser-mei/o-que-voce-precisa-saber-antes-de-se-tornar-um-mei', views.o_que_precisa_saber_para_ser_mei, name='o_que_precisa_saber_para_ser_mei'),
@@ -46,7 +46,9 @@ urlpatterns = [
     path('ja-sou-mei/dispensaDeAlvara', views.dispensaDeAlvara, name="dispensaDeAlvara"),
     
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
-
+    path('iss-autonomos', views.iss_autonomos, name='iss_autonomos'),
+    path('legislacao', views.legislacao, name='legislacao'),
+    path('oportunidade-de-negocios', views.oportunidade_de_negocios, name='oportunidade'),
     path('admin/', views.sala_do_empreendedor_admin, name='admin'),
     path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores')
 ]

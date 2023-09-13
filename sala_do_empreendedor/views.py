@@ -49,6 +49,34 @@ def faccao_legal(request):
     }
     return render(request, 'sala_do_empreendedor/em-construcao.html', context)
 
+def cadastro_fornecedores_e_compras_publicas(request):
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'titulo_pag':'Cadastro de Fornecedores e Compras Públicas',
+    }
+    return render(request, 'sala_do_empreendedor/em-construcao.html', context)
+
+def iss_autonomos(request):
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'titulo_pag':'ISS ou Autônomo',
+    }
+    return render(request, 'sala_do_empreendedor/iss_autonomos.html', context)
+
+def legislacao(request):
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'titulo_pag':'Legislação',
+    }
+    return render(request, 'sala_do_empreendedor/legislacao.html', context)
+
+def oportunidade_de_negocios(request):
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'titulo_pag':'Oportunidade de Negócios',
+    }
+    return render(request, 'sala_do_empreendedor/oportunidade-de-negocios.html', context)
+
 def vitrine_virtual(request):
     registros=Registro_no_vitrine_virtual.objects.all().order_by('?')
     empresa_e_produtos=[]
