@@ -687,6 +687,11 @@
   // Quando o botão de contato via WhatsApp for clicado
   whatsappButton.addEventListener('click', () => {
       chatbot.style.display = 'block';
+      setTimeout(() => {
+              const botMessage = 'Olá, bem vindo ao portal do Desenvolve NF. Meu nome é Sheldon, seu atendente virtual. Como posso ajudar?';
+
+              appendMessage('Chatbot', botMessage);
+          }, 1000);
   });
   
   // Quando o botão de fechamento for clicado
