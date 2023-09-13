@@ -51,10 +51,11 @@
                         Imagem do produto/serviço
                       </th>
                       <th>
-                        Descrição
+                        Nome
                       </th>
-                      <th>teste</th>
-                      <th>teste</th>
+                      <th>
+                        Descrição
+                      </th>                     
                     </tr>
                   </thead>
                   <tbody>
@@ -64,13 +65,10 @@
                         <img src="{{produto.imagem.url}}" style="height: 100px;" alt="">
                       </td>
                       <td>
-                        blau
+                        {{produto.nome}}
                       </td>
                       <td>
-                        blau
-                      </td>
-                      <td>
-                        blau
+                        {{produto.descricao}}
                       </td>
                     </tr>
                     {% endfor %}
