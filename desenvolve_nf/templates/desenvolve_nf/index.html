@@ -600,15 +600,15 @@
       }
     });
   </script>
-  <a href="#" id="whatsapp-button" class="whatsapp-button">
+  <a href="https://api.whatsapp.com/send?phone=552225259100" id="whatsapp-button" class="whatsapp-button">
     <i class="fa-solid fa-comment"></i>
     Olá, posso ajudar?
     </a>
-    <div id="chatbot" class="chatbot">
+    <!-- <div id="chatbot" class="chatbot">
       <button id="close-button" class="close-button">&times;</button>
       <div id="chat-messages" class="chat-messages"></div>
       <input type="text" id="user-input" class="user-input" placeholder="Digite sua mensagem">
-  </div>
+  </div> -->
 <style>
 /* Estilos para o chatbot */
 .chatbot {
@@ -677,7 +677,7 @@
     color: #ff0000; /* Cor quando o mouse passa por cima */
 }
 </style>
-<script>// Elementos do chatbot
+<!-- <script>// Elementos do chatbot
   const whatsappButton = document.getElementById('whatsapp-button');
   const chatbot = document.getElementById('chatbot');
   const chatMessages = document.getElementById('chat-messages');
@@ -719,6 +719,6 @@ closeButton.addEventListener('click', () => {
       messageDiv.innerHTML = `<strong>${sender}</strong>: ${message}`;
       chatMessages.appendChild(messageDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
-  }   </script>
+  }   </script> -->
 </body>
 </html>

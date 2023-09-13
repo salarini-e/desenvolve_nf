@@ -75,7 +75,7 @@ def oportunidade_de_negocios(request):
         'titulo': 'Sala do Empreendedor',
         'titulo_pag':'Oportunidade de Negócios',
     }
-    return render(request, 'sala_do_empreendedor/oportunidade-de-negocios.html', context)
+    return render(request, 'sala_do_empreendedor/oportunidade_de_negocios.html', context)
 
 def vitrine_virtual(request):
     registros=Registro_no_vitrine_virtual.objects.all().order_by('?')

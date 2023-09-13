@@ -44,6 +44,12 @@
             <p class="text-dark text-center">Legislação</p>
           </div>
         </a>
+        <a href="https://www.pmnf.rj.gov.br/licitacao/" target="_blank" class="me-3">
+          <div class="d-flex flex-column align-items-center">
+            <div id="empreendedor_lici" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Licitação</p>
+          </div>
+        </a>
         {% if request.user.is_staff %}
         <a href="{% url 'empreendedor:admin' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
@@ -105,6 +111,11 @@
     #empreendedor_legis{      
       background-color: white !important;
       background-image: url(/static/images/icones/empreendedor_legis.png);
+      background-size: contain;
+    }
+    #empreendedor_lici{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_licitacao.png);
       background-size: contain;
     }
     #empreendedor_forms{      

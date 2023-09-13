@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <!-- Menu -->
+            Gostaria de cadastrar sua empresa na vitrine virtual? <a href="{% url 'empreendedor:cadastro_empresa' %}">Clique aqui</a>
         </div>
     </div>
     <div class="row">
@@ -57,7 +57,7 @@
         <div class="col d-flex p-3">
           {% for produto in registro.produtos %}
           <div class="p-2 w-100 d-flex flex-column">
-            <img src="{{produto.imagem.url}}" alt="produto" style="margin: auto; width: 180px; height: 180px;">
+            <img src="{{produto.imagem.url}}" alt="produto" class="mx-auto" style="width: 180px; height: 180px;">
             <p class="px-2">
               {{produto.descricao}}
             </p>
