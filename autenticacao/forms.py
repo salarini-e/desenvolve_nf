@@ -33,7 +33,8 @@ class Form_Pessoa(ModelForm):
         model = Pessoa
         widgets = {
             'dt_nascimento':forms.TextInput(attrs={'type':'date'}),
-            'cpf':forms.TextInput(attrs={'onkeydown':'mascara(this, icpf)'}),
+            'cpf':forms.TextInput(attrs={'onkeydown': 'mascara(this, icpf)','onblur':'checkCPF(this.value)'}),
+            'cep':forms.TextInput(attrs={'onkeydown': 'icep(this)','onblur':'getCEP(this)'}),
             'telefone':forms.TextInput(attrs={'onkeydown':'mascara(this, itel)'}),
         }
         fields=['cpf','nome', 'email', 'telefone', 'dt_nascimento', 'cep','bairro', 'endereco', 'numero', 'complemento', 'possui_cnpj']

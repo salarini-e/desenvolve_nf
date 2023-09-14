@@ -13,5 +13,6 @@ urlpatterns = [
     path('passwd_reset_complete/', PasswordResetCompleteView.as_view(), name='passwd_reset_complete'),
 
     path('cadastro/', views.cadastro_user, name='cadastrar_usuario'),
+    path('cadastro/checkcpf/', views.checkCPF, name='checkcpf'),
     path('cadastro_aluno/', views.cadastro_aluno, name='cadastrar_aluno'),
 ]

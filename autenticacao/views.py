@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from cursos.forms import Aluno_form
 
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
@@ -184,3 +185,21 @@ def cadastro_aluno(request):
 
     return render(request, 'adm/completar_cadastro.html', context)
 
+import json
+def checkCPF(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        cpf = data.get('cpf')
+        try:
+            cpf = validate_cpf(cpf)
+        except:
+            response_data = {'exists': True, 'message': 'CPF inválido.'}
+            return JsonResponse(response_data)
+        try:
+            pessoa = Pessoa.objects.get(cpf=cpf)
+            response_data = {'exists': True, 'message': 'CPF já existe no banco de dados.'}
+        except:
+                response_data = {'exists': False}
+
+        return JsonResponse(response_data)
+    return JsonResponse({})
