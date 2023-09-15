@@ -1,0 +1,93 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="row mx-auto pb-3">
+  <style>
+      body {
+          background-color: #f4f4f4;
+          font-family: Arial, sans-serif;
+          text-align: center;
+      }
+
+      .construction-icon {
+          font-size: 48px;
+          color: #e74c3c;
+      }
+
+      .message {
+          font-size: 24px;
+          margin-top: 20px;
+          color: #333;
+      }
+
+      .contact {
+          font-size: 18px;
+          margin-top: 20px;
+          color: #666;
+      }
+  </style>
+
+  <div class="row">
+     <div class="col-8 mx-auto" style="text-align: left;">
+      <h3 class="mb-4">{{titulo_pag}}</h3>
+      <p class="mb-3">O Facção Legal é um projeto da Prefeitura de Nova Friburgo, em parceria com o Governo do Estado do RJ, através das Secretarias da Mulher e Secretaria de Desenvolvimento Econômico.</p>
+
+    <p class="mb-3">O Facção Legal visa melhorar as condições de trabalho e renda de milhares de pessoas que atuam no ramo de costura, corte, bordado ou estamparia, prestando serviços para confecções de maior porte ou indústria de nosso polo de moda.</p>
+
+    <p class="mb-4">O Programa Facção Legal se divide em diversas etapas:</p>
+
+    <ol  class="mb-3">
+      <li class="mb-3">Realização do cadastro (Diagnóstico de condições de trabalho e expectativas)</li>
+      <li class="mb-3">Auxílio para Formalização como MEI (Aumentando a sua segurança e abrindo portas para produzir para novas empresas.)</li>
+      <li class="mb-3">CAPACITAÇÃO TÉCNICA E OUTRAS MÁQUINAS OU SERVIÇOS E EM GESTÃO. (Você vai aprender a calcular o valor de seu trabalho, a controlar o caixa, administrar seu negócio, planejar o crescimento de sua empresa...)</li>
+      <li class="mb-3">CONECTA – Você será incluída num aplicativo onde divulgará o seu trabalho e receberá informações de empresas que estão oferecendo peças para produção.</li>
+      <li class="mb-3">LINHAS DE CRÉDITOS – Você terá acesso a empréstimos com taxas especiais para compra de equipamentos ou melhorias de sua célula de trabalho.</li>
+      <li class="mb-3">INCENTIVO PÚBLICO – Você poderá receber recursos públicos para a melhoria dos seus equipamentos ou célula de trabalho.</li>
+      <li class="mb-3">CAPACITAÇÃO 2 – Caso desejar, receberá capacitação para a produção de suas próprias peças e em venda, para aprender a comercializar seus produtos.</li>
+      <li class="mb-3">Terá acesso a um portal de vendas online para comercializar seus produtos.</li>
+    </ol>
+
+
+
+
+
+     </div>
+  </div>
+  <div class="row mx-auto px-5">
+    <script>
+      // document.getElementById('empreendedor_inicio').classList.add('s-nav-active');
+      function findParentDiv(element) {
+        var parent = element.parentNode;
+        
+        // Continue subindo na árvore DOM até encontrar um elemento <div>
+        while (parent && parent.nodeName !== 'DIV') {
+          parent = parent.parentNode;
+        }
+
+        return parent;
+      }
+      function toggleCnpjDiv(checkbox) {
+        var cnpjDiv = findParentDiv(checkbox);
+
+        if (checkbox.checked) {
+          cnpjDiv.style.display = 'block'; // Exibe a div do CNPJ
+        } else {
+          cnpjDiv.style.display = 'none'; // Oculta a div do CNPJ
+        }
+      }
+    </script>
+  </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}x

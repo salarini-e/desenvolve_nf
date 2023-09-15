@@ -1,0 +1,73 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="row mx-auto pb-3">
+  <style>
+      body {
+          background-color: #f4f4f4;
+          font-family: Arial, sans-serif;
+          text-align: center;
+      }
+
+      .construction-icon {
+          font-size: 48px;
+          color: #e74c3c;
+      }
+
+      .message {
+          font-size: 24px;
+          margin-top: 20px;
+          color: #333;
+      }
+
+      .contact {
+          font-size: 18px;
+          margin-top: 20px;
+          color: #666;
+      }
+  </style>
+
+  <div class="row">
+     <div class="col-8 mx-auto" style="text-align: left;">
+      <h3 class="mb-4">{{titulo_pag}}</h3>
+      {% bootstrap_form form %}
+     </div>
+  </div>
+  <div class="row mx-auto px-5">
+    <script>
+      // document.getElementById('empreendedor_inicio').classList.add('s-nav-active');
+      function findParentDiv(element) {
+        var parent = element.parentNode;
+        
+        // Continue subindo na árvore DOM até encontrar um elemento <div>
+        while (parent && parent.nodeName !== 'DIV') {
+          parent = parent.parentNode;
+        }
+
+        return parent;
+      }
+      function toggleCnpjDiv(checkbox) {
+        var cnpjDiv = findParentDiv(checkbox);
+
+        if (checkbox.checked) {
+          cnpjDiv.style.display = 'block'; // Exibe a div do CNPJ
+        } else {
+          cnpjDiv.style.display = 'none'; // Oculta a div do CNPJ
+        }
+      }
+    </script>
+  </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}x
