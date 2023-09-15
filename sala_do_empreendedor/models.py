@@ -57,4 +57,67 @@ class Produto(models.Model):
     validacao_da_equipe=models.BooleanField(default=False, verbose_name='Validação da Sala do Empreendedor')
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+
+class Trabalho_Faccao(models.Model):
+    nome = models.CharField(max_length=128, verbose_name='Nome do trabalho')
+    def __str__(self) -> str:
+        return self.nome
+class Equipamentos_Faccao(models.Model):
+    nome = models.CharField(max_length=128, verbose_name='Nome do equipamento')
+    def __str__(self) -> str:
+        return self.nome
     
+class Tipo_produto_faccao(models.Model):
+    nome = models.CharField(max_length=128, verbose_name='Nome do produto')
+    def __str__(self) -> str:
+        return self.nome
+    
+class Faccao_legal(models.Model):
+    
+    TEMPO_CHOICES=(
+        ('0','Menos de 1 ano'),
+        ('1','De 1 a 3 anos'),
+        ('2','Mais de 3 anos'),
+    )
+    AREA_CHOICES=(
+        ('s', 'Sim'),
+        ('n', 'Não'),
+    )
+    TAMANHO_AREA_CHOICES=(
+        ('0', 'Menos de 6m²'),
+        ('1', 'De 6 a 16m²'),
+        ('2', 'De 16 a 50m²'),
+        ('3', 'Mais de 50m²'),
+    )
+    QNT_COLABORADORES_CHOICES=(
+        ('0', '1 a 2'),
+        ('1', '3 a 4'),
+        ('2', '5 a 10'),
+        ('3', 'Mais de 10'),
+    )
+    SITUACAO_CHOICES=(
+        ('p', 'Pouco'),
+        ('s', 'Suficiente'),
+        ('d', 'Em demasia'),    
+    )
+    REMUNERACAO_CHOICES=(
+        ('bx', 'Baixa'),
+        ('rg', 'Regular'),
+        ('bo', 'Boa'),
+        ('ot', 'Ótima')   
+    )
+    
+    possui_mei=models.BooleanField(default=False, verbose_name='Possui MEI ou empresa de outro porte?')
+    cnpj=models.CharField(max_length=18, verbose_name='CNPJ', null=True, blank=True)
+    tempo_que_trabalha=models.CharField(max_length=1, verbose_name='Trabalha com facção há quanto tempo', choices=TEMPO_CHOICES)
+    trabalha_com = models.ForeignKey(Trabalho_Faccao, on_delete=models.CASCADE, verbose_name='Trabalha com', null=True, blank=True)
+    equipamentos = models.ManyToManyField(Equipamentos_Faccao, verbose_name='Quais equipamentos possui?')
+    area = models.CharField(max_length=1, verbose_name='Possui área de trabalho separada da residência?', choices=AREA_CHOICES)
+    tamanho_area = models.CharField(max_length=1, verbose_name='Qual o tamanho da área de trabalho?', choices=TAMANHO_AREA_CHOICES)
+    possui_colaboradores = models.BooleanField(default=False, verbose_name='Possui colaboradores?')
+    qtd_colaboradores = models.IntegerField(verbose_name='Quantos colaboradores possui?', null=True, blank=True)
+    tipo_produto = models.ManyToManyField(Tipo_produto_faccao, verbose_name='Que tipos de produtos produz?')
+    outro_produto = models.CharField(max_length=128, verbose_name='Outro produto, descreva', null=True, blank=True)
+    situacao_trabalho = models.CharField(max_length=1, verbose_name='Geralmente, como está de trabalho?', choices=SITUACAO_CHOICES)
+    situacao_remuneracao = models.CharField(max_length=2, verbose_name='Como está a remuneração?', choices=REMUNERACAO_CHOICES)
+    qual_seu_sonho_no_setor = models.TextField(verbose_name='Qual seu sonho no setor?', null=True, blank=True)

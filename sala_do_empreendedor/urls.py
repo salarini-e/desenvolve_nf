@@ -15,8 +15,9 @@ urlpatterns = [
     path('minha-empresa/<id>/vitrine/', views.minha_vitrine, name='minha_vitrine'),
     path('minha-empresa/<id>/vitrine/alterar-logo', views.enviar_ou_trocar_logo, name='enviar_ou_trocar_logo'),
     path('minha-empresa/<id>/cadastrar-vitrine', views.cadastrar_vitrine, name='cadastrar_vitrine'),
-    path('minha-empresa/<id>/vitrine/cadastrar-produto', views.casdastrar_produto, name='cadastrar_produto'),
-    path('faccao-legal', views.faccao_legal, name='faccao_legal'),
+    path('minha-empresa/<id>/vitrine/cadastrar-produto/', views.casdastrar_produto, name='cadastrar_produto'),
+    path('faccao-legal/', views.faccao_legal, name='faccao_legal'),
+    path('faccao-legal/cadastrar/', views.cadastrar_faccao_legal, name='cadastrar_faccao_legal'),
     path('vitrine-virtual', views.vitrine_virtual, name='vitrine_virtual'),
     path('cadastro-fornecedores-e-compras-publicas', views.cadastro_fornecedores_e_compras_publicas, name='compras_publicas'),
     

@@ -38,3 +38,11 @@ class FormCadastrarProduto(ModelForm):
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do Produto'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
         }
+        
+class Faccao_Legal_Form(ModelForm):
+    class Meta:
+        model = Faccao_legal
+        widgets={
+         'possui_cnpj': forms.RadioSelect(attrs={'class': 'form-check-input', 'onclick': 'mostrar_cnpj(toggleCnpjDiv(this))'}),   
+        }
+        exclude = []

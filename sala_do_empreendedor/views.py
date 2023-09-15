@@ -3,7 +3,7 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-
+from .forms import Faccao_Legal_Form
 # Create your views here.
 def index(request):
     context = {
@@ -47,14 +47,22 @@ def faccao_legal(request):
         'titulo': 'Sala do Empreendedor',
         'titulo_pag':'Facção Legal',
     }
-    return render(request, 'sala_do_empreendedor/em-construcao.html', context)
+    return render(request, 'sala_do_empreendedor/faccao_legal.html', context)
+
+def cadastrar_faccao_legal(request):
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'titulo_pag':'Facção Legal',
+        'form': Faccao_Legal_Form(),
+    }
+    return render(request, 'sala_do_empreendedor/cadastro_faccao_legal.html', context)
 
 def cadastro_fornecedores_e_compras_publicas(request):
     context = {
         'titulo': 'Sala do Empreendedor',
         'titulo_pag':'Cadastro de Fornecedores e Compras Públicas',
     }
-    return render(request, 'sala_do_empreendedor/em-construcao.html', context)
+    return render(request, 'sala_do_empreendedor/cadastro_fornecedores_e_compras.html', context)
 
 def iss_autonomos(request):
     context = {
