@@ -569,7 +569,7 @@ footer a{
   padding: .75rem;
   opacity: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
   transform: translateY(-10px);
   transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
