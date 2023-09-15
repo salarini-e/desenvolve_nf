@@ -24,12 +24,13 @@
     #menu-grid{
         grid-template-columns: repeat(2, 1fr);
     }
-    .item a div span i {
-        display: none;
-    }
     .item a div:last-child{
         margin: 0 !important;
         padding: 0 !important;
+    }
+    .texto-nf{
+        width: 120px;
+        font-size: 0.8em;
     }
 }
 /* iPads e tablets*/
