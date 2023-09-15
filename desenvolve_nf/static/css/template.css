@@ -484,8 +484,7 @@ h4 {
     font-size: 20px !important;
     list-style: none !important;
   }
-  a {
-    color: black !important;
+  a { 
     text-decoration: none !important;
   }
   .menuMobile {
@@ -538,7 +537,6 @@ h4 {
     list-style: none !important;
   }
   a {
-    color: black !important;
     text-decoration: none !important;
   }
   .menuMobile {
