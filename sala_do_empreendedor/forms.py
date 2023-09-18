@@ -47,5 +47,8 @@ class Faccao_Legal_Form(ModelForm):
         widgets={
          'possui_cnpj': forms.RadioSelect(attrs={'class': 'form-check-input', 'onclick': 'mostrar_cnpj(toggleCnpjDiv(this))'}),   
          'user': forms.HiddenInput(),
+         'trabalha_com': forms.CheckboxSelectMultiple(),
+         'equipamentos': forms.CheckboxSelectMultiple(),
+         'tipo_produto': forms.CheckboxSelectMultiple(),
         }
         exclude = []
