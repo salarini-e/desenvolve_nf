@@ -12,6 +12,8 @@ class FormEmpresa(ModelForm):
             'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'onkeydown':'mascara(this, itel)'}),
             'whatsapp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Whatsapp', 'onkeydown':'mascara(this, itel)'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
+            'atividade': forms.CheckboxSelectMultiple(),
+            'ramo': forms.CheckboxSelectMultiple(),
         }
         
 class FormAlterarEmpresa(ModelForm):
