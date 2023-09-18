@@ -150,7 +150,8 @@
               const input = label.querySelector('input');
               if (input && label.textContent.trim() === '---------') {
                   // Remove o elemento label do DOM
-                  label.remove();
+                  findParentDiv(label).remove();
+                  // label.remove();
               }
           });
       }
