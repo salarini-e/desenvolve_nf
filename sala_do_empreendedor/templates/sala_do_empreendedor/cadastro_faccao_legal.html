@@ -119,6 +119,26 @@
       } else {
             colaboradoresDiv.style.display = 'none';
       }
+
+      function icnpj(inputValue) {
+        let value = inputValue.replace(/\D/g, ""); // Remove caracteres não numéricos
+        value = value.replace(/(\d{2})(\d)/, "$1.$2"); // Coloca um ponto entre o segundo e o terceiro dígitos
+        value = value.replace(/(\d{3})(\d)/, "$1.$2"); // Coloca um ponto entre o quarto e o quinto dígitos
+        value = value.replace(/(\d{3})(\d)/, "$1/$2"); // Coloca uma barra entre o sétimo e o oitavo dígitos
+        value = value.replace(/(\d{4})(\d{1,2})$/, "$1-$2"); // Coloca um hífen entre o décimo segundo e o décimo terceiro dígitos
+        return value;
+    }
+  
+    function mascara(o,f){
+                v_obj=o
+                v_fun=f
+                setTimeout("execmascara()",1)
+            }
+        
+    function execmascara(){
+                v_obj.value=v_fun(v_obj.value)
+            }
+
       // GAMBIARRA ABAIXO
       function removerElementos() {
           // Seleciona todos os elementos label

@@ -45,7 +45,8 @@ class Faccao_Legal_Form(ModelForm):
     class Meta:
         model = Faccao_legal
         widgets={
-        #  'possui_mei': forms.RadioSelect(attrs={'class': 'form-check-input', 'onclick': 'toggleCnpjDiv(this)'}),   
+        #  'possui_mei': forms.RadioSelect(attrs={'class': 'form-check-input', 'onclick': 'toggleCnpjDiv(this)'}),  
+        'cnpj': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CNPJ', 'onkeydown':'mascara(this, icnpj)'}),
          'user': forms.HiddenInput(),
          'tempo_que_trabalha': forms.RadioSelect(),
          'trabalha_com': forms.CheckboxSelectMultiple(),
