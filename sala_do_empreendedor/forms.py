@@ -45,10 +45,17 @@ class Faccao_Legal_Form(ModelForm):
     class Meta:
         model = Faccao_legal
         widgets={
-         'possui_cnpj': forms.RadioSelect(attrs={'class': 'form-check-input', 'onclick': 'mostrar_cnpj(toggleCnpjDiv(this))'}),   
+        #  'possui_mei': forms.RadioSelect(attrs={'class': 'form-check-input', 'onclick': 'toggleCnpjDiv(this)'}),   
          'user': forms.HiddenInput(),
+         'tempo_que_trabalha': forms.RadioSelect(),
          'trabalha_com': forms.CheckboxSelectMultiple(),
          'equipamentos': forms.CheckboxSelectMultiple(),
+         'tempo_que_trabalha': forms.RadioSelect(),
+         'area': forms.RadioSelect(),   
+         'tamanho_area': forms.RadioSelect(),
          'tipo_produto': forms.CheckboxSelectMultiple(),
+         'situacao_trabalho': forms.RadioSelect(),
+         'situacao_remuneracao': forms.RadioSelect(),
         }
         exclude = []
+    

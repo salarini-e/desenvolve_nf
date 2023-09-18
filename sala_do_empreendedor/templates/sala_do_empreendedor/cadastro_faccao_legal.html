@@ -48,7 +48,7 @@
   </div>
   <div class="row mx-auto px-5">
     <script>
-      // document.getElementById('empreendedor_inicio').classList.add('s-nav-active');
+      // // document.getElementById('empreendedor_inicio').classList.add('s-nav-active');
       function findParentDiv(element) {
         var parent = element.parentNode;
         
@@ -59,15 +59,83 @@
 
         return parent;
       }
-      function toggleCnpjDiv(checkbox) {
-        var cnpjDiv = findParentDiv(checkbox);
+      // function toggleCnpjDiv(checkbox) {
+      //   var cnpjDiv = findParentDiv(checkbox);
 
-        if (checkbox.checked) {
-          cnpjDiv.style.display = 'block'; // Exibe a div do CNPJ
-        } else {
-          cnpjDiv.style.display = 'none'; // Oculta a div do CNPJ
-        }
+      //   if (checkbox.checked) {
+      //     cnpjDiv.style.display = 'block'; // Exibe a div do CNPJ
+      //   } else {
+      //     cnpjDiv.style.display = 'none'; // Oculta a div do CNPJ
+      //   }
+      // }
+      const possuiMeiCheckbox = document.getElementById('id_possui_mei');
+      const cnpjInput = document.getElementById('id_cnpj');
+
+        // Adicione um ouvinte de evento para o elemento 'possuiMeiCheckbox'
+      possuiMeiCheckbox.addEventListener('change', function() {
+            // Verifique se o checkbox 'possuiMeiCheckbox' está marcado
+            var cnpjDiv = findParentDiv(cnpjInput)
+            if (possuiMeiCheckbox.checked) {
+                // Se estiver marcado, exiba o elemento 'cnpjInput'
+                cnpjDiv.style.display = 'block';
+                cnpjInput.required=true;
+            } else {
+                // Se não estiver marcado, oculte o elemento 'cnpjInput'
+                cnpjDiv.style.display = 'none';
+                cnpjInput.required=false;
+            }
+      });
+
+      // Verifique o estado inicial e ajuste a exibição conforme necessário
+      var cnpjDiv = findParentDiv(cnpjInput)
+      if (possuiMeiCheckbox.checked) {
+            cnpjDiv.style.display = 'block';
+
+      } else {
+            cnpjDiv.style.display = 'none';
       }
+
+      const possuiColaboradores = document.getElementById('id_possui_colaboradores');
+      const colaboradoresInput = document.getElementById('id_qtd_colaboradores');
+
+        // Adicione um ouvinte de evento para o elemento 'possuiColaboradores'
+        possuiColaboradores.addEventListener('change', function() {
+            // Verifique se o checkbox 'possuiColaboradores' está marcado
+            var colaboradoresDiv = findParentDiv(colaboradoresInput)
+            if (possuiColaboradores.checked) {
+                // Se estiver marcado, exiba o elemento 'colaboradoresInput'
+                colaboradoresDiv.style.display = 'block';
+                colaboradoresInput.required=true;
+            } else {
+                // Se não estiver marcado, oculte o elemento 'cnpjInput'
+                colaboradoresDiv.style.display = 'none';
+                colaboradoresInput.required=false;
+            }
+      });
+      var colaboradoresDiv = findParentDiv(colaboradoresInput)
+      if (possuiColaboradores.checked) {
+            colaboradoresDiv.style.display = 'block';
+
+      } else {
+            colaboradoresDiv.style.display = 'none';
+      }
+      // GAMBIARRA ABAIXO
+      function removerElementos() {
+          // Seleciona todos os elementos label
+          const labels = document.querySelectorAll('label');
+
+          // Itera pelos elementos label
+          labels.forEach(function(label) {
+              // Verifica se o label contém um input e o texto "---------"
+              const input = label.querySelector('input');
+              if (input && label.textContent.trim() === '---------') {
+                  // Remove o elemento label do DOM
+                  label.remove();
+              }
+          });
+      }
+      // Chama a função para remover os elementos
+      removerElementos();
     </script>
   </div>
 </div>
