@@ -107,6 +107,7 @@ class Faccao_legal(models.Model):
         ('ot', 'Ótima')   
     )
     
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
     possui_mei=models.BooleanField(default=False, verbose_name='Possui MEI ou empresa de outro porte?')
     cnpj=models.CharField(max_length=18, verbose_name='CNPJ', null=True, blank=True)
     tempo_que_trabalha=models.CharField(max_length=1, verbose_name='Trabalha com facção há quanto tempo', choices=TEMPO_CHOICES)

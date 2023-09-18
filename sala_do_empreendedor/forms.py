@@ -46,5 +46,6 @@ class Faccao_Legal_Form(ModelForm):
         model = Faccao_legal
         widgets={
          'possui_cnpj': forms.RadioSelect(attrs={'class': 'form-check-input', 'onclick': 'mostrar_cnpj(toggleCnpjDiv(this))'}),   
+         'user': forms.HiddenInput(),
         }
         exclude = []

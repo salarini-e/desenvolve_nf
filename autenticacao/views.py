@@ -38,7 +38,8 @@ def login_view(request):
             login(request, user)
             try:
                 return redirect(request.GET['next'])
-            except:
+            except Exception as E:
+                print(E)
                 return redirect('/')
         else:
             context = {

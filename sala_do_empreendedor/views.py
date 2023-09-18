@@ -4,6 +4,9 @@ from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
 from .forms import Faccao_Legal_Form
+from django.urls import reverse
+from autenticacao.functions import validate_cpf
+
 # Create your views here.
 def index(request):
     context = {
@@ -42,18 +45,41 @@ def consultar_protocolo(request):
     }
     return render(request, 'sala_do_empreendedor/consultar-protocolo.html', context)
 
+
 def faccao_legal(request):
     context = {
         'titulo': 'Sala do Empreendedor',
         'titulo_pag':'Facção Legal',
     }
+    if request.method == 'POST':
+        try:
+            pessoa=Pessoa.objects.get(cpf=validate_cpf(request.POST['cpf']))
+            messages.warning(request, 'Faça seu login antes de cadastrar sua facção')
+            next_page = reverse('autenticacao:login') + f'?next={reverse("empreendedor:cadastrar_faccao_legal")}'
+            return redirect(next_page)
+        except Exception as E:
+            print(E)
+            next_page = reverse('autenticacao:cadastrar_usuario') + f'?next={reverse("empreendedor:cadastrar_faccao_legal")}'
+            return redirect(next_page)
+
     return render(request, 'sala_do_empreendedor/faccao_legal.html', context)
 
+@login_required
 def cadastrar_faccao_legal(request):
+    if request.method == 'POST':
+        form = Faccao_Legal_Form(request.POST)
+        if form.is_valid():
+            faccao = form.save(commit=False)
+            faccao.user = request.user
+            faccao.save()
+            messages.success(request, 'Facção cadastrada com sucesso!')
+            return redirect('empreendedor:index')
+    else:
+        form = Faccao_Legal_Form(initial={'user': request.user.id})
     context = {
         'titulo': 'Sala do Empreendedor',
         'titulo_pag':'Facção Legal',
-        'form': Faccao_Legal_Form(),
+        'form': form,
     }
     return render(request, 'sala_do_empreendedor/cadastro_faccao_legal.html', context)
 
