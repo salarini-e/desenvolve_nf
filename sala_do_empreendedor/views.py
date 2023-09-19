@@ -90,12 +90,14 @@ def cadastrar_faccao_legal(request):
 
 import json
 from django.http import JsonResponse
+import re
+
 def checkCNPJ(request):    
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         cnpj = data.get('cnpj')
         try:
-            empresa = Empresa.objects.get(cnpj=cnpj)
+            empresa = Empresa.objects.get(cnpj=re.sub(r'[^0-9]', '', cnpj))
         except:
             empresa = False
         if empresa:
