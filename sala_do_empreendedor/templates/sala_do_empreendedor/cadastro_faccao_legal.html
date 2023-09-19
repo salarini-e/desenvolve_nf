@@ -169,7 +169,6 @@
       function checkCNPJ(cnpj){
             const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
             const csrfToken = csrfTokenInput.value;
-            console.log(csrfToken)
             let url = "{% url 'empreendedor:checkcnpj' %}";
             fetch(url,{
                 method: 'POST',
