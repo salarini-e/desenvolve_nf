@@ -14,6 +14,7 @@ def minha_empresa(request):
     }
     return render(request, 'sala_do_empreendedor/minha-empresa/index.html', context)
 
+import re
 @login_required()
 def cadastrar_empresa(request):
     form=FormEmpresa()
@@ -22,6 +23,7 @@ def cadastrar_empresa(request):
         if form.is_valid():
             empresa=form.save()
             empresa.user_register=request.user
+            empresa.cnpj=re.sub(r'[^0-9]', '', empresa.cnpj)
             empresa.save()
             messages.success(request, 'Empresa cadastrada com sucesso!')
             pessoa=Pessoa.objects.get(user=request.user)
