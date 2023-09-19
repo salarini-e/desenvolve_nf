@@ -71,8 +71,13 @@ def cadastrar_faccao_legal(request):
         if form.is_valid():
             faccao = form.save(commit=False)
             faccao.user = request.user
-            faccao.save()
-            messages.success(request, 'Facção cadastrada com sucesso!')
+            faccao.save()            
+            try:
+                if request.POST['cadastrar_empresa'] == 'on':
+                    messages.success(request, 'Facção cadastrada com sucesso! Agora efetue o cadastro da empresa.')
+                    return redirect('empreendedor:cadastrar_empresa')
+            except:
+                messages.success(request, 'Facção cadastrada com sucesso!')
             return redirect('empreendedor:index')
     else:
         form = Faccao_Legal_Form(initial={'user': request.user.id})
@@ -82,6 +87,24 @@ def cadastrar_faccao_legal(request):
         'form': form,
     }
     return render(request, 'sala_do_empreendedor/cadastro_faccao_legal.html', context)
+
+import json
+from django.http import JsonResponse
+def checkCNPJ(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        cnpj = data.get('cnpj')
+        try:
+            empresa = Empresa.objects.get(cnpj=cnpj)
+        except:
+            empresa = False
+        if empresa:
+            response_data = {'exists': True}
+        else:
+            response_data = {'exists': False}
+
+        return JsonResponse(response_data)
+    return JsonResponse({})
 
 def cadastro_fornecedores_e_compras_publicas(request):
     context = {

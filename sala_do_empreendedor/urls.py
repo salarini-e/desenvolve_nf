@@ -52,5 +52,6 @@ urlpatterns = [
     path('legislacao', views.legislacao, name='legislacao'),
     path('oportunidade-de-negocios', views.oportunidade_de_negocios, name='oportunidade'),
     path('admin/', views.sala_do_empreendedor_admin, name='admin'),
-    path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores')
+    path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores'),
+    path('faccao-legal/cadastrar/checkcnpj/', views.checkCNPJ, name='checkcnpj'),
 ]
