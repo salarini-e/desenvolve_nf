@@ -60,5 +60,5 @@ urlpatterns = [
     path('checkProfissao/', views.checkProfissao, name='checkProfissao'),
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
     path('processos/criar-novo/requerimento-iss/', views.requerimento_iss, name='requerimento_iss'),
-    path('adm/processos-digitais/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
+    path('adm/processos/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
 ]
