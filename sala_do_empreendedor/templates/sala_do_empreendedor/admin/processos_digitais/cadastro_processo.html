@@ -139,7 +139,10 @@
     const input_espelho_iptu = document.getElementById('id_espelho_iptu')
     const espelhoDiv = findParentDiv(input_espelho_iptu);
     espelhoDiv.style.display = 'none';
-    
+    const input_licenca_sanitaria = document.getElementById('id_licenca_sanitaria')
+    const licenca_sanitariaDiv = findParentDiv(input_licenca_sanitaria);
+    licenca_sanitariaDiv.style.display = 'none';
+
     function verificarSelecaoAutonomo() {
       const selectAutonomo = document.getElementById('id_autonomo_localizado');
       var selectedOption = selectAutonomo.value;
@@ -154,6 +157,51 @@
     // Adiciona um ouvinte de evento ao elemento select
     const selectAutonomo = document.getElementById('id_autonomo_localizado');
     selectAutonomo.addEventListener('change', verificarSelecaoAutonomo);
+
+    
+    function checkProfissao(id){
+            const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
+            const csrfToken = csrfTokenInput.value;
+            let url = "{% url 'empreendedor:checkProfissao' %}";
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            })
+            .then((response)=>{
+                response.json()
+                .then((data)=>{                    
+                    if (data.exists) {  
+                      if (data.diploma) {
+                        diplomaDiv.style.display = 'block';
+                      } else {
+                        diplomaDiv.style.display = 'none';
+                      }     
+                      if (data.licenca_sanitaria) {
+                        licenca_sanitariaDiv.style.display = 'block';
+                      } else {
+                        licenca_sanitariaDiv.style.display = 'none';
+                      }                    
+                    } else {                      
+                      diplomaDiv.style.display = 'none';
+                    }
+                })
+            })
+    }
+    // Obtém todos os elementos de rádio com o nome "profissao"
+    const radioProfissao = document.getElementsByName('profissao');
+
+    // Adiciona um ouvinte de evento para cada elemento de rádio
+    radioProfissao.forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        if (this.checked) {
+          checkProfissao(this.value);
+        }
+      });
+    });
   </script>
 </div>
 
