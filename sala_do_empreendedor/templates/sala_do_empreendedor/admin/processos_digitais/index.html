@@ -53,22 +53,26 @@
                         </a>
                     </div>
                     <div class="processos">
-                        <table class="table">
+                        <table class="table mt-4">
                             <thead>
                                 <tr>
-                                    <th>Processo</th>
                                     <th>Status</th>
-                                    <th>Dt. Solicitação</th>
+                                    <th>Nº Protocolo</th>
+                                    <th>Tipo</th>
                                     <th>Solicitante</th>
+                                    <th>Dt. Solicitação</th>
                                 </tr>
                             </thead>
                             <tbody>
+                              {% for processo in processos %}
                                 <tr>
-                                    <td><a href="#">NSDNDANADI81289</a></td>
-                                    <td>Aguardando avaliação do pedido</td>
-                                    <td>25/09/2023</td>
-                                    <td><a target="_blank" href="#">Eduardo Salarini</a></td>
+                                    <td>Aguardando avaliação</td>
+                                    <td><a href="#">{{processo.n_protocolo}}</a></td>
+                                    <td>{{processo.get_tipo_processo_display}}</td>
+                                    <td><a target="_blank" href="#">{{processo.solicitante.first_name}}</a></td>
+                                    <td>{{processo.dt_solicitacao}}</td>
                                 </tr>
+                              {% endfor %}
                             </tbody>
                         </table>
                     </div>

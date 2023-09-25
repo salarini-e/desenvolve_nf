@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital
 from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo
 from django.contrib import messages
 from autenticacao.models import Pessoa
@@ -18,20 +18,25 @@ def sala_do_empreendedor_admin(request):
 @login_required()
 @staff_member_required()
 def processos_digitais_admin(request):
+    proecsesos = Processo_Digital.objects.all().order_by('-dt_solicitacao')    
+    paginator = Paginator(proecsesos, 50)
     context = {
         'titulo': 'Sala do Empreendedor',
+        'processos': paginator.get_page(request.GET.get('page')),
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/index.html', context)
 
+import re
 @login_required()
 @staff_member_required()
 def requerimento_iss_admin(request):
     if request.method == 'POST':
         form = Criar_Processo_Form(request.POST, request.FILES)
         try:
-            pessoa = Pessoa.objects.get(cpf=request.POST['cpf'])
+            pessoa = Pessoa.objects.get(cpf=re.sub(r'[^0-9]', '', request.POST['cpf']))
         except:
             pessoa = None
+        print(pessoa)
         if pessoa:            
             if form.is_valid():
                 processo = form.save(commit=False)
@@ -48,9 +53,12 @@ def requerimento_iss_admin(request):
                     servidor = request.user 
                 )
                 andamento.save()
-                return redirect('sala_do_empreendedor:processos_digitais_admin')
+                return redirect('empreendedor:processos_digitais_admin')
+        else:
+            messages.error(request, 'Não foi encontrado usuário com esse CPF!')
     else:
         form = Criar_Processo_Form(initial={'tipo_processo': '0', 'solicitante': request.user.id})
+        
     context = {
         'titulo': 'Sala do Empreendedor',
         'form': form
