@@ -1,6 +1,10 @@
+import random
+import string
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.validators import FileExtensionValidator
 
 class Porte_da_Empresa(models.Model):
     porte=models.CharField(max_length=32, verbose_name='Porte da empresa')
@@ -122,3 +126,83 @@ class Faccao_legal(models.Model):
     situacao_trabalho = models.CharField(max_length=1, verbose_name='Geralmente, como está de trabalho?', choices=SITUACAO_CHOICES)
     situacao_remuneracao = models.CharField(max_length=2, verbose_name='Como você considera o valor que está sendo pago pela confecção de suas peças?', choices=REMUNERACAO_CHOICES)
     qual_seu_sonho_no_setor = models.TextField(verbose_name='Qual seu sonho no setor?', null=True, blank=True)
+    
+#PROCESSOS
+class Escolaridade(models.Model):
+
+    nome=models.CharField(max_length=128, verbose_name='Nome da escolaridade')
+    
+    def __str__(self) -> str:
+        return self.nome
+
+class Status_do_processo(models.Model):
+
+    nome=models.CharField(max_length=128, verbose_name='Status')
+    
+    def __str__(self) -> str:
+        return self.nome
+    
+class Profissao(models.Model):
+    
+    escolaridade = models.ForeignKey(Escolaridade, on_delete=models.CASCADE, verbose_name='Escolaridade')
+    nome = models.CharField(max_length=128, verbose_name='Nome da profissão')
+    licenca_sanitaria = models.BooleanField(default=False, verbose_name='Necessita licença sanitária?')    
+    
+    def __str__(self) -> str:
+        return self.nome
+    
+class Processo_Digital(models.Model):
+    
+    PROCESSO_CHOICES=(
+        ('0', 'Requerimento de ISS'),
+    )
+    AUTONOMO_LOCALIZADO_CHOICES=(
+        ('s', 'Sim'),
+        ('n', 'Não'),   
+    )
+    
+    tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
+    n_protocolo=models.CharField(max_length=128, verbose_name='Número do protocolo', null=True, blank=True)
+    rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte')
+    comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço')
+    profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
+    diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
+    licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
+    autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
+    espelho_iptu = models.ImageField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
+    solicitante = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
+    dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
+    
+    def __str__(self) -> str:
+        return self.n_protocolo    
+
+class Andamento_Processo_Digital(models.Model):
+    DOC_STATUS_CHOICES=(
+        ('0', 'Aguardando avaliação'),
+        ('1', 'Aprovado'),
+        ('2', 'Reprovado'),
+    )
+    processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
+    status = models.ForeignKey(Status_do_processo, on_delete=models.CASCADE, verbose_name='Status')    
+    rg_status=models.CharField(max_length=1, verbose_name='Status do RG', choices=DOC_STATUS_CHOICES, default='0')
+    comprovante_endereco_status=models.CharField(max_length=1, verbose_name='Status do comprovante de endereço', choices=DOC_STATUS_CHOICES, default='0')
+    observacao = models.TextField(verbose_name='Observação')
+    servidor = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Servidor', blank=True, null=True)
+    dt_andamento = models.DateField(auto_now=True, verbose_name='Data de atualização')
+    
+    def __str__(self) -> str:
+        return str(self.processo.n_protocolo) + ' - ' +str(self.id) + ' - ' + str(self.dt_andamento)
+    
+@receiver(post_save, sender=Processo_Digital)
+def generate_process_number(sender, instance, created, **kwargs):
+    if created and not instance.n_protocolo:  # Verifica se o objeto foi criado recentemente e se o número do processo já existe
+        random_part = ''.join(random.choices(string.digits, k=5))
+        # print('ID:', instance.id)
+        n_protocolo='{}{}'.format(random_part, instance.id)
+        aux=len(n_protocolo)
+        if aux>8:
+            while aux>8:
+                n_protocolo = n_protocolo[1:]
+                aux=len(n_protocolo)
+        instance.n_protocolo='{:8}'.format(n_protocolo.zfill(8))
+        instance.save()

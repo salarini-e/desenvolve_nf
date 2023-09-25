@@ -6,7 +6,7 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-
+from .models import Profissao
 # Create your views here.
 def index(request):
     context = {
@@ -91,6 +91,43 @@ def cadastrar_faccao_legal(request):
 import json
 from django.http import JsonResponse
 import re
+
+def checkProfissao(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        try:
+            profissao = Profissao.objects.get(id=id)
+        except:
+            profissao = False
+        if profissao:
+            if profissao.escolaridade.id == 1 or profissao.escolaridade.id == 2 or profissao.escolaridade.id == 3 or profissao.escolaridade.id == 4:
+                diploma = True
+            else: 
+                diploma = False
+            response_data = {'exists': True, 'licenca_sanitaria': profissao.licenca_sanitaria, 'diploma': diploma}
+        else:
+            response_data = {'exists': False}
+
+        return JsonResponse(response_data)
+    return JsonResponse({})
+
+def checkCPF(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        cpf = data.get('cpf')
+        try:
+            pessoa = Pessoa.objects.get(cpf=re.sub(r'[^0-9]', '', cpf))
+        except:
+            pessoa = False
+        print(cpf, pessoa)
+        if pessoa:
+            response_data = {'exists': True, 'nome': pessoa.nome}
+        else:
+            response_data = {'exists': False}
+
+        return JsonResponse(response_data)
+    return JsonResponse({})
 
 def checkCNPJ(request):    
     if request.method == 'POST':
@@ -323,3 +360,32 @@ def abertura_de_empresa(request):
     }
     return render(request, 'sala_do_empreendedor/abertura-de-empresa.html', context)
 
+
+@login_required()
+@staff_member_required()
+def requerimento_iss(request):
+    if request.method == 'POST':
+        form = Criar_Processo_Form(request.POST, request.FILES)
+        if form.is_valid():
+            processo = form.save(commit=False)
+            processo.tipo_processo = '0'
+            processo.solicitante = request.user
+            processo.save()
+            messages.success(request, 'Processo criado com sucesso!')
+            andamento = Andamento_Processo_Digital(
+                processo=processo,              
+                status=Status_do_processo.objects.get(id=1), 
+                rg_status = '0',
+                comprovante_endereco_status = '0',
+                observacao = 'Processo criado. Aguardando avaliação do pedido.',
+                servidor = None
+            )
+            andamento.save()
+            return redirect('sala_do_empreendedor:processos_digitais_admin')
+    else:
+        form = Criar_Processo_Form(initial={'tipo_processo': '0', 'solicitante': request.user.id})
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
