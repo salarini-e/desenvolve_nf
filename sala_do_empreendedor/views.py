@@ -381,7 +381,7 @@ def requerimento_iss(request):
                 servidor = None
             )
             andamento.save()
-            return redirect('sala_do_empreendedor:processos_digitais_admin')
+            return redirect('empreendedor:processos_digitais_admin')
     else:
         form = Criar_Processo_Form(initial={'tipo_processo': '0', 'solicitante': request.user.id})
     context = {
