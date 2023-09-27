@@ -47,9 +47,7 @@ def requerimento_iss_admin(request):
                 processo.save()
                 andamento = Andamento_Processo_Digital(
                     processo=processo,              
-                    status=Status_do_processo.objects.get(id=1), 
-                    rg_status = '0',
-                    comprovante_endereco_status = '0',
+                    status=Status_do_processo.objects.get(id=1),                     
                     observacao = 'Processo criado pelo servidor. Aguardando avaliação do pedido.',
                     servidor = request.user 
                 )
