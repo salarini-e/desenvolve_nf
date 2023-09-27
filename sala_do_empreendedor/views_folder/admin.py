@@ -57,6 +57,12 @@ def requerimento_iss_admin(request):
                 andamento.save()
                 status_documentos = Processo_Status_Documentos_Anexos(
                     processo=processo,
+                    rg_status = '0',
+                    comprovante_endereco_status = '0',
+                    diploma_ou_certificado_status = '0',
+                    licenca_sanitaria = '0',
+                    espelho_iptu_status = '0'
+                    
                 )
                 status_documentos.save()
                 return redirect('empreendedor:processos_digitais_admin')
