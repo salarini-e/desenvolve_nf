@@ -192,7 +192,7 @@ class Andamento_Processo_Digital(models.Model):
 
     processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
     status = models.ForeignKey(Status_do_processo, on_delete=models.CASCADE, verbose_name='Status')    
-    observacao = models.TextField(verbose_name='Mensagem')
+    observacao = models.TextField(verbose_name='Mensagem', default='n/h')
     servidor = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Servidor', blank=True, null=True)
     dt_andamento = models.DateField(auto_now=True, verbose_name='Data de atualização')
     
