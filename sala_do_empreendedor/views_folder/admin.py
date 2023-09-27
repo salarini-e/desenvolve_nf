@@ -45,7 +45,6 @@ def requerimento_iss_admin(request):
                 processo.tipo_processo = '0'
                 processo.solicitante = pessoa.user
                 processo.save()
-                messages.success(request, 'Processo criado com sucesso!')
                 andamento = Andamento_Processo_Digital(
                     processo=processo,              
                     status=Status_do_processo.objects.get(id=1), 
@@ -65,6 +64,7 @@ def requerimento_iss_admin(request):
                     
                 )
                 status_documentos.save()
+                messages.success(request, 'Processo criado com sucesso!')
                 return redirect('empreendedor:processos_digitais_admin')
         else:
             messages.error(request, 'Não foi encontrado usuário com esse CPF!')
