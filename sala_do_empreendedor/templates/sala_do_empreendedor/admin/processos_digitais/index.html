@@ -56,21 +56,23 @@
                         <table class="table mt-4">
                             <thead>
                                 <tr>
-                                    <th>Status</th>
                                     <th>Nº Protocolo</th>
+                                    <th>Status</th>
                                     <th>Tipo</th>
                                     <th>Solicitante</th>
                                     <th>Dt. Solicitação</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                               {% for processo in processos %}
                                 <tr>
-                                    <td>Aguardando avaliação</td>
-                                    <td><a href="#">{{processo.n_protocolo}}</a></td>
-                                    <td>{{processo.get_tipo_processo_display}}</td>
-                                    <td><a target="_blank" href="#">{{processo.solicitante.first_name}}</a></td>
+                                    <td><strong>{{processo.n_protocolo}}</strong></td>
+                                    <td><span class="py-1 px-3 rounded-pill " style="background-color: rgb(124, 183, 235);">Aguardando avaliação</span></td>
+                                    <td><span class="py-1 px-3 rounded-pill " style="background-color: rgb(124, 235, 150);">{{processo.get_tipo_processo_display}}</span></td>
+                                    <td><a target="_blank" href="#"><i class="fa-solid fa-user me-2"></i> {{processo.solicitante.first_name}}</a></td>
                                     <td>{{processo.dt_solicitacao}}</td>
+                                    <td><a href="{% url 'empreendedor:andamento_processo_admin' processo.id %}"><i class="fa-solid fa-folder-open me-2"></i> Visualizar processo</a></td>
                                 </tr>
                               {% endfor %}
                             </tbody>
@@ -105,6 +107,8 @@
       menu.classList.toggle("menu-open");
     });
   });
+
+  
   </script>
 </div>
 

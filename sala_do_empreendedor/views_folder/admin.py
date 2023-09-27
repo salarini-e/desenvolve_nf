@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos
 from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
+import json
+from django.http import JsonResponse
 
 @login_required()
 @staff_member_required()
@@ -53,6 +55,10 @@ def requerimento_iss_admin(request):
                     servidor = request.user 
                 )
                 andamento.save()
+                status_documentos = Processo_Status_Documentos_Anexos(
+                    processo=processo,
+                )
+                status_documentos.save()
                 return redirect('empreendedor:processos_digitais_admin')
         else:
             messages.error(request, 'Não foi encontrado usuário com esse CPF!')
@@ -65,7 +71,80 @@ def requerimento_iss_admin(request):
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/cadastro_processo.html', context)
 
+@login_required()
+@staff_member_required()
+def andamento_processo(request, id):
+    processo = Processo_Digital.objects.get(id=id)
+    andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+    status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processo': processo,
+        'andamentos': andamentos,
+        'status_documentos': status_documentos
+        
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo.html', context)
 
+@login_required()
+@staff_member_required()
+def mudaStatusRG(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
+        status_documentos.rg_status = data.get('status')
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
+
+@login_required()
+@staff_member_required()
+def mudaStatusComprovante(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
+        status_documentos.comprovante_endereco_status = data.get('status')
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
+
+@login_required()
+@staff_member_required()
+def mudaStatusCertificado(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
+        status_documentos.diploma_ou_certificado_status = data.get('status')
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
+
+@login_required()
+@staff_member_required()
+def mudaStatusLicenca(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
+        status_documentos.licenca_sanitaria= data.get('status')
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
+
+@login_required()
+@staff_member_required()
+def mudaStatusEspelho(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
+        status_documentos.espelho_iptu_status = data.get('status')
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
 
 @login_required()
 @staff_member_required()

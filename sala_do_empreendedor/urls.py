@@ -58,7 +58,13 @@ urlpatterns = [
     #PROCESSOS
     path('checkCPF/', views.checkCPF, name='checkCPF'),
     path('checkProfissao/', views.checkProfissao, name='checkProfissao'),
+    path('muda-status-rg/', views.mudaStatusRG, name='mudaStatusRG'),
+    path('muda-status-comprovante/', views.mudaStatusComprovante, name='mudaStatusComprovante'),
+     path('muda-status-Ccertificado/', views.mudaStatusCertificado, name='mudaStatusCertificado'),
+      path('muda-status-licenca/', views.mudaStatusLicenca, name='mudaStatusLicenca'),
+       path('muda-status-espelho/', views.mudaStatusEspelho, name='mudaStatusEspelho'),
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
+    path('adm/processos-digitais/<id>/', views.andamento_processo, name='andamento_processo_admin'),
     path('processos/criar-novo/requerimento-iss/', views.requerimento_iss, name='requerimento_iss'),
     path('adm/processos/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
 ]
