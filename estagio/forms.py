@@ -6,6 +6,21 @@ class Date(forms.DateInput):
     input_type = 'date'
 
 class Estudante_form(ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        print(args)
+        initial = kwargs.get('initial', {})
+        universidade_id = initial.get('universidade', None)
+
+        super(Estudante_form, self).__init__(*args, **kwargs)
+        # Aqui você pode popular as opções do campo universidade e curso
+        if universidade_id is not None:
+            self.fields['curso'].choices = [(curso.id, curso.nome) for curso in Curso.objects.filter(universidade_id=universidade_id)]
+        elif self.is_bound and 'universidade' in self.data:
+        # Verifica se o formulário está vinculado (método POST) e se 'universidade' está presente nos dados POST
+            post_universidade_id = self.data['universidade']
+            self.fields['curso'].choices = [(curso.id, curso.nome) for curso in Curso.objects.filter(universidade_id=post_universidade_id)]
+   
     class Meta:
         model = Estudante
         widgets = {

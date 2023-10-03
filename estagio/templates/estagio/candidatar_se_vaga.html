@@ -99,7 +99,7 @@
     // })
 
     function get_cursos(university_id) {
-    fetch('/get_courses_by_university/?university_id=' + university_id, {
+    fetch('/estagio/get_courses_by_university/'+ university_id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

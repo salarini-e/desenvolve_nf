@@ -219,10 +219,10 @@ def getCursos(request, id):
     return render(request, 'estagio/getCursos.html', context)
 
 from django.http import JsonResponse
-
-def get_courses_by_university(request):
-    university_id = request.GET.get('university_id')
+def get_courses_by_university(request, university_id):
+    print("university_id:", university_id)  # Adicione esta linha para depurar
     courses = Curso.objects.filter(universidade_id=university_id).values('id', 'nome')
+    print("courses:", list(courses))  # Adicione esta linha para depurar
     return JsonResponse(list(courses), safe=False)
 
 @login_required
