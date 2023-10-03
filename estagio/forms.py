@@ -120,19 +120,21 @@ class Estudante_vaga_form(ModelForm):
             return False
         else:
             cursos = local.cursos.all()
-            teste_valid = []
-            for curso in cursos:
-                if curso.nome == estudante.curso.nome:
-                    teste_valid.append(True)
-                else:
-                    teste_valid.append(False)
+            # teste_valid = []
+            print(estudante.curso)
+            print(cursos)
+            if estudante.curso in cursos:
+                return True
+            else:
+                self.add_error('local_do_estagio_de_pretensao', "Você não pode se candidatar a essa vaga pois seu curso não é compativel.")                    
+                return False
                     
-            for teste in teste_valid:
-                if teste:
-                   return True
-                else:
-                    self.add_error('local_do_estagio_de_pretensao', "Você não pode se candidatar a essa vaga pois seu curso não é compativel.")                    
-                    return False
+            # for teste in teste_valid:
+            #     if teste:
+            #        return True
+            #     else:
+            #         self.add_error('local_do_estagio_de_pretensao', "Você não pode se candidatar a essa vaga pois seu curso não é compativel.")                    
+            #         return False
 
                 
 class Cadatrar_Vaga_form(ModelForm):
