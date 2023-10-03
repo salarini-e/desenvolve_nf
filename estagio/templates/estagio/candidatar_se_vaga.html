@@ -62,7 +62,6 @@
 <script>
     cursos=[
         {% for curso in local.cursos.all %}
-        
             '{{curso.nome}}',
         {% endfor %}
     ]
@@ -99,7 +98,28 @@
        
     // })
 
- 
+    function get_cursos(university_id) {
+    fetch('/get_courses_by_university/?university_id=' + university_id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        var cursoSelect = document.getElementById('id_curso');
+        cursoSelect.innerHTML = ''; // Limpa as opções atuais
+        data.forEach(course => {
+            var option = document.createElement('option');
+            option.value = course.id;
+            option.text = course.nome;
+            cursoSelect.appendChild(option);
+        });
+    })
+    .catch(error => {
+        console.error('Erro ao buscar cursos:', error);
+    });
+}
 
 </script>
 {% endblock %}

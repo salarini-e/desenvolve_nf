@@ -10,7 +10,7 @@ class Estudante_form(ModelForm):
         model = Estudante
         widgets = {
             'pessoa':forms.HiddenInput(),
-            'universidade': forms.Select(attrs={'class':'form-control', 'onchange':'get_cursos(this.value)'}),
+            'universidade': forms.Select(attrs={'class':'form-control', 'onchange':'get_cursos(this.value)', 'readonly': 'readonly'}),
             'curso': forms.Select(attrs={'class':'form-control', 'onchange':'checkVaga(this)'}),
         }
         

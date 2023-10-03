@@ -218,6 +218,13 @@ def getCursos(request, id):
     } 
     return render(request, 'estagio/getCursos.html', context)
 
+from django.http import JsonResponse
+
+def get_courses_by_university(request):
+    university_id = request.GET.get('university_id')
+    courses = Curso.objects.filter(universidade_id=university_id).values('id', 'nome')
+    return JsonResponse(list(courses), safe=False)
+
 @login_required
 def candidatar_se_vaga(request, id, id_curso):
     pessoa = Pessoa.objects.get(user=request.user)

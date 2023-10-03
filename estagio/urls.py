@@ -45,4 +45,6 @@ urlpatterns = [
     path('adm/vagas/', views.listar_vagas, name='listar_vagas'),
     path('adm/vagas/cadastrar', views.cadastrar_vagas, name='cadastrar_vagas'),
     path('adm/vagas/<id>/editar', views.editar_vagas, name='editar_vagas'),
+    path('get_courses_by_university/', views.get_courses_by_university, name='get_courses_by_university'),
+
 ]
