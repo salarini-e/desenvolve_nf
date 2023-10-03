@@ -230,6 +230,8 @@ def candidatar_se_vaga(request, id, id_curso):
         forms_estudante = Estudante_form(initial={'pessoa': pessoa.id, 'universidade': curso.universidade.id, 'curso': curso.id})
 
     local =  Locais_de_Estagio.objects.get(id=id)
+    # print(local)
+    # print(local.cursos.all)
     forms_vaga = Estudante_vaga_form(initial={'status': 0, 'local_do_estagio_de_pretensao': id})
 
     if request.method == 'POST':
