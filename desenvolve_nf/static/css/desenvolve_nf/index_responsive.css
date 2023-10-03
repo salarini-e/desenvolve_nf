@@ -5,7 +5,19 @@
 /* Telas pequenas e laptops*/
 @media(min-width:769px) and (max-width:1024px){
   .nav-a{
-    display: none;
+    padding-left: 0px !important;
+  }
+  .logo-2{
+    width: 100px;
+  }
+  .nv-social{
+    display: none !important;
+  }
+  .nv-login{
+    margin-left: 1.5em !important;
+  }
+  .text-f{
+    margin-left: 4em !important;
   }
 }
 /* iPads e tablets*/
