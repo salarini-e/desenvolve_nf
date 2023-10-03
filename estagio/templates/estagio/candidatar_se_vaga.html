@@ -8,7 +8,7 @@
 {% block main %}
 <div class="d-flex flex-wrap">        
     <!-- <h1 id="go">Vaga de estágio</h1>    -->
-    <a href="{% url 'estagio:listar_cursos_e_locais' curso.id %}" class="btn btn-secondary ms-auto my-auto">
+    <a href="{% url 'estagio:listar_cursos_e_locais' curso.universidade.id %}" class="btn btn-secondary ms-auto my-auto">
         Voltar
     </a>          
   </div>
