@@ -15,7 +15,7 @@
               <a href="{% url 'empreendedor:processos_digitais_admin' %}" class="btn btn-dark ms-auto my-auto">
                 <i class="fa-solid fa-rotate-left me-2"></i> Voltar
               </a>
-              <a href="{% url 'empreendedor:requerimento_iss_admin' %}" class="btn btn-success ms-2 my-auto">
+              <a href="{% url 'empreendedor:novo_andamento_processo_admin' processo.id %}" class="btn btn-success ms-2 my-auto">
                 <i class="fa-solid fa-circle-arrow-right me-2"></i> Dar novo andamento
               </a>
                                
@@ -177,7 +177,7 @@
                                       <i class="fa-solid fa-check"></i>
                                       {% endif %}
                                     </td>
-                                    <td class="text-center d-flex"><span class="mx-auto py-1 px-2 rounded-pill w-100" style="background-color: rgb(152, 190, 223); max-width: 300px;">{{andamento.status}}</span></td>
+                                    <td class="text-center d-flex"><span class="mx-auto py-1 px-2 rounded-pill w-100" style="background-color: rgb(152, 190, 223); max-width: 300px;">{{andamento.get_status_display}}</span></td>
                                     <td>{% if andamento.observacao != 'n/h' %}{{andamento.observacao}}{% else %} <span class="text-secondary"><i>Não há mensagem.</i></span> {% endif %}</td>                  
                                     <td class="text-center">{{andamento.dt_andamento|date:"d/m/y"}}</td>
                                     <td>

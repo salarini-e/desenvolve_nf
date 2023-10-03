@@ -7,6 +7,7 @@ from .forms import Faccao_Legal_Form
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao
+
 # Create your views here.
 def index(request):
     context = {

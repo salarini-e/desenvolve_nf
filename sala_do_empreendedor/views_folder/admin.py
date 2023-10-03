@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos
-from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo
+from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
@@ -33,7 +33,7 @@ import re
 @staff_member_required()
 def requerimento_iss_admin(request):
     if request.method == 'POST':
-        form = Criar_Processo_Form(request.POST, request.FILES)
+        form = Criar_Processo_Admin_Form(request.POST, request.FILES)
         try:
             pessoa = Pessoa.objects.get(cpf=re.sub(r'[^0-9]', '', request.POST['cpf']))
         except:
@@ -67,7 +67,7 @@ def requerimento_iss_admin(request):
         else:
             messages.error(request, 'Não foi encontrado usuário com esse CPF!')
     else:
-        form = Criar_Processo_Form(initial={'tipo_processo': '0', 'solicitante': request.user.id})
+        form = Criar_Processo_Admin_Form(initial={'tipo_processo': '0', 'solicitante': request.user.id})
         
     context = {
         'titulo': 'Sala do Empreendedor',
@@ -89,6 +89,30 @@ def andamento_processo(request, id):
         
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo.html', context)
+
+@login_required()
+@staff_member_required()
+def novo_andamento_processo(request, id):
+    processo = Processo_Digital.objects.get(id=id)
+    if request.method == 'POST':
+        form = Criar_Andamento_Processo(request.POST)
+        if form.is_valid():
+            andamento = form.save(commit=False)
+            andamento.processo = processo
+            andamento.servidor = request.user
+            andamento.save()
+            messages.success(request, 'Andamento cadastrado com sucesso!')
+            return redirect('empreendedor:andamento_processo', id)
+    else:
+        form = Criar_Andamento_Processo()
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processo': processo,
+        'form': form
+        
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)
+
 
 @login_required()
 @staff_member_required()

@@ -61,6 +61,17 @@ class Faccao_Legal_Form(ModelForm):
         fields = ['tempo_que_trabalha', 'trabalha_com', 'equipamentos', 'area', 'tamanho_area', 'possui_colaboradores', 'qtd_colaboradores', 'tipo_produto', 'outro_produto', 'situacao_trabalho', 'situacao_remuneracao', 'user', 'possui_mei', 'cnpj', 'qual_seu_sonho_no_setor']
         exclude = []
 
+class Criar_Processo_Admin_Form(ModelForm):
+    class Meta:
+        model = Processo_Digital
+        widgets = {
+            'tipo_processo': forms.HiddenInput(),
+            'n_protocolo': forms.HiddenInput(),
+            'profissao': forms.RadioSelect(),
+            'solicitante': forms.HiddenInput(),        
+            }
+        exclude = ['dt_solicitacao', 'boleto', 'boleto_pago']
+        
 class Criar_Processo_Form(ModelForm):
     class Meta:
         model = Processo_Digital
@@ -70,8 +81,8 @@ class Criar_Processo_Form(ModelForm):
             'profissao': forms.RadioSelect(),
             'solicitante': forms.HiddenInput(),        
             }
-        exclude = ['dt_solicitacao']
-        
+        exclude = ['dt_solicitacao', 'boleto', 'boleto_pago', 'status']
+               
 class Criar_Andamento_Processo(ModelForm):
     class Meta:
         model = Andamento_Processo_Digital

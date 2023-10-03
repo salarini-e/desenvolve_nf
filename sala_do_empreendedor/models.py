@@ -156,18 +156,20 @@ class Processo_Digital(models.Model):
     
     PROCESSO_CHOICES=(
         ('0', 'Requerimento de ISS'),
+        ('1', 'Cancelamento de ISS'),
     )
     AUTONOMO_LOCALIZADO_CHOICES=(
         ('s', 'Sim'),
         ('n', 'Não'),   
     )
     STATUS_CHOICES=(
-        ('n', 'Novo'),
-        ('e', 'Em andamento'),
-        ('a', 'Aprovado'),
-        ('r', 'Reprovado'),
+        ('nv', 'Novo'),
+        ('ar', 'Aguardando reenvio de RG'),
+        ('aa', 'Aguardando avaliação'),
+        ('bg', 'Boleto gerado'),
+        ('cn', 'Concluído')
     )
-    status = models.CharField(max_length=1, verbose_name='Status', choices=STATUS_CHOICES, default='n')
+    status = models.CharField(max_length=2, verbose_name='Status', choices=STATUS_CHOICES, default='n')
     tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
     n_protocolo=models.CharField(max_length=128, verbose_name='Número do protocolo', null=True, blank=True)
     rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte')
@@ -178,6 +180,8 @@ class Processo_Digital(models.Model):
     autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
     espelho_iptu = models.ImageField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
     solicitante = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
+    boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
+    boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
     dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
     dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
     
@@ -189,9 +193,15 @@ class Processo_Digital(models.Model):
         super(Processo_Digital, self).save(*args, **kwargs)
         
 class Andamento_Processo_Digital(models.Model):
-
+    STATUS_CHOICES=(
+        ('nv', 'Novo'),
+        ('ar', 'Aguardando reenvio de RG'),
+        ('aa', 'Aguardando avaliação'),
+        ('bg', 'Boleto gerado'),
+        ('cn', 'Concluído')
+    )
     processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
-    status = models.ForeignKey(Status_do_processo, on_delete=models.CASCADE, verbose_name='Status')    
+    status = models.CharField(max_length=2, verbose_name='Status', choices=STATUS_CHOICES, default='n') 
     observacao = models.TextField(verbose_name='Mensagem', default='n/h')
     servidor = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Servidor', blank=True, null=True)
     dt_andamento = models.DateField(auto_now=True, verbose_name='Data de atualização')
