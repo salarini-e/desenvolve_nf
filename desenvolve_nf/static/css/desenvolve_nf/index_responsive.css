@@ -27,6 +27,22 @@
   .logo-nf .logo-1{
     display:none;
   }
+  #chatbase-bubble-button{
+    right: 2em !important;
+  }
+  .carrosel{
+    height: 500px;
+  }
+  .owl-stage-outer{
+    height: 400px;
+  }
+  .wrapper-1 div, .wrapper-2 div{
+    padding: 0px !important;
+  }
+  .text-f{
+    margin-left: 3em !important;
+    margin-right: 3em !important;
+  }
 }
 /* Celulares */
 @media(min-width:320px) and (max-width:480px){
