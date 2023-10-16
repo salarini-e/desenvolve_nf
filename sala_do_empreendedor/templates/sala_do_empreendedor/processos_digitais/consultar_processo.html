@@ -34,35 +34,28 @@
   </style>
 
   <div class="py-5 d-flex flex-column">
-      <h3>{{titulo_pag}}</h3>
-      <a href="{% url 'empreendedor:requerimento_iss' %}">Requerir ISS</a>
-      <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=NF" target="_blank" class="my-3">
-        Emissão da taxa de ISS Anual
-      </a>
-      <div class="mx-auto" style="text-align: left !important;">
-        <p><strong>Solicitação de autônomo pelo Regin:</strong></p>
-        <p>0. Entrar no site Jucerja (Junta comercial)</p>
-        <p>1. Serviços</p>
-        <p>2. Regin</p>
-        <p>3. Serviços Regin</p>
-        <p>4. Pedido de legalização de inscrição</p>
-        <p>5. Municipio de interesse: Nova Friburgo</p>
-        <p>6. Instituição: Prefeitura Municipal - eventos exclusivos</p>
-        <p>7. Novo Requerimento: É só preencher os dados</p>
-      </div>
-      <div class="mx-auto mt-4">
+      <h3>Consultar processo</h3>
+
+      <div class="mx-auto mt-4 d-flex">
         <div class="item border d-flex flex-column mx-2 div_cursos">
-          <a target="_blank" href="https://www.jucerja.rj.gov.br/">
+          <a target="_blank" href="https://gpi18.cloud.el.com.br/ServerExec/acessoBase/?idPortal=008D9DCE8EF2707B45F47C2AD10B38E2">
             <div class="c-img" style="position: relative;">
-              <img class="banner-img" src="/static/images/icons_servicos/junta-comercial.jpeg" >
+              <img class="banner-img" src="/static/images/icons_servicos/processos_gerais.jpg" >
             </div>
           </a> 
         </div>
+        <div class="item border d-flex flex-column mx-2 div_cursos">
+            <a href="{% url 'empreendedor:listar_processos' %}">
+              <div class="c-img" style="position: relative;">
+                <img class="banner-img" src="/static/images/icons_servicos/processos_desenvolve.jpg" >
+              </div>
+            </a> 
+          </div>
       </div>
   </div>
   <div class="row mx-auto px-5">
     <script>
-      document.getElementById('empreendedor_servicos').classList.add('s-nav-active');
+      document.getElementById('empreendedor_protocolo').classList.add('s-nav-active');
     </script>
   </div>
 </div>

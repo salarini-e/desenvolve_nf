@@ -152,25 +152,43 @@ class Profissao(models.Model):
     def __str__(self) -> str:
         return self.nome
     
+class Tipo_Processos(models.Model):
+        
+        nome = models.CharField(max_length=128, verbose_name='Nome do processo')
+        descricao = models.TextField(verbose_name='Descrição do processo')
+        dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+        user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+                
+        def __str__(self) -> str:
+            return self.nome
+
+class Administrador(models.Model):
+    
+    pessoa = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Pessoa', related_name='pessoa_adm')
+    processos_autorizados = models.ManyToManyField(Tipo_Processos, verbose_name='Processos autorizados')
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, related_name='user_register_adm')
+        
 class Processo_Digital(models.Model):
     
-    PROCESSO_CHOICES=(
-        ('0', 'Requerimento de ISS'),
-        ('1', 'Cancelamento de ISS'),
-    )
+    # PROCESSO_CHOICES=(
+    #     ('0', 'Requerimento de ISS'),
+    #     ('1', 'Cancelamento de ISS'),
+    # )
     AUTONOMO_LOCALIZADO_CHOICES=(
         ('s', 'Sim'),
         ('n', 'Não'),   
     )
     STATUS_CHOICES=(
         ('nv', 'Novo'),
-        ('ar', 'Aguardando reenvio de RG'),
+        ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
-        ('bg', 'Boleto gerado'),
+        ('bg', 'Boleto gerado'),    
         ('cn', 'Concluído')
     )
     status = models.CharField(max_length=2, verbose_name='Status', choices=STATUS_CHOICES, default='n')
-    tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
+    tipo_processo = models.ForeignKey(Tipo_Processos, on_delete=models.CASCADE, verbose_name='Tipo de processo')
+    # tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
     n_protocolo=models.CharField(max_length=128, verbose_name='Número do protocolo', null=True, blank=True)
     rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte')
     comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço')
@@ -195,7 +213,7 @@ class Processo_Digital(models.Model):
 class Andamento_Processo_Digital(models.Model):
     STATUS_CHOICES=(
         ('nv', 'Novo'),
-        ('ar', 'Aguardando reenvio de RG'),
+        ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
         ('bg', 'Boleto gerado'),
         ('cn', 'Concluído')

@@ -369,7 +369,7 @@ def requerimento_iss(request):
         form = Criar_Processo_Form(request.POST, request.FILES)
         if form.is_valid():
             processo = form.save(commit=False)
-            processo.tipo_processo = '0'
+            processo.tipo_processo = 1
             processo.solicitante = request.user
             processo.save()
             messages.success(request, 'Processo criado com sucesso!')
@@ -384,9 +384,39 @@ def requerimento_iss(request):
             andamento.save()
             return redirect('empreendedor:processos_digitais_admin')
     else:
-        form = Criar_Processo_Form(initial={'tipo_processo': '0', 'solicitante': request.user.id})
+        form = Criar_Processo_Form(initial={'tipo_processo': 1, 'solicitante': request.user.id})
     context = {
         'titulo': 'Sala do Empreendedor',
         'form': form
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
+
+@login_required()
+def andamento_processo(request, protocolo):
+    processo = Processo_Digital.objects.get(n_protocolo=protocolo)
+    andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+    status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processo': processo,
+        'andamentos': andamentos,
+        'status_documentos': status_documentos
+        
+    }
+    return render(request, 'sala_do_empreendedor/processos_digitais/andamento_processo.html', context)
+
+def consultar_processos(request):
+    context = {
+        'titulo': 'Sala do Empreendedor',
+    }
+    return render(request, 'sala_do_empreendedor/processos_digitais/consultar_processo.html', context)
+
+@login_required()
+def meus_processos(request):
+    proecsesos = Processo_Digital.objects.filter(solicitante=request.user).order_by('-dt_solicitacao')    
+    paginator = Paginator(proecsesos, 50)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processos': paginator.get_page(request.GET.get('page')),
+    }
+    return render(request, 'sala_do_empreendedor/processos_digitais/listar_processos.html', context)

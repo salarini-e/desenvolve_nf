@@ -64,8 +64,11 @@ urlpatterns = [
     path('muda-status-licenca/', views.mudaStatusLicenca, name='mudaStatusLicenca'),
     path('muda-status-espelho/', views.mudaStatusEspelho, name='mudaStatusEspelho'),
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
-    path('adm/processos-digitais/<id>/', views.andamento_processo, name='andamento_processo_admin'),
+    path('adm/processos-digitais/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),
+    path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
     path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
     path('processos/criar-novo/requerimento-iss/', views.requerimento_iss, name='requerimento_iss'),
     path('adm/processos/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
+    path('consultar-processos/', views.consultar_processos, name='consultar_processos'),
+    path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
 ]

@@ -42,7 +42,7 @@ def requerimento_iss_admin(request):
         if pessoa:            
             if form.is_valid():
                 processo = form.save(commit=False)
-                processo.tipo_processo = '0'
+                processo.tipo_processo = 1
                 processo.solicitante = pessoa.user
                 processo.save()
                 andamento = Andamento_Processo_Digital(
@@ -67,7 +67,7 @@ def requerimento_iss_admin(request):
         else:
             messages.error(request, 'Não foi encontrado usuário com esse CPF!')
     else:
-        form = Criar_Processo_Admin_Form(initial={'tipo_processo': '0', 'solicitante': request.user.id})
+        form = Criar_Processo_Admin_Form(initial={'tipo_processo': 1, 'solicitante': request.user.id})
         
     context = {
         'titulo': 'Sala do Empreendedor',
@@ -77,7 +77,7 @@ def requerimento_iss_admin(request):
 
 @login_required()
 @staff_member_required()
-def andamento_processo(request, id):
+def andamento_processo_admin(request, id):
     processo = Processo_Digital.objects.get(id=id)
     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
     status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
@@ -101,10 +101,14 @@ def novo_andamento_processo(request, id):
             andamento.processo = processo
             andamento.servidor = request.user
             andamento.save()
+            processo.status = andamento.status
+            processo.save() 
             messages.success(request, 'Andamento cadastrado com sucesso!')
-            return redirect('empreendedor:andamento_processo', id)
+            return redirect('empreendedor:andamento_processo_admin', id)
+        else:
+            print(form.errors)
     else:
-        form = Criar_Andamento_Processo()
+        form = Criar_Andamento_Processo(initial={'processo': processo})
     context = {
         'titulo': 'Sala do Empreendedor',
         'processo': processo,

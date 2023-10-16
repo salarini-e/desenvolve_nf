@@ -12,8 +12,8 @@
     <div class="row  bg-white" style="border-radius: 30px;">
       <div class="col">
         <div class="pt-4 d-flex px-3">
-            <h2 style="display: inline;">Processos Digitail</h2>                        
-              <a href="{% url 'empreendedor:admin' %}" class="btn btn-dark ms-auto my-auto">
+            <h2 style="display: inline;">Processo Digital</h2>                        
+              <a href="{% url 'empreendedor:iss_autonomos' %}" class="btn btn-dark ms-auto my-auto">
                 <i class="fa-solid fa-rotate-left"></i>
               </a>                        
             </div>
@@ -34,6 +34,7 @@
                     <h2 class="mb-4">REQUERIMENTO DE ISS</h2>
                     {% csrf_token %}
                     {% bootstrap_form form %}
+                    <p class="mb-3"><i><strong>O que é autônomo localizado?</strong> Este item referece ao autônomo...</i></p>
                     <button class="btn btn-primary">
                       Enviar requerimento
                     </button>

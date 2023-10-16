@@ -24,7 +24,7 @@
               <div class="col px-5 mt-4 d-flex">
                 <span class="py-0 px-2 rounded-pill" style="background-color: rgb(152, 190, 223);">{{processo.get_status_display}}</span>
                 <p class="ms-3">
-                  <strong class="my-auto">{{processo.get_tipo_processo_display}} - {{processo.n_protocolo}} - {{processo.dt_solicitacao|date:"d/m/y"}}</strong></p >
+                  <strong class="my-auto">{{processo.tipo_processo.nome}} - {{processo.n_protocolo}} - {{processo.dt_solicitacao|date:"d/m/y"}}</strong></p >
                 <p class="ms-auto my-auto"><strong>Solicitante:</strong> <a href="#">{{processo.solicitante.first_name}}</a></p>
               </div>
             </div>
