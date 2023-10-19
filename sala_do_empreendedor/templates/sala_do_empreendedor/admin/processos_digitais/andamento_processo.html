@@ -30,6 +30,7 @@
                 <p class="ms-auto my-auto"><strong>Solicitante:</strong> <a href="#">{{processo.solicitante.first_name}}</a></p>
               </div>
             </div>
+            {% if processo.status == 'cn' %}
             <div class="row">
               <div class="col text-center pt-4">
                 <p><b>Processo encerrado!</b></p>
@@ -39,6 +40,7 @@
                 </h3>
               </div>
             </div>
+            {% endif %}
             <div class="row">
               <div class="col d-flex flex-column pt-4 pb-3 px-5">
                 <hr>

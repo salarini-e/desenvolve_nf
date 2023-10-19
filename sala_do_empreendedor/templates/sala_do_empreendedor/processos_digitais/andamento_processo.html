@@ -27,6 +27,7 @@
             <div class="row">
               <div class="col d-flex flex-column pt-4 pb-3 px-5">
                 <hr>
+                {% if processo.status == 'cn' %}
                 <div class="row">
                   <div class="col">
                     <p><b>Parabéns! Seu processo foi concluído!</b></p>
@@ -35,6 +36,7 @@
                     <h3 class="text-center">{{processo.n_inscricao}}</h3>
                   </div>
                 </div>
+                {% endif %}
                 <div class="d-flex w-100 pt-4">
                 <h4>Anexos</h4>
                
