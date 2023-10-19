@@ -42,10 +42,15 @@
             <div class="row">
                 <div class="col px-5 pb-5 d-flex flex-column">
                     <div class="menu mt-3 mb-4">
-                        <a href="{% url 'empreendedor:cadastrar_profissao' %}" class="ms-3 btn btn-dark">
-                          <i class="fa-solid fa-circle-plus me-2"></i>Criar nova opção de profissão
+                        <a href="#">
+                            Escolaridade
                         </a>
-        
+                        <a href="#" class="ms-3">
+                            Profissão
+                        </a>
+                        <a href="#" class="ms-3">
+                            Status
+                        </a>
                     </div>
                     <div class="processos">
                         <table class="table mt-4">
@@ -64,7 +69,7 @@
                                 <tr>
                                     <td><strong>{{processo.n_protocolo}}</strong></td>
                                     <td class="d-flex text-center"><span class="py-1 px-3 rounded-pill w-100" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}rgb(146, 146, 146){% endif %};">{{processo.get_status_display}}</span></td>
-                                    <td style="padding-top: 12px;"><span class="py-1 px-3 rounded-pill w-100" style="background-color: rgb(124, 235, 150);">{{processo.tipo_processo.nome}}</span></td>
+                                    <td><span class="py-1 px-3 rounded-pill w-100" style="background-color: rgb(124, 235, 150);">{{processo.tipo_processo.nome}}</span></td>
                                     <td><a target="_blank" href="#"><i class="fa-solid fa-user me-2"></i> {{processo.solicitante.first_name}}</a></td>
                                     <td class="text-center">{{processo.dt_atualizacao|date:"d/m/y"}}</td>
                                     <td class="text-center"><a href="{% url 'empreendedor:andamento_processo_admin' processo.id %}"><i st class="fa-solid fa-folder-open me-2"></i> Visualizar processo</a></td>

@@ -54,7 +54,7 @@ urlpatterns = [
     path('admin/', views.sala_do_empreendedor_admin, name='admin'),
     path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores'),
     path('faccao-legal/cadastrar/checkcnpj/', views.checkCNPJ, name='checkcnpj'),
-    
+    path('admin/cadastrar-profissao/', views.cadastrar_profissao, name='cadastrar_profissao'),
     #PROCESSOS
     path('checkCPF/', views.checkCPF, name='checkCPF'),
     path('checkProfissao/', views.checkProfissao, name='checkProfissao'),

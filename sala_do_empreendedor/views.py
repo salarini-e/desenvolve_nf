@@ -106,7 +106,7 @@ def checkProfissao(request):
                 diploma = True
             else: 
                 diploma = False
-            response_data = {'exists': True, 'licenca_sanitaria': profissao.licenca_sanitaria, 'diploma': diploma}
+            response_data = {'exists': True, 'licenca_sanitaria': profissao.licenca_sanitaria, 'diploma': diploma, 'licenca_ambiental': profissao.licenca_ambiental}
         else:
             response_data = {'exists': False}
 

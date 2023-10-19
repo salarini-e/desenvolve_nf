@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos
-from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao
+from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
@@ -95,6 +95,12 @@ def andamento_processo_admin(request, id):
 def novo_andamento_processo(request, id):
     processo = Processo_Digital.objects.get(id=id)
     if request.method == 'POST':
+        if request.POST['status'] == 'bg':
+           processo.boleto = request.FILES['boleto']
+        elif request.POST['status'] == 'cn':
+            processo.n_inscricao = request.POST['inscricao']
+            processo.boleto_pago = True
+            
         form = Criar_Andamento_Processo(request.POST)
         if form.is_valid():
             andamento = form.save(commit=False)
@@ -204,3 +210,20 @@ def mapeamento_empresa_e_fornecedores(request):
         'paginator': paginator,
     }
     return render(request, 'sala_do_empreendedor/admin/mapeamento_empresa_e_fornecedores.html', context)
+
+@login_required()
+@staff_member_required()
+def cadastrar_profissao(request):
+    if request.method == 'POST':
+        form = Profissao_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profissão cadastrada com sucesso!')
+            return redirect('empreendedor:cadastrar_profissao')
+    else:
+        form = Profissao_Form()
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/cadastro_profissao.html', context)

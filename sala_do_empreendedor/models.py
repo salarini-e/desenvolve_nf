@@ -148,6 +148,7 @@ class Profissao(models.Model):
     escolaridade = models.ForeignKey(Escolaridade, on_delete=models.CASCADE, verbose_name='Escolaridade')
     nome = models.CharField(max_length=128, verbose_name='Nome da profissão')
     licenca_sanitaria = models.BooleanField(default=False, verbose_name='Necessita licença sanitária?')    
+    licenca_ambiental = models.BooleanField(default=False, verbose_name='Necessita licença ambiental?')    
     
     def __str__(self) -> str:
         return self.nome
@@ -195,11 +196,13 @@ class Processo_Digital(models.Model):
     profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
     diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
     licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
+    licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
     autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
     espelho_iptu = models.ImageField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
     solicitante = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
     boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
     boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
+    n_inscricao = models.CharField(max_length=128, verbose_name='Número de inscrição', null=True, blank=True)
     dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
     dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
     

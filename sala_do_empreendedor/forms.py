@@ -68,8 +68,9 @@ class Criar_Processo_Admin_Form(ModelForm):
             'tipo_processo': forms.HiddenInput(),
             'n_protocolo': forms.HiddenInput(),
             'profissao': forms.RadioSelect(),
-            'solicitante': forms.HiddenInput(),        
-            }
+            'solicitante': forms.HiddenInput(),    
+            'n_inscricao': forms.HiddenInput(),    
+            }   
         exclude = ['dt_solicitacao', 'boleto', 'boleto_pago']
         
 class Criar_Processo_Form(ModelForm):
@@ -79,7 +80,8 @@ class Criar_Processo_Form(ModelForm):
             'tipo_processo': forms.HiddenInput(),
             'n_protocolo': forms.HiddenInput(),
             'profissao': forms.RadioSelect(),
-            'solicitante': forms.HiddenInput(),        
+            'solicitante': forms.HiddenInput(),
+            'n_inscricao': forms.HiddenInput(),        
             }
         exclude = ['dt_solicitacao', 'boleto', 'boleto_pago', 'status']
                
@@ -89,5 +91,11 @@ class Criar_Andamento_Processo(ModelForm):
         widgets = {
             'processo': forms.HiddenInput(),
             'servidor': forms.HiddenInput(),
+            'status': forms.Select(attrs={'class': 'form-control', 'onchange':'exibirInput()'}),
             }
         exclude = ['dt_andamento']
+        
+class Profissao_Form(ModelForm):
+    class Meta:
+        model = Profissao
+        exclude = []

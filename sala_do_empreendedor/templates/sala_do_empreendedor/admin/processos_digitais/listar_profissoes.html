@@ -142,9 +142,6 @@
     const input_licenca_sanitaria = document.getElementById('id_licenca_sanitaria')
     const licenca_sanitariaDiv = findParentDiv(input_licenca_sanitaria);
     licenca_sanitariaDiv.style.display = 'none';
-    const input_licenca_ambiental = document.getElementById('id_licenca_ambiental')
-    const licenca_ambientalDiv = findParentDiv(input_licenca_ambiental);
-    licenca_ambientalDiv.style.display = 'none';
 
     function verificarSelecaoAutonomo() {
       const selectAutonomo = document.getElementById('id_autonomo_localizado');
@@ -187,11 +184,6 @@
                         licenca_sanitariaDiv.style.display = 'block';
                       } else {
                         licenca_sanitariaDiv.style.display = 'none';
-                      }          
-                      if (data.licenca_ambiental) {
-                        licenca_ambientalDiv.style.display = 'block';
-                      } else {
-                        licenca_ambientalDiv.style.display = 'none';
                       }                    
                     } else {                      
                       diplomaDiv.style.display = 'none';

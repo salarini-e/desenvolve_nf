@@ -18,7 +18,7 @@
             </div>
             <div class="row">
               <div class="col px-5 mt-4 d-flex">
-                <span class="py-0 px-2 rounded-pill" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}rgb(146, 146, 146){% endif %};">{{processo.get_status_display}}</span>
+                <span class="py-0 px-2 rounded-pill" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}#000000; color: white{% endif %};">{{processo.get_status_display}}</span>
                 <p class="ms-3">
                   <strong class="my-auto">{{processo.tipo_processo.nome}} - {{processo.n_protocolo}} - {{processo.dt_solicitacao|date:"d/m/y"}}</strong></p >
                 <p class="ms-auto my-auto"><strong>Solicitante:</strong> <a href="#">{{processo.solicitante.first_name}}</a></p>
@@ -27,8 +27,15 @@
             <div class="row">
               <div class="col d-flex flex-column pt-4 pb-3 px-5">
                 <hr>
+                <div class="row">
+                  <div class="col">
+                    <p><b>Parabéns! Seu processo foi concluído!</b></p>
+
+                    <p class="text-center">Seu número de inscrição municipal:</p>
+                    <h3 class="text-center">{{processo.n_inscricao}}</h3>
+                  </div>
+                </div>
                 <div class="d-flex w-100 pt-4">
-                  
                 <h4>Anexos</h4>
                
                 </div>
@@ -104,6 +111,15 @@
                     </div>
                     {% endif %}
                   </div>
+                  {% elif processo.status == 'bg' %}
+                  <div class="row text-center">
+                    <div class="col">
+                      <p><i><b>Seu boleto foi gerado!</b> Agora basta efetuar o pagamento dele para gerarmos seu número de inscrição.</i></p>
+                      <a target="_blank" href="{{processo.boleto.url}}" class="btn btn-primary mt-3 mb-3">
+                        <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
+                      </a>
+                    </div>
+                  </div>
                   {% endif %}
                 <hr>
 
@@ -151,14 +167,18 @@
                             <tbody>
                               {% for andamento in andamentos %}
                                 <tr {% if forloop.first %}style="background-color: #ebe3dd;"{% endif %}>
-                                    <td class="{% if forloop.first %}text-danger{% else %}text-success{% endif %} text-center">
+                                    <td class="{% if forloop.first %}{% if processo.status == 'cn' %}text-success{% else %}text-dange{% endif %}{% else %}text-success{% endif %} text-center">
                                       {% if forloop.first %}
-                                      <i class="fa-solid fa-exclamation"></i>
+                                      {% if processo.status == 'cn' %}
+                                      <i class="fa-solid fa-check"></i>
+                                      {% else %}
+                                      <i class="fa-solid fa-exclamation"></i>                                    
+                                      {% endif %}
                                       {% else %}
                                       <i class="fa-solid fa-check"></i>
                                       {% endif %}
                                     </td>
-                                    <td class="text-center d-flex"><span class="mx-auto py-1 px-2 rounded-pill w-100"  style="background-color: {% if andamento.status == 'nv' %}rgb(124, 183, 235){% elif andamento.status == 'ar' %}rgb(228, 235, 124){% elif andamento.status == 'aa' %}rgb(235, 176, 124){% elif andamento.status == 'bg' %}rgb(124, 235, 124){% elif andamento.status == 'cn' %}rgb(146, 146, 146){% endif %}; max-width: 300px;">{{andamento.get_status_display}}</span></td>
+                                    <td class="text-center d-flex"><span class="mx-auto py-1 px-2 rounded-pill w-100"  style="background-color: {% if andamento.status == 'nv' %}rgb(124, 183, 235){% elif andamento.status == 'ar' %}rgb(228, 235, 124){% elif andamento.status == 'aa' %}rgb(235, 176, 124){% elif andamento.status == 'bg' %}rgb(124, 235, 124){% elif andamento.status == 'cn' %}#000000; color: white{% endif %}; max-width: 300px;">{{andamento.get_status_display}}</span></td>
                                     <td>{% if andamento.observacao != 'n/h' %}{{andamento.observacao}}{% else %} <span class="text-secondary"><i>Não há mensagem.</i></span> {% endif %}</td>                  
                                     <td class="text-center">{{andamento.dt_andamento|date:"d/m/y"}}</td>
                                   

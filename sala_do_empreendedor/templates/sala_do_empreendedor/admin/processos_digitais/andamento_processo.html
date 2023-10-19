@@ -15,9 +15,11 @@
               <a href="{% url 'empreendedor:processos_digitais_admin' %}" class="btn btn-dark ms-auto my-auto">
                 <i class="fa-solid fa-rotate-left me-2"></i> Voltar
               </a>
+              {% if processo.status != 'cn' %}
               <a href="{% url 'empreendedor:novo_andamento_processo_admin' processo.id %}" class="btn btn-success ms-2 my-auto">
                 <i class="fa-solid fa-circle-arrow-right me-2"></i> Dar novo andamento
               </a>
+              {% endif %}
                                
             </div>
             <div class="row">
@@ -26,6 +28,15 @@
                 <p class="ms-3">
                   <strong class="my-auto">{{processo.tipo_processo.nome}} - {{processo.n_protocolo}} - {{processo.dt_solicitacao|date:"d/m/y"}}</strong></p >
                 <p class="ms-auto my-auto"><strong>Solicitante:</strong> <a href="#">{{processo.solicitante.first_name}}</a></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col text-center pt-4">
+                <p><b>Processo encerrado!</b></p>
+                <p class="mt-4">Número de inscrição:</p>
+                <h3>
+                  {{processo.n_inscricao}}
+                </h3>
               </div>
             </div>
             <div class="row">
@@ -123,6 +134,16 @@
                     </div>
                     {% endif %}
                   </div>
+                  {% if processo.status == 'bg' %}
+                  <div class="row text-center">
+                    <div class="col">
+                      <p><i><b>Boleto foi gerado!</b> Aguardando usuário efetuar o pagamento.</i></p>
+                      <a target="_blank" href="{{processo.boleto.url}}" class="btn btn-primary mt-3 mb-3">
+                        <i class="fa-solid fa-file-arrow-down me-2"></i>Ver boleto
+                      </a>
+                    </div>
+                  </div>
+                  {% endif %}
                 <hr>
 
               </div>
