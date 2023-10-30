@@ -61,7 +61,11 @@
                     <input required class="form-control" type="password" name="password2" id="senha2">
                 </div>
                 {% endif %}
-
+                <div class="form-check">
+                    <input type="checkbox" name="consentimento" class="form-check-input" id="id_consentimento">
+                    <label class="form-check-label" for="id_consentimento">Eu concordo com os termos e condições e autorizo o uso dos meus dados pessoais conforme a <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Política de Privacidade</a>.</label>
+                </div>
+               
                 <button type="submit" class="btn btn-primary w-100 mb-3">CADASTRAR-SE</button>
                 
                 <a href="/login">
@@ -73,6 +77,55 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Política de Privacidade</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-justify">
+            
+
+            <p>Esta Política de Privacidade descreve como o [Nome da Prefeitura] coleta, usa e compartilha informações pessoais quando você usa este site. É essencial que você leia atentamente esta política antes de usar o site ou fornecer quaisquer informações pessoais. Ao usar o site, você concorda com as práticas descritas nesta política.</p>
+        
+            <b>Coleta de Informações Pessoais</b>
+        
+            <p>Ao usar este site, podemos coletar informações pessoais que você voluntariamente nos fornece durante o processo de cadastro ou ao preencher formulários. Isso pode incluir seu nome, endereço de e-mail, número de telefone e outras informações necessárias para os serviços fornecidos.</p>
+        
+            <b class="mt-3">Uso de Informações Pessoais</b>
+        
+            <p>As informações pessoais coletadas são utilizadas para fornecer os serviços solicitados e para melhorar a experiência do usuário. Podemos utilizar essas informações para entrar em contato com você, fornecer atualizações e informações relevantes, responder às suas solicitações e melhorar nossos serviços.</p>
+        
+            <b class="mt-3">Compartilhamento de Informações Pessoais</b>
+        
+            <p>Não compartilhamos suas informações pessoais com terceiros, exceto quando exigido por lei ou quando necessário para fornecer os serviços solicitados. Em alguns casos, podemos compartilhar informações com prestadores de serviços terceirizados que nos auxiliam na operação do site e na prestação de serviços. Esses prestadores de serviços estão obrigados a manter a confidencialidade das informações e a não utilizá-las para outros fins.</p>
+        
+            <b class="mt-3">Segurança das Informações Pessoais</b>
+        
+            <p>Implementamos medidas de segurança adequadas para proteger as informações pessoais contra acesso não autorizado, alteração, divulgação ou destruição. No entanto, observe que nenhum método de transmissão pela internet ou método de armazenamento eletrônico é totalmente seguro. Assim, não podemos garantir a segurança absoluta das informações pessoais.</p>
+        
+            <b class="mt-3">Seus Direitos de Privacidade</b>
+        
+            <p>Você tem o direito de acessar, corrigir, atualizar ou solicitar a exclusão de suas informações pessoais a qualquer momento. Para exercer esses direitos, entre em contato conosco através das informações fornecidas abaixo.</p>
+        
+            <b class="mt-3">Alterações nesta Política de Privacidade</b>
+        
+            <p>Reservamo-nos o direito de atualizar ou modificar esta política de privacidade a qualquer momento. Quaisquer alterações entrarão em vigor imediatamente após a publicação da política de privacidade revisada neste site.</p>
+        
+            <b class="mt-3">Contato</b>
+        
+            <p>Se tiver alguma dúvida sobre esta Política de Privacidade, entre em contato conosco em [inserir informações de contato].</p>
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <style>    
     .error{
         background-color: red;
