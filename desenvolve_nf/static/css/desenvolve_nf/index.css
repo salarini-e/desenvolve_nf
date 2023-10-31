@@ -67,7 +67,7 @@ li a:hover{
 }
 .nav-a li a{
   display: inline-block;
-  text-align: center;
+  /* text-align: center; */
   font-size: max(1vw,.9em);
   font-weight: 400;
   margin: 0 .5em;

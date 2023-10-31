@@ -48,39 +48,92 @@
   <header>
     <nav id="nav-superior">
       <div class="logo-nf">
+        <!-- <img class="logo-1" src="{% static 'images/logo_pmnf.png' %}" alt="Brasão da Prefeitura Municipal de Nova Friburgo"> -->
         <img class="logo-1" src="{% static 'images/brasao-nf.png' %}" alt="Brasão da Prefeitura Municipal de Nova Friburgo">
         <span>|</span>
         <img class="logo-2" src="{% static 'images/logo_desenvolvenf.png' %}" alt="Logo do DesenvolveNF">
       </div>
       <div class="my-auto mx-auto">
         <ul class="nav-a">
-          <li><a href="{% url 'cursos:home' %}" alt="Acesso à Capacitação Profissional">Capacitação Profissional</a></li>
-          <li><a href="{% url 'cidade_inteligente' %}" alt="Acesso à Cidade Inteligente">Cidade Inteligente</a></li>  
-          <li><a href="{% url 'estagio:index' %}" alt="Acesso aos Estágios">Estágios</a></li>
-          <li><a href="{% url 'empreendedor:index' %}" alt="Acesso à Sala do Empreendedor">Sala do Empreendedor</a></li>
-          <!-- Dropdown sem utilizar bootstrap -->
           <li>
-            <div class="dropDown" data-dropdown>
-              <button class="dropDownLink" data-dropdown-button>Outros sistemas</button>
-              <div class="dropDownContent">
-                <h2>Sistemas</h2>
-                <ul>
-                  <li><a class="dropDownItem" href="{% url 'bemestaranimal:index' %}" alt="Acesso ao Bem Estar Animal"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
-                  <li><a class="dropDownItem" href="{% url 'financas:index' %}" alt="Acesso às Finanças"><i class="fa-solid fa-money-bill-wheat me-2"></i>Finanças</a></li>
-                  <li><a class="dropDownItem" href="https://casadotrabalhador.pmnf.rj.gov.br" alt="Acesso à Casa Do Trabalhador"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
-                  <li><a class="dropDownItem" href="{% url 'iluminacao:os_index' %}" alt="Acesso ao Serviço de Iluminação"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                        
-                  <li><a class="dropDownItem" href="https://senhas.novafriburgo.rj.gov.br" alt="Acesso às Senhas da Secretária de Turismo"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
-                  <li><a class="dropDownItem" href="https://culturanf.novafriburgo.rj.gov.br" alt="Acesso ao site da Secretária de Turismo"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
-                <ul>
-              </div>
+            <div class="dropdown mx-2">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+              Imprensa
+            </a>                                  
+            <ul id="menu-nav" class="dropdown-menu text-left" aria-labelledby="dropdownMenuNav">                 
+              <li class="mt-1 ms-3"><b>Sistemas:</b></li>
+              <li><a class="dropdown-item" target="_blank" href="https://plenussistemas.dioenet.com.br/list/nova-friburgo"><i class="fa-solid fa-paw me-2"></i>Diário Oficial Eletrônico</a></li>
+              <li><a class="dropdown-item" target="_blank" href="https://pmnf.rj.gov.br/noticias/"><i class="fa-solid fa-landmark me-2"></i>Notícias</a></li>
+            </ul>
             </div>
           </li>
-          <!-- Fim do dropdown -->
-          <!-- <li>
-            <button class="menu-open" aria-label="abre menu">
-            <div class="menu-icon"><svg viewBox="0 0 20" width="20" height="20"><title>menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path></svg></div>
-            <div class="screen-reader-text">Menu</div>
-          </li> -->
+          <li>
+            <div class="dropdown mx-2">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+              Cidadão
+            </a>                                  
+            <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">                 
+              <li class="mt-1 ms-3"><b>Sistemas:</b></li>
+              <li><a class="dropdown-item" href="{% url 'bemestaranimal:index' %}"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+              <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+              <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Capacitação Profissional</a></li>
+              <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Cidade Inteligente</a></li>
+              <li><a class="dropdown-item" href="{% url 'estagio:index' %}"><i class="fa-solid fa-map-location-dot me-2"></i>Estágio</a></li>              
+              <li><a class="dropdown-item" href="{% url 'financas:index' %}"><i class="fa-solid fa-landmark me-2"></i>Finanças</a></li>
+               
+              
+            </ul>
+            </div>
+          </li>
+          <li>
+            <div class="dropdown mx-2">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+              Empreendedor
+            </a>                                  
+            <ul id="menu-nav" class="dropdown-menu text-left" aria-labelledby="dropdownMenuNav">                 
+              <li class="mt-1 ms-3"><b>Sistemas:</b></li>
+              <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+              <li><a class="dropdown-item" href="{% url 'financas:index' %}"><i class="fa-solid fa-landmark me-2"></i>Finanças</a></li>
+              <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Sala do Empreendedor</a></li>
+              <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+              <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
+              
+            </ul>
+            </div>
+          </li>
+          <!-- <li><a class="mx-3" href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+              <li><a class="mx-3" href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>              
+              <li><a class="mx-3" href="{% url 'estagio:index' %}">Estágios</a></li>
+              <li><a class="mx-3" href="{% url 'empreendedor:index' %}">Sala do Empreendedor</a></li> -->
+              <li>
+                <div class="dropdown mx-2">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+                  Servidor
+                </a>                                  
+                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">                 
+                  <li class="mt-1 ms-3"><b>Sistemas:</b></li>
+                  <li><a target="_blank" href="https://servicoonline.novafriburgo.rj.gov.br/portal/" class="dropdown-item"><i class="fa-solid fa-lightbulb me-2"></i>Portal do Servidor</a></li>
+                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                                          
+                </ul>
+                </div>
+              </li>
+              <li>
+                <div class="dropdown mx-2">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
+                  Links úteis
+                </a>                                  
+                <ul id="menu-nav" class="dropdown-menu text-left" aria-labelledby="dropdownMenuNav">                 
+                  <li class="mt-1 ms-3"><b>Sistemas:</b></li>
+                  <li><a class="dropdown-item" target="_blank" href="https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp"><i class="fa-solid fa-paw me-2"></i>Situação Cadastral CPF</a></li>
+                  <li><a class="dropdown-item" target="_blank" href="https://cadastro.saude.gov.br/segcartao/"><i class="fa-solid fa-landmark me-2"></i>CADSUS WEB</a></li>
+                  <li><a class="dropdown-item" target="_blank" href="https://novafriburgo.rj.gov.br/paginas-centralizadas/10_Meio-Ambiente.html"><i class="fa-solid fa-landmark me-2"></i>Meio Ambiente e Dev. Sustentável</a></li>
+                  <li><a class="dropdown-item" target="_blank" href="http://www.rota116.com.br/"><i class="fa-solid fa-lightbulb me-2"></i>Concessionária Rota 116 S/A</a></li>                                        
+                  <li><a class="dropdown-item" target="_blank" href="http://www.detran.rj.gov.br/"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Detran</a></li>
+                  <li><a class="dropdown-item" target="_blank" href="http://www.detran.rj.gov.br/"><i class="fa-solid fa-map-location-dot me-2"></i>Energisa</a></li>
+                  
+                </ul>
+                </div>
+              </li>
         </ul>
       </div>
       <!-- Menu de navegação mobile (Necessita de alterações)-->
