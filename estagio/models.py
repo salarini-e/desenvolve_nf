@@ -5,9 +5,7 @@ from autenticacao.models import Pessoa
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
-# Grupos: estagio_responsavel_universidade
-#         estagio_responsavel_prefeitura
-#
+
 
 class Universidade(models.Model):    
     nome = models.CharField(max_length=100, verbose_name="Nome da instituição")
@@ -38,7 +36,7 @@ class Curso(models.Model):
    
     def __str__(self):
          return '%s - %s' % (self.nome, self.universidade.nome)
-    
+   
 class Secretaria(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome da secretaria")    
     telefone = models.CharField(max_length=15, verbose_name='Telefone da secretaria', null=True)

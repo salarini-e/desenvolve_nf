@@ -55,7 +55,7 @@
       </div>
       <div class="my-auto mx-auto">
         <ul class="nav-a">
-          <li>
+          <!-- <li>
             <div class="dropdown mx-2">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
               Imprensa
@@ -100,24 +100,33 @@
               
             </ul>
             </div>
-          </li>
-          <!-- <li><a class="mx-3" href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
+          </li> -->
+          <li><a class="mx-3" href="{% url 'cursos:home' %}">Capacitação Profissional</a></li>
               <li><a class="mx-3" href="{% url 'cidade_inteligente' %}">Cidade Inteligente</a></li>              
               <li><a class="mx-3" href="{% url 'estagio:index' %}">Estágios</a></li>
-              <li><a class="mx-3" href="{% url 'empreendedor:index' %}">Sala do Empreendedor</a></li> -->
+              <li><a class="mx-3" href="{% url 'empreendedor:index' %}">Sala do Empreendedor</a></li>
               <li>
                 <div class="dropdown mx-2">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
-                  Servidor
+                  Outros Sistemas
                 </a>                                  
-                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav">                 
+                <ul id="menu-nav" class="dropdown-menu" aria-labelledby="dropdownMenuNav" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 24px, 0px);" data-popper-placement="bottom-start">
+                  <!-- <li><a class="btn btn-outline-primary" href="#">
+                    Acessar
+                  </a></li>
+                  <li><hr class="dropdown-divider"></li> -->
                   <li class="mt-1 ms-3"><b>Sistemas:</b></li>
-                  <li><a target="_blank" href="https://servicoonline.novafriburgo.rj.gov.br/portal/" class="dropdown-item"><i class="fa-solid fa-lightbulb me-2"></i>Portal do Servidor</a></li>
-                  <li><a class="dropdown-item" href="{% url 'iluminacao:os_index' %}"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                                          
+                  <li><a class="dropdown-item" href="/bem-estar-animal/"><i class="fa-solid fa-paw me-2"></i>Bem Estar Animal</a></li>
+                  <li><a class="dropdown-item" href="https://casadotrabalhador.pmnf.rj.gov.br"><i class="fa-solid fa-landmark me-2"></i>Casa do Trabalhador</a></li>
+                  <li><a class="dropdown-item" href="/financas/"><i class="fa-solid fa-landmark me-2"></i>Finanças</a></li>
+                  <li><a class="dropdown-item" href="/servicos/iluminacao/"><i class="fa-solid fa-lightbulb me-2"></i>Iluminação Pública</a></li>                                        
+                  <li><a class="dropdown-item" href="https://senhas.novafriburgo.rj.gov.br"><i class="fa-solid fa-cart-flatbed-suitcase me-2"></i>Senhas de Turismo</a></li>
+                  <li><a class="dropdown-item" href="https://culturanf.novafriburgo.rj.gov.br"><i class="fa-solid fa-map-location-dot me-2"></i>Mapeamento Cultural</a></li>
+                  
                 </ul>
                 </div>
               </li>
-              <li>
+              <!-- <li>
                 <div class="dropdown mx-2">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuNav" data-bs-toggle="dropdown" aria-expanded="false">
                   Links úteis
@@ -133,7 +142,7 @@
                   
                 </ul>
                 </div>
-              </li>
+              </li> -->
         </ul>
       </div>
       <!-- Menu de navegação mobile (Necessita de alterações)-->
@@ -233,26 +242,13 @@
     </nav>
   </header>
   <div id="bannerMain" class="row">
-    <div class="col" style="background-image: url('/static/images/banner-main2.jpg'); background-size: cover; background-repeat: no-repeat; height: 400px; background-position: center;">
-      
-    </div>
-  </div>
-  <div id="main-carousel" class="row">
-    <div class="col px-0">
-      <div class="owl-carousel owl-theme">
-        {% for item in carousel %}
-        <div class="item">
-          {% if item.url %}<a href="{{item.url}}">{% endif %}
-            <img src="{{item.image.url}}" class="d-block w-100" alt="{{item.nome}}">
-            {% if item.url %}</a>{% endif %}
-        </div>
-        {% endfor %}
-      </div>
+    <div class="col d-flex" style="background-image: url('/static/images/paisagem-banner.png'); background-size: cover; background-repeat: no-repeat; height: 40vh; background-position: center;">
+      <img src="{% static 'images/desenvolve-site.png' %}" class="m-auto" style="height: 40vh !important;" alt="">
     </div>
   </div>
   <div id="navegacao" class="container">
     <div class="row">
-      <div class="col d-flex flex-wrap justify-content-center pt-4">
+      <div class="col d-flex flex-wrap justify-content-center">
         <a href="{% url 'bemestaranimal:index' %}" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="bemestaranimal" class="s-nav rounded-circle"></div>
@@ -306,7 +302,13 @@
             <div id="licitacao" class="s-nav rounded-circle"></div>
             <p class="text-dark text-center">Licitações</p>
           </div>
-        </a>        
+        </a>    
+        <a href="{% url 'empreendedor:index' %}" class="me-3">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="sala" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Sala do<br>Empreendedor</p>
+          </div>
+        </a>    
         <a href="https://senhas.novafriburgo.rj.gov.br" class="me-3">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="senhas" class="s-nav rounded-circle"></div>
@@ -327,6 +329,19 @@
           </div>
         </a>
         {% endif %}
+      </div>
+    </div>
+  </div>
+  <div id="main-carousel" class="row">
+    <div class="col px-0">
+      <div class="owl-carousel owl-theme">
+        {% for item in carousel %}
+        <div class="item">
+          {% if item.url %}<a href="{{item.url}}">{% endif %}
+            <img src="{{item.image.url}}" class="d-block w-100" alt="{{item.nome}}">
+            {% if item.url %}</a>{% endif %}
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>

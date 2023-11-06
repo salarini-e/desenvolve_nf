@@ -4,19 +4,16 @@
 {% include 'nav_cursos.html' %}
 {% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'css/carousel.css' %}"> -->
 {% endblock %}
 {% block main %}
 <div class="container">
-<div class="row mx-auto ps-4 pb-5 pt-1">
-  <div class="row">
-    <h2 class="ms-2 py-1">Destaque</h2>
+  <div class="row mx-auto ps-4 pb-5 pt-1">
+    {% include 'slide_cevest.html' %}
   </div>
-  {% include 'slide.html' %}
-</div>
 <div class="row">
-  <div class="col d-flex pe-4">
-    <h2 class="ms-5 pt-5 pb-4">Cursos </h2>
+  <div class="col d-flex pe-4 div-container-main">
+    <h2 class="ms-5 pt-5 pb-4">Cursos</h2>
     <a class="ms-auto mt-auto mb-5 me-5" href="{% url 'cursos:cursos' tipo='cursos' %}">
       <small>Ver mais</small>
     </a>
@@ -24,47 +21,15 @@
 </div>
 
 <div class="row mx-auto px-5">
-  <div class="d-flex flex-wrap">
+  <div class="d-flex flex-wrap justify-content-around">
     {% for curso in cursos %}
-    <div class="item me-2 ">
+    <div class="item d-flex flex-column me-2 div_cursos">
       <div class="c-img" style="position: relative;">
         <img class="banner-img" src="{{curso.banner.url}}" >
-        <span class="badge_item" style="background-color: {{curso.categoria.cor}}; position: absolute; top:0; right: 0; margin: 5px; padding: 0px 4px; border-radius: 6px; font-size: 10pt; color: white;">
-          {{curso.categoria.nome}}          
-        </span>
       </div>
-      <div class="curso-text mx-2 d-flex flex-column py-1">
+      <div class="curso-text h-100 mx-2 d-flex flex-column py-1">
         <h6 class="mt-2">{{curso.nome}}</h6>
-        <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
-        <!-- <p class="mb-3 mt-2" style="padding: 0px 10px;">{{curso.descricao}}</p> -->
-        <a href="{% url 'cursos:curso_detalhe' tipo=curso.get_tipo_display id=curso.id %}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
-<div class="row">
-  <div class="col d-flex pe-4">
-    <h2 class="ms-5 pt-5 pb-4">Palestras </h2>
-    <a class="ms-auto mt-auto mb-5 me-5" href="{% url 'cursos:cursos' tipo='palestras' %}">
-      <small>Ver mais</small>
-    </a>
-  </div>
-</div>
-
-<div class="row mx-auto px-5">
-  <div class="d-flex flex-wrap">
-    {% for curso in palestras %}
-    <div class="item me-2">
-      <div class="c-img" style="position: relative;">
-        <img class="banner-img" src="{{curso.banner.url}}" >
-        <span class="badge_item" style="background-color: {{curso.categoria.cor}}; position: absolute; top:0; right: 0; margin: 5px; padding: 0px 4px; border-radius: 6px; font-size: 10pt; color: white;">
-          {{curso.categoria.nome}}          
-        </span>
-      </div>
-      <div class="curso-text mx-2 d-flex flex-column py-1">
-        <h6 class="mt-2">{{curso.nome}}</h6>
-        <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
+        <p class="time mt-auto">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
         <!-- <p class="mb-3 mt-2" style="padding: 0px 10px;">{{curso.descricao}}</p> -->
         <a href="{% url 'cursos:curso_detalhe' tipo=curso.get_tipo_display id=curso.id %}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
       </div>
@@ -97,9 +62,9 @@
   </div>
 </div>
 <!-- <div class="row">
-  <div class="col d-flex pe-4">
-    <h2 class="ms-5 pt-5 pb-4">Ensino Técnico</h2>
-    <a class="ms-auto mt-auto mb-5 me-5" href="#">
+  <div class="col d-flex pe-4 div-container-main">
+    <h2 class="ms-5 pt-5 pb-4">Palestras </h2>
+    <a class="ms-auto mt-auto mb-5 me-5" href="{% url 'cursos:cursos' tipo='palestras' %}">
       <small>Ver mais</small>
     </a>
   </div>
@@ -107,7 +72,7 @@
 
 <div class="row mx-auto px-5">
   <div class="d-flex flex-wrap">
-    {% for curso in cursos %}
+    {% for curso in palestras %}
     <div class="item me-2">
       <div class="c-img" style="position: relative;">
         <img class="banner-img" src="{{curso.banner.url}}" >
@@ -117,13 +82,15 @@
       </div>
       <div class="curso-text mx-2 d-flex flex-column py-1">
         <h6 class="mt-2">{{curso.nome}}</h6>
-        <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>        
+        <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
+        <!-- <p class="mb-3 mt-2" style="padding: 0px 10px;">{{curso.descricao}}</p> -->
         <a href="{% url 'cursos:curso_detalhe' tipo=curso.get_tipo_display id=curso.id %}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
       </div>
     </div>
     {% endfor %}
   </div>
 </div> -->
+
 <div class="row mx-auto px-5">
   <script>
     document.getElementById('s-index').classList.add('s-nav-active');
@@ -191,61 +158,7 @@
 
 </script>
 
-{% if messages %}              
-<!-- MODAL -->
-<div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        {% for message in messages %}
-        <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
-          <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
-          <button type="button" onclick="myModal.hide();" class="btn-close"></button>
-        </div>
-        <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
-           
-          <p class="px-4 py-3 text-center">
-            {{ message|escape }}
-          </p>
-          
-          
-        </div>
-        <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
-          
-        </div>
-        {% endfor %}
-      </div>
-
-    </div>
-  </div>   
-  <script>
-   var myModal = new bootstrap.Modal(document.getElementById('resposta'))
-   myModal.toggle()
-
-   
-
-</script>
-  <style>
-
-
-
-    .error{
-      background-color: rgb(238, 171, 171);
-      color: darkred;
-      font-weight: 600;
-    }
-    .success{
-      background-color: rgb(182, 238, 171);
-      color: rgb(0, 139, 19);
-      font-weight: 600
-    }
-    .warning{
-      background-color: rgb(238, 226, 171);
-      color: rgb(139, 107, 0);
-      font-weight: 600
-    }
-  </style>
-{% endif %} 
 {% endblock %}
 {% block footer %}
-{% include 'desenvolve_nf/instagram.html' %}
+{% include 'instagram_desenvolve.html' %}
 {% endblock %}

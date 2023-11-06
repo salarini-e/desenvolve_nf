@@ -11,7 +11,7 @@ from datetime import date, datetime
 
 from .models import *
 from .forms import *
-
+from autenticacao.forms import Form_Pessoa
 from eventos.models import Evento
 from django.apps import apps
 from random import shuffle
@@ -23,7 +23,7 @@ def index(request):
     except:
         eventos=[]
     
-    cursos = list(Curso.objects.filter(tipo='C', ativo=True).order_by('?')[:4])
+    cursos = list(Curso.objects.filter(tipo='C', ativo=True).order_by('?')[:8])
     palestras = list(Curso.objects.filter(tipo='P', ativo=True).order_by('?')[:4])
     shuffle(cursos)
     context = { 
@@ -49,7 +49,7 @@ def cursos(request, tipo):
 
     context = {
         'categorias':categorias,
-        'cursos': cursos.order_by('?'),
+        'cursos': cursos,
         'form': form,
         'titulo': apps.get_app_config('cursos').verbose_name,        
         'tipo': tipo
@@ -198,31 +198,9 @@ def prematricula(request):
         'form': form,
         'form_responsavel': form_responsavel,
         'categorias': cursos,
-        'titulo': 'Capacitação Profissional'
+        'titulo': apps.get_app_config('cursos').verbose_name,
     }
     return render(request, 'cursos/pre_matricula.html', context)
-
-
-def login_view(request):
-    context = {}
-    if request.user.is_authenticated:
-        return redirect('/')
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            if "next" in request.GET:
-                return redirect(request.GET.get('next'))
-            return redirect('/')
-        else:
-            context = {
-                'error': True,
-            }
-
-    return render(request, 'registration/login.html', context)
-
 
 def alterarCad(request):
     return render(request, 'cursos/alterar_cad.html')
@@ -254,7 +232,8 @@ def matricular(request, tipo, id):
     today = date.today()
     age = today.year - dtnascimento.year - \
             ((today.month, today.day) < (dtnascimento.month, dtnascimento.day))    
-    precisa_responsavel=age<18
+    # precisa_responsavel=age<18
+    precisa_responsavel=False
     
     if request.method == 'POST':
         
@@ -306,7 +285,7 @@ def matricular(request, tipo, id):
                         'age': age,
                         'form': form,
                         'form_responsavel': form_responsavel,     
-                        'titulo': 'Capacitação Profissional',
+                        'titulo': apps.get_app_config('cursos').verbose_name,
                         'curso': curso,
                         'pessoa': pessoa
                     }             
@@ -317,29 +296,73 @@ def matricular(request, tipo, id):
                 
             else:
                 candidato.pessoa=pessoa
+                candidato.disponibilidade.clear()
+                for i in request.POST.getlist('candidato-disponibilidade'):
+                    disponibilidade=Disponibilidade.objects.get(id=i)
+                    candidato.disponibilidade.add(disponibilidade)                    
                 candidato.save()                    
-                print(candidato.pessoa.nome)
+                print('ops')
+                
 
             #criando matricula como candidato na turma
             try:
                 turma=Turma.objects.get(curso=curso, status='pre')
-                Matricula.objects.create(
-                    aluno=candidato, turma=turma, status='c')
+                turma_disponibilidade =[]
+                candidato_disponibilidade=[]
+                for i in turma.disponibilidade.all():
+                        turma_disponibilidade.append(i.disponibilidade)
+                for i in candidato.disponibilidade.all():
+                        candidato_disponibilidade.append(i.disponibilidade)
+                pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
+                if pode_entrar:
+                    Matricula.objects.create(
+                        aluno=candidato, turma=turma, status='c')
+                else:
+                    messages.error(
+                    request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
+                    context = {
+                            'age': age,
+                            'form': form,
+                            'form_responsavel': form_responsavel,     
+                            'titulo': apps.get_app_config('cursos').verbose_name,
+                            'curso': curso,
+                            'pessoa': pessoa
+                        }
+                    return render(request, 'cursos/pre_matricula.html', context)
             except:     
                 try:
                     turma=Turma.objects.get(curso=curso, status='acc')
-                    Matricula.objects.create(
-                        aluno=candidato, turma=turma, status='c')
+                    turma_disponibilidade=[]
+                    candidato_disponibilidade=[]
+                    for i in turma.disponibilidade.all():
+                            turma_disponibilidade.append(i.disponibilidade)
+                    for i in candidato.disponibilidade.all():
+                            candidato_disponibilidade.append(i.disponibilidade)
+                    pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
+                    if pode_entrar:
+                        Matricula.objects.create(
+                            aluno=candidato, turma=turma, status='c')
+                    else:
+                        messages.error(
+                        request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
+                        context = {
+                            'age': age,
+                            'form': form,
+                            'form_responsavel': form_responsavel,     
+                            'titulo': apps.get_app_config('cursos').verbose_name,
+                            'curso': curso,
+                            'pessoa': pessoa
+                        }
+                        return render(request, 'cursos/pre_matricula.html', context)
                 except:
+                    pode_entrar=False
                     Alertar_Aluno_Sobre_Nova_Turma.objects.create(
                         aluno=candidato,
                         curso=curso
                     )
-                    messages.success(
-                    request, 'Você será informado quando abrir o a inscrição de uma nova turma para este curso!')
+                    messages.success(request, 'Você será informado quando abrir o a inscrição de uma nova turma para este curso!')
                     return redirect(reverse('cursos:matricula', args=[tipo,id]))
             
-
             messages.success(
                 request, 'Pré-inscrição realizada com sucesso! Aguarde nosso contato para finalizar inscrição.')
             print('passou aqui 2')
@@ -355,7 +378,7 @@ def matricular(request, tipo, id):
         'age': age,
         'form': form,
         'form_responsavel': form_responsavel,     
-        'titulo': 'Capacitação Profissional',
+        'titulo': apps.get_app_config('cursos').verbose_name,
         'curso': curso,
         'pessoa': pessoa
     }
@@ -363,7 +386,7 @@ def matricular(request, tipo, id):
 
 def ensino_superior(request):
     context = {
-        'titulo': 'Capacitação Profissional',
+        'titulo': apps.get_app_config('cursos').verbose_name,
         'cursos': Curso_Ensino_Superior.objects.all()
     }
     return render(request, 'cursos/ensino_superior.html', context)
@@ -380,13 +403,63 @@ def ensino_superior(request):
 
 def ensino_tecnico(request):
     context = {
-        'titulo': 'Capacitação Profissional',
+        'titulo': apps.get_app_config('cursos').verbose_name,
         # 'cursos': Curso_Ensino_Superior.objects.all()
     }
     return render(request, 'cursos/ensino_tecnico.html', context)
 
 def curriculo_vitae(request):
     context = {
-        'titulo': 'Capacitação Profissional'
+        'titulo': apps.get_app_config('cursos').verbose_name,
     }
     return render(request, 'cursos/curriculo_vitae.html', context)
+
+def area_do_estudante(request):
+    pessoa=Pessoa.objects.get(user=request.user)
+    aluno=Aluno.objects.get(pessoa=pessoa)
+    matriculas=Matricula.objects.filter(aluno=aluno).order_by('-turma__data_inicio')
+    alertas=Alertar_Aluno_Sobre_Nova_Turma.objects.filter(aluno=aluno, alertado=False).order_by('-dt_inclusao')
+    context={
+        'matriculas': matriculas,
+        'alertas': alertas,
+    }
+    return render(request, 'cursos/area_do_estudante.html', context)
+
+def editar_cadastro(request):    
+    pessoa=Pessoa.objects.get(user=request.user)
+    form_pessoa=Form_Pessoa(instance=pessoa)    
+    if request.method == 'POST':
+        form_pessoa=Form_Pessoa(request.POST, instance=pessoa)
+        if form_pessoa.is_valid:
+            form_pessoa.save()
+    context={        
+        'form_pessoa': form_pessoa
+    }
+    return render(request, 'cursos/editar_cadastro.html', context)
+
+def editar_cadastro_pessoa(request):    
+    pessoa=Pessoa.objects.get(user=request.user)
+    form_pessoa=Form_Pessoa(instance=pessoa)    
+    if request.method == 'POST':
+        form_pessoa=Form_Pessoa(request.POST, instance=pessoa)
+        if form_pessoa.is_valid:
+            form_pessoa.save()
+            return redirect('cursos:home')
+    context={        
+        'form_pessoa': form_pessoa
+    }
+    return render(request, 'cursos/editar_cadastro_pessoa.html', context)
+
+def alterar_senha(request):
+    form_user = PasswordChangeCustomForm(user=request.user)
+
+    if request.method == 'POST':
+        form_user = PasswordChangeCustomForm(user=request.user, data=request.POST)
+        if form_user.is_valid():
+            form_user.save()
+            return redirect('cursos:home')
+
+    context = {        
+        'form_user': form_user
+    }
+    return render(request, 'cursos/altera_senha.html', context)

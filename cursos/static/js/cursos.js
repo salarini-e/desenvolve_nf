@@ -61,7 +61,6 @@ function filtro(event){
 //     execAPI(form)
 // }
 
-
 window.onload=()=>{
     let btnfilter = document.querySelector(".btnfiltro")
     let div = document.querySelector(".filtragem")

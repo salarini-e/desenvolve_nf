@@ -135,6 +135,7 @@ class Instrutor(models.Model):
 
     nome = models.CharField(
         max_length=150, verbose_name='Nome completo do Instrutor')
+    matricula=models.CharField(max_length=150, verbose_name='Mátricula PMNF', blank=True)
     celular = models.CharField(max_length=15, verbose_name='Celular')
     email = models.EmailField(verbose_name='Email', blank=True)
     endereco = models.CharField(
@@ -172,6 +173,17 @@ class Turno(models.Model):
     def __str__(self):
         return '%s, de %s às %s' % (self.get_dia_semana_display(), self.horario_inicio.strftime("%H:%M"), self.horario_fim.strftime("%H:%M"))
 
+class Disponibilidade(models.Model):
+    disponibilidade = models.CharField(max_length=100, verbose_name='Disponibilidade')
+    
+    class Meta:
+        verbose_name = 'Disponibilidade de turno'
+        verbose_name_plural = "Disponibilidade de turnos"
+        ordering = ['id']
+        
+    def __str__(self):
+        return '%s' % (self.disponibilidade)
+    
 class Turma(models.Model):
 
     STATUS_CHOICES = (
@@ -203,6 +215,7 @@ class Turma(models.Model):
     data_inicio = models.DateField()
     data_final = models.DateField()
 
+    disponibilidade = models.ManyToManyField(Disponibilidade, verbose_name='Disponibilidade de turno')
     turnos = models.ManyToManyField(Turno, through='Turno_estabelecido')
 
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False)
@@ -237,7 +250,7 @@ class Aluno(models.Model):
     class Meta:
         verbose_name = 'Aluno'
         verbose_name_plural = "Alunos"
-        ordering=['dt_inclusao']
+        ordering=['pessoa__nome','dt_inclusao']
 
     SEXO_CHOICES = (
         ('M', 'Masculino'),
@@ -268,8 +281,9 @@ class Aluno(models.Model):
     profissão = models.CharField(max_length=150, verbose_name='Profissão', null=True)
     escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade', null=True, blank=True)
     estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil', null=True)
-    aceita_mais_informacoes = models.BooleanField(verbose_name='Declaro que aceito receber email com as informações das atividades', null=True)
-    li_e_aceito_termos = models.BooleanField(verbose_name='Li e aceito os termos', null=True)
+    disponibilidade = models.ManyToManyField(Disponibilidade, verbose_name='Disponibilidade de turno')
+    aceita_mais_informacoes = models.BooleanField(verbose_name='Declaro que aceito receber email com as informações das atividades', null=True, default=False)
+    li_e_aceito_termos = models.BooleanField(verbose_name='Li e aceito os termos', null=True, default=False)
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False, null=True)
 
     def __str__(self):
@@ -325,7 +339,7 @@ class Matricula(models.Model):
         ('e', 'Desistente'),
         ('d', 'Desmatriculado'),
         ('f', 'Formado'),
-        ('r', 'Realocado')
+        ('r', 'Realocar')
     )
 
     class Meta:
@@ -390,7 +404,7 @@ class Aula(models.Model):
 
     # IDEIA => Materiais de apoio
     def __str__(self):
-        return f"Aula de {self.associacao_turma_turno.turma} em {self.dt_aula}"
+        return f"Aula de {self.associacao_turma_turno.turma} em {self.data} das {self.horario_inicio} às {self.horario_fim}"
 
 
 class Presenca(models.Model):
@@ -421,3 +435,17 @@ class Alertar_Aluno_Sobre_Nova_Turma(models.Model):
     curso=models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='curso_de_interesse')
     alertado=models.BooleanField(default=False)
     dt_inclusao = models.DateTimeField(auto_now_add=True)
+
+class Disciplinas(models.Model):
+    class Meta:
+        verbose_name = 'Disciplina'
+        verbose_name_plural = "Disciplinas"
+        ordering = ['nome']
+
+    def __str__(self):
+        return f'{self.curso} - {self.nome} - {self.n_aulas} - {self.carga_horaria}' 
+        
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=150, blank=False)
+    n_aulas=models.CharField(max_length=5, blank=False)
+    carga_horaria=models.CharField(max_length=5, blank=False)
