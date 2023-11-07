@@ -296,66 +296,66 @@ def matricular(request, tipo, id):
                 
             else:
                 candidato.pessoa=pessoa
-                candidato.disponibilidade.clear()
-                for i in request.POST.getlist('candidato-disponibilidade'):
-                    disponibilidade=Disponibilidade.objects.get(id=i)
-                    candidato.disponibilidade.add(disponibilidade)                    
+                # candidato.disponibilidade.clear()
+                # for i in request.POST.getlist('candidato-disponibilidade'):
+                #     disponibilidade=Disponibilidade.objects.get(id=i)
+                #     candidato.disponibilidade.add(disponibilidade)                    
                 candidato.save()                    
-                print('ops')
+                # print('ops')
                 
 
             #criando matricula como candidato na turma
             try:
                 turma=Turma.objects.get(curso=curso, status='pre')
                 turma_disponibilidade =[]
-                candidato_disponibilidade=[]
-                for i in turma.disponibilidade.all():
-                        turma_disponibilidade.append(i.disponibilidade)
-                for i in candidato.disponibilidade.all():
-                        candidato_disponibilidade.append(i.disponibilidade)
-                pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
-                if pode_entrar:
-                    Matricula.objects.create(
+                # candidato_disponibilidade=[]
+                # for i in turma.disponibilidade.all():
+                #         turma_disponibilidade.append(i.disponibilidade)
+                # for i in candidato.disponibilidade.all():
+                #         candidato_disponibilidade.append(i.disponibilidade)
+                # pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
+                # if pode_entrar:
+                Matricula.objects.create(
                         aluno=candidato, turma=turma, status='c')
-                else:
-                    messages.error(
-                    request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
-                    context = {
-                            'age': age,
-                            'form': form,
-                            'form_responsavel': form_responsavel,     
-                            'titulo': apps.get_app_config('cursos').verbose_name,
-                            'curso': curso,
-                            'pessoa': pessoa
-                        }
-                    return render(request, 'cursos/pre_matricula.html', context)
+                # else:
+                #     messages.error(
+                #     request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
+                #     context = {
+                #             'age': age,
+                #             'form': form,
+                #             'form_responsavel': form_responsavel,     
+                #             'titulo': apps.get_app_config('cursos').verbose_name,
+                #             'curso': curso,
+                #             'pessoa': pessoa
+                #         }
+                #     return render(request, 'cursos/pre_matricula.html', context)
             except:     
                 try:
                     turma=Turma.objects.get(curso=curso, status='acc')
-                    turma_disponibilidade=[]
-                    candidato_disponibilidade=[]
-                    for i in turma.disponibilidade.all():
-                            turma_disponibilidade.append(i.disponibilidade)
-                    for i in candidato.disponibilidade.all():
-                            candidato_disponibilidade.append(i.disponibilidade)
-                    pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
-                    if pode_entrar:
-                        Matricula.objects.create(
+                    # turma_disponibilidade=[]
+                    # candidato_disponibilidade=[]
+                    # for i in turma.disponibilidade.all():
+                    #         turma_disponibilidade.append(i.disponibilidade)
+                    # for i in candidato.disponibilidade.all():
+                    #         candidato_disponibilidade.append(i.disponibilidade)
+                    # pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
+                    # if pode_entrar:
+                    Matricula.objects.create(
                             aluno=candidato, turma=turma, status='c')
-                    else:
-                        messages.error(
-                        request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
-                        context = {
-                            'age': age,
-                            'form': form,
-                            'form_responsavel': form_responsavel,     
-                            'titulo': apps.get_app_config('cursos').verbose_name,
-                            'curso': curso,
-                            'pessoa': pessoa
-                        }
-                        return render(request, 'cursos/pre_matricula.html', context)
+                    # else:
+                    #     messages.error(
+                    #     request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
+                    #     context = {
+                    #         'age': age,
+                    #         'form': form,
+                    #         'form_responsavel': form_responsavel,     
+                    #         'titulo': apps.get_app_config('cursos').verbose_name,
+                    #         'curso': curso,
+                    #         'pessoa': pessoa
+                    #     }
+                    #     return render(request, 'cursos/pre_matricula.html', context)
                 except:
-                    pode_entrar=False
+                    # pode_entrar=False
                     Alertar_Aluno_Sobre_Nova_Turma.objects.create(
                         aluno=candidato,
                         curso=curso
