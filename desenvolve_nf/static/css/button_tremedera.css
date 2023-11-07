@@ -91,14 +91,16 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     -moz-osx-font-smoothing: grayscale;
+    margin-bottom: 10px;
   }
   .btn-tremura:hover, .btn-tremura:focus, .btn-tremura:active {
-    -webkit-animation-name: btn-tremura;
+    /* -webkit-animation-name: btn-tremura;
     animation-name: btn-tremura;
     -webkit-animation-duration: 0.75s;
     animation-duration: 0.75s;
     -webkit-animation-timing-function: linear;
     animation-timing-function: linear;
     -webkit-animation-iteration-count: 1;
-    animation-iteration-count: 1;
+    animation-iteration-count: 1; */
+    transform: scale(1.1);
   }

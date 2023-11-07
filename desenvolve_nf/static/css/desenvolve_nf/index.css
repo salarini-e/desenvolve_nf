@@ -262,17 +262,30 @@ main #plataformas .grade .row .col button{
 }
 .s-nav{
   height: 78px;
-  width: 78px;
+  width: 116px;
+  border-radius: 15px;
   border-style: solid;
   border-color: #0d568e;
+  border-width: 2px;
+  /* border-color: #0d568e; */
+  box-shadow: 10px 10px 15px -3px #0d568e38;
   background-color: #D9D9D9;
 }
 .s-nav-admin{
   height: 78px;
-  width: 78px;
+  width: 116px;
   border-style: solid;
   border-color: #8e0d0d;
+  border-radius: 15px;
+  border-style: solid;
+  /* border-color: #0d568e; */
+  border-width: 2px;
+  /* border-color: #0d568e; */
+  box-shadow: 10px 10px 15px -3px #0d568e38;
   background-color: #D9D9D9;
+}
+.btn-tremura p{
+  display: none !important;
 }
 .s-avatar{  
   padding: 3px;
@@ -644,67 +657,67 @@ footer a{
 
 #bemestaranimal {
   background-color: rgb(255, 255, 255) !important;
-  background-image: url(/static/images/icones/home_bemestaranimal.png);
+  background-image: url(/static/images/icones/home_bemestaranimal.jpg);
   background-size: contain;
 }
 
 #casadotrabalhador {
   background-color: rgb(255, 255, 255) !important;
-  background-image: url(/static/images/icones/home_casadotrabalhador.png);
+  background-image: url(/static/images/icones/home_casadotrabalhador.jpg);
   background-size: contain;
 }
 #iluminacaopublica {
   background-color: rgb(255, 255, 255) !important;
-  background-image: url(/static/images/icones/home_iluminacao2.png);
+  background-image: url(/static/images/icones/home_iluminacao.jpg);
   background-size: contain;
 }
  #cidadeinteligente {
   background-color: rgb(255, 255, 255) !important;
-  background-image: url(/static/images/icones/home_cidade.png);
+  background-image: url(/static/images/icones/home_cidade.jpg);
   background-size: contain;
 }
 #senhas {
   background-color: rgb(255, 255, 255) !important;
-  background-image: url(/static/images/icones/home_senhas2.png);
+  background-image: url(/static/images/icones/home_senhas.jpg);
   background-size: contain;
 }
 
 #mapeamento {
   background-color: white !important;
-  background-image: url(/static/images/icones/home_mapeamento.png);
+  background-image: url(/static/images/icones/home_mapeamento.jpg);
   background-size: contain;
 }
 
 #capacita {
   background-color: white !important;
-  background-image: url(/static/images/icones/home_capacita.png);
+  background-image: url(/static/images/icones/home_capacita.jpg);
   background-size: contain;
 }
 
 #eventos {
   background-color: white !important;
-  background-image: url(/static/images/icones/home_eventos.png);
+  background-image: url(/static/images/icones/home_eventos.jpg);
   background-size: contain;
 }
 #estagio {
   background-color: white !important;
-  background-image: url(/static/images/icones/home_estagio.png);
+  background-image: url(/static/images/icones/home_estagio.jpg);
   background-size: contain;
 }
 
 #financas {
   background-color: white !important;
-  background-image: url(/static/images/icones/home_financas.png);
+  background-image: url(/static/images/icones/home_financas.jpg);
   background-size: contain;
 }
 #licitacao {
   background-color: white !important;
-  background-image: url(/static/images/icones/home_licitacao.png);
+  background-image: url(/static/images/icones/home_licitacao.jpg);
   background-size: contain;
 }
 #admin {
   background-color: white !important;
-  background-image: url(/static/images/icones/admin.png);
+  background-image: url(/static/images/icones/home_admin.jpg);
   background-size: contain;
 }
 
