@@ -251,8 +251,11 @@
         </div>
       </div>   
       <script>
-       var myModal = new bootstrap.Modal(document.getElementById('resposta'))
-       myModal.toggle()
+      const myModal = new bootstrap.Modal(document.getElementById('resposta'))
+      myModal._config.keyboard = false;
+      myModal._config.backdrop = 'static';
+      myModal.toggle()
+
       </script>
       <style>
         .error{
