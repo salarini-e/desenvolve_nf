@@ -45,6 +45,23 @@
 </head>
 
 <body>
+  <div id="preloading" style="background-color: white;">
+    <img class="mx-auto mt-auto img-fluid logo" src="/static/images/logo_pmnf.png" alt="">
+    <div class="mx-auto mb-auto lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <style>
+    #preloading{
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100000;
+    }
+  </style>
   <header>
     <nav id="nav-superior">
       <div class="logo-nf">
@@ -722,6 +739,12 @@
         }
       }
     });
+  </script>
+  <script>
+    window.onload = () => {
+      document.getElementById('body').style.overflow = 'auto'
+      document.getElementById('preloading').style.display = 'none'
+    }
   </script>
 <script>
   window.embeddedChatbotConfig = {
