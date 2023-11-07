@@ -232,7 +232,7 @@
             {% for message in messages %}
             <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
               <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
-              <button type="button" onclick="myModal.hide();" class="btn-close"></button>
+              <button type="button" onclick="closeModal()" class="btn-close"></button>
             </div>
             <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
                
@@ -244,7 +244,6 @@
             </div>
             <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
               </div>
             </div>
             {% endfor %}
@@ -258,6 +257,10 @@
       myModal._config.backdrop = 'static';
       myModal.toggle()
 
+      function closeModal(){
+        myModal.hide()
+        document.body.style.overflowY = 'scroll'
+            }
       </script>
       <style>
         .error{
