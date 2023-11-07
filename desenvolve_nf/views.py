@@ -50,3 +50,4 @@ def cidade_inteligente_cadastro_camera(request):
         'form': form
     }
     return render(request, 'cadastro_camera.html', context)
+
