@@ -57,7 +57,7 @@ class Curso_Ensino_Superior(models.Model):
     instituicao = models.ForeignKey(Instituicao_Ensino_Superior, on_delete=models.CASCADE)
     nome = models.CharField(max_length=150)
     img = models.ImageField(upload_to = 'cursos_livres/media/banner_cursos_ensino_superior/', null=True)
-    
+    url = models.URLField(default='#')
 
     def __str__(self):
         return '%s - %s' % (self.nome, self.instituicao)
