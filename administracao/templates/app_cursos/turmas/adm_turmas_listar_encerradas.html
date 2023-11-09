@@ -1,7 +1,6 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
 {% load static%}
-{% load custom %}
 {% block title %}BEM VINDO - CURSOS LIVRES{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/administrativo.css' %}">
@@ -19,7 +18,7 @@
                        <div class="row">
                         <div class="col">
                           <h1 class="text-uppercase">
-                            Painel -> CURSOS
+                            Painel -> Encerradas
                           </h1>
                         </div>
                         <div class="col d-flex">
@@ -30,9 +29,8 @@
                        </div>
                         <div class="row px-2 pt-2 d-flex">
                             <div class="col px-0 painel">
-                              <a href="{% url 'adm_cursos_cadastrar' %}"><i class="fa-solid fa-plus me-3"></i>NOVO CURSO</a>
-                              <a href="{% url 'adm_cursos_listar' %}" class="ativo">
-                                <i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR CURSO</a>
+                                <a href="{% url 'adm_turmas_cadastrar' %}"><i class="fa-solid fa-plus me-3"></i>cadastrar TURMA</a>
+                                <a href="{% url 'adm_turmas_listar' %}" class="ativo"><i class="fa-regular fa-file-lines me-3"></i>LISTAR/EDITAR TURMAS</a>
                             </div>
                         </div>
                         <div class="row">
@@ -47,53 +45,64 @@
                                     <option value="1">
                                       Encerrar turmas
                                     </option>
+                                    <option value="1">
+                                      Lançar turmas
+                                    </option>
                                   </select>
                                   <button class="btn btn-primary px-3 ms-2">
                                     Ir
                                   </button>
+                                  <button class="btn btn-primary ms-1">
+                                    <i class="fa-solid fa-filter"></i>
+                                  </button>
+                                  <div class="col btn btn-dark ms-1">
+                                    <a href="{% url 'adm_turmas_listar' %}" style="color: white;"><i class="fa-solid fa-angles-left"></i></a>
+                                  </div>
                                 </div>
                                 <div class="w-100 h-100 pt-3 table-responsive">
                                   <table class="table table-striped table-primary">
                                     <thead>
                                       <td>
-                                        <input type="checkbox" oninput="checkAll()" name="all" id="all">
+                                        <input type="checkbox" name="" id="">
                                       </td>
+                                      <th>Nome</th>
                                       <th>Categoria</th>
-                                      <th>Curso</th>
-                                      <th class="text-center">Carga horária</th>          
-                                      <th class="text-center">Qnt. Interessados</th>                            
-                                      <th class="text-center">Turmas</th>
+                                      <th>Atividade</th>
+                                      <th>Data Inicial</th>
+                                      <th>Data final</th>
                                       <th>Status</th>
-                                      <th class="text-center">Editar</th>
+                                      <th class="text-center">Ver/Editar</th>
 
                                     </thead>
                                     <tbody>
-                                      {% for curso in cursos %}
+                                      {% for turma in turmas %}
                                         <tr>
                                           <td>
-                                            <input type="checkbox" oninput="selecionar(this)" name="select_curso" value="{{curso.id}}">
-                                          </td>
+                                            <input type="checkbox" name="" id="">
+                                          </td>     
+                                          <td>{{turma}}</td>                                     
                                           <td>
-                                            {{curso.categoria}}
-                                          </td>
-                                          <td> <a href="{% url 'adm_curso_detalhes' curso.id %}">{{curso.nome}}</a></td>
-                                          <td class="text-center">{{curso.carga_horaria}}</td>
-                                          <td class="text-center">{{curso.id|qntInteressados}}</td>
+                                            {{turma.curso.categoria}}
+                                          </td>                                          
+                                          <td>{{turma.curso.nome}}</td>
+                                          <td>{{turma.data_inicio|date:"d/m/Y"}}</td>
+                                          <td class="">{{turma.data_final|date:"d/m/Y"}}</td>
                                           <td class="text-center">
-                                            <a href="{% url 'adm_curso_visualizar' curso.id %}">
-                                              <i class="fas fa-eye"></i>
-                                            </a>
-                                          </td>
-                                          <!-- <td>{{curso.local}}</td>                                           -->
-                                          <td>{% if curso.ativo %}
-                                              <span class="text-success">Ativo</span>
-                                              {% else %}
-                                              <span class="text-danger">Inativo</span>
-                                              {% endif %}
+                                            {% if turma.status == 'pre' %}
+                                            <div class="bg-danger w-100 rounded text-light">Pré-inscrição</div>
+                                            {% elif turma.status == 'ati' %}
+                                            <div class="bg-success w-100 rounded text-light">Ativa</div>
+                                            {% elif turma.status == 'agu' %}
+                                            <div class="bg-warning w-100 rounded text-dark">Aguardando</div>
+                                            {% elif turma.status == 'acc' %}
+                                            <div class="bg-info w-100 px-3 rounded text-dark">Ativo e aceitando...</div>
+                                            {% elif turma.status == 'enc' %}
+                                            <div class="bg-dark w-100 rounded text-light">Encerrada</div>
+                                            {% endif %}
                                           </td>
                                           <td class="text-center">
-                                            <a href="{% url 'adm_curso_editar' curso.id %}">
-                                              <i class="fas fa-edit"></i>
+                                            <a href="{% url 'adm_turma_visualizar' turma.id %}">
+                                              <i class="fa-solid fa-eye"></i>
                                             </a>
                                           </td>
                                         </tr>

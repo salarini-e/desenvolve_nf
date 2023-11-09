@@ -1,7 +1,7 @@
 from bemestaranimal.models import *
 from bemestaranimal.forms import *
 from .functions import generateToken
-
+from django.db import IntegrityError
 import unicodedata
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, render, redirect
@@ -13,6 +13,9 @@ from cursos.models import *
 from datetime import date
 from django.template.loader import render_to_string
 from django.db.models import Q
+from django.http import JsonResponse
+from django.core.paginator import Paginator
+
 
 import csv
 import re
@@ -97,6 +100,19 @@ def adm_curso_editar(request, id):
     }
     return render(request, 'app_cursos/cursos/adm_cursos_cad_edit.html', context)
 
+@staff_member_required
+def adm_curso_detalhes(request, id):
+    curso = Curso.objects.get(id=id)
+    interessados = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=curso, alertado=False).order_by('aluno__pessoa__nome')
+    matrizCur = Disciplinas.objects.filter(curso=curso)
+
+    context = {
+        'curso': curso,
+        'interessados': interessados,
+        'matrizesCur': matrizCur
+    }
+    return render(request, 'app_cursos/cursos/adm_cursos_detalhes.html', context)
+
 # @staff_member_required
 # def adm_cadastrar_
 
@@ -116,6 +132,15 @@ def cadastrar_categoria(request):
     }
     return render(request, 'app_cursos/cursos/cadastrar_categoria.html', context)
 
+@staff_member_required
+def remover_interessado(request, id_curso, id):
+    try:
+        interessado = Alertar_Aluno_Sobre_Nova_Turma.objects.get(id=id)
+        interessado.alertado = True
+        interessado.save()
+        return JsonResponse({'success': True})  # Retorno de sucesso como JSON
+    except Alertar_Aluno_Sobre_Nova_Turma.DoesNotExist:
+        return JsonResponse({'success': False})  # Retorno de falha como JSON
 
 @staff_member_required
 def cadastrar_local(request):
@@ -165,12 +190,21 @@ def adm_turmas_cadastrar(request):
 @staff_member_required
 def adm_turmas_listar(request):
 
-    turmas = Turma.objects.all().order_by('data_final')
+    turmas = Turma.objects.exclude(status='enc').order_by('data_final')
 
     context = {
         'turmas': turmas
     }
     return render(request, 'app_cursos/turmas/adm_turmas_listar.html', context)
+
+@staff_member_required
+def adm_turmas_listar_encerradas(request):
+    turmas = Turma.objects.filter(status="enc").order_by('-data_final')
+
+    context = {
+        'turmas': turmas
+    }
+    return render(request, 'app_cursos/turmas/adm_turmas_listar_encerradas.html', context)
 
 
 @staff_member_required
@@ -181,6 +215,7 @@ def adm_cursos_listar(request):
         'cursos': cursos
     }
     return render(request, 'app_cursos/cursos/adm_cursos_listar.html', context)
+
 
 @staff_member_required
 def adm_locais(request):
@@ -385,7 +420,7 @@ def adm_professores_editar(request, id):
             form.save()
             messages.success(
                 request, 'Informações do Instrutor atualizadas com sucesso!')
-            return redirect('adm_professores')
+            return redirect('adm_professores_Listar')
 
     context = {
         'form': form,
@@ -398,8 +433,28 @@ def adm_professores_editar(request, id):
 def adm_professores_excluir(request, id):
     instrutor = Instrutor.objects.get(id=id)
     instrutor.delete()
-    return redirect('adm_professores')
+    return redirect('adm_professores_listar')
 
+@staff_member_required
+def gerar_certificados(request, id):
+    data_atual = datetime.date.today()
+    turma = get_object_or_404(Turma, id=id)
+    matriculas=Matricula.objects.filter(turma_id=id)
+    disciplinas = Disciplinas.objects.filter(curso_id=turma.curso.id)
+    aux=[0,0]
+    for d in disciplinas:
+        aux[0]+=int(d.n_aulas)
+        aux[1]+=int(d.carga_horaria)
+    context={
+        'turma': turma,
+        'matriculas': matriculas,
+        'data_atual': data_atual,
+        'instrutor': turma.instrutores.all()[0],
+        'disciplinas': disciplinas,
+        'total_aulas': aux[0],
+        'total_horas': aux[1]
+    }
+    return render(request, 'certificados.html', context)
 
 @staff_member_required
 def adm_turmas_visualizar(request, id):
@@ -443,7 +498,9 @@ def adm_turmas_visualizar(request, id):
         'matriculas_candidatos': matriculas_candidatos,
         'qnt_alunos': matriculas_alunos.count(),
         'qnt_alunos_espera': matriculas_candidatos.count() + matriculas_selecionados.count(),
-        'is_cheio': turma.quantidade_permitido <= matriculas_alunos.count()
+        'is_cheio': turma.quantidade_permitido <= matriculas_alunos.count(),
+        'realocar': turma.status == 'pre' and len(Matricula.objects.filter(turma__curso=turma.curso, status='r')) > 0,
+
     }
 
     return render(request, 'app_cursos/turmas/adm_turma_visualizar.html', context)
@@ -451,13 +508,20 @@ def adm_turmas_visualizar(request, id):
 
 @staff_member_required
 def visualizar_turma_editar(request, id):
+    
     turma = Turma.objects.get(id=id)
     form = CadastroTurmaForm(instance=turma)
 
     if request.method == 'POST':
         form = CadastroTurmaForm(request.POST, instance=turma)
         if form.is_valid():
-            form.save()
+            turma=form.save()
+            if turma.status == 'ati':
+                matriculas = Matricula.objects.filter(turma=turma)
+                for matricula in matriculas:
+                    if matricula.status == 's' or matricula.status == 'c':
+                        matricula.status = 'r'
+                        matricula.save()
             messages.success(request, 'Turma editada com sucesso!')
             return redirect('adm_turma_visualizar', id)
         
@@ -534,45 +598,92 @@ def excluir_turma(request, id):
     return redirect('adm_turmas_listar')
 
 @staff_member_required
+def matricular_aluno(request, id):
+    if request.method == 'POST':
+        form = MatriculaAlunoForm(request.POST)
+        if form.is_valid():
+            matricula = form.save(commit=False)
+            matricula.dt_inclusao = datetime.datetime.now()
+            matricula.dt_ultima_atualizacao = datetime.datetime.now()
+            matricula.save()
+            messages.success(request, 'Aluno matriculado com sucesso!')
+            return redirect('adm_aluno_visualizar', matricula.aluno.id)
+    context={
+        'form': MatriculaAlunoForm(initial={'aluno': id}),
+    }
+    return render(request, 'app_cursos/alunos/adm_aluno_matricular.html', context)
+@staff_member_required
 def adm_realocar(request, id):
-    turma = get_object_or_404(Turma, pk=id)
-
-    outras_turmas = Turma.objects.filter(curso=turma.curso).exclude(id=turma.id)
-
-    if outras_turmas.count() == 0:
-        messages.error(request, f"Antes de alocar os alunos é necessário criar uma turma do curso {turma.curso}")
-        return redirect('adm_turma_visualizar', turma.id)
-    
+    turma = Turma.objects.get(id=id)
     if request.method == "POST":
-        turma_nova = get_object_or_404(Turma, pk=request.POST['turma'])
         candidatos_selecionados = request.POST.getlist('candidatos_selecionados')
         for candidato in candidatos_selecionados:
             matricula_antiga = Matricula.objects.get(matricula=candidato)
-            matricula_antiga.status = 'r'
-            matricula_antiga.save()
-
-            matricula_nova = Matricula.objects.create(turma=turma_nova, aluno=matricula_antiga.aluno, status='c')
-
-        messages.success(request, f'Alunos realocados para a turma {turma_nova} com sucesso!')
-        return redirect('adm_turma_visualizar', turma_nova.id)
-
-    matriculas = Matricula.objects.filter(turma=turma)
-    candidatos = matriculas.filter(Q(status='s') | Q(status='c')).order_by('status')
-
-    context = {
+            matricula_antiga.status = 'd'
+            try:
+                matricula_nova = Matricula.objects.create(aluno=matricula_antiga.aluno, turma=turma, status='c')
+                matricula_nova.save()
+                matricula_antiga.save()
+                messages.success(request, f'Aluno(s) realocados para a turma {turma} com sucesso!')
+            except IntegrityError as e:
+                if str(e) == 'UNIQUE constraint failed: cursos_matricula.matricula':
+                    messages.warning(request, f'Alguns alunos realocados <b>já estão matriculados</b> na turma {turma}!')
+                    return redirect('adm_turma_visualizar', turma.id)
+        return redirect('adm_turma_visualizar', turma.id)
+    matriculas = Matricula.objects.filter(turma__curso=turma.curso, status='r').order_by('aluno__pessoa__nome')
+            
+    context={
         'turma': turma,
-        'outras_turmas': outras_turmas,
-        'candidatos': candidatos
+        'candidatos': matriculas
     }
-
     return render(request, 'app_cursos/turmas/adm_turma_realocar.html', context)
+# @staff_member_required
+# def adm_realocar(request, id):
+#     turma = get_object_or_404(Turma, pk=id)
 
+#     outras_turmas = Turma.objects.filter(curso=turma.curso).exclude(id=turma.id)
+
+#     if outras_turmas.count() == 0:
+#         messages.error(request, f"Antes de alocar os alunos é necessário criar uma turma do curso {turma.curso}")
+#         return redirect('adm_turma_visualizar', turma.id)
+    
+#     if request.method == "POST":
+#         turma_nova = get_object_or_404(Turma, pk=request.POST['turma'])
+#         candidatos_selecionados = request.POST.getlist('candidatos_selecionados')
+#         for candidato in candidatos_selecionados:
+#             matricula_antiga = Matricula.objects.get(matricula=candidato)
+#             matricula_antiga.status = 'r'
+#             matricula_antiga.save()
+
+#             matricula_nova = Matricula.objects.create(turma=turma_nova, aluno=matricula_antiga.aluno, status='c')
+
+#         messages.success(request, f'Alunos realocados para a turma {turma_nova} com sucesso!')
+#         return redirect('adm_turma_visualizar', turma_nova.id)
+
+#     matriculas = Matricula.objects.filter(turma=turma)
+#     candidatos = matriculas.filter(Q(status='s') | Q(status='c')).order_by('status')
+
+#     context = {
+#         'turma': turma,
+#         'outras_turmas': outras_turmas,
+#         'candidatos': candidatos
+#     }
+
+#     return render(request, 'app_cursos/turmas/adm_turma_realocar.html', context)
 @staff_member_required
 def adm_alunos_listar(request):
-    alunos = Aluno.objects.all()
-
+    if request.method == 'POST':                
+        alunos = Aluno.objects.filter(pessoa__nome__icontains=request.POST['pesquisa'])
+        if alunos.count() == 0:
+            alunos = Aluno.objects.filter(pessoa__cpf__icontains=request.POST['pesquisa'])
+            if alunos.count() == 0:
+                messages.warning(request, 'Nenhum aluno encontrado')
+    else:
+        alunos = Aluno.objects.all()
+    paginator = Paginator(alunos, 35)
     context = {
-        'alunos': alunos
+        'alunos': paginator.get_page(request.GET.get('page')),
+        'total_alunos': alunos.count(),
     }
     return render(request, 'app_cursos/alunos/adm_alunos_listar.html', context)
 
@@ -589,7 +700,7 @@ def adm_aluno_visualizar(request, id):
 
     context = {
         'aluno': aluno,
-        'matriculas': Matricula.objects.filter(aluno=aluno).exclude(status='d'),
+        'matriculas': Matricula.objects.filter(aluno=aluno),
         'responsavel': responsavel,
     }
 
@@ -1029,3 +1140,27 @@ def censo(request):
 
 #quantidade de animais castrados e não castrados
 # vacinados (mas não pede essa informação no usuário, só na hora de cadastrar as informações extras)
+@staff_member_required
+def gambiarra_cevest(request):
+    users = User.objects.all()
+    for user in users:
+        try:
+            pessoa = Pessoa.objects.get(user=user)
+            if len(user.username) != 11: 
+                user.username = pessoa.cpf  
+                user.save()
+            if not Aluno.objects.filter(pessoa=pessoa).exists():
+                Aluno.objects.create(
+                    pessoa=pessoa,
+                    profissão='Não informado',
+                    escolaridade='emc',
+                    estado_civil='s',
+                    aceita_mais_informacoes=True,
+                    li_e_aceito_termos=True
+                )
+                print(f'Aluno criado para o usuario {user.username} - {pessoa.nome}')
+        except Pessoa.DoesNotExist:
+            print(f"Pessoa nao encontrada para o usuario {user.username}")
+        except Exception as e:
+            print(f"Erro ao criar Aluno para o usuario {user.username}: {e}")
+    return redirect('/')

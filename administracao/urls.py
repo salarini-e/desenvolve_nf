@@ -14,7 +14,7 @@ urlpatterns = [
     path('locais', views.adm_locais_listar, name="adm_locais_listar"),
     path('local/cadastrar', views.adm_locais_cadastrar, name="cadastrar_local"),
     path('local/<id>/editar', views.adm_locais_editar, name="adm_locais_editar"),
-    path('locais/<id>/excluir', views.adm_locais_excluir, name="adm_locais_excluir"),
+    path('locai/<id>/excluir', views.adm_locais_excluir, name="adm_locais_excluir"),
     # MISSING VISUALIZAR
 
     path('categorias', views.adm_categorias_listar, name="adm_categorias_listar"),
@@ -27,6 +27,8 @@ urlpatterns = [
     path('curso/cadastrar', views.adm_cursos_cadastrar, name="adm_cursos_cadastrar"),
     path('curso/<id>/editar', views.adm_curso_editar, name="adm_curso_editar"),
     path('curso/<id>/visualizar', views.adm_curso_visualizar, name="adm_curso_visualizar"),
+    path('cursos/<id>/detalhes', views.adm_curso_detalhes, name="adm_curso_detalhes"),
+    path('cursos/<id_curso>/remover-interessado/<id>/', views.remover_interessado, name="adm_remover_interessado"),
     # path('curso/<id>/requisito/criar', views.adm_curso_visualizar, name="adm_curso_visualizar"),
 
 
@@ -43,11 +45,13 @@ urlpatterns = [
     # -------- # -------- #
 
     path('turmas', views.adm_turmas_listar, name="adm_turmas_listar"),
+    path('turmas-encerradas', views.adm_turmas_listar_encerradas, name="adm_turmas_listar_encerradas"),
     path('turma/cadastrar', views.adm_turmas_cadastrar, name="adm_turmas_cadastrar"),
     path('turma/<id>', views.adm_turmas_visualizar, name="adm_turma_visualizar"),
     path('turma/<id>/editar', views.visualizar_turma_editar, name="adm_turma_editar"),
     path('turma/<id>/excluir', views.excluir_turma, name="adm_turma_excluir"),
     path('turma/<id>/realocar', views.adm_realocar, name="adm_turma_realocar"),
+    path('turma/<id>/gerar-certificados', views.gerar_certificados, name="gerar_certificados"),
 
     path('turma/<id>/turno/cadastrar', views.adm_turno_cadastrar, name="adm_turno_cadastrar"),
     # MISSING VISUALIZAR, EDITAR, LISTAR E EXCLUIR
@@ -66,9 +70,11 @@ urlpatterns = [
     path('evento/cadastrar', views.adm_evento_cadastrar, name="adm_evento_cadastrar"),
     path('evento/<id>/editar', views.adm_evento_editar, name="adm_evento_editar"),
 
+    path('gambiarra/02', views.gambiarra_cevest, name="adm_gambiarra_alunos"),
     path('alunos', views.adm_alunos_listar, name="adm_alunos_listar"),
     path('aluno/<id>', views.adm_aluno_visualizar, name="adm_aluno_visualizar"),
     path('aluno/<id>/editar', views.adm_aluno_editar, name="adm_aluno_editar"),
+    path('aluno/<id>/matricular/', views.matricular_aluno, name="adm_aluno_matricular"),
     path('aluno/<matricula>/desmatricular', views.desmatricular_aluno, name="adm_desmatricular_aluno"),
 
     path('csv', views.import_users_from_csv),
