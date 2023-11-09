@@ -179,11 +179,17 @@ def vitrine_virtual(request):
     empresa_e_produtos=[]
     for registro in registros:
         produtos=Produto.objects.filter(rg_vitrine=registro)
-        print(produtos)
+        # print(produtos)
         if registro.logo:
-            empresa_e_produtos.append({"empresa": registro.empresa, "logo": str(registro.logo.url), "produtos": produtos})
+            try:
+                empresa_e_produtos.append({"empresa": registro.empresa, "logo": str(registro.logo.url), "produtos": produtos})
+            except:
+                pass
         else:
-            empresa_e_produtos.append({"empresa": registro.empresa, "logo": None, "produtos": produtos})
+            try:
+                empresa_e_produtos.append({"empresa": registro.empresa, "logo": None, "produtos": produtos})
+            except:
+                pass
             
     paginator = Paginator(empresa_e_produtos, 10) 
     page = request.GET.get('page')
