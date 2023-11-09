@@ -102,3 +102,7 @@ class Solicitacao_de_cadastro_de_camera(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True)
     atendido = models.BooleanField(default=False)
     dt_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
+    
+    
+class Solicitacao_newsletter(models.Model):
+    pessoa=models.ForeignKey(Pessoa, on_delete=models.CASCADE, null=True)

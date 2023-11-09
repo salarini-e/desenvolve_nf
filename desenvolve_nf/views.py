@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from .forms import Solicitacao_de_cadastro_de_cameraForm
 #Importações das estruturas das aplicações do projeto.
-from .models import Carousel_Index, ClimaTempo
+from .models import Carousel_Index, ClimaTempo, Solicitacao_newsletter
 from .functions import ClimaTempoTemperaturas
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -51,3 +51,15 @@ def cidade_inteligente_cadastro_camera(request):
     }
     return render(request, 'cadastro_camera.html', context)
 
+def solicitarNewsLetter(request):
+    if request.user.is_authenticated:
+        try:
+            pessoa = Pessoa.objects.get(user=request.user)
+            Solicitacao_newsletter.objects.create(pessoa=pessoa)
+            messages.success(request, 'Solicitação de cadastro enviada com sucesso!')
+        except:
+            messages.error(request, 'Erro ao solicitar cadastro! Contate o administrador do sistema.')
+        return redirect('index')
+    else:
+        messages.error(request, 'VocÊ precisa estar logado para solicitar cadastro!')
+        return redirect('login')
