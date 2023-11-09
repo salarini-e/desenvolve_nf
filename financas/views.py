@@ -43,3 +43,6 @@ def formularios(request):
         'arquivos': arquivos,
     }
     return render(request, 'financas/formularios.html', context)
+
+def legislacao(request):
+    return render(request, 'financas/legislacao.html')

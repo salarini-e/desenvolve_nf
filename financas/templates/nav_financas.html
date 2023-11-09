@@ -7,10 +7,16 @@
           <p class="text-dark">Início</p>
         </div>
       </a>
-      <a href="{% url 'financas:formularios' %}">
+      <a href="{% url 'financas:formularios' %}" class="mx-4">
         <div class="d-flex flex-column align-items-center">
           <div id="s-alvara" class="s-nav rounded-circle doc"></div>
-          <p class="text-dark text-center">Formulários e declarações</p>
+          <p class="text-dark text-center">Formulários e<br>declarações</p>
+        </div>
+      </a>
+      <a href="{% url 'financas:legislacao' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-legis" class="s-nav rounded-circle"></div>
+          <p class="text-dark text-center">Legislação</p>
         </div>
       </a>
       {% comment %}
@@ -73,4 +79,9 @@
     background-image: url(/static/images/icones/financas_doc.png);
     background-size: contain;
   }
+  #s-legis{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/empreendedor_legis.png);
+      background-size: contain;
+    }
 </style>

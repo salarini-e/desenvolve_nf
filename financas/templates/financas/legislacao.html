@@ -1,0 +1,137 @@
+    {% extends 'template.html' %}
+    {% load static %}
+    {% block nav %}
+    {% include 'nav_financas.html' %}
+    {% endblock %}
+    {% block css %}
+    <link rel="stylesheet" href="/static/css/formulario.css">
+    {% endblock %}
+    {% block main %}
+    <div class="container">
+        <div class="d-flex flex-wrap">        
+            <h1 id="go">Legislação</h1>        
+            <!-- <div id="cabecalho" class="ms-auto input-group" style="max-width: 300px ;">
+                <div class="d-flex rounded-circle border me-1" style="background-color: #fff; height: 38px; width: 38px; color: rgba(0, 0, 0, 0.685); font-size: 20pt;"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procurando um formulário? Use o campo ao lado para facilitar sua busca.">
+                    <i class="m-auto fa-solid fa-circle-info"></i>
+                </div>
+                <input style="border-radius: 30px !important; padding-right: 35px;" type="search" name="search" id="search"
+                    class="form-control mb-auto" onkeyup="filterLi(this)">
+                <i class="fa-solid fa-magnifying-glass"
+                    style="position: absolute; right: 0; margin: 10px 10px auto auto;"></i>
+            </div> -->
+        </div>
+        <div class="row">
+            <div class="col pb-5">
+                <p class="text-secondary mt-3" style="text-align: justify; text-indent: 40px;">
+                <i>
+                    Bem-vindo à seção de legislação da Secretaria de Finanças. Nesta página, você encontrará a consolidação das normas tributárias do município, reunindo as principais leis e regulamentos que regem os aspectos fiscais e tributários locais. Esta compilação tem como objetivo oferecer transparência e acessibilidade às diretrizes que impactam a comunidade local e os contribuintes. Para obter informações mais detalhadas sobre as regulamentações específicas, consulte os documentos disponibilizados abaixo.
+                </i>
+            </p>
+            </div>
+            </div>
+        <div class="row">
+            <div class="col pb-3">
+                <h4>CONSOLIDAÇÃO DAS NORMAS TRIBUTÁRIAS DO MUNICÍPIO</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col pb-5 filtros d-flex justify-content-start flex-wrap">
+                <!-- <a href="#go" class="btn btn-primary" onclick="show('alvara')">Alvará</a> -->
+                <a target="_blank" href="https://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=1521" class="btn btn-primary me-3">Benefícios Fiscais</a>
+                <a target="_blank" href="https://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=808" class="btn btn-primary me-3">Código Tributário Municipal</a>                        
+                <a target="_blank" href="https://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=839" class="btn btn-primary me-3">Decretos-cons. das Normas Tributárias</a>
+                <a target="_blank" href="http://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=767" class="btn btn-primary me-3">Legislação - IPTU</a>
+                <a target="_blank" href="#http://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=768" class="btn btn-primary me-3">Legislação - ISS</a>
+                <a target="_blank" href="http://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=769" class="btn btn-primary me-3">Legislação - ITBI</a>
+                <a target="_blank" href="https://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=839" class="btn btn-primary me-3">Legislação específica</a>
+                <a target="_blank" href="https://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=912" class="btn btn-primary me-3">Normais Gerais</a>
+                <a target="_blank" href="https://novafriburgo-rj.portaltp.com.br/consultas/documentos.aspx?id=1591" class="btn btn-primary me-auto">Plano de fiscalização tributária</a>
+                <style>
+                    .filtros .btn-primary{
+                        background-color: #fff;
+                        color: rgb(59, 59, 59);
+                        border-color: rgb(255, 255, 255);
+                        box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+                        min-width: 400px;
+                        margin-bottom: 15px;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                    }
+                </style>
+            </div>
+        </div>
+        
+
+        <div class="row mx-auto px-5" style="height: 100px;">
+            <script>
+                document.getElementById('s-legis').classList.add('s-nav-active');
+            </script>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">
+                        <span id="titulo"></span>
+                    </h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="leitor_pdf" src="" style="height: 800px; width: 100%;" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mudar_pdf(titulo, url) {
+            document.getElementById('titulo').innerText = titulo
+            document.getElementById('leitor_pdf').src = '/static/pdfs/' + url
+        }
+        function hidden_all() {
+            elements = document.getElementsByClassName('categoria')
+            for (let index = 0; index < elements.length; index++) {
+                const element = elements[index];
+
+                element.classList.remove('show_form')
+                element.classList.add('hidden_form')
+            }
+        }
+        function show(id) {
+            hidden_all();
+            document.getElementById('search').value = '';
+            document.getElementById(id).classList.remove('hidden_form')
+            document.getElementById(id).classList.add('show_form')
+        }
+        function filterLi(e) {
+            hidden_all();
+
+            const searchText = e.value.trim().toLowerCase();
+
+            if (searchText.length < 3) {
+                return;
+            }
+
+            const liElements = document.querySelectorAll("#busca li");
+            liElements.forEach((li) => {
+                const liText = li.textContent.trim().toLowerCase();
+                if (liText.includes(searchText)) {
+                    li.classList.remove("hidden_form");
+                    li.classList.add("show_form");
+                } else {
+                    li.classList.remove("show_form");
+                    li.classList.add("hidden_form");
+                }
+            });
+            document.getElementById('busca').classList.remove("hidden_form");
+            document.getElementById('busca').classList.add("show_form");
+        }
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
+    {% endblock %}

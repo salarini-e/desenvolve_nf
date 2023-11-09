@@ -6,4 +6,5 @@ app_name = 'financas'
 urlpatterns = [
     path('', views.index, name='index'),
     path('formularios', views.formularios, name='formularios'),
+    path('legislacao', views.legislacao, name='legislacao')
 ]
