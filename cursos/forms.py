@@ -103,7 +103,7 @@ class CadastroTurmaForm(ModelForm):
         widgets = {
             'data_inicio': forms.TextInput(attrs={'type': 'date'}),
             'data_final': forms.TextInput(attrs={'type': 'date'}),
-            'instrutor': forms.CheckboxSelectMultiple(),
+            'instrutores': forms.CheckboxSelectMultiple(),
             'disponibilidade': forms.CheckboxSelectMultiple(),
             
         }
