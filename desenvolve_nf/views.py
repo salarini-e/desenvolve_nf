@@ -57,11 +57,11 @@ def solicitarNewsLetter(request):
             pessoa = Pessoa.objects.get(user=request.user)
             Solicitacao_newsletter.objects.create(pessoa=pessoa)
             messages.success(request, 'Solicitação de cadastro enviada com sucesso!')
-        except Exception as e:
+        except:
             print('Erro ao solicitar cadastro de Newsletter.')
             print(str(e))
-            messages.error(request, f'Erro ao solicitar cadastro! Contate o administrador do sistema.')
+            messages.error(request, 'Erro ao solicitar cadastro! Contate o administrador do sistema.')
         return redirect('index')
     else:
         messages.error(request, 'VocÊ precisa estar logado para solicitar cadastro!')
-        return redirect('login')
+        return redirect('autenticacao:login')
