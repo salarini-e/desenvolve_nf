@@ -63,5 +63,5 @@ def solicitarNewsLetter(request):
             messages.error(request, 'Erro ao solicitar cadastro! Contate o administrador do sistema.')
         return redirect('index')
     else:
-        messages.error(request, 'VocÊ precisa estar logado para solicitar cadastro!')
+        messages.error(request, 'Você precisa estar logado para solicitar cadastro!')
         return redirect('autenticacao:login')

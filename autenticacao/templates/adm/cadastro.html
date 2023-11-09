@@ -26,9 +26,13 @@
     </div>    
     <div class="col-4 d-flex pb-5" style="overflow-y: scroll; max-height: 100vh;">
         <div class="m-auto">
-            <a href="/">
-                <img style="max-width: 300px;" class="img-fluid mb-3" src="{% static 'images/logo_desenvolvenf_white.png' %}" alt="">                
-            </a>
+            <div class="row">
+                <div class="col text-center">
+                    <a href="/" class="mx-auto">
+                        <img style="max-width: 300px;" class="img-fluid mb-3" src="{% static 'images/logo_desenvolvenf_white.png' %}" alt="">                
+                    </a>
+                </div>
+            </div>
             <h2 class="text-center">NOVO CADASTRO</h2>
             {% if messages %}
         <div class="messages my-4">
@@ -37,7 +41,7 @@
             {% endfor %}
         </div>
         {% endif %} 
-            <form class="pt-3" method="POST">
+            <form class="pt-3 px-5" method="POST">
                 {% csrf_token %}
                 {% bootstrap_form form_pessoa %} 
 
@@ -48,7 +52,7 @@
                 {% endif %}
                 
                 {% if not is_user %}
-                <div class="mb-3">
+                <div class="mb-3">  
                     <label class="mb-2 {% if error_senha.0 %}text-danger{% endif %}" for="senha">
                         Senha:
                     </label>
