@@ -105,7 +105,7 @@
           {% for curso in cursos %}
           <div class="item me-3 d-flex flex-column curso_listado">
             <div class="c-img" style="position: relative;">
-              <img src="{{curso.banner.url}}" class="banner-img">
+              <img src="{% if curso.banner.url %}{{curso.banner.url}}{% else %}{% static 'images/sem-imagem.png' %}{% endif %}" class="banner-img">
               <a href="{% url 'cursos:filtrar' tipo curso.categoria.nome %}" class="badge_item nome_lugar" style="background-color: {{curso.categoria.cor}};">
                 {{curso.categoria.nome}}<br>
               </a>
