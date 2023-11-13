@@ -704,7 +704,11 @@ footer a{
   background-image: url(/static/images/icones/home_estagio.jpg);
   background-size: contain;
 }
-
+#sala{
+  background-color: white !important;
+  background-image: url(/static/images/icones/home_empreendedor.jpg);
+  background-size: contain;
+}
 #financas {
   background-color: white !important;
   background-image: url(/static/images/icones/home_financas.jpg);
