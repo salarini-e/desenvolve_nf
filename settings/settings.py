@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #terceiros
+    'rest_framework.authtoken',
+    'rest_framework',
     'bootstrap5',
     'fontawesomefree',
     'colorfield',
@@ -83,7 +85,8 @@ INSTALLED_APPS = [
     'cevest_almoxarifado',
     'cevest_os',
     'chamados_dev',
-    'sala_do_empreendedor'
+    'sala_do_empreendedor',
+    'api'
     
 ]
 
@@ -152,6 +155,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ]
+}
 
 LANGUAGE_CODE = 'pt-br'
 

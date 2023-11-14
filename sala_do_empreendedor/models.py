@@ -262,3 +262,64 @@ def generate_process_number(sender, instance, created, **kwargs):
 def atualizar_dt_atualizacao_processo(sender, instance, **kwargs):
     instance.processo.dt_atualizacao = timezone.now()
     instance.processo.save()
+    
+# class Escola(models.Model):
+    
+#     nome = models.CharField(max_length=128, verbose_name='Razão social')
+#     cnpj = models.CharField(max_length=18, verbose_name='CNPJ', unique=True)
+#     cep = models.CharField(max_length=10, verbose_name='CEP')
+#     endereco = models.CharField(max_length=128, verbose_name='Endereço')
+#     bairro = models.CharField(max_length=128, verbose_name='Bairro')
+#     telefone = models.CharField(max_length=128, verbose_name='Telefone', null=True, blank=True)
+#     email = models.EmailField(verbose_name='E-mail', blank=True, null=True)
+#     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+#     responsavel=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Responsável pelas compras', null=True)
+#     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+    
+#     def __str__(self) -> str:
+#         return self.nome
+    
+# class Solicitacao_de_Compras(models.Model):
+#     STATUS_CHOICES=(
+#         ('0', 'Criando solicitação'),
+#         ('1', 'Aguardando propostas'),
+#         ('2', 'Aguardando analise de propostas'),
+#         ('3', 'Processo concluído'),
+#     )
+#     TIPO_CHOICES=(
+#         ('s', 'Serviço'),
+#         ('p', 'Produto'),
+#     )
+#     PRECO_CHOICES=(
+#         ('i', 'item'),
+#         ('l', 'lote'),
+#     )
+    
+#     status = models.CharField(max_length=1, verbose_name='Status da solicitacao', choices=STATUS_CHOICES, default='0')
+#     tipo = models.CharField(max_length=1, verbose_name='Tipo', choices=TIPO_CHOICES)
+#     escola = models.ForeignKey(Escola, on_delete=models.CASCADE, verbose_name='Escola')
+#     descricao = models.TextField(verbose_name='Descrição')
+#     dt_envio_propostas = models.DateField(verbose_name='Data limite para envio de propostas')
+#     dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')
+#     qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados')
+#     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
+    
+# class Item_Solicitacao(models.Model):
+    
+#     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
+#     nome = models.CharField(max_length=128, verbose_name='Nome do item')
+#     quantidade = models.IntegerField(verbose_name='Quantidade')
+#     unidade = models.CharField(max_length=128, verbose_name='Unidade de medida')
+#     descricao = models.TextField(verbose_name='Descrição')
+ 
+# class Proposta(models.Model):
+#     qnt_itens_proposta = models.IntegerField(verbose_name='Quantidade de itens propostos')
+#     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
+#     dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')   
+    
+# class Proposta_Item(models.Model):
+#     proposta = models.ForeignKey(Proposta, on_delete=models.CASCADE, verbose_name='Proposta')
+#     item_solicitacao = models.ForeignKey(Item_Solicitacao, on_delete=models.CASCADE, verbose_name='Item da compra')
+#     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
+#     preco = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='Preço/Proposta')
+#     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')

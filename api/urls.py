@@ -9,6 +9,8 @@ app_name='api'
 
 urlpatterns = [
        path('token/', obtain_auth_token, name="api_token_auth"),
-       path('vagas/', views.Listar_Vagas.as_view()),
-       path('cargos/', views.Listar_Cargos.as_view()),
+       path('sala-do-empreendedor/get-empresas/', views.Listar_Empresas.as_view()),
+       path('cursos/get-interessados/<int:curso_id>/', views.AlunosInteressadosView.as_view(), name='listar_alunos_interessados'),
+       path('cursos/get-cursos/', views.Listar_Cursos.as_view(), name='listar_cursos'),
+   
 ]
