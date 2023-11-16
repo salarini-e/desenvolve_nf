@@ -56,6 +56,13 @@ el_api_token = env_vars['el_api_token']
 el_id_client = env_vars['el_id_client']
 
 INSTALLED_APPS = [
+    #terceiros
+    'daphne',
+    'rest_framework.authtoken',
+    'rest_framework',
+    'bootstrap5',
+    'fontawesomefree',
+    'colorfield',
     #padrão
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,12 +70,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #terceiros
-    'rest_framework.authtoken',
-    'rest_framework',
-    'bootstrap5',
-    'fontawesomefree',
-    'colorfield',
     #apps
     'desenvolve_nf',
     'cursos',
@@ -86,8 +87,8 @@ INSTALLED_APPS = [
     'cevest_os',
     'chamados_dev',
     'sala_do_empreendedor',
-    'api'
-    
+    'api',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'settings.wsgi.application'
+ASGI_APPLICATION = 'settings.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG':{
+            'hosts':[('127.0.0.1', 6379)],
+        }
+    }
+}
+
 if sqlite_mode:
     DATABASES = {
         'default': {
