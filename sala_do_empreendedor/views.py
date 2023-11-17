@@ -427,13 +427,33 @@ def meus_processos(request):
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/listar_processos.html', context)
 
+
 @login_required()
 def pdde_index(request):
     cotext = {
         'titulo': 'Sala do Empreendedor',
-        'escolas': Escola.objects.all()
     }
     return render(request, 'sala_do_empreendedor/pdde/index.html', cotext)
+
+@login_required()
+def pdde_admin(request):
+    cotext = {
+        'titulo': 'Sala do Empreendedor',
+        'escolas': Escola.objects.all()
+    }
+    return render(request, 'sala_do_empreendedor/pdde/admin.html', cotext)
+
+@login_required()
+def pdde_index_escola(request):
+    escola=Escola.objects.get(responsavel=request.user)
+    if escola:
+        cotext = {
+            'titulo': 'Sala do Empreendedor',
+            'escolas': Escola.objects.all()
+        }
+        return render(request, 'sala_do_empreendedor/pdde/index_escola.html', cotext)
+    messages.warning(request, 'Você não possui autorização para acessar essa página!')
+    return redirect('empreendedor:index')
     
 @login_required()
 def pdde_criar_escola(request):
@@ -447,6 +467,25 @@ def pdde_criar_escola(request):
             return redirect('empreendedor:pdde_admin')
     else:
         form = Escola_Form(initial={'user': request.user.id})
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/pdde/criar_escola.html', context)
+
+@login_required()
+def pdde_editar_escola(request, id):
+    escola=Escola.objects.get(id=id)
+    if request.method == 'POST':
+        form = Escola_Form(request.POST, instance=escola)
+        if form.is_valid():
+            escola = form.save(commit=False)
+            escola.user_register = request.user
+            escola.save()
+            messages.success(request, 'Escola cadastrada com sucesso!')
+            return redirect('empreendedor:pdde_admin')
+    else:
+        form = Escola_Form(instance=escola)
     context = {
         'titulo': 'Sala do Empreendedor',
         'form': form

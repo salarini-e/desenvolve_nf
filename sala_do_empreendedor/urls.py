@@ -72,7 +72,10 @@ urlpatterns = [
     path('consultar-processos/', views.consultar_processos, name='consultar_processos'),
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     
-    path('adm/pdde/', views.pdde_index, name='pdde_admin'),
-    path('adm/pdde/criar-escola/', views.pdde_criar_escola, name='pdde_criar_escola')
+    path('adm/pdde/', views.pdde_admin, name='pdde_admin'),
+    path('pdde/', views.pdde_index, name='pdde_index'),
+    path('pdde/escola/', views.pdde_index_escola, name='pdde_escola'),
+    path('adm/pdde/criar-escola/', views.pdde_criar_escola, name='pdde_criar_escola'),
+    path('adm/pdde/editar-escola/', views.pdde_editar_escola, name='pdde_editar_escola')
     
 ]

@@ -7,90 +7,70 @@
   <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
 {% endblock %}
 {% block main %}
-<div class="container">
+<div class="row mx-auto pb-3">
+  <style>
+      body {
+          background-color: #f4f4f4;
+          font-family: Arial, sans-serif;
+          text-align: center;
+      }
+
+      .construction-icon {
+          font-size: 48px;
+          color: #e74c3c;
+      }
+
+      .message {
+          font-size: 24px;
+          margin-top: 20px;
+          color: #333;
+      }
+
+      .contact {
+          font-size: 18px;
+          margin-top: 20px;
+          color: #666;
+      }
+  </style>
+
   <div class="row">
-    <div class="col d-flex flex-column">
-      <h1>Admin - PDDE</h1>
-      <p class="text-secondary">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia, repellendus. 
-      </p>    
-      <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-auto"><i class="fa-solid fa-plus me-2"></i>Nova escola</a>
-
-    </div>
-  </div>
-    <div class="row mt-4">
-      <div class="col">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert {{ message.tags }}">
-              {{ message }}
+      <div class="col pb-5">
+        <h1 class="text-justify mb-4">Programa de Dinheiro Direto da Escola</h1>
+        <!-- <p class="text-secondary text-justify mb-4">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia, repellendus. 
+        </p>    -->
+        <p class="text-justify mb-3" style="text-indent: 40px;"> Este é o espaço para fornecimento de bens e serviços diretamente para as Escolas dentro do Programa PDDE (Programa de Dinheiro Direto da Escola) todos os anos são movimentados cerca de 3 milhões de negócios nesse programa, somente em Nova Friburgo.</p>
+        <p class="text-center mt-5 mb-3" style="font-weight: bold; ">Você é uma escola ou uma empresa?</p>
+      
+        <div class="row">
+          <div class="col d-flex">
+            <div class="ms-auto item border border d-flex flex-column mx-2 div_cursos">
+              <a href="{% url 'empreendedor:pdde_escola' %}">
+                <div class="c-img" style="position: relative;">
+                  <img class="banner-img" src="/static/images/icons_servicos/licitacoes.jpg" >
+                </div>
+              </a> 
             </div>
-          {% endfor %}
-        {% endif %}
-      </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="table-responsive pt-4 border" style="background-color: white; border-radius: 30px; padding: 20px;">
-                <table class="table table-borderless">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>CNPJ</th>
-                      <th>Nome</th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for escola in escolas %}
-                    <tr>
-                      <td>
-                        
-                      </td>
-                      <td>
-                       {{escola.cnpj}} <a class="ms-3" href="#"><i class="fa-solid fa-pen-to-square"></i></a>
-                      </td>
-                      <td>
-                       {{escola.nome}}
-                      </td>
-                      <td></td>
-                      <td></td>                    
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6" class="px-5 text-center text-secondary py-5s">
-                            <i>Nenhuma escola cadastrada.</i>
-                        </td>
-                      </tr>
-                    {% endfor %}
-                    <!-- <tr>
-                      <td>
-                        {{estudante.}}
-                      </td>
-                    </tr> -->
-                  </tbody>
-                </table>
+            <div class="me-auto item border border d-flex flex-column mx-2 div_cursos">
+              <a href="{% url 'empreendedor:compras_publicas' %}">
+                <div class="c-img" style="position: relative;">
+                  <img class="banner-img" src="/static/images/icons_servicos/pdde.jpg" >
+                </div>
+              </a> 
+            </div>
+          </div>
         </div>
-    </div>
-    </div>
-</div>
-</div>
-<div class="row mx-auto px-5">
-  <script>
-    document.getElementById('empreendedor_empresa').classList.add('s-nav-active');
-  </script>
+      </div>
+  </div>
+  <div class="row mx-auto px-5">
+    <script>
+      document.getElementById('empreendedor_servicos').classList.add('s-nav-active');
+    </script>
+  </div>
 </div>
 
-<style>
-  .border{
-    border-color: rgba(146, 146, 146, 0.2) !important;
-  }
-</style>
-
-</script>
 
 {% endblock %}
 {% block footer %}
 {% include 'desenvolve_nf/instagram.html' %}
-{% endblock %}
+{% endblock %}x
