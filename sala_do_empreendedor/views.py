@@ -451,4 +451,4 @@ def pdde_criar_escola(request):
         'titulo': 'Sala do Empreendedor',
         'form': form
     }
-    return render(request, 'sala_do_empreendedor/pdde/cadastro_escola.html', context)
+    return render(request, 'sala_do_empreendedor/pdde/criar_escola.html', context)

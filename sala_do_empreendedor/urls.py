@@ -73,4 +73,6 @@ urlpatterns = [
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     
     path('adm/pdde/', views.pdde_index, name='pdde_admin'),
+    path('adm/pdde/criar-escola/', views.pdde_criar_escola, name='pdde_criar_escola')
+    
 ]
