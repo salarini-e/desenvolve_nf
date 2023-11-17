@@ -263,21 +263,21 @@ def atualizar_dt_atualizacao_processo(sender, instance, **kwargs):
     instance.processo.dt_atualizacao = timezone.now()
     instance.processo.save()
     
-# class Escola(models.Model):
+class Escola(models.Model):
     
-#     nome = models.CharField(max_length=128, verbose_name='Razão social')
-#     cnpj = models.CharField(max_length=18, verbose_name='CNPJ', unique=True)
-#     cep = models.CharField(max_length=10, verbose_name='CEP')
-#     endereco = models.CharField(max_length=128, verbose_name='Endereço')
-#     bairro = models.CharField(max_length=128, verbose_name='Bairro')
-#     telefone = models.CharField(max_length=128, verbose_name='Telefone', null=True, blank=True)
-#     email = models.EmailField(verbose_name='E-mail', blank=True, null=True)
-#     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
-#     responsavel=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Responsável pelas compras', null=True)
-#     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
-    
-#     def __str__(self) -> str:
-#         return self.nome
+    nome = models.CharField(max_length=128, verbose_name='Razão social')
+    cnpj = models.CharField(max_length=18, verbose_name='CNPJ', unique=True)
+    cep = models.CharField(max_length=10, verbose_name='CEP')
+    endereco = models.CharField(max_length=128, verbose_name='Endereço')
+    bairro = models.CharField(max_length=128, verbose_name='Bairro')
+    telefone = models.CharField(max_length=128, verbose_name='Telefone', null=True, blank=True)
+    email = models.EmailField(verbose_name='E-mail', blank=True, null=True)
+    dt_register = models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    responsavel = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Responsável pelas compras', null=True, related_name='responsavel_escola')
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, related_name='user_register_escola')
+
+    def __str__(self) -> str:
+        return self.nome
     
 # class Solicitacao_de_Compras(models.Model):
 #     STATUS_CHOICES=(

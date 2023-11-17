@@ -71,4 +71,6 @@ urlpatterns = [
     path('adm/processos/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
     path('consultar-processos/', views.consultar_processos, name='consultar_processos'),
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
+    
+    path('adm/pdde/', views.pdde_index, name='pdde_admin'),
 ]

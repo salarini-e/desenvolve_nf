@@ -99,3 +99,8 @@ class Profissao_Form(ModelForm):
     class Meta:
         model = Profissao
         exclude = []
+        
+class Escola_Form(ModelForm):
+    class Meta:
+        model = Escola
+        exclude = ['dt_register', 'user_register']

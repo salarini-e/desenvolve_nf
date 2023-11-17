@@ -3,10 +3,10 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form
+from .forms import Faccao_Legal_Form, Escola_Form
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao
+from .models import Profissao, Escola
 
 # Create your views here.
 def index(request):
@@ -427,3 +427,28 @@ def meus_processos(request):
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/listar_processos.html', context)
 
+@login_required()
+def pdde_index(request):
+    cotext = {
+        'titulo': 'Sala do Empreendedor',
+        'escolas': Escola.objects.all()
+    }
+    return render(request, 'sala_do_empreendedor/pdde/index.html', cotext)
+    
+@login_required()
+def pdde_criar_escola(request):
+    if request.method == 'POST':
+        form = Escola_Form(request.POST)
+        if form.is_valid():
+            escola = form.save(commit=False)
+            escola.user_register = request.user
+            escola.save()
+            messages.success(request, 'Escola cadastrada com sucesso!')
+            return redirect('empreendedor:pdde_admin')
+    else:
+        form = Escola_Form(initial={'user': request.user.id})
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/pdde/cadastro_escola.html', context)
