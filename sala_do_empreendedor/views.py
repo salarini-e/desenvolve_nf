@@ -449,7 +449,8 @@ def pdde_index_escola(request):
     if escola:
         cotext = {
             'titulo': 'Sala do Empreendedor',
-            'escolas': Escola.objects.all()
+            'escolas': Escola.objects.filter(responsavel=request.user),
+            'nome_da_escola': escola.nome,
         }
         return render(request, 'sala_do_empreendedor/pdde/index_escola.html', cotext)
     messages.warning(request, 'Você não possui autorização para acessar essa página!')

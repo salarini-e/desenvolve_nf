@@ -12,10 +12,8 @@
     <div class="col d-flex flex-column">
       <h1>Admin - PDDE</h1>
       <p class="text-secondary">
-        Bem vindo! Aqui você pode gerenciar os  processos de compras da escola {{nome_da_escola}}.
+        Bem vindo! Aqui você pode gerenciar os  processos de compras das escolas.
       </p>    
-      <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-auto"><i class="fa-solid fa-plus me-2"></i>Nova escola</a>
-
     </div>
   </div>
     <div class="row mt-4">
@@ -38,32 +36,31 @@
                       <th></th>
                       <th>CNPJ</th>
                       <th>Nome</th>
-                      <th></th>
-                      <th class="text-center">Editar</th>
+                      <th class="text-center">Processos ativos</th>
+                      <th></th>                 
                     </tr>
                   </thead>
                   <tbody>
                     {% for escola in escolas %}
-                    <tr>
-                      <td>
+                    <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>
+                      <td class="text-start"><a class="btn btn-primary py-0" href="#"><i class="me-2 fa-solid fa-eye"></i>Ver processos</a></td>   
                         
-                      </td>
-                      <td>
-                       {{escola.cnpj}}
-                      </td>
-                      <td>
-                       {{escola.nome}}
-                      </td>
-                      <td></td>
-                      <td class="text-center"><a class="btn btn-primary" href="#"><i class="fa-solid fa-pen-to-square"></i></a></td>                    
+                        <td>
+                            {{escola.cnpj}}
+                        </td>
+                        <td>
+                            {{escola.nome}}
+                        </td>
+                        <td class="text-center">0</td>
+                        <td class="text-end"><a class="btn btn-success py-0" href="#"><i class="me-2 fa-solid fa-cart-shopping"></i>Nova solicitação</a></td>                    
                     </tr>
-                    {% empty %}
+                {% empty %}
                     <tr>
                         <td colspan="6" class="px-5 text-center text-secondary py-5s">
                             <i>Nenhuma escola cadastrada.</i>
                         </td>
-                      </tr>
-                    {% endfor %}
+                    </tr>
+                {% endfor %}
                     <!-- <tr>
                       <td>
                         {{estudante.}}
@@ -83,6 +80,9 @@
 </div>
 
 <style>
+  .linha-impar {
+    background-color: #f0f0f0; /* Cor de fundo para linhas ímpares */
+  }
   .border{
     border-color: rgba(146, 146, 146, 0.2) !important;
   }
