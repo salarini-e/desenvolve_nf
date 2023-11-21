@@ -445,7 +445,11 @@ def pdde_admin(request):
 
 @login_required()
 def pdde_index_escola(request):
-    escola=Escola.objects.get(responsavel=request.user)
+    try:
+        escola=Escola.objects.get(responsavel=request.user)
+    except:
+        messages.warning(request, 'Você não possui autorização para acessar essa página!')
+        return redirect('empreendedor:pdde_index')    
     if escola:
         cotext = {
             'titulo': 'Sala do Empreendedor',
@@ -454,7 +458,7 @@ def pdde_index_escola(request):
         }
         return render(request, 'sala_do_empreendedor/pdde/index_escola.html', cotext)
     messages.warning(request, 'Você não possui autorização para acessar essa página!')
-    return redirect('empreendedor:index')
+    return redirect('empreendedor:pdde_index')
     
 @login_required()
 def pdde_criar_escola(request):
