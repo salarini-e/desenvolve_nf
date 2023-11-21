@@ -3,7 +3,7 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola
@@ -496,3 +496,43 @@ def pdde_editar_escola(request, id):
         'form': form
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_escola.html', context)
+
+@login_required()
+def pdde_criar_solicitacao_de_compra(request, id):
+    escola=Escola.objects.get(id=id)
+    if request.method == 'POST':
+        form = Solicitacao_de_Compras_Form(request.POST)
+        if form.is_valid():
+            solicitacao=form.save()
+            solicitacao.escola=escola
+            solicitacao.save()
+            messages.success(request, 'Solicitação cadastrada com sucesso!')
+            return redirect('empreendedor:pdde_criar_itens')
+    else:
+        form = Solicitacao_de_Compras_Form(initial={'escola': escola.id})
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'escola': escola,
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/pdde/criar_solitacao_de_compra.html', context)
+
+# @login_required()
+# def pdde_criar_itens_solicitacao(request, id):
+#     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
+#     if request.method == 'POST':
+#         form = Criar_Item_Solicitacao(request.POST)
+#         if form.is_valid():
+#             item=form.save()
+#             item.solicitacao_de_compra=solicitacao
+#             item.save()
+#             messages.success(request, 'Item cadastrado com sucesso!')
+#             return redirect('empreendedor:pdde_criar_itens')
+#     else:
+#         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
+#     context = {
+#         'titulo': 'Sala do Empreendedor',
+#         'solicitacao': solicitacao,
+#         'form': form
+#     }
+#     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)

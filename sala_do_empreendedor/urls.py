@@ -76,6 +76,7 @@ urlpatterns = [
     path('pdde/', views.pdde_index, name='pdde_index'),
     path('pdde/escola/', views.pdde_index_escola, name='pdde_escola'),
     path('adm/pdde/criar-escola/', views.pdde_criar_escola, name='pdde_criar_escola'),
-    path('adm/pdde/editar-escola/', views.pdde_editar_escola, name='pdde_editar_escola')
+    path('adm/pdde/editar-escola/', views.pdde_editar_escola, name='pdde_editar_escola'),
+    path('adm/pdde/<id>/criar-solicitacao/', views.pdde_criar_solicitacao_de_compra, name='pdde_criar_solitacao_de_compra'),
     
 ]

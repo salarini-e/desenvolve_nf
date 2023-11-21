@@ -275,42 +275,42 @@ class Escola(models.Model):
     dt_register = models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     responsavel = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Responsável pelas compras', null=True, related_name='responsavel_escola')
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, related_name='user_register_escola')
-
+    ativa=models.BooleanField(default=False, verbose_name='Registro ativo ou validado?')
     def __str__(self) -> str:
         return self.nome
     
-# class Solicitacao_de_Compras(models.Model):
-#     STATUS_CHOICES=(
-#         ('0', 'Criando solicitação'),
-#         ('1', 'Aguardando propostas'),
-#         ('2', 'Aguardando analise de propostas'),
-#         ('3', 'Processo concluído'),
-#     )
-#     TIPO_CHOICES=(
-#         ('s', 'Serviço'),
-#         ('p', 'Produto'),
-#     )
-#     PRECO_CHOICES=(
-#         ('i', 'item'),
-#         ('l', 'lote'),
-#     )
+class Solicitacao_de_Compras(models.Model):
+    STATUS_CHOICES=(
+        ('0', 'Criando solicitação'),
+        ('1', 'Aguardando propostas'),
+        ('2', 'Aguardando analise de propostas'),
+        ('3', 'Processo concluído'),
+    )
+    TIPO_CHOICES=(
+        ('s', 'Serviço'),
+        ('p', 'Produto'),
+    )
+    PRECO_CHOICES=(
+        ('i', 'item'),
+        ('l', 'lote'),
+    )
     
-#     status = models.CharField(max_length=1, verbose_name='Status da solicitacao', choices=STATUS_CHOICES, default='0')
-#     tipo = models.CharField(max_length=1, verbose_name='Tipo', choices=TIPO_CHOICES)
-#     escola = models.ForeignKey(Escola, on_delete=models.CASCADE, verbose_name='Escola')
-#     descricao = models.TextField(verbose_name='Descrição')
-#     dt_envio_propostas = models.DateField(verbose_name='Data limite para envio de propostas')
-#     dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')
-#     qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados')
-#     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
+    status = models.CharField(max_length=1, verbose_name='Status da solicitacao', choices=STATUS_CHOICES, default='0')
+    tipo = models.CharField(max_length=1, verbose_name='Tipo', choices=TIPO_CHOICES)
+    escola = models.ForeignKey(Escola, on_delete=models.CASCADE, verbose_name='Escola')
+    descricao = models.TextField(verbose_name='Descrição')
+    dt_envio_propostas = models.DateField(verbose_name='Data limite para envio de propostas')
+    dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')
+    qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados', null=True)
+    proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
     
-# class Item_Solicitacao(models.Model):
+class Item_Solicitacao(models.Model):
     
-#     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
-#     nome = models.CharField(max_length=128, verbose_name='Nome do item')
-#     quantidade = models.IntegerField(verbose_name='Quantidade')
-#     unidade = models.CharField(max_length=128, verbose_name='Unidade de medida')
-#     descricao = models.TextField(verbose_name='Descrição')
+    solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
+    nome = models.CharField(max_length=128, verbose_name='Nome do item')
+    quantidade = models.IntegerField(verbose_name='Quantidade')
+    unidade = models.CharField(max_length=128, verbose_name='Unidade de medida')
+    descricao = models.TextField(verbose_name='Descrição')
  
 # class Proposta(models.Model):
 #     qnt_itens_proposta = models.IntegerField(verbose_name='Quantidade de itens propostos')

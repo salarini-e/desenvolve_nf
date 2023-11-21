@@ -10,10 +10,15 @@
 <div class="container">
   <div class="row">
     <div class="col d-flex flex-column">
-      <h1>Admin - PDDE</h1>
-      <p class="text-secondary">
-        Bem vindo! Aqui você pode gerenciar os  processos de compras das escolas.
-      </p>    
+      <h1>Programa de Dinheiro Direto da Escola</h1>
+      <div class="d-flex">
+        <p class="text-secondary">
+          Bem vindo! Aqui você pode gerenciar os  processos de compras das suas escolas.
+        </p>
+        <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-auto mt-auto">
+          <i class="fa-solid fa-plus me-2"></i>Nova escola
+        </a>
+      </div>    
     </div>
   </div>
     <div class="row mt-4">
@@ -52,7 +57,7 @@
                             {{escola.nome}}
                         </td>
                         <td class="text-center">0</td>
-                        <td class="text-end"><a class="btn btn-success py-0" href="#"><i class="me-2 fa-solid fa-cart-shopping"></i>Nova solicitação</a></td>                    
+                        <td class="text-end"><a class="btn btn-success py-0" href="{% url 'empreendedor:pdde_criar_solitacao_de_compra' escola.id %}"><i class="me-2 fa-solid fa-cart-shopping"></i>Nova solicitação</a></td>                    
                     </tr>
                 {% empty %}
                     <tr>

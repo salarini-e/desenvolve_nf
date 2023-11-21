@@ -103,4 +103,31 @@ class Profissao_Form(ModelForm):
 class Escola_Form(ModelForm):
     class Meta:
         model = Escola
-        exclude = ['dt_register', 'user_register']
+        widgets={
+            'responsavel': forms.HiddenInput()
+        }
+        exclude = ['dt_register', 'user_register', 'ativa']
+        
+class Solicitacao_de_Compras_Form(ModelForm):
+    class Meta:
+        model = Solicitacao_de_Compras
+        widgets = {
+            'tipo': forms.RadioSelect(),
+            'escola': forms.HiddenInput(),
+            'dt_envio_propostas': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Data de Envio das Propostas', 'type': 'date'}),
+            'dt_previsao_entrega': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Data de Previsão de Entrega', 'type': 'date'}),
+            }
+        exclude = ['dt_solicitacao', 'user_register', 'status', 'proposta_vencedora', 'qnt_itens']
+        
+class Criar_Item_Solicitacao(ModelForm):
+    class Meta:
+        model = Item_Solicitacao
+        widgets = {
+            'solicitacao_de_compra': forms.HiddenInput(),
+            'nome': forms.Select(attrs={'class': 'form-control'}),
+            'quantidade': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Quantidade'}),
+            'unidade': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Valor Unitário'}),
+            'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
+            }
+        exclude = []
+        
