@@ -13,10 +13,10 @@
       <h1>Programa de Dinheiro Direto da Escola</h1>
       <div class="d-flex">
         <p class="text-secondary">
-          Bem vindo! Aqui você pode gerenciar os  processos de compras das suas escolas.
+          Seus processos de compras da escola <strong>{{escola.nome}}</strong>.
         </p>
         <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-auto mt-auto">
-          <i class="fa-solid fa-plus me-2"></i>Nova escola
+          <i class="fa-solid fa-plus me-2"></i>Novo processo
         </a>
       </div>    
     </div>
@@ -38,26 +38,20 @@
                 <table class="table table-borderless">
                   <thead>
                     <tr>
-                      <th></th>
-                      <th>CNPJ</th>
-                      <th>Nome</th>
-                      <th class="text-center">Processos ativos</th>
+                      <th>ID Solicitação</th>
+                      <th>Descrição</th>
+                      <th class="text-center"></th>
                       <th></th>                 
                     </tr>
                   </thead>
                   <tbody>
-                    {% for escola in escolas %}
-                    <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>
-                      <td class="text-start"><a class="btn btn-primary py-0" href="{% url 'empreendedor:pdde_listar_solicitacoes' escola.id %}"><i class="me-2 fa-solid fa-eye"></i>Ver processos</a></td>   
-                        
+                    {% for solicitacao in solicitacoes %}
+                    <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>                        
                         <td>
-                            {{escola.cnpj}}
+                            {{solicitacao.id}}
                         </td>
-                        <td>
-                            {{escola.nome}}
-                        </td>
-                        <td class="text-center">0</td>
-                        <td class="text-end"><a class="btn btn-success py-0" href="{% url 'empreendedor:pdde_criar_solitacao_de_compra' escola.id %}"><i class="me-2 fa-solid fa-cart-shopping"></i>Nova solicitação</a></td>                    
+                        <td>{{solicitacao.descricao}}</td>
+                        <td class="text-end"><a class="btn btn-dark py-0" href="{% url 'empreendedor:pdde_criar_item_solicitacao' solicitacao.id %}"><i class="fa-solid fa-eye me-2"></i>Ver solicitação</a></td>                    
                     </tr>
                 {% empty %}
                     <tr>

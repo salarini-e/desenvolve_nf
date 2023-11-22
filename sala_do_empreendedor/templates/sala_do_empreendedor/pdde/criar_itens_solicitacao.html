@@ -1,0 +1,187 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="col d-flex flex-column">
+      <h1>Programa de Dinheiro Direto da Escola</h1>
+      <div class="d-flex">
+        <h2 class="text-secondary">Solicitação de Compra</h2>
+        <a href="{% url 'empreendedor:pdde_escola' %}" class="btn btn-secondary ms-auto my-auto"><i class="fa-solid fa-arrow-left me-2"></i>Voltar</a>  
+      </div>
+    </div>
+  </div>
+    <div class="row mt-4">
+      <div class="col">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive pt-4 border" style="background-color: white; border-radius: 30px; padding: 20px;">
+                <h2 class="mb-4">Etapa 2 - Adicionar itens</h2>
+                <h3>Solicitação {{solicitacao.id}}</h3>
+                <p>{{solicitacao.descricao}}</p>
+                <p id="upHere">{{solicitacao.get_tipo_display}}</p>
+                <div class="row py-4  ">
+                  <div class="col">
+                    <table class="table" id="tabela-itens">
+                      <thead class="border-0">
+                        <th class="border-0">Item</th>
+                        <th class="border-0 text-center">Quantidade</th>
+                        <th class="border-0">Descrição</th>
+                        <th class="border-0"></th>
+                      </thead>
+                      <tbody class="border-0">
+                      {% for item in itens %}                      
+                      <tr id='item-{{item.id}}' class="border-0">
+                        <td class="border-0">{{item.nome}}</td>
+                        <td class="border-0 text-center">{{item.quantidade}}</td>
+                        <td class="border-0">{{item.descricao}}</td>
+                        <td class="border-0"><a class="btn btn-danger" style="padding-left: 15px !important; padding-right: 15px !important;" onclick="removerItem(this, '{{item.id}}')"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                        <td colspan="4" class="text-center text-secondary"><i>Nenhum item cadastrado.</i></td>
+                      </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col">
+                    <form method="POST">
+                      {% csrf_token %}
+                      <div class="row" id="0">
+                        <div class="col">
+                          <h3>{{escola.nome}}</h3>
+                          {% bootstrap_form form %}
+                          <a class="btn btn-dark w-100" onclick="adicionarItem()"><i class="fa-solid fa-plus me-2"></i>Adicionar item</a>                          
+                        </div>
+                      </div>
+                  </form>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                          <button class="btn btn-success w-100 mt-3"><i class="fa-solid fa-file-contract me-2"></i>Iniciar processo</button>
+                  </div>
+                </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+<div class="row mx-auto px-5">
+  <script>
+    document.getElementById('empreendedor_empresa').classList.add('s-nav-active');
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Selecione o elemento da div que contém a opção '---------'
+        var emptyOptionDiv = document.querySelector('.form-check label[for="id_tipo_0"]').closest('.form-check');
+
+        // Verifique se o elemento existe antes de tentar removê-lo
+        if (emptyOptionDiv) {
+            // Remova o elemento
+            emptyOptionDiv.parentNode.removeChild(emptyOptionDiv);
+        }
+    });
+
+    // função featch para adicionar item na url pdde_criar_itens_solicitacao_fetch, lembrando que o retorno vai retorna mais de um item
+    function atualizaItens(data){
+      var tabela = document.getElementById("tabela-itens").getElementsByTagName('tbody')[0];
+            tabela.innerHTML = "";
+
+            data.forEach(item => {
+              var newRow = tabela.insertRow();
+              newRow.id = 'item-' + item.id;
+
+              var cell1 = newRow.insertCell(0);
+              cell1.innerHTML = item.nome;
+
+              var cell2 = newRow.insertCell(1);
+              cell2.innerHTML = item.quantidade;
+
+              var cell3 = newRow.insertCell(2);
+              cell3.innerHTML = item.descricao;
+
+              var cell4 = newRow.insertCell(3);
+              cell4.innerHTML = '<a class="btn btn-danger" onclick="removerItem(this, ' + item.id + ')"><i class="fa-solid fa-trash"></i></a>';
+            });
+            document.getElementById("upHere").scrollIntoView({ behavior: "smooth" });
+    }
+    function adicionarItem() {
+      var url = "{% url 'empreendedor:pdde_criar_itens_solicitacao_fetch' %}";
+      var form = document.querySelector('form');
+      var formData = new FormData(form);
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.length > 0) {
+            atualizaItens(data)
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao obter itens:', error);
+        });
+    }
+    function removerItem(e, id){
+      console.log(id)
+      var formData = new FormData();
+      formData.append('id', id);
+      formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+      var url = "{% url 'empreendedor:pdde_remover_item_solicitacao_fetch' %}";
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+        atualizaItens(data)
+      })
+      .catch(error => {
+        console.error('Erro ao remover item:', error);
+      });
+    }
+  </script>
+</div>
+
+<style>
+  .form-label{
+    font-weight: bold;
+  }
+  .border{
+    border-color: rgba(146, 146, 146, 0.2) !important;
+  }
+</style>
+
+</script>
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}

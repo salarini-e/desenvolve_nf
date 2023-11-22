@@ -6,7 +6,7 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao
 
 # Create your views here.
 def index(request):
@@ -517,22 +517,97 @@ def pdde_criar_solicitacao_de_compra(request, id):
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_solitacao_de_compra.html', context)
 
-# @login_required()
-# def pdde_criar_itens_solicitacao(request, id):
-#     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
-#     if request.method == 'POST':
-#         form = Criar_Item_Solicitacao(request.POST)
-#         if form.is_valid():
-#             item=form.save()
-#             item.solicitacao_de_compra=solicitacao
-#             item.save()
-#             messages.success(request, 'Item cadastrado com sucesso!')
-#             return redirect('empreendedor:pdde_criar_itens')
-#     else:
-#         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
-#     context = {
-#         'titulo': 'Sala do Empreendedor',
-#         'solicitacao': solicitacao,
-#         'form': form
-#     }
-#     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
+@login_required()
+def pdde_criar_itens_solicitacao(request, id):
+    solicitacao=Solicitacao_de_Compras.objects.get(id=id)
+    if request.method == 'POST':
+        form = Criar_Item_Solicitacao(request.POST)
+        if form.is_valid():
+            item=form.save()
+            item.solicitacao_de_compra=solicitacao
+            item.save()
+            messages.success(request, 'Item cadastrado com sucesso!')
+            return redirect('empreendedor:pdde_criar_itens')
+    else:
+        form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'solicitacao': solicitacao,
+        'itens': Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
+
+def pdde_criar_itens_solicitacao_fetch(request):
+    try:
+        if request.method == 'POST':
+            print(request.POST)
+            solicitacao = Solicitacao_de_Compras.objects.get(id=request.POST.get('solicitacao_de_compra'))
+            if request.user == solicitacao.escola.responsavel or request.user.is_staff:
+                item = Item_Solicitacao(
+                    solicitacao_de_compra=solicitacao,
+                    nome=request.POST.get('nome'),  
+                    quantidade=request.POST.get('quantidade'),
+                    unidade=request.POST.get('unidade'),
+                    descricao=request.POST.get('descricao'),
+                )
+                item.save()
+                itens = Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
+                itens_json = []
+                for item in itens:
+                    itens_json.append({
+                        'id': item.id,
+                        'nome': item.nome,
+                        'quantidade': item.quantidade,
+                        'unidade': item.unidade,
+                        'descricao': item.descricao,
+
+                    })
+                return JsonResponse(itens_json, safe=False)
+        return JsonResponse({})
+    except Exception as E:
+        print(E)
+        return JsonResponse({'error': 'Ocorreu um erro no servidor'}, status=500)
+
+def pdde_remover_item_solicitacao_featch(request):
+    try:
+        if request.method == 'POST':
+            print(request.POST)
+            item = Item_Solicitacao.objects.get(id=request.POST.get('id'))
+            solicitacao = item.solicitacao_de_compra
+            if request.user == solicitacao.escola.responsavel or request.user.is_staff:
+                item.delete()
+                itens = Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
+                itens_json = []
+                for item in itens:
+                    itens_json.append({
+                        'id': item.id,
+                        'nome': item.nome,
+                        'quantidade': item.quantidade,
+                        'unidade': item.unidade,
+                        'descricao': item.descricao,
+
+                    })
+                return JsonResponse(itens_json, safe=False)
+        return JsonResponse({})
+    except Exception as E:
+        print(E)
+        return JsonResponse({'error': 'Ocorreu um erro no servidor'}, status=500)   
+
+@login_required()
+def pdde_listar_solicitacoes(request, id):
+    try:
+        escola=Escola.objects.get(id=id)
+        if escola.responsavel != request.user or request.user.is_staff == False:
+            messages.warning(request, 'Você não possui autorização para acessar essa página!')
+            return redirect('empreendedor:pdde_index')
+    except:
+        messages.warning(request, 'Você não possui autorização para acessar essa página!')
+        return redirect('empreendedor:pdde_index')
+    solicitacoes=Solicitacao_de_Compras.objects.filter(escola=escola)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'escola': escola,
+        'solicitacoes': solicitacoes
+    }
+    return render(request, 'sala_do_empreendedor/pdde/listar_solicitacoes.html', context)

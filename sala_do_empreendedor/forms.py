@@ -124,7 +124,7 @@ class Criar_Item_Solicitacao(ModelForm):
         model = Item_Solicitacao
         widgets = {
             'solicitacao_de_compra': forms.HiddenInput(),
-            'nome': forms.Select(attrs={'class': 'form-control'}),
+            'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'quantidade': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Quantidade'}),
             'unidade': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Valor Unitário'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
