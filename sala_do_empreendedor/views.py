@@ -6,7 +6,7 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola
+from .models import Profissao, Escola, Solicitacao_de_Compras
 
 # Create your views here.
 def index(request):

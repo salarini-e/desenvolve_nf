@@ -20,8 +20,6 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
-
 def login_view(request):
     context = {}
     if request.user.is_authenticated:
@@ -33,7 +31,14 @@ def login_view(request):
             pessoa=Pessoa.objects.get(cpf=username)    
             user = authenticate(request, username=pessoa.email, password=password)
         except:
-            user = authenticate(request, username=username, password=password)
+            try:
+                user = authenticate(request, username=username, password=password)
+            except:
+                try:
+                    pessoa=Pessoa.objects.get(cpf=username)    
+                    user = authenticate(request, username=pessoa.cpf, password=password)
+                except:
+                    user = authenticate(request, username=pessoa.email, password=password)
         if user is not None:
             login(request, user)
             try:
