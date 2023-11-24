@@ -386,7 +386,7 @@ def matricular(request, tipo, id):
 
 def ensino_superior(request):
     context = {
-        'titulo': apps.get_app_config('cursos').verbose_name,
+        'titulo': apps.get_app_config('cursos').verbose_name+' - Ensino Superior',
         'cursos': Curso_Ensino_Superior.objects.all()
     }
     return render(request, 'cursos/ensino_superior.html', context)
