@@ -40,6 +40,15 @@
   {% endblock %}
   <!-- CUSTOM JS-->
   {% block custom_js %}
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6PFZS9T0XW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6PFZS9T0XW');
+</script>
   <script src="{% static 'js/index_desenvolvenf.js' %}" defer></script>
   {% endblock %}
 </head>
