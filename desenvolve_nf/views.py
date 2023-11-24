@@ -10,7 +10,8 @@ from autenticacao.models import Pessoa
 
 def index(request):
     context = {
-        'carousel': Carousel_Index.objects.filter(ativa=True)
+        'carousel': Carousel_Index.objects.filter(ativa=True),
+        'titulo': 'Desenvolve NF - Página Inicial'
     }
     return render(request, 'desenvolve_nf/index.html', context)
 
@@ -27,7 +28,7 @@ def getClimaTempo(request):
 def cidade_inteligente_home(request):
     clima = ClimaTempo.objects.first()
     context = {
-        'titulo': 'Cidade Inteligente',
+        'titulo': 'Cidade Inteligente - Página Inicial',
         'clima': clima
     }
     return render(request, 'cidade_inteligente.html', context)
@@ -45,7 +46,7 @@ def cidade_inteligente_cadastro_camera(request):
         pessoa = Pessoa.objects.get(user=request.user)
         form = Solicitacao_de_cadastro_de_cameraForm(initial={'pessoa': pessoa})
     context = {
-        'titulo': 'Cidade Inteligente',
+        'titulo': 'Cidade Inteligente - Cadastrar Câmera',
         'clima': clima,
         'form': form
     }
