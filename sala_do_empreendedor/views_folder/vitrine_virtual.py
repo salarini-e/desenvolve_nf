@@ -37,7 +37,7 @@ def minha_vitrine(request, id):
         rg_vitrine=Registro_no_vitrine_virtual.objects.get(empresa=empresa)
         produtos=Produto.objects.filter(rg_vitrine=rg_vitrine)
         context = {
-            'titulo': 'Sala do Empreendedor',
+            'titulo': 'Sala do Empreendedor - Minha Vitrine',
             'empresa': empresa,
             'rg_vitrine': rg_vitrine,
             'produtos': produtos,
@@ -60,7 +60,8 @@ def enviar_ou_trocar_logo(request, id):
                 messages.success(request, 'Logo alterada com sucesso!')
                 return redirect('empreendedor:minha_vitrine', id=id)
         context={
-            'form': form
+            'form': form,
+            'titulo': 'Sala do Empreendedor - Minha Empresa - Enviar ou Trocar Logo'            
             }
         return render(request, 'sala_do_empreendedor/vitrine-virtual/enviar_ou_trocar_logo.html', context)
     messages.error(request, 'Você não tem autorização para acessar a página solicitada!')
@@ -81,7 +82,8 @@ def casdastrar_produto(request, id):
                 messages.success(request, 'Produto cadastrado com sucesso!')
                 return redirect('empreendedor:minha_vitrine', id=id)
         context={
-            'form': form
+            'form': form,
+            'titulo': 'Sala do Empreendedor - Vitrine Virtual - Cadastrar produto'
             }
         return render(request, 'sala_do_empreendedor/vitrine-virtual/cadastrar_produto.html', context)
     messages.error(request, 'Você não tem autorização para acessar a página solicitada!')
@@ -102,7 +104,7 @@ def cadastrar_produto_vitrine(request):
             pessoa.save()
             return redirect('empreendedor:minha_empresa')
     context = {
-        'titulo': 'Sala do Empreendedor',
+        'titulo': 'Sala do Empreendedor - Vitrine Virtual - Cadastrar empresa no Vitrine Virtual',
         'form': form
     }
     return render(request, 'sala_do_empreendedor/minha-empresa/cadastro_empresa.html', context)
@@ -122,7 +124,7 @@ def editar_vitrine(request, id):
                 return redirect('empreendedor:minha_empresa')
         context = {
             'empresa': instance,
-            'titulo': 'Sala do Empreendedor',
+            'titulo': 'Sala do Empreendedor - Vitrine Virtual - Editar dados da vitrine',
             'form': form
         }
         return render(request, 'sala_do_empreendedor/minha-empresa/editar_empresa.html', context)

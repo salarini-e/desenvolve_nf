@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 def minha_empresa(request):
     empresas=Empresa.objects.filter(user_register=request.user)
     context = {
-        'titulo': 'Sala do Empreendedor',
+        'titulo': 'Sala do Empreendedor - Minha Empresa',
         'empresas': empresas
     }
     return render(request, 'sala_do_empreendedor/minha-empresa/index.html', context)
@@ -31,7 +31,7 @@ def cadastrar_empresa(request):
             pessoa.save()
             return redirect('empreendedor:minha_empresa')
     context = {
-        'titulo': 'Sala do Empreendedor',
+        'titulo': 'Sala do Empreendedor - Cadastrar Empresa',
         'form': form
     }
     return render(request, 'sala_do_empreendedor/minha-empresa/cadastro_empresa.html', context)
@@ -51,7 +51,7 @@ def editar_empresa(request, id):
                 return redirect('empreendedor:minha_empresa')
         context = {
             'empresa': instance,
-            'titulo': 'Sala do Empreendedor',
+            'titulo': 'Sala do Empreendedor - Editar Empresa',
             'form': form
         }
         return render(request, 'sala_do_empreendedor/minha-empresa/editar_empresa.html', context)
