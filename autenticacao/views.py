@@ -27,21 +27,22 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        
-        pessoa=Pessoa.objects.get(cpf=username)    
-        user = authenticate(request, username=pessoa.email, password=password)
-        print(user, '1')
+        try:
+            pessoa=Pessoa.objects.get(cpf=username)    
+            user = authenticate(request, username=pessoa.email, password=password)
+        except:            
+            user = None
         if user == None:
             user = authenticate(request, username=username, password=password)
-            print('2')
-        else:                                               
-            pessoa=Pessoa.objects.get(cpf=username)                                
-            user = authenticate(request, username=pessoa.cpf, password=password)
-            print('3')            
+        if user == None:           
+            try:                                    
+                pessoa=Pessoa.objects.get(cpf=username)                                
+                user = authenticate(request, username=pessoa.cpf, password=password)
+            except:
+                user = None
             if user == None:
                 user = authenticate(request, username=pessoa.email, password=password)
-                print('4')
-                
+
         if user is not None:
             login(request, user)
             try:
