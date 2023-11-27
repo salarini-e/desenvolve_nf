@@ -16,7 +16,11 @@
     </div>
     <div class="row">
       <div class="col pb-5 d-flex">
-        <p class="text-secondary"><i>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae optio pariatur veritatis in. Earum assumenda eveniet sint blanditiis nobis!</i></p>
+        {% if url %}
+        <p class="text-secondary"> aguarde a confirmação de recebimento. Nossa equipe revisará o documento e entrará em contato caso haja alguma informação adicional necessária.</p>
+        {% else %}
+        <p class="text-secondary"><i>Se você ainda não possui o TCE, baixe-o aqui e preencha todas as informações necessárias. Certifique-se de que todas as partes relevantes assinem o documento.</i></p>
+        {% endif %}
       </div>
     </div>
     <div class="row">
