@@ -145,10 +145,10 @@ def generate_process_number(sender, instance, created, **kwargs):
 
 class Historico_Processo(models.Model):
     STATUS_CHOICES = (
-        ('0', 'Aguardando documentação do aluno'),
-        ('1', 'Aguardando liberação da univerdade'),
-        ('2', 'Aguardando liberação de vaga'),
-        ('3', 'Aguardando termo assinado pela universidade'),
+        ('0', 'Aguardando liberação de vaga'),
+        ('1', 'Lista de espera'),
+        ('2', 'Aguardando reenvio do TCE'),
+        ('3', 'Aguardando termo assinado pelas partes'),
         ('4', 'Processo de seleção concluída'),
         ('5', 'Estágio concluído'),
     )
