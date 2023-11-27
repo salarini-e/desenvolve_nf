@@ -5,14 +5,18 @@
 {% endblock %}
 {% block css %} {% endblock %}
 {% block main %}
-
+<style>
+    #filtros{
+      display: none;
+    }
+  </style>
 <div class="row mb-3">
     <div class="col d-flex">       
         <div class="m-auto py-0 w-100">           
           <div class="cursos-text mx-2 d-flex w-100">
             <h2 class="my-auto">Listar {{subtitulo}} <span class="text-secondary">(Total: {{total}})</span></h2>                        
-            <a href="{% url 'estagio:adm' %}" class="ms-auto mt-2 btn btn-primary mb-2">
-                <i class="fa-solid fa-magnifying-glass me-2"></i>Pesquisar candidato
+            <a onclick="showFiltros()" class="ms-auto mt-2 btn btn-dark mb-2">
+                <i class="fa-solid fa-filter"></i>
             </a>              
             <a href="{% url 'estagio:adm' %}" class="ms-2 mt-2 me-3 btn btn-primary mb-2">
                 <i class="fa-solid fa-backward-step me-2"></i>Voltar
@@ -21,15 +25,56 @@
       </div>
     </div>
   </div>
+  <div class="w-100 ">                          
+    <div id="filtros" class="border py-2 px-4 mt-3 pb-4 pt-3 bg-light" style="border-radius: 12px;">
+      <form method="POST" class="d-flex flex-column">        
+        <h4>Filtros de busca</h4>                                            
+        <div class="d-flex">
+          {% csrf_token %}
+          <div class="d-flex flex-column">
+            <label for="protocolo">Nome do aluno:</label>
+            <input name="protocolo" type="text" class="form-control" style="width: 250px;  border-radius: 8px !important;">
+          </div>   
+                                                                       
+          <div class="d-flex flex-column ms-1">
+            <label for="status">Universidade:</label>
+            <input type="text" name="bairro" class="form-control" style="border-radius: 8px !important;">
+          </div>
+          <div class="d-flex flex-column ms-1">
+            <label for="status">Curso:</label>
+            <input type="text" name="rua" class="form-control" style="width: 200px; border-radius: 8px !important;">
+          </div>
+          <div class="d-flex flex-column ms-1">
+            <label for="status">Local de estágio:</label>
+            <input name="motivo"  type="text" class="form-control" style=" border-radius: 8px !important;">
+          </div>                                                                                  
+          <div class="d-flex ms-1">
+            <div class="d-flex flex-column">
+              <label for="status">Data de solicitação:</label>
+              <div class="d-flex">
+                <input type="date" name="dt_solicitacao1" class="form-control" id="" style="border-radius: 8px !important;">
+                <input type="date" name="dt_solicitacao2" class="form-control ms-1" id="" style="border-radius: 8px !important;">
+              </div>
+            </div>                                                             
+            <button type="submit" class="btn btn-dark ms-2 mt-auto">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>        
+        </div>
+      </form>
+    </div>
+  </div>
 <div class="row mx-auto">
     <div class="col p-2 d-flex justify-content-center align-items-center">
-        <table>
+        <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th class="pe-5">Status</th>
                     <th class="pe-5">Nome do Aluno</th> 
+                    <th>Universidade</th>
                     <th class="pe-5">Curso</th>
-                    <th class="pe-5">Vaga de Estágio</th>
+                    <th class="pe-5">Local de Estágio</th>
                     {% if supervisor %}
                     <th class="pe-5">Supervisor</th>
                     <th class="pe-5">Secretária</th>
@@ -41,17 +86,19 @@
             <tbody>
                 {% for i in estudante %}
                 <tr>
+                    <td class="pe-4 text-success">{% if i.TCE %}<i class="fa-solid fa-file-pdf"></i>{% endif %}</td>
                     <td class="pe-5">{{i.get_status_display}}</td>
                     <td class="pe-5">{{i.estudante.pessoa.nome}}</td>
+                    <td>{{i.universidade.nome}}</td>
                     <td class="pe-5">{{i.estudante.curso.nome}}</td>
-                    <td class="pe-5">{{i.vaga.nome}}</td>
+                    <td class="pe-5">{% if i.local_do_estagio %}<i class="fa-solid fa-magnifying-glass me-2"></i>{{i.local_do_estagio.local}}{% else %}<i class="fa-solid fa-magnifying-glass me-2"></i>{{i.local_do_estagio_de_pretensao.local}}{% endif %}</td>
                     {% if supervisor %}                    
                     <td class="pe-5">{{i.supervisor.nome}}</td>
                     <td class="pe-5">{{i.supervisor.secretaria.nome}}</td>
                     {% endif %}
                     <td class="pe-5">{{i.estudante.data_inclusao}}</td>
                     <td class="pe-5 text-center"><a href="{% url 'estagio:adm_processo_da_vaga' i.id %}?next=/estagio/candidato">
-                        Visualizar 
+                        <i class="fa-solid fa-eye me-2"></i>Visualizar 
                     </a></td>
                 </tr>
                 {% endfor %}
@@ -59,7 +106,18 @@
         </table>
     </div>
 </div>
-
+<script>
+    let openfiltros = false
+    function showFiltros(){
+    if (openfiltros){      
+      document.getElementById('filtros').style.display='none'
+      openfiltros=false
+    }else{
+      document.getElementById('filtros').style.display='flex'
+      openfiltros=true
+    }
+  }
+</script>
 {% endblock %}
 {% block footer %}
 {% include 'desenvolve_nf/instagram.html' %}

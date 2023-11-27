@@ -7,11 +7,20 @@
 {% block main %}
 
     <div class="d-flex flex-wrap">        
-      <h2 id="go">Processo nº {{processo.n_processo}}</h2>       
-      <a class="btn btn-primary ms-auto my-auto" href="{% url 'estagio:editar_candidato' id %}">
+      <h2 id="go">Processo nº {{processo.n_processo}}</h2>   
+      {% if TCE %}
+      <a target="_blank" class="btn btn-success ms-auto me-2 my-auto" href="{{TCE}}">
+       <i class="fa-solid fa-file-pdf me-2"></i>TCE
+      </a>    
+      {% else %}
+      <button target="_blank" class="btn btn-success ms-auto me-2 my-auto" disabled>
+        <i class="fa-solid fa-file-pdf me-2"></i>TCE
+      </button>    
+      {% endif %}
+      <a class="btn btn-primary my-auto" href="{% url 'estagio:editar_candidato' id %}">
         <i class="fa-solid fa-paperclip me-2"></i>Atualizar processo
-      </a> 
-      <a class="btn btn-primary ms-2 my-auto" href="{{back_to}}">
+      </a>  
+      <a class="btn btn-secondary ms-2 my-auto" href="{{back_to}}">
         <i class="fa-solid fa-backward-step me-2"></i>Voltar
       </a>       
     </div>

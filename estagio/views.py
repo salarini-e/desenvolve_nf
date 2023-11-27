@@ -142,12 +142,17 @@ def processo_da_vaga(request, id):
 def adm_processo_da_vaga(request, id):
     estudante_vaga=Estudante_Vaga.objects.get(id=id) 
     processo=Processo.objects.get(estudante_vaga=estudante_vaga.id)
+    if estudante_vaga.TCE:
+        tce=estudante_vaga.TCE.url
+    else:
+        tce=False
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'processo': processo,
         'historico': Historico_Processo.objects.filter(processo=processo).order_by('-id'),
         'back_to': request.GET.get('next'),
-        'id': id
+        'id': id, 
+        'TCE': tce
 
     }
     return render(request, 'estagio/adm_processo_da_vaga.html', context)
@@ -159,6 +164,7 @@ def anexar_tce(request, id):
         forms = Estudante_TCE_form(request.POST, request.FILES, instance=estudante_vaga)
         if forms.is_valid():
             forms.save()
+            messages.success(request, 'TCE enviado com sucesso!')
     context={
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'form': Estudante_TCE_form(instance=estudante_vaga),

@@ -94,7 +94,7 @@ class Estudante(models.Model):
     pessoa = models.ForeignKey(Pessoa, related_name='aluno_pessoa', on_delete=models.PROTECT)
     matricula = models.CharField(max_length=50, verbose_name= "Sua matricula")
     data_inclusao = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
-    universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT, verbose_name='Sua universidade')
+    universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT, verbose_name='Sua universidade atual')
     curso = models.ForeignKey(Curso, on_delete=models.RESTRICT, blank=True, null=True, verbose_name='Seu curso')
     
     def __str__(self):
