@@ -40,8 +40,8 @@ def login_view(request):
                 user = authenticate(request, username=pessoa.cpf, password=password)
             except:
                 user = None
-            if user == None:
-                user = authenticate(request, username=pessoa.email, password=password)
+            if user == None:                
+                user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
