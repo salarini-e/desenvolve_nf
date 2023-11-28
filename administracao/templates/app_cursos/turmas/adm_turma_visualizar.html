@@ -268,7 +268,7 @@
                                                 <input type="checkbox" class="candidatos_selecionados" name="candidatos_selecionados" value="{{matricula_candidato.matricula}}">
                                               </td>
                                               <td>
-                                                <a href="{% url "adm_aluno_visualizar" matricula_candidato.aluno.id %}" style="text-decoration: none;">
+                                                <a href='{% url "adm_aluno_visualizar" matricula_candidato.aluno.id %}' style="text-decoration: none;">
                                                   {{matricula_candidato.aluno.pessoa.nome}}
                                                 </a>
                                               </td>
@@ -277,7 +277,7 @@
                                               </td>
                                               <td>
                                                 {% if matricula_candidato.aluno.pessoa.telefone%}
-                                                <a class="me-1" href="https://api.whatsapp.com/send?phone=55{{matricula_selecionado.aluno.pessoa.celular}}" target="_blank">
+                                                <a class="me-1" href="https://api.whatsapp.com/send?phone=55{{matricula_selecionado.aluno.pessoa.telefone}}" target="_blank">
                                                   <i class="fa-brands fa-square-whatsapp" style="font-size: 18pt; color: forestgreen;"></i>
                                                 </a>
                                                 {{matricula_candidato.aluno.pessoa.telefone}}
