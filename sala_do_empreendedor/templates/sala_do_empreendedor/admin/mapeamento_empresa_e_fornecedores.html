@@ -1,5 +1,6 @@
 {% extends 'template.html' %}
 {% load static %}
+{% load empreendedor_filters %}
 {% block nav %}
 {% include 'nav_empreendedor.html' %}
 {% endblock %}
@@ -110,9 +111,10 @@
                         {% endfor %}
                       </td>
                       <td>
-                        {% for ramo in empresa.ramo.all %}
+                        ...
+                        <!-- {% for ramo in empresa.ramo.all %}
                         {{ramo.ramo}}<br> 
-                        {% endfor %}
+                        {% endfor %} -->
                     </td>
                       <td>
                         <a href="#">Visualizar</a>
