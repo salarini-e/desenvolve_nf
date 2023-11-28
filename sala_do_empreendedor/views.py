@@ -507,7 +507,7 @@ def pdde_criar_solicitacao_de_compra(request, id):
             solicitacao.escola=escola
             solicitacao.save()
             messages.success(request, 'Solicitação cadastrada com sucesso!')
-            return redirect('empreendedor:pdde_criar_itens')
+            return redirect('empreendedor:pdde_criar_item_solicitacao', id=solicitacao.id)
     else:
         form = Solicitacao_de_Compras_Form(initial={'escola': escola.id})
     context = {

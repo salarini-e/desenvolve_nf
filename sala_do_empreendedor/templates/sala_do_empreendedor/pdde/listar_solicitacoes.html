@@ -1,5 +1,6 @@
 {% extends 'template.html' %}
 {% load static %}
+{% load empreendedor_filters %}
 {% block nav %}
 {% include 'nav_empreendedor.html' %}
 {% endblock %}
@@ -40,7 +41,7 @@
                     <tr>
                       <th>ID Solicitação</th>
                       <th>Descrição</th>
-                      <th class="text-center"></th>
+                      <th class="text-center">Qnt. Itens</th>
                       <th></th>                 
                     </tr>
                   </thead>
@@ -50,7 +51,8 @@
                         <td>
                             {{solicitacao.id}}
                         </td>
-                        <td>{{solicitacao.descricao}}</td>
+                        <td>{{solicitacao.descricao|limitarCaracteres:100}}</td>
+                        <td class="text-center">{{solicitacao.id|contarItensProcessos}}</td>
                         <td class="text-end"><a class="btn btn-dark py-0" href="{% url 'empreendedor:pdde_criar_item_solicitacao' solicitacao.id %}"><i class="fa-solid fa-eye me-2"></i>Ver solicitação</a></td>                    
                     </tr>
                 {% empty %}

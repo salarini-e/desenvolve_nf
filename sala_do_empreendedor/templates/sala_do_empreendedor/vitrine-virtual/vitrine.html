@@ -1,5 +1,6 @@
 {% extends 'template.html' %}
 {% load static %}
+{% load empreendedor_filters %}
 {% block nav %}
 {% include 'nav_empreendedor.html' %}
 {% endblock %}
@@ -38,7 +39,7 @@
               <h1>{{registro.empresa.nome}}</h1> 
             </div>
           </div> 
-          <p>{{registro.empresa.descricao}}</p>
+          <p>{{registro.empresa.descricao|limitarCaracteres:300}}</p>
           <p class="mt-3">
             {% if registro.empresa.telefone %}
             <strong>Telefone:</strong><span class="ms-2">
@@ -59,7 +60,7 @@
           <div class="p-2 w-100 d-flex flex-column">
             <img src="{{produto.imagem.url}}" alt="produto" class="mx-auto" style="width: 180px; height: 180px;">
             <p class="px-2">
-              {{produto.descricao}}
+              {{produto.descricao|limitarCaracteres:180}}
             </p>
           </div>
           {% endfor %}
