@@ -392,7 +392,7 @@ def requerimento_iss(request):
     else:
         form = Criar_Processo_Form(initial={'tipo_processo': 1, 'solicitante': request.user.id})
     context = {
-        'titulo': 'Sala do Empreendedor - ADM - Requerimento de ISS',
+        'titulo': 'Sala do Empreendedor - Requerimento de ISS',
         'form': form
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
