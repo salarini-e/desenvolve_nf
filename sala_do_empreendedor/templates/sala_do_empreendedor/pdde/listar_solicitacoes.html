@@ -16,8 +16,15 @@
         <p class="text-secondary">
           Seus processos de compras da escola <strong>{{escola.nome}}</strong>.
         </p>
-        <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-auto mt-auto">
+        <a href="{% url 'empreendedor:pdde_escola' %}" class="btn btn-secondary ms-auto my-auto">
+          <i class="fa-solid fa-arrow-left me-2"></i>
+          Voltar
+        </a>
+        <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-2 mt-auto">
           <i class="fa-solid fa-plus me-2"></i>Novo processo
+        </a>
+        <a href="#" class="btn btn-dark ms-2 mt-auto">
+          <i class="fa-solid fa-box-archive me-2"></i>Processos concluídos
         </a>
       </div>    
     </div>
@@ -39,7 +46,8 @@
                 <table class="table table-borderless">
                   <thead>
                     <tr>
-                      <th>ID Solicitação</th>
+                      <th class="text-center">ID Solicitação</th>
+                      <th>Status</th>
                       <th>Descrição</th>
                       <th class="text-center">Qnt. Itens</th>
                       <th></th>                 
@@ -48,8 +56,13 @@
                   <tbody>
                     {% for solicitacao in solicitacoes %}
                     <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>                        
-                        <td>
+                        <td class="text-center">
                             {{solicitacao.id}}
+                        </td>
+                        <td>
+                          <button class="py-0 btn btn-dark" style="background-color: {% if solicitacao.status == '0' %}gray{% elif solicitacao.status == '1' %}green{% elif solicitacao.status == '2' %}orange{% else %}{% endif %}; color: {% if solicitacao.status == '0' %}white{% elif solicitacao.status == '1' %}white{% elif solicitacao.status == '2' %}white{% else %}{% endif %}; border-color: {% if solicitacao.status == '0' %}gray{% elif solicitacao.status == '1' %}green{% elif solicitacao.status == '2' %}orange{% else %}{% endif %}">
+                            {{solicitacao.get_status_display}}
+                          </button>
                         </td>
                         <td>{{solicitacao.descricao|limitarCaracteres:100}}</td>
                         <td class="text-center">{{solicitacao.id|contarItensProcessos}}</td>

@@ -511,7 +511,7 @@ def pdde_criar_solicitacao_de_compra(request, id):
     else:
         form = Solicitacao_de_Compras_Form(initial={'escola': escola.id})
     context = {
-        'titulo': 'Sala do Empreendedor - ADM Escola - PDDE - Criar Solicitação de Compra',
+        'titulo': 'Sala do Empreendedor - PDDE - Criar Solicitação de Compra',
         'escola': escola,
         'form': form
     }
@@ -521,17 +521,14 @@ def pdde_criar_solicitacao_de_compra(request, id):
 def pdde_criar_itens_solicitacao(request, id):
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
     if request.method == 'POST':
-        form = Criar_Item_Solicitacao(request.POST)
-        if form.is_valid():
-            item=form.save()
-            item.solicitacao_de_compra=solicitacao
-            item.save()
-            messages.success(request, 'Item cadastrado com sucesso!')
-            return redirect('empreendedor:pdde_criar_itens')
+        solicitacao.status='1'
+        solicitacao.save()
+        messages.success(request, 'Solicitação criada/iniciada com sucesso! Aguardando propostas.')
+        return redirect('empreendedor:pdde_listar_solicitacoes', id=solicitacao.escola.id)
     else:
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
     context = {
-        'titulo': 'Sala do Empreendedor - ADM Escola - PDDE - Criar Itens da Solicitação de Compra',
+        'titulo': 'Sala do Empreendedor - PDDE - Criar Itens da Solicitação de Compra',
         'solicitacao': solicitacao,
         'itens': Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
         'form': form
