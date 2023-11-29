@@ -6,7 +6,7 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item
 
 # Create your views here.
 def index(request):
@@ -452,7 +452,57 @@ def pdde_index_escola(request):
         }
     return render(request, 'sala_do_empreendedor/pdde/index_escola.html', cotext)
 
-    
+@login_required()
+def pdde_index_empresa(request):
+    cotext = {
+            'titulo': 'Sala do Empreendedor - PDDE - Empresa',
+            'solicitacoes': Solicitacao_de_Compras.objects.exclude(status='0')
+        }
+    return render(request, 'sala_do_empreendedor/pdde/index_empresa.html', cotext)
+
+@login_required()
+def pdde_index_empresa_detalhe_solicitacao(request, id):
+    solicitacao = Solicitacao_de_Compras.objects.get(id=id)
+    itens = Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
+    if request.method == 'POST':
+        itens_valores=[]
+        qnt=0
+        for item in itens:
+            try:
+                itens_valores.append([item.id, request.POST['proposta-'+str(item.id)]])
+                if request.POST['proposta-'+str(item.id)]!='0,00':
+                    qnt+=1
+            except:
+                pass
+        if itens.count() == len(itens_valores):
+            print(request.POST)
+            empresa=Empresa.objects.get(id=int(request.POST['empresa']))
+            if empresa.user_register == request.user:
+                proposta=Proposta.objects.create(
+                    qnt_itens_proposta = qnt,
+                    solicitacao_de_compra=solicitacao,
+                     dt_previsao_entrega = request.POST['dt_previsao']
+                )
+                
+                for item_valor in itens_valores:
+                    print(item_valor)
+                    Proposta_Item.objects.create(
+                        proposta=proposta,
+                        item_solicitacao=Item_Solicitacao.objects.get(id=int(item_valor[0])),
+                        empresa = empresa,
+                        preco = item_valor[1].replace(',', '')
+                    )
+        else:
+            messages.warning(request, 'Preencha todos os campos de proposta corretamente.')
+    cotext = {
+            'titulo': 'Sala do Empreendedor - PDDE - Propor',
+            'solicitacao': solicitacao,
+            'itens': itens,
+            'tipo': str(solicitacao.get_tipo_display()).lower(),
+            'empresas': Empresa.objects.filter(user_register=request.user)
+        }
+    return render(request, 'sala_do_empreendedor/pdde/listar_itens_para_empresa.html', cotext)
+   
 @login_required()
 def pdde_criar_escola(request):
     if request.method == 'POST':

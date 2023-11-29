@@ -312,14 +312,14 @@ class Item_Solicitacao(models.Model):
     unidade = models.CharField(max_length=128, verbose_name='Unidade de medida')
     descricao = models.TextField(verbose_name='Descrição')
  
-# class Proposta(models.Model):
-#     qnt_itens_proposta = models.IntegerField(verbose_name='Quantidade de itens propostos')
-#     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
-#     dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')   
+class Proposta(models.Model):
+    qnt_itens_proposta = models.IntegerField(verbose_name='Quantidade de itens propostos')
+    solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
+    dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')   
     
-# class Proposta_Item(models.Model):
-#     proposta = models.ForeignKey(Proposta, on_delete=models.CASCADE, verbose_name='Proposta')
-#     item_solicitacao = models.ForeignKey(Item_Solicitacao, on_delete=models.CASCADE, verbose_name='Item da compra')
-#     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
-#     preco = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='Preço/Proposta')
-#     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+class Proposta_Item(models.Model):
+    proposta = models.ForeignKey(Proposta, on_delete=models.CASCADE, verbose_name='Proposta')
+    item_solicitacao = models.ForeignKey(Item_Solicitacao, on_delete=models.CASCADE, verbose_name='Item da compra')
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
+    preco = models.DecimalField(max_digits=20, decimal_places=2, verbose_name='Preço/Proposta')
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')

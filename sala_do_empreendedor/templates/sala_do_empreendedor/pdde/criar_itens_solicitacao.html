@@ -13,7 +13,9 @@
     <div class="col d-flex flex-column">
       <h1>Programa de Dinheiro Direto da Escola</h1>
       <div class="d-flex">
+        {% if solicitacao.status == '0' %}
         <h2 class="text-secondary">Solicitação de Compra</h2>
+        {% endif %}
         <a href="{% url 'empreendedor:pdde_listar_solicitacoes' solicitacao.escola.id %}" class="btn btn-secondary ms-auto my-auto"><i class="fa-solid fa-arrow-left me-2"></i>Voltar</a>
       </div>
     </div>
@@ -40,25 +42,45 @@
                 <h3>Solicitação {{solicitacao.id}}</h3>
                 <p>{{solicitacao.descricao}}</p>
                 <p id="upHere">{{solicitacao.get_tipo_display}}</p>
+                {% if solicitacao.status == '0' %}
                 <form method="POST">
+                {% endif %}
                 <div class="row py-4  ">
                   <div class="col">
                     {% if solicitacao.status != '2' %}
-                    <table class="table" id="tabela-itens">
-                      <thead class="border-0">
-                        <th class="border-0">Item</th>
-                        <th class="border-0 text-center">Quantidade</th>
-                        <th class="border-0">Descrição</th>
-                        {% if solicitacao.status == '0'%}
-                        <th class="border-0"></th>
-                        {% endif %}
+                    <table class="table table-striped" id="tabela-itens">
+                      <thead class="border-0 {% if solicitacao.status == '1' %}thead-dark{% endif %}">
+                        <tr style="background-color: rgb(37, 37, 37); color: white;">
+                          <th class="{% if solicitacao.status == '0' %}border-0{% endif %}">Item</th>
+                          <th class="{% if solicitacao.status == '0' %}border-0{% endif %} text-center">Quantidade</th>
+                          <th class="{% if solicitacao.status == '0' %}border-0{% endif %}">Descrição</th>
+                          {% if solicitacao.status == '1' %}
+                          <th>Prop. Máx (unidade/total)</th>
+                          <th>Prop. Mín (unidade/total)</th>
+                          <th class="text-center">Ver todas prop.</th>
+                          {% endif %}
+                          {% if solicitacao.status == '0'%}
+                          <th class="border-0"></th>
+                          {% endif %}
+                        </tr>
                       </thead>
                       <tbody class="border-0">
                       {% for item in itens %}                      
                       <tr id='item-{{item.id}}' class="border-0">
-                        <td class="border-0">{{item.nome}}</td>
-                        <td class="border-0 text-center">{{item.quantidade}}</td>
-                        <td class="border-0">{{item.descricao}}</td>
+                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">{{item.nome}}</td>
+                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %} text-center">{{item.quantidade}} {{item.unidade}}</td>
+                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">{{item.descricao}}</td>
+                        {% if solicitacao.status == '1' %}
+                        <td>
+                          <span style="color: rgb(255, 46, 46);">R$2,00</span>/<span style="color: rgb(5, 78, 5)">R$4,00</span>
+                          <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="Empresa tal/Empresa X"></i>                          
+                        </td>
+                        <td>
+                          <span style="color: rgb(255, 46, 46);">R$2,00</span>/<span style="color: rgb(5, 78, 5)">R$4,00</span>
+                          <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="Empresa tal/Empresa X"></i>                          
+                        </td>
+                        <td class="text-center"><button class="btn btn-dark py-0">Visualizar</button></td>
+                        {% endif %}
                         {% if solicitacao.status == '0'%}
                         <td class="border-0">
 
@@ -97,7 +119,9 @@
                     {% endif %}
                   </div>
                 </div>
+                {% if solicitacao.status == '0' %}
               </form>
+              {% endif %}
 
         </div>
     </div>
@@ -105,6 +129,7 @@
 </div>
 </div>
 <div class="row mx-auto px-5">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
   <script>
     document.getElementById('empreendedor_empresa').classList.add('s-nav-active');
 
@@ -196,6 +221,10 @@
         elemento.removeAttribute('required');
     });
     {% endif %}
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   </script>
 </div>
 
