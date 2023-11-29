@@ -445,20 +445,13 @@ def pdde_admin(request):
 
 @login_required()
 def pdde_index_escola(request):
-    try:
-        escola=Escola.objects.get(responsavel=request.user)
-    except:
-        messages.warning(request, 'Você não possui autorização para acessar essa página!')
-        return redirect('empreendedor:pdde_index')    
-    if escola:
-        cotext = {
+    cotext = {
             'titulo': 'Sala do Empreendedor - ADM Escolas - PDDE',
             'escolas': Escola.objects.filter(responsavel=request.user),
-            'nome_da_escola': escola.nome,
+            # 'nome_da_escola': escola.nome,
         }
-        return render(request, 'sala_do_empreendedor/pdde/index_escola.html', cotext)
-    messages.warning(request, 'Você não possui autorização para acessar essa página!')
-    return redirect('empreendedor:pdde_index')
+    return render(request, 'sala_do_empreendedor/pdde/index_escola.html', cotext)
+
     
 @login_required()
 def pdde_criar_escola(request):
@@ -466,12 +459,15 @@ def pdde_criar_escola(request):
         form = Escola_Form(request.POST)
         if form.is_valid():
             escola = form.save(commit=False)
+            escola.responsavel = request.user
             escola.user_register = request.user
             escola.save()
-            messages.success(request, 'Escola cadastrada com sucesso!')
-            return redirect('empreendedor:pdde_admin')
+            messages.success(request, 'Escola cadastrada com sucesso! Aguarde a validação de nossa equipe.')
+            return redirect('empreendedor:pdde_escola')
+        else:
+            print('Erro ao cadastrar escola:', form.errors)            
     else:
-        form = Escola_Form(initial={'user': request.user.id})
+        form = Escola_Form(initial={'responsavel': request.user.id})
     context = {
         'titulo': 'Sala do Empreendedor - ADM Escola - PDDE - Criar Escola',
         'form': form

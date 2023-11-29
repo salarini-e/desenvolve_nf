@@ -39,6 +39,7 @@
                 <table class="table table-borderless">
                   <thead>
                     <tr>
+                      <th class="text-center">Status do cadastro</th>
                       <th>CNPJ</th>
                       <th>Nome</th>
                       <th class="text-center">Processos ativos</th>
@@ -47,17 +48,25 @@
                   </thead>
                   <tbody>
                     {% for escola in escolas %}
-                    <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>                                      
+                    <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>                      
+                        <td class="text-center">
+                          {% if escola.ativa %}
+                          <button class="btn btn-success py-0">Ativa</button>
+                          {% else %}
+                          <button class="btn btn-warning py-0">Em avaliação</button>
+                          {% endif %}
+                        </td>
                         <td>
                             {{escola.cnpj}}
                         </td>
                         <td>
                             {{escola.nome}}
                         </td>
-                        <td class="text-center">
-                          {{escola.id|contarProcessos}}
-                        </td>
-                        <td class="text-end"><a class="btn btn-primary py-0 me-2" href="{% url 'empreendedor:pdde_listar_solicitacoes' escola.id %}"><i class="me-2 fa-solid fa-eye"></i>Ver processos</a><a class="btn btn-success py-0" href="{% url 'empreendedor:pdde_criar_solitacao_de_compra' escola.id %}"><i class="me-2 fa-solid fa-cart-shopping"></i>Nova solicitação</a></td>                    
+                        <td class="text-center">{{escola.id|contarProcessos}}</td>
+                        <td class="text-end">
+                          <a class="btn btn-primary py-0" href="{% url 'empreendedor:pdde_listar_solicitacoes' escola.id %}"><i class="me-2 fa-solid fa-eye"></i>Ver processos</a>
+                          <a class="btn btn-success py-0" href="{% url 'empreendedor:pdde_criar_solitacao_de_compra' escola.id %}"><i class="me-2 fa-solid fa-cart-shopping"></i>Nova solicitação</a>
+                        </td>                    
                     </tr>
                 {% empty %}
                     <tr>
