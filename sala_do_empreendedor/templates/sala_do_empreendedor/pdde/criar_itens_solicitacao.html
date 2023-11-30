@@ -68,21 +68,21 @@
                       {% for item in itens %}                      
                       <tr id='item-{{item.id}}' class="border-0">
                         <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">
-                          {% if solicitacao != '0' %}
+                          {% if solicitacao.status != '0' %}
                           {{item.0.nome}}
                           {% else %}
                           {{item.nome}}
                           {% endif %}
                         </td>
                         <td class="{% if solicitacao.status == '0' %}border-0{% endif %} text-center">
-                          {% if solicitacao != '0' %}
+                          {% if solicitacao.status != '0' %}
                           {{item.0.quantidade}} {{item.0.unidade}}
                           {% else %}
                           {{item.quantidade}} {{item.unidade}}
                           {% endif %}
                         </td>
                         <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">
-                          {% if solicitacao != '0' %}
+                          {% if solicitacao.status != '0' %}
                           {{item.0.descricao}}
                           {% else %}
                           {{item.descricao}}

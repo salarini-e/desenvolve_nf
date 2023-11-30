@@ -315,7 +315,7 @@ class Item_Solicitacao(models.Model):
 class Proposta(models.Model):
     qnt_itens_proposta = models.IntegerField(verbose_name='Quantidade de itens propostos')
     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
-    dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')   
+    previsao_entrega = models.IntegerField(verbose_name='Previsão de quantos dias para entrega após fechar o contrato?', default=0)
     
 class Proposta_Item(models.Model):
     proposta = models.ForeignKey(Proposta, on_delete=models.CASCADE, verbose_name='Proposta')
