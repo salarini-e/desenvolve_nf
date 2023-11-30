@@ -41,7 +41,7 @@
     </div>
     <form method="POST" >
     <div class="row">
-      <div class="col-4">
+      <div class="col-4 d-flex flex-column">
         <strong>Selecione sua empresa para proposta:</strong>
         <!-- selecao por checkbox/radio -->
         <div class="d-flex flex-column pt-2">
@@ -49,14 +49,17 @@
           <label>
             <input type="radio" name="empresa" value="{{empresa.id}}"> {{empresa.nome}}
           </label>
+          {% empty %}
+          <p class="text-danger text-center">Não há empresa cadastrada em nosso sistema!</p>
+          <div class="mx-auto mt-3 item border border d-flex flex-column mx-2 div_cursos">
+            <a href="{% url 'empreendedor:cadastrar_empresa' %}">
+              <div class="c-img" style="position: relative;">
+                <img class="banner-img" src="/static/images/icons_servicos/sala_cadastrar_empresa.jpg" >
+              </div>
+            </a> 
+          </div>  
           {% endfor %}
-        </div>      
-        <div class="d-flex flex-column pt-4">
-          <label for="">
-            <strong>Data de previsão de entrega de {{tipo}}s</strong>
-          </label>
-          <input type="date" name="dt_previsao" class="form-control">
-        </div>
+        </div>     
 
       </div>
         <div class="col">
@@ -75,7 +78,7 @@
                     {% for item in itens %}
                     <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>                        
                         <td>
-                            {{item.nome}}
+                            {{item.nome}}                          
                         </td>
                         <td>
                           {{item.descricao|limitarCaracteres:100}}
@@ -93,9 +96,15 @@
                     </tr> -->
                   </tbody>
                 </table>
+                <div class="d-flex flex-column pt-4">
+                  <label for="">
+                    <strong>Previsão de quantos dias para entrega de {{tipo}}s após fechar o contrato?</strong>
+                  </label>
+                  <input type="number" name="dt_previsao" class="form-control">
+                </div>
         </div>
         {% csrf_token %}
-        <button type="submit" class="btn btn-primary mx-auto w-100">Enviar proposta</button>
+        <button type="submit" class="mt-3 btn btn-primary mx-auto w-100">Enviar proposta</button>
       </div>
     </div>
     </div>

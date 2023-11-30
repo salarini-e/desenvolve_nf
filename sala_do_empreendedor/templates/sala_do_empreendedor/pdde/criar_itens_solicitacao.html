@@ -55,8 +55,8 @@
                           <th class="{% if solicitacao.status == '0' %}border-0{% endif %} text-center">Quantidade</th>
                           <th class="{% if solicitacao.status == '0' %}border-0{% endif %}">Descrição</th>
                           {% if solicitacao.status == '1' %}
-                          <th>Prop. Máx (unidade/total)</th>
                           <th>Prop. Mín (unidade/total)</th>
+                          <th>Prop. Máx (unidade/total)</th>
                           <th class="text-center">Ver todas prop.</th>
                           {% endif %}
                           {% if solicitacao.status == '0'%}
@@ -67,16 +67,34 @@
                       <tbody class="border-0">
                       {% for item in itens %}                      
                       <tr id='item-{{item.id}}' class="border-0">
-                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">{{item.nome}}</td>
-                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %} text-center">{{item.quantidade}} {{item.unidade}}</td>
-                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">{{item.descricao}}</td>
+                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">
+                          {% if solicitacao != '0' %}
+                          {{item.0.nome}}
+                          {% else %}
+                          {{item.nome}}
+                          {% endif %}
+                        </td>
+                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %} text-center">
+                          {% if solicitacao != '0' %}
+                          {{item.0.quantidade}} {{item.0.unidade}}
+                          {% else %}
+                          {{item.quantidade}} {{item.unidade}}
+                          {% endif %}
+                        </td>
+                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">
+                          {% if solicitacao != '0' %}
+                          {{item.0.descricao}}
+                          {% else %}
+                          {{item.descricao}}
+                          {% endif %}
+                        </td>
                         {% if solicitacao.status == '1' %}
                         <td>
-                          <span style="color: rgb(255, 46, 46);">R$2,00</span>/<span style="color: rgb(5, 78, 5)">R$4,00</span>
+                          <span style="color: rgb(255, 46, 46);">R${{item.1.0}}</span>/<span style="color: rgb(5, 78, 5)">R${{item.1.1}}</span>
                           <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="Empresa tal/Empresa X"></i>                          
                         </td>
                         <td>
-                          <span style="color: rgb(255, 46, 46);">R$2,00</span>/<span style="color: rgb(5, 78, 5)">R$4,00</span>
+                          <span style="color: rgb(255, 46, 46);">R${{item.2.0}}</span>/<span style="color: rgb(5, 78, 5)">R${{item.2.1}}</span>
                           <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="Empresa tal/Empresa X"></i>                          
                         </td>
                         <td class="text-center"><button class="btn btn-dark py-0">Visualizar</button></td>

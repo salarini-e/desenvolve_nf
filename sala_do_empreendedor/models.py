@@ -300,7 +300,7 @@ class Solicitacao_de_Compras(models.Model):
     escola = models.ForeignKey(Escola, on_delete=models.CASCADE, verbose_name='Escola')
     descricao = models.TextField(verbose_name='Descrição')
     dt_envio_propostas = models.DateField(verbose_name='Data limite para envio de propostas')
-    dt_previsao_entrega = models.DateField(verbose_name='Data prevista para entrega')
+    previsao_entrega = models.IntegerField(verbose_name='Previsão de quantos dias para entrega após fechar o contrato?', default=0)
     qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados', null=True)
     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
     

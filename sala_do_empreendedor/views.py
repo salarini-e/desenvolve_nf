@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db import connection
 from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
@@ -454,9 +455,13 @@ def pdde_index_escola(request):
 
 @login_required()
 def pdde_index_empresa(request):
+    empresa = Empresa.objects.filter(user_register=request.user)
+    if empresa.count() == 0:
+        empresa=False
     cotext = {
             'titulo': 'Sala do Empreendedor - PDDE - Empresa',
-            'solicitacoes': Solicitacao_de_Compras.objects.exclude(status='0')
+            'solicitacoes': Solicitacao_de_Compras.objects.exclude(status='0'),
+            'empresa': empresa
         }
     return render(request, 'sala_do_empreendedor/pdde/index_empresa.html', cotext)
 
@@ -465,35 +470,38 @@ def pdde_index_empresa_detalhe_solicitacao(request, id):
     solicitacao = Solicitacao_de_Compras.objects.get(id=id)
     itens = Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
     if request.method == 'POST':
-        itens_valores=[]
-        qnt=0
-        for item in itens:
-            try:
-                itens_valores.append([item.id, request.POST['proposta-'+str(item.id)]])
-                if request.POST['proposta-'+str(item.id)]!='0,00':
-                    qnt+=1
-            except:
-                pass
-        if itens.count() == len(itens_valores):
-            print(request.POST)
-            empresa=Empresa.objects.get(id=int(request.POST['empresa']))
-            if empresa.user_register == request.user:
-                proposta=Proposta.objects.create(
-                    qnt_itens_proposta = qnt,
-                    solicitacao_de_compra=solicitacao,
-                     dt_previsao_entrega = request.POST['dt_previsao']
-                )
-                
-                for item_valor in itens_valores:
-                    print(item_valor)
-                    Proposta_Item.objects.create(
-                        proposta=proposta,
-                        item_solicitacao=Item_Solicitacao.objects.get(id=int(item_valor[0])),
-                        empresa = empresa,
-                        preco = item_valor[1].replace(',', '')
+        if 'empresa' in request.POST:
+            itens_valores=[]
+            qnt=0
+            for item in itens:
+                try:
+                    itens_valores.append([item.id, request.POST['proposta-'+str(item.id)]])
+                    if request.POST['proposta-'+str(item.id)]!='0,00':
+                        qnt+=1
+                except:
+                    pass
+            if itens.count() == len(itens_valores):
+                print(request.POST)
+                empresa=Empresa.objects.get(id=int(request.POST['empresa']))
+                if empresa.user_register == request.user:
+                    proposta=Proposta.objects.create(
+                        qnt_itens_proposta = qnt,
+                        solicitacao_de_compra=solicitacao,
+                        dt_previsao_entrega = request.POST['dt_previsao']
                     )
+                    
+                    for item_valor in itens_valores:
+                        print(item_valor)
+                        Proposta_Item.objects.create(
+                            proposta=proposta,
+                            item_solicitacao=Item_Solicitacao.objects.get(id=int(item_valor[0])),
+                            empresa = empresa,
+                            preco = item_valor[1].replace(',', '')
+                        )
+            else:
+                messages.warning(request, 'Preencha todos os campos de proposta corretamente.')
         else:
-            messages.warning(request, 'Preencha todos os campos de proposta corretamente.')
+            messages.warning(request, 'Você precisia de uma empresa para enviar a proposta.')
     cotext = {
             'titulo': 'Sala do Empreendedor - PDDE - Propor',
             'solicitacao': solicitacao,
@@ -571,12 +579,33 @@ def pdde_criar_itens_solicitacao(request, id):
         solicitacao.save()
         messages.success(request, 'Solicitação criada/iniciada com sucesso! Aguardando propostas.')
         return redirect('empreendedor:pdde_listar_solicitacoes', id=solicitacao.escola.id)
+    elif solicitacao.status != '0':
+        form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
+        itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
+        itens_valores=[]
+        for item in itens:
+            query_menor = f"SELECT MIN(preco) FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item[0].id};"
+            query_maior = f"SELECT MAX(preco) FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item[0].id};"
+
+            with connection.cursor() as cursor:
+                cursor.execute(query_menor)
+                menor_valor = cursor.fetchone()[0]
+
+                cursor.execute(query_maior)
+                maior_valor = cursor.fetchone()[0]
+                            
+            itens_valores.append([item[0], [int((menor_valor/item[0].quantidade)), menor_valor], [int((maior_valor/item[0].quantidade)), maior_valor]])
+
+        itens = itens_valores
+        print(itens)
+            
     else:
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
+        itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
     context = {
         'titulo': 'Sala do Empreendedor - PDDE - Criar Itens da Solicitação de Compra',
         'solicitacao': solicitacao,
-        'itens': Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
+        'itens': itens,
         'form': form
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
