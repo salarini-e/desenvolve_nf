@@ -455,8 +455,11 @@ def pdde_index_escola(request):
 
 @login_required()
 def pdde_index_empresa(request):
-    empresa = Empresa.objects.filter(user_register=request.user)
-    if empresa.count() == 0:
+    try:
+        empresa = Empresa.objects.filter(user_register=request.user)
+        if empresa.count() == 0:
+            empresa=False
+    except:
         empresa=False
     cotext = {
             'titulo': 'Sala do Empreendedor - PDDE - Empresa',
