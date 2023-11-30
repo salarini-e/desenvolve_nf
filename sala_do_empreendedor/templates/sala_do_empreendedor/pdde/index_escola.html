@@ -16,7 +16,10 @@
         <p class="text-secondary">
           Bem vindo! Aqui você pode gerenciar os  processos de compras das suas escolas.
         </p>
-        <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-auto mt-auto">
+        <a href="{% url 'empreendedor:pdde_index' %}" class="btn btn-secondary ms-auto mt-auto">
+          <i class="fa-solid fa-arrow-left me-2"></i>Voltar
+        </a>
+        <a href="{% url 'empreendedor:pdde_criar_escola' %}" class="btn btn-primary ms-2 mt-auto">
           <i class="fa-solid fa-plus me-2"></i>Nova escola
         </a>
       </div>    

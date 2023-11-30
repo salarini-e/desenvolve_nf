@@ -575,10 +575,14 @@ def pdde_criar_solicitacao_de_compra(request, id):
 def pdde_criar_itens_solicitacao(request, id):
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
     if request.method == 'POST':
-        solicitacao.status='1'
-        solicitacao.save()
-        messages.success(request, 'Solicitação criada/iniciada com sucesso! Aguardando propostas.')
-        return redirect('empreendedor:pdde_listar_solicitacoes', id=solicitacao.escola.id)
+        if solicitacao.escola.ativa:
+            solicitacao.status='1'
+            solicitacao.save()
+            messages.success(request, 'Solicitação criada/iniciada com sucesso! Aguardando propostas.')
+            return redirect('empreendedor:pdde_listar_solicitacoes', id=solicitacao.escola.id)
+        else:
+            messages.warning(request, 'Sua escola ainda não foi aprovada pela equipe da Sala do Empreendedor. Aguarde a aprovação para poder criar solicitações.')
+            return redirect('empreendedor:pdde_index_escola')
     elif solicitacao.status != '0':
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
