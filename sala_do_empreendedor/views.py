@@ -637,7 +637,7 @@ def pdde_criar_itens_solicitacao(request, id):
             except:
                 empresa_maior='Nenhuma proposta realizada.'
                 
-            itens_valores.append([item, [f'{formato_menor_valor_unidade}', formato_menor_valor], empresa_menor, [f'{formato_maior_valor_unidade}', formato_maior_valor], empresa_maior.nome, item.solicitacao_de_compra.id, item.id])
+            itens_valores.append([item, [f'{formato_menor_valor_unidade}', formato_menor_valor], empresa_menor, [f'{formato_maior_valor_unidade}', formato_maior_valor], empresa_maior, item.solicitacao_de_compra.id, item.id])
         itens = itens_valores
         print(itens)
             
