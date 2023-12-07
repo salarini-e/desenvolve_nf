@@ -61,6 +61,14 @@
             // Remova o elemento
             emptyOptionDiv.parentNode.removeChild(emptyOptionDiv);
         }
+        var elementosParaRemover = document.querySelectorAll('.form-check-label');
+
+      // Itera sobre os elementos e remove aqueles com texto "---------"
+      elementosParaRemover.forEach(function (elemento) {
+        if (elemento.textContent.trim() === '---------') {
+          elemento.parentNode.parentNode.removeChild(elemento.parentNode);
+        }
+      });
     });
   </script>
 </div>

@@ -81,7 +81,8 @@ urlpatterns = [
     path('adm/pdde/editar-escola/', views.pdde_editar_escola, name='pdde_editar_escola'),
     path('adm/pdde/<id>/criar-solicitacao/', views.pdde_criar_solicitacao_de_compra, name='pdde_criar_solitacao_de_compra'),
     path('adm/pdde/<id>/listar-solicitacao/', views.pdde_listar_solicitacoes, name='pdde_listar_solicitacoes'),
-    path('adm/pdde/solicitacao/<id>/criar-item/', views.pdde_criar_itens_solicitacao, name='pdde_criar_item_solicitacao'),
+    path('adm/pdde/solicitacao/<id>/detalhes/', views.pdde_criar_itens_solicitacao, name='pdde_criar_item_solicitacao'),
+    path('adm/pdde/solicitacao/<id>/detalhes/item/<id_item>/', views.listar_proposta_para_o_item, name='pdde_listar_proposta_para_o_item'),
     path('adm/pdde/solicitacao/criar-item/adicionar/', views.pdde_criar_itens_solicitacao_fetch, name='pdde_criar_itens_solicitacao_fetch'),    
     path('adm/pdde/solicitacao/criar-item/remover/', views.pdde_remover_item_solicitacao_featch, name='pdde_remover_item_solicitacao_fetch'),    
 ]

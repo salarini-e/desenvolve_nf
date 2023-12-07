@@ -21,6 +21,9 @@
         </p>
         <a href="{% url 'empreendedor:pdde_index' %}" class="btn btn-secondary ms-auto mt-auto">
           <i class="fa-solid fa-arrow-left me-2"></i>Voltar
+        </a> 
+        <a href="{% url 'empreendedor:pdde_index' %}" class="btn btn-dark ms-1 mt-auto">
+          <i class="fa-solid fa-folder-closed me-2"></i>Solicitações encerradas  
         </a>      
       </div>    
     </div>
@@ -44,6 +47,7 @@
                     <tr>
                       <th class="text-center">ID</th>
                       <th>Status</th>
+                      <th>Escola</th>
                       <th>Descrição</th>
                       <th class="text-center">Qnt. Itens</th>
                       <th></th>                 
@@ -54,11 +58,14 @@
                     <tr {% if loop.index is odd %}class="linha-impar"{% endif %}>                        
                         <td class="text-center">
                             {{solicitacao.id}}
-                        </td>
+                        </td>                        
                         <td>
                           <button class="py-0 btn btn-dark" style="background-color: {% if solicitacao.status == '0' %}gray{% elif solicitacao.status == '1' %}green{% elif solicitacao.status == '2' %}orange{% else %}{% endif %}; color: {% if solicitacao.status == '0' %}white{% elif solicitacao.status == '1' %}white{% elif solicitacao.status == '2' %}white{% else %}{% endif %}; border-color: {% if solicitacao.status == '0' %}gray{% elif solicitacao.status == '1' %}green{% elif solicitacao.status == '2' %}orange{% else %}{% endif %}">
                             {{solicitacao.get_status_display}}
                           </button>
+                        </td>
+                        <td>
+                          {{solicitacao.escola.nome}}
                         </td>
                         <td>{{solicitacao.descricao|limitarCaracteres:100}}</td>
                         <td class="text-center">{{solicitacao.id|contarItensProcessos}}</td>

@@ -447,7 +447,7 @@ def pdde_admin(request):
 @login_required()
 def pdde_index_escola(request):
     cotext = {
-            'titulo': 'Sala do Empreendedor - ADM Escolas - PDDE',
+            'titulo': 'Sala do Empreendedor - PDDE Escola',
             'escolas': Escola.objects.filter(responsavel=request.user),
             # 'nome_da_escola': escola.nome,
         }
@@ -462,7 +462,7 @@ def pdde_index_empresa(request):
     except:
         empresa=False
     cotext = {
-            'titulo': 'Sala do Empreendedor - PDDE - Empresa',
+            'titulo': 'Sala do Empreendedor - PDDE Empresa',
             'solicitacoes': Solicitacao_de_Compras.objects.exclude(status='0'),
             'empresa': empresa
         }
@@ -490,23 +490,27 @@ def pdde_index_empresa_detalhe_solicitacao(request, id):
                     proposta=Proposta.objects.create(
                         qnt_itens_proposta = qnt,
                         solicitacao_de_compra=solicitacao,
-                        dt_previsao_entrega = request.POST['dt_previsao']
+                        previsao_entrega = request.POST['dt_previsao']
                     )
                     
                     for item_valor in itens_valores:
                         print(item_valor)
+                        preco_=item_valor[1].replace(',', '')
+                        preco=preco_.replace('.', '')
                         Proposta_Item.objects.create(
                             proposta=proposta,
                             item_solicitacao=Item_Solicitacao.objects.get(id=int(item_valor[0])),
                             empresa = empresa,
-                            preco = item_valor[1].replace(',', '')
+                            preco = preco
                         )
+                    messages.warning(request, 'Proposta enviada com sucesso!')
+                    return redirect('empreendedor:pdde_index_empresa')
             else:
                 messages.warning(request, 'Preencha todos os campos de proposta corretamente.')
         else:
             messages.warning(request, 'Você precisia de uma empresa para enviar a proposta.')
     cotext = {
-            'titulo': 'Sala do Empreendedor - PDDE - Propor',
+            'titulo': 'Sala do Empreendedor - PDDE Proposta',
             'solicitacao': solicitacao,
             'itens': itens,
             'tipo': str(solicitacao.get_tipo_display()).lower(),
@@ -530,7 +534,7 @@ def pdde_criar_escola(request):
     else:
         form = Escola_Form(initial={'responsavel': request.user.id})
     context = {
-        'titulo': 'Sala do Empreendedor - ADM Escola - PDDE - Criar Escola',
+        'titulo': 'Sala do Empreendedor - PDDE Escola - Nova escola',
         'form': form
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_escola.html', context)
@@ -549,7 +553,7 @@ def pdde_editar_escola(request, id):
     else:
         form = Escola_Form(instance=escola)
     context = {
-        'titulo': 'Sala do Empreendedor - ADM Escola - PDDE - Editar Escola',
+        'titulo': 'Sala do Empreendedor - PDDE Escola - Editar escola',
         'form': form
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_escola.html', context)
@@ -568,7 +572,7 @@ def pdde_criar_solicitacao_de_compra(request, id):
     else:
         form = Solicitacao_de_Compras_Form(initial={'escola': escola.id})
     context = {
-        'titulo': 'Sala do Empreendedor - PDDE - Criar Solicitação de Compra',
+        'titulo': 'Sala do Empreendedor - PDDE Escola - Nova solicitação',
         'escola': escola,
         'form': form
     }
@@ -587,35 +591,55 @@ def pdde_criar_itens_solicitacao(request, id):
             messages.warning(request, 'Sua escola ainda não foi aprovada pela equipe da Sala do Empreendedor. Aguarde a aprovação para poder criar solicitações.')
             return redirect('empreendedor:pdde_index_escola')
     elif solicitacao.status != '0':
+        import locale
+        locale.setlocale(locale.LC_ALL, '')
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
-        itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
+        itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
         itens_valores=[]
         for item in itens:
-            query_menor = f"SELECT MIN(preco) FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item[0].id};"
-            query_maior = f"SELECT MAX(preco) FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item[0].id};"
+            query_menor = f"SELECT MIN(preco), empresa_id FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item.id};"
+            query_maior = f"SELECT MAX(preco), empresa_id FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item.id};"
 
             with connection.cursor() as cursor:
                 cursor.execute(query_menor)
-                menor_valor = cursor.fetchone()[0]
+                dados = cursor.fetchone()
+                menor_valor = dados[0]
+                menor_empresa_id = dados[1]
 
                 cursor.execute(query_maior)
-                maior_valor = cursor.fetchone()[0]
-                            
-            itens_valores.append([item[0], [int((menor_valor/item[0].quantidade)), menor_valor], [int((maior_valor/item[0].quantidade)), maior_valor]])
+                dados = cursor.fetchone()
+                maior_valor = dados[0]
+                maior_empresa_id = dados[1]
+            
+            formato_menor_valor_unidade = '{:,.2f}'.format(menor_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
+            formato_menor_valor = '{:,.2f}'.format(menor_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
+            formato_maior_valor_unidade = '{:,.2f}'.format(maior_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
+            formato_maior_valor = '{:,.2f}'.format(maior_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
 
+            itens_valores.append([item, [f'{formato_menor_valor_unidade}', formato_menor_valor], Empresa.objects.get(id=menor_empresa_id).nome, [f'{formato_maior_valor_unidade}', formato_maior_valor], Empresa.objects.get(id=maior_empresa_id).nome, item.solicitacao_de_compra.id, item.id])
         itens = itens_valores
         print(itens)
             
     else:
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
-        itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao),
+        itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
     context = {
-        'titulo': 'Sala do Empreendedor - PDDE - Criar Itens da Solicitação de Compra',
+        'titulo': 'Sala do Empreendedor - PDDE Escola - Criar itens',
         'solicitacao': solicitacao,
         'itens': itens,
         'form': form
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
+
+def listar_proposta_para_o_item(request, id, id_item):
+    item = Item_Solicitacao.objects.get(id=id_item)
+    propostas = Proposta_Item.objects.filter(item_solicitacao=item).order_by('preco')
+    context = {
+        'titulo': 'Sala do Empreendedor - PDDE Escola - Propostas',
+        'item': item,
+        'propostas': propostas,
+    }
+    return render(request, 'sala_do_empreendedor/pdde/listar_propostas.html', context)
 
 def pdde_criar_itens_solicitacao_fetch(request):
     try:
@@ -685,7 +709,7 @@ def pdde_listar_solicitacoes(request, id):
         return redirect('empreendedor:pdde_index')
     solicitacoes=Solicitacao_de_Compras.objects.filter(escola=escola)
     context = {
-        'titulo': 'Sala do Empreendedor - ADM Escola - PDDE - Listar Solicitações de Compra',
+        'titulo': 'Sala do Empreendedor - PDDE Escola - Listar solicitações',
         'escola': escola,
         'solicitacoes': solicitacoes
     }

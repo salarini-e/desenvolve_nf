@@ -10,20 +10,12 @@
 {% block main %}
 <div class="container">
   <div class="row">
-    <div class="col d-flex flex-column">
+    <div class="col d-flex">
       <h1>Programa de Dinheiro Direto da Escola</h1>
-      <div class="d-flex">
-        <p class="text-secondary">
-          {% if empresa %}
-          {% else %}
-          Você não possui empresa cadastrada em nosso sistema. Cadastre sua empresa <a href="#">aqui</a>!
-          {% endif %}
-        </p>
         <a href="{% url 'empreendedor:pdde_empresa' %}" class="btn btn-secondary ms-auto my-auto">
           <i class="fa-solid fa-arrow-left me-2"></i>
           Voltar
-        </a>       
-      </div>    
+        </a>               
     </div>
   </div>
     <div class="row mt-4">
@@ -37,7 +29,25 @@
         {% endif %}
       </div>
     </div>
-    <div class="row">      
+    <div class="row">  
+      <div class="col">
+        <!-- AQUI MOSTRAMOS AS INFORMAÇÕES DA ESCOLA DA SOLICITAÇÃO -->
+        <h5><strong>{{solicitacao.escola.nome}} ({{solicitacao.escola.cnpj}})</strong></h5>
+        <hr>
+        <p>          
+          <strong>Telefone:</strong> {{solicitacao.escola.telefone}}
+          <strong class="ms-3">Endereço:</strong> {{solicitacao.escola.endereco}}
+        </p>          
+        <p>
+          <strong>Descrição da solicitação:</strong>
+          {{solicitacao.descricao}}
+        </p>
+      </div>    
+    </div>
+    <div class="row my-4">
+      <div class="col border" style="font-size: 22pt; font-weight: 600; text-align: center; background-color: white; border-radius: 30px; padding: 20px;">
+        FAÇA SUA PROPOSTA AGORA!
+      </div>
     </div>
     <form method="POST" >
     <div class="row">

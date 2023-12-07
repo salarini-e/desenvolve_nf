@@ -116,6 +116,7 @@ class Solicitacao_de_Compras_Form(ModelForm):
             'escola': forms.HiddenInput(),
             'dt_envio_propostas': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Data de Envio das Propostas', 'type': 'date'}),
             'dt_previsao_entrega': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Data de Previsão de Entrega', 'type': 'date'}),
+            'ramo_atuacao': forms.CheckboxSelectMultiple(),
             }
         exclude = ['dt_solicitacao', 'user_register', 'status', 'proposta_vencedora', 'qnt_itens']
         

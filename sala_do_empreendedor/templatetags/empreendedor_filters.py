@@ -1,7 +1,7 @@
 from django import template
 from datetime import date
 import locale
-from ..models import Solicitacao_de_Compras, Item_Solicitacao
+from ..models import Solicitacao_de_Compras, Item_Solicitacao, Proposta_Item
 register = template.Library()
 
 @register.filter(name='contarProcessos')
@@ -21,4 +21,14 @@ def limitarCaracteres(value, qnt):
         valor = value[:qnt] + '...'
     else:
         valor = value
+    return valor
+
+@register.filter(name='contarPropostas')
+def contarPropostas(value):
+    valor = Proposta_Item.objects.filter(item_solicitacao__id=value).count()
+    return valor
+
+@register.filter(name='formatarPreco')
+def formatarPreco(value):
+    valor = '{:,.2f}'.format(value / 100).replace('.', '##').replace(',', '.').replace('##', ',')
     return valor
