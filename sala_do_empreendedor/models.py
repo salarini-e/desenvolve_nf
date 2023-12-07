@@ -303,7 +303,7 @@ class Solicitacao_de_Compras(models.Model):
     previsao_entrega = models.IntegerField(verbose_name='Previsão de quantos dias para entrega após fechar o contrato?', default=0)
     qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados', null=True)
     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
-    ramo_atuacao = models.ForeignKey(Ramo_de_Atuacao, on_delete=models.CASCADE, verbose_name='Enviar mensagem para as empresas com os seguintes ramos de atuação:', null=True, blank=True)
+    ramo_atuacao = models.ManyToManyField(Ramo_de_Atuacao, on_delete=models.CASCADE, verbose_name='Enviar mensagem para as empresas com os seguintes ramos de atuação:', null=True, blank=True)
 class Item_Solicitacao(models.Model):
     
     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')

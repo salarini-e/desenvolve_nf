@@ -611,11 +611,23 @@ def pdde_criar_itens_solicitacao(request, id):
                 maior_valor = dados[0]
                 maior_empresa_id = dados[1]
             
-            formato_menor_valor_unidade = '{:,.2f}'.format(menor_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
-            formato_menor_valor = '{:,.2f}'.format(menor_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
-            formato_maior_valor_unidade = '{:,.2f}'.format(maior_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
-            formato_maior_valor = '{:,.2f}'.format(maior_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
-
+            try:
+                formato_menor_valor_unidade = '{:,.2f}'.format(menor_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
+            except:
+                formato_menor_valor_unidade='0,00'
+            try:
+                formato_menor_valor = '{:,.2f}'.format(menor_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
+            except:
+                formato_menor_valor='0,00'
+            try:
+                formato_maior_valor_unidade = '{:,.2f}'.format(maior_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
+            except:
+                formato_maior_valor_unidade='0,00'
+            try:
+                formato_maior_valor = '{:,.2f}'.format(maior_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
+            except:
+                formato_maior_valor='0,00'
+            
             itens_valores.append([item, [f'{formato_menor_valor_unidade}', formato_menor_valor], Empresa.objects.get(id=menor_empresa_id).nome, [f'{formato_maior_valor_unidade}', formato_maior_valor], Empresa.objects.get(id=maior_empresa_id).nome, item.solicitacao_de_compra.id, item.id])
         itens = itens_valores
         print(itens)
