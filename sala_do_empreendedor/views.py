@@ -581,6 +581,7 @@ def pdde_criar_solicitacao_de_compra(request, id):
 @login_required()
 def pdde_criar_itens_solicitacao(request, id):
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
+    soma={'menor_valor': 0, 'maior_valor': 0}
     if request.method == 'POST':
         if solicitacao.escola.ativa:
             solicitacao.status='1'
@@ -605,11 +606,13 @@ def pdde_criar_itens_solicitacao(request, id):
                 dados = cursor.fetchone()
                 menor_valor = dados[0]
                 menor_empresa_id = dados[1]
-
+                soma['menor_valor'] += menor_valor
+                
                 cursor.execute(query_maior)
                 dados = cursor.fetchone()
                 maior_valor = dados[0]
                 maior_empresa_id = dados[1]
+                soma['maior_valor'] += maior_valor
             
             try:
                 formato_menor_valor_unidade = '{:,.2f}'.format(menor_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
@@ -640,15 +643,21 @@ def pdde_criar_itens_solicitacao(request, id):
             itens_valores.append([item, [f'{formato_menor_valor_unidade}', formato_menor_valor], empresa_menor, [f'{formato_maior_valor_unidade}', formato_maior_valor], empresa_maior, item.solicitacao_de_compra.id, item.id])
         itens = itens_valores
         print(itens)
-            
+    
     else:
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
+    
+    soma={
+            'menor_valor': '{:,.2f}'.format(soma['menor_valor']/100).replace('.', '##').replace(',', '.').replace('##', ','), 
+            'maior_valor': '{:,.2f}'.format(soma['maior_valor']/100).replace('.', '##').replace(',', '.').replace('##', ',')
+            }
     context = {
         'titulo': 'Sala do Empreendedor - PDDE Escola - Criar itens',
         'solicitacao': solicitacao,
         'itens': itens,
-        'form': form
+        'form': form,
+        'soma': soma
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
 

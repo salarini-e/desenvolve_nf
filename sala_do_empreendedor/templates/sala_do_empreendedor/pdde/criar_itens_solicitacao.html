@@ -120,6 +120,12 @@
                         <td colspan="4" class="text-center text-secondary"><i>Nenhum item cadastrado.</i></td>
                       </tr>
                       {% endfor %}
+                      <tr class=""   style="background-color: rgb(255, 189, 189);">
+                        <td colspan="3"><i style="color: red;">Total</i></td>
+                        <td><strong style="color: green; text-decoration: underline;">R$ {{soma.menor_valor}}</strong></td>
+                        <td><strong style="color: rgb(239, 110, 30);">R$ {{soma.maior_valor}}</strong></td>
+                        <td></td>
+                      </tr>
                       </tbody>
                     </table>
                   </div>
@@ -143,9 +149,25 @@
                     {% elif solicitacao.status == '1' %}
                       <p class="text-center"><strong class="text-danger">Data final para envio de propostas:<br>{{solicitacao.dt_envio_propostas|date:"d/m/Y"}}</strong></p>
                     {% elif solicitacao.status == '2' %}
-                      <button class="btn btn-success m-auto">
+                      <button class="btn btn-success m-auto"  data-bs-toggle="modal" data-bs-target="#orcamentoModal">
                         <i class="fa-solid fa-handshake me-2"></i> Aceitar orçamento
                       </button>
+                      <div class="modal fade" id="orcamentoModal" tabindex="-1" aria-labelledby="orcamentoModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header" style="border-bottom: none ;">
+                              <h5 class="modal-title" id="orcamentoModalLabel">Você tem certeza que deseja aceitar o orçamento?</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body d-flex" id="listar-propostas">
+                              <button class="btn btn-success me-1 ms-auto">Sim</button>
+                              <button class="btn btn-danger ms-1 me-auto" data-bs-dismiss="modal">Não</button>
+                            </div>
+                            <div class="modal-footer" style="border-top: none;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     {% endif %}
                   </div>
                 </div>
@@ -160,9 +182,10 @@
 </div>
 <div class="row mx-auto px-5">
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
-  <script>
+  <script>  
     document.getElementById('empreendedor_empresa').classList.add('s-nav-active');
 
+    {% if solicitacao.status == '0' %}
     document.addEventListener("DOMContentLoaded", function() {
         // Selecione o elemento da div que contém a opção '---------'
         var emptyOptionDiv = document.querySelector('.form-check label[for="id_tipo_0"]').closest('.form-check');
@@ -173,6 +196,7 @@
             emptyOptionDiv.parentNode.removeChild(emptyOptionDiv);
         }
     });
+    {% endif %}
 
     // função featch para adicionar item na url pdde_criar_itens_solicitacao_fetch, lembrando que o retorno vai retorna mais de um item
     function atualizaItens(data){
@@ -242,19 +266,10 @@
         console.error('Erro ao remover item:', error);
       });
     }
-    {% if solicitacao.status != '1' and solicitacao.status != '2' %}
-    // Obtém todos os elementos de input e textarea no formulário
-    var elementosDoFormulario = document.querySelectorAll('input[required], textarea[required]');
 
-    // Itera sobre os elementos e remove o atributo required
-    elementosDoFormulario.forEach(function(elemento) {
-        elemento.removeAttribute('required');
-    });
-    {% endif %}
-
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
+    // $(function () {
+    //   $('[data-toggle="tooltip"]').tooltip()
+    // })
     function listarProposta(id, id_item){
       document.getElementById('listar-propostas').innerHTML = 'Carregando...'
       var url = '/sala-do-empreendedor/adm/pdde/solicitacao/'+id+'/detalhes/item/'+id_item+'/';
@@ -273,6 +288,18 @@
         console.error('Erro ao obter itens:', error);
       });
     }
+
+    {% if solicitacao.status != '1' and solicitacao.status != '2' %}
+    // Obtém todos os elementos de input e textarea no formulário
+    var elementosDoFormulario = document.querySelectorAll('input[required], textarea[required]');
+
+    // Itera sobre os elementos e remove o atributo required
+    elementosDoFormulario.forEach(function(elemento) {
+        elemento.removeAttribute('required');
+    });
+    {% endif %}
+
+    
   </script>
 </div>
 
@@ -293,7 +320,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="listar-propostas">
-        ...
+        Carregando....
       </div>
       <div class="modal-footer" style="border-top: none;">
       </div>
