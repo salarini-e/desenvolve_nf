@@ -8,7 +8,7 @@ from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,C
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item
-
+from .functions.pdde import Calcula_Melhor_Proposta, PDDE_POST
 # Create your views here.
 def index(request):
     context = {
@@ -580,70 +580,26 @@ def pdde_criar_solicitacao_de_compra(request, id):
 
 @login_required()
 def pdde_criar_itens_solicitacao(request, id):
+    
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
+    if solicitacao.status == '3':
+        return redirect('empreendedor:pdde_contratacao', id=solicitacao.id)
     soma={'menor_valor': 0, 'maior_valor': 0}
     if request.method == 'POST':
-        if solicitacao.escola.ativa:
-            solicitacao.status='1'
-            solicitacao.save()
+        response = PDDE_POST(request, solicitacao)
+        if response == 'salvo':
             messages.success(request, 'Solicitação criada/iniciada com sucesso! Aguardando propostas.')
             return redirect('empreendedor:pdde_listar_solicitacoes', id=solicitacao.escola.id)
-        else:
+        elif response == 'escola-inativa':
             messages.warning(request, 'Sua escola ainda não foi aprovada pela equipe da Sala do Empreendedor. Aguarde a aprovação para poder criar solicitações.')
             return redirect('empreendedor:pdde_index_escola')
-    elif solicitacao.status != '0':
-        import locale
-        locale.setlocale(locale.LC_ALL, '')
-        form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
+        elif response == 'proposta-aceita':
+            messages.success(request, 'Proposta aceita com sucesso! Criando contrato...')
+            return redirect('empreendedor:pdde_contratacao', id=solicitacao.id)
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
-        itens_valores=[]
-        for item in itens:
-            query_menor = f"SELECT MIN(preco), empresa_id FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item.id};"
-            query_maior = f"SELECT MAX(preco), empresa_id FROM sala_do_empreendedor_proposta_item WHERE item_solicitacao_id = {item.id};"
-
-            with connection.cursor() as cursor:
-                cursor.execute(query_menor)
-                dados = cursor.fetchone()
-                menor_valor = dados[0]
-                menor_empresa_id = dados[1]
-                soma['menor_valor'] += menor_valor
-                
-                cursor.execute(query_maior)
-                dados = cursor.fetchone()
-                maior_valor = dados[0]
-                maior_empresa_id = dados[1]
-                soma['maior_valor'] += maior_valor
-            
-            try:
-                formato_menor_valor_unidade = '{:,.2f}'.format(menor_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
-            except:
-                formato_menor_valor_unidade='0,00'
-            try:
-                formato_menor_valor = '{:,.2f}'.format(menor_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
-            except:
-                formato_menor_valor='0,00'
-            try:
-                formato_maior_valor_unidade = '{:,.2f}'.format(maior_valor/(item.quantidade * 100)).replace('.', '##').replace(',', '.').replace('##', ',')
-            except:
-                formato_maior_valor_unidade='0,00'
-            try:
-                formato_maior_valor = '{:,.2f}'.format(maior_valor / 100).replace('.', '##').replace(',', '.').replace('##', ',')
-            except:
-                formato_maior_valor='0,00'
-            
-            try:
-                empresa_menor=Empresa.objects.get(id=menor_empresa_id).nome
-            except:
-                empresa_menor='Nenhuma proposta realizada.'
-            try:
-                empresa_maior=Empresa.objects.get(id=maior_empresa_id).nome
-            except:
-                empresa_maior='Nenhuma proposta realizada.'
-                
-            itens_valores.append([item, [f'{formato_menor_valor_unidade}', formato_menor_valor], empresa_menor, [f'{formato_maior_valor_unidade}', formato_maior_valor], empresa_maior, item.solicitacao_de_compra.id, item.id])
-        itens = itens_valores
-        print(itens)
-    
+    elif solicitacao.status != '0':
+        itens, soma = Calcula_Melhor_Proposta(solicitacao)
+        form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
     else:
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
@@ -660,6 +616,12 @@ def pdde_criar_itens_solicitacao(request, id):
         'soma': soma
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
+
+def pdde_contratacao(request, id):
+    context = {
+        'titulo': 'Sala do Empreendedor - PDDE Escola - Contratação',
+    }
+    return render(request, 'sala_do_empreendedor/pdde/contratacao.html', context)
 
 def listar_proposta_para_o_item(request, id, id_item):
     item = Item_Solicitacao.objects.get(id=id_item)

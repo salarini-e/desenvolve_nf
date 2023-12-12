@@ -284,7 +284,12 @@ class Solicitacao_de_Compras(models.Model):
         ('0', 'Criando solicitação'),
         ('1', 'Aguardando propostas'),
         ('2', 'Aguardando analise de propostas'),
-        ('3', 'Processo concluído'),
+        ('3', 'Aguardando avaliação de contrato'),
+        ('4', 'Aguardando aceite de contrato'),
+        ('4', 'Aguardando entrega/serviço'),
+        ('5', 'Aguardando nota fiscal/pagamento'),
+        ('6', 'Avaliação de serviço'),
+        ('7', 'Processo concluído'),
     )
     TIPO_CHOICES=(
         ('s', 'Serviço'),
@@ -304,6 +309,8 @@ class Solicitacao_de_Compras(models.Model):
     qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados', null=True)
     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
     ramo_atuacao = models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Enviar mensagem para as empresas com os seguintes ramos de atuação:', null=True, blank=True)
+
+
 class Item_Solicitacao(models.Model):
     
     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
@@ -323,3 +330,14 @@ class Proposta_Item(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
     preco = models.IntegerField(verbose_name='Preço/Proposta')
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    
+class Contrato_de_Servico(models.Model):
+    solicitacao_referente = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
+    proposta_vencedora = models.ForeignKey('Proposta', on_delete=models.CASCADE, verbose_name='Proposta')
+    itens_solicitados = models.ManyToManyField('Item_Solicitacao', verbose_name='Itens do contrato')
+    propostas_itens = models.ManyToManyField('Proposta_Item', verbose_name='Propostas dos itens')
+    titulo = models.CharField(max_length=128, verbose_name='Título')
+    proposito= models.TextField(verbose_name='Proposito')
+    aceito_pela_empresa = models.BooleanField(default=False, verbose_name='Contrato aceito pela empresa?')
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)

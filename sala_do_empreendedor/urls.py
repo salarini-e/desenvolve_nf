@@ -85,4 +85,5 @@ urlpatterns = [
     path('adm/pdde/solicitacao/<id>/detalhes/item/<id_item>/', views.listar_proposta_para_o_item, name='pdde_listar_proposta_para_o_item'),
     path('adm/pdde/solicitacao/criar-item/adicionar/', views.pdde_criar_itens_solicitacao_fetch, name='pdde_criar_itens_solicitacao_fetch'),    
     path('adm/pdde/solicitacao/criar-item/remover/', views.pdde_remover_item_solicitacao_featch, name='pdde_remover_item_solicitacao_fetch'),    
+    path('adm/pdde/solicitacao/<id>/detalhes/contrato/', views.pdde_contratacao, name='pdde_contratacao'),
 ]

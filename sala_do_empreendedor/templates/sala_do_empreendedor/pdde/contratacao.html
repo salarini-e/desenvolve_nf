@@ -1,0 +1,131 @@
+{% extends 'template.html' %}
+{% load bootstrap5 %}
+{% load empreendedor_filters %}
+{% load static %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row">
+    <div class="col p-5 border d-flex flex-column" style="background-color: white; border-radius: 30px;">
+      <h1 class="text-center mb-4">CONTRATO DE PRESTAÇÃO DE SERVIÇOS</h1>
+      <h2 class="text-center">Título</h2>
+      <hr>
+      <h4 class="text-center mb-4 mt-3"><strong>IDENTIFICAÇÃO DAS PARTES CONTRATANTES</strong></h4>
+      <p class="mb-3">Decidem as partes, na melhor forma de direito, celebrar o presente CONTRATO DE PRESTAÇÃO DE SERVIÇOS, que reger-se-á mediante as cláusulas e condições adiante estipuladas.</p>
+     <div class="row">
+      <div class="col">
+        <p class="mb-3"><strong>CONTRATADA</strong></p>
+        <table class="mb-3">
+          <tbody>
+            <tr>
+              <td><strong>Nome:</strong></td>
+              <td>Nome</td>
+            </tr>
+            <tr>
+              <td><strong>CNPJ:</strong></td>
+              <td>CNPJ</td>
+            </tr>
+            <tr>
+              <td><strong>Endereço:</strong></td>
+              <td>Endereço</td>
+            </tr>
+            <tr>
+              <td><strong>Telefone:</strong></td>
+              <td>Telefone</td>
+            </tr>
+            <tr>
+              <td><strong>E-mail:</strong></td>
+              <td>E-mail</td>
+            </tr>
+            <tr>
+              <td><strong>Representante:</strong></td>
+              <td>Representante</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <p class="mb-3"><strong>CONTRATANTE</strong></p>
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Nome:</strong></td>
+            <td>Nome</td>
+          </tr>
+          <tr>
+            <td><strong>CNPJ:</strong></td>
+            <td>CNPJ</td>
+          </tr>
+          <tr>
+            <td><strong>Endereço:</strong></td>
+            <td>Endereço</td>
+          </tr>
+          <tr>
+            <td><strong>Telefone:</strong></td>
+            <td>Telefone</td>
+          </tr>
+          <tr>
+            <td><strong>E-mail:</strong></td>
+            <td>E-mail</td>
+          </tr>
+          <tr>
+            <td><strong>Representante:</strong></td>
+            <td>Representante</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+     </div>
+      <hr>
+      <h4 class="mt-3">DO OBJETO</h4>
+      <p>O presente contrato tem por objeto a prestação de serviços profissionais especializados por parte da (CONTRATADA):</p>
+      <table class="mt-3">
+        <tr>
+          <td>Listagem de itens</td>
+        </tr>
+      </table>
+      <h4 class="mb-2 mt-3">DA AVALIAÇÃO DE PERFORMANCE</h4>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id eos ullam doloremque quaerat mollitia, iusto eius quo iste illum ipsum saepe quia rerum inventore dignissimos! Reiciendis veritatis ratione porro! Odit.</p>
+      <h4 class="mb-2 mt-3">CONDIÇÕES DE PAGAMENTO</h4>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores dolor asperiores molestias dicta, ipsam dolorum quis esse consequuntur delectus. Molestias nesciunt corrupti laboriosam maxime voluptatum vitae accusamus mollitia animi nisi.</p>
+      <h4 class="mb-2 mt-3">CONDIÇÕES DE ENTREGA</h4>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo ea cum itaque at dignissimos rerum reprehenderit accusantium, porro sunt inventore labore placeat expedita illum omnis possimus laboriosam. In, perspiciatis sapiente?</p>
+      <h4 class="mt-4 mb-2">DECLARAÇÃO</h4>
+      <p>Declaro aceitar os termos da proposta acima, o qual me comprometo a entregar no prazo definido de acordo com descrição tecnica do (PRODUTO/SERVIÇO). Declaro ainda estar em dia com as obrigações fiscais e trabalhistas - Federal, Estadual e Municipal -, bem como não possuir débitos e com a Seguridade Social (INSS).</p></p>      
+      <h4 class="mb-2 mt-3">LEIS APLICÁVEIS</h4>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt asperiores, voluptatem similique eum, reprehenderit incidunt provident nihil ipsa dolorem hic magni minus sit soluta omnis eveniet quos praesentium harum veniam.</p>
+
+    </div>    
+  </div>
+</div>
+<style>
+  table tr td:first-child{
+    width: 150px !important;
+  }
+</style>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom: none ;">
+        <h5 class="modal-title" id="exampleModalLabel">Propostas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="listar-propostas">
+        Carregando. . .
+      </div>
+      <div class="modal-footer" style="border-top: none;">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}
