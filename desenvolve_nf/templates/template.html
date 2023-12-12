@@ -240,7 +240,7 @@
             {% for message in messages %}
             <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
               <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
-              <button type="button" onclick="closeModal()" class="btn-close"></button>
+              <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
             </div>
             <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
                
@@ -261,14 +261,7 @@
       </div>   
       <script>
       const myModal = new bootstrap.Modal(document.getElementById('resposta'))
-      myModal._config.keyboard = false;
-      myModal._config.backdrop = 'static';
       myModal.toggle()
-
-      function closeModal(){
-        myModal.hide()
-        document.body.style.overflow = 'scroll'
-            }
       </script>
       <style>
         .error{

@@ -665,6 +665,26 @@
           document.getElementById('preloading').style.display = 'none'
         }
     </script> -->
+    <div class="modal fade" id="alerta" tabindex="-1" aria-labelledby="alertaModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header" style="border-bottom: none ;">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex">
+            <img src="{% static 'images/aviso.jpg' %}" class="m-auto" style="width: 350px;" alt="aviso">
+          </div>
+          <div class="modal-footer" style="border-top: none;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // abrir modal ao carregar o site
+      var myModal = new bootstrap.Modal(document.getElementById('alerta'))
+      myModal.toggle()
+
+    </script>
     {% if messages %}              
     <!-- MODAL -->
     <div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
@@ -673,7 +693,7 @@
             {% for message in messages %}
             <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
               <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
-              <button type="button" onclick="myModal.hide();" class="btn-close"></button>
+              <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
             </div>
             <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
                

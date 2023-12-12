@@ -76,37 +76,24 @@
                       {% for item in itens %}                      
                       <tr id='item-{{item.id}}' class="border-0">
                         <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">
-                          {% if solicitacao.status != '0' %}
-                          {{item.0.nome}}
-                          {% else %}
                           {{item.nome}}
-                          {% endif %}
                         </td>
                         <td class="{% if solicitacao.status == '0' %}border-0{% endif %} text-center">
-                          {% if solicitacao.status != '0' %}
-                          {{item.0.quantidade}} {{item.0.unidade}}
-                          {% else %}
-                          {{item.quantidade}} {{item.unidade}}
-                          {% endif %}
+                          {{item.quantidade}} {{item.unidade}}                          
                         </td>
-                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">
-                          {% if solicitacao.status != '0' %}
-                          {{item.0.descricao|limitarCaracteres:30}}
-                          {% else %}
-                          {{item.descricao|limitarCaracteres:30}}
-                          {% endif %}
+                        <td class="{% if solicitacao.status == '0' %}border-0{% endif %}">                         
+                          {{item.descricao|limitarCaracteres:30}}                          
                         </td>
                         {% if solicitacao.status != '0' %}
                         <td>
-                          <span style="color: rgb(255, 46, 46);">R${{item.1.0}}</span>/<span style="color: rgb(5, 78, 5)">R${{item.1.1}}</span>
-                          <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="{{item.2}}"></i>                          
+                          <span style="color: rgb(255, 46, 46);">R${{item.id|menorValorProposta|valorUnitario:item.quantidade}}</span>/<span style="color: rgb(5, 78, 5)">R${{item.id|menorValorProposta}}</span>
+                          <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="{{item.id|menorEmpresaProposta}}"></i>                          
                         </td>
                         <td>
-                          <span style="color: rgb(255, 46, 46);">R${{item.3.0}}</span>/<span style="color: rgb(5, 78, 5)">R${{item.3.1}}</span>
-                          <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="{{item.4}}"></i>                          
+                          <span style="color: rgb(255, 46, 46);">R${{item.id|maiorValorProposta|valorUnitario:item.quantidade}}</span>/<span style="color: rgb(5, 78, 5)">R$ {{item.id|maiorValorProposta}}</span>
+                          <i style="cursor: pointer;" class="ms-2 fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="{{item.id|maiorEmpresaProposta}}"></i>                          
                         </td>
-                        <td class="text-center"><button class="btn btn-dark py-0"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="listarProposta('{{item.5}}', '{{item.6}}')">Visualizar</button></td>
-                        <!-- {% url 'empreendedor:pdde_listar_proposta_para_o_item' id=item.5 id_item=item.6 %} -->
+                        <td class="text-center"><button class="btn btn-dark py-0"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="listarProposta('{{item.solicitacao_de_compra.id}}', '{{item.id}}')">Visualizar</button></td>
                         {% endif %}
                         {% if solicitacao.status == '0'%}
                         <td class="border-0">
@@ -120,14 +107,58 @@
                         <td colspan="4" class="text-center text-secondary"><i>Nenhum item cadastrado.</i></td>
                       </tr>
                       {% endfor %}
-                      <tr class=""   style="background-color: rgb(255, 189, 189);">
-                        <td colspan="3"><i style="color: red;">Total</i></td>
-                        <td><strong style="color: green; text-decoration: underline;">R$ {{soma.menor_valor}}</strong></td>
-                        <td><strong style="color: rgb(239, 110, 30);">R$ {{soma.maior_valor}}</strong></td>
-                        <td></td>
-                      </tr>
                       </tbody>
                     </table>
+                    {% if lista_propostas.0 %}
+                    <table class="mt-4 table"> 
+                      <thead class="thead-dark">
+                        <tr style="background-color: rgb(37, 37, 37); color: white;">
+                          <th colspan="4">Melhor proposta</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <td class="d-flex">
+                        
+                            <span><strong>Empresa:</strong> {{lista_propostas.0.proposta.empresa.nome}}</span>
+                            <span class="ms-3"><strong>Valor total:</strong> R${{lista_propostas.0.valor_total|formatarPreco}}</span>
+                            <span class="ms-3"><strong>Data da proposta:</strong> {{lista_propostas.0.proposta.dt_register}}</span>
+                            <button class="btn  btn-dark py-0 my-auto ms-auto" data-bs-toggle="modal" data-bs-target="#melhorPropostaModal">
+                              Ver proposta de cada item
+                            </button>
+                            <div class="modal fade" id="melhorPropostaModal" tabindex="-1" aria-labelledby="melhorPropostaModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                  <div class="modal-header" style="border-bottom: none ;">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body d-flex" id="listar-propostas">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th>Item</th>
+                                          <th>Valor da proposta</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% for item in lista_propostas.0.itens %}
+                                        <tr>
+                                          <td>{{item.item_solicitacao.nome}}</td>
+                                          <td>R${{item.preco|formatarPreco}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div class="modal-footer" style="border-top: none;">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          
+                        </td>
+                      </tbody>
+                    </table>
+                    {% endif %}
                   </div>
                   {% if solicitacao.status != '1' and solicitacao.status != '2' %}
                   <div class="col">
@@ -147,10 +178,10 @@
                     {% if solicitacao.status == '0' %}
                           <button type="submit" class="btn btn-success w-100 mt-3"><i class="fa-solid fa-file-contract me-2"></i>Iniciar processo</button>
                     {% elif solicitacao.status == '1' %}
-                      <p class="text-center"><strong class="text-danger">Data final para envio de propostas:<br>{{solicitacao.dt_envio_propostas|date:"d/m/Y"}}</strong></p>
+                      <p class="text-center mx-auto"><strong class="text-danger">Data final para envio de propostas:<br>{{solicitacao.dt_envio_propostas|date:"d/m/Y"}}</strong></p>
                     {% elif solicitacao.status == '2' %}
                       <button class="btn btn-success m-auto"  data-bs-toggle="modal" data-bs-target="#orcamentoModal">
-                        <i class="fa-solid fa-handshake me-2"></i> Aceitar orçamento
+                        <i class="fa-solid fa-handshake me-2"></i> Aceitar orçamento da melhor proposta
                       </button>
                       <div class="modal fade" id="orcamentoModal" tabindex="-1" aria-labelledby="orcamentoModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -158,12 +189,18 @@
                             <div class="modal-header" style="border-bottom: none ;">
                               <h5 class="modal-title" id="orcamentoModalLabel">Você tem certeza que deseja aceitar o orçamento?</h5>
                             </div>
-                            <div class="modal-body d-flex" id="listar-propostas">
+                            <div class="modal-body d-flex flex-column" id="listar-propostas">
                               <form method="POST">
                                 {% csrf_token %}
-                                <button class="btn btn-success me-1 ms-auto" type="submit">Sim</button>
-                              </form>
-                              <button class="btn btn-danger ms-1 me-auto" data-bs-dismiss="modal">Não</button>
+                                <p class="ms-3"><strong>Empresa:</strong> {{lista_propostas.0.proposta.empresa.nome}}</p>
+                                <p class="ms-3"><strong>Valor total:</strong> R${{lista_propostas.0.valor_total|formatarPreco}}</p>
+                                <p class="ms-3"><strong>Data da proposta:</strong> {{lista_propostas.0.proposta.dt_register}}</p>
+                                <p class="ms-3"><strong>Previsão de entrega após contrato:</strong> {{lista_propostas.0.proposta.previsao_entrega}} dias</p>
+                                <div class="d-flex mt-4">
+                                  <button class="btn px-4 btn-success me-1 ms-auto" type="submit">Sim</button>                              
+                                  <button class="btn px-4 btn-danger ms-1 me-auto" data-bs-dismiss="modal">Não</button>
+                                </div>
+                            </form>
                             </div>
                             <div class="modal-footer" style="border-top: none;">
                             </div>
@@ -329,7 +366,6 @@
     </div>
   </div>
 </div>
-
 {% endblock %}
 {% block footer %}
 {% include 'desenvolve_nf/instagram.html' %}

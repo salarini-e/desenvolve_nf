@@ -67,6 +67,7 @@ class Trabalho_Faccao(models.Model):
     nome = models.CharField(max_length=128, verbose_name='Nome do trabalho')
     def __str__(self) -> str:
         return self.nome
+    
 class Equipamentos_Faccao(models.Model):
     nome = models.CharField(max_length=128, verbose_name='Nome do equipamento')
     def __str__(self) -> str:
@@ -321,15 +322,16 @@ class Item_Solicitacao(models.Model):
  
 class Proposta(models.Model):
     qnt_itens_proposta = models.IntegerField(verbose_name='Quantidade de itens propostos')
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
     previsao_entrega = models.IntegerField(verbose_name='Previsão de quantos dias para entrega após fechar o contrato?', default=0)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     
 class Proposta_Item(models.Model):
     proposta = models.ForeignKey(Proposta, on_delete=models.CASCADE, verbose_name='Proposta')
     item_solicitacao = models.ForeignKey(Item_Solicitacao, on_delete=models.CASCADE, verbose_name='Item da compra')
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
     preco = models.IntegerField(verbose_name='Preço/Proposta')
-    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    
     
 class Contrato_de_Servico(models.Model):
     solicitacao_referente = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
@@ -339,5 +341,6 @@ class Contrato_de_Servico(models.Model):
     titulo = models.CharField(max_length=128, verbose_name='Título')
     proposito= models.TextField(verbose_name='Proposito')
     aceito_pela_empresa = models.BooleanField(default=False, verbose_name='Contrato aceito pela empresa?')
+    hash = models.CharField(max_length=128, verbose_name='Hash do contrato', null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)

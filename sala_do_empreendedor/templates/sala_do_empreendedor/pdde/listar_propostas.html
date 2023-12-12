@@ -10,7 +10,7 @@
   <tbody>
     {% for proposta in propostas %}
     <tr>
-      <td>{{ proposta.empresa.nome}}</td>
+      <td>{{ proposta.proposta.empresa.nome}}</td>
       <td>R$ {{ proposta.preco|formatarPreco }}</td>
     </tr>
     {% endfor %}

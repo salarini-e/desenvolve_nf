@@ -7,8 +7,8 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item
-from .functions.pdde import Calcula_Melhor_Proposta, PDDE_POST
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico
+from .functions.pdde import Listar_Proposta, PDDE_POST
 # Create your views here.
 def index(request):
     context = {
@@ -490,6 +490,7 @@ def pdde_index_empresa_detalhe_solicitacao(request, id):
                     proposta=Proposta.objects.create(
                         qnt_itens_proposta = qnt,
                         solicitacao_de_compra=solicitacao,
+                        empresa=empresa,
                         previsao_entrega = request.POST['dt_previsao']
                     )
                     
@@ -500,11 +501,10 @@ def pdde_index_empresa_detalhe_solicitacao(request, id):
                         Proposta_Item.objects.create(
                             proposta=proposta,
                             item_solicitacao=Item_Solicitacao.objects.get(id=int(item_valor[0])),
-                            empresa = empresa,
                             preco = preco
                         )
-                    messages.warning(request, 'Proposta enviada com sucesso!')
-                    return redirect('empreendedor:pdde_index_empresa')
+                    messages.success(request, 'Proposta enviada com sucesso!')
+                    return redirect('empreendedor:pdde_empresa')
             else:
                 messages.warning(request, 'Preencha todos os campos de proposta corretamente.')
         else:
@@ -584,7 +584,7 @@ def pdde_criar_itens_solicitacao(request, id):
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
     if solicitacao.status == '3':
         return redirect('empreendedor:pdde_contratacao', id=solicitacao.id)
-    soma={'menor_valor': 0, 'maior_valor': 0}
+    # soma={'menor_valor': 0, 'maior_valor': 0}
     if request.method == 'POST':
         response = PDDE_POST(request, solicitacao)
         if response == 'salvo':
@@ -593,33 +593,35 @@ def pdde_criar_itens_solicitacao(request, id):
         elif response == 'escola-inativa':
             messages.warning(request, 'Sua escola ainda não foi aprovada pela equipe da Sala do Empreendedor. Aguarde a aprovação para poder criar solicitações.')
             return redirect('empreendedor:pdde_index_escola')
-        elif response == 'proposta-aceita':
+        elif response[0] == 'proposta-aceita':
             messages.success(request, 'Proposta aceita com sucesso! Criando contrato...')
-            return redirect('empreendedor:pdde_contratacao', id=solicitacao.id)
+            return redirect('empreendedor:pdde_contratacao', id=response[1].id)
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
-    elif solicitacao.status != '0':
-        itens, soma = Calcula_Melhor_Proposta(solicitacao)
-        form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
+    # elif solicitacao.status != '0':
+        # itens, soma = Item_E_Melhor_Proposta(solicitacao)
+        # form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
     else:
         form = Criar_Item_Solicitacao(initial={'solicitacao_de_compra': solicitacao.id})
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
     
-    soma={
-            'menor_valor': '{:,.2f}'.format(soma['menor_valor']/100).replace('.', '##').replace(',', '.').replace('##', ','), 
-            'maior_valor': '{:,.2f}'.format(soma['maior_valor']/100).replace('.', '##').replace(',', '.').replace('##', ',')
-            }
+    # soma={
+    #         'menor_valor': '{:,.2f}'.format(soma['menor_valor']/100).replace('.', '##').replace(',', '.').replace('##', ','), 
+    #         'maior_valor': '{:,.2f}'.format(soma['maior_valor']/100).replace('.', '##').replace(',', '.').replace('##', ',')
+    #         }
     context = {
         'titulo': 'Sala do Empreendedor - PDDE Escola - Criar itens',
         'solicitacao': solicitacao,
         'itens': itens,
         'form': form,
-        'soma': soma
+        'lista_propostas': Listar_Proposta(id),
+        # 'soma': soma
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
 
 def pdde_contratacao(request, id):
+    contrato = Contrato_de_Servico.objects.filter(id=id)
     context = {
-        'titulo': 'Sala do Empreendedor - PDDE Escola - Contratação',
+        'contrato': contrato
     }
     return render(request, 'sala_do_empreendedor/pdde/contratacao.html', context)
 
