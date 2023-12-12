@@ -4,6 +4,7 @@ from ..models import Item_Solicitacao, Empresa, Contrato_de_Servico
 from ..forms import Criar_Item_Solicitacao
 
 def Calcula_Melhor_Proposta(solicitacao):
+
     locale.setlocale(locale.LC_ALL, '')
     soma = {'menor_valor':0, 'maior_valor':0}
     itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
@@ -51,7 +52,8 @@ def Calcula_Melhor_Proposta(solicitacao):
             empresa_maior='Nenhuma proposta realizada.'
             
         itens_valores.append([item, [f'{formato_menor_valor_unidade}', formato_menor_valor], empresa_menor, [f'{formato_maior_valor_unidade}', formato_maior_valor], empresa_maior, item.solicitacao_de_compra.id, item.id])
-    return  itens_valores, soma
+    return  itens_valores, soma 
+
 # def Calcula_Melhor_Proposta(solicitacao):
 #     locale.setlocale(locale.LC_ALL, '')
 #     soma = {'menor_valor':0, 'maior_valor':0}
