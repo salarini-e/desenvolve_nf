@@ -73,12 +73,13 @@ def Criar_Contrato(solicitacao, request):
     today = datetime.date.today()
     contrato=Contrato_de_Servico.objects.create(solicitacao_referente = solicitacao,
                                        proposta_vencedora = proposta_vencedora['proposta'],
-                                       itens_solicitados = proposta_vencedora['itens'],
                                        titulo = f'Contrato de Serviço - {solicitacao.escola.nome} - {today.strftime("%d/%m/%Y")}',
                                        proposito = solicitacao.descricao,
                                        hash=gerar_hash_contrato(solicitacao.id),
                                        user_register=request.user                                                                           
-    )
+    )                                       
+    contrato.itens_solicitados.set(proposta_vencedora['itens'])
+    contrato.save()
     return ['contrato-criado', contrato]
 
 def Aceitar_Proposta(solicitacao, request):
