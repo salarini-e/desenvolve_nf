@@ -149,7 +149,7 @@ def checkCNPJ(request):
 
 def cadastro_fornecedores_e_compras_publicas(request):
     context = {
-        'titulo': 'Sala do Empreendedor - Cadastro de Fornecedores e Compras Públicas',
+        'titulo': 'Cadastro de Fornecedores e Compras Públicas',
         'titulo_pag':'Cadastro de Fornecedores e Compras Públicas',
     }
     return render(request, 'sala_do_empreendedor/cadastro_fornecedores_e_compras.html', context)
