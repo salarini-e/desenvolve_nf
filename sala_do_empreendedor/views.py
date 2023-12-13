@@ -592,7 +592,7 @@ def pdde_criar_itens_solicitacao(request, id):
             return redirect('empreendedor:pdde_listar_solicitacoes', id=solicitacao.escola.id)
         elif response == 'escola-inativa':
             messages.warning(request, 'Sua escola ainda não foi aprovada pela equipe da Sala do Empreendedor. Aguarde a aprovação para poder criar solicitações.')
-            return redirect('empreendedor:pdde_index_escola')
+            return redirect('empreendedor:pdde_escola')
         elif response[0] == 'proposta-aceita':
             messages.success(request, 'Proposta aceita com sucesso! Criando contrato...')
             return redirect('empreendedor:pdde_contratacao', id=response[1].id)
