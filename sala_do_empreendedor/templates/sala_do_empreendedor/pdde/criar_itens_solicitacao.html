@@ -129,6 +129,7 @@
                               <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                   <div class="modal-header" style="border-bottom: none ;">
+                                    <h5 class="modal-title" id="melhorPropostaModalLabel">{{lista_propostas.0.proposta.empresa.nome}}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body d-flex">
@@ -146,6 +147,10 @@
                                           <td>R${{item.preco|formatarPreco}}</td>
                                         </tr>
                                         {% endfor %}
+                                        <tr>
+                                          <td><strong>Total</strong></td>
+                                          <td><strong>R${{lista_propostas.0.valor_total|formatarPreco}}</strong></td>
+                                        </tr>
                                       </tbody>
                                     </table>
                                   </div>
