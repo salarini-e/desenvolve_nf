@@ -78,8 +78,9 @@ def Criar_Contrato(solicitacao, request):
                                        hash=gerar_hash_contrato(solicitacao.id),
                                        user_register=request.user                                                                           
     )                                       
-    contrato.itens_solicitados.set(proposta_vencedora['itens'])
-    contrato.save()
+    # for i in proposta_vencedora['itens']:
+        # contrato.itens.add(i.id)
+    # contrato.save()
     return ['contrato-criado', contrato]
 
 def Aceitar_Proposta(solicitacao, request):
