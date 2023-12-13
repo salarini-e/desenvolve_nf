@@ -131,7 +131,7 @@
                                   <div class="modal-header" style="border-bottom: none ;">
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
-                                  <div class="modal-body d-flex" id="listar-propostas">
+                                  <div class="modal-body d-flex">
                                     <table class="table">
                                       <thead>
                                         <tr>
@@ -189,7 +189,7 @@
                             <div class="modal-header" style="border-bottom: none ;">
                               <h5 class="modal-title" id="orcamentoModalLabel">Você tem certeza que deseja aceitar o orçamento?</h5>
                             </div>
-                            <div class="modal-body d-flex flex-column" id="listar-propostas">
+                            <div class="modal-body d-flex flex-column"F>
                               <form method="POST">
                                 {% csrf_token %}
                                 <p class="ms-3"><strong>Empresa:</strong> {{lista_propostas.0.proposta.empresa.nome}}</p>
@@ -274,7 +274,7 @@
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
+          // console.log(data)
           if (data.length > 0) {
             atualizaItens(data)
           }
@@ -320,7 +320,7 @@
       })
       .then(response => response.text())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         document.getElementById('listar-propostas').innerHTML = data
       })
       .catch(error => {
