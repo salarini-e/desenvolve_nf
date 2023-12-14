@@ -72,6 +72,7 @@ urlpatterns = [
 
     path('gambiarra/02', views.gambiarra_cevest, name="adm_gambiarra_alunos"),
     path('alunos', views.adm_alunos_listar, name="adm_alunos_listar"),
+    path('alunos/cadastrar/', views.adm_cadastro_aluno, name="adm_cadastrar_aluno"),
     path('aluno/<id>', views.adm_aluno_visualizar, name="adm_aluno_visualizar"),
     path('aluno/<id>/editar', views.adm_aluno_editar, name="adm_aluno_editar"),
     path('aluno/<id>/matricular/', views.matricular_aluno, name="adm_aluno_matricular"),

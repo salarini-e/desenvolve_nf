@@ -52,7 +52,31 @@ class Form_Pessoa(ModelForm):
         telefone = telefone.replace('-', '')
         return telefone
     
+class Form_Alterar_Pessoa(ModelForm):
+    class Meta:
+        model = Pessoa
+        widgets = {
+            'dt_nascimento':forms.TextInput(attrs={'type':'date'}),
+            'cpf':forms.TextInput(attrs={'onkeydown': 'mascara(this, icpf)','onblur':'checkCPF(this.value)'}),
+            'cep':forms.TextInput(attrs={'onkeydown': 'icep(this)','onblur':'getCEP(this)'}),
+            'telefone':forms.TextInput(attrs={'onkeydown':'mascara(this, itel)'}),
+        }
+        fields=['cpf','nome', 'email', 'telefone', 'dt_nascimento', 'cep','bairro', 'endereco', 'numero', 'complemento', 'possui_cnpj']
+        exclude = ['user', 'possui_cnpj']
 
+    def clean_cpf(self):
+        cpf = validate_cpf(self.cleaned_data["cpf"])
+        return cpf
+
+    def clean_telefone(self):
+        telefone = self.cleaned_data["telefone"]
+        telefone = telefone.replace('(', '')
+        telefone = telefone.replace(' ', '')
+        telefone = telefone.replace(')', '')
+        telefone = telefone.replace('-', '')
+        return telefone
+    
+    
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(
         label=_("Email"),

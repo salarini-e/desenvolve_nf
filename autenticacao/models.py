@@ -13,7 +13,7 @@ class Pessoa(models.Model):
     telefone=models.CharField(max_length=15, verbose_name='Telefone', null=True)
     dt_nascimento=models.DateField(verbose_name='Data de nascimento', null=True)
     bairro=models.CharField(max_length=64, verbose_name='Bairro', null=True)
-    endereco=models.CharField(max_length=128, verbose_name='Endereco', null=True)
+    endereco=models.CharField(max_length=128, verbose_name='Endereço', null=True)
     numero=models.CharField(max_length=8, verbose_name='Número', null=True)
     complemento=models.CharField(max_length=128, verbose_name='Complemento', blank=True, null=True)
     cep = models.CharField(max_length=9, verbose_name='CEP', null=True)

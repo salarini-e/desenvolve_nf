@@ -11,7 +11,7 @@ from datetime import date, datetime
 
 from .models import *
 from .forms import *
-from autenticacao.forms import Form_Pessoa
+from autenticacao.forms import Form_Pessoa, Form_Alterar_Pessoa
 from eventos.models import Evento
 from django.apps import apps
 from random import shuffle
@@ -428,9 +428,9 @@ def area_do_estudante(request):
 
 def editar_cadastro(request):    
     pessoa=Pessoa.objects.get(user=request.user)
-    form_pessoa=Form_Pessoa(instance=pessoa)    
+    form_pessoa=Form_Alterar_Pessoa(instance=pessoa)    
     if request.method == 'POST':
-        form_pessoa=Form_Pessoa(request.POST, instance=pessoa)
+        form_pessoa=Form_Alterar_Pessoa(request.POST, instance=pessoa)
         if form_pessoa.is_valid:
             form_pessoa.save()
     context={        

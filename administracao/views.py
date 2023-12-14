@@ -16,6 +16,10 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 
+from django.contrib.auth.decorators import user_passes_test
+from autenticacao.functions import validate_cpf
+from autenticacao.forms import Form_Pessoa, Form_Alterar_Pessoa
+from django.contrib.auth.decorators import login_required
 
 import csv
 import re
@@ -1164,3 +1168,58 @@ def gambiarra_cevest(request):
         except Exception as e:
             print(f"Erro ao criar Aluno para o usuario {user.username}: {e}")
     return redirect('/')
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def adm_cadastro_aluno(request):
+    form = Form_Alterar_Pessoa()
+    if request.method == 'POST':
+        try:
+            pessoa=Pessoa.objects.get(cpf=request.POST['cpf'])
+            # messages.error(request, 'Usuário já cadastrado')
+        except:
+            pessoa = None
+            
+        if not pessoa:
+            form = Form_Alterar_Pessoa(request.POST)
+            if form.is_valid():
+                pessoa=form.save()
+                partes=request.POST['dt_nascimento'].split('-')
+                user = User.objects.create_user(username=str(validate_cpf(request.POST['cpf'])), first_name=request.POST['nome'] ,email=request.POST['email'] or None, password=partes[2] + partes[1] + partes[0])
+                print(partes[2] + partes[1] + partes[0])
+                pessoa.user=user
+                pessoa.save()
+                Aluno.objects.create(
+                    pessoa=pessoa,
+                    profissão='Não informado',
+                    escolaridade='emc',
+                    estado_civil='s',
+                    aceita_mais_informacoes=True,
+                    li_e_aceito_termos=True
+                )
+                # aluno.save()
+                messages.success(request, 'Usuário e aluno cadastrado com sucesso!')
+    else:
+        try:
+            aluno = Aluno.objects.get(pessoa=pessoa)
+        except:
+            aluno = None
+        if not aluno:
+            form = Form_Alterar_Pessoa(request.POST)
+            if form.is_valid():
+                Aluno.objects.create(
+                            pessoa=pessoa,
+                            profissão='Não informado',
+                            escolaridade='emc',
+                            estado_civil='s',
+                            aceita_mais_informacoes=True,
+                            li_e_aceito_termos=True
+                        )
+                messages.success(request, 'Pessoa cadastrada como aluno com sucesso!')
+        else:
+            messages.warning(request, 'Este aluno já está cadastrado')
+        
+    context = {
+        'form': form
+    }
+    return render(request, 'adm/adm_cadastro.html', context) 
