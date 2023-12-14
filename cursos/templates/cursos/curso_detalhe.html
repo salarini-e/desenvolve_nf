@@ -23,7 +23,7 @@
                                 <img style="height: 50px;" class="ms-auto my-auto" src="{{curso.categoria.icone.url}}" alt="">
                             </div>
                         </div>
-                        <img class="w-100 mx-auto" src="{{curso.banner.url}}" alt="" style="border-radius: 30px;">
+                        <img class="w-100 mx-auto" src="{% if curso.banner_maior %}{{curso.banner_maior.url}}{% else %}{{curso.banner.url}}{% endif %}" alt="" style="border-radius: 30px;">
                     </div>
                 </div>   
                 <div class="row">

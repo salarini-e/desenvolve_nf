@@ -104,6 +104,7 @@ class Curso(models.Model):
 
     tipo = models.CharField(max_length=1, choices=TIPO)
     banner = models.ImageField(upload_to = 'cursos_livres/media/banner/', null=True)
+    banner_maior = models.ImageField(upload_to = 'cursos_livres/media/banner_maior/', blank=True, null=True, verbose_name='Banner maior (opcional)')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     nome = models.CharField(max_length=150)
     sigla = models.CharField(max_length=3, unique=True)
