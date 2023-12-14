@@ -5,6 +5,7 @@ from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetDon
 app_name='autenticacao'
 urlpatterns = [
     path('login/', views.login_view, name='login'),
+    path('gambiarra/acerta-nome/', views.gambiarra, name='gambiarra_nomes'),
     path('logout/', views.logout_view, name='logout'),
     
     path('passwd_reset/', views.passwd_reset, name='passwd_reset'),

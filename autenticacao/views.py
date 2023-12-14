@@ -51,6 +51,20 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 # Create your views here.
+def gambiarra(request):
+    pessoas = Pessoa.objects.all()
+    erros = []
+    for pessoa in pessoas:
+        try:
+            pessoa.user.first_name = pessoa.nome
+            pessoa.user.save()
+        except Exception as E:
+            erros.append(E)
+
+    context={
+        'erros': erros
+    }
+    return render(request, 'adm/gambiarra.html', context)
 def login_view(request):
     context = {}
     if request.user.is_authenticated:
