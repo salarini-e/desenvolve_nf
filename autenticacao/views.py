@@ -51,7 +51,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 # Create your views here.
-@login
+@login_required
 def gambiarra(request):
     if request.user.is_superuser == False:
         return redirect('/')
