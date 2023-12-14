@@ -88,7 +88,7 @@ def curso_detalhe(request, tipo, id):
     context={
         'curso': curso,
         'tipo': tipo,
-        'titulo': apps.get_app_config('cursos').verbose_name+' - '+curso.nome,
+        'titulo': apps.get_app_config('cursos').verbose_name+' - Detalhes',
         'turmas': Turma.objects.filter(curso=curso)
     }
     return render(request, 'cursos/curso_detalhe.html', context)
