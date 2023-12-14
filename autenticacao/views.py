@@ -51,7 +51,10 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 # Create your views here.
+@login
 def gambiarra(request):
+    if request.user.is_superuser == False:
+        return redirect('/')
     pessoas = Pessoa.objects.all()
     erros = []
     for pessoa in pessoas:
