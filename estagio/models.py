@@ -105,6 +105,7 @@ class Estudante_Vaga(models.Model):
         ('0', 'Candidato'),
         ('1', 'Estagiando'),
         ('2', 'Estágio concluído')
+        ('3', 'Candidatura cancelada')
     )
     universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT, blank=True, null=True)
     matricula = models.CharField(max_length=50, verbose_name= "Sua matricula", blank=True, null=True)
@@ -151,6 +152,7 @@ class Historico_Processo(models.Model):
         ('3', 'Aguardando termo assinado pelas partes'),
         ('4', 'Processo de seleção concluída'),
         ('5', 'Estágio concluído'),
+        ('6', 'Candidatura cancelada')
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, verbose_name='Status', default=0)
     processo=models.ForeignKey(Processo, on_delete=models.CASCADE, null=True)
