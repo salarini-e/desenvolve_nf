@@ -112,7 +112,10 @@ class Faccao_legal(models.Model):
         ('bo', 'Bom'),
         ('ot', 'Ótimo')   
     )
-    
+    VOCE_PREFERE_CHOICES=(
+        ('ccf', 'Continuar como faccionista.'),
+        ('eec', 'Estar empregado em uma confecção.'),   
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
     possui_mei=models.BooleanField(default=False, verbose_name='Possui MEI ou empresa de outro porte?')
     cnpj=models.CharField(max_length=18, verbose_name='CNPJ', null=True, blank=True)
@@ -124,9 +127,10 @@ class Faccao_legal(models.Model):
     possui_colaboradores = models.BooleanField(default=False, verbose_name='Possui colaboradores?')
     qtd_colaboradores = models.IntegerField(verbose_name='Quantos colaboradores possui?', null=True, blank=True)
     tipo_produto = models.ManyToManyField(Tipo_produto_faccao, verbose_name='Que tipos de produtos produz?')
-    outro_produto = models.CharField(max_length=128, verbose_name='Protudz outro produto? Caso sim, descreva:', null=True, blank=True)
+    outro_produto = models.CharField(max_length=128, verbose_name='Produz outro produto? Caso sim, descreva:', null=True, blank=True)
     situacao_trabalho = models.CharField(max_length=1, verbose_name='Geralmente, como está de trabalho?', choices=SITUACAO_CHOICES)
-    situacao_remuneracao = models.CharField(max_length=2, verbose_name='Como você considera o valor que está sendo pago pela confecção de suas peças?', choices=REMUNERACAO_CHOICES)
+    situacao_remuneracao = models.CharField(max_length=2, verbose_name='Como considera a renda que obtêm com seu trabalho?', choices=REMUNERACAO_CHOICES)
+    voce_prefere = models.CharField(max_length=3, verbose_name='Você prefere:', choices=VOCE_PREFERE_CHOICES) 
     qual_seu_sonho_no_setor = models.TextField(verbose_name='Qual seu sonho no setor?', null=True, blank=True)
     
 #PROCESSOS
