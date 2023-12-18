@@ -1,7 +1,10 @@
 from django.db import models
 from autenticacao.models import *
-# Create your models here.
+# from sala_do_empreendedor.models import Empresa
 
+# class Parceiros_SSUBEA(models.Model):
+#     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    
 class Tutor(models.Model):
 
     TIPO_DE_MORADIA_CHOICES=[

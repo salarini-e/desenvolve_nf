@@ -1109,7 +1109,7 @@ def descontarToken(request):
             verify.used = True
             verify.save()
             messages.success(request, 'Código promocional ativado com sucesso!')
-    return render(request, 'adm/descontar-token.html')
+    return render(request, 'adm/descontar-token.html', {'parceiros': [], 'parceiro': False, 'titulo': 'Bem Estar Animal - Parceiros'})
 
 @staff_member_required
 def censo(request):

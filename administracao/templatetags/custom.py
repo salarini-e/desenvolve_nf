@@ -4,4 +4,4 @@ register = template.Library()
 
 @register.filter
 def qntInteressados(id):
-    return Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=id).count()
+    return Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=id, alertado=False).count()

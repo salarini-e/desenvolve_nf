@@ -8,18 +8,51 @@
 {% load bootstrap5 %}
 <div class="container pb-5">
     <div class="row d-flex justify-content-center">
-        <div class="col-4">
-            <h2>Código: {{cupom.token}}</h2>
-            <ul>Orientações:
+        <div class="col-4 d-flex flex-column">
+            <div class="cupom">
+                <h2>Cupom de Desconto</h2>
+                <p style="text-align: justify; margin-bottom: 20px;">Use o código <strong style="font-size: 18pt;">{{cupom.token}}</strong> e ganhe desconto em sua próxima compra em um parceiro!</p>
+                <a href="#">Lista de Parceiros</a>
+            </div>
+            <a href="{% url 'bemestaranimal:area_tutor' %}" class="mx-auto mt-4 btn btn-primary">
+                Voltar
+            </a>
+            <!-- <ul class="mt-4">Orientações:
                 <li>1. </li>
                 <li>2. </li>
                 <li>3. </li>
                 <li>4. </li>
-            </ul>
+            </ul> -->
             
         </div>
     </div>
 </div>
+<style>
+    .cupom {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px dashed #3498db;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .cupom h2 {
+      color: #3498db;
+      margin-bottom: 10px;
+    }
+
+    .cupom p {
+      color: #333;
+      margin: 0;
+    }
+
+    .cupom .expiration {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+  </style>
 <script>
 document.getElementById('tutor').classList.add('s-nav-active');
 </script>

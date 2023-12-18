@@ -1,6 +1,7 @@
 {% extends 'template.html' %}
+{% load static %}
 {% load bootstrap5 %}
-{% block title %}Desenvolve NF - Bem-Estar Animal - Censo{% endblock %}
+{% block title %}Desenvolve NF - Bem-Estar Animal - Parceiros{% endblock %}
 {% block css %}{% endblock %}
 {% block nav %}
 {% include 'nav_bemestaranimal.html' %}
@@ -17,20 +18,40 @@
   </div>
 {% endfor %}
 <div class="row">
-    <div class="col">
-        <h2>Descontar Token</h2>
+    <div class="col-4">
+        {% if parceiro %}
+        <h2>Descontar cupom</h2>
         <form method="POST">
         {% csrf_token %}
         <div class="mb-3">
             <label class="mb-2" for="discountToken">
-                Insira um token:
+                Insira o código do cupom:
             </label>
             <input required class="form-control" type="text" name="token" id="id_token">
         </div>
         <button type="submit" class="btn btn-primary w-100 mb-3" id="send">Validar</button>
         </form>
+        {% else %}
+        <h2>Seja nosso parceiro!</h2>
+        <div class="item border d-flex flex-column mx-auto div_cursos mt-4">
+            <a target="_blank" href="#">
+                <div class="c-img" style="position: relative;">
+                    <img class="banner-img" src="{% static '/images/icones/ssubea-tornar-parceiro.jpg' %}" >
+                </div>
+            </a> 
+        </div>
+        <p>Seja nosso parceiro e utilize de nosso cupom para desconto!</p>
+        {% endif %}
+    </div>
+    <div class="col px-5">
+        <h2>Lista de parceiros</h2>
+        {% for parceiro in parceiros %}
+        {% empty %}
+        <p class="text-center mt-5"><i>Nenhum parceiro cadastrado até o momento.</i></p>
+        {% endfor %}
     </div>
 </div>
 <script>
+    document.getElementById('loja').classList.add('s-nav-active');
 </script>
 {% endblock %}
