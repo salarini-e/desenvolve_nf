@@ -87,7 +87,7 @@
       <div class="curso-text mx-2 d-flex flex-column py-1">
         <h6 class="mt-2">{{curso.nome}}</h6>
         <p class="time">{{curso.get_tipo_display}} - {{curso.carga_horaria}} {{curso.get_tipo_carga_horaria_display}}{% if curso.carga_horaria > 1 %}s{% endif %}</p>
-        <!-- <p class="mb-3 mt-2" style="padding: 0px 10px;">{{curso.descricao}}</p> -->
+        <p class="mb-3 mt-2" style="padding: 0px 10px;">{{curso.descricao}}</p> 
         <a href="{% url 'cursos:curso_detalhe' tipo=curso.get_tipo_display id=curso.id %}" class="btn btn-outline-primary rounded-1 btn-details py-1 mt-auto mb-3" id="esp-2">Ver detalhes</a>
       </div>
     </div>
@@ -102,65 +102,6 @@
 </div>
 </div>
 
-<script>
-//   const carousel = document.querySelector(".carousel");
-// const slides = Array.from(document.querySelectorAll(".slide"));
-// const prevButton = document.querySelector("#prev");
-// const nextButton = document.querySelector("#next");
-// let current_active = 0
-// let interval;
-
-// make_active(slides[current_active])
-
-// prevButton.addEventListener('click', () => {cancel_auto_slider(); previous_slide(); start_auto_slide(6000)})
-
-// nextButton.addEventListener('click', () => {cancel_auto_slider(); next_slide(); start_auto_slide(6000)})
-
-// document.querySelector('.slides').addEventListener('mouseover', () => {
-//   cancel_auto_slider()})
-// document.querySelector('.slides').addEventListener('mouseout', () => {
-//   start_auto_slide(4500)
-// })
-
-// function next_slide(){
-//   const old = current_active
-//   if(current_active + 1 > slides.length - 1) current_active = 0
-//   else current_active += 1
-//   change_slide(slides[old], slides[current_active])
-// }
-
-// function previous_slide(){
-//   const old = current_active
-//   if(current_active - 1 < 0) current_active = slides.length - 1
-//   else current_active -= 1
-//   change_slide(slides[old], slides[current_active])
-// }
-
-// function change_slide(old_element, new_element){
-//   make_hidden(old_element)
-//   make_active(new_element)
-// }
-
-// function make_active(element){
-//   element.classList.add("active")
-// }
-
-// function make_hidden(element){
-//   element.classList.remove('active')
-// }
-
-// function start_auto_slide(ms = 4500){
-//   interval = setInterval(()=>{
-//     next_slide()
-//   }, ms)
-// }
-// start_auto_slide()
-
-// function cancel_auto_slider(){
-//   clearInterval(interval)
-// }
-
-</script>
 
 {% endblock %}
 {% block footer %}
