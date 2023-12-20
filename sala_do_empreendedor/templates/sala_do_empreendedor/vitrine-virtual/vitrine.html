@@ -6,6 +6,9 @@
 {% endblock %}
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+
 {% endblock %}
 {% block main %}
 <div class="container">
@@ -26,31 +29,34 @@
         </div>
     </div>
     <div class="row">
-      <!-- {% for registro in registros %}
+      <div class="col d-flex justify-content-evenly mt-4">
+        {% for registro in registros %}
       <div class="empresa">
-        {% if registro.logo %}
-        <img src="{{registro.logo}}" alt="Logo da Empresa" class="company-logo">
-        {% endif %}
-        <div class="company-name">{{registro.empresa.nome}}</div>
-        <div class="company-description"><strong>Descrição:</strong> {{registro.empresa.descricao|limitarCaracteres:300}}</div>
-        <div class="contact-info">
-          {% if registro.empresa.telefone %}
-          <p>
-          <strong>Telefone:</strong><span class="ms-2">
-            <a href="tel:{{registro.empresa.telefone}}">{{registro.empresa.telefone}}</a>
-          </span>
-        </p>
+        <div class="description-container">
+          {% if registro.logo %}
+          <img src="{{registro.logo}}" alt="Logo da Empresa" class="company-logo">
           {% endif %}
-          {% if registro.empresa.email %}
-          <p>
-            <strong>Email:</strong><span class="ms-2">{{registro.empresa.email}}</span><br>
+          <div class="company-name">{{registro.empresa.nome}}</div>
+          <div class="company-description"><strong>Descrição:</strong> {{registro.empresa.descricao|limitarCaracteres:300}}</div>
+          <div class="contact-info">
+            {% if registro.empresa.telefone %}
+            <p>
+            <strong>Telefone:</strong><span class="ms-2">
+              <a href="tel:{{registro.empresa.telefone}}">{{registro.empresa.telefone}}</a>
+            </span>
           </p>
-          {% endif %}
-          {% if registro.empresa.site %}
-          <p>
-            <strong>Site:</strong><a class="ms-2" href="{{registro.empresa.site}}">{{registro.empresa.site}}</a>
-          </p>
-          {% endif %}
+            {% endif %}
+            {% if registro.empresa.email %}
+            <p>
+              <strong>Email:</strong><span class="ms-2">{{registro.empresa.email}}</span><br>
+            </p>
+            {% endif %}
+            {% if registro.empresa.site %}
+            <p>
+              <strong>Site:</strong><a class="ms-2" href="{{registro.empresa.site}}">{{registro.empresa.site}}</a>
+            </p>
+            {% endif %}
+          </div>
         </div>
       
         <div class="product-container">          
@@ -62,10 +68,11 @@
           {% endfor %}
         </div>
       </div>
-      {% endfor %} -->
+      {% endfor %}
+      </div>
     </div>
     
-    {% for registro in registros %}
+    <!-- {% for registro in registros %}
     <div class="row border mb-3" style="background-color: white; border-radius: 30px;">
         <div class="col px-4 py-4 text-justify">
           <div class="row">
@@ -101,22 +108,25 @@
           {% endfor %}
         </div>
     </div>
-    {% endfor %}
+    {% endfor %} -->
     </div>
 </div>
 <style>
   .empresa {
-  max-width: 300px;
-  margin: 20px;
+  max-width: 350px;
+  margin: 20px, auto, 20px, auto;
   background-color: #fff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.description-container{
+  width: 100%;
 
+}
 .company-logo {
   display: block;
   margin: 0 auto;
-  max-width: 200px;
+  max-width: 100px;
   height: auto;
 }
 
@@ -137,6 +147,7 @@
 }
 
 .product-container {
+  width: 100%;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -163,9 +174,39 @@
   margin-top: 10px;
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
 <div class="row mx-auto px-5">
   <script>
     document.getElementById('empreendedor_vitrine').classList.add('s-nav-active');
+  </script>
+  <script>
+    $(document).ready(function(){
+      $('.product-container').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        responsive: [
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      });
+    });
   </script>
 </div>
 
