@@ -104,7 +104,7 @@ class Estudante_Vaga(models.Model):
     STATUS_CHOICES = (
         ('0', 'Candidato'),
         ('1', 'Estagiando'),
-        ('2', 'Estágio concluído')
+        ('2', 'Estágio concluído'),
         ('3', 'Candidatura cancelada')
     )
     universidade = models.ForeignKey(Universidade, on_delete=models.RESTRICT, blank=True, null=True)

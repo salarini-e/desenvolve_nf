@@ -68,6 +68,7 @@ def gambiarra(request):
         'erros': erros
     }
     return render(request, 'adm/gambiarra.html', context)
+
 def login_view(request):
     context = {}
     if request.user.is_authenticated:
