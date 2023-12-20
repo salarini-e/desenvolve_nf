@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="row">
-      {% for registro in registros %}
+      <!-- {% for registro in registros %}
       <div class="empresa">
         {% if registro.logo %}
         <img src="{{registro.logo}}" alt="Logo da Empresa" class="company-logo">
@@ -62,7 +62,7 @@
           {% endfor %}
         </div>
       </div>
-      {% endfor %}
+      {% endfor %} -->
     </div>
     
     {% for registro in registros %}
@@ -88,7 +88,7 @@
             {% endif %}
           </p>
           {% if registro.logo %}
-          <img src="{{registro.logo}}" alt="Logo da Empresa" class="company-logo my-4 ms-0">
+          <img src="{{registro.logo}}" alt="Logo da Empresa" class="company-logo my-4">
           {% endif %}
         </a>
         </div>
