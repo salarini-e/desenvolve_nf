@@ -192,7 +192,7 @@ def vitrine_virtual(request):
             except:
                 pass
             
-    paginator = Paginator(empresa_e_produtos, 10) 
+    paginator = Paginator(empresa_e_produtos, 100) 
     page = request.GET.get('page')
     registros_paginated = paginator.get_page(page)
 
