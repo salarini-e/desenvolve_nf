@@ -27,7 +27,7 @@
     </div>
     <div class="row">
       {% for registro in registros %}
-      <div class="item">
+      <div class="empresa">
         {% if registro.logo %}
         <img src="{{registro.logo}}" alt="Logo da Empresa" class="company-logo">
         {% endif %}
@@ -65,8 +65,8 @@
       {% endfor %}
     </div>
     <style>
-      .item {
-      max-width: 800px;
+      .empresa {
+      max-width: 300px;
       margin: 20px;
       background-color: #fff;
       padding: 20px;
