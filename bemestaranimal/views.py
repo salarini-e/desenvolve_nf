@@ -261,7 +261,8 @@ def tornarParceiro(request):
                     else:
                         messages.error(request, 'Você não é o responsável por esta empresa.')
                         return redirect('bemestaranimal:tornarParceiro')
-                
+                else:
+                    messages.warning(request, 'Por favor, preencha corretamente o formulário com os dados da sua empresa.')
                 
         else:
             messages.error(request, 'Você precisa estar ciente dos termos de parceria da SSUBEA para se tornar um parceiro.')
