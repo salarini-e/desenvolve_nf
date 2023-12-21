@@ -1,0 +1,54 @@
+{% extends 'template.html' %}
+{% block title %}SSUBEA{% endblock %}
+{% block css %}{% endblock %}
+{% block nav %}
+{% include 'nav_bemestaranimal.html' %}
+{% endblock %}
+{% block main %}
+{% load bootstrap5 %}
+<div class="container pb-5">
+  <div class="row d-flex">
+    <div class="col-6 mx-auto">
+      <form method="POST" class="d-flex flex-column">
+        <h3 class="mb-4">FORMULÁRIO DE PEDIDO DE PARCERIA</h3>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <p class="mb-3" style="text-align: justify; text-indent: 30px;"><i>Ao se cadastrar como parceiro da SSUBEA, você está prestes a fazer parte de uma comunidade dedicada aos amantes de animais de estimação. Estamos empolgados em estabelecer uma parceria que beneficiará tanto o seu negócio quanto os apaixonados por pets que utilizam nossa plataforma.</i></p>
+        <p class="mb-3" style="text-align: justify; text-indent: 30px;"><i>Ao concordar com as condições de parceria, você se compromete a oferecer descontos exclusivos aos membros da nossa plataforma de Bem Estar Animal em sua loja. Este é um convite para criar uma experiência especial para os donos de pets que escolhem sua marca.</i></p>
+        <button type="submit" class="btn btn-success w-100">Solicitar parceria!</button>
+        <p class="mt-4 mb-3"><strong>Sua empresa não se encontra listada?</strong></p>
+        <a href="{% url 'bemestaranimal:cadastrar_empresa' %}" class="btn btn-dark mx-auto mb-3">Cadastre sua empresa</a>
+      </form>
+    </div>
+  </div>
+</div>
+<style>
+    .cupom {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px dashed #3498db;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .cupom h2 {
+      color: #3498db;
+      margin-bottom: 10px;
+    }
+
+    .cupom p {
+      color: #333;
+      margin: 0;
+    }
+
+    .cupom .expiration {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+  </style>
+<script>
+document.getElementById('loja').classList.add('s-nav-active');
+</script>
+{% endblock %}

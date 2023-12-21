@@ -102,3 +102,21 @@ class Form_EntrevistaPrevia(ModelForm):
         telefone = telefone.replace(')', '')
         telefone = telefone.replace('-', '')
         return telefone
+    
+class FormParceiro(ModelForm):
+    
+    class Meta:
+        model = Parceiros_SSUBEA
+        widgets = {
+            'user_register':forms.HiddenInput(),
+        }
+        exclude=['dt_register', 'ativo']
+        
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(FormParceiro, self).__init__(*args, **kwargs)
+
+        # Filtrar as opções de empresas para aquelas que não são parceiras do usuário
+        if user:
+            empresas_nao_parceiras = Empresa.objects.filter(user_register=user )
+            self.fields['empresa'].queryset = empresas_nao_parceiras

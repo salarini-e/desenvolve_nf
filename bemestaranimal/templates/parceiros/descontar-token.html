@@ -8,15 +8,6 @@
 {% endblock %}
 {% block main %}
 
-{% for message in messages %}
-{% if message.tags == "success" %}
-<div class="alert alert-success" role="alert">
-{% else %}
-<div class="alert alert-danger" role="alert">
-{% endif %}
-    <b>{{message}}</b>
-  </div>
-{% endfor %}
 <div class="row">
     <div class="col-4">
         {% if parceiro %}
@@ -31,10 +22,18 @@
         </div>
         <button type="submit" class="btn btn-primary w-100 mb-3" id="send">Validar</button>
         </form>
+        <h5 class="mt-4">Deseja cadastrar outra empresa como parceira?</h5>
+        <div class="item border d-flex flex-column mx-auto div_cursos mt-4">
+            <a href="{% url 'bemestaranimal:tornarParceiro' %}">
+                <div class="c-img" style="position: relative;">
+                    <img class="banner-img" src="{% static '/images/icones/ssubea-tornar-parceiro.jpg' %}" >
+                </div>
+            </a> 
+        </div>
         {% else %}
         <h2>Seja nosso parceiro!</h2>
         <div class="item border d-flex flex-column mx-auto div_cursos mt-4">
-            <a target="_blank" href="#">
+            <a href="{% url 'bemestaranimal:tornarParceiro' %}">
                 <div class="c-img" style="position: relative;">
                     <img class="banner-img" src="{% static '/images/icones/ssubea-tornar-parceiro.jpg' %}" >
                 </div>
@@ -45,10 +44,13 @@
     </div>
     <div class="col px-5">
         <h2>Lista de parceiros</h2>
+        <ul>
         {% for parceiro in parceiros %}
+        <li><p>{{parceiro.empresa.nome}}</p></li>
         {% empty %}
-        <p class="text-center mt-5"><i>Nenhum parceiro cadastrado até o momento.</i></p>
+        <p class="text-center mt-5"><i>Nenhum parceiro cadastrado até o mento.</i></p>
         {% endfor %}
+        </ul>
     </div>
 </div>
 <script>

@@ -48,6 +48,8 @@ class Empresa(models.Model):
     cadastrada_na_vitrine=models.BooleanField(default=False, verbose_name='Cadastrado na Vitrine Virtual?')
     cadastrada_como_fornecedor=models.BooleanField(default=False, verbose_name='Cadastrado como fornecedor da prefeitura?')
     
+    __str__ = lambda self: f'{self.nome} - {self.cnpj}'
+    
 class Registro_no_vitrine_virtual(models.Model):
     empresa=models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
     logo=models.ImageField(upload_to='logos/', verbose_name='Logo da empresa', null=True, blank=True)

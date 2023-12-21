@@ -1094,24 +1094,6 @@ def gerarToken(request):
     return render(request, 'adm/gerar-token.html', context)
 
 @staff_member_required
-def descontarToken(request):
-    if request.method == 'POST':
-        token = request.POST['token']
-        print(token)
-        try:
-            verify = TokenDesconto.objects.get(token=token)
-        except:
-            messages.error(request, 'Código promocional inválido.')
-            return render(request, 'adm/descontar-token.html')
-        if verify.used:
-            messages.error(request, 'Código promocional já utilizado.')
-        else:
-            verify.used = True
-            verify.save()
-            messages.success(request, 'Código promocional ativado com sucesso!')
-    return render(request, 'adm/descontar-token.html', {'parceiros': [], 'parceiro': False, 'titulo': 'Bem Estar Animal - Parceiros'})
-
-@staff_member_required
 def censo(request):
     animais_tutor = Animal.objects.exclude(tutor=None)
     animais_tutor.filter(castrado=True)

@@ -98,7 +98,7 @@ urlpatterns = [
 
     #token
     path('bem-estar-animal/gerar-token', views.gerarToken, name='gerar_token'),
-    path('bem-estar-animal/descontar-token', views.descontarToken, name='descontar_token'),
+    
 
     #adm
     path('bem-estar-animal/', views.administrativo_bemestaranimal, name='administrativo'),

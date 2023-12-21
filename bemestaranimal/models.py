@@ -1,9 +1,13 @@
 from django.db import models
 from autenticacao.models import *
-# from sala_do_empreendedor.models import Empresa
+from sala_do_empreendedor.models import Empresa
 
-# class Parceiros_SSUBEA(models.Model):
-#     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+class Parceiros_SSUBEA(models.Model):
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Selecione sua empresa em questão de parceria com a SSUBEA')
+    ciente = models.BooleanField(default=False, verbose_name='Declaro que estou ciente e de acordo com os termos de parceria da SSUBEA.', null=False, blank=False)
+    ativo = models.BooleanField(default=False, verbose_name='Ativo', null=True, blank=True)
+    dt_register = models.DateField(auto_now_add=True)
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE)
     
 class Tutor(models.Model):
 

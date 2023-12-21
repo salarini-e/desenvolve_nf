@@ -8,6 +8,8 @@ from .forms import *
 from .functions import generateToken
 from django.apps import apps
 from eventos.models import Evento
+from sala_do_empreendedor.forms import FormEmpresa
+from sala_do_empreendedor.models import Empresa
 
 def cadastro_tutor(request):
     if request.user.is_authenticated:
@@ -209,6 +211,89 @@ def resgatar_cupom(request):
     return render(request, 'tutor/resgatar-token.html', context)
 
 
+def descontarToken(request):
+    if request.method == 'POST':
+        token = request.POST['token']
+        print(token)
+        try:
+            verify = TokenDesconto.objects.get(token=token)
+            if verify.used:
+                messages.error(request, 'Código promocional já utilizado.')
+            else:
+                verify.used = True
+                verify.save()
+                messages.success(request, 'Código promocional ativado com sucesso!')
+        except:
+            messages.error(request, 'Código promocional inválido.') 
+    
+    parceiro=Parceiros_SSUBEA.objects.filter(user_register=request.user)
+    if len(parceiro)!=0:
+        parceiro=True
+    else:
+        parceiro=False
+    context={'parceiros': Parceiros_SSUBEA.objects.filter(ativo=True), 
+             'parceiro': parceiro, 
+             'titulo': 'Bem Estar Animal - Parceiros'
+             }
+    return render(request, 'parceiros/descontar-token.html', context)
+
+import re
+
+@login_required
+def tornarParceiro(request):
+    if request.method == 'POST':
+        # print(request.POST)
+        ciente = request.POST.get('ciente', False)
+        if ciente == 'on':
+            parceiros=Parceiros_SSUBEA.objects.filter(empresa_id = request.POST['empresa'])
+            if len(parceiros)!=0:
+                messages.warning(request, f'Você já é um parceiro da SSUBEA com a {parceiros[0].empresa.nome}.')
+            else:
+                form=FormParceiro(request.POST)
+                if form.is_valid():
+                    parceiro=form.save()
+                    parceiro.user_register=request.user
+                    parceiro.save()
+                messages.success(request, 'Parabéns! Agora é só esperar a validação de um agente da SSUBEA.')
+                return redirect('bemestaranimal:descontar_token')
+        else:
+            messages.error(request, 'Você precisa estar ciente dos termos de parceria da SSUBEA para se tornar um parceiro.')
+    empresas = Empresa.objects.filter(user_register=request.user)
+
+    if len(empresas)==0:
+        messages.error(request, 'Você precisa de pelo menos uma empresa cadastrada em nosso sistema!')
+        return redirect('bemestaranimal:cadastrar_empresa')
+    
+    form=FormParceiro(initial={'user_register':request.user.id})
+    context={
+        'titulo': 'Bem Estar Animal - Parceiros',
+        'form': form
+    }
+    return render(request, 'parceiros/tornar-parceiro.html', context)
+
+@login_required
+def cadastrar_empresa(request):
+    if request.method == 'POST':
+        form = FormEmpresa(request.POST)
+        if form.is_valid():
+            empresa=form.save()
+            empresa.user_register=request.user
+            empresa.cnpj=re.sub(r'[^0-9]', '', empresa.cnpj)
+            empresa.save()
+            messages.success(request, 'Empresa cadastrada com sucesso!')
+            pessoa=Pessoa.objects.get(user=request.user)
+            pessoa.possui_cnpj=True
+            pessoa.save()
+            return redirect('bemestaranimal:tornarParceiro')
+    else:
+        form = FormEmpresa()
+        
+    context={
+        'titulo': 'Bem Estar Animal - Parceiros',
+        'form': form
+    }
+    return render(request, 'parceiros/cadastrar-empresa.html', context)   
+
 @staff_member_required
 def cadastrar_errante(request):
     errante_form = Form_Errante()
@@ -370,23 +455,23 @@ def gerarToken(request):
     }
     return render(request, 'adm/gerar-token.html', context)
 
-@staff_member_required
-def descontarToken(request):
-    if request.method == 'POST':
-        token = request.POST['token']
-        print(token)
-        try:
-            verify = TokenDesconto.objects.get(token=token)
-        except:
-            messages.error(request, 'Código promocional inválido.')
-            return render(request, 'adm/descontar-token.html')
-        if verify.used:
-            messages.error(request, 'Código promocional já utilizado.')
-        else:
-            verify.used = True
-            verify.save()
-            messages.success(request, 'Código promocional ativado com sucesso!')
-    return render(request, 'adm/descontar-token.html')
+# @staff_member_required
+# def descontarToken(request):
+#     if request.method == 'POST':
+#         token = request.POST['token']
+#         print(token)
+#         try:
+#             verify = TokenDesconto.objects.get(token=token)
+#         except:
+#             messages.error(request, 'Código promocional inválido.')
+#             return render(request, 'adm/descontar-token.html')
+#         if verify.used:
+#             messages.error(request, 'Código promocional já utilizado.')
+#         else:
+#             verify.used = True
+#             verify.save()
+#             messages.success(request, 'Código promocional ativado com sucesso!')
+#     return render(request, 'adm/descontar-token.html')
 
 @staff_member_required
 def censo(request):

@@ -20,7 +20,7 @@
           </div>
         </a>
         {% if user_belongs_to_group or request.user.is_superuser%}
-        <a href="{% url 'descontar_token' %}" class="me-3">
+        <a href="{% url 'bemestaranimal:descontar_token' %}" class="me-3">
           <div class="d-flex flex-column align-items-center">
             <div id="loja" class="s-nav rounded-circle destaque"></div>
             <p class="text-dark">Parceiros</p>

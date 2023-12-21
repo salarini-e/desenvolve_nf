@@ -1,0 +1,50 @@
+{% extends 'template.html' %}
+{% block title %}SSUBEA{% endblock %}
+{% block css %}{% endblock %}
+{% block nav %}
+{% include 'nav_bemestaranimal.html' %}
+{% endblock %}
+{% block main %}
+{% load bootstrap5 %}
+<div class="container pb-5">
+  <div class="row d-flex">
+    <div class="col-6 mx-auto">
+      <form method="POST">
+        <h3>FORMULÁRIO DE CADASTRO DE EMPRESA</h3>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+</div>
+<style>
+    .cupom {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px dashed #3498db;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .cupom h2 {
+      color: #3498db;
+      margin-bottom: 10px;
+    }
+
+    .cupom p {
+      color: #333;
+      margin: 0;
+    }
+
+    .cupom .expiration {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+  </style>
+<script>
+document.getElementById('loja').classList.add('s-nav-active');
+</script>
+{% endblock %}

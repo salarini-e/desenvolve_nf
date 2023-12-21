@@ -25,7 +25,9 @@ urlpatterns = [
     path('catalogo/<id>/entrevista-previa', views.entrevistaAdocao, name='entrevista_adocao'),
     
     path('adm/gerar-token', views.gerarToken, name='gerar_token'),
-    
+    path('parceiros/', views.descontarToken, name='descontar_token'),
+    path('parceiros/tornar-se/', views.tornarParceiro, name='tornarParceiro'),
+     path('parceiros/tornar-se/cadastrar-empresa/', views.cadastrar_empresa, name='cadastrar_empresa'),
     #token
     path('resgatar-cupom', views.resgatar_cupom, name='resgatar_cupom'),
     # path('adm/descontar-token', views.descontarToken, name='descontar_token'),     
