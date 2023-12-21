@@ -665,14 +665,19 @@
           document.getElementById('preloading').style.display = 'none'
         }
     </script> -->
-    <!-- <div class="modal fade" id="alerta" tabindex="-1" aria-labelledby="alertaModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="alerta" tabindex="-1" aria-labelledby="alertaModalLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-xl modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header" style="border-bottom: none;">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body d-flex" style="padding: 0px;">
-            <img src="{% static 'images/aviso.jpg' %}" class="m-auto img-fluid" alt="aviso">
+          <div class="modal-body d-flex flex-column my-4 px-4" style="padding: 0px;">
+            <a href="https://desenvolve.novafriburgo.rj.gov.br/capacitacao-profissional/atividade/cursos" class="d-flex bg-info">
+              <img src="{% static 'images/aviso.png' %}" class="img-fluid w-100" alt="aviso">
+            </a>
+            <a class="btn btn-success mt-3 mx-auto" href="https://desenvolve.novafriburgo.rj.gov.br/capacitacao-profissional/atividade/cursos">
+              <i class="fa-solid fa-hand-point-right"></i> Inscreva-se agora! <i class="fa-solid fa-hand-point-left"></i>
+            </a>
           </div>
           <div class="modal-footer" style="border-top: none; height: 0px; padding: 0px;">
           </div>
@@ -683,7 +688,7 @@
       var myModal = new bootstrap.Modal(document.getElementById('alerta'))
       myModal.toggle()
 
-    </script> -->
+    </script>
     {% if messages %}              
     <!-- MODAL -->
     <div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
