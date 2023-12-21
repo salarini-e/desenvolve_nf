@@ -13,7 +13,11 @@ class EmpresaAdmin(admin.ModelAdmin):
     
 admin.site.register(Empresa, EmpresaAdmin)
 
-admin.site.register(Produto)
+class ProdutoVitrineAdmin(admin.ModelAdmin):
+    list_display = ['rg_vitrine__empresa__nome', 'nome' ]
+    search_fields = ['rg_vitrine__empresa__nome', 'nome']
+    
+admin.site.register(Produto, ProdutoVitrineAdmin)
 admin.site.register(Registro_no_vitrine_virtual)
 admin.site.register(Trabalho_Faccao)
 admin.site.register(Equipamentos_Faccao)
