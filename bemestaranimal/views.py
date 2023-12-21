@@ -249,7 +249,7 @@ def tornarParceiro(request):
             if len(parceiros)!=0:
                 messages.warning(request, f'Você já é um parceiro da SSUBEA com a {parceiros[0].empresa.nome}.')
             else:
-                form=FormParceiro(request.POST)
+                form=FormParceiro(request.POST, user=request.user)
                 if form.is_valid():
                     parceiro=form.save()
                     parceiro.user_register=request.user
@@ -264,7 +264,7 @@ def tornarParceiro(request):
         messages.error(request, 'Você precisa de pelo menos uma empresa cadastrada em nosso sistema!')
         return redirect('bemestaranimal:cadastrar_empresa')
     
-    form=FormParceiro(initial={'user_register':request.user.id})
+    form=FormParceiro(initial={'user_register':request.user.id}, user=request.user)
     context={
         'titulo': 'Bem Estar Animal - Parceiros',
         'form': form
