@@ -12,7 +12,7 @@
             <div class="cupom">
                 <h2>Cupom de Desconto</h2>
                 <p style="text-align: justify; margin-bottom: 20px;">Use o código <strong style="font-size: 18pt;">{{cupom.token}}</strong> e ganhe desconto em sua próxima compra em um parceiro!</p>
-                <a href="#">Lista de Parceiros</a>
+                <a href="{% url 'bemestaranimal:descontar_token' %}">Lista de Parceiros</a>
             </div>
             <a href="{% url 'bemestaranimal:area_tutor' %}" class="mx-auto mt-4 btn btn-primary">
                 Voltar
