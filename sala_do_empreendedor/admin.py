@@ -10,6 +10,7 @@ class EmpresaAdmin(admin.ModelAdmin):
     search_fields = ['nome', 'cnpj']
     list_filter = ['porte', 'validacao', 'cadastrada_na_vitrine', 'cadastrada_como_fornecedor']
     list_editable = ['validacao', 'cadastrada_na_vitrine', 'cadastrada_como_fornecedor']
+    
 admin.site.register(Empresa, EmpresaAdmin)
 
 admin.site.register(Produto)
