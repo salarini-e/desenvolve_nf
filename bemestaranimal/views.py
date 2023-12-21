@@ -251,9 +251,14 @@ def tornarParceiro(request):
             else:
                 form=FormParceiro(request.POST, user=request.user)
                 if form.is_valid():
-                    parceiro=form.save()
-                    parceiro.user_register=request.user
-                    parceiro.save()
+                    empresa=Empresa.objects.get(id=request.POST['empresa'])
+                    if empresa.register_user==request.user:
+                        parceiro=form.save()
+                        parceiro.user_register=request.user
+                        parceiro.save()
+                    else:
+                        messages.error(request, 'Você não é o responsável por esta empresa.')
+                        return redirect('bemestaranimal:torarParceiro')
                 messages.success(request, 'Parabéns! Agora é só esperar a validação de um agente da SSUBEA.')
                 return redirect('bemestaranimal:descontar_token')
         else:
