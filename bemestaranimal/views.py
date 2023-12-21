@@ -252,7 +252,7 @@ def tornarParceiro(request):
                 form=FormParceiro(request.POST, user=request.user)
                 if form.is_valid():
                     empresa=Empresa.objects.get(id=request.POST['empresa'])
-                    if empresa.register_user==request.user:
+                    if empresa.register_user.id==request.user.id:
                         parceiro=form.save()
                         parceiro.user_register=request.user
                         parceiro.save()
