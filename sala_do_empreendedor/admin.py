@@ -4,7 +4,16 @@ from .models import *
 admin.site.register(Porte_da_Empresa)
 admin.site.register(Atividade)
 admin.site.register(Ramo_de_Atuacao)
-admin.site.register(Empresa)
+
+class EmpresaAdmin(admin.ModelAdmin):
+    list_display = ['nome', 'cnpj', 'porte', 'receber_noticias', 'validacao', 'cadastrada_na_vitrine', 'cadastrada_como_fornecedor']
+    search_fields = ['nome', 'cnpj']
+    list_filter = ['porte', 'validacao', 'cadastrada_na_vitrine', 'cadastrada_como_fornecedor']
+    list_editable = ['validacao', 'cadastrada_na_vitrine', 'cadastrada_como_fornecedor']
+
+
+admin.site.register(Empresa, EmpresaAdmin)
+
 admin.site.register(Produto)
 admin.site.register(Registro_no_vitrine_virtual)
 admin.site.register(Trabalho_Faccao)
