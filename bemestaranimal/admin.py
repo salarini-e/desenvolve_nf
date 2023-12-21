@@ -8,7 +8,7 @@ admin.site.register(Tipo)
 admin.site.register(Periodo)
 admin.site.register(Informacoes_Extras)
 admin.site.register(Catalogo)
-
+admin.site.register(Parceiros_SSUBEA)
 
 # admin.site.register(Especie)
 
