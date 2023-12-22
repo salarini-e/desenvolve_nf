@@ -195,52 +195,52 @@
             console.error('Erro:', erro);
         });
     }
-        function removerParceiro(e){
-        id=e.getAttribute('data-bs-id')
+        // function removerParceiro(e){
+        // id=e.getAttribute('data-bs-id')
 
-        var formData = new FormData();
-        formData.append('id', id);
-        var opcoes = {
-            method: 'POST',
-            headers: {
-            'X-CSRFToken': '{{csrf_token }}', // Inclua o token CSRF nos cabeçalhos
-            },
-            body: formData
-            };
-        fetch('/bem-estar-animal/parceiros/desativar/', opcoes)
-        .then(response => {
-            console.log(response)
-            // Verifica se a solicitação foi bem-sucedida (código de status 200)
-            if (!response.ok) {
-            throw new Error(`Erro na solicitação: ${response.status}`);
-            }
-            // Converte a resposta JSON para um objeto JavaScript
-            return response.json();
-        })
-        .then(respostaJson => {
-            if (respostaJson.response = 'sucesso'){
-                btn=document.getElementById('btn-v-'+id)
-                btn.textContent = 'Desvinculado';
-                btn.classList.add('btn-dark');
-                btn.classList.remove('btn-primary');
-                console.log('Resposta:', respostaJson);
+        // var formData = new FormData();
+        // formData.append('id', id);
+        // var opcoes = {
+        //     method: 'POST',
+        //     headers: {
+        //     'X-CSRFToken': '{{csrf_token }}', // Inclua o token CSRF nos cabeçalhos
+        //     },
+        //     body: formData
+        //     };
+        // fetch('/bem-estar-animal/parceiros/desativar/', opcoes)
+        // .then(response => {
+        //     console.log(response)
+        //     // Verifica se a solicitação foi bem-sucedida (código de status 200)
+        //     if (!response.ok) {
+        //     throw new Error(`Erro na solicitação: ${response.status}`);
+        //     }
+        //     // Converte a resposta JSON para um objeto JavaScript
+        //     return response.json();
+        // })
+        // .then(respostaJson => {
+        //     if (respostaJson.response = 'sucesso'){
+        //         btn=document.getElementById('btn-v-'+id)
+        //         btn.textContent = 'Desvinculado';
+        //         btn.classList.add('btn-dark');
+        //         btn.classList.remove('btn-primary');
+        //         console.log('Resposta:', respostaJson);
 
-                var modalTitle = modalVerificacao2.querySelector('.modal-title')
-                var modalBody = modalVerificacao2.querySelector('.modal-body')
+        //         var modalTitle = modalVerificacao2.querySelector('.modal-title')
+        //         var modalBody = modalVerificacao2.querySelector('.modal-body')
 
-                modalTitle.textContent = 'Sucesso!'
-                modalBody.textContent = 'Parceiro desvinculado com sucesso!'
-            }else{
-                var modalTitle = modalVerificacao2.querySelector('.modal-title')
-                var modalBody = modalVerificacao2.querySelector('.modal-body')
+        //         modalTitle.textContent = 'Sucesso!'
+        //         modalBody.textContent = 'Parceiro desvinculado com sucesso!'
+        //     }else{
+        //         var modalTitle = modalVerificacao2.querySelector('.modal-title')
+        //         var modalBody = modalVerificacao2.querySelector('.modal-body')
 
-                modalTitle.textContent = 'Algo não está certo!'
-                modalBody.textContent = 'Parceiro não desvinculado! ' 
-            }
-        })
-        .catch(erro => {
-            console.error('Erro:', erro);
-        });
+        //         modalTitle.textContent = 'Algo não está certo!'
+        //         modalBody.textContent = 'Parceiro não desvinculado! ' 
+        //     }
+        // })
+        // .catch(erro => {
+        //     console.error('Erro:', erro);
+        // });
         // .then(data => {
         //     if(data.status == 'ok'){
                 
@@ -254,6 +254,6 @@
         //     }
         // })
         
-    }
+    // }
 </script>
 {% endblock %}
