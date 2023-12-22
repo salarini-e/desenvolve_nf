@@ -27,8 +27,10 @@ urlpatterns = [
     path('adm/gerar-token', views.gerarToken, name='gerar_token'),
     path('parceiros/', views.descontarToken, name='descontar_token'),
     path('parceiros/tornar-se/', views.tornarParceiro, name='tornarParceiro'),
-     path('parceiros/tornar-se/cadastrar-empresa/', views.cadastrar_empresa, name='cadastrar_empresa'),
-    #token
+    path('parceiros/tornar-se/cadastrar-empresa/', views.cadastrar_empresa, name='cadastrar_empresa'),
+    path('parceiros/listar/', views.adm_listar_parceiros, name='admListarParceiros'),
+    path('parceiros/ativar/', views.adm_ativar_parceiro, name='ativar_parceiro'),
+    path('parceiros/desativar/', views.adm_desativar_parceiro, name='desativar_parceiro'),
     path('resgatar-cupom', views.resgatar_cupom, name='resgatar_cupom'),
     # path('adm/descontar-token', views.descontarToken, name='descontar_token'),     
 ]

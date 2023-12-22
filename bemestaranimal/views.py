@@ -463,24 +463,6 @@ def gerarToken(request):
     }
     return render(request, 'adm/gerar-token.html', context)
 
-# @staff_member_required
-# def descontarToken(request):
-#     if request.method == 'POST':
-#         token = request.POST['token']
-#         print(token)
-#         try:
-#             verify = TokenDesconto.objects.get(token=token)
-#         except:
-#             messages.error(request, 'Código promocional inválido.')
-#             return render(request, 'adm/descontar-token.html')
-#         if verify.used:
-#             messages.error(request, 'Código promocional já utilizado.')
-#         else:
-#             verify.used = True
-#             verify.save()
-#             messages.success(request, 'Código promocional ativado com sucesso!')
-#     return render(request, 'adm/descontar-token.html')
-
 @staff_member_required
 def censo(request):
     animais_tutor = Animal.objects.exclude(tutor=None)
@@ -511,3 +493,52 @@ def censo(request):
         'animais_tutor':animais_tutor.count()
     }
     return render(request, 'adm/censo.html', context)
+
+@staff_member_required
+def adm_listar_parceiros(request):
+    parceiros = Parceiros_SSUBEA.objects.filter(ativo=True)
+    avaliacao_pendente = Parceiros_SSUBEA.objects.filter(ativo=False)
+    context = {
+        'titulo': apps.get_app_config('bemestaranimal').verbose_name,
+        'parceiros': parceiros,
+        'avaliacao_pendente': avaliacao_pendente,
+        'qnt_parceiros': len(parceiros),
+        'qnt_pendentes': len(avaliacao_pendente)
+    }
+    return render(request, 'adm/listar-parceiros.html', context)
+
+import json
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@staff_member_required
+@csrf_exempt 
+def adm_ativar_parceiro(request):
+    if request.user.groups.filter(name='adm_ssubea').exists():
+        if request.method == 'POST':
+            id_parceiro = request.POST['id']
+            parceiro = Parceiros_SSUBEA.objects.get(id=id_parceiro)
+            parceiro.ativo = True
+            parceiro.save()
+            data = {'response': 'sucesso'}
+            data = json.dumps(data)
+            return HttpResponse(data, content_type='application/json')
+        else:
+            return JsonResponse({'response': 'not allowed'})
+    return JsonResponse({'response': 'not allowed'})
+
+@staff_member_required
+def adm_desativar_parceiro(request):
+    # quero validar se o usuario faz parte do grupo 'adm_ssubea'
+    if request.user.groups.filter(name='adm_ssubea').exists():
+        if request.method == 'POST':
+            id_parceiro = request.POST['id']
+            parceiro = Parceiros_SSUBEA.objects.get(id=id_parceiro)
+            parceiro.ativo = False
+            parceiro.save()
+            data = {'response': 'sucesso'}
+            data = json.dumps(data)
+            return JsonResponse(data)
+        else:
+            return JsonResponse(json.dumps({'response': 'not allowed'}))
+    return JsonResponse(json.dumps({'response': 'not allowed'}))

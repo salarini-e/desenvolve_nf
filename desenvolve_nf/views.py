@@ -66,3 +66,6 @@ def solicitarNewsLetter(request):
     else:
         messages.error(request, 'Você precisa estar logado para solicitar cadastro!')
         return redirect('autenticacao:login')
+    
+def error_500(request):
+    return render(request, '500.html', status=500)

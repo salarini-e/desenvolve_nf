@@ -1,0 +1,259 @@
+{% extends 'template.html' %}
+{% block title %}SSUBEA{% endblock %}
+{% block css %}{% endblock %}
+{% block nav %}
+{% include 'nav_bemestaranimal.html' %}
+{% endblock %}
+{% block main %}
+{% load bootstrap5 %}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col d-flex">
+            <button id="btnAtivos" class="btn btn-dark ms-auto me-1" onclick="toggleColuna('divAtivos', 'btnAtivos')">Parceiros ativos</button>
+            <button id="btnPendentes" class="btn btn-dark me-auto ms-1" onclick="toggleColuna('divPendentes', 'btnPendentes')">Aguardando avaliação</button>
+        </div>
+    </div>
+<div class="row">
+    <div class="col" id="divAtivos" style="display: none;">
+        <h2>Parceiros ({{qnt_parceiros}})</h2>
+        <table class=" pt-5 table table-hover">
+            <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Responsável</th>
+                    <th>Telefone</th>
+                    <th>Whatsapp</th>
+                    <th>Email</th>
+                    <th>Dt. cad.</th>
+                </tr>
+            </thead>
+            {% for parceiro in parceiros %}
+                <tr>
+                    <td>{{parceiro.empresa.nome}}</td>
+                    <td>{{parceiro.empresa.user_register.first_name}}</td>
+                    <td>{{parceiro.empresa.telefone}}</td>
+                    <td>{{parceiro.empresa.whatsapp}}</td>
+                    <td>{{parceiro.empresa.email}}</td>
+                    <td>{{parceiro.dt_register}}</td>
+                    
+                </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">
+                    <p><i>Não há nenhum parceiro cadastrado.</i></p>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col" id="divPendentes" style="display: none;">
+        <h2>Aguardando validação ({{qnt_pendentes}})</h2>
+        <table class=" pt-5 table table-hover">
+            <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Responsável</th>
+                    <th>Telefone</th>
+                    <th>Whatsapp</th>
+                    <th>Email</th>
+                    <th>Dt. cad.</th> 
+                    <th></th>             
+                </tr>
+            </thead>
+            {% for parceiro in avaliacao_pendente %}
+                <tr>
+                    <td>{{parceiro.empresa.nome}}</td>
+                    <td>{{parceiro.empresa.user_register.first_name}}</td>
+                    <td>{{parceiro.empresa.telefone}}</td>
+                    <td>{{parceiro.empresa.whatsapp}}</td>
+                    <td>{{parceiro.empresa.email}}</td>
+                    <td>{{parceiro.dt_register}}</td>    
+                    <td><a id="btn-v-{{parceiro.id}}" class="btn btn-primary" data-bs-toggle="modal" href="#modalVerificacao" data-bs-whatever="{{parceiro.empresa.nome}}" data-bs-id="{{parceiro.id}}" role="button">Validar</a></td>                
+                </tr>
+                {% empty %}
+                <tr>
+                    <td class="text-center">
+                        <p><i>Não há nenhuma empresa aguardando parceiria.</i></p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="modalVerificacao" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer d-flex">
+          <button class="btn btn-success ms-auto me-1" data-bs-target="#modalVerificacao2" data-bs-toggle="modal" data-bs-id="" id="btnTornarParceiro" onclick="tornarParceiro(this)">Sim</button>
+          <button class="btn btn-danger me-auto ms-1" data-bs-toggle="modal" data-bs-dismiss="modal" >Não</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="modalVerificacao2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel2"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer d-flex">
+            <button class="btn btn-primary mx-auto" data-bs-toggle="modal" data-bs-dismiss="modal" >Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+    document.getElementById('admin').classList.add('s-nav-active');
+    
+    function toggleColuna(id, btnId) {
+        var coluna = document.getElementById(id);
+        var botao = document.getElementById(btnId);
+
+        if (coluna.style.display === "none") {
+            coluna.style.display = "block";
+            botao.classList.add('btn-secondary'); // Adiciona a classe de cor verde
+            botao.classList.remove('btn-dark');  // Remove a classe de cor escura
+        } else {
+            coluna.style.display = "none";
+            botao.classList.remove('btn-secondary'); // Remove a classe de cor verde
+            botao.classList.add('btn-dark');       // Adiciona a classe de cor escura
+        }
+    }
+
+    var modalVerificacao = document.getElementById('modalVerificacao')
+    var modalVerificacao2 = document.getElementById('modalVerificacao2')
+    var btnModal2 = document.getElementById('btnTornarParceiro');
+    modalVerificacao.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget
+    var recipient = button.getAttribute('data-bs-whatever')
+    var recipientId = button.getAttribute('data-bs-id');
+
+    var modalTitle = modalVerificacao.querySelector('.modal-title')
+    var modalBody = modalVerificacao.querySelector('.modal-body')
+    btnModal2.setAttribute('data-bs-id', recipientId);
+
+    modalTitle.textContent = recipient
+    modalBody.textContent = 'Você tem certeza que deseja tornar ' + recipient + ' parceiro da SSUBEA?'
+    })
+    
+    function tornarParceiro(e){
+        id=e.getAttribute('data-bs-id')
+
+        var formData = new FormData();
+        formData.append('id', id);
+        var opcoes = {
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': '{{csrf_token }}', // Inclua o token CSRF nos cabeçalhos
+            },
+            body: formData
+            };
+        fetch('/bem-estar-animal/parceiros/ativar/', opcoes)
+        .then(response => {
+            console.log(response)
+            // Verifica se a solicitação foi bem-sucedida (código de status 200)
+            if (!response.ok) {
+            throw new Error(`Erro na solicitação: ${response.status}`);
+            }
+            // Converte a resposta JSON para um objeto JavaScript
+            return response.json();
+        })
+        .then(respostaJson => {
+            if (respostaJson.response = 'sucesso'){
+                btn=document.getElementById('btn-v-'+id)
+                btn.textContent = 'Validado';
+                btn.classList.add('btn-success');
+                btn.classList.remove('btn-primary');
+                console.log('Resposta:', respostaJson);
+
+                var modalTitle = modalVerificacao2.querySelector('.modal-title')
+                var modalBody = modalVerificacao2.querySelector('.modal-body')
+
+                modalTitle.textContent = 'Sucesso!'
+                modalBody.textContent = 'Parceiro validado com sucesso!'
+            }else{
+                var modalTitle = modalVerificacao2.querySelector('.modal-title')
+                var modalBody = modalVerificacao2.querySelector('.modal-body')
+
+                modalTitle.textContent = 'Algo não está certo!'
+                modalBody.textContent = 'Parceiro não validada! ' 
+            }
+        })
+        .catch(erro => {
+            console.error('Erro:', erro);
+        });
+    }
+        function removerParceiro(e){
+        id=e.getAttribute('data-bs-id')
+
+        var formData = new FormData();
+        formData.append('id', id);
+        var opcoes = {
+            method: 'POST',
+            headers: {
+            'X-CSRFToken': '{{csrf_token }}', // Inclua o token CSRF nos cabeçalhos
+            },
+            body: formData
+            };
+        fetch('/bem-estar-animal/parceiros/desativar/', opcoes)
+        .then(response => {
+            console.log(response)
+            // Verifica se a solicitação foi bem-sucedida (código de status 200)
+            if (!response.ok) {
+            throw new Error(`Erro na solicitação: ${response.status}`);
+            }
+            // Converte a resposta JSON para um objeto JavaScript
+            return response.json();
+        })
+        .then(respostaJson => {
+            if (respostaJson.response = 'sucesso'){
+                btn=document.getElementById('btn-v-'+id)
+                btn.textContent = 'Desvinculado';
+                btn.classList.add('btn-dark');
+                btn.classList.remove('btn-primary');
+                console.log('Resposta:', respostaJson);
+
+                var modalTitle = modalVerificacao2.querySelector('.modal-title')
+                var modalBody = modalVerificacao2.querySelector('.modal-body')
+
+                modalTitle.textContent = 'Sucesso!'
+                modalBody.textContent = 'Parceiro desvinculado com sucesso!'
+            }else{
+                var modalTitle = modalVerificacao2.querySelector('.modal-title')
+                var modalBody = modalVerificacao2.querySelector('.modal-body')
+
+                modalTitle.textContent = 'Algo não está certo!'
+                modalBody.textContent = 'Parceiro não desvinculado! ' 
+            }
+        })
+        .catch(erro => {
+            console.error('Erro:', erro);
+        });
+        // .then(data => {
+        //     if(data.status == 'ok'){
+                
+        //         document.getElementById('modalVerificacao2').classList.add('show');
+        //         document.getElementById('modalVerificacao2').style.display = 'block';
+        //         document.getElementById('modalVerificacao').classList.remove('show');
+        //         document.getElementById('modalVerificacao').style.display = 'none';
+                
+        //         btn.classList.add('btn-success'); // Adiciona a classe de cor verde
+        //         btn.classList.remove('btn-primary');
+        //     }
+        // })
+        
+    }
+</script>
+{% endblock %}
