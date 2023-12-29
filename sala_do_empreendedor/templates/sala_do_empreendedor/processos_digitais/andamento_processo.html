@@ -73,22 +73,22 @@
                   <div class="row text-center">
                     <div class="col d-flex flex-column">
                       {% if status_documentos.rg_status == '2' %}
-                      <a href="#" class="border py-2" style="border-radius: 20px;">
+                      <a href="{% url 'empreendedor:atualizar_documento_processo' protocolo=processo.n_protocolo doc='rg' %}" class="border py-2" style="border-radius: 20px;">
                         Atualizar RG
                       </a>
                       {% endif %}
                     </div>
                     <div class="col d-flex flex-column ms-2">
                       {% if status_documentos.comprovante_endereco_status == '2' %}
-                      <a href="#" class="border py-2" style="border-radius: 20px;">
+                      <a href="{% url 'empreendedor:atualizar_documento_processo' protocolo=processo.n_protocolo doc='comprovante_endereco' %}" class="border py-2" style="border-radius: 20px;">
                         Atualizar Comprovante
                       </a>
                       {% endif %}
                     </div>
                     {% if processo.profissao.escolaridade.id == 1  or processo.profissao.escolaridade.id == 2 or processo.profissao.escolaridade.id == 3 or processo.profissao.escolaridade.id == 4 %}
                     <div class="col d-flex flex-column ms-2">
-                      {% if status_documentos.diplomaou_certificado_status == '2' %}
-                      <a href="#" class="border py-2" style="border-radius: 20px;">
+                      {% if status_documentos.diploma_ou_certificado_status == '2' %}
+                      <a href="{% url 'empreendedor:atualizar_documento_processo' protocolo=processo.n_protocolo doc='diploma_ou_certificado' %}" class="border py-2" style="border-radius: 20px;">
                         Atualizar Diploma/Certificado
                       </a>
                       {% endif %}
@@ -97,7 +97,7 @@
                   {% if processo.profissao.licenca_sanitaria %}
                     <div class="col d-flex flex-column ms-2">
                       {% if status_documentos.licenca_sanitaria == '2' %}
-                      <a href="#" class="border py-2" style="border-radius: 20px;">
+                      <a href="{% url 'empreendedor:atualizar_documento_processo' protocolo=processo.n_protocolo doc='licenca_sanitaria' %}" class="border py-2" style="border-radius: 20px;">
                         Atualizar Licença Sanitária
                       </a>
                       {% endif %}
@@ -106,7 +106,7 @@
                     {% if processo.autonomo_localizado == 's' %}
                     <div class="col d-flex flex-column ms-2">
                       {% if status_documentos.espelho_iptu_status == '2' %}
-                      <a href="#" class="border py-2" style="border-radius: 20px;">
+                      <a href="{% url 'empreendedor:atualizar_documento_processo' protocolo=processo.n_protocolo doc='espelho_iptu' %}" class="border py-2" style="border-radius: 20px;">
                         Atualizar Espelho de IPTU
                       </a>
                       {% endif %}

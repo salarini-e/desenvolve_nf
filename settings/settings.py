@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'sala_do_empreendedor',
     'api',
     'chat',
+    'guardiao',
 ]
 
 MIDDLEWARE = [

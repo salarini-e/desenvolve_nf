@@ -7,8 +7,11 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos
 from .functions.pdde import Listar_Proposta, PDDE_POST
+from django.db import transaction
+from guardiao.models import TentativaBurla
+
 # Create your views here.
 def index(request):
     context = {
@@ -368,28 +371,28 @@ def abertura_de_empresa(request):
     }
     return render(request, 'sala_do_empreendedor/abertura-de-empresa.html', context)
 
-
 @login_required()
-@staff_member_required()
 def requerimento_iss(request):
     if request.method == 'POST':
         form = Criar_Processo_Form(request.POST, request.FILES)
         if form.is_valid():
             processo = form.save(commit=False)
-            processo.tipo_processo = 1
+            processo.tipo_processo = Tipo_Processos.objects.get(id=1)
             processo.solicitante = request.user
             processo.save()
             messages.success(request, 'Processo criado com sucesso!')
             andamento = Andamento_Processo_Digital(
                 processo=processo,              
-                status=Status_do_processo.objects.get(id=1), 
-                rg_status = '0',
-                comprovante_endereco_status = '0',
+                status='nv',
                 observacao = 'Processo criado. Aguardando avaliação do pedido.',
                 servidor = None
             )
             andamento.save()
+            status=Processo_Status_Documentos_Anexos(processo=processo)
+            status.save()
             return redirect('empreendedor:processos_digitais_admin')
+        else:
+            print(form.errors)
     else:
         form = Criar_Processo_Form(initial={'tipo_processo': 1, 'solicitante': request.user.id})
     context = {
@@ -411,6 +414,77 @@ def andamento_processo(request, protocolo):
         
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/andamento_processo.html', context)
+
+@login_required
+def atualizar_documento_processo(request, protocolo, doc):
+    try:
+        processo = Processo_Digital.objects.get(n_protocolo = protocolo)
+        status = Processo_Status_Documentos_Anexos.objects.get(processo = processo)
+        try:
+            status_doc = getattr(status, f"{doc}_status")
+        except:
+            messages.warning(request, 'Este documento não existe.')
+            TentativaBurla.objects.create(
+                local_deteccao=f'empreendedor:atualizar_documento_processo -> /sala-do-empreendedor/processos-digitais/{protocolo}/att-doc/{doc}',
+                user=request.user,
+                ip_address=request.META.get('REMOTE_ADDR'),
+                informacoes_adicionais=f'Possivel tentativa de acessar arquivo alterando url. Documento não encontrado: {doc}'
+            )
+            return redirect('empreendedor:andamento_processo', protocolo=protocolo)
+        if status_doc == '2':
+            if request.method == 'POST':
+                # Validar se o arquivo é válido antes de atualizar
+                novo_documento = request.FILES[doc]
+                # Faça a validação necessária, por exemplo, tipo de arquivo, tamanho, etc.
+                        
+                with transaction.atomic():
+                    # Atualizar o documento
+                    setattr(processo, doc, novo_documento)
+                    processo.save()
+
+                    # Mudar o status para 'Aguardando avaliação'
+                    setattr(status, f"{doc}_status", '0')
+                    status.save()
+
+                # Muda o status para 'Aguardando avaliação'
+                setattr(status, f"{doc}_status", '0')
+                status.save()
+                processo.save()
+                # Verifica se todos os documentos estão aprovados para poder seguir com o processo
+                is_reprovado = (
+                    status.rg_status == '2' or
+                    status.comprovante_endereco_status == '2' or
+                    status.diploma_ou_certificado_status == '2' or
+                    status.licenca_sanitaria == '2' or
+                    status.espelho_iptu_status == '2'
+                )
+                # Se não há documento reprovado, o processo pode seguir
+                if not is_reprovado:
+                    # Criasse então um novo andamento para o processo
+                    Andamento_Processo_Digital.objects.create(
+                        processo=processo,              
+                        status='aa', 
+                        observacao = 'Processo atualizado. Aguardando nova avaliação dos documentos.',
+                        servidor = None
+                    )            
+                    processo.status = 'aa'
+                    processo.save()
+                    messages.success(request, 'Documento enviado com sucesso! Aguarde a nova avaliação dos documentos.')
+                else:
+                    messages.warning(request, 'Documento enviado com sucesso! Termine de atualizar os outros documentos.')
+                return redirect('empreendedor:andamento_processo', protocolo=protocolo)
+            context={
+                'documento': doc
+            }
+            return render(request, 'sala_do_empreendedor/processos_digitais/att_documento.html', context)
+        messages.warning(request, 'Este arquivo não necessita de alteração.')
+        return redirect('empreendedor:andamento_processo', protocolo=protocolo)
+    except Processo_Digital.DoesNotExist:
+        messages.warning(request, 'Processo não encontrado.')
+    except Processo_Status_Documentos_Anexos.DoesNotExist:
+        messages.warning(request, 'Status de documentos não encontrado.')
+
+    return redirect('empreendedor:andamento_processo', protocolo=protocolo)
 
 def consultar_processos(request):
     context = {

@@ -194,7 +194,7 @@ class Processo_Digital(models.Model):
         ('bg', 'Boleto gerado'),    
         ('cn', 'Concluído')
     )
-    status = models.CharField(max_length=2, verbose_name='Status', choices=STATUS_CHOICES, default='n')
+    status = models.CharField(max_length=2, verbose_name='Status', choices=STATUS_CHOICES, default='nv')
     tipo_processo = models.ForeignKey(Tipo_Processos, on_delete=models.CASCADE, verbose_name='Tipo de processo')
     # tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
     n_protocolo=models.CharField(max_length=128, verbose_name='Número do protocolo', null=True, blank=True)
@@ -229,7 +229,7 @@ class Andamento_Processo_Digital(models.Model):
         ('cn', 'Concluído')
     )
     processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
-    status = models.CharField(max_length=2, verbose_name='Status', choices=STATUS_CHOICES, default='n') 
+    status = models.CharField(max_length=2, verbose_name='Status', choices=STATUS_CHOICES, default='nv') 
     observacao = models.TextField(verbose_name='Mensagem', default='n/h')
     servidor = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Servidor', blank=True, null=True)
     dt_andamento = models.DateField(auto_now=True, verbose_name='Data de atualização')
