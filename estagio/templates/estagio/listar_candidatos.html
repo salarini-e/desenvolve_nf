@@ -96,7 +96,7 @@
                     <td class="pe-5">{{i.supervisor.nome}}</td>
                     <td class="pe-5">{{i.supervisor.secretaria.nome}}</td>
                     {% endif %}
-                    <td class="pe-5">{{i.estudante.data_inclusao}}</td>
+                    <td class="pe-5">{{i.data_inclusao}}</td>
                     <td class="pe-5 text-center"><a href="{% url 'estagio:adm_processo_da_vaga' i.id %}?next=/estagio/candidato">
                         <i class="fa-solid fa-eye me-2"></i>Visualizar 
                     </a></td>
