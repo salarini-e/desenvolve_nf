@@ -196,11 +196,11 @@ def adm(request):
 
 @login_required
 def listar_candidato(request):
-    candidatos=Estudante_Vaga.objects.filter(status=0).order_by('-id')
+    candidatos=Estudante_Vaga.objects.filter(status=0)
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'subtitulo': 'candidatos',
-        'estudante': candidatos.order_by('-id'),
+        'estudante': candidatos.order_by('-data_inclusao'),
         'total': candidatos.count()
     }
     return render(request, 'estagio/listar_candidatos.html', context)
