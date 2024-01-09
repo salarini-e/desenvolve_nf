@@ -200,7 +200,7 @@ def listar_candidato(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'subtitulo': 'candidatos',
-        'estudante': candidatos.order_by('data_inclusao'),
+        'estudante': candidatos.order_by('-data_inclusao'),
         'total': candidatos.count()
     }
     return render(request, 'estagio/listar_candidatos.html', context)
