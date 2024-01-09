@@ -285,7 +285,7 @@ def matricular(request, tipo, id):
                         'age': age,
                         'form': form,
                         'form_responsavel': form_responsavel,     
-                        'titulo': apps.get_app_config('cursos').verbose_name+' - Inscrever-se - '+curso.nome,
+                        'titulo': apps.get_app_config('cursos').verbose_name+' - Inscrever-se',
                         'curso': curso,
                         'pessoa': pessoa
                     }             
