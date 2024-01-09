@@ -6,7 +6,8 @@ from autenticacao.models import Pessoa
 from .forms import *
 from .api import ApiProtocolo
 from django.contrib import messages
-
+from django.http import HttpResponse
+from .functions import send_email_for_process
 def index(request):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
@@ -315,8 +316,13 @@ def editar_estudante_processo(request, id):
     if request.method == 'POST':
         forms=Historico_processo_estudante_forms(request.POST)
         if forms.is_valid():
-            forms.save()
-            return redirect('estagio:editar_candidato_processo', id)
+            historico=forms.save()
+            resp=send_email_for_process(instance, historico)
+            if resp == 'Invalid header found.':
+                messages.warning(request, 'Email não enviado, verifique o email do estudante')
+            else:
+                messages.success(request, 'Um email foi enviado para o estudante!')
+            return redirect('estagio:adm_processo_da_vaga', id)
 
             
     context = {

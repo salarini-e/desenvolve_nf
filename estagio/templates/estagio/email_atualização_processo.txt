@@ -1,0 +1,22 @@
+{% autoescape off %}
+SISTEMA DE ESTÁGIO - DESENVOLVE NOVA FRIBURGO
+(Esta mensagem foi enviada automaticamente. Por favor, não responda a este e-mail.)
+
+Olá, {{ user.first_name }},
+
+Gostaríamos de informar que houve uma atualização no seu processo de solicitação de estágio.
+
+Detalhes da atualização
+Local da vaga: {{ local_do_estagio }}
+Status atual: {{ historico.get_status_display }}
+{% if msg %}
+{{msg}}
+{% endif %}
+Para mais informações, acesse: {{ protocol }}://{{ domain }}
+Agradecemos pela sua atenção.
+
+Atenciosamente,
+A equipe do site.
+
+
+{% endautoescape %}
