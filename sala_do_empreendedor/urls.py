@@ -70,6 +70,7 @@ urlpatterns = [
     path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
     path('processos/criar-novo/requerimento-iss/', views.requerimento_iss, name='requerimento_iss'),
     path('adm/processos/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
+    path('adm/processos/criar-novo/requerimento-iss/<n_protocolo>/', views.requerimento_iss_documentos, name='requerimento_iss_doc'),
     path('consultar-processos/', views.consultar_processos, name='consultar_processos'),
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     

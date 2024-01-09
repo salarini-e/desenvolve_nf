@@ -57,8 +57,9 @@ class Faccao_Legal_Form(ModelForm):
          'tipo_produto': forms.CheckboxSelectMultiple(),
          'situacao_trabalho': forms.RadioSelect(),
          'situacao_remuneracao': forms.RadioSelect(),
+         'voce_prefere': forms.RadioSelect(),
         }
-        fields = ['tempo_que_trabalha', 'trabalha_com', 'equipamentos', 'area', 'tamanho_area', 'possui_colaboradores', 'qtd_colaboradores', 'tipo_produto', 'outro_produto', 'situacao_trabalho', 'situacao_remuneracao', 'user', 'possui_mei', 'cnpj', 'qual_seu_sonho_no_setor']
+        fields = ['tempo_que_trabalha', 'trabalha_com', 'equipamentos', 'area', 'tamanho_area', 'possui_colaboradores', 'qtd_colaboradores', 'tipo_produto', 'outro_produto', 'situacao_trabalho', 'situacao_remuneracao', 'voce_prefere', 'user', 'possui_mei', 'cnpj', 'qual_seu_sonho_no_setor']
         exclude = []
 
 class Criar_Processo_Admin_Form(ModelForm):
@@ -84,7 +85,16 @@ class Criar_Processo_Form(ModelForm):
             'n_inscricao': forms.HiddenInput(),        
             }
         exclude = ['dt_solicitacao', 'boleto', 'boleto_pago', 'status']
-               
+
+class Criar_Processo_Docs_Form(ModelForm):
+    class Meta:
+        model = Processo_Status_Documentos_Anexos
+        widgets = {
+            'processo': forms.HiddenInput(),
+            }
+        
+        exclude = ['user_register', 'rg_status', 'comprovante_endereco_status', 'diploma_ou_certificado_status', 'licenca_sanitaria_status', 'espelho_iptu_status', 'licenca_ambiental_status']
+                   
 class Criar_Andamento_Processo(ModelForm):
     class Meta:
         model = Andamento_Processo_Digital

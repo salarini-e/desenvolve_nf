@@ -4,7 +4,7 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos
@@ -380,6 +380,36 @@ def requerimento_iss(request):
             processo.tipo_processo = Tipo_Processos.objects.get(id=1)
             processo.solicitante = request.user
             processo.save()
+            messages.success(request, 'Processo iniciado. Agora, envie os documentos necessários.')
+            andamento = Andamento_Processo_Digital(
+                processo=processo,              
+                status='ae',
+                observacao = 'Processo iniciado. Aguardando envio de documentos.',
+                servidor = None
+            )
+            andamento.save()
+            # status=Processo_Status_Documentos_Anexos(processo=processo)
+            # status.save()
+            return redirect('empreendedor:requerimento_iss_doc', n_protocolo=processo.n_protocolo) 
+        else:
+            print(form.errors)
+    else:
+        form = Criar_Processo_Form(initial={'tipo_processo': 1, 'solicitante': request.user.id})
+    context = {
+        'titulo': 'Sala do Empreendedor - Requerimento de ISS',
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
+
+def requerimento_iss_documentos(request, n_protocolo):
+    processo=Processo_Digital.objects.get(n_protocolo=n_protocolo)
+    if request.method == 'POST':
+        form = Criar_Processo_Docs_Form(request.POST, request.FILES)
+        if form.is_valid():
+            documentos = form.save(commit=False)
+            documentos.processo = processo
+            documentos.user_register = request.user
+            documentos.save()
             messages.success(request, 'Processo criado com sucesso!')
             andamento = Andamento_Processo_Digital(
                 processo=processo,              
@@ -394,12 +424,21 @@ def requerimento_iss(request):
         else:
             print(form.errors)
     else:
-        form = Criar_Processo_Form(initial={'tipo_processo': 1, 'solicitante': request.user.id})
+        form = Criar_Processo_Docs_Form(initial={'processo': processo.id, 'user_register': request.user.id})
+    print(processo.profissao.escolaridade.id)
+    if processo.profissao.escolaridade.id in [1,2,3,4]:
+        print('Tem diploma')
+        not_diploma = False
+    else:
+        print('Não tem diploma')
+        not_diploma = True
     context = {
         'titulo': 'Sala do Empreendedor - Requerimento de ISS',
-        'form': form
+        'form': form, 
+        'processo': processo,
+        'not_diploma': not_diploma
     }
-    return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
+    return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo_doc.html', context)
 
 @login_required()
 def andamento_processo(request, protocolo):

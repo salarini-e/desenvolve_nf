@@ -24,6 +24,55 @@
         <i class="fa-solid fa-backward-step me-2"></i>Voltar
       </a>       
     </div>
+    <div class="row">
+      <div class="col pt-3 pb-4">
+          <div class="table-responsive pt-4 border" style="background-color: white; border-radius: 30px; padding: 20px;">
+              <h2>Dados do Candidato</h2>
+              
+              <table class="table">
+                  <tr>
+                      <th>Nome</th>
+                      <td>{{ estudante.pessoa.nome }}</td>
+                  </tr>
+                  <tr>
+                      <th>Email</th>
+                      <td>{{ estudante.pessoa.email }}</td>
+                  </tr>
+                  <tr>
+                      <th>CPF</th>
+                      <td>{{ estudante.pessoa.cpf }}</td>
+                  </tr>
+                  <tr>
+                      <th>Telefone</th>
+                      <td>{{ estudante.pessoa.telefone }}</td>
+                  </tr>
+                  <tr>
+                      <th>Data de Nascimento</th>
+                      <td>{{ estudante.pessoa.dt_nascimento }}</td>
+                  </tr>
+                  <tr>
+                      <th>Bairro</th>
+                      <td>{{ estudante.pessoa.bairro }}</td>
+                  </tr>
+                  <!-- Adicione mais campos conforme necessário -->
+                  <tr>
+                      <th>Matrícula</th>
+                      <td>{{ estudante.matricula }}</td>
+                  </tr>
+                  <tr>
+                      <th>Universidade</th>
+                      <td>{{ estudante.universidade.nome }}</td>
+                  </tr>
+                  <tr>
+                      <th>Curso</th>
+                      <td>{{ estudante.curso.nome }}</td>
+                  </tr>
+              </table>
+              
+          </div>
+      </div>
+  </div>
+  
     <div class="row ">
       <div class="col pt-3 pb-4">
        <div class="table-responsive pt-4 border" style="background-color: white; border-radius: 30px; padding: 20px;">             

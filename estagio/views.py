@@ -149,6 +149,7 @@ def adm_processo_da_vaga(request, id):
     context = {
         'titulo':'Programa de Desenvolvimento de Estágio de Estudante',
         'processo': processo,
+        'estudante': estudante_vaga.estudante,
         'historico': Historico_Processo.objects.filter(processo=processo).order_by('-id'),
         'back_to': request.GET.get('next'),
         'id': id, 

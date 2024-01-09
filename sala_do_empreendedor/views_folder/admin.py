@@ -8,9 +8,11 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+from secretaria_financas.decorators import funcionario_financas_required, setor_financas_required
 
-@login_required()
-@staff_member_required()
+@login_required
+@funcionario_financas_required
+# @staff_member_required
 def sala_do_empreendedor_admin(request):
     context = {
         'titulo': 'Sala do Empreendedor',
@@ -18,7 +20,7 @@ def sala_do_empreendedor_admin(request):
     return render(request, 'sala_do_empreendedor/admin/index.html', context)
 
 @login_required()
-@staff_member_required()
+@funcionario_financas_required
 def processos_digitais_admin(request):
     proecsesos = Processo_Digital.objects.all().order_by('-dt_solicitacao')    
     paginator = Paginator(proecsesos, 50)

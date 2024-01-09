@@ -155,7 +155,9 @@ class Profissao(models.Model):
     escolaridade = models.ForeignKey(Escolaridade, on_delete=models.CASCADE, verbose_name='Escolaridade')
     nome = models.CharField(max_length=128, verbose_name='Nome da profissão')
     licenca_sanitaria = models.BooleanField(default=False, verbose_name='Necessita licença sanitária?')    
-    licenca_ambiental = models.BooleanField(default=False, verbose_name='Necessita licença ambiental?')    
+    licenca_sanitaria_com_alvara = models.BooleanField(default=False, verbose_name='Quando com alvará necessita licença sanitária?')
+    licenca_ambiental = models.BooleanField(default=False, verbose_name='Necessita licença ambiental?')
+    # licenca_ambiental_com_alvara = models.BooleanField(default=False, verbose_name='Quando com alvará necessita licença sanitária?')
     
     def __str__(self) -> str:
         return self.nome
@@ -198,14 +200,8 @@ class Processo_Digital(models.Model):
     tipo_processo = models.ForeignKey(Tipo_Processos, on_delete=models.CASCADE, verbose_name='Tipo de processo')
     # tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
     n_protocolo=models.CharField(max_length=128, verbose_name='Número do protocolo', null=True, blank=True)
-    rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte')
-    comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço')
     profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
-    diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
-    licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
-    licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
     autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
-    espelho_iptu = models.ImageField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
     solicitante = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
     boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
     boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
@@ -223,6 +219,7 @@ class Processo_Digital(models.Model):
 class Andamento_Processo_Digital(models.Model):
     STATUS_CHOICES=(
         ('nv', 'Novo'),
+        ('ae', 'Aguardando envio de documentos'),
         ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
         ('bg', 'Boleto gerado'),
@@ -242,12 +239,22 @@ class Processo_Status_Documentos_Anexos(models.Model):
         ('0', 'Aguardando avaliação'),
         ('1', 'Aprovado'),
         ('2', 'Reprovado'),
+        ('3', 'Atualização requerida'),
     )
     processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+    rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte', null=True)
+    comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço', null=True)
+    diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
+    licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
+    licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
+    espelho_iptu = models.ImageField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
+    
     rg_status=models.CharField(max_length=1, verbose_name='Status do RG', choices=DOC_STATUS_CHOICES, default='0')
     comprovante_endereco_status=models.CharField(max_length=1, verbose_name='Status do comprovante de endereço', choices=DOC_STATUS_CHOICES, default='0')
     diploma_ou_certificado_status=models.CharField(max_length=1, verbose_name='Status do diploma ou certificado', choices=DOC_STATUS_CHOICES, default='0')
-    licenca_sanitaria=models.CharField(max_length=1, verbose_name='Status da licença sanitária', choices=DOC_STATUS_CHOICES, default='0')
+    licenca_sanitaria_status=models.CharField(max_length=1, verbose_name='Status da licença sanitária', choices=DOC_STATUS_CHOICES, default='0')
+    licenca_ambiental_status=models.CharField(max_length=1, verbose_name='Status da licença ambiental', choices=DOC_STATUS_CHOICES, default='0')
     espelho_iptu_status=models.CharField(max_length=1, verbose_name='Status do espelho do IPTU', choices=DOC_STATUS_CHOICES, default='0')
 
 @receiver(post_save, sender=Processo_Digital)

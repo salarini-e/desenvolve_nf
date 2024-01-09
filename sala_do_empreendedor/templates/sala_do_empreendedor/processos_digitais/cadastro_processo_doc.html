@@ -34,9 +34,8 @@
                     <h2 class="mb-4">REQUERIMENTO DE ISS</h2>
                     {% csrf_token %}
                     {% bootstrap_form form %}
-                    <p class="mb-3"><i><strong>O que é autônomo localizado?</strong> Este item referece ao autônomo...</i></p>
                     <button class="btn btn-primary">
-                      Iniciar processo
+                      Enviar requerimento
                     </button>
                    </form>
                 </div>
@@ -44,6 +43,32 @@
       </div>
     </div>
 </div>
+</div>
+<div class="row mx-auto px-5">
+  {{not_diploma}}
+  {{processo.autonomo_localizado}}
+  {{processo.profissao.escolariade}}
+  {{processo.profissao.licenca_sanitaria}}
+  {{processo.profissao.licenca_ambiental}}
+  <script>
+  
+    function findParentDiv(element) {
+          var parent = element.parentNode;
+          
+          // Continue subindo na árvore DOM até encontrar um elemento <div>
+          while (parent && parent.nodeName !== 'DIV') {
+            parent = parent.parentNode;
+          }
+
+          return parent;
+    }
+    {% if not_diploma %}
+    const input_diploma = document.getElementById('id_diploma_ou_certificado')
+    const diplomaDiv = findParentDiv(input_diploma);
+    diplomaDiv.style.display = 'none';
+    {% endif %}
+
+  </script>
 </div>
 
 <style>

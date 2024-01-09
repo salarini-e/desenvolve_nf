@@ -90,6 +90,9 @@ INSTALLED_APPS = [
     'api',
     'chat',
     'guardiao',
+    
+    #secreatarias
+    'secretaria_financas',
 ]
 
 MIDDLEWARE = [
