@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao
-from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS
+from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
@@ -77,32 +77,38 @@ def requerimento_iss_admin(request):
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/cadastro_processo.html', context)
 
-@login_required()
-@staff_member_required()
-def andamento_processo_admin(request, id):
-    processo = Processo_Digital.objects.get(id=id)
+def andamento_processo_iss(request, processo):
+    requerimento = RequerimentoISS.objects.get(processo=processo)
     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
     status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
     context = {
         'titulo': 'Sala do Empreendedor',
         'processo': processo,
         'andamentos': andamentos,
-        'status_documentos': status_documentos
+        'status_documentos': status_documentos,
+        'requerimento': requerimento,
         
     }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo.html', context)
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_iss.html', context)
+
+@login_required()
+@staff_member_required()
+def andamento_processo_admin(request, id):
+    processo = Processo_Digital.objects.get(id=id)
+    if processo.tipo_processo.id == 1:
+        return andamento_processo_iss(request, processo)
+    return redirect('empreendedor:processos_digitais_admin')
+    
 
 @login_required()
 @staff_member_required()
 def novo_andamento_processo(request, id):
     processo = Processo_Digital.objects.get(id=id)
+    requerimento = RequerimentoISS.objects.get(processo=processo)
     if request.method == 'POST':
-        if request.POST['status'] == 'bg':
-           processo.boleto = request.FILES['boleto']
-        elif request.POST['status'] == 'cn':
-            processo.n_inscricao = request.POST['inscricao']
-            processo.boleto_pago = True
-            
+        if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
+            requerimento.boleto = request.FILES['boleto']
+            requerimento.n_inscricao = request.POST['inscricao']
         form = Criar_Andamento_Processo(request.POST)
         if form.is_valid():
             andamento = form.save(commit=False)
@@ -117,10 +123,12 @@ def novo_andamento_processo(request, id):
             print(form.errors)
     else:
         form = Criar_Andamento_Processo(initial={'processo': processo})
+        form_req = Processo_ISS_Form()
     context = {
         'titulo': 'Sala do Empreendedor',
         'processo': processo,
-        'form': form
+        'form': form,
+        'form_req': form_req,
         
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)

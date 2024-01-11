@@ -45,11 +45,6 @@
 </div>
 </div>
 <div class="row mx-auto px-5">
-  {{not_diploma}}
-  {{processo.autonomo_localizado}}
-  {{processo.profissao.escolariade}}
-  {{processo.profissao.licenca_sanitaria}}
-  {{processo.profissao.licenca_ambiental}}
   <script>
   
     function findParentDiv(element) {
@@ -67,7 +62,34 @@
     const diplomaDiv = findParentDiv(input_diploma);
     diplomaDiv.style.display = 'none';
     {% endif %}
-
+    {% if requerimento.autonomo_localizado == 's'%}
+      {% if requerimento.profissao.licenca_sanitaria_com_alvara %}
+      {% else %}
+        {% if requerimento.profissao.licenca_sanitaria %}
+        {% else %}
+        const inputLicencaSanitaria = document.getElementById('id_licenca_sanitaria')
+        const licencaSanitariaDiv = findParentDiv(inputLicencaSanitaria);
+        licencaSanitariaDiv.style.display = 'none';
+        {% endif %}
+      {% endif %}
+    {% else %}
+      const inputEspelhoIPTU = document.getElementById('id_espelho_iptu')
+      const espelhoIPTUDiv = findParentDiv(inputEspelhoIPTU);
+      espelhoIPTUDiv.style.display = 'none';
+      {% if requerimento.profissao.licenca_sanitaria %}
+      {% else %}
+        const inputLicencaSanitaria2 = document.getElementById('id_licenca_sanitaria')
+        const licencaSanitariaDiv2 = findParentDiv(inputLicencaSanitaria2);
+        licencaSanitariaDiv2.style.display = 'none';
+      {% endif %}
+    {% endif %}
+    {% if requerimento.profissao.licenca_ambiental%}    
+    {% else %}
+    const inputLicencaAmbiental = document.getElementById('id_licenca_ambiental')
+    const licencaAmbientalDiv = findParentDiv(inputLicencaAmbiental);
+    licencaAmbientalDiv.style.display = 'none';
+    {% endif %}
+  
   </script>
 </div>
 

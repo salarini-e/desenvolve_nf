@@ -56,15 +56,11 @@ urlpatterns = [
     path('faccao-legal/cadastrar/checkcnpj/', views.checkCNPJ, name='checkcnpj'),
     path('admin/cadastrar-profissao/', views.cadastrar_profissao, name='cadastrar_profissao'),
     #PROCESSOS
-    path('checkCPF/', views.checkCPF, name='checkCPF'),
-    path('checkProfissao/', views.checkProfissao, name='checkProfissao'),
-    path('muda-status-rg/', views.mudaStatusRG, name='mudaStatusRG'),
-    path('muda-status-comprovante/', views.mudaStatusComprovante, name='mudaStatusComprovante'),
-    path('muda-status-Ccertificado/', views.mudaStatusCertificado, name='mudaStatusCertificado'),
-    path('muda-status-licenca/', views.mudaStatusLicenca, name='mudaStatusLicenca'),
-    path('muda-status-espelho/', views.mudaStatusEspelho, name='mudaStatusEspelho'),
+    
+    # PROCESSOS
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
-    path('adm/processos-digitais/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),
+    path('adm/processos-digitais/requerimento-ISSQ/', views.requerimento_ISSQN, name='requerimento_issqn'),
+    path('adm/processos-digitais/andamento/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),
     path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
     path('processos-digitais/<protocolo>/att-doc/<doc>', views.atualizar_documento_processo, name='atualizar_documento_processo'),
     path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
@@ -74,6 +70,15 @@ urlpatterns = [
     path('consultar-processos/', views.consultar_processos, name='consultar_processos'),
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     
+    path('checkCPF/', views.checkCPF, name='checkCPF'),
+    path('checkProfissao/', views.checkProfissao, name='checkProfissao'),
+    path('muda-status-rg/', views.mudaStatusRG, name='mudaStatusRG'),
+    path('muda-status-comprovante/', views.mudaStatusComprovante, name='mudaStatusComprovante'),
+    path('muda-status-Ccertificado/', views.mudaStatusCertificado, name='mudaStatusCertificado'),
+    path('muda-status-licenca/', views.mudaStatusLicenca, name='mudaStatusLicenca'),
+    path('muda-status-espelho/', views.mudaStatusEspelho, name='mudaStatusEspelho'),
+    
+    # PDDE
     path('adm/pdde/', views.pdde_admin, name='pdde_admin'),
     path('pdde/', views.pdde_index, name='pdde_index'),
     path('pdde/escola/', views.pdde_index_escola, name='pdde_escola'),

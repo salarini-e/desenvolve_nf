@@ -453,7 +453,6 @@ def andamento_processo_iss(request, processo):
     requerimento_iss = RequerimentoISS.objects.get(processo=processo)
     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
     status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
-    print('to aqui')
     context = {
         'titulo': 'Sala do Empreendedor - Andamento do Processo Online',
         'processo': processo,
@@ -466,9 +465,8 @@ def andamento_processo_iss(request, processo):
 @login_required()
 def andamento_processo(request, protocolo):
     processo = Processo_Digital.objects.get(n_protocolo=protocolo)
-    print(processo.tipo_processo.id)
     if processo.tipo_processo.id == 1:
-        return andamento_processo_iss(request, processo)
+        andamento_processo_iss(request, processo)
     return redirect('empreendedor:listar_processos')
 
 @login_required
@@ -495,8 +493,8 @@ def atualizar_documento_processo(request, protocolo, doc):
                         
                 with transaction.atomic():
                     # Atualizar o documento
-                    setattr(status, doc, novo_documento)
-                    status.save()
+                    setattr(processo, doc, novo_documento)
+                    processo.save()
 
                     # Mudar o status para 'Aguardando avaliação'
                     setattr(status, f"{doc}_status", '0')

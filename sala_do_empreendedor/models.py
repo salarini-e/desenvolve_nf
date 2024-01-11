@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from django.utils import timezone
+from django_cpf_cnpj.fields import CNPJField
 
 class Porte_da_Empresa(models.Model):
     porte=models.CharField(max_length=32, verbose_name='Porte da empresa')
@@ -161,7 +162,11 @@ class Profissao(models.Model):
     
     def __str__(self) -> str:
         return self.nome
-    
+
+#Ordem ao cadastrar o Tipo de Processo    
+# 1 - Requerimento ISS
+# 2 - Baixa de ISS
+# 3 - Requerimento ISSQN    
 class Tipo_Processos(models.Model):
         
         nome = models.CharField(max_length=128, verbose_name='Nome do processo')
@@ -185,12 +190,9 @@ class Processo_Digital(models.Model):
     #     ('0', 'Requerimento de ISS'),
     #     ('1', 'Cancelamento de ISS'),
     # )
-    AUTONOMO_LOCALIZADO_CHOICES=(
-        ('s', 'Sim'),
-        ('n', 'Não'),   
-    )
     STATUS_CHOICES=(
         ('nv', 'Novo'),
+        ('ae', 'Aguardando envio de documentos'),
         ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
         ('bg', 'Boleto gerado'),    
@@ -200,12 +202,7 @@ class Processo_Digital(models.Model):
     tipo_processo = models.ForeignKey(Tipo_Processos, on_delete=models.CASCADE, verbose_name='Tipo de processo')
     # tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
     n_protocolo=models.CharField(max_length=128, verbose_name='Número do protocolo', null=True, blank=True)
-    profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
-    autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
     solicitante = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
-    boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
-    boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
-    n_inscricao = models.CharField(max_length=128, verbose_name='Número de inscrição', null=True, blank=True)
     dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
     dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
     
@@ -215,6 +212,26 @@ class Processo_Digital(models.Model):
     def save(self, *args, **kwargs):
         self.dt_atualizacao = timezone.now()
         super(Processo_Digital, self).save(*args, **kwargs)
+        
+class RequerimentoISS(models.Model):
+    
+    AUTONOMO_LOCALIZADO_CHOICES=(
+        ('s', 'Sim'),
+        ('n', 'Não'),   
+    )
+    
+    processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo', null=True)     
+    profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
+    autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
+    boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
+    boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
+    n_inscricao = models.CharField(max_length=128, verbose_name='Número de inscrição', null=True, blank=True)
+    dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
+    dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
+    
+    def save(self, *args, **kwargs):
+        self.dt_atualizacao = timezone.now()
+        super(RequerimentoISS, self).save(*args, **kwargs)
         
 class Andamento_Processo_Digital(models.Model):
     STATUS_CHOICES=(
@@ -234,6 +251,7 @@ class Andamento_Processo_Digital(models.Model):
     def __str__(self) -> str:
         return str(self.processo.n_protocolo) + ' - ' +str(self.id) + ' - ' + str(self.dt_andamento)
 
+#Documentos do Requerimento de ISS
 class Processo_Status_Documentos_Anexos(models.Model):
     DOC_STATUS_CHOICES=(
         ('0', 'Aguardando avaliação'),
@@ -257,6 +275,48 @@ class Processo_Status_Documentos_Anexos(models.Model):
     licenca_ambiental_status=models.CharField(max_length=1, verbose_name='Status da licença ambiental', choices=DOC_STATUS_CHOICES, default='0')
     espelho_iptu_status=models.CharField(max_length=1, verbose_name='Status do espelho do IPTU', choices=DOC_STATUS_CHOICES, default='0')
 
+
+class RequerimentoISSQN(models.Model):
+    SOLICITACAO_CHOICES=(
+        ('r', 'Renovação'),
+        ('i', 'Inscrição')
+    )
+    processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
+    solicitacao = models.CharField(max_length=1, verbose_name='Tipo de solicitação', choices=SOLICITACAO_CHOICES)
+    razao_social = models.CharField(max_length=255, verbose_name='Razão social')
+    nome_fantasia = models.CharField(max_length=255, verbose_name='Nome fantasia')
+    cnpj = models.CharField(max_length=18, verbose_name='CNPJ')
+    inscricao_municipal = models.CharField(max_length=20, verbose_name='Inscrição municipal')
+    endereco = models.CharField(max_length=255, verbose_name='Endereço')
+    email = models.EmailField()
+    telefone = models.CharField(max_length=20)
+    contador = models.CharField(max_length=255, verbose_name='Contador')
+    contador_email = models.EmailField(verbose_name='E-mail do contador')
+    contador_telefone = models.CharField(max_length=20, verbose_name='Telefone do contador')
+    dt_register = models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+    
+    def __str__(self):
+        return self.razao_social
+    
+#Documentos do Requerimento de ISSQN    
+class DocumentosPedido(models.Model):
+    requerimento = models.ForeignKey(RequerimentoISSQN, on_delete=models.CASCADE, verbose_name='Requerimento')
+    contrato_social = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='1. Contrato social ou última alteração contratual')
+    carteira_orgao_classe = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='2. Carteira do órgão de classe (CREA, CRM, OAB, etc.)')
+    alvara_localizacao = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='3. Alvará de localização e funcionamento')
+    informacoes_cadastrais_dos_empregados = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='4. Informações cadastrais dos empregados (RAS/e-Social/SEFIP)')
+    balanco_patrimonial = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='5. Balanço patrimonial compelto (último exercício), discriminado')
+    dre = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='6. DRE completo (último exercício), discriminado')
+    balancete_analitico = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='7. Balancete analítico completo (último exercício), discriminado')
+    cnpj_copia = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='8. Cópia do CNPJ')
+    profissionais_habilitados = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='9. Relação dos profissionais habilitados (CREA, CRM, OAB, etc.)')
+    ir_empresa = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='10. IR da empresa (último exercício), discriminado')
+    simples_nacional = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='11. Simples nacional (último exercício), discriminado')
+    
+    def __str__(self):
+        return f'Documentos Pedido - {self.requerimento.razao_social}'
+    
 @receiver(post_save, sender=Processo_Digital)
 def generate_process_number(sender, instance, created, **kwargs):
     if created and not instance.n_protocolo:  # Verifica se o objeto foi criado recentemente e se o número do processo já existe
@@ -277,6 +337,8 @@ def atualizar_dt_atualizacao_processo(sender, instance, **kwargs):
     instance.processo.dt_atualizacao = timezone.now()
     instance.processo.save()
     
+    
+## Modelos do PDDE    
 class Escola(models.Model):
     
     nome = models.CharField(max_length=128, verbose_name='Razão social')

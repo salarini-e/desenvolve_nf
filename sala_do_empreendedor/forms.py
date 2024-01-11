@@ -80,11 +80,19 @@ class Criar_Processo_Form(ModelForm):
         widgets = {
             'tipo_processo': forms.HiddenInput(),
             'n_protocolo': forms.HiddenInput(),
+            'solicitante': forms.HiddenInput(),
+            }
+        exclude = ['dt_solicitacao', 'boleto', 'boleto_pago', 'status']
+
+class Processo_ISS_Form(ModelForm):
+    class Meta:
+        model = RequerimentoISS
+        widgets = {
             'profissao': forms.RadioSelect(),
             'solicitante': forms.HiddenInput(),
             'n_inscricao': forms.HiddenInput(),        
             }
-        exclude = ['dt_solicitacao', 'boleto', 'boleto_pago', 'status']
+        exclude = ['processo', 'dt_solicitacao', 'boleto', 'boleto_pago', 'status']
 
 class Criar_Processo_Docs_Form(ModelForm):
     class Meta:
@@ -141,4 +149,43 @@ class Criar_Item_Solicitacao(ModelForm):
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descrição'}),
             }
         exclude = []
+
+class RequerimentoISSQNForm(forms.ModelForm):
+    class Meta:
+        model = RequerimentoISSQN
+        fields = [
+            'razao_social',
+            'nome_fantasia',
+            'cnpj',
+            'inscricao_municipal',
+            'endereco',
+            'email',
+            'telefone',
+            'contador',
+            'contador_email',
+            'contador_telefone',
+            # Adicione mais campos conforme necessário para os documentos pedidos
+        ]
+        widgets={
+            'cnpj': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CNPJ', 'onkeydown':'mascara(this, icnpj)'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'onkeydown':'mascara(this, itel)'}),
+            'contador_telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone do Contador', 'onkeydown':'mascara(this, itel)'}),
+        }
         
+
+class DocumentosPedidoForm(forms.ModelForm):
+    class Meta:
+        model = DocumentosPedido
+        fields = [
+            'contrato_social',
+            'carteira_orgao_classe',
+            'alvara_localizacao',
+            'informacoes_cadastrais_dos_empregados',
+            'balanco_patrimonial',
+            'dre',
+            'balancete_analitico',
+            'cnpj_copia',
+            'profissionais_habilitados',
+            'ir_empresa',
+            'simples_nacional',
+        ]

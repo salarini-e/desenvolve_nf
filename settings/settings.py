@@ -93,6 +93,7 @@ INSTALLED_APPS = [
     
     #secreatarias
     'secretaria_financas',
+    'django_cpf_cnpj',
 ]
 
 MIDDLEWARE = [
