@@ -59,7 +59,7 @@
                   {% if requerimento.profissao.licenca_sanitaria %}
                     <div class="col d-flex flex-column ms-2">
                       <label for="">Status Licença Sanitária</label>
-                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_display}}</p>
+                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_status_display}}</p>
                     </div>
                     {% endif %}
                     {% if requerimento.autonomo_localizado == 's' %}
