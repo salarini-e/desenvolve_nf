@@ -425,8 +425,6 @@ def requerimento_iss_documentos(request, n_protocolo):
                 servidor = None
             )
             andamento.save()
-            status=Processo_Status_Documentos_Anexos(processo=processo)
-            status.save()
             return redirect('empreendedor:processos_digitais_admin')
         else:
             print(form.errors)
