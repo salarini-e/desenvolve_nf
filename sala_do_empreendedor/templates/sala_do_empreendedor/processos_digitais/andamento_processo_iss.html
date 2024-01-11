@@ -113,10 +113,10 @@
                     </div>
                     {% endif %}
                   </div>
-                  {% elif processo.status == 'bg' %}
+                  {% elif processo.status == 'bg' or processo.status == 'cn' %}
                   <div class="row text-center">
                     <div class="col">
-                      <p><i><b>Seu boleto foi gerado!</b> Agora basta efetuar o pagamento dele para gerarmos seu número de inscrição.</i></p>
+                      <p><i><b>Seu boleto foi gerado!</b></i></p>
                       <a target="_blank" href="{{requerimento.boleto.url}}" class="btn btn-primary mt-3 mb-3">
                         <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
                       </a>
