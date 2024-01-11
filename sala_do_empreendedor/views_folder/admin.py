@@ -180,7 +180,7 @@ def mudaStatusLicenca(request):
         data = json.loads(request.body.decode('utf-8'))
         id = data.get('id')
         status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
-        status_documentos.licenca_sanitaria= data.get('status')
+        status_documentos.licenca_sanitaria = data.get('status')
         status_documentos.save()
         return JsonResponse({'status': 'ok'})            
     return JsonResponse({})
