@@ -61,12 +61,12 @@
                   {% endif %}
               
               
-                  {% if processo.profissao.licenca_sanitaria %}
+                  {% if requerimento.profissao.licenca_sanitaria %}
                   <a class="btn btn-outline-dark ms-2" href="{{status_documentos.licenca_sanitaria.url}}" target="_blank">
                     <i class="fa-solid fa-address-card me-2"></i>Licença Sanitaria
                   </a>
                   {% endif %}
-                  {% if processo.autonomo_localizado == 's' %} 
+                  {% if requerimento.autonomo_localizado == 's' %} 
                   <a class="btn btn-outline-dark ms-2" href="{{status_documentos.espelho_iptu.url}}" target="_blank">
                     <i class="fa-solid fa-address-card me-2"></i>Espelho de IPTU
                   </a>
@@ -96,7 +96,7 @@
                       
                       </select>
                     </div>
-                    {% if processo.profissao.escolaridade.id == 1  or processo.profissao.escolaridade.id == 2 or processo.profissao.escolaridade.id == 3 or processo.profissao.escolaridade.id == 4 %}
+                    {% if requerimento.profissao.escolaridade.id == 1  or requerimento.profissao.escolaridade.id == 2 or requerimento.profissao.escolaridade.id == 3 or requerimento.profissao.escolaridade.id == 4 %}
                     <div class="col d-flex flex-column ms-2">
                       <label for="">Status Diploma/Certificado</label>
                       <select class="form-select" name="certificado_status" id="id_certificado_status" onchange="mudaStatusCertificado({{ status_documentos.id}})">
@@ -109,7 +109,7 @@
                       </select>
                     </div>
                   {% endif %}
-                  {% if processo.profissao.licenca_sanitaria %}
+                  {% if requerimento.profissao.licenca_sanitaria %}
                     <div class="col d-flex flex-column ms-2">
                       <label for="">Status Licença Sanitária</label>
                       <select class="form-select" name="licenca_status" id="id_licenca_status" onchange="mudaStatusLicenca({{ status_documentos.id}})">
@@ -122,7 +122,7 @@
                       </select>
                     </div>
                     {% endif %}
-                    {% if processo.autonomo_localizado == 's' %}
+                    {% if requerimento.autonomo_localizado == 's' %}
                     <div class="col d-flex flex-column ms-2">
                       <label for="">Status Espelho de IPTU</label>
                       <select class="form-select" name="espelho_status" id="id_espelho_status" onchange="mudaStatusEspelho({{ status_documentos.id}})">
