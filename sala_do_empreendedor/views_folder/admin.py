@@ -106,7 +106,9 @@ def novo_andamento_processo(request, id):
     processo = Processo_Digital.objects.get(id=id)
     requerimento = RequerimentoISS.objects.get(processo=processo)
     if request.method == 'POST':
+        print(request.POST)
         if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
+            print('Opa', request.POST['status'])
             requerimento.boleto = request.FILES['boleto']
             requerimento.n_inscricao = request.POST['inscricao']
         form = Criar_Andamento_Processo(request.POST)
@@ -117,6 +119,7 @@ def novo_andamento_processo(request, id):
             andamento.save()
             processo.status = andamento.status
             processo.save() 
+            requerimento.save()
             messages.success(request, 'Andamento cadastrado com sucesso!')
             return redirect('empreendedor:andamento_processo_admin', id)
         else:
