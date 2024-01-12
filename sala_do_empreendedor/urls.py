@@ -58,6 +58,7 @@ urlpatterns = [
     #PROCESSOS
     
     # PROCESSOS
+    path('iss-autonomos', views.iss_autonomos, name='iss_autonomos'),
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
     path('adm/processos-digitais/requerimento-ISSQ/', views.requerimento_ISSQN, name='requerimento_issqn'),
     path('adm/processos-digitais/andamento/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),
