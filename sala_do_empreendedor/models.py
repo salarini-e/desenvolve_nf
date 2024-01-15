@@ -159,7 +159,10 @@ class Profissao(models.Model):
     licenca_sanitaria_com_alvara = models.BooleanField(default=False, verbose_name='Quando com alvará necessita licença sanitária?')
     licenca_ambiental = models.BooleanField(default=False, verbose_name='Necessita licença ambiental?')
     # licenca_ambiental_com_alvara = models.BooleanField(default=False, verbose_name='Quando com alvará necessita licença sanitária?')
-    
+
+    class Meta:
+        ordering = ['nome']
+        
     def __str__(self) -> str:
         return self.nome
 

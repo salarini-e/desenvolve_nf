@@ -80,7 +80,11 @@ def requerimento_iss_admin(request):
 def andamento_processo_iss(request, processo):
     requerimento = RequerimentoISS.objects.get(processo=processo)
     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
-    status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+    try:
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+    except:
+        messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
+        return redirect('empreendedor:processos_digitais_admin')
     context = {
         'titulo': 'Sala do Empreendedor - ADM - ISS',
         'processo': processo,

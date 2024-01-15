@@ -459,8 +459,10 @@ def requerimento_documentos(request, n_protocolo):
 def andamento_processo_iss(request, processo):
     requerimento_iss = RequerimentoISS.objects.get(processo=processo)
     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
-    status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
-    print('to aqui')
+    try:
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+    except:
+        return redirect('empreendedor:requerimento_iss_doc', n_protocolo=processo.n_protocolo)
     context = {
         'titulo': 'Sala do Empreendedor - Andamento do Processo Online',
         'processo': processo,
