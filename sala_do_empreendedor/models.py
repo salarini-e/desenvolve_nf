@@ -206,8 +206,8 @@ class Processo_Digital(models.Model):
     # tipo_processo=models.CharField(max_length=1, verbose_name='Tipo de processo', choices=PROCESSO_CHOICES)
     n_protocolo=models.CharField(max_length=128, verbose_name='Número do protocolo', null=True, blank=True)
     solicitante = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário', null=True)
-    dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
-    dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
+    dt_solicitacao = models.DateTimeField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
+    dt_atualizacao = models.DateTimeField(auto_now=True, verbose_name='Data de atualização', null=True)
     
     def __str__(self) -> str:
         return self.n_protocolo    
