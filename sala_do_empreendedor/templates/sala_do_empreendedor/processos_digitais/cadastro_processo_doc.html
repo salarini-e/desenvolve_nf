@@ -18,22 +18,15 @@
               </a>                        
             </div>
             <div class="row">
-                <div class="col">
-                  {% if messages %}
-                    {% for message in messages %}
-                      <div class="alert {{ message.tags }}">
-                        {{ message }}
-                      </div>
-                    {% endfor %}
-                  {% endif %}
-                </div>
-              </div>
-            <div class="row">
-                <div class="col px-5 py-5 d-flex flex-column">
+                <div class="col px-5 py-4 d-flex flex-column">
                    <form method="POST" enctype="multipart/form-data">
                     <h2 class="mb-4">REQUERIMENTO DE ISS</h2>
+                    <p class="mb-4 mt-2">
+                      Para darmos continuidade ao seu pedido, solicitamos que envie os documentos pertinentes à sua atividade. Caso haja alguma dúvida em relação aos documentos exigidos, não hesite em entrar em contato conosco.
+                    </p>
                     {% csrf_token %}
                     {% bootstrap_form form %}
+                    <p class="mb-3 ">Por favor, certifique-se de incluir todos os documentos necessários</p>
                     <button class="btn btn-primary">
                       Enviar requerimento
                     </button>

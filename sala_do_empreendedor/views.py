@@ -380,6 +380,7 @@ def requerimento_iss(request):
             processo = form.save(commit=False)
             processo.tipo_processo = Tipo_Processos.objects.get(id=1)
             processo.solicitante = request.user
+            processo.status = 'ae'
             processo.save()
             processo_iss = form_iss.save(commit=False)
             processo_iss.processo = processo
