@@ -237,10 +237,10 @@
     <div id="overlay"></div>
 
     {% for message in messages %}
-    <div id="modal" class="{% if message.tags %}{{message.tags}}{% endif %}">
+    <div id="modal" class="alert  {% if message.tags %}{{message.tags}}{% endif %}">
       <div class="row">
         <div class="col d-flex">
-          <div class="alert {{ message.tags }}">
+          <div class="m-auto {{ message.tags }}">
             {{ message|escape }}
           </div>
         <span id="close-btn" class="ms-auto" onclick="closeModal()">
