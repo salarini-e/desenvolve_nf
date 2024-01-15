@@ -472,8 +472,7 @@ def andamento_processo_iss(request, processo):
 
 @login_required()
 def andamento_processo(request, protocolo):
-    messages.warning(request, 'Processo não encontrado blablablablabbal balblabalablbalbalblabal.')
-    messages.success(request, 'Processo encontrado.')
+    # messages.success(request, 'Processo encontrado.')
     processo = Processo_Digital.objects.get(n_protocolo=protocolo)
     print(processo.tipo_processo.id)
     if processo.tipo_processo.id == 1:
@@ -869,6 +868,8 @@ def requerimento_ISSQN(request):
                 servidor = None
             )
             andamento.save()
+            messages.success(request, 'Processo criado.')
+            return redirect('empreendedor:andamento_processo', protocolo=processo.n_protocolo)
         else:
             print(form.errors)
             print(form_req.errors)
