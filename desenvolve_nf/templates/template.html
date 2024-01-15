@@ -240,7 +240,9 @@
     <div id="modal" class="{% if message.tags %}{{message.tags}}{% endif %}">
       <div class="row">
         <div class="col d-flex">
-        <h2>{{ message|escape }}</h2>
+          <div class="alert {{ message.tags }}">
+            {{ message|escape }}
+          </div>
         <span id="close-btn" class="ms-auto" onclick="closeModal()">X</span>
         </div>
       </div>
