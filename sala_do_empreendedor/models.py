@@ -278,7 +278,6 @@ class Processo_Status_Documentos_Anexos(models.Model):
     licenca_ambiental_status=models.CharField(max_length=1, verbose_name='Status da licença ambiental', choices=DOC_STATUS_CHOICES, default='0')
     espelho_iptu_status=models.CharField(max_length=1, verbose_name='Status do espelho do IPTU', choices=DOC_STATUS_CHOICES, default='0')
 
-
 class RequerimentoISSQN(models.Model):
     SOLICITACAO_CHOICES=(
         ('r', 'Renovação'),
