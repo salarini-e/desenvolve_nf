@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido
 from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form
 from django.contrib import messages
 from autenticacao.models import Pessoa
@@ -82,7 +82,7 @@ def andamento_processo_iss(request, processo):
     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
     status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
     context = {
-        'titulo': 'Sala do Empreendedor',
+        'titulo': 'Sala do Empreendedor - ADM - ISS',
         'processo': processo,
         'andamentos': andamentos,
         'status_documentos': status_documentos,
@@ -91,12 +91,28 @@ def andamento_processo_iss(request, processo):
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_iss.html', context)
 
+def andamento_processo_iss_uniprofissional(request, processo):
+    requerimento = RequerimentoISSQN.objects.get(processo=processo)
+    andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+    status_documentos = DocumentosPedido.objects.get(requerimento=requerimento)
+    context = {
+        'titulo': 'Sala do Empreendedor - ADM - ISS Uniprofissional',
+        'processo': processo,
+        'andamentos': andamentos,
+        'status_documentos': status_documentos,
+        'requerimento': requerimento,
+        
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_uniprofissional.html', context)
+
 @login_required()
 @staff_member_required()
 def andamento_processo_admin(request, id):
     processo = Processo_Digital.objects.get(id=id)
     if processo.tipo_processo.id == 1:
         return andamento_processo_iss(request, processo)
+    elif processo.tipo_processo.id == 3:
+        return andamento_processo_iss_uniprofissional(request, processo)
     return redirect('empreendedor:processos_digitais_admin')
     
 
@@ -104,13 +120,15 @@ def andamento_processo_admin(request, id):
 @staff_member_required()
 def novo_andamento_processo(request, id):
     processo = Processo_Digital.objects.get(id=id)
-    requerimento = RequerimentoISS.objects.get(processo=processo)
+    if processo.tipo_processo.id == 1:
+        requerimento = RequerimentoISS.objects.get(processo=processo)
+    elif processo.tipo_processo.id == 3:
+        requerimento = RequerimentoISSQN.objects.get(processo=processo)
     if request.method == 'POST':
-        print(request.POST)
         if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
-            print('Opa', request.POST['status'])
             requerimento.boleto = request.FILES['boleto']
-            requerimento.n_inscricao = request.POST['inscricao']
+            if processo.tipo_processo.id == 1:
+                requerimento.n_inscricao = request.POST['inscricao']
         form = Criar_Andamento_Processo(request.POST)
         if form.is_valid():
             andamento = form.save(commit=False)
@@ -136,6 +154,19 @@ def novo_andamento_processo(request, id):
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)
 
+
+@login_required()
+@staff_member_required()
+def mudaStatus(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        query = data.get('query')
+        status_documentos = DocumentosPedido.objects.get(id=id)
+        setattr(status_documentos, query+'_status', str(data.get('status')))
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
 
 @login_required()
 @staff_member_required()

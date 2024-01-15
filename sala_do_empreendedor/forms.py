@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm, ValidationError
 from .models import *
+from .functions.empresa import validate_CNPJ
 
 class FormEmpresa(ModelForm):
     class Meta:
@@ -15,7 +16,16 @@ class FormEmpresa(ModelForm):
             'atividade': forms.CheckboxSelectMultiple(),
             'ramo': forms.CheckboxSelectMultiple(),
         }
+    
+    def clean_cnpj(self):
+        cnpj = self.cleaned_data.get('cnpj')
+        try:
+            validate_CNPJ(cnpj)
+        except ValidationError as e:
+            raise forms.ValidationError(str(e))
         
+        return cnpj
+    
 class FormAlterarEmpresa(ModelForm):
     class Meta:
         model = Empresa
@@ -154,6 +164,7 @@ class RequerimentoISSQNForm(forms.ModelForm):
     class Meta:
         model = RequerimentoISSQN
         fields = [
+            'solicitacao',
             'razao_social',
             'nome_fantasia',
             'cnpj',
@@ -171,6 +182,15 @@ class RequerimentoISSQNForm(forms.ModelForm):
             'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone', 'onkeydown':'mascara(this, itel)'}),
             'contador_telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefone do Contador', 'onkeydown':'mascara(this, itel)'}),
         }
+        
+    def clean_cnpj(self):
+        cnpj = self.cleaned_data.get('cnpj')
+        try:
+            validate_CNPJ(cnpj)
+        except ValidationError as e:
+            raise forms.ValidationError(str(e))
+        
+        return cnpj
         
 
 class DocumentosPedidoForm(forms.ModelForm):

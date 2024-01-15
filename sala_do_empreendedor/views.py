@@ -407,9 +407,16 @@ def requerimento_iss(request):
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
 
-def requerimento_iss_documentos(request, n_protocolo):
+def requerimento_documentos(request, n_protocolo):
     processo=Processo_Digital.objects.get(n_protocolo=n_protocolo)
     requerimento_iss = RequerimentoISS.objects.get(processo=processo)
+    try:
+        status = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+    except:
+        status = False
+    if status:
+        messages.warning(request, 'Processo já iniciado. Aguarde a avaliação dos documentos.')
+        return redirect('empreendedor:andamento_processo', protocolo=n_protocolo)
     if request.method == 'POST':
         form = Criar_Processo_Docs_Form(request.POST, request.FILES)
         if form.is_valid():
@@ -425,7 +432,9 @@ def requerimento_iss_documentos(request, n_protocolo):
                 servidor = None
             )
             andamento.save()
-            return redirect('empreendedor:processos_digitais_admin')
+            if request.user.is_staff:
+                return redirect('empreendedor:processos_digitais_admin')
+            return redirect('empreendedor:listar_processos')
         else:
             print(form.errors)
     else:
@@ -463,6 +472,8 @@ def andamento_processo_iss(request, processo):
 
 @login_required()
 def andamento_processo(request, protocolo):
+    messages.warning(request, 'Processo não encontrado blablablablabbal balblabalablbalbalblabal.')
+    messages.success(request, 'Processo encontrado.')
     processo = Processo_Digital.objects.get(n_protocolo=protocolo)
     print(processo.tipo_processo.id)
     if processo.tipo_processo.id == 1:
@@ -839,21 +850,37 @@ def pdde_listar_solicitacoes(request, id):
 
 @login_required
 def requerimento_ISSQN(request):
-    if request.method == 'POST':
-        form = RequerimentoISSQNForm(request.POST)
+    if request.method == 'POST':        
+        form = Criar_Processo_Form(request.POST, request.FILES)
+        form_req = RequerimentoISSQNForm(request.POST)
         documentos_pedido_form = DocumentosPedidoForm(request.POST, request.FILES)
-        if form.is_valid() and documentos_pedido_form.is_valid():
-            empresa = form.save()
+        if form.is_valid() and form_req.is_valid() and documentos_pedido_form.is_valid():
+            processo = form.save()
+            requerimento = form_req.save()
+            requerimento.processo = processo
+            requerimento.save()
             documentos_pedido = documentos_pedido_form.save(commit=False)
-            documentos_pedido.empresa = empresa
+            documentos_pedido.requerimento = requerimento
             documentos_pedido.save()
-
+            andamento = Andamento_Processo_Digital(
+                processo=processo,              
+                status='aa',
+                observacao = 'Processo iniciado. Aguardando avaliação de documentos.',
+                servidor = None
+            )
+            andamento.save()
+        else:
+            print(form.errors)
+            print(form_req.errors)
+            print(documentos_pedido_form.errors)
     else:
-        form = RequerimentoISSQNForm()
-        documentos_pedido_form = DocumentosPedidoForm(request.POST, request.FILES)
+        form = Criar_Processo_Form(initial={'tipo_processo': 3, 'solicitante': request.user.id})
+        form_req = RequerimentoISSQNForm()
+        documentos_pedido_form = DocumentosPedidoForm()
 
     context={
         'form': form,
+        'form_req': form_req,
         'documentos_pedido_form': documentos_pedido_form,
         'titulo': 'Requerimento para ISSQN como Sociedade Uniprofissional'
     }

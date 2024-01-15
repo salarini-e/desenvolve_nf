@@ -72,7 +72,20 @@
 <div class="row mx-auto px-5">
   <script>
     document.getElementById('empreendedor_admin').classList.add('s-nav-active');
-
+    {% if  processo.tipo_processo.id == 3 %}
+    function exibirInput() {
+            var selectValue = document.getElementById("id_status").value;
+            var divBoleto = document.getElementById("boleto");
+            if (selectValue === "bg") {
+                divBoleto.style.display = "block";
+            } else if (selectValue === "cn") {
+                divBoleto.style.display = "block";
+            } else {
+                divBoleto.style.display = "none";
+            }
+        } 
+  </script>
+    {% else %}
     function exibirInput() {
             var selectValue = document.getElementById("id_status").value;
             var divBoleto = document.getElementById("boleto");
@@ -89,6 +102,8 @@
             }
         } 
   </script>
+    {% endif %}
+    
 </div>
 
 <style>

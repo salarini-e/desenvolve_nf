@@ -28,14 +28,15 @@
             <div class="table-responsive border" style="background-color: white; border-radius: 30px; padding: 40px;">
                 <p class="mb-3">Com ciência dos requisitos legais para o enquadramento como SOCIEDADE UNIPROFISSIONAL, e declarando o cumprimento de todos eles, solicitamos a</p>
 
-                <form action="#" method="post">
+                <form action="#" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form %}
+                    {% bootstrap_form form_req %}
                     <p class="mt-4"><strong>DOCUMENTOS PEDIDOS</strong></p>
                     <p class="mb-3">A não apresentação de quaisquer dos documentos solicitados ou ilegível ou fora do período solicitado ou em forma diferente do pedido, acarretará no INDEFERIMENTO DO PEDIDO, sem análise do pedido</p>
                     {% bootstrap_form documentos_pedido_form %}
 
-                    <button type="submit">Enviar</button>
+                    <button class="btn btn-primary" type="submit">Enviar</button>
                 </form>
             </div>
         </div>

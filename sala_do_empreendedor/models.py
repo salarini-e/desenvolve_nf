@@ -281,7 +281,7 @@ class RequerimentoISSQN(models.Model):
         ('r', 'Renovação'),
         ('i', 'Inscrição')
     )
-    processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
+    processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo', null=True)
     solicitacao = models.CharField(max_length=1, verbose_name='Tipo de solicitação', choices=SOLICITACAO_CHOICES)
     razao_social = models.CharField(max_length=255, verbose_name='Razão social')
     nome_fantasia = models.CharField(max_length=255, verbose_name='Nome fantasia')
@@ -293,6 +293,7 @@ class RequerimentoISSQN(models.Model):
     contador = models.CharField(max_length=255, verbose_name='Contador')
     contador_email = models.EmailField(verbose_name='E-mail do contador')
     contador_telefone = models.CharField(max_length=20, verbose_name='Telefone do contador')
+    boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
     dt_register = models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
     
@@ -301,18 +302,35 @@ class RequerimentoISSQN(models.Model):
     
 #Documentos do Requerimento de ISSQN    
 class DocumentosPedido(models.Model):
+    DOC_STATUS_CHOICES=(
+        ('0', 'Aguardando avaliação'),
+        ('1', 'Aprovado'),
+        ('2', 'Reprovado'),
+        ('3', 'Atualização requerida'),
+    )
     requerimento = models.ForeignKey(RequerimentoISSQN, on_delete=models.CASCADE, verbose_name='Requerimento')
     contrato_social = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='1. Contrato social ou última alteração contratual')
+    contrato_social_status = models.CharField(max_length=1, verbose_name='Status do contrato social', choices=DOC_STATUS_CHOICES, default='0')
     carteira_orgao_classe = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='2. Carteira do órgão de classe (CREA, CRM, OAB, etc.)')
+    carteira_orgao_classe_status = models.CharField(max_length=1, verbose_name='Status da carteira do órgão de classe', choices=DOC_STATUS_CHOICES,  default='0')
     alvara_localizacao = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='3. Alvará de localização e funcionamento')
+    alvara_localizacao_status = models.CharField(max_length=1, verbose_name='Status do alvará de localização e funcionamento', choices=DOC_STATUS_CHOICES,  default='0')
     informacoes_cadastrais_dos_empregados = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='4. Informações cadastrais dos empregados (RAS/e-Social/SEFIP)')
+    informacoes_cadastrais_dos_empregados_status = models.CharField(max_length=1, verbose_name='Status das informações cadastrais dos empregados', choices=DOC_STATUS_CHOICES,  default='0')
     balanco_patrimonial = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='5. Balanço patrimonial compelto (último exercício), discriminado')
+    balanco_patrimonial_status = models.CharField(max_length=1, verbose_name='Status do balanço patrimonial', choices=DOC_STATUS_CHOICES,  default='0')
     dre = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='6. DRE completo (último exercício), discriminado')
+    dre_status = models.CharField(max_length=1, verbose_name='Status do DRE', choices=DOC_STATUS_CHOICES,  default='0')
     balancete_analitico = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='7. Balancete analítico completo (último exercício), discriminado')
+    balancete_analitico_status = models.CharField(max_length=1, verbose_name='Status do balancete analítico', choices=DOC_STATUS_CHOICES,  default='0')
     cnpj_copia = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='8. Cópia do CNPJ')
+    cnpj_copia_status = models.CharField(max_length=1, verbose_name='Status da cópia do CNPJ', choices=DOC_STATUS_CHOICES,  default='0')
     profissionais_habilitados = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='9. Relação dos profissionais habilitados (CREA, CRM, OAB, etc.)')
+    profissionais_habilitados_status = models.CharField(max_length=1, verbose_name='Status da relação dos profissionais habilitados', choices=DOC_STATUS_CHOICES,  default='0')
     ir_empresa = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='10. IR da empresa (último exercício), discriminado')
+    ir_empresa_status = models.CharField(max_length=1, verbose_name='Status do IR da empresa', choices=DOC_STATUS_CHOICES,  default='0')
     simples_nacional = models.FileField(upload_to='documentos/requerimento_issqn/', verbose_name='11. Simples nacional (último exercício), discriminado')
+    simples_nacional_status = models.CharField(max_length=1, verbose_name='Status do simples nacional', choices=DOC_STATUS_CHOICES,  default='0')
     
     def __str__(self):
         return f'Documentos Pedido - {self.requerimento.razao_social}'

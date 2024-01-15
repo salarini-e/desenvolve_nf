@@ -233,32 +233,101 @@
     defer>
     </script> -->
     {% if messages %}              
-    <!-- MODAL -->
-    <div class="modal fade" id="resposta" aria-hidden="true" aria-labelledby="respostaLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            {% for message in messages %}
-            <div class="modal-header {% if message.tags %}{{message.tags}}{% endif %} border-0">
-              <h5 class="modal-title text-dark text-center" id="exampleModalToggleLabel"></h5>
-              <button type="button" data-bs-dismiss="modal" class="btn-close"></button>
-            </div>
-            <div class="modal-body px-5 {% if message.tags %}{{message.tags}}{% endif %}">   
-               
-              <p class="px-4 py-3 text-center">
-                {{ message|escape }}
-              </p>
-              
-              
-            </div>
-            <div class="modal-footer {% if message.tags %}{{message.tags}}{% endif %} border-0">
-              <div class="modal-footer">
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-    
+
+    <div id="overlay"></div>
+
+    {% for message in messages %}
+    <div id="modal" class="{% if message.tags %}{{message.tags}}{% endif %}">
+      <div class="row">
+        <div class="col d-flex">
+        <h2>{{ message|escape }}</h2>
+        <span id="close-btn" class="ms-auto" onclick="closeModal()">X</span>
         </div>
-      </div>   
+      </div>
+      
+    </div>
+    {% endfor %}
+    <style>
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            max-width: 90%; /* Defina a largura máxima do modal */
+            padding: 20px;
+            /* background-color: #fff; */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 10px; /* Adicione bordas arredondadas ao modal */
+        }
+
+        #modal h2 {
+            margin-top: 0;
+            color: #333; /* Cor do título do modal */
+        }
+        #close-btn {
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 18px;
+            color: #888; /* Cor do botão de fechar */
+        }
+
+        #close-btn:hover {
+            color: #555; /* Cor do botão de fechar ao passar o mouse */
+        }
+
+        /* Adicione mais estilos conforme necessário */
+
+        #modal .row {
+            margin-bottom: 10px;
+        }
+
+        /* Adicione estilos específicos para a mensagem usando as classes de tags */
+        #modal.error {
+            border: 2px solid #ff3333;
+            background-color: #ffeeee;
+        }
+
+        #modal.success {
+            border: 2px solid #33cc33;
+            background-color: #eeffef;
+        }
+    </style>
+    <script>
+       function openModal() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            var modal = document.getElementById('modal');
+            var overlay = document.getElementById('overlay');
+            if (event.target === overlay) {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+        }
+      openModal()
+    </script>
       <script>
       const myModal = new bootstrap.Modal(document.getElementById('resposta'))
       myModal.toggle()
@@ -280,7 +349,8 @@
           font-weight: 600
         }
       </style>
-    {% endif %} 
+    {% endif %}
+
 </body>
 
 </html>
