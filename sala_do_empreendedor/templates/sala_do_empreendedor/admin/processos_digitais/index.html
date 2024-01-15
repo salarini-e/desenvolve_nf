@@ -63,7 +63,7 @@
                               {% for processo in processos %}
                                 <tr>
                                     <td><strong>{{processo.n_protocolo}}</strong></td>
-                                    <td class="d-flex text-center"><span class="py-1 px-3 rounded-pill w-100" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}rgb(146, 146, 146){% endif %};">{{processo.get_status_display}}</span></td>
+                                    <td class="d-flex text-center"><span class="py-1 px-3 rounded-pill w-100" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ae' %}rgb(235, 137, 124){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}rgb(146, 146, 146){% endif %};">{{processo.get_status_display}}</span></td>
                                     <td style="padding-top: 12px;"><span class="py-1 px-3 rounded-pill w-100" style="background-color: rgb(124, 235, 150);">{{processo.tipo_processo.nome}}</span></td>
                                     <td><a target="_blank" href="#"><i class="fa-solid fa-user me-2"></i> {{processo.solicitante.first_name}}</a></td>
                                     <td class="text-center">{{processo.dt_atualizacao|date:"d/m/y"}}</td>

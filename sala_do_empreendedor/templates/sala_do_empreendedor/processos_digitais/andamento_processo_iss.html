@@ -21,7 +21,7 @@
                 <span class="py-0 px-2 rounded-pill" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}#000000; color: white{% endif %};">{{processo.get_status_display}}</span>
                 <p class="ms-3">
                   <strong class="my-auto">{{processo.tipo_processo.nome}} - {{processo.n_protocolo}} - {{processo.dt_solicitacao|date:"d/m/y"}}</strong></p >
-                <p class="ms-auto my-auto"><strong>Solicitante:</strong> <a href="#">{{processo.solicitante.first_name}}</a></p>
+                  <p class="ms-auto my-auto"><strong>Profissão:</strong> {{requerimento.profissao.nome}} {% if requerimento.autonomo_localizado == 's' %}(Localizado){% else %}(Não localizado){% endif %} <strong class="ms-3">Solicitante:</strong> <a href="#">{{processo.solicitante.first_name}}</a></p>
               </div>
             </div>
             <div class="row">

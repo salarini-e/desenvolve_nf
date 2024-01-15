@@ -473,6 +473,21 @@ def andamento_processo_iss(request, processo):
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/andamento_processo_iss.html', context)
 
+def andamento_processo_uniprofissional(request, processo):
+    requerimento = RequerimentoISSQN.objects.get(processo=processo)
+    andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+    status_documentos = DocumentosPedido.objects.get(requerimento=requerimento)
+    context = {
+        'titulo': 'Sala do Empreendedor - ISS Uniprofissional',
+        'processo': processo,
+        'andamentos': andamentos,
+        'status_documentos': status_documentos,
+        'requerimento': requerimento,
+        
+    }
+    return render(request, 'sala_do_empreendedor/processos_digitais/andamento_processo_uniprofissional.html', context)
+
+
 @login_required()
 def andamento_processo(request, protocolo):
     # messages.success(request, 'Processo encontrado.')
@@ -480,13 +495,19 @@ def andamento_processo(request, protocolo):
     print(processo.tipo_processo.id)
     if processo.tipo_processo.id == 1:
         return andamento_processo_iss(request, processo)
+    elif processo.tipo_processo.id == 3:
+        return andamento_processo_uniprofissional(request, processo)
     return redirect('empreendedor:listar_processos')
 
 @login_required
 def atualizar_documento_processo(request, protocolo, doc):
     try:
         processo = Processo_Digital.objects.get(n_protocolo = protocolo)
-        status = Processo_Status_Documentos_Anexos.objects.get(processo = processo)
+        if processo.tipo_processo.id == 1:
+            status = Processo_Status_Documentos_Anexos.objects.get(processo = processo)
+        elif processo.tipo_processo.id == 3:
+            requerimento = RequerimentoISSQN.objects.get(processo = processo)
+            status = DocumentosPedido.objects.get(requerimento = requerimento)
         try:
             status_doc = getattr(status, f"{doc}_status")
         except:
@@ -518,13 +539,28 @@ def atualizar_documento_processo(request, protocolo, doc):
                 status.save()
                 processo.save()
                 # Verifica se todos os documentos estão aprovados para poder seguir com o processo
-                is_reprovado = (
-                    status.rg_status == '2' or
-                    status.comprovante_endereco_status == '2' or
-                    status.diploma_ou_certificado_status == '2' or
-                    status.licenca_sanitaria == '2' or
-                    status.espelho_iptu_status == '2'
-                )
+                if processo.tipo_processo.id == 1:
+                    is_reprovado = (
+                        status.rg_status == '2' or
+                        status.comprovante_endereco_status == '2' or
+                        status.diploma_ou_certificado_status == '2' or
+                        status.licenca_sanitaria == '2' or
+                        status.espelho_iptu_status == '2'
+                    )
+                elif processo.tipo_processo.id == 3:
+                    is_reprovado = (
+                        status.contrato_social_status == '2' or
+                        status.carteira_orgao_classe_status == '2' or
+                        status.alvara_localizacao_status == '2' or
+                        status.informacoes_cadastrais_dos_empregados_status == '2' or
+                        status.balanco_patrimonial_status == '2' or
+                        status.dre_status == '2' or
+                        status.balancete_analitico_status == '2' or
+                        status.cnpj_copia_status == '2' or
+                        status.profissionais_habilitados_status == '2' or
+                        status.ir_empresa_status == '2' or
+                        status.simples_nacional_status == '2'
+                    )
                 # Se não há documento reprovado, o processo pode seguir
                 if not is_reprovado:
                     # Criasse então um novo andamento para o processo
