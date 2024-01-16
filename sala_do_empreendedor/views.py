@@ -485,7 +485,7 @@ def andamento_processo_uniprofissional(request, processo):
     try:
         status_documentos = DocumentosPedido.objects.get(requerimento=requerimento)
     except:
-        return redirect('empreendedor:requerimento_uniprofissional_doc', n_protocolo=processo.n_protocolo)
+        return redirect('empreendedor:requerimento_issqn_doc', n_protocolo=processo.n_protocolo)  
     context = {
         'titulo': 'Sala do Empreendedor - ISS Uniprofissional',
         'processo': processo,
