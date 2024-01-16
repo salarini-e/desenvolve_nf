@@ -24,6 +24,9 @@
                     <p class="mb-4 mt-2">
                       Para darmos continuidade ao seu pedido, solicitamos que envie os documentos pertinentes à sua atividade. Caso haja alguma dúvida em relação aos documentos exigidos, não hesite em entrar em contato conosco.
                     </p>
+                    <p class="alert-warning py-1 px-3 mb-3">
+                      <strong>O nome dos arquivos anexados não devem conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.</strong>
+                    </p>
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <p class="mb-3 ">Por favor, certifique-se de incluir todos os documentos necessários</p>

@@ -482,10 +482,7 @@ def andamento_processo_iss(request, processo):
 def andamento_processo_uniprofissional(request, processo):
     requerimento = RequerimentoISSQN.objects.get(processo=processo)
     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
-    try:
-        status_documentos = DocumentosPedido.objects.get(requerimento=requerimento)
-    except:
-        return redirect('empreendedor:requerimento_uniprofissional_doc', n_protocolo=processo.n_protocolo)
+    status_documentos = DocumentosPedido.objects.get(requerimento=requerimento)
     context = {
         'titulo': 'Sala do Empreendedor - ISS Uniprofissional',
         'processo': processo,
@@ -926,7 +923,7 @@ def requerimento_ISSQN(request):
                 servidor = None
             )
             andamento.save()
-            messages.success(request, 'Processo criado. Aguardando avaliação de documentos.')
+            messages.success(request, 'Processo criado.')
             return redirect('empreendedor:andamento_processo', protocolo=processo.n_protocolo)
         else:
             print(form.errors)
