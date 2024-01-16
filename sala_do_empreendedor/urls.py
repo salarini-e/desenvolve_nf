@@ -75,6 +75,7 @@ urlpatterns = [
     
     path('processos-digitais/<protocolo>/att-doc/<doc>', views.atualizar_documento_processo, name='atualizar_documento_processo'),
     path('processos/criar-novo/envio-de-documentos/<n_protocolo>/', views.requerimento_documentos, name='requerimento_iss_doc'),
+    path('processos/criar-novo/uniprofissional/envio-de-documentos/<n_protocolo>/', views.requerimento_ISSQN_doc, name='requerimento_issqn_doc'),
     
     
     path('checkCPF/', views.checkCPF, name='checkCPF'),
