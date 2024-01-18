@@ -2,7 +2,7 @@
 const roomName = JSON.parse(document.querySelector("#room_name").textContent)
 
 //Defining the chat's WebSocket.
-const chatSocket = new WebSocket(`wss://${window.location.host}/ws/chat/${roomName}`);
+const chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/${roomName}`);
 
 console.log(chatSocket);
 
