@@ -58,24 +58,27 @@ urlpatterns = [
     #PROCESSOS
     
     # PROCESSOS
+    # Opções
     path('iss-autonomos', views.iss_autonomos, name='iss_autonomos'),
     path('consultar-processos/', views.consultar_processos, name='consultar_processos'),
-    
+    # Consulta do processo
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
-    
+    # Criar novo processo
     path('adm/processos-digitais/requerimento-ISSQ/', views.requerimento_ISSQN, name='requerimento_issqn'),
     path('processos/criar-novo/requerimento-iss/', views.requerimento_iss, name='requerimento_iss'),
     path('adm/processos/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
-    
-    path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
-    
-    path('adm/processos-digitais/andamento/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),    
-    path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
-    
-    path('processos-digitais/<protocolo>/att-doc/<doc>', views.atualizar_documento_processo, name='atualizar_documento_processo'),
+    # Envio de documentos requeridos
     path('processos/criar-novo/envio-de-documentos/<n_protocolo>/', views.requerimento_documentos, name='requerimento_iss_doc'),
     path('processos/criar-novo/uniprofissional/envio-de-documentos/<n_protocolo>/', views.requerimento_ISSQN_doc, name='requerimento_issqn_doc'),
+    # Coonsulta do processo
+    path('adm/processos-digitais/andamento/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),    
+    path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
+    # Dar andamento no processo
+    path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
+    # Atualizar documento do processo
+    path('processos-digitais/<protocolo>/att-doc/<doc>', views.atualizar_documento_processo, name='atualizar_documento_processo'),
+    
     
     
     path('checkCPF/', views.checkCPF, name='checkCPF'),

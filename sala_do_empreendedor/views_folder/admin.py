@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
 from secretaria_financas.decorators import funcionario_financas_required, setor_financas_required
+from sala_do_empreendedor.functions.email import send_email_for_create_process, send_email_for_att_process
 
 @login_required
 @funcionario_financas_required
@@ -143,6 +144,8 @@ def novo_andamento_processo(request, id):
             processo.save() 
             requerimento.save()
             messages.success(request, 'Andamento cadastrado com sucesso!')
+            if processo.tipo_processo.id == 3:
+                send_email_for_att_process(processo, andamento)
             return redirect('empreendedor:andamento_processo_admin', id)
         else:
             print(form.errors)

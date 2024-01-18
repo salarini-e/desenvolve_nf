@@ -9,6 +9,7 @@ from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS
 from .functions.pdde import Listar_Proposta, PDDE_POST
+from .functions.email import send_email_for_create_process, send_email_for_att_process
 from django.db import transaction
 from guardiao.models import TentativaBurla
 
@@ -446,12 +447,12 @@ def requerimento_documentos(request, n_protocolo):
             print(form.errors)
     else:
         form = Criar_Processo_Docs_Form(initial={'processo': processo.id, 'user_register': request.user.id})
-    print(requerimento_iss.profissao.escolaridade.id)
+    # print(requerimento_iss.profissao.escolaridade.id)
     if requerimento_iss.profissao.escolaridade.id in [1,2,3,4]:
-        print('Tem diploma')
+        # print('Tem diploma')
         not_diploma = False
     else:
-        print('Não tem diploma')
+        # print('Não tem diploma')
         not_diploma = True
     context = {
         'titulo': 'Sala do Empreendedor - Requerimento de ISS',
@@ -894,7 +895,7 @@ def pdde_listar_solicitacoes(request, id):
         'solicitacoes': solicitacoes
     }
     return render(request, 'sala_do_empreendedor/pdde/listar_solicitacoes.html', context)
-
+ 
 @login_required
 def requerimento_ISSQN(request):
     if request.method == 'POST':        
@@ -909,7 +910,7 @@ def requerimento_ISSQN(request):
             documentos_pedido = documentos_pedido_form.save(commit=False)
             documentos_pedido.requerimento = requerimento
             try:
-                documentos_pedido.save()
+                documentos_pedido.save()                
             except:
                 messages.error(request, 'Error ao enviar os documentos. O nome dos arquivos anexados não devem conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
                 andamento = Andamento_Processo_Digital(
@@ -927,6 +928,7 @@ def requerimento_ISSQN(request):
             )
             andamento.save()
             messages.success(request, 'Processo criado. Aguardando avaliação de documentos.')
+            send_email_for_create_process(processo, andamento)
             return redirect('empreendedor:andamento_processo', protocolo=processo.n_protocolo)
         else:
             print(form.errors)
