@@ -406,6 +406,9 @@ class Solicitacao_de_Compras(models.Model):
     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
     ramo_atuacao = models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Enviar mensagem para as empresas com os seguintes ramos de atuação:', null=True, blank=True)
 
+    def is_fim_propostas(self):
+        hoje = timezone.now().date()
+        return self.dt_envio_propostas == hoje
 
 class Item_Solicitacao(models.Model):
     

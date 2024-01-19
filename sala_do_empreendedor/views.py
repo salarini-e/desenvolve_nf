@@ -996,3 +996,11 @@ def requerimento_ISSQN_doc(request, n_protocolo):
         'titulo': 'Requerimento para ISSQN como Sociedade Uniprofissional'
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/uniprofissional/documentos.html', context)
+
+
+def atualizar_todo_dia(request):
+    solicitacao = Solicitacao_de_Compras.objects.filter(status='2')
+    for s in solicitacao:
+        if s.is_fim_propostas():
+            s.status = '3'
+            s.save()
