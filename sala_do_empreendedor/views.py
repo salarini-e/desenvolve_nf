@@ -997,6 +997,8 @@ def requerimento_ISSQN_doc(request, n_protocolo):
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/uniprofissional/documentos.html', context)
 
+#import httpresponse
+from django.http import HttpResponse
 
 def atualizar_todo_dia(request):
     solicitacao = Solicitacao_de_Compras.objects.filter(status='2')
@@ -1004,3 +1006,4 @@ def atualizar_todo_dia(request):
         if s.is_fim_propostas():
             s.status = '3'
             s.save()
+    return HttpResponse('ok')
