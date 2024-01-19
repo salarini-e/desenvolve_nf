@@ -107,5 +107,5 @@ urlpatterns = [
     path('adm/pdde/solicitacao/<id>/detalhes/contrato/', views.pdde_contratacao, name='pdde_contratacao'),
     
     #url para rotinas diarias
-    path('/rotina/meia-noite/', views.atualizar_todo_dia, name='rotinas_admin'),
+    path('rotina/meia-noite/', views.atualizar_todo_dia, name='rotinas_admin'),
 ]
