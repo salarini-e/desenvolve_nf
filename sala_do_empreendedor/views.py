@@ -891,8 +891,8 @@ def pdde_remover_item_solicitacao_featch(request):
 @login_required
 def pdde_listar_solicitacoes(request, id):
     try:
-        escola=Escola.objects.get_object_or_404(id=id)
-        if escola.responsavel != request.user:
+        escola=Escola.objects.get(id=id)
+        if escola.responsavel != request.user and request.user.is_staff == False:
             messages.warning(request, 'Você não possui autorização para acessar essa página!')
             return redirect('empreendedor:pdde_index')
     except:
