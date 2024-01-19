@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db import connection
 from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
@@ -786,7 +786,14 @@ def pdde_criar_itens_solicitacao(request, id):
             messages.warning(request, 'Sua escola ainda não foi aprovada pela equipe da Sala do Empreendedor. Aguarde a aprovação para poder criar solicitações.')
             return redirect('empreendedor:pdde_escola')
         elif response[0] == 'proposta-aceita':
-            messages.success(request, 'Proposta aceita com sucesso! Criando contrato...')
+            messages.success(request, 'Proposta aceita com sucesso! Aguardando a contratação da empresa.')
+            # Contrato_de_Servico.objects.create(
+            #     solicitacao_referente
+            #     solicitacao_de_compra=solicitacao,
+            #     empresa=response[1].empresa,
+            #     proposta=response[1],
+            #     data_contratacao=datetime.now()
+            # )
             return redirect('empreendedor:pdde_contratacao', id=response[1].id)
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
     # elif solicitacao.status != '0':
@@ -811,10 +818,8 @@ def pdde_criar_itens_solicitacao(request, id):
     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
 
 def pdde_contratacao(request, id):
-    contrato = Contrato_de_Servico.objects.filter(id=id)
-    context = {
-        'contrato': contrato
-    }
+    contrato = get_object_or_404(Contrato_de_Servico, id=id)
+    context = {'contrato': contrato}
     return render(request, 'sala_do_empreendedor/pdde/contratacao.html', context)
 
 def listar_proposta_para_o_item(request, id, id_item):
@@ -887,7 +892,7 @@ def pdde_remover_item_solicitacao_featch(request):
 def pdde_listar_solicitacoes(request, id):
     try:
         escola=Escola.objects.get(id=id)
-        if escola.responsavel != request.user or request.user.is_staff == False:
+        if escola.responsavel != request.user and request.user.is_staff == False:
             messages.warning(request, 'Você não possui autorização para acessar essa página!')
             return redirect('empreendedor:pdde_index')
     except:

@@ -24,11 +24,11 @@
           <tbody>
             <tr>
               <td><strong>Nome:</strong></td>
-              <td>Nome</td>
+              <td>{{ contrato.nome }}</td>
             </tr>
             <tr>
               <td><strong>CNPJ:</strong></td>
-              <td>CNPJ</td>
+              <td>{{ contrato.cnpj }}</td>
             </tr>
             <tr>
               <td><strong>Endereço:</strong></td>
@@ -86,7 +86,69 @@
       <p>O presente contrato tem por objeto a prestação de serviços profissionais especializados por parte da (CONTRATADA):</p>
       <table class="mt-3">
         <tr>
-          <td>Listagem de itens</td>
+          <td>Listagem de itens</td
+            
+Se você deseja melhorar o design e a estrutura da sua página, você pode considerar algumas sugestões para aprimorar o código HTML e CSS, bem como tornar o template mais dinâmico usando variáveis do contexto do Django. Vou fornecer algumas sugestões para você, mas lembre-se de que essas são apenas recomendações e você pode ajustar conforme suas necessidades específicas.
+
+Melhorias no Código Python (Views):
+Utilize o método get_object_or_404 para garantir que a página retorne um erro 404 se o contrato não for encontrado:
+python
+Copy code
+from django.shortcuts import render, get_object_or_404
+
+def pdde_contratacao(request, id):
+    contrato = get_object_or_404(Contrato_de_Servico, id=id)
+    context = {'contrato': contrato}
+    return render(request, 'sala_do_empreendedor/pdde/contratacao.html', context)
+Melhorias no Template (HTML/CSS):
+Use Django template tags para acessar os atributos do contrato:
+html
+Copy code
+<td>{{ contrato.nome }}</td>
+<td>{{ contrato.cnpj }}</td>
+<td>{{ contrato.endereco }}</td>
+<td>{{ contrato.telefone }}</td>
+<td>{{ contrato.email }}</td>
+<td>{{ contrato.representante }}</td>
+Torne as tabelas mais responsivas:
+html
+Copy code
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  table tr td:first-child {
+    width: 150px !important;
+  }
+</style>
+Use um loop para exibir os itens da solicitação:
+html
+Copy code
+<table class="mt-3">
+  {% for item in contrato.itens_solicitados.all %}
+    <tr>
+      <td>{{ item.nome }}</td>
+      <td>{{ item.quantidade }}</td>
+      <td>{{ item.unidade }}</td>
+      <td>{{ item.descricao }}</td>
+    </tr>
+  {% endfor %}
+</table>>
         </tr>
       </table>
       <h4 class="mb-2 mt-3">DA AVALIAÇÃO DE PERFORMANCE</h4>
