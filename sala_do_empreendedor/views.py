@@ -696,10 +696,15 @@ def pdde_index_empresa_detalhe_solicitacao(request, id):
                 messages.warning(request, 'Preencha todos os campos de proposta corretamente.')
         else:
             messages.warning(request, 'Você precisia de uma empresa para enviar a proposta.')
+    if solicitacao.status == '3' or solicitacao.status == '4' or solicitacao.status == '5':
+        total_propostas = Proposta.objects.filter(solicitacao_de_compra=solicitacao).count()
+    else:
+        total_propostas = 0
     cotext = {
             'titulo': 'Sala do Empreendedor - PDDE Proposta',
             'solicitacao': solicitacao,
             'itens': itens,
+            'total_propostas': total_propostas,
             'tipo': str(solicitacao.get_tipo_display()).lower(),
             'empresas': Empresa.objects.filter(user_register=request.user)
         }
