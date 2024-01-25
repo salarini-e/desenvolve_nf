@@ -235,7 +235,7 @@ class Turma(models.Model):
     def __str__(self):
         turma_count = str(Turma.objects.filter(curso=self.curso, dt_inclusao__lt = self.dt_inclusao).count() + 1)
 
-        return '%s %s/%s' % (self.curso.sigla, turma_count.rjust(3,'0'), self.dt_inclusao.year)
+        return '%s %s/%s' % (self.curso.sigla, turma_count.rjust(3,'0'), self.data_inicio.year)
 
 
 class Turno_estabelecido(models.Model):
