@@ -4,13 +4,17 @@ from ..forms import FormEmpresa, FormAlterarEmpresa
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
+from ..models import Proposta, Solicitacao_de_Compras, Contrato_de_Servico
 
 @login_required()
 def minha_empresa(request):
-    empresas=Empresa.objects.filter(user_register=request.user)
+    empresas = Empresa.objects.filter(user_register=request.user)
+    contrato = Contrato_de_Servico.objects.filter(proposta_vencedora__empresa__user_register=request.user)
     context = {
         'titulo': 'Sala do Empreendedor - Minha Empresa',
-        'empresas': empresas
+        'empresas': empresas,
+        'pdde': contrato,
+        'pdde_count': contrato.count(),
     }
     return render(request, 'sala_do_empreendedor/minha-empresa/index.html', context)
 

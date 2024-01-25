@@ -41,7 +41,7 @@ def Maior_Valor_Proposto(item_id):
 
 
 def Listar_Proposta(solicitacao_compra_id):
-    solicitacao_compra = Solicitacao_de_Compras.objects.get(pk=solicitacao_compra_id)    
+    solicitacao_compra = Solicitacao_de_Compras.objects.get(pk=solicitacao_compra_id)
     propostas = Proposta.objects.filter(solicitacao_de_compra=solicitacao_compra)
     lista_propostas = []
 
@@ -68,19 +68,33 @@ def gerar_hash_contrato(numero_contrato):
     return hash_contrato
 
 import datetime
+from django.db import transaction
 def Criar_Contrato(solicitacao, request):
     proposta_vencedora = Listar_Proposta(solicitacao.id)[0]
     today = datetime.date.today()
-    contrato=Contrato_de_Servico.objects.create(solicitacao_referente = solicitacao,
-                                       proposta_vencedora = proposta_vencedora['proposta'],
-                                       titulo = f'Contrato de Serviço - {solicitacao.escola.nome} - {today.strftime("%d/%m/%Y")}',
-                                       proposito = solicitacao.descricao,
-                                       hash=gerar_hash_contrato(solicitacao.id),
-                                       user_register=request.user                                                                           
-    )                                       
-    # for i in proposta_vencedora['itens']:
-        # contrato.itens.add(i.id)
-    # contrato.save()
+    with transaction.atomic():
+        # Criando a instância de Contrato_de_Servico
+        contrato = Contrato_de_Servico.objects.create(
+            solicitacao_referente=solicitacao,
+            proposta_vencedora=proposta_vencedora['proposta'],
+            titulo=f'Contrato nº {solicitacao.id}/{solicitacao.dt_solicitacao.year} de {solicitacao.get_tipo_display()} - {solicitacao.escola.nome}',
+            proposito=solicitacao.descricao,
+            hash=gerar_hash_contrato(solicitacao.id),
+            user_register=request.user
+        )
+
+        # Adicionando itens associados à Proposta à instância de Contrato_de_Servico
+        for proposta_item in proposta_vencedora['itens']:
+            contrato.itens_solicitados.add(proposta_item.item_solicitacao)
+            contrato.propostas_itens.add(proposta_item)
+
+        # Marcando o contrato como aceito pela empresa
+        contrato.aceito_pela_empresa = True
+
+        # Salvando as alterações no banco de dados
+        contrato.save()
+        solicitacao.proposta_vencedora = contrato.proposta_vencedora.empresa
+        solicitacao.save()
     return ['contrato-criado', contrato]
 
 def Aceitar_Proposta(solicitacao, request):

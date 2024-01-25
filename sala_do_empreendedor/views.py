@@ -75,7 +75,7 @@ def cadastrar_faccao_legal(request):
     if request.method == 'POST':
         form = Faccao_Legal_Form(request.POST)
         if form.is_valid():
-            faccao = form.save(commit=False)
+            faccao = form.save()
             faccao.user = request.user
             faccao.save()            
             try:
@@ -788,14 +788,7 @@ def pdde_criar_itens_solicitacao(request, id):
             messages.warning(request, 'Sua escola ainda não foi aprovada pela equipe da Sala do Empreendedor. Aguarde a aprovação para poder criar solicitações.')
             return redirect('empreendedor:pdde_escola')
         elif response[0] == 'proposta-aceita':
-            messages.success(request, 'Proposta aceita com sucesso! Aguardando a contratação da empresa.')
-            # Contrato_de_Servico.objects.create(
-            #     solicitacao_referente
-            #     solicitacao_de_compra=solicitacao,
-            #     empresa=response[1].empresa,
-            #     proposta=response[1],
-            #     data_contratacao=datetime.now()
-            # )
+            messages.success(request, 'Proposta aceita com sucesso! Aguardando a contratação da empresa.')            
             return redirect('empreendedor:pdde_contratacao', id=response[1].id)
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
     # elif solicitacao.status != '0':
@@ -821,7 +814,20 @@ def pdde_criar_itens_solicitacao(request, id):
 
 def pdde_contratacao(request, id):
     contrato = get_object_or_404(Contrato_de_Servico, id=id)
-    context = {'contrato': contrato}
+    if contrato.proposta_vencedora.empresa.user_register == request.user:
+        contratado = True
+    else:
+        contratado = False
+    if request.method == 'POST':
+        if contratado == True:
+            contrato.solicitacao_referente.status = '4'
+            contrato.solicitacao_referente.save()
+            messages.success(request, 'Contrato assinado com sucesso! Aguardando execução do serviço.')
+            return redirect('empreendedor:minha_empresa')
+    context = {
+        'contrato': contrato,
+        'contratado': contratado,
+               }
     return render(request, 'sala_do_empreendedor/pdde/contratacao.html', context)
 
 def listar_proposta_para_o_item(request, id, id_item):

@@ -18,7 +18,7 @@
             </div>
             <div class="row">
               <div class="col px-5 mt-4 d-flex">
-                <span class="py-0 px-2 rounded-pill" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}#000000; color: white{% endif %};">{{processo.get_status_display}}</span>
+                <span class="py-0 px-2 rounded-pill" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ae' %}rgb(235, 137, 124){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}#000000; color: white{% endif %};">{{processo.get_status_display}}</span>
                 <p class="ms-3">
                   <strong class="my-auto">{{processo.tipo_processo.nome}} - {{processo.n_protocolo}} - {{processo.dt_solicitacao|date:"d/m/y"}}</strong></p >
                   <p class="ms-auto my-auto"><strong>Profissão:</strong> {{requerimento.profissao.nome}} {% if requerimento.autonomo_localizado == 's' %}(Localizado){% else %}(Não localizado){% endif %} <strong class="ms-3">Solicitante:</strong> <a href="#">{{processo.solicitante.first_name}}</a></p>
@@ -37,6 +37,42 @@
                   </div>
                 </div>
                 {% endif %}
+                <!-- if licenca ambiental -->
+                <div class="w-100 pt-4 d-flex flex-column">
+                  <h4>Licença Ambiental</h4>
+                  <p class="mb-3 ">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Ambiental correspondente. Caso já disponha desse documento, solicitamos que o envie através da caixa indicada abaixo. Se, porventura, ainda não obteve a Licença Ambiental, pedimos que preencha o <a href="#">formulário</a> e dirija-se à Secretaria de Meio Ambiente, localizada ao lado da Prefeitura, no prédio da antiga rodoviária, para formalizar sua solicitação.</p>
+                  <!-- <p>Seu ramo de atividade necessita da liberação de Licença Ambiental. Se já possui, envie na caixa abaixo, caso contrário preencha o <a href="#">formulário</a> e solicite sua licença na Secretária de Meio Ambiente situada ao lado da Prefeitura no predio a antiga rodoviaria.</p> -->
+                  <form method="POST" enctype="multipart/form-data" class="mb-3 mx-auto">
+                    <label for="formFile" class="form-label"><strong>Enviar arquivo de licença ambiental</strong></label>
+                    {% csrf_token %}
+                    <input class="form-control" type="file" id="formFile">
+                    <button class="btn btn-dark w-100 mt-1  py-0" style="border-radius: 0px !important;">
+                      Enviar
+                    </button>
+                  </form>
+                </div>
+                <!-- endif -->
+                <!-- if licenca sanitaria -->
+                <div class="d-flex flex-column w-100 pt-4">
+                  <h4>Licença Sanitária</h4>
+                  <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Ambiental correspondente. Está solicitação a Secretária de Saúde está ocorrendo juntamente a este processo.</p>
+                  <div class="row">
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Status RG</label>
+                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_status_display}}</p>
+                    </div>
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Status RG</label>
+                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_status_display}}</p>
+                    </div>
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Status RG</label>
+                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_status_display}}</p>
+                    </div>
+                  </div>
+                  <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
+                </div>
+                <!-- endif -->
                 <div class="d-flex w-100 pt-4">
                 <h4>Anexos</h4>
                

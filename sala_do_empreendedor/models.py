@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from django.utils import timezone
 from django_cpf_cnpj.fields import CNPJField
+import uuid
 
 class Porte_da_Empresa(models.Model):
     porte=models.CharField(max_length=32, verbose_name='Porte da empresa')
@@ -380,8 +381,8 @@ class Solicitacao_de_Compras(models.Model):
         ('0', 'Criando solicitação'),
         ('1', 'Aguardando propostas'),
         ('2', 'Aguardando analise de propostas'),
-        ('3', 'Aguardando avaliação de contrato'),
-        ('4', 'Aguardando aceite de contrato'),
+        # ('3', 'Aguardando avaliação de contrato'),
+        ('3', 'Aguardando aceite de contrato'),
         ('4', 'Aguardando entrega/serviço'),
         ('5', 'Aguardando nota fiscal/pagamento'),
         ('6', 'Avaliação de serviço'),
@@ -396,20 +397,32 @@ class Solicitacao_de_Compras(models.Model):
         ('l', 'lote'),
     )
     
+    codigo = models.CharField(max_length=20, unique=True, null=True)
     status = models.CharField(max_length=1, verbose_name='Status da solicitacao', choices=STATUS_CHOICES, default='0')
     tipo = models.CharField(max_length=1, verbose_name='Tipo', choices=TIPO_CHOICES)
     escola = models.ForeignKey(Escola, on_delete=models.CASCADE, verbose_name='Escola')
     descricao = models.TextField(verbose_name='Descrição')
     dt_envio_propostas = models.DateField(verbose_name='Data limite para envio de propostas')
     previsao_entrega = models.IntegerField(verbose_name='Previsão de quantos dias para entrega após fechar o contrato?', default=0)
-    qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados', null=True)
+    qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados', null=True, blank=True)
     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
     ramo_atuacao = models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Enviar mensagem para as empresas com os seguintes ramos de atuação:', null=True, blank=True)
 
+    def gerar_codigo_solicitacao(self):
+        codigo = str(uuid.uuid4().hex)[:12].upper()
+        codigo = "PDDE-" + codigo
+
+        return codigo
+    
     def is_fim_propostas(self):
         hoje = timezone.now().date()
         return self.dt_envio_propostas == hoje
 
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            self.codigo = self.gerar_codigo_solicitacao()
+        super(Solicitacao_de_Compras, self).save()
+        
 class Item_Solicitacao(models.Model):
     
     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
@@ -424,7 +437,7 @@ class Proposta(models.Model):
     solicitacao_de_compra = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
     previsao_entrega = models.IntegerField(verbose_name='Previsão de quantos dias para entrega após fechar o contrato?', default=0)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
-    
+        
 class Proposta_Item(models.Model):
     proposta = models.ForeignKey(Proposta, on_delete=models.CASCADE, verbose_name='Proposta')
     item_solicitacao = models.ForeignKey(Item_Solicitacao, on_delete=models.CASCADE, verbose_name='Item da compra')

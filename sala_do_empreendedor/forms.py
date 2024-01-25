@@ -146,7 +146,7 @@ class Solicitacao_de_Compras_Form(ModelForm):
             'dt_previsao_entrega': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Data de Previsão de Entrega', 'type': 'date'}),
             'ramo_atuacao': forms.CheckboxSelectMultiple(),
             }
-        exclude = ['dt_solicitacao', 'user_register', 'status', 'proposta_vencedora', 'qnt_itens']
+        exclude = ['codigo', 'dt_solicitacao', 'user_register', 'status', 'proposta_vencedora', 'qnt_itens']
         
 class Criar_Item_Solicitacao(ModelForm):
     class Meta:
