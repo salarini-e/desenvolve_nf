@@ -416,7 +416,11 @@ def curriculo_vitae(request):
 
 def area_do_estudante(request):
     pessoa=Pessoa.objects.get(user=request.user)
-    aluno=Aluno.objects.get(pessoa=pessoa)
+    try:
+        aluno=Aluno.objects.get(pessoa=pessoa)
+    except:
+        messages.error(request, 'Você não é um aluno! Primeiro você deve se inscrever em um curso.')
+        return redirect('cursos:cursos')
     matriculas=Matricula.objects.filter(aluno=aluno).order_by('-turma__data_inicio')
     alertas=Alertar_Aluno_Sobre_Nova_Turma.objects.filter(aluno=aluno, alertado=False).order_by('-dt_inclusao')
     context={
