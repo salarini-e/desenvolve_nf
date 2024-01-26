@@ -19,3 +19,11 @@ class Pessoa(models.Model):
     cep = models.CharField(max_length=9, verbose_name='CEP', null=True)
     dt_inclusao=models.DateField(auto_now_add=True, verbose_name='Data de inclusão')
     possui_cnpj=models.BooleanField(default=False, verbose_name='Você possui empresa?')
+
+    def save(self, *args, **kwargs):
+        if not self.user.first_name == self.nome:
+            self.user.first_name = self.nome
+        if not self.user.email == self.email:
+            self.user.email = self.email
+        self.user.save()
+        super().save(*args, **kwargs)
