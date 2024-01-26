@@ -1,6 +1,7 @@
 {% extends 'template.html' %}
 {% load bootstrap5 %}
 {% load static%}
+{% load custom %}
 {% block title %}BEM VINDO - CURSOS LIVRES{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/administrativo.css' %}">
@@ -70,6 +71,7 @@
                                       <th>Atividade</th>
                                       <th>Data Inicial</th>
                                       <th>Data final</th>
+                                      <th>Can.</th>
                                       <th>Status</th>
                                       <th class="text-center">Ver/Editar</th>
 
@@ -87,6 +89,7 @@
                                           <td>{{turma.curso.nome}}</td>
                                           <td>{{turma.data_inicio|date:"d/m/Y"}}</td>
                                           <td class="">{{turma.data_final|date:"d/m/Y"}}</td>
+                                          <td>{{turma.id|countCandidatos}}</td>
                                           <td class="text-center">
                                             {% if turma.status == 'pre' %}
                                             <div class="bg-danger w-100 rounded text-light">Pré-inscrição</div>
