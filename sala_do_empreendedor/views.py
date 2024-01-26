@@ -778,6 +778,9 @@ def pdde_criar_itens_solicitacao(request, id):
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
     if solicitacao.status == '3':
         return redirect('empreendedor:pdde_contratacao', id=solicitacao.id)
+    elif solicitacao.status == '4':
+        contrato = Contrato_de_Servico.objects.get(solicitacao_referente=solicitacao)
+        return redirect('empreendedor:pdde_aguardando_execucao', hash=contrato.hash)
     # soma={'menor_valor': 0, 'maior_valor': 0}
     if request.method == 'POST':
         response = PDDE_POST(request, solicitacao)
@@ -829,6 +832,13 @@ def pdde_contratacao(request, id):
         'contratado': contratado,
                }
     return render(request, 'sala_do_empreendedor/pdde/contratacao.html', context)
+
+def pdde_aguardando_execucao(request, hash):
+    contrato = Contrato_de_Servico.objects.get(hash=hash)
+    context={
+        'contrato': contrato
+    }
+    return render(request, 'sala_do_empreendedor/pdde/aguardando_execucao.html', context)
 
 def listar_proposta_para_o_item(request, id, id_item):
     item = Item_Solicitacao.objects.get(id=id_item)

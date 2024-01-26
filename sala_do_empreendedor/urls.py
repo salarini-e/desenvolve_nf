@@ -105,7 +105,7 @@ urlpatterns = [
     path('adm/pdde/solicitacao/criar-item/adicionar/', views.pdde_criar_itens_solicitacao_fetch, name='pdde_criar_itens_solicitacao_fetch'),    
     path('adm/pdde/solicitacao/criar-item/remover/', views.pdde_remover_item_solicitacao_featch, name='pdde_remover_item_solicitacao_fetch'),    
     path('adm/pdde/solicitacao/<id>/detalhes/contrato/', views.pdde_contratacao, name='pdde_contratacao'),
-    
+    path('adm/pdde/solicitacao/<hash>/execucao/', views.pdde_aguardando_execucao, name='pdde_aguardando_execucao'),
     #url para rotinas diarias
     path('rotina/meia-noite/', views.atualizar_todo_dia, name='rotinas_admin'),
 ]
