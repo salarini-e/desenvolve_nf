@@ -389,7 +389,7 @@ from openpyxl import Workbook
 
 def exportar_para_excel(request):
     # Filtrar as turmas com status 'pre'
-    turmas = Turma.objects.filter(status='pre')
+    turmas = Turma.objects.filter(status='pre').order_by('curso__nome')
     
     # Criar um workbook do Excel
     wb = Workbook()
@@ -398,7 +398,7 @@ def exportar_para_excel(request):
     ws.title = "Alunos Interessados"
     
     # Adicionar cabeçalho à planilha
-    ws.append(["Curso", "Aluno"])
+    ws.append(["Curso", "Inclusão da Turma", "Aluno", "Envio do pedido", "Telefone", "Email"])
 
     # Iterar sobre as turmas
     for turma in turmas:
@@ -406,7 +406,7 @@ def exportar_para_excel(request):
         alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=turma.curso, alertado=True, dt_inclusao__gte=turma.dt_inclusao)
         # Adicionar os alunos alertados à planilha
         for alerta in alertas:
-            ws.append([turma.curso.nome, alerta.aluno.nome])  # Supondo que exista um campo 'nome' em Aluno
+            ws.append([turma.curso.nome, turma.dt_inclusao ,alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ])  # Supondo que exista um campo 'nome' em Aluno
 
     # Definir o nome do arquivo
     file_name = "alunos_interessados.xlsx"
