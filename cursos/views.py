@@ -384,6 +384,42 @@ def matricular(request, tipo, id):
     }
     return render(request, 'cursos/pre_matricula.html', context)
 
+from django.http import HttpResponse
+from openpyxl import Workbook
+
+def exportar_para_excel(request):
+    # Filtrar as turmas com status 'pre'
+    turmas = Turma.objects.filter(status='pre')
+    
+    # Criar um workbook do Excel
+    wb = Workbook()
+    # Criar uma planilha
+    ws = wb.active
+    ws.title = "Alunos Interessados"
+    
+    # Adicionar cabeçalho à planilha
+    ws.append(["Curso", "Aluno"])
+
+    # Iterar sobre as turmas
+    for turma in turmas:
+        # Filtrar os alertas para esta turma e após a data de inclusão da turma
+        alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=turma.curso, alertado=True, dt_inclusao__gte=turma.dt_inclusao)
+        # Adicionar os alunos alertados à planilha
+        for alerta in alertas:
+            ws.append([turma.curso.nome, alerta.aluno.nome])  # Supondo que exista um campo 'nome' em Aluno
+
+    # Definir o nome do arquivo
+    file_name = "alunos_interessados.xlsx"
+    
+    # Criar uma resposta HTTP para o arquivo Excel
+    response = HttpResponse(content_type="application/ms-excel")
+    response["Content-Disposition"] = f"attachment; filename={file_name}"
+    
+    # Salvar o workbook e escrever na resposta HTTP
+    wb.save(response)
+
+    return response
+
 def ensino_superior(request):
     context = {
         'titulo': apps.get_app_config('cursos').verbose_name+' - Ensino Superior',
