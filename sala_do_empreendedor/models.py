@@ -389,9 +389,10 @@ class Solicitacao_de_Compras(models.Model):
         # ('3', 'Aguardando avaliação de contrato'),
         ('3', 'Aguardando aceite de contrato'),
         ('4', 'Aguardando entrega/serviço'),
-        ('5', 'Aguardando nota fiscal/pagamento'),
-        ('6', 'Avaliação de serviço'),
-        ('7', 'Processo concluído'),
+        ('5', 'Aguardando efetuamento do pagamento'),
+        ('6', 'Aguardando nota fiscal'),
+        ('7', 'Aguardando avaliação de serviço'),
+        ('8', 'Processo concluído'),
     )
     TIPO_CHOICES=(
         ('s', 'Serviço'),
@@ -450,6 +451,10 @@ class Proposta_Item(models.Model):
     
     
 class Contrato_de_Servico(models.Model):
+    AVALIACAO_CHOICES =(
+        ('0', 'Dentro da espectativa'),
+        ('1', 'Acima da espectativa')
+    )
     solicitacao_referente = models.ForeignKey(Solicitacao_de_Compras, on_delete=models.CASCADE, verbose_name='Solicitação de compra')
     proposta_vencedora = models.ForeignKey('Proposta', on_delete=models.CASCADE, verbose_name='Proposta')
     itens_solicitados = models.ManyToManyField('Item_Solicitacao', verbose_name='Itens do contrato')
@@ -458,5 +463,7 @@ class Contrato_de_Servico(models.Model):
     proposito= models.TextField(verbose_name='Proposito')
     aceito_pela_empresa = models.BooleanField(default=False, verbose_name='Contrato aceito pela empresa?')
     hash = models.CharField(max_length=128, verbose_name='Hash do contrato', null=True)
+    nota_fiscal = models.FileField(upload_to='contratos_pdde/nota_fiscal/', verbose_name='Nota fiscal', null=True)
+    avaliacao = models.CharField(max_length=1, verbose_name='Avaliação do serviço', choices=AVALIACAO_CHOICES, null=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)

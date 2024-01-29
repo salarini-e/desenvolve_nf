@@ -95,17 +95,24 @@ urlpatterns = [
     path('pdde/', views.pdde_index, name='pdde_index'),
     path('pdde/escola/', views.pdde_index_escola, name='pdde_escola'),
     path('pdde/empresa/', views.pdde_index_empresa, name='pdde_empresa'),
+    path('pdde/empresa/solicitacao/<hash>/', views.pdde_menu_opcoes_empresa, name='pdde_empresa_menu'),
+    path('pdde/empresa/solicitacao/<hash>/contrato/', views.pdde_contratacao, name='pdde_contratacao'),
+    path('pdde/empresa/solicitacao/<hash>/nota-fiscal/', views.pdde_nota_fiscal, name='pdde_nota_fiscal'),
     path('pdde/empresa/detalhe-solicitacao/19732<id>0977312#dd23445/', views.pdde_index_empresa_detalhe_solicitacao, name='pdde_empresa_detalhe_solicitacao'),
+    
     path('adm/pdde/criar-escola/', views.pdde_criar_escola, name='pdde_criar_escola'),
     path('adm/pdde/editar-escola/', views.pdde_editar_escola, name='pdde_editar_escola'),
+    path('pdde/escola/solicitacao/<hash>/confirmar-pagamento/', views.pdde_confirmar_pagamento, name='pdde_confirmar_pagamento'),
     path('adm/pdde/<id>/criar-solicitacao/', views.pdde_criar_solicitacao_de_compra, name='pdde_criar_solitacao_de_compra'),
     path('adm/pdde/<id>/listar-solicitacao/', views.pdde_listar_solicitacoes, name='pdde_listar_solicitacoes'),
     path('adm/pdde/solicitacao/<id>/detalhes/', views.pdde_criar_itens_solicitacao, name='pdde_criar_item_solicitacao'),
     path('adm/pdde/solicitacao/<id>/detalhes/item/<id_item>/', views.listar_proposta_para_o_item, name='pdde_listar_proposta_para_o_item'),
     path('adm/pdde/solicitacao/criar-item/adicionar/', views.pdde_criar_itens_solicitacao_fetch, name='pdde_criar_itens_solicitacao_fetch'),    
     path('adm/pdde/solicitacao/criar-item/remover/', views.pdde_remover_item_solicitacao_featch, name='pdde_remover_item_solicitacao_fetch'),    
-    path('adm/pdde/solicitacao/<id>/detalhes/contrato/', views.pdde_contratacao, name='pdde_contratacao'),
-    path('adm/pdde/solicitacao/<hash>/execucao/', views.pdde_aguardando_execucao, name='pdde_aguardando_execucao'),
+    
+    path('pdde/escola/solicitacao/<hash>/execucao/', views.pdde_aguardando_execucao, name='pdde_aguardando_execucao'),
+    path('pdde/escola/solicitacao/<hash>/', views.pdde_menu_escola, name='pdde_menu_escola'),
+    path('pdde/escola/solicitacao/<hash>/avaliar-servico/', views.pdde_avaliar_servico, name='pdde_avaliar_servico'),
     #url para rotinas diarias
     path('rotina/meia-noite/', views.atualizar_todo_dia, name='rotinas_admin'),
 ]

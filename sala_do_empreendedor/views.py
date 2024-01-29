@@ -4,7 +4,7 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS
@@ -773,14 +773,41 @@ def pdde_criar_solicitacao_de_compra(request, id):
     return render(request, 'sala_do_empreendedor/pdde/criar_solitacao_de_compra.html', context)
 
 @login_required()
+def pdde_confirmar_pagamento(request, hash):
+    contrato = Contrato_de_Servico.objects.get(hash = hash)
+    if request.method == 'POST':
+        if contrato.solicitacao_referente.escola.responsavel == request.user:
+            contrato.solicitacao_referente.status = '6'
+            contrato.solicitacao_referente.save()
+            contrato.save()
+            messages.success(request, 'Pagamento confirmado! Aguardando envio de nota fiscal.')
+            return redirect('empreendedor:pdde_listar_solicitacoes', contrato.solicitacao_referente.id)
+        else:
+            messages.warning(request, 'Você não tem autorização para isso.')
+            TentativaBurla.objects.create(
+                local_deteccao=f'empreendedor:pdde_confirmar_pagamento -> solicitacao -> {contrato.solicitacao_referente}',
+                user=request.user,
+                ip_address=request.META.get('REMOTE_ADDR'),
+                informacoes_adicionais=f'Possivel tentativa de confirmar pagamento por url.'
+            )
+    return render(request, 'sala_do_empreendedor/pdde/confirmar-pagamento.html')
+
+@login_required()
 def pdde_criar_itens_solicitacao(request, id):
     
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
     if solicitacao.status == '3':
         return redirect('empreendedor:pdde_contratacao', id=solicitacao.id)
     elif solicitacao.status == '4':
+        print(solicitacao.get_status_display(), solicitacao.status)
         contrato = Contrato_de_Servico.objects.get(solicitacao_referente=solicitacao)
         return redirect('empreendedor:pdde_aguardando_execucao', hash=contrato.hash)
+    elif solicitacao.status=='5':
+        contrato = Contrato_de_Servico.objects.get(solicitacao_referente=solicitacao)
+        return redirect('empreendedor:pdde_confirmar_pagamento', hash=contrato.hash)
+    elif int(solicitacao.status)>=6:
+        contrato = Contrato_de_Servico.objects.get(solicitacao_referente=solicitacao)
+        return redirect('empreendedor:pdde_menu_escola', hash=contrato.hash)
     # soma={'menor_valor': 0, 'maior_valor': 0}
     if request.method == 'POST':
         response = PDDE_POST(request, solicitacao)
@@ -815,8 +842,8 @@ def pdde_criar_itens_solicitacao(request, id):
     }
     return render(request, 'sala_do_empreendedor/pdde/criar_itens_solicitacao.html', context)
 
-def pdde_contratacao(request, id):
-    contrato = get_object_or_404(Contrato_de_Servico, id=id)
+def pdde_contratacao(request, hash):
+    contrato = get_object_or_404(Contrato_de_Servico, hash=hash)
     if contrato.proposta_vencedora.empresa.user_register == request.user:
         contratado = True
     else:
@@ -826,19 +853,82 @@ def pdde_contratacao(request, id):
             contrato.solicitacao_referente.status = '4'
             contrato.solicitacao_referente.save()
             messages.success(request, 'Contrato assinado com sucesso! Aguardando execução do serviço.')
-            return redirect('empreendedor:minha_empresa')
+            return redirect('empreendedor:pdde_empresa_menu', hash=contrato.hash)
     context = {
         'contrato': contrato,
         'contratado': contratado,
                }
     return render(request, 'sala_do_empreendedor/pdde/contratacao.html', context)
 
-def pdde_aguardando_execucao(request, hash):
+def pdde_nota_fiscal(request, hash):
+    contrato = Contrato_de_Servico.objects.get(hash=hash)
+    if request.method == 'POST':
+        if contrato.solicitacao_referente.escola.responsavel == request.user:
+            form = Contrato_NotaFiscal(request.POST, request.FILES, instance=contrato)
+            if form.is_valid():
+                contrato=form.save()
+                contrato.solicitacao_referente.status = '7'
+                contrato.solicitacao_referente.save()
+                messages.success(request, 'Nota fiscal enviada com sucesso! Aguarde a avaliação da equipe da Sala do Empreendedor.')
+                return redirect('empreendedor:pdde_empresa_menu', hash=contrato.hash )
+    else:
+        form = Contrato_NotaFiscal(instance=contrato)
+    context={
+        'contrato': contrato,
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/pdde/envio_de_nota_fiscal.html', context)
+
+@login_required
+def pdde_menu_escola(request, hash):
+    contrato = Contrato_de_Servico.objects.get(hash=hash)
+    if not contrato.solicitacao_referente.escola.responsavel == request.user:
+        messages.warning(request, 'Você não tem autorização para acessar essa área.')
+        return redirect('empreendedor:pdde_escola')
+    context = {
+        'contrato': contrato
+    }
+    return render(request, 'sala_do_empreendedor/pdde/menu-escola.html', context)
+
+@login_required
+def pdde_avaliar_servico(request, hash):
+    contrato = Contrato_de_Servico.objects.get(hash=hash)
+    if request.method == 'POST':
+        if contrato.solicitacao_referente.escola.responsavel == request.user:
+            form = Contrato_Avaliacao(request.POST, instance=contrato)
+            if form.is_valid():
+                contrato.solicitacao_referente.status = '8'
+                contrato.solicitacao_referente.save()
+                messages.success(request, 'Serviço avaliado com sucesso! Solicitação concluída!')
+                return redirect('empreendedor:pdde_empresa_menu', hash=contrato.hash )
+    else:
+        form = Contrato_Avaliacao(instance=contrato)
+    context={
+        'form': form,
+        'contrato': contrato
+    }
+    return render(request, 'sala_do_empreendedor/pdde/avaliar-servico.html', context)
+
+def pdde_menu_opcoes_empresa(request, hash):
     contrato = Contrato_de_Servico.objects.get(hash=hash)
     context={
         'contrato': contrato
     }
+    return render(request, 'sala_do_empreendedor/pdde/menu-empresa.html', context)
+
+def pdde_aguardando_execucao(request, hash):
+    contrato = Contrato_de_Servico.objects.get(hash=hash)
+    if request.method == 'POST':
+        if contrato.solicitacao_referente.escola.responsavel == request.user:
+            contrato.solicitacao_referente.status = '5'
+            contrato.solicitacao_referente.save()
+            messages.success(request, 'Execução do serviço confirmada! Aguardando envio da nota fiscal.')
+            return redirect('empreendedor:pdde_nota_fiscal', hash=contrato.hash)
+    context={
+        'contrato': contrato
+    }
     return render(request, 'sala_do_empreendedor/pdde/aguardando_execucao.html', context)
+
 
 def listar_proposta_para_o_item(request, id, id_item):
     item = Item_Solicitacao.objects.get(id=id_item)

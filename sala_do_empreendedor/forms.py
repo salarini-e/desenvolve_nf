@@ -209,3 +209,17 @@ class DocumentosPedidoForm(forms.ModelForm):
             'ir_empresa',
             'simples_nacional',
         ]
+
+class Contrato_NotaFiscal(forms.ModelForm):
+    class Meta:
+        model = Contrato_de_Servico
+        fields =['nota_fiscal']
+        labels = {'nota_fiscal': ''}
+        widgets = {
+            'nota_fiscal': forms.FileInput(attrs={'class': 'm-auto mt-4 mb-3 form-control', 'style': 'max-width: 400px;'})
+        }
+        
+class Contrato_Avaliacao(forms.ModelForm):
+    class Meta:
+        model = Contrato_de_Servico
+        fields =['avaliacao']
