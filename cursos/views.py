@@ -403,7 +403,7 @@ def exportar_para_excel(request):
     # Iterar sobre as turmas
     for turma in turmas:
         # Filtrar os alertas para esta turma e após a data de inclusão da turma
-        alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=turma.curso, alertado=True, dt_inclusao__gte=turma.dt_inclusao)
+        alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=turma.curso, alertado=False, dt_inclusao__gte=turma.dt_inclusao)
         # Adicionar os alunos alertados à planilha
         for alerta in alertas:
             ws.append([turma.curso.nome, turma.dt_inclusao ,alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ])  # Supondo que exista um campo 'nome' em Aluno
