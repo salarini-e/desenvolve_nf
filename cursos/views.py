@@ -306,7 +306,7 @@ def matricular(request, tipo, id):
 
             #criando matricula como candidato na turma
             try:
-                turma=Turma.objects.get(curso=curso, status='pre')
+                turma=Turma.objects.filter(curso=curso, status='pre')
                 turma_disponibilidade =[]
                 # candidato_disponibilidade=[]
                 # for i in turma.disponibilidade.all():
@@ -316,7 +316,7 @@ def matricular(request, tipo, id):
                 # pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
                 # if pode_entrar:
                 Matricula.objects.create(
-                        aluno=candidato, turma=turma, status='c')
+                        aluno=candidato, turma=turma[0], status='c')
                 # else:
                 #     messages.error(
                 #     request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
@@ -331,7 +331,7 @@ def matricular(request, tipo, id):
                 #     return render(request, 'cursos/pre_matricula.html', context)
             except:     
                 try:
-                    turma=Turma.objects.get(curso=curso, status='acc')
+                    turma=Turma.objects.filter(curso=curso, status='acc')
                     # turma_disponibilidade=[]
                     # candidato_disponibilidade=[]
                     # for i in turma.disponibilidade.all():
@@ -341,7 +341,7 @@ def matricular(request, tipo, id):
                     # pode_entrar = any(disponibilidade in turma_disponibilidade for disponibilidade in candidato_disponibilidade)
                     # if pode_entrar:
                     Matricula.objects.create(
-                            aluno=candidato, turma=turma, status='c')
+                            aluno=candidato, turma=turma[0], status='c')
                     # else:
                     #     messages.error(
                     #     request, 'Não foi possível realizar a matricula na turma, pois sua disponibilidade não é compátivel com o da turma aberta.')
