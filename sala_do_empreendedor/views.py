@@ -1114,7 +1114,7 @@ def atualizar_todo_dia(request):
     print(solicitacao.count())
     for s in solicitacao:
         print('---------------------------')
-        print('model: ', self.dt_envio_propostas, ' today: ', hoje)
+        print('model: ', s.dt_envio_propostas, ' today: ', hoje)
         if s.dt_envio_propostas == hoje:
             s.status = '3'
             s.save()
