@@ -923,8 +923,8 @@ def pdde_aguardando_execucao(request, hash):
         if contrato.solicitacao_referente.escola.responsavel == request.user:
             contrato.solicitacao_referente.status = '5'
             contrato.solicitacao_referente.save()
-            messages.success(request, 'Execução do serviço confirmada! Aguardando envio da nota fiscal.')
-            return redirect('empreendedor:pdde_nota_fiscal', hash=contrato.hash)
+            messages.success(request, 'Execução do serviço confirmada! Aguardando confirmação do pagamento.')
+            return redirect('empreendedor:pdde_confirmar_pagamento', hash=contrato.hash)
     context={
         'contrato': contrato
     }
