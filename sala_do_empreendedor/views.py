@@ -797,9 +797,10 @@ def pdde_criar_itens_solicitacao(request, id):
     
     solicitacao=Solicitacao_de_Compras.objects.get(id=id)
     if solicitacao.status == '3':
-        return redirect('empreendedor:pdde_contratacao', id=solicitacao.id)
+        contrato = Contrato_de_Servico.objects.get(solicitacao_referente=solicitacao)
+        return redirect('empreendedor:pdde_contratacao', hash=contrato.hash)
     elif solicitacao.status == '4':
-        print(solicitacao.get_status_display(), solicitacao.status)
+        # print(solicitacao.get_status_display(), solicitacao.status)
         contrato = Contrato_de_Servico.objects.get(solicitacao_referente=solicitacao)
         return redirect('empreendedor:pdde_aguardando_execucao', hash=contrato.hash)
     elif solicitacao.status=='5':
@@ -819,7 +820,7 @@ def pdde_criar_itens_solicitacao(request, id):
             return redirect('empreendedor:pdde_escola')
         elif response[0] == 'proposta-aceita':
             messages.success(request, 'Proposta aceita com sucesso! Aguardando a contratação da empresa.')            
-            return redirect('empreendedor:pdde_contratacao', id=response[1].id)
+            return redirect('empreendedor:pdde_contratacao', id=response[1].hash)
         itens=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao)
     # elif solicitacao.status != '0':
         # itens, soma = Item_E_Melhor_Proposta(solicitacao)
