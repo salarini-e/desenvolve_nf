@@ -1107,11 +1107,14 @@ def requerimento_ISSQN_doc(request, n_protocolo):
 
 #import httpresponse
 from django.http import HttpResponse
-
+from django.utils import timezone
 def atualizar_todo_dia(request):
+    hoje = timezone.now().date()
     solicitacao = Solicitacao_de_Compras.objects.filter(status='2')
     for s in solicitacao:
-        if s.is_fim_propostas():
+        print('---------------------------')
+        print('model: ', self.dt_envio_propostas, ' today: ', hoje)
+        if s.dt_envio_propostas == hoje:
             s.status = '3'
             s.save()
     return HttpResponse('ok')
