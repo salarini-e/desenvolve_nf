@@ -1110,7 +1110,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 def atualizar_todo_dia(request):
     hoje = timezone.now().date()
-    solicitacao = Solicitacao_de_Compras.objects.filter(status='2')
+    solicitacao = Solicitacao_de_Compras.objects.filter(status='1')
     print(solicitacao.count())
     for s in solicitacao:
         print('---------------------------')
