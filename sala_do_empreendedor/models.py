@@ -422,6 +422,8 @@ class Solicitacao_de_Compras(models.Model):
     
     def is_fim_propostas(self):
         hoje = timezone.now().date()
+        print('---------------------------')
+        print('model: ', self.dt_envio_propostas, ' today: ', hoje)
         return self.dt_envio_propostas == hoje
 
     def save(self, *args, **kwargs):

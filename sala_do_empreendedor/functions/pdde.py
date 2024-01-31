@@ -110,6 +110,8 @@ def PDDE_POST(request, solicitacao):
     if solicitacao.escola.ativa:
         if solicitacao.status == '0':
             solicitacao.status='1'
+            qnt=Item_Solicitacao.objects.filter(solicitacao_de_compra=solicitacao).count()
+            solicitacao.qnt_itens=qnt
             solicitacao.save()
             return 'salvo'
         else:
