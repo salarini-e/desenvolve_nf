@@ -413,7 +413,8 @@ class Solicitacao_de_Compras(models.Model):
     qnt_itens = models.IntegerField(verbose_name='Quantidade de itens solicitados', null=True, blank=True)
     proposta_vencedora = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa com proposta vencedora', null=True, blank=True)
     ramo_atuacao = models.ManyToManyField(Ramo_de_Atuacao, verbose_name='Enviar mensagem para as empresas com os seguintes ramos de atuação:', null=True, blank=True)
-
+    dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação')
+    
     def gerar_codigo_solicitacao(self):
         codigo = str(uuid.uuid4().hex)[:12].upper()
         codigo = "PDDE-" + codigo
