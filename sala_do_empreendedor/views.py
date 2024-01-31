@@ -1111,11 +1111,11 @@ from django.utils import timezone
 def atualizar_todo_dia(request):
     hoje = timezone.now().date()
     solicitacao = Solicitacao_de_Compras.objects.filter(status='1')
-    print(solicitacao.count())
+    # print(solicitacao.count())
     for s in solicitacao:
-        print('---------------------------')
-        print('model: ', s.dt_envio_propostas, ' today: ', hoje)
+        # print('---------------------------')
+        # print('model: ', s.dt_envio_propostas, ' today: ', hoje)
         if s.dt_envio_propostas == hoje:
-            s.status = '3'
+            s.status = '2'
             s.save()
     return HttpResponse('ok')
