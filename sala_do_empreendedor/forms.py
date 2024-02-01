@@ -223,3 +223,20 @@ class Contrato_Avaliacao(forms.ModelForm):
     class Meta:
         model = Contrato_de_Servico
         fields =['avaliacao']
+        
+class Form_Novas_Oportunidades(forms.ModelForm):
+    class Meta:
+        model = Novas_Oportunidades
+        fields = '__all__'
+        widgets = {
+            'atividade_manual': forms.CheckboxSelectMultiple(),
+            'tipo_costura': forms.CheckboxSelectMultiple(),
+            'tipo_producao_alimentos': forms.CheckboxSelectMultiple(),
+            'tipo_producao_bebidas': forms.CheckboxSelectMultiple(),
+            'renda_representacao': forms.RadioSelect(),
+            'motivo_nao_comercializacao': forms.RadioSelect(),
+            'renda_mensal': forms.RadioSelect(),
+            'possui_empresa': forms.RadioSelect(),
+            'comercializacao_produto': forms.RadioSelect(),
+            'cep_negocio':forms.TextInput(attrs={'onkeydown': 'icep(this)'}),
+        }

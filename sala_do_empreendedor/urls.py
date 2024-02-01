@@ -115,4 +115,6 @@ urlpatterns = [
     path('pdde/escola/solicitacao/<hash>/avaliar-servico/', views.pdde_avaliar_servico, name='pdde_avaliar_servico'),
     #url para rotinas diarias
     path('rotina/meia-noite/', views.atualizar_todo_dia, name='rotinas_admin'),
+    path('novas-oportunidades/', views.novas_oportunidades, name='novas_oportunidades'),
+    path('alimentar-oportunidades/', views.alimentar_oportunidades, name='alimentar_oportunidades'),
 ]

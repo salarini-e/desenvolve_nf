@@ -4,10 +4,10 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas
 from .functions.pdde import Listar_Proposta, PDDE_POST
 from .functions.email import send_email_for_create_process, send_email_for_att_process
 from django.db import transaction
@@ -1120,3 +1120,58 @@ def atualizar_todo_dia(request):
             s.status = '2'
             s.save()
     return HttpResponse('ok')
+
+def novas_oportunidades(request):
+    if request.method == 'POST':
+        form = Form_Novas_Oportunidades(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Formulário enviado com sucesso!')
+            return redirect('empreendedor:oportunidade')
+        else:
+            print(form.errors)
+            messages.error(request, 'Erro ao enviar formulário. Verifique os campos e tente novamente.')
+    else:
+        form = Form_Novas_Oportunidades()
+    context ={
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/form_novas_oportunidades.html', context)
+
+def alimentar_oportunidades(request):
+    #atividade manual
+    atividades_cadastrar = [
+        'Bordado', 'Costura', 'Pintura', 'Tapeçaria', 'Esculturas', 
+        'Marcenaria', 'Produção de Alimentos', 'Produção de Bebidas', 
+        'Decoração de festas/eventos', 'Fotografia/Filmagens/Edição', 
+        'Produção Cultural/Musical', 'Outra', 'Atualmente não tenho nenhuma atividade manual'
+    ]
+    #tipo costura;
+    tipo_costura_cadastrar = ['Sob medida', 'Facção', 'Criativa', 
+                    'Roupas de Boneca', 'Infantil', 'Outra']
+    
+    #tipo producao alimentos
+    tipo_alimentos_cadsatrar = ['Doce', 'Pães/bolos', 'Temperos', 
+                                'Conservas', 'Queijos', 'Geleias',
+                                'Salgados', 'Produção de mel', 'Refeições',
+                                'Chocolates', 'Produtos Dietéticos/orgânicos',
+                                'Outro']
+    # tipo producao bebidas
+    tipo_bebidas_cadastrar = ['Cerveja','Sucos','Chás',
+                              'Refrigerantes','Licos, cachaça','Vinhos',
+                              'Café','Outro'                         
+    ]
+    
+    for atividade in atividades_cadastrar:
+        AtividadeManual.objects.create(descricao=atividade)
+    
+    for costura in tipo_costura_cadastrar:
+        Tipo_Costura.objects.create(descricao=costura)
+        
+    for alimento in tipo_alimentos_cadsatrar:
+        Tipo_Producao_Alimentos.objects.create(descricao=alimento)
+    
+    for bebida in tipo_bebidas_cadastrar:
+        Tipo_Producao_Bebidas.objects.create(descricao=bebida)
+        
+    return HttpResponse('processo concluido')
