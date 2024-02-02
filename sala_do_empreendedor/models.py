@@ -511,7 +511,8 @@ class Novas_Oportunidades(models.Model):
         ('2', 'De 1 a 2 salários mínimos (de R$1.413,00 a R$2.824,00)'),
         ('3', 'De 2 a 4 salários mínimos (de R$2.825,00 até R$5.648,00)'),
         ('4', 'De 4 a 7 salários mínimos (de r$4.649,00 até R$9.884,00)'),
-        ('5', 'Acima de 7 salários mínimos (R$9.885,00 ou mais)')
+        ('5', 'Acima de 7 salários mínimos (R$9.885,00 ou mais)'),
+        ('6', 'Não sei ou prefiro não responder')
     )
     POSSUI_EMPRESA_CHOICES =(
         ('s', 'Sim'),
