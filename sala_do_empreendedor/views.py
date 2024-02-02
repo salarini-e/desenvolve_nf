@@ -1121,6 +1121,7 @@ def atualizar_todo_dia(request):
             s.save()
     return HttpResponse('ok')
 
+@login_required
 def novas_oportunidades(request):
     if request.method == 'POST':
         form = Form_Novas_Oportunidades(request.POST)
