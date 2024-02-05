@@ -50,13 +50,15 @@ urlpatterns = [
     path('abertuda-de-empresa', views.abertura_de_empresa, name='abertura_de_empresa'),
     path('iss-autonomos', views.iss_autonomos, name='iss_autonomos'),
     path('legislacao', views.legislacao, name='legislacao'),
-    path('oportunidade-de-negocios', views.oportunidade_de_negocios, name='oportunidade'),
+    
     path('admin/', views.sala_do_empreendedor_admin, name='admin'),
     path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores'),
     path('faccao-legal/cadastrar/checkcnpj/', views.checkCNPJ, name='checkcnpj'),
     path('admin/cadastrar-profissao/', views.cadastrar_profissao, name='cadastrar_profissao'),
-    #PROCESSOS
-    
+    #OPORTUNIDADES
+    path('oportunidade-de-negocios', views.oportunidade_de_negocios, name='oportunidade'),
+    path('oportunidade-de-negocios/dados/', views.oportunidade_de_negocios_dados, name='dados_oportunidades'),
+    path('novas-oportunidades/', views.novas_oportunidades, name='novas_oportunidades'),
     # PROCESSOS
     # Opções
     path('iss-autonomos', views.iss_autonomos, name='iss_autonomos'),
@@ -115,6 +117,6 @@ urlpatterns = [
     path('pdde/escola/solicitacao/<hash>/avaliar-servico/', views.pdde_avaliar_servico, name='pdde_avaliar_servico'),
     #url para rotinas diarias
     path('rotina/meia-noite/', views.atualizar_todo_dia, name='rotinas_admin'),
-    path('novas-oportunidades/', views.novas_oportunidades, name='novas_oportunidades'),
+    
     # path('alimentar-oportunidades/', views.alimentar_oportunidades, name='alimentar_oportunidades'),
 ]

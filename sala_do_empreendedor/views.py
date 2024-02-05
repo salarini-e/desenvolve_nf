@@ -177,7 +177,32 @@ def oportunidade_de_negocios(request):
         'titulo': 'Sala do Empreendedor - Oportunidade de Negócios',
         'titulo_pag':'Oportunidade de Negócios',
     }
+    return render(request, 'sala_do_empreendedor/oportunidade_de_negocios_index.html', context)
+
+def oportunidade_de_negocios_dados(request):
+    context = {
+        'titulo': 'Sala do Empreendedor - Oportunidade de Negócios',
+        'titulo_pag':'Oportunidade de Negócios',
+    }
     return render(request, 'sala_do_empreendedor/oportunidade_de_negocios.html', context)
+
+@login_required
+def novas_oportunidades(request):
+    if request.method == 'POST':
+        form = Form_Novas_Oportunidades(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Formulário enviado com sucesso!')
+            return redirect('empreendedor:oportunidade')
+        else:
+            print(form.errors)
+            messages.error(request, 'Erro ao enviar formulário. Verifique os campos e tente novamente.')
+    else:
+        form = Form_Novas_Oportunidades()
+    context ={
+        'form': form
+    }
+    return render(request, 'sala_do_empreendedor/form_novas_oportunidades.html', context)
 
 def vitrine_virtual(request):
     registros=Registro_no_vitrine_virtual.objects.all().order_by('?')
@@ -1121,23 +1146,6 @@ def atualizar_todo_dia(request):
             s.save()
     return HttpResponse('ok')
 
-@login_required
-def novas_oportunidades(request):
-    if request.method == 'POST':
-        form = Form_Novas_Oportunidades(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Formulário enviado com sucesso!')
-            return redirect('empreendedor:oportunidade')
-        else:
-            print(form.errors)
-            messages.error(request, 'Erro ao enviar formulário. Verifique os campos e tente novamente.')
-    else:
-        form = Form_Novas_Oportunidades()
-    context ={
-        'form': form
-    }
-    return render(request, 'sala_do_empreendedor/form_novas_oportunidades.html', context)
 
 def alimentar_oportunidades(request):
     #atividade manual
