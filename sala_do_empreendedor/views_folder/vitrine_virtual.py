@@ -62,8 +62,7 @@ def vitrine_excluir_produto(request, id, foto_id):
 @login_required
 def enviar_ou_trocar_logo(request, id):
     empresa=Empresa.objects.get(id=id)  
-    if empresa.register_user == request.user:  
-        if request.user.is_staff or request.user==empresa.user_register:    
+    if request.user.is_staff or request.user==empresa.user_register:    
             rg_vitrine=Registro_no_vitrine_virtual.objects.get(empresa=empresa)
             form=FormLogoEmpresa(instance=rg_vitrine)
             if request.method == 'POST':
@@ -77,11 +76,8 @@ def enviar_ou_trocar_logo(request, id):
                 'titulo': 'Sala do Empreendedor - Minha Empresa - Enviar ou Trocar Logo'            
                 }
             return render(request, 'sala_do_empreendedor/vitrine-virtual/enviar_ou_trocar_logo.html', context)
-        messages.error(request, 'Você não tem autorização para acessar a página solicitada!')
-        return redirect('empreendedor:minha_empresa')   
-    else:
-        messages.error(request, 'Você não tem autorização para acessar a página solicitada!')
-        return redirect('empreendedor:minha_empresa') 
+    messages.error(request, 'Você não tem autorização para acessar a página solicitada!')
+    return redirect('empreendedor:minha_empresa') 
 
 @login_required()
 def casdastrar_produto(request, id):
