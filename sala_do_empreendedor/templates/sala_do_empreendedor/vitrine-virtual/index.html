@@ -9,17 +9,6 @@
 {% block main %}
 <div class="container">
     <div class="row">
-      <div class="col">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert {{ message.tags }}">
-              {{ message }}
-            </div>
-          {% endfor %}
-        {% endif %}
-      </div>
-    </div>
-    <div class="row">
         <div class="col">
             <!-- Menu -->
         </div>
@@ -55,7 +44,10 @@
                       </th>
                       <th>
                         Descrição
-                      </th>                     
+                      </th>         
+                      <th class="text-center">
+                        Excluir
+                      </th>            
                     </tr>
                   </thead>
                   <tbody>
@@ -69,6 +61,11 @@
                       </td>
                       <td>
                         {{produto.descricao}}
+                      </td>
+                      <td class="text-center">
+                        <a href="{% url 'empreendedor:excluir_produto' rg_vitrine.id produto.id %}" class="text-danger">
+                          <i class="fa-solid fa-trash-can"></i>
+                        </a>
                       </td>
                     </tr>
                     {% endfor %}

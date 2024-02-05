@@ -15,6 +15,7 @@ urlpatterns = [
     path('minha-empresa/<id>/vitrine/', views.minha_vitrine, name='minha_vitrine'),
     path('minha-empresa/<id>/vitrine/alterar-logo', views.enviar_ou_trocar_logo, name='enviar_ou_trocar_logo'),
     path('minha-empresa/<id>/cadastrar-vitrine', views.cadastrar_vitrine, name='cadastrar_vitrine'),
+    path('minha-empresa/<id>/cadastrar-vitrine/<foto_id>/excluir/', views.vitrine_excluir_produto, name='excluir_produto'),
     path('minha-empresa/<id>/vitrine/cadastrar-produto/', views.casdastrar_produto, name='cadastrar_produto'),
     path('faccao-legal/', views.faccao_legal, name='faccao_legal'),
     path('faccao-legal/cadastrar/', views.cadastrar_faccao_legal, name='cadastrar_faccao_legal'),
@@ -55,11 +56,13 @@ urlpatterns = [
     path('admin/mapeamento-empresa-e-fornecedores', views.mapeamento_empresa_e_fornecedores, name='mapeamento_empresa_e_fornecedores'),
     path('faccao-legal/cadastrar/checkcnpj/', views.checkCNPJ, name='checkcnpj'),
     path('admin/cadastrar-profissao/', views.cadastrar_profissao, name='cadastrar_profissao'),
+    
     #OPORTUNIDADES
     path('oportunidade-de-negocios', views.oportunidade_de_negocios, name='oportunidade'),
     path('oportunidade-de-negocios/dados/', views.oportunidade_de_negocios_dados, name='dados_oportunidades'),
     path('novas-oportunidades/', views.novas_oportunidades, name='novas_oportunidades'),
-    # PROCESSOS
+    
+    #PROCESSOS
     # Opções
     path('iss-autonomos', views.iss_autonomos, name='iss_autonomos'),
     path('consultar-processos/', views.consultar_processos, name='consultar_processos'),

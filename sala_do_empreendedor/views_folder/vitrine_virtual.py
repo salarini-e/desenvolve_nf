@@ -32,8 +32,8 @@ def cadastrar_vitrine(request, id):
 
 @login_required()
 def minha_vitrine(request, id):
-    if request.user.is_staff or request.user==Empresa.objects.get(id=id).user_register:
-        empresa=Empresa.objects.get(id=id)
+    empresa = Empresa.objects.get(id=id)
+    if request.user.is_staff or request.user==empresa.user_register:
         rg_vitrine=Registro_no_vitrine_virtual.objects.get(empresa=empresa)
         produtos=Produto.objects.filter(rg_vitrine=rg_vitrine)
         context = {
@@ -46,7 +46,19 @@ def minha_vitrine(request, id):
         return render(request, 'sala_do_empreendedor/vitrine-virtual/index.html', context)
     messages.error(request, 'Você não tem autorização para acessar a página solicitada!')
     return redirect('empreendedor:minha_empresa')
-    
+
+@login_required
+def vitrine_excluir_produto(request, id, foto_id):
+    empresa = Empresa.objects.get(id=id)
+    if request.user.is_staff or request.user==empresa.user_register:
+        rg_vitrine=Registro_no_vitrine_virtual.objects.get(empresa=empresa)
+        produto=Produto.objects.get(id=foto_id, rg_vitrine=rg_vitrine)
+        produto.delete()
+        messages.success(request, 'Produto excluído com sucesso!')
+        return redirect('empreendedor:minha_vitrine', id=id)
+    messages.error(request, 'Você não tem autorização para acessar a página solicitada!')
+    return redirect('empreendedor:minha_empresa')
+
 @login_required
 def enviar_ou_trocar_logo(request, id):
     empresa=Empresa.objects.get(id=id)  
