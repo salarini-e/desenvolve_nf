@@ -184,7 +184,7 @@ def oportunidade_de_negocios_dados(request):
         'titulo': 'Sala do Empreendedor - Oportunidade de Negócios',
         'titulo_pag':'Oportunidade de Negócios',
     }
-    return render(request, 'sala_do_empreendedor/oportunidade_de_negocios.html', context)
+    return render(request, 'sala_do_empreendedor/oportunidade_de_negocios_graficos.html', context)
 
 @login_required
 def novas_oportunidades(request):
