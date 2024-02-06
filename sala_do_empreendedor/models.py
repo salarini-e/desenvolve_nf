@@ -541,3 +541,23 @@ class Novas_Oportunidades(models.Model):
 
     def __str__(self):
         return f"Formulário - {self.id}"
+    
+
+class Credito_Facil(models.Model):
+    
+    MOTIVACAO_CHOICES = (
+        ('cg', 'Capital de Giro'),
+        ('in', 'Investimento em equipamento/obra'),
+        ('rf', 'Requilibrio financeiro'),
+        ('ou', 'Outro'),
+    )
+    
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
+    valor_desejado = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor desejado')
+    motivacao_emprestimo = models.CharField(max_length=2, choices=MOTIVACAO_CHOICES, verbose_name='Motivação do empréstimo')
+    outra_motivacao = models.CharField(max_length=128, verbose_name='Qual outra motivação do emprestivo?', null=True, blank=True)
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou')
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    
+    def __str__(self):
+        return f"Crédito Fácil - {self.empresa.nome} - R${self.valor_desejado} - {self.dt_register}"

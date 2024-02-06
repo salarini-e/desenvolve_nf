@@ -60,7 +60,7 @@ li a:hover {
   list-style: none;
 }
 #navegacao {
-  margin-top: 166px;
+  margin-top: 160px;
 }
 .d-social {
   width: 30px;
@@ -90,7 +90,7 @@ a {
   border-color: #0d578e;
 }
 .img-destaque {
-  width: 786px;
+  /* width: 786px; */
   height: auto;
 }
 .img-destaque img {

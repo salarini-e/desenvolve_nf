@@ -11,8 +11,8 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1>Cadastro de Artesão</h1>
-      <p class="mb-3">A Sala do Empreendedor, da Prefeitura Municipal de Nova Friburgo, está realizando o senso da habilidade criativa. Queremos entender, quantos são, o que fazem, onde estão localizados, dificuldades encontradas e, a partir daí, entender que tipo de política pública pode ser realizada para estímulo ao setor.</p>
+      <h1>Solicitação de Linha de Crédito</h1>
+      <p class="mb-3">A Prefeitura de Nova Friburgo, por meio da Sala do Empreendedor, está intermediando com diversas instituições a possibilidade de fornecimento de linhas de crédito para MEIs, micro e pequenas empresas. Se esta for uma necessidade para sua empresa, preencha o formulário abaixo e entraremos em contato em breve.</p>
       <div class="row">
         <div class="col">
             <form method="POST">                
@@ -58,6 +58,16 @@
 
         return parent;
       }
+    div = findParentDiv(document.getElementById('id_outra_motivacao'))
+    div.style.display = 'none'
+
+    function toggleMotivacao(e) {
+        if (e.value === 'ou') {
+            div.style.display = 'block'
+        } else {
+            div.style.display = 'none'
+        }
+    }
     // GAMBIARRA ABAIXO
     function removerElementos() {
           // Seleciona todos os elementos label
@@ -74,44 +84,6 @@
               }
           });
     }
-    function toggleCamposSelecao() {
-        var atividades = document.getElementsByName('atividade_manual');
-        var camposCostura = document.getElementById('id_tipo_costura').parentElement;
-        var camposAlimentos = document.getElementById('id_tipo_producao_alimentos').parentElement;
-        var camposBebidas = document.getElementById('id_tipo_producao_bebidas').parentElement;
-
-        // Verifica se a opção selecionada é Costura, Produção de Alimentos ou Produção de Bebidas
-        var costuraSelecionada = false;
-        var alimentosSelecionada = false;
-        var bebidasSelecionada = false;
-        for (var i = 0; i < atividades.length; i++) {
-            if (atividades[i].checked) {
-                if (atividades[i].value === '2') { // Costura
-                    costuraSelecionada = true;
-                }
-                if (atividades[i].value === '7') { // Produção de Alimentos
-                    alimentosSelecionada = true;
-                }
-                if (atividades[i].value === '8') { // Produção de Bebidas
-                    bebidasSelecionada = true;
-                }
-            }
-        }
-
-        // Exibe ou oculta os campos de seleção correspondentes
-        camposCostura.style.display = costuraSelecionada ? 'block' : 'none';
-        camposAlimentos.style.display = alimentosSelecionada ? 'block' : 'none';
-        camposBebidas.style.display = bebidasSelecionada ? 'block' : 'none';
-    }
-
-    // Adiciona um listener de evento de mudança para o campo de atividades manuais
-    var atividades = document.getElementsByName('atividade_manual');
-    for (var i = 0; i < atividades.length; i++) {
-        atividades[i].addEventListener('change', toggleCamposSelecao);
-    }
-
-    // Executa a função toggleCamposSelecao quando a página carrega
-    toggleCamposSelecao();
     removerElementos();
   </script>
 </div>

@@ -122,4 +122,5 @@ urlpatterns = [
     path('rotina/meia-noite/', views.atualizar_todo_dia, name='rotinas_admin'),
     
     # path('alimentar-oportunidades/', views.alimentar_oportunidades, name='alimentar_oportunidades'),
+    path('linha-de-credito/solicitacao/', views.credito_facil, name='solicitacao_linha_de_credito'),
 ]

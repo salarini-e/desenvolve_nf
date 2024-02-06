@@ -4,7 +4,7 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas
@@ -200,6 +200,7 @@ def novas_oportunidades(request):
     else:
         form = Form_Novas_Oportunidades()
     context ={
+        'titulo': 'Sala do Empreendedor - Oportunidade de Negócios',
         'form': form
     }
     return render(request, 'sala_do_empreendedor/form_novas_oportunidades.html', context)
@@ -1184,3 +1185,20 @@ def alimentar_oportunidades(request):
         Tipo_Producao_Bebidas.objects.create(descricao=bebida)
         
     return HttpResponse('processo concluido')
+
+def credito_facil(request):
+    if request.method == 'POST':
+        form = Form_Credito_Facil(request.user, request.POST)
+        if form.is_valid():
+            credito = form.save(commit=False)
+            credito.user_register = request.user
+            credito.save()
+            messages.success(request, 'Solicitação enviada com sucesso!')
+            return redirect('empreendedor:credito_facil')
+    else:
+        form = Form_Credito_Facil(request.user, initial={'user_register': request.user.id})
+    context = {
+        'form': form,
+        'titulo': 'Sala do Empreendedor - Solicitação de Crédito Fácil'
+    }
+    return render(request, 'sala_do_empreendedor/credito_facil/emprestimo.html', context)

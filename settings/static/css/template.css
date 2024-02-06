@@ -60,7 +60,7 @@ li a:hover {
   list-style: none;
 }
 #navegacao {
-  margin-top: 166px;
+  margin-top: 160px;
 }
 .d-social {
   width: 30px;
@@ -90,7 +90,7 @@ a {
   border-color: #0d578e;
 }
 .img-destaque {
-  width: 786px;
+  /* width: 786px; */
   height: auto;
 }
 .img-destaque img {
@@ -129,7 +129,7 @@ ul {
 .banner-img {
   height: 101px;
   border-radius: 10px;
-  width: 279px;
+  width: 269px;
 }
 .c-text {
   padding: 20px;
@@ -152,7 +152,7 @@ ul {
 }
 .item {
   margin-bottom: 30px;
-  width: 280px;
+  width: 270px;
   /* height: 100%; */
   padding-top: 0px;
   /* padding-bottom: 15px; */

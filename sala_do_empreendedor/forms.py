@@ -240,3 +240,17 @@ class Form_Novas_Oportunidades(forms.ModelForm):
             'comercializacao_produto': forms.RadioSelect(),
             'cep_negocio':forms.TextInput(attrs={'onkeydown': 'icep(this)'}),
         }
+
+class Form_Credito_Facil(forms.ModelForm):
+    
+    def __init__(self, user, *args, **kwargs):
+        super(Form_Credito_Facil, self).__init__(*args, **kwargs)
+        self.fields['empresa'].queryset = Empresa.objects.filter(user_register=user)
+    
+    class Meta:
+        model = Credito_Facil
+        fields = '__all__'
+        widgets = {
+                'motivacao_emprestimo': forms.Select(attrs={'class': 'form-control', 'onchange': 'toggleMotivacao(this)'}),
+                'user_register': forms.HiddenInput(),          
+        }

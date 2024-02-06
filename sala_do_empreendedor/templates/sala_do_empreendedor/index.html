@@ -2,15 +2,15 @@
 {% load static %}
 {% block nav %}
 {% include 'nav_empreendedor.html' %}
+{% include 'slide_empreendedor.html' %}
 {% endblock %}
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
 {% endblock %}
 {% block main %}
+
 <div class="container">
-<div class="row mx-auto ps-4 pb-5">
-  {% include 'slide_empreendedor.html' %}
-</div>
+
 {% include 'servicos.html' %}
 <!-- <div class="row">
   <div class="col d-flex pe-4">
@@ -45,6 +45,102 @@
       </div>
     </div>
   </div>
+  <div id="overlay"></div>
+  <div id="modalBanner" class="alert"  style="background-color: #ffffff;">
+    <div class="row">
+      <div class="col d-flex pt-3 pb-2">
+        <div class="m-auto">
+          <a class="w-100" href="{% url 'empreendedor:novas_oportunidades' %}">
+          <img src="{% static 'images/banner-novas-oportunidades.png' %}" class="img-fluid" alt="Banner mapeamento artesão">
+          </a>
+        </div>
+      <span id="close-btn-banner" class="ms-auto" style="color: black;" onclick="closeModalBanner()">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </span>
+      </div>
+    </div>
+  </div>
+  <style>
+    #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 0;
+    }
+
+    #modalBanner {
+        display: none;
+        position: fixed;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
+        max-width: 90%; /* Defina a largura máxima do modal */
+        padding: 20px;
+        /* background-color: #fff; */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 10px; /* Adicione bordas arredondadas ao modal */
+    }
+
+    #modalBanner h2 {
+        margin-top: 0;
+        color: #333; /* Cor do título do modal */
+    }
+    #close-btn-banner {
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        font-size: 18px;
+        color: #888; /* Cor do botão de fechar */
+    }
+
+    #close-btn-banner:hover {
+        color: #555; /* Cor do botão de fechar ao passar o mouse */
+    }
+
+    /* Adicione mais estilos conforme necessário */
+
+    #modalBanner .row {
+        margin-bottom: 10px;
+    }
+
+    /* Adicione estilos específicos para a mensagem usando as classes de tags */
+    #modalBanner.error {
+        border: 2px solid #ff3333;
+        background-color: #ffeeee;
+    }
+
+    #modalBanner.success {
+        border: 2px solid #33cc33;
+        background-color: #eeffef;
+    }
+</style>
+<script>
+   function openModalBanner() {
+        document.getElementById('modalBanner').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closeModalBanner() {
+        document.getElementById('modalBanner').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+    window.onclick = function(event) {
+        var modal = document.getElementById('modalBanner');
+        var overlay = document.getElementById('overlay');
+        if (event.target === overlay) {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    }
+  openModalBanner()
+</script>
 <div class="row mx-auto px-5">
   <script>
     document.getElementById('empreendedor_inicio').classList.add('s-nav-active');
