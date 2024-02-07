@@ -69,3 +69,9 @@ def solicitarNewsLetter(request):
     
 def error_500(request):
     return render(request, '500.html', status=500)
+
+def carnaval(request):
+    context = {
+        'titulo': ' Carnaval 2024 - Programação'
+    }
+    return render(request, 'desenvolve_nf/carnaval.html', context)
