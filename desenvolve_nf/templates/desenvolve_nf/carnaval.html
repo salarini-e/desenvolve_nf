@@ -291,38 +291,30 @@
   <div id="overlay"></div>
   <div id="modal" class="alert" style="background-color: white;">
     <div class="row">
-      <div class="col d-flex py-3">
-        <div class="m-auto d-flex flex-column">
-          <img class="mx-auto img-fluid mx-5" src="{% static 'images/carnaval/programacao.png' %}" alt="programação carnaval 2024 nova friburgo">
+      <div class="col d-flex">
           <div id="dia-8" class="dias" style="display: none;">
-            <img class="img-fluid" src="{% static 'images/carnaval/sef.png' %}" alt="programação carnaval 2024 nova friburgo oliveira botelho">
-            <div class="w-100 px-5">
-              <div class="d-flex" style="font-size: 1rem;">
-                <strong>16H ÀS 20H - </strong>BAILE DE MÁSCARA DA FELIZ IDADE COM FAFTO CONSUMADO
-              </div>
-            </div>
-            <img class="img-fluid" src="{% static 'images/carnaval/avenida-alberto-braune.png' %}" alt="programação carnaval 2024 nova friburgo alberto braune">
-            <div class="w-100 px-5">
-              <h1  style="font-size: 1rem;">BLOCO SERRA FOLIA</h1>
-              <div class="d-flex">
-                <strong>18H -</strong>ÍNICIO DA CONCENTRAÇÃO DO BLOCO
-              </div>
-            </div>
-            <img class="img-fluid" src="{% static 'images/carnaval/palco-oliveira-botelho.png' %}" alt="programação carnaval 2024 nova friburgo oliveira botelho">
-            <div class="w-100 px-5">
-              <div class="d-flex" style="font-size: 1rem;">
-                <strong>19H - </strong>DJ BRUNA PETRIBU
-              </div>
-            </div>
+            <img class="img-fluid" src="{% static 'images/carnaval/dia 08-img.png' %}" alt="programação carnaval 2024 nova friburgo dia 8">           
           </div>
 
           <div id="dia-9" class="dias" style="display: none;">
-            
+            <img class="img-fluid" src="{% static 'images/carnaval/dia 09-img.png' %}" alt="programação carnaval 2024 nova friburgo oliveira botelho">            
+          </div>
+          <div id="dia-10" class="dias" style="display: none;">
+            <img class="img-fluid" src="{% static 'images/carnaval/dia 10-img.png' %}" alt="programação carnaval 2024 nova friburgo oliveira botelho">    
+          </div>
+          <div id="dia-11" class="dias" style="display: none;">
+            <img class="img-fluid" src="{% static 'images/carnaval/dia 11-img.png' %}" alt="programação carnaval 2024 nova friburgo oliveira botelho">    
+          </div>
+          <div id="dia-12" class="dias" style="display: none;">
+            <img class="img-fluid" src="{% static 'images/carnaval/dia 12-img.png' %}" alt="programação carnaval 2024 nova friburgo oliveira botelho">    
+          </div>
+          <div id="dia-13" class="dias" style="display: none;">
+            <img class="img-fluid" src="{% static 'images/carnaval/dia 13-img.png' %}" alt="programação carnaval 2024 nova friburgo oliveira botelho">    
           </div>
         </div>
-      <span id="close-btn" class="ms-auto" style="color: rgb(255, 255, 255);" onclick="closeModal()">
+      <!-- <span id="close-btn" class="ms-auto" style="color: rgb(255, 255, 255);" onclick="closeModal()">
         <i class="fa-solid fa-circle-xmark"></i>
-      </span>
+      </span> -->
       </div>
     </div>
     
@@ -345,19 +337,25 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 90%;
-        max-width: 90%;
+        width: 50%;
+        max-width: 50%;
         max-height: 90%; /* Adicione uma altura máxima para o modal */
         overflow-y: auto; /* Adicione uma rolagem vertical caso necessário */
         padding: 20px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        background-image: url('/static/images/carnaval/fundo.png');
+        /* background-image: url('/static/images/carnaval/fundo.png'); */
         background-size: cover;
         z-index: 10001;
         color: white;
         border-radius: 10px;
       }
-
+      @media screen and (max-width: 768px) {
+        #modal {
+          width: 90%;
+          max-width: 90%;
+        }
+        
+      }
       #modal h2 {
           margin-top: 0;
           color: #333; /* Cor do título do modal */
@@ -393,6 +391,8 @@
       }
       .dias{
         flex-direction: column;
+        width: 100%;
+        height: 100%;
       }
   </style>
   <script>
