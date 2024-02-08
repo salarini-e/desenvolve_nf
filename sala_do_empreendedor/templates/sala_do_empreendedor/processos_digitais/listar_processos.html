@@ -11,13 +11,16 @@
     <div class="row  bg-white" style="border-radius: 30px;">
       <div class="col">
         <div class="pt-4 d-flex px-3">
-            <h2 style="display: inline;">Processos Digitais</h2>       
-              <a href="{% url 'empreendedor:consultar_processos' %}" class="btn btn-dark ms-auto my-auto">
-                <i class="fa-solid fa-rotate-left"></i>
+            <h2 style="display: inline;">Processos Digitais</h2>                   
+              <a href="{% url 'empreendedor:novo_processo' %}" class="btn btn-success ms-auto my-auto">
+                <i class="fa-solid fa-plus me-1 "></i> Novo
               </a>
               <button id="openFilter" class="btn btn-secondary ms-2 my-auto">
                 <i class="fa-solid fa-filter"></i>            
-              </button>        
+              </button> 
+              <a href="{% url 'empreendedor:consultar_processos' %}" class="btn btn-dark ms-2 my-auto">
+                <i class="fa-solid fa-rotate-left"></i>
+              </a>                     
             </div>
             <!-- <div class="row">
                 <div class="col">

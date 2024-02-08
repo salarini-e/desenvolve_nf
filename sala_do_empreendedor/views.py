@@ -643,6 +643,9 @@ def meus_processos(request):
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/listar_processos.html', context)
 
+@login_required
+def novo_processo(request):
+    return render(request, 'sala_do_empreendedor/processos_digitais/novo_processo.html', {})
 
 @login_required()
 def pdde_index(request):

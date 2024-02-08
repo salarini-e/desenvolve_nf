@@ -166,21 +166,28 @@
 </div>
 <div class="row mt-3">
   <div class="d-flex flex-wrap px-5">
-    <div class="item border border d-flex flex-column mx-2 div_cursos">
+    <div class="item border border d-flex flex-column mx-auto div_cursos">
       <a target="_blank" href="https://servicoonline.novafriburgo.rj.gov.br/services/site_login.php">
         <div class="c-img" style="position: relative;">
           <img class="banner-img" src="/static/images/icons_servicos/debitos-e-taxas.jpeg" >
         </div>
       </a> 
     </div>
-      <div class="item border border d-flex flex-column mx-2 div_cursos">
+    <div class="item border border d-flex flex-column mx-auto div_cursos">
+      <a href="{% url 'empreendedor:solicitacao_linha_de_credito' %}">
+        <div class="c-img" style="position: relative;">
+          <img class="banner-img" src="/static/images/icons_servicos/linha-credito.jpeg" >
+        </div>
+      </a> 
+    </div>
+      <div class="item border border d-flex flex-column mx-auto div_cursos">
         <a href="{% url 'empreendedor:compras_publicas' %}">
           <div class="c-img" style="position: relative;">
             <img class="banner-img" src="/static/images/icons_servicos/licitacoes.jpg" >
           </div>
         </a> 
       </div>
-      <div class="item border border d-flex flex-column mx-2 div_cursos">
+      <div class="item border border d-flex flex-column mx-auto div_cursos">
         <a href="{% url 'empreendedor:pdde_index' %}">
           <div class="c-img" style="position: relative;">
             <img class="banner-img" src="/static/images/icons_servicos/pdde.jpg" >
