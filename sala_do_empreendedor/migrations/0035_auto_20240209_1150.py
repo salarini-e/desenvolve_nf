@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='credito_facil',
             name='cnpj',
-            field=models.CharField(default=django.utils.timezone.now, max_length=18, unique=True, verbose_name='CNPJ da empresa'),
+            field=models.CharField(default=None, max_length=18, unique=True, verbose_name='CNPJ da empresa'),
             preserve_default=False,
         ),
         migrations.AddField(
