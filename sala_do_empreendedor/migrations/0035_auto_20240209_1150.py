@@ -14,10 +14,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.RemoveField(
-        #     model_name='credito_facil',
-        #     name='empresa',
-        # ),
+        migrations.RemoveField(
+            model_name='credito_facil',
+            name='empresa',
+        ),
         migrations.AddField(
             model_name='credito_facil',
             name='cnpj',
