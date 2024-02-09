@@ -560,7 +560,7 @@ class Credito_Facil(models.Model):
     cnpj=models.CharField(max_length=18, verbose_name='CNPJ da empresa', null=True)
     telefone=models.CharField(max_length=15, verbose_name='Telefone de contato/whatsapp', null=True, blank=True)
     email=models.EmailField(verbose_name='E-mail para contato')
-    valor_desejado = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor desejado')
+    valor_desejado = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor desejado (R$)')
     motivacao_emprestimo = models.CharField(max_length=2, choices=MOTIVACAO_CHOICES, verbose_name='Motivação do empréstimo')
     outra_motivacao = models.CharField(max_length=128, verbose_name='Qual outra motivação do emprestivo?', null=True, blank=True)
     user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, blank=True)
