@@ -186,12 +186,15 @@ def oportunidade_de_negocios_dados(request):
     }
     return render(request, 'sala_do_empreendedor/oportunidade_de_negocios_graficos.html', context)
 
-@login_required
+
 def novas_oportunidades(request):
     if request.method == 'POST':
         form = Form_Novas_Oportunidades(request.POST)
-        if form.is_valid():
-            form.save()
+        if form.is_valid():            
+            cadastro_artesao=form.save()
+            if request.user.is_authenticated:
+                cadastro_artesao.user_register = request.user
+            cadastro_artesao.save()
             messages.success(request, 'Formulário enviado com sucesso!')
             return redirect('empreendedor:oportunidade')
         else:
@@ -1191,15 +1194,23 @@ def alimentar_oportunidades(request):
 
 def credito_facil(request):
     if request.method == 'POST':
-        form = Form_Credito_Facil(request.user, request.POST)
+        form = Form_Credito_Facil(request.POST)
         if form.is_valid():
-            credito = form.save(commit=False)
-            credito.user_register = request.user
+            credito = form.save()
+            if request.user.is_authenticated:
+                credito.user_register = request.user
             credito.save()
             messages.success(request, 'Solicitação enviada com sucesso!')
-            return redirect('empreendedor:credito_facil')
+            return redirect('empreendedor:index')
+        else:
+            print(form.errors)
+            print('-------------------------------------------------------------')
     else:
-        form = Form_Credito_Facil(request.user, initial={'user_register': request.user.id})
+        print('GET')
+        if request.user.is_authenticated:
+            form = Form_Credito_Facil(initial={'user_register': request.user.id})
+        else:
+            form = Form_Credito_Facil()
     context = {
         'form': form,
         'titulo': 'Sala do Empreendedor - Solicitação de Crédito Fácil'

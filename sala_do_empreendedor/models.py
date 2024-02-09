@@ -527,6 +527,9 @@ class Novas_Oportunidades(models.Model):
         ('expositor_outros', 'Expositor fixo em outros pontos comerciais'),
     )
     
+    cpf=models.CharField(max_length=14, verbose_name='CPF', null=True)
+    telefone=models.CharField(max_length=15, verbose_name='Telefone de contato/whatsapp', null=True, blank=True)
+    email=models.EmailField(verbose_name='E-mail para contato')
     atividade_manual = models.ManyToManyField(AtividadeManual, verbose_name='1. Atualmente você desenvolve alguma atividade ou produção manual (pode assinalar quantas alternativas você achar necessário)?')
     tipo_costura = models.ManyToManyField(Tipo_Costura, verbose_name='1. Qual tipo de costura?', null=True, blank=True)
     tipo_producao_alimentos = models.ManyToManyField(Tipo_Producao_Alimentos, verbose_name='1. Qual tipo de produção de alimentos?', null=True, blank=True)
@@ -538,6 +541,8 @@ class Novas_Oportunidades(models.Model):
     comercializacao_produto = models.CharField(max_length=30, choices=COMERCIALIZACAO_PRODUTO_CHOICES, verbose_name='6. Como você comercializa seus produtos? (marque todas as opções que se adequem a você)')
     cep_negocio = models.CharField(max_length=9, verbose_name='7. Qual o CEP do seu negócio?')
     alavancar_negocio = models.TextField(verbose_name='8. O que você acha que poderia ser feito para ajudar o seu negócio a alavancar?')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, blank=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
     def __str__(self):
         return f"Formulário - {self.id}"
@@ -552,12 +557,14 @@ class Credito_Facil(models.Model):
         ('ou', 'Outro'),
     )
     
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa')
+    cnpj=models.CharField(max_length=18, verbose_name='CNPJ da empresa', null=True)
+    telefone=models.CharField(max_length=15, verbose_name='Telefone de contato/whatsapp', null=True, blank=True)
+    email=models.EmailField(verbose_name='E-mail para contato')
     valor_desejado = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor desejado')
     motivacao_emprestimo = models.CharField(max_length=2, choices=MOTIVACAO_CHOICES, verbose_name='Motivação do empréstimo')
     outra_motivacao = models.CharField(max_length=128, verbose_name='Qual outra motivação do emprestivo?', null=True, blank=True)
-    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou')
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, blank=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
     
     def __str__(self):
-        return f"Crédito Fácil - {self.empresa.nome} - R${self.valor_desejado} - {self.dt_register}"
+        return f"Crédito Fácil - {self.cnpj} - R${self.valor_desejado} - {self.dt_register}"

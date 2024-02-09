@@ -227,8 +227,10 @@ class Contrato_Avaliacao(forms.ModelForm):
 class Form_Novas_Oportunidades(forms.ModelForm):
     class Meta:
         model = Novas_Oportunidades
-        fields = '__all__'
+        exclude = ['dt_register', 'user_register']
         widgets = {
+            'cpf': forms.TextInput(attrs={'onkeydown': 'mascara(this, icpf)'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'onkeydown':'mascara(this, itel)'}),
             'atividade_manual': forms.CheckboxSelectMultiple(),
             'tipo_costura': forms.CheckboxSelectMultiple(),
             'tipo_producao_alimentos': forms.CheckboxSelectMultiple(),
@@ -243,14 +245,15 @@ class Form_Novas_Oportunidades(forms.ModelForm):
 
 class Form_Credito_Facil(forms.ModelForm):
     
-    def __init__(self, user, *args, **kwargs):
-        super(Form_Credito_Facil, self).__init__(*args, **kwargs)
-        self.fields['empresa'].queryset = Empresa.objects.filter(user_register=user)
+    # def __init__(self, user, *args, **kwargs):
+    #     super(Form_Credito_Facil, self).__init__(*args, **kwargs)
+    #     self.fields['empresa'].queryset = Empresa.objects.filter(user_register=user)
     
     class Meta:
         model = Credito_Facil
-        fields = '__all__'
+        exclude = ['dt_register', 'user_register']
         widgets = {
+                'cnpj': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'CNPJ', 'onkeydown':'mascara(this, icnpj)'}),
+                'telefone': forms.TextInput(attrs={'class': 'form-control', 'onkeydown':'mascara(this, itel)'}),
                 'motivacao_emprestimo': forms.Select(attrs={'class': 'form-control', 'onchange': 'toggleMotivacao(this)'}),
-                'user_register': forms.HiddenInput(),          
         }
