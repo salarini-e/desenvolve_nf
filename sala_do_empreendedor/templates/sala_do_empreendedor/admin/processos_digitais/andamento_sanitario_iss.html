@@ -16,7 +16,7 @@
                 <i class="fa-solid fa-rotate-left me-2"></i> Voltar
               </a>
               {% if processo.status != 'cn' %}
-              <a href="{% url 'empreendedor:novo_andamento_processo_admin' processo.id %}" class="btn btn-success ms-2 my-auto">
+              <a href="{% url 'empreendedor:novo_andamento_processo_sanitario_admin' processo.id %}" class="btn btn-success ms-2 my-auto">
                 <i class="fa-solid fa-circle-arrow-right me-2"></i> Dar novo andamento
               </a>
               {% endif %}
@@ -46,7 +46,7 @@
                 <hr>
                 <div class="d-flex flex-column w-100 pt-4">
                   
-                <h4>Anexos</h4>
+                <h4>Demais anexos</h4>
                 <div class="row">
                   <div class="col d-flex wrap">
                     
@@ -56,11 +56,16 @@
                 {% if requerimento.profissao.licenca_sanitaria %}
                 <div class="row mt-3">
                   <h4>Licença Sanitária</h4>
+                  <p><strong>CPF:</strong> {{pessoa.cpf}}</p>
+
                     <div class="col">
                       <div class="row my-3">
                         <div class="col d-flex">
                           {% if requerimento.profissao.licenca_sanitaria %}
-                          <a class="btn btn-outline-dark col" href="{{status_documentos.comprovante_limpeza_caixa_dagua.url}}" target="_blank">
+                          <a class="btn btn-outline-dark col" href="{{status_documentos.rg.url}}" target="_blank">
+                            <i class="fa-solid fa-id-card me-2"></i>RG
+                          </a>
+                          <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.comprovante_limpeza_caixa_dagua.url}}" target="_blank">
                             <i class="fa-solid fa-address-card me-2"></i>Comprovante Caixa d'Água
                           </a>
                           <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.comprovante_ar_condicionado.url}}" target="_blank">
@@ -69,13 +74,14 @@
                           <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.plano_gerenciamento_de_residuos.url}}" target="_blank">
                             <i class="fa-solid fa-address-card me-2"></i>Plano de Resíduos
                           </a>
-                          <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.licenca_santinaria_anterior.url}}" target="_blank">
-                            <i class="fa-solid fa-address-card me-2"></i>Licença Sanitária Anterior
-                          </a>
+                          
                           {% endif %}
                           {% if requerimento.autonomo_localizado == 's' %} 
                           {% if licenca_sanitaria_com_alvara %}
-                          <a class="btn btn-outline-dark col" href="{{status_documentos.comprovante_limpeza_caixa_dagua.url}}" target="_blank">
+                          <a class="btn btn-outline-dark col" href="{{status_documentos.rg.url}}" target="_blank">
+                            <i class="fa-solid fa-id-card me-2"></i>RG
+                          </a>
+                          <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.comprovante_limpeza_caixa_dagua.url}}" target="_blank">
                             <i class="fa-solid fa-address-card me-2"></i>Comprovante Caixa d'Água
                           </a>
                           <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.comprovante_ar_condicionado.url}}" target="_blank">
@@ -84,15 +90,23 @@
                           <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.plano_gerenciamento_de_residuos.url}}" target="_blank">
                             <i class="fa-solid fa-address-card me-2"></i>Plano de Resíduos
                           </a>
-                          <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.licenca_santinaria_anterior.url}}" target="_blank">
-                            <i class="fa-solid fa-address-card me-2"></i>Licença Sanitaria Anterior
-                          </a>
+                          
                           {% endif %}
                           {% endif %}
                         </div>
                       </div>
                       <div class="row">
-                        
+                        <div class="col d-flex flex-column">
+                          <label for="">Status RG</label>
+                          <select class="form-select" name="rg_status" id="id_rg_status" onchange="mudaStatusRG({{status_documentos.id}})">
+                            <option value="0" {% if status_documentos.rg_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
+                          
+                            <option value="1" {% if  status_documentos.rg_status == '1' %}selected{% endif %}>Aprovado</option>
+                          
+                            <option value="2" {% if  status_documentos.rg_status == '2' %}selected{% endif %}>Reprovado</option>
+                          
+                          </select>
+                        </div>
                         <div class="col d-flex flex-column">
                           <label for="">Status Limpeza Caixa d'Água</label>
                           <select class="form-select" name="comprovante_limpeza_caixa_dagua_status" id="id_comprovante_limpeza_caixa_dagua_status" onchange="mudaStatusLicenca({{ status_documentos.id}}, 'caixa', 'id_comprovante_limpeza_caixa_dagua_status')">
@@ -126,94 +140,44 @@
                           
                           </select>
                         </div>
-                        <div class="col d-flex flex-column ms-2">
-                          <label for="">Status Licença Sanitária Anterior</label>
-                          <select class="form-select" name="licenca_santinaria_anterior_status" id="id_licenca_santinaria_anterior_status" onchange="mudaStatusLicenca({{ status_documentos.id}}, 'anterior', 'id_licenca_santinaria_anterior_status')">
-                            <option value="0" {% if  status_documentos.licenca_santinaria_anterior_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
-                          
-                            <option value="1" {% if  status_documentos.licenca_santinaria_anterior_status == '1' %}selected{% endif %}>Aprovado</option>
-                          
-                            <option value="2" {% if  status_documentos.licenca_santinaria_anterior_status == '2' %}selected{% endif %}>Reprovado</option>
-                          
-                          </select>
-                        </div>
+                        
                       </div>
                     </div>
                 </div>
                   {% endif %}
                   <div class="row mt-3 mb-4">
-                    <h4>Demais anexos</h4>
                     <div class="col">
                     <div class="row my-3">
-                        <a class="btn btn-outline-dark col" href="{{status_documentos.rg.url}}" target="_blank">
-                          <i class="fa-solid fa-id-card me-2"></i>RG
+                        {% if status_documentos.licenca_santinaria_anterior %}
+                        <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.licenca_santinaria_anterior.url}}" target="_blank">
+                          <i class="fa-solid fa-address-card me-2"></i>Licença Sanitaria Anterior
                         </a>
-                        <a class="btn btn-outline-dark col ms-2" href="{{status_documentos.comprovante_endereco.url}}" target="_blank">
-                          <i class="fa-solid fa-address-card me-2"></i>Comprovante de Endereço
-                        </a>
-                        {% if requerimento.profissao.escolaridade.id == 1  or requerimento.profissao.escolaridade.id == 2 or requerimento.profissao.escolaridade.id == 3 or requerimento.profissao.escolaridade.id == 4 %}
-                        <a class="btn btn-outline-dark col ms-2" href="{{status_documentos.diploma_ou_certificado.url}}" target="_blank">
-                          <i class="fa-solid fa-address-card me-2"></i>Diploma/Certificado
-                        </a>
+                        <div class="col"></div>
+                        <div class="col"></div>
+                        <div class="col"></div>
                         {% endif %}
-                        {% if requerimento.autonomo_localizado == 's' %} 
-                        <a class="btn btn-outline-dark col ms-2" href="{{status_documentos.espelho_iptu.url}}" target="_blank">
-                          <i class="fa-solid fa-address-card me-2"></i>Espelho de IPTU
-                        </a>
-                        {% endif %}  
+                        
+                  
                     </div>
                     <div class="row d-flex">
-                      <div class="col d-flex flex-column wrap">
-                        <label for="">Status RG</label>
-                        <select class="form-select" name="rg_status" id="id_rg_status" onchange="mudaStatusRG({{status_documentos.id}})">
-                          <option value="0" {% if status_documentos.rg_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
+                      <div class="col d-flex flex-column">
+                        <label for="">Status Licença Sanitária Anterior</label>
+                        <select class="form-select" name="licenca_santinaria_anterior_status" id="id_licenca_santinaria_anterior_status" onchange="mudaStatusLicenca({{ status_documentos.id}}, 'anterior', 'id_licenca_santinaria_anterior_status')">
+                          <option value="0" {% if  status_documentos.licenca_santinaria_anterior_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
                         
-                          <option value="1" {% if  status_documentos.rg_status == '1' %}selected{% endif %}>Aprovado</option>
+                          <option value="1" {% if  status_documentos.licenca_santinaria_anterior_status == '1' %}selected{% endif %}>Aprovado</option>
                         
-                          <option value="2" {% if  status_documentos.rg_status == '2' %}selected{% endif %}>Reprovado</option>
-                        
-                        </select>
-                      </div>
-                      <div class="col d-flex flex-column ms-2">
-                        <label for="">Status Comprovante de Endereço</label>
-                        <select class="form-select" name="comprovante_status" id="id_comprovante_status" onchange="mudaStatusComprovante({{ status_documentos.id}})">
-                          <option value="0" {% if  status_documentos.comprovante_endereco_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
-                        
-                          <option value="1" {% if  status_documentos.comprovante_endereco_status == '1' %}selected{% endif %}>Aprovado</option>
-                        
-                          <option value="2" {% if  status_documentos.comprovante_endereco_status == '2' %}selected{% endif %}>Reprovado</option>
+                          <option value="2" {% if  status_documentos.licenca_santinaria_anterior_status == '2' %}selected{% endif %}>Reprovado</option>
                         
                         </select>
                       </div>
-                      {% if requerimento.profissao.escolaridade.id == 1  or requerimento.profissao.escolaridade.id == 2 or requerimento.profissao.escolaridade.id == 3 or requerimento.profissao.escolaridade.id == 4 %}
-                      <div class="col d-flex flex-column ms-2">
-                        <label for="">Status Diploma/Certificado</label>
-                        <select class="form-select" name="certificado_status" id="id_certificado_status" onchange="mudaStatusCertificado({{ status_documentos.id}})">
-                          <option value="0" {% if  status_documentos.comprovante_endereco_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
-                        
-                          <option value="1" {% if  status_documentos.comprovante_endereco_status == '1' %}selected{% endif %}>Aprovado</option>
-                        
-                          <option value="2" {% if  status_documentos.comprovante_endereco_status == '2' %}selected{% endif %}>Reprovado</option>
-                        
-                        </select>
-                      </div>
-                    </div>
-                    {% endif %}
-                      {% if requerimento.autonomo_localizado == 's' %}
-                      <div class="col d-flex flex-column ms-2">
-                        <label for="">Status Espelho de IPTU</label>
-                        <select class="form-select" name="espelho_status" id="id_espelho_status" onchange="mudaStatusEspelho({{ status_documentos.id}})">
-                          <option value="0" {% if  status_documentos.comprovante_endereco_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
-                        
-                          <option value="1" {% if  status_documentos.comprovante_endereco_status == '1' %}selected{% endif %}>Aprovado</option>
-                        
-                          <option value="2" {% if  status_documentos.comprovante_endereco_status == '2' %}selected{% endif %}>Reprovado</option>
-                        
-                        </select>
-                      </div>
-                      {% endif %}
+                      <div class="col"></div>
+                      <div class="col"></div>
+                      <div class="col"></div>
+                      
                     </div>
                     </div>
+                  </div>
                   {% if processo.status == 'bg' %}
                   <div class="row text-center">
                     <div class="col">

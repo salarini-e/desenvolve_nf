@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido
-from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario
+from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form, Criar_Andamento_Processo_Sanitario
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from secretaria_financas.decorators import funcionario_financas_required, setor_financas_required
 from sala_do_empreendedor.functions.email import send_email_for_create_process, send_email_for_att_process
 
@@ -18,11 +18,46 @@ def sala_do_empreendedor_admin(request):
     context = {
         'titulo': 'Sala do Empreendedor',
     }
+    agente_tributario_qs = Agente_Tributario.objects.filter(user=request.user, ativo=True)
+    agente_sanitario_qs = Agente_Sanitario.objects.filter(user=request.user, ativo=True)
+
+    if agente_tributario_qs.exists():
+        agente_tributario = agente_tributario_qs.first()
+        context['agente_tributario'] = agente_tributario
+
+    elif agente_sanitario_qs.exists():
+        agente_sanitario = agente_sanitario_qs.first()
+        context['agente_sanitario'] = agente_sanitario
+    
     return render(request, 'sala_do_empreendedor/admin/index.html', context)
 
+def processo_sanitario(request):
+    requerimentos_1 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria = True)
+    requerimentos_2 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's')
+
+    requerimentos_unidos = requerimentos_1 | requerimentos_2
+    requerimentos_unidos_ordenados = requerimentos_unidos.order_by('id')
+    processos=[]
+    for r in requerimentos_unidos_ordenados:
+        processos.append(r.processo)
+    paginator = Paginator(processos, 50)
+    print(processos)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processos': paginator.get_page(request.GET.get('page')),
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_sanitario.html', context)
 @login_required()
 @funcionario_financas_required
 def processos_digitais_admin(request):
+    try:
+        agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
+        return processo_sanitario(request)
+    except:
+        try: 
+            agente_tributario = Agente_Tributario.objects.get(user = request.user, ativo=True)
+        except:
+            return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
     proecsesos = Processo_Digital.objects.all().order_by('-dt_solicitacao')    
     paginator = Paginator(proecsesos, 50)
     context = {
@@ -113,13 +148,43 @@ def andamento_processo_iss_uniprofissional(request, processo):
 @login_required()
 @staff_member_required()
 def andamento_processo_admin(request, id):
+    try:
+        agente_sanitario = Agente_Sanitario.objects.get(user=request.user, ativo=True)
+        return andamento_sanitario_admin(request, id)
+    except:
+        pass
     processo = Processo_Digital.objects.get(id=id)
     if processo.tipo_processo.id == 1:
         return andamento_processo_iss(request, processo)
     elif processo.tipo_processo.id == 3:
         return andamento_processo_iss_uniprofissional(request, processo)
     return redirect('empreendedor:processos_digitais_admin')
+
+def andamento_sanitario_admin(request, id):
+    processo = Processo_Digital.objects.get(id=id)
+    if processo.tipo_processo.id == 1:
+        requerimento = RequerimentoISS.objects.get(processo=processo)
+        andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+        try:
+            status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+        except Exception as E:
+            print(E)
+            messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
+            return redirect('empreendedor:processos_digitais_admin')
+        context = {
+            'titulo': 'Sala do Empreendedor - ADM - ISS',
+            'processo': processo,
+            'andamentos': andamentos,
+            'status_documentos': status_documentos,
+            'requerimento': requerimento,
+            'pessoa': Pessoa.objects.get(user=processo.solicitante)
+            
+        }
+        return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_sanitario_iss.html', context)
+
+    return HttpResponseForbidden("Você não tem permissão para acessar essa página.")
     
+     
 
 @login_required()
 @staff_member_required()
@@ -161,6 +226,54 @@ def novo_andamento_processo(request, id):
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)
 
+@login_required()
+@staff_member_required()
+def novo_andamento_processo_sanitario(request, id):
+    processo = Processo_Digital.objects.get(id=id)
+    if processo.tipo_processo.id == 1:
+        requerimento = RequerimentoISS.objects.get(processo=processo)
+    elif processo.tipo_processo.id == 3:
+        requerimento = RequerimentoISSQN.objects.get(processo=processo)
+    if request.method == 'POST':        
+        if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
+            requerimento.boleto = request.FILES['boleto']            
+            if processo.tipo_processo.id == 1:
+                requerimento.n_inscricao = request.POST['inscricao']
+        form = Criar_Andamento_Processo_Sanitario(request.POST)
+        if form.is_valid():
+            andamento = form.save(commit=False)
+            andamento.processo = processo
+            andamento.servidor = request.user
+            if 'licensa_sanitaria' in request.FILES:
+                documentos= Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+                try:
+                    documentos.licenca_sanitaria = request.FILES['licensa_sanitaria']
+                    documentos.save()
+                except:
+                    messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
+
+            andamento.save()
+            processo.status = andamento.status
+            processo.save() 
+            requerimento.save()
+            messages.success(request, 'Andamento cadastrado com sucesso!')
+            if processo.tipo_processo.id == 3:
+                send_email_for_att_process(processo, andamento)
+            return redirect('empreendedor:andamento_processo_admin', id)
+        else:
+            print(form.errors)
+    else:
+        form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Avaliação de licença sanitária concluída.'})
+        form_req = Processo_ISS_Form()
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processo': processo,
+        'form': form,
+        'form_req': form_req,
+        'processo_sanitario': True,
+        
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)
 
 @login_required()
 @staff_member_required()
@@ -178,23 +291,33 @@ def mudaStatus(request):
 @login_required()
 @staff_member_required()
 def mudaStatusRG(request):    
+    try:
+        agente = Agente_Tributario.objects.get(user=request.user, ativo=True)
+    except:
+        return JsonResponse({})
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         id = data.get('id')
         status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
         status_documentos.rg_status = data.get('status')
+        status_documentos.agente_att_rg = agente
         status_documentos.save()
         return JsonResponse({'status': 'ok'})            
     return JsonResponse({})
 
 @login_required()
 @staff_member_required()
-def mudaStatusComprovante(request):    
+def mudaStatusComprovante(request):
+    try:
+        agente = Agente_Tributario.objects.get(user=request.user, ativo=True)
+    except:
+        return JsonResponse({})    
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         id = data.get('id')
         status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
         status_documentos.comprovante_endereco_status = data.get('status')
+        status_documentos.agente_att_endereco = agente
         status_documentos.save()
         return JsonResponse({'status': 'ok'})            
     return JsonResponse({})
@@ -202,11 +325,16 @@ def mudaStatusComprovante(request):
 @login_required()
 @staff_member_required()
 def mudaStatusCertificado(request):    
+    try:
+        agente = Agente_Tributario.objects.get(user=request.user, ativo=True)
+    except:
+        return JsonResponse({})
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         id = data.get('id')
         status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
         status_documentos.diploma_ou_certificado_status = data.get('status')
+        status_documentos.agente_att_certificado = agente
         status_documentos.save()
         return JsonResponse({'status': 'ok'})            
     return JsonResponse({})
@@ -225,12 +353,46 @@ def mudaStatusLicenca(request):
 
 @login_required()
 @staff_member_required()
+def mudaStatusLicencaComTipo(request, tipo):
+    try:
+        agente = Agente_Sanitario.objects.get(user = request.user)    
+    except:
+        return JsonResponse({})
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
+        status = data.get('status')
+        print(tipo, status)
+        if tipo == 'caixa':
+            status_documentos.comprovante_limpeza_caixa_dagua_status=status
+            status_documentos.agente_att_caixa_dagua = agente
+        elif tipo == 'ar':
+            status_documentos.comprovante_ar_condicionado_status=status
+            status_documentos.agente_att_ar  = agente
+        elif tipo == 'residuos':
+            status_documentos.plano_gerenciamento_de_residuos_status=status
+            status_documentos.agente_att_residuos = agente
+        elif tipo == 'anterior':
+            status_documentos.licenca_santinaria_anterior_status=status
+            status_documentos.agente_att_licenca_sanitaria_anterior = agente
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
+
+@login_required()
+@staff_member_required()
 def mudaStatusEspelho(request):    
+    try:
+        agente = Agente_Tributario.objects.get(user=request.user, ativo=True)
+    except:
+        return JsonResponse({})
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         id = data.get('id')
         status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
         status_documentos.espelho_iptu_status = data.get('status')
+        status_documentos.agente_att_iptu = agente
         status_documentos.save()
         return JsonResponse({'status': 'ok'})            
     return JsonResponse({})

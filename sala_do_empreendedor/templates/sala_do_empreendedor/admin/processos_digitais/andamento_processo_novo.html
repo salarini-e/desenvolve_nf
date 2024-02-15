@@ -55,6 +55,12 @@
                       <label for="formFile" class="form-label">Anexe o boleto</label>
                       <input class="form-control" type="file" id="id_boleto" name="boleto">
                     </div>
+                    {% if processo_sanitario %}
+                    <div id="licenca_sanitaria" class="mb-3">
+                      <label for="formFile" class="form-label">Anexe a Licenca Sanitária (O nome dos arquivos anexados não devem conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.)</label>
+                      <input class="form-control" type="file" id="id_licenca_sanitaria" name="licenca_sanitaria">
+                    </div>
+                    {% endif %}
                     <div id="n_inscricao" class="mb-3">
                       <label for="formFile" class="form-label">Informe o número de inscrição</label>
                       <input class="form-control" type="text" id="id_inscricao" name="inscricao">

@@ -111,7 +111,7 @@ class Criar_Processo_Docs_Form(ModelForm):
             'processo': forms.HiddenInput(),
             }
         
-        exclude = ['user_register', 'rg_status', 'comprovante_endereco_status', 'diploma_ou_certificado_status', 'licenca_sanitaria_status', 'espelho_iptu_status', 'licenca_ambiental_status']
+        exclude = ['user_register', 'rg_status', 'comprovante_endereco_status', 'diploma_ou_certificado_status', 'licenca_sanitaria_status', 'espelho_iptu_status', 'licenca_ambiental_status', 'comprovante_limpeza_caixa_dagua_status', 'comprovante_ar_condicionado_status', 'plano_gerenciamento_de_residuos_status', 'licenca_santinaria_anterior_status']
                    
 class Criar_Andamento_Processo(ModelForm):
     class Meta:
@@ -122,7 +122,26 @@ class Criar_Andamento_Processo(ModelForm):
             'status': forms.Select(attrs={'class': 'form-control', 'onchange':'exibirInput()'}),
             }
         exclude = ['dt_andamento']
-        
+
+class Criar_Andamento_Processo_Sanitario(ModelForm):
+
+    STATUS_CHOICES = (
+        ('ar', 'Aguardando reenvio de documentos'),
+        ('ls', 'Aguardando emissão licença sanitária'),
+        ('aa', 'Aguardando avaliação'),
+    )
+
+    status = forms.ChoiceField(choices=STATUS_CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'onchange':'exibirInput()'}))
+
+    class Meta:
+        model = Andamento_Processo_Digital
+        widgets = {
+            'processo': forms.HiddenInput(),
+            'servidor': forms.HiddenInput(),
+            'status': forms.Select(attrs={'class': 'form-control', 'onchange':'exibirInput()'}),
+            }
+        exclude = ['dt_andamento']
+
 class Profissao_Form(ModelForm):
     class Meta:
         model = Profissao

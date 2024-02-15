@@ -82,6 +82,7 @@ urlpatterns = [
     path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
     # Dar andamento no processo
     path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
+    path('adm/processos-digitais/<id>/novo-andamento/sanitario/', views.novo_andamento_processo_sanitario, name='novo_andamento_processo_sanitario_admin'),
     # Atualizar documento do processo
     path('processos-digitais/<protocolo>/att-doc/<doc>', views.atualizar_documento_processo, name='atualizar_documento_processo'),
     
@@ -94,6 +95,7 @@ urlpatterns = [
     path('muda-status-comprovante/', views.mudaStatusComprovante, name='mudaStatusComprovante'),
     path('muda-status-Ccertificado/', views.mudaStatusCertificado, name='mudaStatusCertificado'),
     path('muda-status-licenca/', views.mudaStatusLicenca, name='mudaStatusLicenca'),
+    path('muda-status-licenca/<tipo>', views.mudaStatusLicencaComTipo, name='mudaStatusLicencaComTipo'),
     path('muda-status-espelho/', views.mudaStatusEspelho, name='mudaStatusEspelho'),
     
     # PDDE

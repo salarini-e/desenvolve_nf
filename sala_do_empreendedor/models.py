@@ -143,6 +143,32 @@ class Faccao_legal(models.Model):
     qual_seu_sonho_no_setor = models.TextField(verbose_name='Qual seu sonho no setor?', null=True, blank=True)
     
 #PROCESSOS
+
+class Agente_Tributario(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Tributário')
+    ativo = models.BooleanField(default=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+class Agente_Divida_Fiscal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Fiscal de Dívida')
+    ativo = models.BooleanField(default=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+class Agente_Procuradoria(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Procurador')
+    ativo = models.BooleanField(default=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+class Agente_Sanitario(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Sanitário')
+    ativo = models.BooleanField(default=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+class Agente_Cartorio(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente de Cartório')
+    ativo = models.BooleanField(default=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
 class Escolaridade(models.Model):
 
     nome=models.CharField(max_length=128, verbose_name='Nome da escolaridade')
@@ -204,6 +230,8 @@ class Processo_Digital(models.Model):
         ('ae', 'Aguardando envio de documentos'),
         ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
+        ('ls', 'Aguardando emissão licença sanitária'),
+        ('la', 'Aguardando emissão licença ambiental'),
         ('bg', 'Boleto gerado'),    
         ('cn', 'Concluído')
     )
@@ -248,6 +276,8 @@ class Andamento_Processo_Digital(models.Model):
         ('ae', 'Aguardando envio de documentos'),
         ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
+        ('ls', 'Aguardando emissão licença sanitária'),
+        ('la', 'Aguardando emissão licença ambiental'),
         ('bg', 'Boleto gerado'),
         ('cn', 'Concluído')
     )
@@ -274,15 +304,32 @@ class Processo_Status_Documentos_Anexos(models.Model):
     comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço', null=True)
     diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
     licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
+    comprovante_limpeza_caixa_dagua = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Laudo de serviço e comprovante de limpeza de caixa d'agua por firma credenciada no INEA", null=True, blank=True)
+    comprovante_limpeza_caixa_dagua_status = models.CharField(max_length=1, verbose_name="Status Limpeza Caixa d'Agua", choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_caixa_dagua = models.ForeignKey(Agente_Sanitario, related_name="caixa_dagua_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da caixa d'água", null=True)
+    comprovante_ar_condicionado = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Comprovante de manutenção de ar condicionado", null=True, blank=True)
+    comprovante_ar_condicionado_status = models.CharField(max_length=1, verbose_name='Status Comprovante Ar Condicionado', choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_ar = models.ForeignKey(Agente_Sanitario, related_name="ar_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da manutenção do ar", null=True)
+    plano_gerenciamento_de_residuos = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Plano de ferenciamento de resíduos", null=True, blank=True)
+    plano_gerenciamento_de_residuos_status = models.CharField(max_length=1, verbose_name='Status Gerenciamento de Resíduos', choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_residuos = models.ForeignKey(Agente_Sanitario, related_name="residuos_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do plano de resíduos", null=True)
+    licenca_santinaria_anterior = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Licença sanitária anterior (para renovação)", null=True, blank=True)
+    licenca_santinaria_anterior_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_licenca_sanitaria_anterior = models.ForeignKey(Agente_Sanitario, related_name="licenca_sanitaria_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da antiga licença sanitária", null=True)
+    # fim itens licenca santinaria
     licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
     espelho_iptu = models.ImageField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
     
     rg_status=models.CharField(max_length=1, verbose_name='Status do RG', choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_rg = models.ForeignKey(Agente_Tributario, related_name="rg_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do RG", null=True)
     comprovante_endereco_status=models.CharField(max_length=1, verbose_name='Status do comprovante de endereço', choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_endereco = models.ForeignKey(Agente_Tributario, related_name="comprovante_endereco_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do comprovante de endereço", null=True)
     diploma_ou_certificado_status=models.CharField(max_length=1, verbose_name='Status do diploma ou certificado', choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_certificado = models.ForeignKey(Agente_Tributario, related_name="certificado_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do Certificado/Diploma", null=True)
     licenca_sanitaria_status=models.CharField(max_length=1, verbose_name='Status da licença sanitária', choices=DOC_STATUS_CHOICES, default='0')
     licenca_ambiental_status=models.CharField(max_length=1, verbose_name='Status da licença ambiental', choices=DOC_STATUS_CHOICES, default='0')
     espelho_iptu_status=models.CharField(max_length=1, verbose_name='Status do espelho do IPTU', choices=DOC_STATUS_CHOICES, default='0')
+    agente_att_iptu = models.ForeignKey(Agente_Tributario, related_name="iptu_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do Espelho de IPTU", null=True)
 
 class RequerimentoISSQN(models.Model):
     SOLICITACAO_CHOICES=(
@@ -568,3 +615,4 @@ class Credito_Facil(models.Model):
     
     def __str__(self):
         return f"Crédito Fácil - {self.cnpj} - R${self.valor_desejado} - {self.dt_register}"
+    

@@ -63,9 +63,21 @@
       {% else %}
         {% if requerimento.profissao.licenca_sanitaria %}
         {% else %}
-        const inputLicencaSanitaria = document.getElementById('id_licenca_sanitaria')
-        const licencaSanitariaDiv = findParentDiv(inputLicencaSanitaria);
-        licencaSanitariaDiv.style.display = 'none';
+        const inputLimpezaCaixaDagua = document.getElementById('id_comprovante_limpeza_caixa_dagua')
+        const divLimpezaCaixaDagua = findParentDiv(inputLimpezaCaixaDagua);
+        divLimpezaCaixaDagua.style.display = 'none';
+
+        const inputArCondicionado = document.getElementById('id_comprovante_ar_condicionado')
+        const divArCondicionado = findParentDiv(inputArCondicionado);
+        divArCondicionado.style.display = 'none';
+
+        const inputPlanoResiduos = document.getElementById('id_plano_gerenciamento_de_residuos')
+        const divPlanoResiduos = findParentDiv(inputPlanoResiduos);
+        divPlanoResiduos.style.display = 'none';
+
+        const inputLicencaAnterior= document.getElementById('id_licenca_santinaria_anterior')
+        const divLicencaAnterior = findParentDiv(inputLicencaAnterior);
+        divLicencaAnterior.style.display = 'none';
         {% endif %}
       {% endif %}
     {% else %}
@@ -74,9 +86,21 @@
       espelhoIPTUDiv.style.display = 'none';
       {% if requerimento.profissao.licenca_sanitaria %}
       {% else %}
-        const inputLicencaSanitaria2 = document.getElementById('id_licenca_sanitaria')
-        const licencaSanitariaDiv2 = findParentDiv(inputLicencaSanitaria2);
-        licencaSanitariaDiv2.style.display = 'none';
+        const inputLimpezaCaixaDagua = document.getElementById('id_comprovante_limpeza_caixa_dagua')
+        const divLimpezaCaixaDagua = findParentDiv(inputLimpezaCaixaDagua);
+        divLimpezaCaixaDagua.style.display = 'none';
+
+        const inputArCondicionado = document.getElementById('id_comprovante_ar_condicionado')
+        const divArCondicionado = findParentDiv(inputArCondicionado);
+        divArCondicionado.style.display = 'none';
+
+        const inputPlanoResiduos = document.getElementById('id_plano_gerenciamento_de_residuos')
+        const divPlanoResiduos = findParentDiv(inputPlanoResiduos);
+        divPlanoResiduos.style.display = 'none';
+
+        const inputLicencaAnterior= document.getElementById('id_licenca_santinaria_anterior')
+        const divLicencaAnterior = findParentDiv(inputLicencaAnterior);
+        divLicencaAnterior.style.display = 'none';
       {% endif %}
     {% endif %}
     {% if requerimento.profissao.licenca_ambiental%}    

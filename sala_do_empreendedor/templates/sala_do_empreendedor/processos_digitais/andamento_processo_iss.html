@@ -36,6 +36,14 @@
                     <h3 class="text-center">{{requerimento.n_inscricao}}</h3>
                   </div>
                 </div>
+                  <div class="row text-center">
+                    <div class="col pt-4">
+                      <p><i><b>Seu boleto foi gerado!</b></i></p>
+                      <a target="_blank" href="{{requerimento.boleto.url}}" class="btn btn-primary mt-3 mb-3">
+                        <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
+                      </a>
+                    </div>
+                  </div>
                 {% endif %}
                 <!-- if licenca ambiental -->
                 <div class="w-100 pt-4 d-flex flex-column">
@@ -55,29 +63,41 @@
                 <!-- if licenca sanitaria -->
                 <div class="d-flex flex-column w-100 pt-4">
                   <h4>Licença Sanitária</h4>
-                  <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Ambiental correspondente. Está solicitação a Secretária de Saúde está ocorrendo juntamente a este processo.</p>
+                  <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Sanitária correspondente. Está solicitação a Secretária de Saúde está ocorrendo juntamente a este processo.</p>
                   <div class="row">
                     <div class="col d-flex py-2 pb-1 flex-column ms-2">
-                      <label for="">Status RG</label>
-                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_status_display}}</p>
+                      <label for="">Comprovante limpeza caixa d'água</label>
+                      <p class="bg-status-{{status_documentos.comprovante_limpeza_caixa_dagua_status}}">{{status_documentos.get_comprovante_limpeza_caixa_dagua_status_display}}</p>
                     </div>
                     <div class="col d-flex py-2 pb-1 flex-column ms-2">
-                      <label for="">Status RG</label>
-                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_status_display}}</p>
+                      <label for="">Comprovante de manutenção de ar condicionado</label>
+                      <p class="bg-status-{{status_documentos.comprovante_ar_condicionado_status}}">{{status_documentos.get_comprovante_ar_condicionado_status_display}}</p>
                     </div>
                     <div class="col d-flex py-2 pb-1 flex-column ms-2">
-                      <label for="">Status RG</label>
-                      <p class="bg-status-{{status_documentos.licenca_sanitaria_status}}">{{status_documentos.get_licenca_sanitaria_status_display}}</p>
-                    </div>
+                      <label for="">Plano de gerenciamento de resíduos</label>
+                      <p class="bg-status-{{status_documentos.plano_gerenciamento_de_residuos_status}}">{{status_documentos.get_plano_gerenciamento_de_residuos_status_display}}</p>
+                    </div>                    
                   </div>
+                  {% if status_documentos.licenca_santinaria_anterior %}
+                    <div class="row">
+                      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                        <label for="">Licença sanitáira anterior</label>
+                        <p class="bg-status-{{status_documentos.licenca_santinaria_anterior_status}}">{{status_documentos.get_licenca_santinaria_anterior_status_display}}</p>
+                      </div>
+                      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      </div>
+                      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      </div>
+                    </div>
+                    {% endif %}
                   <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
                 </div>
                 <!-- endif -->
-                <div class="d-flex w-100 pt-4">
-                <h4>Anexos</h4>
+                <div class="d-flex w-100 pt-3">
+                <h4>Demais anexos</h4>
                
                 </div>
-                  <div class="row my-4">
+                  <div class="row mt-1 mb-4">
                     <div class="col d-flex flex-column">
                       <label for="">Status RG</label>
                       <p class="bg-status-{{status_documentos.rg_status}}">{{status_documentos.get_rg_status_display}}</p>
@@ -148,16 +168,7 @@
                       {% endif %}
                     </div>
                     {% endif %}
-                  </div>
-                  {% elif processo.status == 'bg' or processo.status == 'cn' %}
-                  <div class="row text-center">
-                    <div class="col">
-                      <p><i><b>Seu boleto foi gerado!</b></i></p>
-                      <a target="_blank" href="{{requerimento.boleto.url}}" class="btn btn-primary mt-3 mb-3">
-                        <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
-                      </a>
-                    </div>
-                  </div>
+                  </div>                  
                   {% endif %}
                 <hr>
 
