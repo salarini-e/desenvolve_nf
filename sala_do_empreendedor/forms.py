@@ -111,7 +111,7 @@ class Criar_Processo_Docs_Form(ModelForm):
             'processo': forms.HiddenInput(),
             }
         
-        exclude = ['user_register', 'rg_status', 'comprovante_endereco_status', 'diploma_ou_certificado_status', 'licenca_sanitaria_status', 'espelho_iptu_status', 'licenca_ambiental_status', 'comprovante_limpeza_caixa_dagua_status', 'comprovante_ar_condicionado_status', 'plano_gerenciamento_de_residuos_status', 'licenca_santinaria_anterior_status']
+        exclude = ['user_register', 'rg_status', 'licenca_sanitaria','comprovante_endereco_status', 'diploma_ou_certificado_status', 'licenca_sanitaria_status', 'espelho_iptu_status', 'licenca_ambiental_status', 'comprovante_limpeza_caixa_dagua_status', 'comprovante_ar_condicionado_status', 'plano_gerenciamento_de_residuos_status', 'licenca_santinaria_anterior_status', 'agente_att_caixa_dagua', 'agente_att_ar', 'agente_att_residuos', 'agente_att_licenca_sanitaria_anterior', 'agente_att_rg', 'agente_att_endereco', 'agente_att_certificado', 'agente_att_iptu']
                    
 class Criar_Andamento_Processo(ModelForm):
     class Meta:
