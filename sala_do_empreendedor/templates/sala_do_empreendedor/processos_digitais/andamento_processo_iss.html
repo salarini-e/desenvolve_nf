@@ -61,6 +61,7 @@
                 </div>
                 <!-- endif -->
                 <!-- if licenca sanitaria -->
+                {% if requerimento.profissao.licenca_sanitaria %}
                 <div class="d-flex flex-column w-100 pt-4">
                   <h4>Licença Sanitária</h4>
                   <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Sanitária correspondente. Está solicitação a Secretária de Saúde está ocorrendo juntamente a este processo.</p>
@@ -92,6 +93,39 @@
                     {% endif %}
                   <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
                 </div>
+                {% elif requerimento.autonomo_localizado == 's' and requerimento.profissao.licenca_sanitaria_com_alvara %}
+                <div class="d-flex flex-column w-100 pt-4">
+                  <h4>Licença Sanitária</h4>
+                  <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Sanitária correspondente. Está solicitação a Secretária de Saúde está ocorrendo juntamente a este processo.</p>
+                  <div class="row">
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Comprovante limpeza caixa d'água</label>
+                      <p class="bg-status-{{status_documentos.comprovante_limpeza_caixa_dagua_status}}">{{status_documentos.get_comprovante_limpeza_caixa_dagua_status_display}}</p>
+                    </div>
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Comprovante de manutenção de ar condicionado</label>
+                      <p class="bg-status-{{status_documentos.comprovante_ar_condicionado_status}}">{{status_documentos.get_comprovante_ar_condicionado_status_display}}</p>
+                    </div>
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Plano de gerenciamento de resíduos</label>
+                      <p class="bg-status-{{status_documentos.plano_gerenciamento_de_residuos_status}}">{{status_documentos.get_plano_gerenciamento_de_residuos_status_display}}</p>
+                    </div>                    
+                  </div>
+                  {% if status_documentos.licenca_santinaria_anterior %}
+                    <div class="row">
+                      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                        <label for="">Licença sanitáira anterior</label>
+                        <p class="bg-status-{{status_documentos.licenca_santinaria_anterior_status}}">{{status_documentos.get_licenca_santinaria_anterior_status_display}}</p>
+                      </div>
+                      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      </div>
+                      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      </div>
+                    </div>
+                    {% endif %}
+                  <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
+                </div>
+                {% endif %}
                 <!-- endif -->
                 <div class="d-flex w-100 pt-3">
                 <h4>Demais anexos</h4>
@@ -159,7 +193,7 @@
                       {% endif %}
                     </div>
                     {% endif %}
-                    {% if processo.autonomo_localizado == 's' %}
+                    {% if requerimento.autonomo_localizado == 's' %}
                     <div class="col d-flex flex-column ms-2">
                       {% if status_documentos.espelho_iptu_status == '2' %}
                       <a href="{% url 'empreendedor:atualizar_documento_processo' protocolo=processo.n_protocolo doc='espelho_iptu' %}" class="border py-2" style="border-radius: 20px;">

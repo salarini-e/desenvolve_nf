@@ -31,40 +31,91 @@ def sala_do_empreendedor_admin(request):
     
     return render(request, 'sala_do_empreendedor/admin/index.html', context)
 
+@login_required()
 def processo_sanitario(request):
-    requerimentos_1 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria = True)
-    requerimentos_2 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's')
+    try:
+        agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
+    except:
+        return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
+    
+    requerimentos_1 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria = True).exclude(processo__status='cn')
+    requerimentos_2 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's').exclude(processo__status='cn')
 
     requerimentos_unidos = requerimentos_1 | requerimentos_2
     requerimentos_unidos_ordenados = requerimentos_unidos.order_by('id')
     processos=[]
     for r in requerimentos_unidos_ordenados:
         processos.append(r.processo)
+    print(processos, 'opa')
     paginator = Paginator(processos, 50)
-    print(processos)
     context = {
         'titulo': 'Sala do Empreendedor',
         'processos': paginator.get_page(request.GET.get('page')),
     }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_sanitario.html', context)
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/index.html', context)
+
+
+@login_required()
+def processos_concluidos_sanitario(request):
+    try:
+        agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
+    except:
+        return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
+    
+    requerimentos_1 = RequerimentoISS.objects.filter(processo__status = 'cn', profissao__licenca_sanitaria = True)
+    requerimentos_2 = RequerimentoISS.objects.filter(processo__status = 'cn', profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's')
+
+    requerimentos_unidos = requerimentos_1 | requerimentos_2
+    requerimentos_unidos_ordenados = requerimentos_unidos.order_by('id')
+    processos=[]
+    for r in requerimentos_unidos_ordenados:        
+        processos.append(r.processo)
+    print(processos, 'opa')
+    paginator = Paginator(processos, 50)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processos': paginator.get_page(request.GET.get('page')),
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/concluidos.html', context)
+
+
 @login_required()
 @funcionario_financas_required
 def processos_digitais_admin(request):
     try:
         agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
-        return processo_sanitario(request)
+        return redirect('empreendedor:processo_sanitario')
     except:
         try: 
             agente_tributario = Agente_Tributario.objects.get(user = request.user, ativo=True)
         except:
             return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
-    proecsesos = Processo_Digital.objects.all().order_by('-dt_solicitacao')    
+    proecsesos = Processo_Digital.objects.exclude(status='cn').order_by('-dt_solicitacao')    
     paginator = Paginator(proecsesos, 50)
     context = {
         'titulo': 'Sala do Empreendedor',
         'processos': paginator.get_page(request.GET.get('page')),
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/index.html', context)
+
+@login_required()
+def processos_concluidos(request):
+    try:
+        agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
+        return redirect('empreendedor:processos_concluidos_sanitario')
+    except:
+        try: 
+            agente_tributario = Agente_Tributario.objects.get(user = request.user, ativo=True)
+        except:
+            return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+    proecsesos = Processo_Digital.objects.filter(status='cn').order_by('-dt_solicitacao')    
+    paginator = Paginator(proecsesos, 50)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processos': paginator.get_page(request.GET.get('page')),
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/concluidos.html', context)
+
 
 import re
 @login_required()
@@ -150,7 +201,7 @@ def andamento_processo_iss_uniprofissional(request, processo):
 def andamento_processo_admin(request, id):
     try:
         agente_sanitario = Agente_Sanitario.objects.get(user=request.user, ativo=True)
-        return andamento_sanitario_admin(request, id)
+        return redirect('empreendedor:andamento_processo_sanitario', id=id)
     except:
         pass
     processo = Processo_Digital.objects.get(id=id)
@@ -160,7 +211,13 @@ def andamento_processo_admin(request, id):
         return andamento_processo_iss_uniprofissional(request, processo)
     return redirect('empreendedor:processos_digitais_admin')
 
-def andamento_sanitario_admin(request, id):
+@login_required
+def andamento_processo_sanitario(request, id):
+    try:
+        agente_sanitario = Agente_Sanitario.objects.get(user=request.user, ativo=True)
+    except:
+        return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+    
     processo = Processo_Digital.objects.get(id=id)
     if processo.tipo_processo.id == 1:
         requerimento = RequerimentoISS.objects.get(processo=processo)

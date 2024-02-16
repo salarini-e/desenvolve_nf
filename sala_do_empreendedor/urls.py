@@ -68,6 +68,9 @@ urlpatterns = [
     path('consultar-processos/', views.consultar_processos, name='consultar_processos'),
     # Consulta do processo
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
+    path('adm/processos-digitais/concluidos/', views.processos_concluidos, name='processos_concluidos'),
+    path('adm/processos-digitais/licenca-sanitaria/', views.processo_sanitario, name='processo_sanitario'),
+    path('adm/processos-digitais/concluidos/sanitario/', views.processos_concluidos_sanitario, name='novo_andamento_processo_sanitario_admin'),    
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     # Criar novo processo
     path('processos/criar-novo/', views.novo_processo, name='novo_processo'),
@@ -79,6 +82,7 @@ urlpatterns = [
     path('processos/criar-novo/uniprofissional/envio-de-documentos/<n_protocolo>/', views.requerimento_ISSQN_doc, name='requerimento_issqn_doc'),
     # Coonsulta do processo
     path('adm/processos-digitais/andamento/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),    
+    path('adm/processos-digitais/andamento/licenca-sanitaria/<id>/', views.andamento_processo_sanitario, name='andamento_processo_sanitario'),    
     path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
     # Dar andamento no processo
     path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
