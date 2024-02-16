@@ -146,26 +146,31 @@ class Faccao_legal(models.Model):
 
 class Agente_Tributario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Tributário')
+    email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
 class Agente_Divida_Fiscal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Fiscal de Dívida')
+    email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
 class Agente_Procuradoria(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Procurador')
+    email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
 class Agente_Sanitario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Sanitário')
+    email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
 class Agente_Cartorio(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente de Cartório')
+    email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
