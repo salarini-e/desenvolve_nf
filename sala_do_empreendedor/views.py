@@ -12,6 +12,7 @@ from .functions.pdde import Listar_Proposta, PDDE_POST
 from .functions.email import send_email_for_create_process, send_email_for_att_process
 from django.db import transaction
 from guardiao.models import TentativaBurla
+from datetime import datetime
 
 # Create your views here.
 def index(request):
@@ -1078,6 +1079,22 @@ def requerimento_ISSQN(request):
                 servidor = None
             )
             andamento.save()
+            
+            #EL AQUI
+            api = ApiProtocolo()
+            data_processo = datetime.now()
+            pessoa = Pessoa.objects.get(user=processo.solicitante)
+            parametros = {
+                'numeroDocumentoJuridico': str(pessoa.cpf),
+                'nomePessoa': pessoa.nome,
+                'numeroProcesso': str(data_processo.year),
+                'anoProcesso': str(data_processo.year),
+                'dataProcesso': data_processo.strftime('%Y-%m-%d %H:%M:%S'),
+                'resumoEcm': f'Processo de Requerimento de ISS iniciado Desenvolve NF. Link para acompanhamento: https://desenvolve.novafriburgo.rj.gov.br/sala-do-empreendedor/processos-digitais/{processo.n_protocolo}/'
+            }
+            print(parametros)            
+            print('Resposta', api.cadastrarProcesso(parametros))
+            # api.cadastrarPessoa(parametros)
             messages.success(request, 'Processo criado. Aguardando avaliação de documentos.')
             send_email_for_create_process(processo, andamento)
             return redirect('empreendedor:andamento_processo', protocolo=processo.n_protocolo)

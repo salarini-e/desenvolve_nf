@@ -8,6 +8,8 @@ from django.core.validators import FileExtensionValidator
 from django.utils import timezone
 from django_cpf_cnpj.fields import CNPJField
 import uuid
+from PIL import Image
+from django.core.exceptions import ValidationError
 
 class Porte_da_Empresa(models.Model):
     porte=models.CharField(max_length=32, verbose_name='Porte da empresa')
@@ -296,6 +298,23 @@ class Andamento_Processo_Digital(models.Model):
         return str(self.processo.n_protocolo) + ' - ' +str(self.id) + ' - ' + str(self.dt_andamento)
 
 #Documentos do Requerimento de ISS
+class LimitedImageField(models.ImageField):
+    def __init__(self, *args, **kwargs):
+        self.allowed_formats = kwargs.pop('allowed_formats', ['jpeg', 'png'])
+        self.max_size = kwargs.pop('max_size', None)
+        super().__init__(*args, **kwargs)
+
+    def validate(self, value, model_instance):
+        super().validate(value, model_instance)
+        if value:
+            image = Image.open(value)
+            format = image.format.lower()
+            if format not in self.allowed_formats:
+                raise ValidationError(f'A imagem deve estar nos formatos {", ".join(self.allowed_formats)}.')
+
+            if image.size[0] > self.max_size[0] or image.size[1] > self.max_size[1]:
+                raise ValidationError(f'A imagem não pode ser maior que {self.max_size[0]}x{self.max_size[1]} pixels.')
+
 class Processo_Status_Documentos_Anexos(models.Model):
     DOC_STATUS_CHOICES=(
         ('0', 'Aguardando avaliação'),
@@ -308,6 +327,7 @@ class Processo_Status_Documentos_Anexos(models.Model):
     rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte', null=True)
     comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço', null=True)
     diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
+    # Licença Sanitária
     licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
     comprovante_limpeza_caixa_dagua = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Laudo de serviço e comprovante de limpeza de caixa d'agua por firma credenciada no INEA", null=True, blank=True)
     comprovante_limpeza_caixa_dagua_status = models.CharField(max_length=1, verbose_name="Status Limpeza Caixa d'Agua", choices=DOC_STATUS_CHOICES, default='0')
@@ -321,9 +341,17 @@ class Processo_Status_Documentos_Anexos(models.Model):
     licenca_santinaria_anterior = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Licença sanitária anterior (para renovação)", null=True, blank=True)
     licenca_santinaria_anterior_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
     agente_att_licenca_sanitaria_anterior = models.ForeignKey(Agente_Sanitario, related_name="licenca_sanitaria_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da antiga licença sanitária", null=True)
-    # fim itens licenca santinaria
+    # Fim Licenca Sanitária
+    # Licença Ambiental
     licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
-    espelho_iptu = models.ImageField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
+    espelho_iptu = models.FileField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
+    contrato_locacao = models.FileField(upload_to='processos/contrato-locacao/', verbose_name='Cópia do contrato de locação, se houver', null=True, blank=True)
+    conta_dagua = models.FileField(upload_to='processos/conta-dagua/', verbose_name="Conta d'água", null=True, blank=True)
+    conta_luz = models.FileField(upload_to='processos/conta-luz/', verbose_name='Conta de luz', null=True, blank=True)
+    foto = LimitedImageField(upload_to='processos/fotos_empresa/', null=True, blank=True, verbose_name="Foto da empresa para possibilitar a vistoria do técnico (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
+    croqui_acesso = LimitedImageField(upload_to='processos/croqui_acesso/', null=True, blank=True, verbose_name="Croqui de acesso para possibilitar a localização e vistoria da local de atuação. (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
+
+    # Fim Licença Ambiental
     
     rg_status=models.CharField(max_length=1, verbose_name='Status do RG', choices=DOC_STATUS_CHOICES, default='0')
     agente_att_rg = models.ForeignKey(Agente_Tributario, related_name="rg_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do RG", null=True)

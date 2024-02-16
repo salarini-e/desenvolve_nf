@@ -37,35 +37,38 @@ class ApiProtocolo:
     def recuperarPessoa(self, numeroDocumentoJuridico):
         from urllib.parse import quote
         
-        formatted_numeroDocumentoJuridico = "###.###.###-##".format(numeroDocumentoJuridico)
+        formatted_numeroDocumentoJuridico = self.formatar_cpf(numeroDocumentoJuridico)
         self.requestURL = f"https://gpi18.cloud.el.com.br/integracaogpi/api/v2/ecm/recuperarPessoa?numeroDocumentoJuridico={quote(formatted_numeroDocumentoJuridico)}"
         
         response = requests.get(self.requestURL, headers=self.requestHeader)
-        
-        if response.status_code == 201:
-            self.idPessoa = response.json()
-            return 201, response.json()
+        print(response.text)
+        if response.status_code == 200:
+            self.idPessoa = response.text
+    
+        elif response.status_code == 201:
+            self.idPessoa = response.text
         
         elif response.status_code == 500:
-            return 500, response.json()
+            return 500
         
         
     def cadastrarProcesso(self, parametros):
         self.recuperarPessoa(parametros['numeroDocumentoJuridico'])
         
         if self.idPessoa is None:
-            return
+            self.cadastrarPessoa(parametros)
+            if self.idPessoa is None:
+                return 500
         
         data = {
             'idCliente': self.idCliente,
             "idEcmEspecie": "71BE766987394776A7D23D154AC720E6",
-            "numeroProcesso": parametros['numeroProcesso'],
+            "numeroProcesso": '2023',
             "anoProcesso": parametros['anoProcesso'],
-            # "dataProcesso":  datetime.strptime(parametros['dataProcesso'], '%Y-%m-%d').date().isoformat(),
             "dataProcesso":  parametros['dataProcesso'],
             "idEstruturaInteresse": "50798A6D6F92A7B57775311D284D396B",
-            "idPessoaOrigem": self.idPessoa,
-            "idPessoaContato": self.idPessoa,
+            "idPessoaOrigem": str(self.idPessoa),
+            "idPessoaContato": str(self.idPessoa),
             "idAssunto": "431203450F604EC7BC234A6E38031B8A",
             "resumoEcm": parametros['resumoEcm'],
             "idBoleanoSigiloso": "N",
@@ -73,14 +76,14 @@ class ApiProtocolo:
             "idVisibilidade": "P",
             "idInternoExterno": "E",
             "idEcmEspecieTipo": 2,
-            "idPessoaRequerente": self.idPessoa,
+            "idPessoaRequerente": str(self.idPessoa),
             "idPrioridade": "N"
         }
 
         self.requestURL = "https://gpi18.cloud.el.com.br/integracaogpi/api/v2/ecm/cadastrar-processo"
         
         response = requests.post(self.requestURL, json=data, headers=self.requestHeader)
-        
+        print('processo', response.text)
         if response.status_code == 201:
             json_data = response.json()
             numeroECM = json_data[0]['numeroEcm']
@@ -94,17 +97,13 @@ class ApiProtocolo:
             print('não foi')
             print(response.status_code)
             print(response.json())
+            return response.status_code
     
     def cadastrarPessoa(self, parametros):
-        self.recuperarPessoa(parametros['numeroDocumentoJuridico'])
-        
-        if self.idPessoa is None:
-            return
-        
         data = {
-            "numeroDocumentoJuridico": parametros['numeroDocumentoJuridico'],
-            "nomePessoa": self.nomePessoa,
-            "tipoPessoa": self.tipoPessoa,
+            "numeroDocumentoJuridico": self.formatar_cpf(parametros['numeroDocumentoJuridico']),
+            "nomePessoa": parametros['nomePessoa'],
+            "tipoPessoa": 'PESSOA_FISICA',
             "idCliente": self.idCliente,
         }
 
@@ -113,8 +112,16 @@ class ApiProtocolo:
         response = requests.post(self.requestURL, json=data, headers=self.requestHeader)
         
         if response.status_code == 201:
-            return 201, response.json()
+            print('deu certo eim')
+            self.recuperarPessoa(parametros['numeroDocumentoJuridico'])
+            return response.json()
+        else:
+            print('deu errado de novo')
+            return response.json()
 
+    def formatar_cpf(self, cpf):
+        cpf_formatado = "{}.{}.{}-{}".format(cpf[:3], cpf[3:6], cpf[6:9], cpf[9:])
+        return cpf_formatado
 # Usage
 # api = ApiProtocolo("4BC52BDB6AC0DBE08F922291CE6AF1C2")
 # api = ApiProtocolo()

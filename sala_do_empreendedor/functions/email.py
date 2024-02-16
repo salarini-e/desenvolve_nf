@@ -26,8 +26,9 @@ def send_email_for_create_process(instance, historico):
     try:
         send_mail(subject, email, instance.solicitante.email, [
                     instance.solicitante.email], fail_silently=False)
-    except BadHeaderError:
-        return 'Invalid header found.'
+    except Exception as E:
+        print(E)
+        return 'Falha ao enviar email.'
     
 def send_email_for_att_process(instance, historico):
     subject = f"{instance.n_protocolo} - Processo atualizado na Sala do Empreendedor no sistema Desenvolve NF!"
