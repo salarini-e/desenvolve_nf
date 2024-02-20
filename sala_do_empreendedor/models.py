@@ -345,12 +345,17 @@ class Processo_Status_Documentos_Anexos(models.Model):
     # Licença Ambiental
     licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
     espelho_iptu = models.FileField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
+    espelho_iptu_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
     contrato_locacao = models.FileField(upload_to='processos/contrato-locacao/', verbose_name='Cópia do contrato de locação, se houver', null=True, blank=True)
+    contrato_locacao_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
     conta_dagua = models.FileField(upload_to='processos/conta-dagua/', verbose_name="Conta d'água", null=True, blank=True)
+    conta_dagua_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
     conta_luz = models.FileField(upload_to='processos/conta-luz/', verbose_name='Conta de luz', null=True, blank=True)
+    conta_luz_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
     foto = LimitedImageField(upload_to='processos/fotos_empresa/', null=True, blank=True, verbose_name="Foto da empresa para possibilitar a vistoria do técnico (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
+    foto_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
     croqui_acesso = LimitedImageField(upload_to='processos/croqui_acesso/', null=True, blank=True, verbose_name="Croqui de acesso para possibilitar a localização e vistoria da local de atuação. (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
-
+    croqui_acesso_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
     # Fim Licença Ambiental
     
     rg_status=models.CharField(max_length=1, verbose_name='Status do RG', choices=DOC_STATUS_CHOICES, default='0')

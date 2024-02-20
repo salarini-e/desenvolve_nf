@@ -64,24 +64,22 @@
                     <div class="col d-flex py-2 pb-1 flex-column ms-2">
                       <label for="">Conta de Luz</label>
                       <p class="bg-status-{{status_documentos.conta_luz_status}}">{{status_documentos.get_conta_luz_status_display}}</p>
+                    </div>                                      
+                  </div>
+                  <div class="row">
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Foto da empresa</label>
+                      <p class="bg-status-{{status_documentos.foto_status}}">{{status_documentos.get_foto_status_display}}</p>
+                    </div> 
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Croqui de acesso</label>
+                      <p class="bg-status-{{status_documentos.croqui_acesso_status}}">{{status_documentos.get_croqui_acesso_status_display}}</p>
                     </div>
-                                      
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">                   
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
-                    <label for="">Foto da empresa</label>
-                    <p class="bg-status-{{status_documentos.foto_status}}">{{status_documentos.get_foto_status_display}}</p>
-                  </div> 
-                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
-                    <label for="">Croqui de acesso</label>
-                    <p class="bg-status-{{status_documentos.croqui_acesso_status}}">{{status_documentos.get_croqui_acesso_status_display}}</p>
-                  </div>
-                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
-                   
-                  </div>
-                </div>
-              </div>  
+                </div>                
+              <!-- </div>   -->
                 <!-- endif -->
                 <!-- if licenca sanitaria -->
                 {% if requerimento.profissao.licenca_sanitaria %}
