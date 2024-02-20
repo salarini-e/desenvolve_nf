@@ -44,9 +44,59 @@
             <div class="row">
               <div class="col d-flex flex-column pt-4 pb-3 px-5">
                 <hr>
-
-                {% if requerimento.profissao.licenca_sanitaria %}
+                <h4>Licença Ambiental</h4>
                 <div class="row">
+                  {% if status_documentos.contrato_locacao %}
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Contrato de Locação</label>
+                    <p class="bg-status-{{status_documentos.comprovante_limpeza_caixa_dagua_status}}">{{status_documentos.get_comprovante_limpeza_caixa_dagua_status_display}}</p>
+                  </div>
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Conta D'água</label>
+                    <p class="bg-status-{{status_documentos.comprovante_ar_condicionado_status}}">{{status_documentos.get_comprovante_ar_condicionado_status_display}}</p>
+                  </div>
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Conta de Luz</label>
+                    <p class="bg-status-{{status_documentos.plano_gerenciamento_de_residuos_status}}">{{status_documentos.get_plano_gerenciamento_de_residuos_status_display}}</p>
+                  </div>  
+                </div>
+                <div class="row">
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Foto da empresa</label>
+                    <p class="bg-status-{{status_documentos.foto_status}}">{{status_documentos.get_foto_status_display}}</p>
+                  </div> 
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Croqui de acesso</label>
+                    <p class="bg-status-{{status_documentos.croqui_acesso_status}}">{{status_documentos.get_croqui_acesso_status_display}}</p>
+                  </div>
+                  {% if status_documentos.contrato_locacao %}
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">                   
+                  </div>
+                  {% endif %}
+                </div>
+                  {% else %}
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Conta D'água</label>
+                    <p class="bg-status-{{status_documentos.comprovante_ar_condicionado_status}}">{{status_documentos.get_comprovante_ar_condicionado_status_display}}</p>
+                  </div>
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Conta de Luz</label>
+                    <p class="bg-status-{{status_documentos.plano_gerenciamento_de_residuos_status}}">{{status_documentos.get_plano_gerenciamento_de_residuos_status_display}}</p>
+                  </div>             
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Foto da empresa</label>
+                    <p class="bg-status-{{status_documentos.foto_status}}">{{status_documentos.get_foto_status_display}}</p>
+                  </div> 
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Croqui de acesso</label>
+                    <p class="bg-status-{{status_documentos.croqui_acesso_status}}">{{status_documentos.get_croqui_acesso_status_display}}</p>
+                  </div>
+              </div>
+                  {% endif %}
+                  
+                
+                {% if requerimento.profissao.licenca_sanitaria %}
+                <div class="row mt-4">
                   <h4>Licença Sanitária</h4>
                   <div class="col d-flex py-2 pb-1 flex-column ms-2">
                     <label for="">Comprovante limpeza caixa d'água</label>
