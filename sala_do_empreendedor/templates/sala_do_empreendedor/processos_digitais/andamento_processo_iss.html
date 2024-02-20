@@ -50,15 +50,38 @@
                   <h4>Licença Ambiental</h4>
                   <p class="mb-3 ">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Ambiental correspondente. Caso já disponha desse documento, solicitamos que o envie através da caixa indicada abaixo. Se, porventura, ainda não obteve a Licença Ambiental, pedimos que preencha o <a href="#">formulário</a> e dirija-se à Secretaria de Meio Ambiente, localizada ao lado da Prefeitura, no prédio da antiga rodoviária, para formalizar sua solicitação.</p>
                   <!-- <p>Seu ramo de atividade necessita da liberação de Licença Ambiental. Se já possui, envie na caixa abaixo, caso contrário preencha o <a href="#">formulário</a> e solicite sua licença na Secretária de Meio Ambiente situada ao lado da Prefeitura no predio a antiga rodoviaria.</p> -->
-                  <form method="POST" enctype="multipart/form-data" class="mb-3 mx-auto">
-                    <label for="formFile" class="form-label"><strong>Enviar arquivo de licença ambiental</strong></label>
-                    {% csrf_token %}
-                    <input class="form-control" type="file" id="formFile">
-                    <button class="btn btn-dark w-100 mt-1  py-0" style="border-radius: 0px !important;">
-                      Enviar
-                    </button>
-                  </form>
+                  <div class="row">
+                    {% if status_documentos.contrato_locacao %}
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Contrato de Locação</label>
+                      <p class="bg-status-{{status_documentos.contrato_locacao_status}}">{{status_documentos.get_contrato_locacao_status_display}}</p>
+                    </div>
+                    {% endif %}
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Conta D'água</label>
+                      <p class="bg-status-{{status_documentos.conta_dagua_status}}">{{status_documentos.get_conta_dagua_status_display}}</p>
+                    </div>
+                    <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                      <label for="">Conta de Luz</label>
+                      <p class="bg-status-{{status_documentos.conta_luz_status}}">{{status_documentos.get_conta_luz_status_display}}</p>
+                    </div>
+                                      
+                  </div>
                 </div>
+                <div class="row">
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Foto da empresa</label>
+                    <p class="bg-status-{{status_documentos.foto_status}}">{{status_documentos.get_foto_status_display}}</p>
+                  </div> 
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                    <label for="">Croqui de acesso</label>
+                    <p class="bg-status-{{status_documentos.croqui_acesso_status}}">{{status_documentos.get_croqui_acesso_status_display}}</p>
+                  </div>
+                  <div class="col d-flex py-2 pb-1 flex-column ms-2">
+                   
+                  </div>
+                </div>
+              </div>  
                 <!-- endif -->
                 <!-- if licenca sanitaria -->
                 {% if requerimento.profissao.licenca_sanitaria %}
