@@ -103,7 +103,7 @@
                     </div>                    
                   </div>
                   {% if status_documentos.licenca_santinaria_anterior %}
-                    <div class="row">
+                  <div class="row">
                       <div class="col d-flex py-2 pb-1 flex-column ms-2">
                         <label for="">Licença sanitáira anterior</label>
                         <p class="bg-status-{{status_documentos.licenca_santinaria_anterior_status}}">{{status_documentos.get_licenca_santinaria_anterior_status_display}}</p>
@@ -112,8 +112,8 @@
                       </div>
                       <div class="col d-flex py-2 pb-1 flex-column ms-2">
                       </div>
-                    </div>
-                    {% endif %}
+                  </div>
+                  {% endif %}
                   <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
                 </div>
                 {% elif requerimento.autonomo_localizado == 's' and requerimento.profissao.licenca_sanitaria_com_alvara %}
