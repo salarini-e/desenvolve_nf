@@ -75,8 +75,10 @@
                       <label for="">Croqui de acesso</label>
                       <p class="bg-status-{{status_documentos.croqui_acesso_status}}">{{status_documentos.get_croqui_acesso_status_display}}</p>
                     </div>
+                    {% if status_documentos.contrato_locacao %}
                     <div class="col d-flex py-2 pb-1 flex-column ms-2">                   
                     </div>
+                    {% endif %}
                   </div>
                 </div>                
               <!-- </div>   -->
