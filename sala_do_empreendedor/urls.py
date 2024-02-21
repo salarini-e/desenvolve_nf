@@ -83,6 +83,7 @@ urlpatterns = [
     # Coonsulta do processo
     path('adm/processos-digitais/andamento/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),    
     path('adm/processos-digitais/andamento/licenca-sanitaria/<id>/', views.andamento_processo_sanitario, name='andamento_processo_sanitario'),    
+    path('adm/processos-digitais/andamento/licenca-ambiental/<id>/', views.andamento_processo_ambiental, name='andamento_processo_ambiental'),    
     path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
     # Dar andamento no processo
     path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
@@ -95,6 +96,7 @@ urlpatterns = [
     path('checkCPF/', views.checkCPF, name='checkCPF'),
     path('checkProfissao/', views.checkProfissao, name='checkProfissao'),
     path('muda-status/', views.mudaStatus, name='mudaStatus'),
+    path('muda-status-iss/', views.mudaStatus_ISS, name='mudaStatusISS'),
     path('muda-status-rg/', views.mudaStatusRG, name='mudaStatusRG'),
     path('muda-status-comprovante/', views.mudaStatusComprovante, name='mudaStatusComprovante'),
     path('muda-status-Ccertificado/', views.mudaStatusCertificado, name='mudaStatusCertificado'),
@@ -130,4 +132,6 @@ urlpatterns = [
     
     # path('alimentar-oportunidades/', views.alimentar_oportunidades, name='alimentar_oportunidades'),
     path('linha-de-credito/solicitacao/', views.credito_facil, name='solicitacao_linha_de_credito'),
+    path('export-empresas-excel/', views.export_empresas_to_excel, name='export_empresas_to_excel'),
+    # 
 ]

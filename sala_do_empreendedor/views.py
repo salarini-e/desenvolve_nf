@@ -13,6 +13,11 @@ from .functions.email import send_email_for_create_process, send_email_for_att_p
 from django.db import transaction
 from guardiao.models import TentativaBurla
 from datetime import datetime
+from django.utils import timezone
+
+from django.http import HttpResponse
+from openpyxl import Workbook
+from .models import Empresa
 
 # Create your views here.
 def index(request):
@@ -1155,9 +1160,7 @@ def requerimento_ISSQN_doc(request, n_protocolo):
     }
     return render(request, 'sala_do_empreendedor/processos_digitais/uniprofissional/documentos.html', context)
 
-#import httpresponse
-from django.http import HttpResponse
-from django.utils import timezone
+
 def atualizar_todo_dia(request):
     hoje = timezone.now().date()
     solicitacao = Solicitacao_de_Compras.objects.filter(status='1')
@@ -1233,3 +1236,38 @@ def credito_facil(request):
         'titulo': 'Sala do Empreendedor - Solicitação de Crédito Fácil'
     }
     return render(request, 'sala_do_empreendedor/credito_facil/emprestimo.html', context)
+
+@login_required
+def export_empresas_to_excel(request):
+    if request.user.is_superuse():
+        pass
+    else:
+        HttpResponseForbidden('Você não tem acesso a essa rota.')
+    # Cria um Workbook (arquivo Excel)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Empresas"  # Define o título da planilha
+
+    # Escreve os cabeçalhos das colunas
+    ws.append(['CNPJ', 'Nome da empresa', 'Porte da empresa', 'Atividade', 'Outra atividade',
+               'Ramo de atuação', 'Outro ramo', 'Telefone de contato', 'Whatsapp da empresa',
+               'E-mail da empresa', 'Site da empresa', 'Descrição da empresa', 'Data de cadastro'])
+
+    # Obtém todas as empresas do banco de dados
+    empresas = Empresa.objects.all()
+
+    # Adiciona os dados das empresas ao arquivo Excel
+    for empresa in empresas:
+        ws.append([empresa.cnpj, empresa.nome, empresa.porte, ', '.join(str(atividade) for atividade in empresa.atividade.all()),
+                   empresa.outra_atividade, ', '.join(str(ramo) for ramo in empresa.ramo.all()), empresa.outro_ramo,
+                   empresa.telefone, empresa.whatsapp, empresa.email, empresa.site, empresa.descricao,
+                   empresa.dt_register])
+
+    # Define o nome do arquivo e o tipo de conteúdo da resposta HTTP
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="empresas.xlsx"'
+
+    # Salva o Workbook na resposta HTTP
+    wb.save(response)
+
+    return response

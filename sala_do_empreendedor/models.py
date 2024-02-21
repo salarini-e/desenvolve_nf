@@ -145,6 +145,11 @@ class Faccao_legal(models.Model):
     qual_seu_sonho_no_setor = models.TextField(verbose_name='Qual seu sonho no setor?', null=True, blank=True)
     
 #PROCESSOS
+class Agente_Ambiental(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Ambiental')
+    email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
+    ativo = models.BooleanField(default=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
 class Agente_Tributario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Tributário')

@@ -45,6 +45,13 @@
               <div class="col d-flex flex-column pt-4 pb-3 px-5">
                 <hr>
                 <h4>Licença Ambiental</h4>
+                {% if agente_ambiental %}
+                <div class="row">
+                  <div class="col">
+                    opa
+                  </div>
+                </div>
+                {% else %}
                 <div class="row">
                   {% if status_documentos.contrato_locacao %}
                   <div class="col d-flex py-2 pb-1 flex-column ms-2">
@@ -94,7 +101,7 @@
               </div>
                   {% endif %}
                   
-                
+                {% endif %}
                 {% if requerimento.profissao.licenca_sanitaria %}
                 <div class="row mt-4">
                   <h4>Licença Sanitária</h4>

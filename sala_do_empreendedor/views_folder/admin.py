@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario, Agente_Ambiental
 from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form, Criar_Andamento_Processo_Sanitario
 from django.contrib import messages
 from autenticacao.models import Pessoa
@@ -203,6 +203,11 @@ def andamento_processo_admin(request, id):
         agente_sanitario = Agente_Sanitario.objects.get(user=request.user, ativo=True)
         return redirect('empreendedor:andamento_processo_sanitario', id=id)
     except:
+        try:
+            agente_ambiental = Agente_Ambiental.objects.get(user=request.user, ativo=True)
+            return redirect('empreendedor:andamento_processo_ambiental', id=id)
+        except:
+            pass
         pass
     processo = Processo_Digital.objects.get(id=id)
     if processo.tipo_processo.id == 1:
@@ -238,6 +243,36 @@ def andamento_processo_sanitario(request, id):
             
         }
         return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_sanitario_iss.html', context)
+
+    return HttpResponseForbidden("Você não tem permissão para acessar essa página.")
+    
+@login_required
+def andamento_processo_ambiental(request, id):
+    try:
+        agente_ambiental = Agente_Ambiental.objects.get(user=request.user, ativo=True)
+    except:
+        return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+    
+    processo = Processo_Digital.objects.get(id=id)
+    if processo.tipo_processo.id == 1:
+        requerimento = RequerimentoISS.objects.get(processo=processo)
+        andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+        try:
+            status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+        except Exception as E:
+            print(E)
+            messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
+            return redirect('empreendedor:processos_digitais_admin')
+        context = {
+            'titulo': 'Sala do Empreendedor - ADM - ISS',
+            'processo': processo,
+            'andamentos': andamentos,
+            'status_documentos': status_documentos,
+            'requerimento': requerimento,
+            'pessoa': Pessoa.objects.get(user=processo.solicitante)
+            
+        }
+        return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_ambiental_iss.html', context)
 
     return HttpResponseForbidden("Você não tem permissão para acessar essa página.")
     
@@ -335,6 +370,19 @@ def novo_andamento_processo_sanitario(request, id):
 @login_required()
 @staff_member_required()
 def mudaStatus(request):    
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        id = data.get('id')
+        query = data.get('query')
+        status_documentos = Processo_Status_Documentos_Anexos.objects.get(id=id)
+        setattr(status_documentos, query+'_status', str(data.get('status')))
+        status_documentos.save()
+        return JsonResponse({'status': 'ok'})            
+    return JsonResponse({})
+
+@login_required()
+@staff_member_required()
+def mudaStatus_ISS(request):    
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         id = data.get('id')
