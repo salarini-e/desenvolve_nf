@@ -431,7 +431,7 @@ def exportar_para_excel_por_turma(request):
     ws.title = "Alunos por Curso"
 
     # Adicionar cabeçalhos
-    ws.append(['Curso', 'Aluno', 'Status da Matrícula'])
+    ws.append(['Curso', 'Aluno', 'Email', 'Telefone', 'Status da Matrícula'])
 
     # Iterar sobre os cursos
     for curso in cursos:
@@ -441,7 +441,7 @@ def exportar_para_excel_por_turma(request):
         # Iterar sobre as matrículas
         for matricula in matriculas:
             # Adicionar detalhes do aluno e da matrícula ao Excel
-            ws.append([curso.nome, matricula.aluno.pessoa.nome, matricula.get_status_display()])
+            ws.append([curso.nome, matricula.aluno.pessoa.nome, matricula.aluno.pessoa.email, matricula.aluno.pessoa.telefone, matricula.get_status_display()])
 
     # Criar a resposta do HTTP com o conteúdo do arquivo Excel
     response = HttpResponse(content_type='application/ms-excel')
