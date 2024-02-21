@@ -318,7 +318,7 @@ def editar_estudante_processo(request, id):
         if forms.is_valid():
             historico=forms.save()
             resp=send_email_for_process(instance, historico)
-            if resp == 'Invalid header found.':
+            if resp == 'Falha ao enviar email.':
                 messages.warning(request, 'Email não enviado, verifique o email do estudante')
             else:
                 messages.success(request, 'Um email foi enviado para o estudante!')

@@ -301,8 +301,7 @@ def novo_andamento_processo(request, id):
             processo.save() 
             requerimento.save()
             messages.success(request, 'Andamento cadastrado com sucesso!')
-            if processo.tipo_processo.id == 3:
-                send_email_for_att_process(processo, andamento)
+            send_email_for_att_process(processo, andamento)
             return redirect('empreendedor:andamento_processo_admin', id)
         else:
             print(form.errors)
@@ -348,9 +347,8 @@ def novo_andamento_processo_sanitario(request, id):
             processo.status = andamento.status
             processo.save() 
             requerimento.save()
-            messages.success(request, 'Andamento cadastrado com sucesso!')
-            if processo.tipo_processo.id == 3:
-                send_email_for_att_process(processo, andamento)
+            messages.success(request, 'Andamento cadastrado com sucesso!')            
+            send_email_for_att_process(processo, andamento)
             return redirect('empreendedor:andamento_processo_admin', id)
         else:
             print(form.errors)

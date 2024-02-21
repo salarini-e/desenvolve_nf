@@ -433,6 +433,7 @@ def requerimento_iss(request):
             andamento.save()
             # status=Processo_Status_Documentos_Anexos(processo=processo)
             # status.save()
+            send_email_for_create_process(processo, andamento)
             return redirect('empreendedor:requerimento_iss_doc', n_protocolo=processo.n_protocolo) 
         else:
             print(form.errors)
@@ -477,6 +478,7 @@ def requerimento_documentos(request, n_protocolo):
             andamento.save()
             processo.status = 'nv'
             processo.save()
+            send_email_for_att_process(processo, andamento)
             if request.user.is_staff:
                 return redirect('empreendedor:processos_digitais_admin')
             return redirect('empreendedor:listar_processos')
@@ -1258,7 +1260,7 @@ def export_empresas_to_excel(request):
 
     # Adiciona os dados das empresas ao arquivo Excel
     for empresa in empresas:
-        ws.append([empresa.cnpj, empresa.nome, empresa.porte.porte, ', '.join(str(atividade) for atividade in empresa.atividade.all()),
+        ws.append([empresa.cnpj, empresa.nome, empresa.porte.porte  , ', '.join(str(atividade) for atividade in empresa.atividade.all()),
                    empresa.outra_atividade, ', '.join(str(ramo) for ramo in empresa.ramo.all()), empresa.outro_ramo,
                    empresa.telefone, empresa.whatsapp, empresa.email, empresa.site, empresa.descricao,
                    empresa.dt_register])

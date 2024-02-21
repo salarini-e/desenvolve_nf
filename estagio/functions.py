@@ -29,5 +29,6 @@ def send_email_for_process(instance, historico):
     try:
         send_mail(subject, email, instance.estudante.pessoa.user.email, [
                     instance.estudante.pessoa.user.email], fail_silently=False)
-    except BadHeaderError:
-        return 'Invalid header found.'
+    except Exception as E:
+        print(E)
+        return 'Falha ao enviar email.'
