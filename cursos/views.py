@@ -406,7 +406,8 @@ def exportar_para_excel(request):
         alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=turma.curso, alertado=False, dt_inclusao__gte=turma.dt_inclusao)
         # Adicionar os alunos alertados à planilha
         for alerta in alertas:
-            ws.append([turma.curso.nome, turma.dt_inclusao ,alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ])  # Supondo que exista um campo 'nome' em Aluno
+            if turma.curso.categoria.nome != 'CEVEST':
+                ws.append([turma.curso.nome, turma.dt_inclusao ,alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ])  # Supondo que exista um campo 'nome' em Aluno
 
     # Definir o nome do arquivo
     file_name = "alunos_interessados.xlsx"
@@ -416,6 +417,35 @@ def exportar_para_excel(request):
     response["Content-Disposition"] = f"attachment; filename={file_name}"
     
     # Salvar o workbook e escrever na resposta HTTP
+    wb.save(response)
+
+    return response
+
+def exportar_para_excel_por_turma(request):
+    # Filtrar os cursos, excluindo o CEVEST
+    cursos = Curso.objects.exclude(categoria__nome='CEVEST')
+
+    # Criar um novo arquivo Excel
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Alunos por Curso"
+
+    # Adicionar cabeçalhos
+    ws.append(['Curso', 'Aluno', 'Status da Matrícula'])
+
+    # Iterar sobre os cursos
+    for curso in cursos:
+        # Filtrar matrículas por curso
+        matriculas = Matricula.objects.filter(turma__curso=curso)
+
+        # Iterar sobre as matrículas
+        for matricula in matriculas:
+            # Adicionar detalhes do aluno e da matrícula ao Excel
+            ws.append([curso.nome, matricula.aluno.pessoa.nome, matricula.get_status_display()])
+
+    # Criar a resposta do HTTP com o conteúdo do arquivo Excel
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=alunos_por_curso.xlsx'
     wb.save(response)
 
     return response
