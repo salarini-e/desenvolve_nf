@@ -1258,7 +1258,7 @@ def export_empresas_to_excel(request):
 
     # Adiciona os dados das empresas ao arquivo Excel
     for empresa in empresas:
-        ws.append([empresa.cnpj, empresa.nome, empresa.porte, ', '.join(str(atividade) for atividade in empresa.atividade.all()),
+        ws.append([empresa.cnpj, empresa.nome, empresa.porte.porte, ', '.join(str(atividade) for atividade in empresa.atividade.all()),
                    empresa.outra_atividade, ', '.join(str(ramo) for ramo in empresa.ramo.all()), empresa.outro_ramo,
                    empresa.telefone, empresa.whatsapp, empresa.email, empresa.site, empresa.descricao,
                    empresa.dt_register])
