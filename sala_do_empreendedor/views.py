@@ -1239,7 +1239,7 @@ def credito_facil(request):
 
 @login_required
 def export_empresas_to_excel(request):
-    if request.user.is_superuse:
+    if request.user.is_superuser:
         pass
     else:
         HttpResponseForbidden('Você não tem acesso a essa rota.')
