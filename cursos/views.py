@@ -389,7 +389,7 @@ from openpyxl import Workbook
 
 def exportar_para_excel(request):
     # Filtrar as turmas com status 'pre'
-    turmas = Turma.objects.filter(status='pre').order_by('curso__nome')
+    turmas = Turma.objects.all().order_by('curso__nome')
     
     # Criar um workbook do Excel
     wb = Workbook()
