@@ -389,7 +389,7 @@ from openpyxl import Workbook
 
 def exportar_para_excel(request):
     # Filtrar as turmas com status 'pre'
-    turmas = Turma.objects.all().order_by('curso__nome')
+    cursos = Curso.objects.all().order_by('nome')
     
     # Criar um workbook do Excel
     wb = Workbook()
@@ -398,19 +398,20 @@ def exportar_para_excel(request):
     ws.title = "Alunos Interessados"
     
     # Adicionar cabeçalho à planilha
-    ws.append(["Curso", "Inclusão da Turma", "Aluno", "Envio do pedido", "Telefone", "Email"])
+    ws.append(["Curso", "Aluno", "Envio do pedido", "Telefone", "Email"])
 
     # Iterar sobre as turmas
-    for turma in turmas:
+    for curso in cursos:
         # Filtrar os alertas para esta turma e após a data de inclusão da turma
-        alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=turma.curso, alertado=False, dt_inclusao__gte=turma.dt_inclusao)
+        alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=curso, alertado=False)
         # Adicionar os alunos alertados à planilha
         for alerta in alertas:
-            if turma.curso.categoria.nome != 'CEVEST':
-                ws.append([turma.curso.nome, turma.dt_inclusao ,alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ])  # Supondo que exista um campo 'nome' em Aluno
+            ws.append([curso.nome, alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ])  # Supondo que exista um campo 'nome' em Aluno
 
     # Definir o nome do arquivo
-    file_name = "alunos_interessados.xlsx"
+    dataHora = datetime.now()
+    dataHora_formatada = dataHora.strftime("%Y%m%d_%H%M%S")
+    file_name = f"alunos_interessados_{dataHora_formatada}.xlsx"
     
     # Criar uma resposta HTTP para o arquivo Excel
     response = HttpResponse(content_type="application/ms-excel")
@@ -423,7 +424,8 @@ def exportar_para_excel(request):
 
 def exportar_para_excel_por_turma(request):
     # Filtrar os cursos, excluindo o CEVEST
-    cursos = Curso.objects.exclude(categoria__nome='CEVEST')
+    # cursos = Curso.objects.exclude(categoria__nome='CEVEST')
+    cursos = Curso.objects.all()
 
     # Criar um novo arquivo Excel
     wb = Workbook()
