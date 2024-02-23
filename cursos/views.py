@@ -406,10 +406,10 @@ def exportar_para_excel(request):
         alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=curso, alertado=False)
         # Adicionar os alunos alertados à planilha
         for alerta in alertas:
-            ws.append([curso.nome, alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ])  # Supondo que exista um campo 'nome' em Aluno
+            ws.append([curso.nome, alerta.aluno.pessoa.nome, alerta.dt_inclusao, alerta.aluno.pessoa.telefone, alerta.aluno.pessoa.email ]) 
 
     # Definir o nome do arquivo
-    dataHora = datetime.now()
+    dataHora = datetime.datetime.now()
     dataHora_formatada = dataHora.strftime("%Y%m%d_%H%M%S")
     file_name = f"alunos_interessados_{dataHora_formatada}.xlsx"
     
