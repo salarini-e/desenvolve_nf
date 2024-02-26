@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     'cevest_os',
     'chamados_dev',
     'sala_do_empreendedor',
+    'cursos_empresariais',
     'api',
     'chat',
     'guardiao',
