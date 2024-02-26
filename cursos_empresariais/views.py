@@ -29,7 +29,7 @@ def index(request):
     palestras = list(Curso.objects.filter(tipo='P', ativo=True).order_by('?')[:4])
     shuffle(cursos)
     context = { 
-        'titulo': apps.get_app_config('cursos').verbose_name +' - Página Inicial',
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name,
         'eventos': eventos,
         'cursos': cursos,   
         'cursos_en': Curso_Ensino_Superior.objects.all()[:4],
@@ -92,7 +92,7 @@ def curso_detalhe(request, tipo, id):
     context={
         'curso': curso,
         'tipo': tipo,
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Detalhes',
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Detalhes',
         'turmas': Turma.objects.filter(curso=curso)
     }
     return render(request, 'cursos_empresariais/curso_detalhe.html', context)
@@ -109,7 +109,7 @@ def candidatar(request, id):
 
     context = {
         'form': form,
-        'titulo': apps.get_app_config('cursos').verbose_name + ' - Inscrição - ' + curso.nome,
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name + ' - Inscrição - ' + curso.nome,
     }
     return render(request, 'cursos_empresariais/cadastrar_candidato.html', context)
 
@@ -202,7 +202,7 @@ def prematricula(request):
         'form': form,
         'form_responsavel': form_responsavel,
         'categorias': cursos,
-        'titulo': apps.get_app_config('cursos').verbose_name + ' - 001',
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name + ' - 001',
     }
     return render(request, 'cursos_empresariais/pre_matricula.html', context)
 
@@ -289,7 +289,7 @@ def matricular(request, tipo, id):
                         'age': age,
                         'form': form,
                         'form_responsavel': form_responsavel,     
-                        'titulo': apps.get_app_config('cursos').verbose_name+' - Inscrever-se',
+                        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Inscrever-se',
                         'curso': curso,
                         'pessoa': pessoa
                     }             
@@ -328,7 +328,7 @@ def matricular(request, tipo, id):
                 #             'age': age,
                 #             'form': form,
                 #             'form_responsavel': form_responsavel,     
-                #             'titulo': apps.get_app_config('cursos').verbose_name,
+                #             'titulo': apps.get_app_config('cursos_empresariais').verbose_name,
                 #             'curso': curso,
                 #             'pessoa': pessoa
                 #         }
@@ -353,7 +353,7 @@ def matricular(request, tipo, id):
                     #         'age': age,
                     #         'form': form,
                     #         'form_responsavel': form_responsavel,     
-                    #         'titulo': apps.get_app_config('cursos').verbose_name,
+                    #         'titulo': apps.get_app_config('cursos_empresariais').verbose_name,
                     #         'curso': curso,
                     #         'pessoa': pessoa
                     #     }
@@ -382,7 +382,7 @@ def matricular(request, tipo, id):
         'age': age,
         'form': form,
         'form_responsavel': form_responsavel,     
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Inscrever-se',
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Inscrever-se',
         'curso': curso,
         'pessoa': pessoa
     }
@@ -458,7 +458,7 @@ def exportar_para_excel_por_turma(request):
 
 def ensino_superior(request):
     context = {
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Ensino Superior',
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Ensino Superior',
         'cursos': Curso_Ensino_Superior.objects.all()
     }
     return render(request, 'cursos_empresariais/ensino_superior.html', context)
@@ -468,21 +468,21 @@ def ensino_superior(request):
 #     context={
 #         'curso': curso,
 #         'tipo': tipo,
-#         'titulo': apps.get_app_config('cursos').verbose_name,
+#         'titulo': apps.get_app_config('cursos_empresariais').verbose_name,
 #         'turmas': Turma.objects.filter(curso=curso)
 #     }
 #     return render(request, 'cursos_empresariais/curso_detalhe.html', context)
 
 def ensino_tecnico(request):
     context = {
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Ensino Técnico',
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Ensino Técnico',
         # 'cursos': Curso_Ensino_Superior.objects.all()
     }
     return render(request, 'cursos_empresariais/ensino_tecnico.html', context)
 
 def curriculo_vitae(request):
     context = {
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Currículo Vitae',
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Currículo Vitae',
     }
     return render(request, 'cursos_empresariais/curriculo_vitae.html', context)
 
@@ -498,7 +498,7 @@ def area_do_estudante(request):
     context={
         'matriculas': matriculas,
         'alertas': alertas,
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Área do Estudante'
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Área do Estudante'
     }
     return render(request, 'cursos_empresariais/area_do_estudante.html', context)
 
@@ -511,7 +511,7 @@ def editar_cadastro(request):
             form_pessoa.save()
     context={        
         'form_pessoa': form_pessoa,
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Editar Cadastro'
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Editar Cadastro'
     }
     return render(request, 'cursos_empresariais/editar_cadastro.html', context)
 
@@ -525,7 +525,7 @@ def editar_cadastro_pessoa(request):
             return redirect('cursos_empresariais:home')
     context={        
         'form_pessoa': form_pessoa,
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Editar Cadastro'
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Editar Cadastro'
     }
     return render(request, 'cursos_empresariais/editar_cadastro_pessoa.html', context)
 
@@ -540,7 +540,7 @@ def alterar_senha(request):
 
     context = {        
         'form_user': form_user,
-        'titulo': apps.get_app_config('cursos').verbose_name+' - Alterar Senha'
+        'titulo': apps.get_app_config('cursos_empresariais').verbose_name+' - Alterar Senha'
     }
     return render(request, 'cursos_empresariais/altera_senha.html', context)
 
