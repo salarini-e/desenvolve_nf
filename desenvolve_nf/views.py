@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect
 from .forms import Solicitacao_de_cadastro_de_cameraForm
 #Importações das estruturas das aplicações do projeto.
-from .models import Carousel_Index, ClimaTempo, Solicitacao_newsletter
-from .functions import ClimaTempoTemperaturas
+from .models import Carousel_Index, Solicitacao_newsletter
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from autenticacao.models import Pessoa
@@ -25,32 +25,6 @@ def getClimaTempo(request):
     }
     return render(request, 'cidade_inteligente.html', context)
 
-def cidade_inteligente_home(request):
-    clima = ClimaTempo.objects.first()
-    context = {
-        'titulo': 'Ciência e Tecnologia - Cidade Inteligente',
-        'clima': clima
-    }
-    return render(request, 'cidade_inteligente.html', context)
-
-@login_required
-def cidade_inteligente_cadastro_camera(request):
-    clima = ClimaTempo.objects.first()
-    if request.method == 'POST':
-        form = Solicitacao_de_cadastro_de_cameraForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Solicitação de cadastro de câmera enviada com sucesso!')
-            return redirect('cidade_inteligente_cadastro_camera')
-    else:
-        pessoa = Pessoa.objects.get(user=request.user)
-        form = Solicitacao_de_cadastro_de_cameraForm(initial={'pessoa': pessoa})
-    context = {
-        'titulo': 'Ciência e Tecnologia - Cidade Inteligente',
-        'clima': clima,
-        'form': form
-    }
-    return render(request, 'cadastro_camera.html', context)
 
 def solicitarNewsLetter(request):
     if request.user.is_authenticated:

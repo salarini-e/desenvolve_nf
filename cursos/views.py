@@ -16,7 +16,11 @@ from eventos.models import Evento
 from django.apps import apps
 from random import shuffle
 
+from desenvolve_nf.models import ClimaTempo
+from .functions import ClimaTempoTemperaturas
+
 from django.urls import reverse
+
 def index(request):
     try:
         eventos = Evento.objects.filter(app_name='cursos', is_destaque = True)
@@ -37,6 +41,32 @@ def index(request):
     return render(request, 'cursos/index.html', context)
 
 
+def cidade_inteligente_home(request):
+    clima = ClimaTempo.objects.first()
+    context = {
+        'titulo': 'Ciência e Tecnologia - Cidade Inteligente',
+        'clima': clima
+    }
+    return render(request, 'cidade_inteligente.html', context)
+
+@login_required
+def cidade_inteligente_cadastro_camera(request):
+    clima = ClimaTempo.objects.first()
+    if request.method == 'POST':
+        form = Solicitacao_de_cadastro_de_cameraForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Solicitação de cadastro de câmera enviada com sucesso!')
+            return redirect('cidade_inteligente_cadastro_camera')
+    else:
+        pessoa = Pessoa.objects.get(user=request.user)
+        form = Solicitacao_de_cadastro_de_cameraForm(initial={'pessoa': pessoa})
+    context = {
+        'titulo': 'Ciência e Tecnologia - Cidade Inteligente',
+        'clima': clima,
+        'form': form
+    }
+    return render(request, 'cadastro_camera.html', context)
 
 def cursos(request):
     form = Aluno_form()

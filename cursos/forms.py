@@ -5,6 +5,19 @@ from django import forms
 from django.forms import ModelForm, ValidationError
 from .models import *
 
+from desenvolve_nf.models import Solicitacao_de_cadastro_de_camera
+
+class Solicitacao_de_cadastro_de_cameraForm(forms.ModelForm):
+    class Meta:
+        model = Solicitacao_de_cadastro_de_camera
+        exclude = ['dt_inclusao', 'atendido']
+        widgets = {
+            'pessoa': forms.HiddenInput(),
+            'autorizacao': forms.RadioSelect(),
+            'tipo_camera': forms.RadioSelect(),
+            'informacoes_de_acesso': forms.RadioSelect(),
+        }
+
 class PasswordChangeCustomForm(forms.Form):
     old_password = forms.CharField(
         label="Senha atual",
