@@ -1,6 +1,5 @@
 #Importações das estruturas padrões do Django.
 from django.shortcuts import render, redirect
-from .forms import Solicitacao_de_cadastro_de_cameraForm
 #Importações das estruturas das aplicações do projeto.
 from .models import Carousel_Index, Solicitacao_newsletter
 
