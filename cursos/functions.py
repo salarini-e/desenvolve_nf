@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from .models import ClimaTempo
+from desenvolve_nf.models import ClimaTempo
 
 
 def ClimaTempoTemperaturas():
