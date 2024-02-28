@@ -1,8 +1,8 @@
 #Importações das estruturas padrões do Django.
 from django.shortcuts import render, redirect
 #Importações das estruturas das aplicações do projeto.
-from .models import Carousel_Index, Solicitacao_newsletter
-
+from .models import Carousel_Index, Solicitacao_newsletter, ClimaTempo
+from cursos.functions import ClimaTempoTemperaturas
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from autenticacao.models import Pessoa
