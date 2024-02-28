@@ -71,7 +71,7 @@
               {% endif %}
             </a>
             {% endfor %}
-            <a href="{% url 'cursos:cursos' tipo %}" class="card-universidade btn btn-primary me-3">
+            <a href="{% url 'cursos:cursos'%}" class="card-universidade btn btn-primary me-3">
               <span class="mx-auto my-auto">Todos</span>
               <!-- <img class="me-auto my-auto" style="height: 30px;" src="" alt=""> -->
             </a>
@@ -231,10 +231,10 @@
   }
 </script>
 <script>
-  {% if tipo == 'cursos' %}
+  {% if tipo == 'cevest' %}
+  document.getElementById('s-cevest').classList.add('s-nav-active');
+  {% else %}
   document.getElementById('s-cursos').classList.add('s-nav-active');
-  {% elif tipo == 'palestras' %}
-  document.getElementById('s-palestras').classList.add('s-nav-active');
   {% endif %}
 </script>
 <style>

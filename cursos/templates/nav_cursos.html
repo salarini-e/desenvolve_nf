@@ -10,16 +10,22 @@
           <p class="text-dark">Início</p>
         </div>
       </a>
-      <a href="{% url 'cursos:cursos' tipo='cursos' %}" class="">
+      <a href="{% url 'cursos:cursos_cevest' %}">
         <div class="d-flex flex-column align-items-center">
-          <div id="s-cursos" class="s-nav rounded-circle"></div>
-          <p class="text-dark text-center">Cursos Livres</p>
+          <div id="s-cevest" class="s-nav rounded-circle"></div>
+          <p class="text-dark">CEVEST</p>
         </div>
       </a>
-      <a href="{% url 'cursos:cursos' tipo='palestras' %}" class="">
+      <a href="{% url 'cursos:cursos' %}">
+        <div class="d-flex flex-column align-items-center">
+          <div id="s-cursos" class="s-nav rounded-circle"></div>
+          <p class="text-dark">Outros<br>Cursos</p>
+        </div>
+      </a>
+      <a href="{% url 'cidade_inteligente' %}" class="">
         <div class="d-flex flex-column align-items-center">
           <div id="s-palestras" class="s-nav rounded-circle"></div>
-          <p class="text-dark">Palestras</p>
+          <p class="text-dark text-center">Cidade<br>Inteligente</p>
         </div>
       </a>
       {% if request.user.is_authenticated %}
@@ -48,12 +54,12 @@
             <p class="text-dark text-center">Currículo<br>Vitae</p>
           </div>
         </a>   -->
-      <a href="https://casadotrabalhador.pmnf.rj.gov.br/" class="">
+      <!-- <a href="https://casadotrabalhador.pmnf.rj.gov.br/" class="">
         <div class="d-flex flex-column align-items-center">
           <div id="s-vaga" class="s-nav rounded-circle"></div>
           <p class="text-dark text-center">Casa do<br />Trabalhador</p>
         </div>
-      </a>
+      </a> -->
       {% if request.user.is_staff %}
       <a href="{% url 'administrativo2' %}" class="">
         <div class="d-flex flex-column align-items-center">
@@ -72,17 +78,23 @@
     background-image: url(/static/images/icones/curso_home.png);
     background-size: contain;
   }
+  #s-cevest {
+    margin-right: 1rem !important;
+    background-color: white !important;
+    background-image: url(/static/images/icones/cursos_cevest.png);
+    background-size: contain;
+  }
   #s-cursos {
     margin-right: 1rem !important;
     background-color: white !important;
-    background-image: url(/static/images/icones/curso_cursos.png);
+    background-image: url(/static/images/icones/curso_palestras.png);
     background-size: contain;
   }
   #s-palestras {
     margin-right: 1rem !important;
     background-color: white !important;
-    background-image: url(/static/images/icones/curso_palestras.png);
-    background-size: contain;
+    background-image: url(/static/images/icones/curso_cursos.png);
+    background-size: contain;    
   }
   #s-vaga {
     margin-right: 1rem !important;
@@ -119,5 +131,8 @@
     background-color: white !important;
     background-image: url(/static/images/icones/curso_admin.png);
     background-size: contain;
+  }
+  #navegacao a p{
+    margin-left: -1rem;
   }
 </style>

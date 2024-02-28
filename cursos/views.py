@@ -38,27 +38,37 @@ def index(request):
 
 
 
-def cursos(request, tipo):
+def cursos(request):
     form = Aluno_form()
     categorias = Categoria.objects.all()
-    cursos = []
-    if tipo == 'cursos':        
-            cursos=Curso.objects.filter(tipo='C', ativo=True)
-    elif tipo == 'palestras':
-            cursos=Curso.objects.filter(tipo='P', ativo=True)    
+    
+    cursos=Curso.objects.filter(tipo='C', ativo=True)
 
     context = {
         'categorias':categorias,
         'cursos': cursos,
         'form': form,
-        'titulo': apps.get_app_config('cursos').verbose_name + ' - ' + tipo.capitalize(),        
-        'tipo': tipo
+        'titulo': apps.get_app_config('cursos').verbose_name + ' - ' + 'Cursos',        
+        'tipo':'cursos'
     }
-    if tipo == 'cursos':
-        return render(request, 'cursos/cursos.html', context)
-    elif tipo == 'palestras':  
-        return render(request, 'cursos/palestras.html', context)
-    raise Http404("Página não encontrada")  
+    return render(request, 'cursos/cursos.html', context)
+
+
+def cursos_cevest(request):
+    form = Aluno_form()
+    categorias = Categoria.objects.all()
+
+    cursos=Curso.objects.filter(tipo='C', categoria__nome='CEVEST', ativo=True)    
+
+    context = {
+        'categorias':categorias,
+        'cursos': cursos,
+        'form': form,
+        'titulo': apps.get_app_config('cursos').verbose_name + ' - ' + 'CEVEST',        
+        'tipo': 'cevest'
+    }
+    
+    return render(request, 'cursos/cursos.html', context)
 
 def cursos_filtrado(request, tipo, filtro):
     form = Aluno_form()

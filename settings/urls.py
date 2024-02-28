@@ -8,7 +8,7 @@ urlpatterns = [
     path('', include('autenticacao.urls')),
     path('', include('desenvolve_nf.urls')),
     path('api/', include('api.urls')),
-    path('capacitacao-profissional/', include('cursos.urls')),
+    path('ciencia-e-tecnologia/', include('cursos.urls')),
     # path('capacitacao-profissional/palestras/', include(('palestras.urls', 'palestras'), namespace ='palestras')),
     path('chat/', include('chat.urls')),
     path('sala-do-empreendedor/', include('sala_do_empreendedor.urls')),

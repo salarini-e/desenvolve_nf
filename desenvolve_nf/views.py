@@ -28,7 +28,7 @@ def getClimaTempo(request):
 def cidade_inteligente_home(request):
     clima = ClimaTempo.objects.first()
     context = {
-        'titulo': 'Cidade Inteligente - Página Inicial',
+        'titulo': 'Ciência e Tecnologia - Cidade Inteligente',
         'clima': clima
     }
     return render(request, 'cidade_inteligente.html', context)
@@ -46,7 +46,7 @@ def cidade_inteligente_cadastro_camera(request):
         pessoa = Pessoa.objects.get(user=request.user)
         form = Solicitacao_de_cadastro_de_cameraForm(initial={'pessoa': pessoa})
     context = {
-        'titulo': 'Cidade Inteligente - Cadastrar Câmera',
+        'titulo': 'Ciência e Tecnologia - Cidade Inteligente',
         'clima': clima,
         'form': form
     }

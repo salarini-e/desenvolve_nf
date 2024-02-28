@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block nav %}
-{% include 'nav_cidade_inteligente.html' %}
+{% include 'nav_cursos.html' %}
 {% endblock %}
 
 {% block css %}
@@ -219,7 +219,8 @@
     //   }
     // }
 
-    document.querySelector("#ver-detalhes").addEventListener("click", verMais)
+    // document.querySelector("#ver-detalhes").addEventListener("click", verMais)
+    document.getElementById('s-palestras').classList.add('s-nav-active');
 
   </script>
 {% endblock %}
