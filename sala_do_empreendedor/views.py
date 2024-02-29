@@ -202,7 +202,7 @@ def novas_oportunidades(request):
                 cadastro_artesao.user_register = request.user
             cadastro_artesao.save()
             messages.success(request, 'Formulário enviado com sucesso!')
-            return redirect('empreendedor:oportunidade')
+            return redirect('empreendedor:reuniao_sebrae')
         else:
             print(form.errors)
             messages.error(request, 'Erro ao enviar formulário. Verifique os campos e tente novamente.')
@@ -214,6 +214,11 @@ def novas_oportunidades(request):
     }
     return render(request, 'sala_do_empreendedor/form_novas_oportunidades.html', context)
 
+def redirecionamento_novas_oportunidades(request):
+    context={
+        'titulo': 'Sala do Empreendedor - Oportunidade de Negócios',
+    }
+    return render( request, 'novas_oportunidades_red.html', context)
 def vitrine_virtual(request):
     registros=Registro_no_vitrine_virtual.objects.all().order_by('?')
     empresa_e_produtos=[]
