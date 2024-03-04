@@ -20,6 +20,7 @@ def sala_do_empreendedor_admin(request):
     }
     agente_tributario_qs = Agente_Tributario.objects.filter(user=request.user, ativo=True)
     agente_sanitario_qs = Agente_Sanitario.objects.filter(user=request.user, ativo=True)
+    agente_ambiental_qs = Agente_Ambiental.objects.filter(user=request.user, ativo=True)
 
     if agente_tributario_qs.exists():
         agente_tributario = agente_tributario_qs.first()
@@ -29,6 +30,10 @@ def sala_do_empreendedor_admin(request):
         agente_sanitario = agente_sanitario_qs.first()
         context['agente_sanitario'] = agente_sanitario
     
+    elif agente_ambiental_qs.exists():
+        agente_ambiental = agente_ambiental_qs.first()
+        context['agente_ambiental'] = agente_ambiental
+
     return render(request, 'sala_do_empreendedor/admin/index.html', context)
 
 @login_required()
@@ -47,6 +52,28 @@ def processo_sanitario(request):
     for r in requerimentos_unidos_ordenados:
         processos.append(r.processo)
     print(processos, 'opa')
+    paginator = Paginator(processos, 50)
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processos': paginator.get_page(request.GET.get('page')),
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/index.html', context)
+
+@login_required()
+def processo_ambiental(request):
+    try:
+        agente_ambiental= Agente_Ambiental.objects.get(user = request.user, ativo=True)
+    except:
+        return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
+    
+    requerimentos = RequerimentoISS.objects.filter(profissao__licenca_ambiental = True).exclude(processo__status='cn')
+
+    
+    
+    processos=[]
+    for r in requerimentos:
+        processos.append(r.processo)
+        
     paginator = Paginator(processos, 50)
     context = {
         'titulo': 'Sala do Empreendedor',
@@ -86,10 +113,14 @@ def processos_digitais_admin(request):
         agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
         return redirect('empreendedor:processo_sanitario')
     except:
-        try: 
-            agente_tributario = Agente_Tributario.objects.get(user = request.user, ativo=True)
+        try:
+            agente_ambiental = Agente_Ambiental.objects.get(user = request.user, ativo=True)
+            return redirect('empreendedor:processo_ambiental')
         except:
-            return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+            try: 
+                agente_tributario = Agente_Tributario.objects.get(user = request.user, ativo=True)
+            except:
+                return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
     proecsesos = Processo_Digital.objects.exclude(status='cn').order_by('-dt_solicitacao')    
     paginator = Paginator(proecsesos, 50)
     context = {

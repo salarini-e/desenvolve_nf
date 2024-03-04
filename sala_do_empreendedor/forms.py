@@ -111,7 +111,17 @@ class Criar_Processo_Docs_Form(ModelForm):
             'processo': forms.HiddenInput(),
             }
         
-        exclude = ['user_register', 'rg_status', 'licenca_sanitaria','comprovante_endereco_status', 'diploma_ou_certificado_status', 'licenca_sanitaria_status', 'espelho_iptu_status', 'licenca_ambiental_status', 'comprovante_limpeza_caixa_dagua_status', 'comprovante_ar_condicionado_status', 'plano_gerenciamento_de_residuos_status', 'licenca_santinaria_anterior_status', 'agente_att_caixa_dagua', 'agente_att_ar', 'agente_att_residuos', 'agente_att_licenca_sanitaria_anterior', 'agente_att_rg', 'agente_att_endereco', 'agente_att_certificado', 'agente_att_iptu']
+        exclude = ['user_register', 'rg_status', 'licenca_sanitaria',
+                   'comprovante_endereco_status', 'diploma_ou_certificado_status', 
+                   'licenca_sanitaria_status', 'espelho_iptu_status', 
+                   'licenca_ambiental_status', 'comprovante_limpeza_caixa_dagua_status',
+                   'comprovante_ar_condicionado_status', 'plano_gerenciamento_de_residuos_status', 
+                   'licenca_santinaria_anterior_status', 'agente_att_caixa_dagua', 
+                   'agente_att_ar', 'agente_att_residuos', 'agente_att_licenca_sanitaria_anterior', 
+                   'agente_att_rg', 'agente_att_endereco', 'agente_att_certificado', 
+                   'agente_att_iptu', 'espelho_iptu_status', 'contrato_locacao_status',
+                   'conta_dagua_status', 'conta_luz_status', 'foto_status',
+                   'croqui_acesso_status' ]
                    
 class Criar_Andamento_Processo(ModelForm):
     class Meta:
@@ -127,7 +137,11 @@ class Criar_Andamento_Processo_Sanitario(ModelForm):
 
     STATUS_CHOICES = (
         ('ar', 'Aguardando reenvio de documentos'),
+        ('bs', 'Aguardando pagamento licença sanitária'),
+        ('ba', 'Aguardando pagamento licença ambiental'),
+        ('sa', 'Aguardando pagamento licença ambiental e licença ambiental'),
         ('ls', 'Aguardando emissão licença sanitária'),
+        ('la', 'Aguardando emissão licença ambiental'),        
         ('aa', 'Aguardando avaliação'),
     )
 

@@ -61,10 +61,7 @@
                             </a>
                             <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.conta_dagua.url}}" target="_blank">
                               <i class="fa-solid fa-address-card me-2"></i>Conta D'água
-                            </a>
-                            <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.conta_luz.url}}" target="_blank">
-                              <i class="fa-solid fa-address-card me-2"></i>Conta de Luz
-                            </a>                                                  
+                            </a>                                                                            
                           </div>
                         </div>
                         <div class="row">
@@ -100,18 +97,7 @@
                               <option value="2" {% if  status_documentos.conta_dagua_status == '2' %}selected{% endif %}>Reprovado</option>
                             
                             </select>
-                          </div>
-                          <div class="col d-flex flex-column ms-2">
-                            <label for="">Conta de Luz</label>
-                            <select class="form-select" name="conta_luz_status" id="id_conta_luz_status" onchange="mudaStatus({{ status_documentos.id}}, 'conta_luz')">
-                              <option value="0" {% if  status_documentos.conta_luz_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
-                            
-                              <option value="1" {% if  status_documentos.conta_luz_status == '1' %}selected{% endif %}>Aprovado</option>
-                            
-                              <option value="2" {% if  status_documentos.conta_luz_status == '2' %}selected{% endif %}>Reprovado</option>
-                            
-                            </select>
-                          </div>
+                          </div>                         
                                                                               
                         </div>
                         {% else %}
@@ -167,7 +153,62 @@
                         {% endif %}
                       </div>
                   </div>
-                                      
+                  <div class="row">
+                    <div class="col">
+                      <div class="row my-3">
+                        <div class="col d-flex">
+                          {% if status_documentos.contrato_locacao %}
+                          <a class="btn btn-outline-dark col" href="{{status_documentos.conta_luz.url}}" target="_blank">
+                            <i class="fa-solid fa-address-card me-2"></i>Conta de Luz
+                          </a>  
+                          {% endif %}
+                          <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.foto.url}}" target="_blank">
+                            <i class="fa-solid fa-id-card me-2"></i> Foto da empresa
+                          </a>                          
+                          <a class="btn btn-outline-dark ms-2 col" href="{{status_documentos.croqui_acesso.url}}" target="_blank">
+                            <i class="fa-solid fa-address-card me-2"></i> Croqui de acesso
+                          </a>                                            
+                        </div>
+                      </div>
+                      <div class="row">
+                        {% if status_documentos.contrato_locacao %}
+                        <div class="col d-flex flex-column ms-2">
+                          <label for="">Conta de Luz</label>
+                          <select class="form-select" name="conta_luz_status" id="id_conta_luz_status" onchange="mudaStatus({{ status_documentos.id}}, 'conta_luz')">
+                            <option value="0" {% if  status_documentos.conta_luz_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
+                          
+                            <option value="1" {% if  status_documentos.conta_luz_status == '1' %}selected{% endif %}>Aprovado</option>
+                          
+                            <option value="2" {% if  status_documentos.conta_luz_status == '2' %}selected{% endif %}>Reprovado</option>
+                          
+                          </select>
+                        </div>
+                        {% endif %}
+                        <div class="col d-flex flex-column">
+                          <label for="">Status foto da empresa</label>
+                          <select class="form-select" name="foto_status" id="id_foto_status" onchange="mudaStatus({{status_documentos.id}}, 'foto')">
+                            <option value="0" {% if status_documentos.foto_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
+                          
+                            <option value="1" {% if  status_documentos.foto_status == '1' %}selected{% endif %}>Aprovado</option>
+                          
+                            <option value="2" {% if  status_documentos.foto_status == '2' %}selected{% endif %}>Reprovado</option>
+                          
+                          </select>
+                        </div>                          
+                        <div class="col d-flex flex-column ms-2">
+                          <label for="">Status croqui de acesso</label>
+                          <select class="form-select" name="croqui_acesso_status" id="id_croqui_acesso_status" onchange="mudaStatus({{ status_documentos.id}}, 'croqui_acesso')">
+                            <option value="0" {% if  status_documentos.croqui_acesso_status == '0' %}selected{% endif %}>Aguardando avaliação</option>
+                          
+                            <option value="1" {% if  status_documentos.croqui_acesso_status == '1' %}selected{% endif %}>Aprovado</option>
+                          
+                            <option value="2" {% if  status_documentos.croqui_acesso_status == '2' %}selected{% endif %}>Reprovado</option>
+                          
+                          </select>
+                        </div>                                                
+                      </div>
+                    </div>
+                  </div>        
                     {% if processo.status == 'bg' %}
                     <div class="row text-center">
                       <div class="col">

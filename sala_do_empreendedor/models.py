@@ -273,7 +273,12 @@ class RequerimentoISS(models.Model):
     profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
     autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
     boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
-    boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
+    boleto_saude = models.FileField(upload_to='processos/boleto/saude', verbose_name='Boleto vigilância sanitária', null=True, blank=True)
+    boleto_saude_status = models.BooleanField(default=False, verbose_name='Boleto vigilância sanitária pago?')
+    boleto_meio_ambiente = models.FileField(upload_to='processos/boleto/meio-ambiente', verbose_name='Boleto meio ambiente', null=True, blank=True)
+    boleto_meio_ambiente_status = models.BooleanField(default=False, verbose_name='Boleto meio ambiente pago?')
+    boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
+    # boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
     n_inscricao = models.CharField(max_length=128, verbose_name='Número de inscrição', null=True, blank=True)
     dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
     dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
@@ -288,6 +293,9 @@ class Andamento_Processo_Digital(models.Model):
         ('ae', 'Aguardando envio de documentos'),
         ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
+        ('bs', 'Aguardando pagamento licença sanitária'),
+        ('ba', 'Aguardando pagamento licença ambiental'),
+        ('sa', 'Aguardando pagamento licença ambiental e licença ambiental'),
         ('ls', 'Aguardando emissão licença sanitária'),
         ('la', 'Aguardando emissão licença ambiental'),
         ('bg', 'Boleto gerado'),

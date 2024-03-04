@@ -71,6 +71,7 @@ urlpatterns = [
     path('adm/processos-digitais/concluidos/', views.processos_concluidos, name='processos_concluidos'),
     path('adm/processos-digitais/licenca-sanitaria/', views.processo_sanitario, name='processo_sanitario'),
     path('adm/processos-digitais/concluidos/sanitario/', views.processos_concluidos_sanitario, name='novo_andamento_processo_sanitario_admin'),    
+    path('adm/processos-digitais/licenca-ambiental/', views.processo_ambiental, name='processo_ambiental'),
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     # Criar novo processo
     path('processos/criar-novo/', views.novo_processo, name='novo_processo'),
