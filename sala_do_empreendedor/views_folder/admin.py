@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario, Agente_Ambiental
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario, Agente_Ambiental, Credito_Facil
 from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form, Criar_Andamento_Processo_Sanitario
 from django.contrib import messages
 from autenticacao.models import Pessoa
@@ -7,9 +7,44 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 import json
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from secretaria_financas.decorators import funcionario_financas_required, setor_financas_required
 from sala_do_empreendedor.functions.email import send_email_for_create_process, send_email_for_att_process
+from openpyxl import Workbook
+
+@login_required
+@staff_member_required
+def export_credito_facil_excel(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden('Você não tem acesso a essa rota.')
+
+    # Cria um Workbook (arquivo Excel)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Credito_Facil"  # Define o título da planilha
+
+    # Escreve os cabeçalhos das colunas
+    ws.append(['CNPJ da empresa', 'Telefone de contato/whatsapp', 'E-mail para contato', 
+               'Valor desejado (R$)', 'Motivação do empréstimo', 'Qual outra motivação do empréstimo?', 
+               'Usuário que cadastrou', 'Data de cadastro'])
+
+    # Obtém todos os registros de crédito fácil do banco de dados
+    creditos = Credito_Facil.objects.all()
+
+    # Adiciona os dados dos créditos ao arquivo Excel
+    for credito in creditos:
+        ws.append([credito.cnpj, credito.telefone, credito.email, str(credito.valor_desejado),
+                   credito.get_motivacao_emprestimo_display(), credito.outra_motivacao,
+                   credito.user_register.username if credito.user_register else '', str(credito.dt_register)])
+
+    # Define o nome do arquivo e o tipo de conteúdo da resposta HTTP
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="credito_facil.xlsx"'
+
+    # Salva o Workbook na resposta HTTP
+    wb.save(response)
+
+    return response
 
 @login_required
 @funcionario_financas_required
