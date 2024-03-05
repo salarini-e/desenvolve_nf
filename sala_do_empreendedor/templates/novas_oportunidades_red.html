@@ -45,7 +45,7 @@
             <a href="https://forms.office.com/r/szbRw4mc5L" class="ms-auto me-1 btn btn-primary">
             18/03 (seg) - a partir das 9h
             </a>
-            <a href="https://forms.office.com/r/WjFR9gf2qj" class="me-auto ms-1 btn btn-primary">
+            <a onclick="alertar()" class="me-auto ms-1 btn btn-primary">
             25/03 (seg) - a partir das 14h
             </a>
         </div>
@@ -55,7 +55,12 @@
     </div>
   </div>
 </div>
-
+<script>
+    
+    function alertar(){
+        alert('Essa data ainda não está confirmada!')
+    }
+</script>
 
 {% endblock %}
 {% block footer %}

@@ -201,8 +201,7 @@ def novas_oportunidades(request):
             if request.user.is_authenticated:
                 cadastro_artesao.user_register = request.user
             cadastro_artesao.save()
-            messages.success(request, 'Formulário enviado com sucesso!')
-            return redirect('empreendedor:reuniao_sebrae')
+            messages.success(request, 'Formulário enviado com sucesso!')            
         else:
             print(form.errors)
             messages.error(request, 'Erro ao enviar formulário. Verifique os campos e tente novamente.')
@@ -1229,7 +1228,7 @@ def credito_facil(request):
                 credito.user_register = request.user
             credito.save()
             messages.success(request, 'Solicitação enviada com sucesso!')
-            return redirect('empreendedor:index')
+            return redirect('empreendedor:reuniao_sebrae')
         else:
             print(form.errors)
             print('-------------------------------------------------------------')
