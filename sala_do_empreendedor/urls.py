@@ -19,6 +19,8 @@ urlpatterns = [
     path('minha-empresa/<id>/vitrine/cadastrar-produto/', views.casdastrar_produto, name='cadastrar_produto'),
     path('faccao-legal/', views.faccao_legal, name='faccao_legal'),
     path('faccao-legal/cadastrar/', views.cadastrar_faccao_legal, name='cadastrar_faccao_legal'),
+    path('faccao-legal/apagar/', views.apagar_faccao, name='apagar_faccao'),
+    path('faccao-legal/exportar/', views.export_faccoes, name='exportar_faccao'),
     path('vitrine-virtual', views.vitrine_virtual, name='vitrine_virtual'),
     path('cadastro-fornecedores-e-compras-publicas', views.cadastro_fornecedores_e_compras_publicas, name='compras_publicas'),
     
@@ -71,7 +73,6 @@ urlpatterns = [
     path('adm/processos-digitais/concluidos/', views.processos_concluidos, name='processos_concluidos'),
     path('adm/processos-digitais/licenca-sanitaria/', views.processo_sanitario, name='processo_sanitario'),
     path('adm/processos-digitais/concluidos/sanitario/', views.processos_concluidos_sanitario, name='novo_andamento_processo_sanitario_admin'),    
-    path('adm/processos-digitais/licenca-ambiental/', views.processo_ambiental, name='processo_ambiental'),
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     # Criar novo processo
     path('processos/criar-novo/', views.novo_processo, name='novo_processo'),
@@ -89,6 +90,7 @@ urlpatterns = [
     # Dar andamento no processo
     path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
     path('adm/processos-digitais/<id>/novo-andamento/sanitario/', views.novo_andamento_processo_sanitario, name='novo_andamento_processo_sanitario_admin'),
+    path('adm/processos-digitais/<id>/novo-andamento/ambiental/', views.novo_andamento_processo_ambiental, name='novo_andamento_processo_ambiental_admin'),
     # Atualizar documento do processo
     path('processos-digitais/<protocolo>/att-doc/<doc>', views.atualizar_documento_processo, name='atualizar_documento_processo'),
     
@@ -133,7 +135,6 @@ urlpatterns = [
     
     # path('alimentar-oportunidades/', views.alimentar_oportunidades, name='alimentar_oportunidades'),
     path('linha-de-credito/solicitacao/', views.credito_facil, name='solicitacao_linha_de_credito'),
-    path('export-credito-facil-excel/', views.export_credito_facil_excel, name='export_credito_facil_excel'),
     path('export-empresas-excel/', views.export_empresas_to_excel, name='export_empresas_to_excel'),
     # 
 ]

@@ -429,7 +429,55 @@ def novo_andamento_processo_sanitario(request, id):
         'processo_sanitario': True,
         
     }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_sanitario.html', context)
+
+@login_required()
+@staff_member_required()
+def novo_andamento_processo_ambiental(request, id):
+    processo = Processo_Digital.objects.get(id=id)
+    if processo.tipo_processo.id == 1:
+        requerimento = RequerimentoISS.objects.get(processo=processo)
+    elif processo.tipo_processo.id == 3:
+        requerimento = RequerimentoISSQN.objects.get(processo=processo)
+    if request.method == 'POST':        
+        if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
+            requerimento.boleto = request.FILES['boleto']            
+            if processo.tipo_processo.id == 1:
+                requerimento.n_inscricao = request.POST['inscricao']
+        form = Criar_Andamento_Processo_Sanitario(request.POST)
+        if form.is_valid():
+            andamento = form.save(commit=False)
+            andamento.processo = processo
+            andamento.servidor = request.user
+            if 'licensa_sanitaria' in request.FILES:
+                documentos= Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+                try:
+                    documentos.licenca_sanitaria = request.FILES['licensa_sanitaria']
+                    documentos.save()
+                except:
+                    messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
+
+            andamento.save()
+            processo.status = andamento.status
+            processo.save() 
+            requerimento.save()
+            messages.success(request, 'Andamento cadastrado com sucesso!')            
+            send_email_for_att_process(processo, andamento)
+            return redirect('empreendedor:andamento_processo_admin', id)
+        else:
+            print(form.errors)
+    else:
+        form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Avaliação de licença ambiental concluída.'})
+        form_req = Processo_ISS_Form()
+    context = {
+        'titulo': 'Sala do Empreendedor',
+        'processo': processo,
+        'form': form,
+        'form_req': form_req,
+        'processo_sanitario': True,
+        
+    }
+    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_ambiental.html', context)
 
 @login_required()
 @staff_member_required()

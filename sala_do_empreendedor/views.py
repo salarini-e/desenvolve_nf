@@ -7,11 +7,11 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal
 from .functions.pdde import Listar_Proposta, PDDE_POST
 from .functions.email import send_email_for_create_process, send_email_for_att_process
 from django.db import transaction
-from guardiao.models import TentativaBurla
+from guardiao.models import TentativaBurla, ErroPrevisto
 from datetime import datetime
 from django.utils import timezone
 
@@ -63,6 +63,12 @@ def faccao_legal(request):
         'titulo': 'Sala do Empreendedor - Facção Legal',
         'titulo_pag':'Facção Legal',
     }
+    if request.user.is_authenticated:
+        try:            
+            faccao=Faccao_legal.objects.get(user=request.user)
+            context['faccao']=faccao              
+        except Exception as E:
+            print(E)
     if request.method == 'POST':
         try:
             pessoa=Pessoa.objects.get(cpf=validate_cpf(request.POST['cpf']))
@@ -75,6 +81,48 @@ def faccao_legal(request):
             return redirect(next_page)
 
     return render(request, 'sala_do_empreendedor/faccao_legal.html', context)
+
+@login_required
+def apagar_faccao(request):
+    try:
+        faccao=Faccao_legal.objects.get(user=request.user)
+        faccao.delete()
+        messages.success(request, 'Facção apagada com sucesso!')
+    except Exception as E:
+        ErroPrevisto.objects.create(
+            local_deteccao='empreendedor:apagar_faccao',
+            user=request.user,
+            ip_address=request.META.get('REMOTE_ADDR'),
+            informacoes_adicionais=f'Tentativa de apagar facção sem ter uma cadastrada ou com mais de um registro. Exception: {E}'
+        )
+        messages.error(request, 'Erro ao apagar facção.')
+    return redirect('empreendedor:faccao_legal')
+
+@login_required
+def export_faccoes(request):
+    if request.user.is_superuser:
+        response = HttpResponse(content_type='application/ms-excel')
+        data = datetime.now().strftime('%d-%m-%Y')
+        response['Content-Disposition'] = f'attachment; filename="faccoes-{data}.xls"'
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Facções"
+        ws.append(['Usuário', 'Telefone', 'Email', 'Possui MEI?', 'Tempo que trabalha com facção?', 
+                'Trabalha com', 'Equipamentos', 'Área de trabalho separada?', 'Tamanho área de trabalho', 'Qnt. colaboradores',
+                'Tipo de produto', ' Outro produto', 'Como está de trabalho?', 'Como considera a renda?',
+                'Preferência', 'Sonho no setor'])
+        faccoes = Faccao_legal.objects.all()    
+        for faccao in faccoes:
+            pessoa = Pessoa.objects.get(user=faccao.user)
+            trabalha_com = ', '.join([str(item) for item in faccao.trabalha_com.all()])
+            tipo_produto = ', '.join([str(item) for item in faccao.tipo_produto.all()])
+            equipamentos = ', '.join([str(item) for item in faccao.equipamentos.all()])
+            ws.append([pessoa.nome, pessoa.telefone, pessoa.email, faccao.possui_mei, faccao.get_tempo_que_trabalha_display(), trabalha_com, equipamentos, faccao.get_area_display(), faccao.get_tamanho_area_display(), faccao.qtd_colaboradores, tipo_produto, faccao.outro_produto, faccao.get_situacao_trabalho_display(), faccao.get_situacao_remuneracao_display(), faccao.get_voce_prefere_display(), faccao.qual_seu_sonho_no_setor])
+        wb.save(response)
+        return response
+    else:
+        return HttpResponse('Acesso negado')
+
 
 @login_required
 def cadastrar_faccao_legal(request):
@@ -90,7 +138,7 @@ def cadastrar_faccao_legal(request):
                     return redirect('empreendedor:cadastrar_empresa')
             except:
                 messages.success(request, 'Facção cadastrada com sucesso!')
-            return redirect('empreendedor:index')
+            return redirect('empreendedor:faccao_legal')
     else:
         form = Faccao_Legal_Form(initial={'user': request.user.id})
     context = {
@@ -201,7 +249,8 @@ def novas_oportunidades(request):
             if request.user.is_authenticated:
                 cadastro_artesao.user_register = request.user
             cadastro_artesao.save()
-            messages.success(request, 'Formulário enviado com sucesso!')            
+            messages.success(request, 'Formulário enviado com sucesso!')
+            return redirect('empreendedor:reuniao_sebrae')
         else:
             print(form.errors)
             messages.error(request, 'Erro ao enviar formulário. Verifique os campos e tente novamente.')
@@ -449,8 +498,7 @@ def requerimento_iss(request):
         'form': form,
         'form_iss': form_iss,
     }
-    return render(request, 'sala_do_empreendedor/em-construcao.html', context)
-    # return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
+    return render(request, 'sala_do_empreendedor/processos_digitais/cadastro_processo.html', context)
 
 def requerimento_documentos(request, n_protocolo):
     processo=Processo_Digital.objects.get(n_protocolo=n_protocolo)
@@ -1228,7 +1276,7 @@ def credito_facil(request):
                 credito.user_register = request.user
             credito.save()
             messages.success(request, 'Solicitação enviada com sucesso!')
-            return redirect('empreendedor:reuniao_sebrae')
+            return redirect('empreendedor:index')
         else:
             print(form.errors)
             print('-------------------------------------------------------------')

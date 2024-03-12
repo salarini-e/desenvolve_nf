@@ -33,16 +33,58 @@
           color: #666;
       }
   </style>
-
+  {% if faccao %}
+  <div class="row mb-3">
+    <div class="col-8 mx-auto d-flex" style="text-align: left;">
+      <h3>Seus dados</h3>
+      <a href="{% url 'empreendedor:apagar_faccao' %}" class="btn btn-danger ms-auto my-auto">
+        Apagar meus dados
+      </a>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-4 ms-auto" style="text-align: left;">
+      {% if faccao.possui_mei %}
+      <p class="mb-2"><strong>CNPJ:</strong> <br>{{faccao.cnpj}}</p>            
+      {% endif %}
+      <p class="mb-2"><strong>Trabalha com facção há quanto tempo?</strong> <br>{{faccao.get_tempo_que_trabalha_display}}</p>
+      <p><strong>Trabalha com:</strong></p>
+      {% for item in faccao.trabalha_com.all %}
+      <p>{{item}}</p>
+      {% endfor %}
+      <p class="mt-2"><strong>Equipamento(s) que possui</strong></p>
+      {% for item in faccao.equipamentos.all %}
+      <p>{{item}}</p>
+      {% endfor %}  
+      <p class="mb-2"><strong>Possui área de trabalho separada da residência?</strong><br>{{faccao.get_area_display}}</p>
+      <p class="mb-2"><strong>Tamanho área de trabalho:</strong> <br>{{faccao.get_tamanho_area_display}}</p>
+      
+      {% if faccao.possui_colaboradores %}
+      <p class="mb-2"><strong>Quantidade de colaboradores:</strong> <br>{{faccao.qtd_colaboradores}}</p>
+      {% endif %}   
+    </div>
+    <div class="col col-4 me-auto" style="text-align: left;">      
+      <p><strong>Tipo(s) de produto(s):</strong></p>
+      {% for item in faccao.tipo_produto.all %}
+      <p>{{item}}</p>
+      {% endfor %}
+      {% if faccao.outro_produto %}
+      <p class="my-2">{{faccao.outro_produto}}</p>
+      {% endif %}
+      <p class="mb-2"><strong>Geralmente, como está de trabalho?</strong> <br>{{faccao.get_situacao_trabalho_display}}</p>
+      <p class="mb-2"><strong>Como considera a renda que obtêm com seu trabalho?'</strong> <br>{{faccao.get_situacao_remuneracao_display}}</p>
+      <p class="mb-2"><strong>Você prefere:</strong> <br>{{faccao.get_voce_prefere_display}}</p>
+      <p class="mb-2"><strong>Qual seu sonho no setor?</strong><br>
+      {{faccao.qual_seu_sonho_no_setor}}</p>
+    </div>
+  </div>
+  {% endif %}
   <div class="row">
      <div class="col-8 mx-auto" style="text-align: left;">
       <h3 class="mb-4">{{titulo_pag}}</h3>
       <p class="mb-3">O Facção Legal é um projeto da Prefeitura de Nova Friburgo, em parceria com o SINDVEST, SINDITEXTIL e com Governo do Estado do RJ, através das Secretarias da Mulher e Secretaria de Desenvolvimento Econômico.</p>
-
-    <p class="mb-3">O Facção Legal visa melhorar as condições de trabalho e renda de milhares de pessoas que atuam no ramo de costura, corte, bordado ou estamparia, prestando serviços para confecções de maior porte ou indústria de nosso polo de moda.</p>
-
-    <p class="mb-4">O Programa Facção Legal se divide em diversas etapas:</p>
-
+      <p class="mb-3">O Facção Legal visa melhorar as condições de trabalho e renda de milhares de pessoas que atuam no ramo de costura, corte, bordado ou estamparia, prestando serviços para confecções de maior porte ou indústria de nosso polo de moda.</p>
+      <p class="mb-4">O Programa Facção Legal se divide em diversas etapas:</p>
     <ol  class="mb-3">
       <li class="mb-3">Realização do cadastro (Diagnóstico de condições de trabalho e expectativas)</li>
       <li class="mb-3">Auxílio para Formalização como MEI (Aumentando a sua segurança e abrindo portas para produzir para novas empresas.)</li>
