@@ -107,7 +107,7 @@ def export_faccoes(request):
         wb = Workbook()
         ws = wb.active
         ws.title = "Facções"
-        ws.append(['Usuário', 'Telefone', 'Email', 'Possui MEI?', 'Tempo que trabalha com facção?', 
+        ws.append(['id_cadastro','Usuário', 'Telefone', 'Email', 'Possui MEI?', 'Tempo que trabalha com facção?', 
                 'Trabalha com', 'Equipamentos', 'Área de trabalho separada?', 'Tamanho área de trabalho', 'Qnt. colaboradores',
                 'Tipo de produto', ' Outro produto', 'Como está de trabalho?', 'Como considera a renda?',
                 'Preferência', 'Sonho no setor'])
@@ -117,7 +117,7 @@ def export_faccoes(request):
             trabalha_com = ', '.join([str(item) for item in faccao.trabalha_com.all()])
             tipo_produto = ', '.join([str(item) for item in faccao.tipo_produto.all()])
             equipamentos = ', '.join([str(item) for item in faccao.equipamentos.all()])
-            ws.append([pessoa.nome, pessoa.telefone, pessoa.email, faccao.possui_mei, faccao.get_tempo_que_trabalha_display(), trabalha_com, equipamentos, faccao.get_area_display(), faccao.get_tamanho_area_display(), faccao.qtd_colaboradores, tipo_produto, faccao.outro_produto, faccao.get_situacao_trabalho_display(), faccao.get_situacao_remuneracao_display(), faccao.get_voce_prefere_display(), faccao.qual_seu_sonho_no_setor])
+            ws.append([faccao.id, pessoa.nome, pessoa.telefone, pessoa.email, faccao.possui_mei, faccao.get_tempo_que_trabalha_display(), trabalha_com, equipamentos, faccao.get_area_display(), faccao.get_tamanho_area_display(), faccao.qtd_colaboradores, tipo_produto, faccao.outro_produto, faccao.get_situacao_trabalho_display(), faccao.get_situacao_remuneracao_display(), faccao.get_voce_prefere_display(), faccao.qual_seu_sonho_no_setor])
         wb.save(response)
         return response
     else:
