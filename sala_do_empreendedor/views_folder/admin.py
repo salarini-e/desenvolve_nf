@@ -421,6 +421,7 @@ def novo_andamento_processo_sanitario(request, id):
     else:
         form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Avaliação de licença sanitária concluída.'})
         form_req = Processo_ISS_Form()
+    
     context = {
         'titulo': 'Sala do Empreendedor',
         'processo': processo,
