@@ -1,6 +1,6 @@
 from django import template
-from cursos.models import Alertar_Aluno_Sobre_Nova_Turma
-from cursos.models import Matricula, Turma
+from .models import Alertar_Aluno_Sobre_Nova_Turma
+from .models import Matricula, Turma
 register = template.Library()
 
 @register.filter
