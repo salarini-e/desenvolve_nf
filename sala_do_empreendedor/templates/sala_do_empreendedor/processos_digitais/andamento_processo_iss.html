@@ -142,6 +142,7 @@
                     <a target="_blank" href="{{requerimento.boleto_meio_ambiente.url}}" class="btn btn-primary mt-3 mb-3">
                       <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
                     </a>
+                    <p class="my-3">Sua Licença Ambiental estará disponivel aqui após o reconhecimento do boleto pela Secretária de Meio Ambiente.</p>
                   </div>
                 </div>
                 {% elif requerimento.boleto_meio_ambiente_status %}
@@ -155,6 +156,8 @@
                     {% endif %}
                   </div>
                 </div>
+                {% else %}
+                <p class="my-3">Sua Licença Ambiental estará disponivel aqui após a aprovação da Secretária de Meio Ambiente.</p>
                 {% endif %}
               <!-- </div>   -->
                 <!-- endif -->
@@ -213,8 +216,7 @@
                       <div class="col d-flex py-2 pb-1 flex-column ms-2">
                       </div>
                   </div>
-                  {% endif %}
-                  <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
+                  {% endif %}                  
                 </div>
                 {% if requerimento.boleto_saude and requerimento.boleto_saude_status == False %}
                 <div class="row text-center">
@@ -223,6 +225,7 @@
                     <a target="_blank" href="{{requerimento.boleto_saude.url}}" class="btn btn-primary mt-3 mb-3">
                       <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
                     </a>
+                    <p class="my-3">Sua Licença Sanitária estará disponivel aqui após o reconhecimento do boleto pela Secretária de Saúde.</p>
                   </div>
                 </div>
                 {% elif requerimento.boleto_saude_status %}
@@ -236,6 +239,8 @@
                     {% endif %}
                   </div>
                 </div>
+                {% else %}
+                <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
                 {% endif %}
                 {% elif requerimento.autonomo_localizado == 's' and requerimento.profissao.licenca_sanitaria_com_alvara %}
                 <div class="d-flex flex-column w-100 pt-4">
@@ -304,8 +309,7 @@
                     </div>
                       {% endif %}
                     {% endif%}
-                  {% endif %}
-                  <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
+                  {% endif %}                  
                 </div>
                 {% if requerimento.boleto_saude and requerimento.boleto_saude_status == False %}
                 <div class="row text-center">
@@ -314,6 +318,7 @@
                     <a target="_blank" href="{{requerimento.boleto_saude.url}}" class="btn btn-primary mt-3 mb-3">
                       <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
                     </a>
+                    <p class="my-3">Sua Licença Sanitária estará disponivel aqui após o reconhecimento do boleto pela Secretária de Saúde.</p>
                   </div>
                 </div>
                 {% elif requerimento.boleto_saude_status %}
@@ -327,6 +332,8 @@
                     {% endif %}
                   </div>
                 </div>
+                {% else %}
+                <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
                 {% endif %}
                 {% endif %}
                 <!-- endif -->
