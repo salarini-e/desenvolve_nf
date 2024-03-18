@@ -54,17 +54,11 @@
                     <div id="boleto" class="mb-3">
                       <label for="formFile" class="form-label">Anexe o boleto</label>
                       <input class="form-control" type="file" id="id_boleto" name="boleto">
-                    </div>
-                    {% if processo_sanitario %}
+                    </div>                    
                     <div id="licenca_sanitaria" class="mb-3">
                       <label for="formFile" class="form-label">Anexe a Licenca Sanitária (O nome dos arquivos anexados não devem conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.)</label>
                       <input class="form-control" type="file" id="id_licenca_sanitaria" name="licenca_sanitaria">
-                    </div>
-                    {% endif %}
-                    <div id="n_inscricao" class="mb-3">
-                      <label for="formFile" class="form-label">Informe o número de inscrição</label>
-                      <input class="form-control" type="text" id="id_inscricao" name="inscricao">
-                    </div>
+                    </div>                                        
                     <button class="btn btn-primary">
                       Enviar requerimento
                     </button>
@@ -77,38 +71,25 @@
 </div>
 <div class="row mx-auto px-5">
   <script>
-    document.getElementById('empreendedor_admin').classList.add('s-nav-active');
-    {% if  processo.tipo_processo.id == 3 %}
+    document.getElementById('empreendedor_admin').classList.add('s-nav-active');    
     function exibirInput() {
             var selectValue = document.getElementById("id_status").value;
+            console.log(selectValue)
             var divBoleto = document.getElementById("boleto");
-            if (selectValue === "bg") {
+            var divLicenca = document.getElementById("licenca_sanitaria");            
+            if (selectValue === "bs") {
                 divBoleto.style.display = "block";
-            } else if (selectValue === "cn") {
-                divBoleto.style.display = "block";
+                divLicenca.style.display = "none";
+
+            } else if (selectValue === "se") {
+                divBoleto.style.display = "none";
+                divLicenca.style.display = "block";
             } else {
                 divBoleto.style.display = "none";
+                divLicenca.style.display = "none";
             }
         } 
-  </script>
-    {% else %}
-    function exibirInput() {
-            var selectValue = document.getElementById("id_status").value;
-            var divBoleto = document.getElementById("boleto");
-            var divInscricao = document.getElementById("n_inscricao");
-            if (selectValue === "bg") {
-                divBoleto.style.display = "block";
-                divInscricao.style.display = "block";
-            } else if (selectValue === "cn") {
-                divBoleto.style.display = "block";
-                divInscricao.style.display = "block";
-            } else {
-                divBoleto.style.display = "none";
-                divInscricao.style.display = "none";
-            }
-        } 
-  </script>
-    {% endif %}
+  </script>        
     
 </div>
 
@@ -131,7 +112,7 @@
     #boleto{
       display: none;
     }
-    #n_inscricao{
+    #licenca_sanitaria{
       display: none;
     }
 </style>

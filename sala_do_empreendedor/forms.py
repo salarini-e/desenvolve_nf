@@ -102,7 +102,7 @@ class Processo_ISS_Form(ModelForm):
             'solicitante': forms.HiddenInput(),
             'n_inscricao': forms.HiddenInput(),        
             }
-        exclude = ['processo', 'dt_solicitacao', 'boleto', 'boleto_pago', 'status']
+        exclude = ['processo', 'dt_solicitacao', 'boleto', 'boleto_pago', 'status', 'boleto_meio_ambiente', 'boleto_meio_ambiente_status', 'boleto_saude', 'boleto_saude_status']
 
 class Criar_Processo_Docs_Form(ModelForm):
     class Meta:
@@ -136,13 +136,32 @@ class Criar_Andamento_Processo(ModelForm):
 class Criar_Andamento_Processo_Sanitario(ModelForm):
 
     STATUS_CHOICES = (
-        ('ar', 'Aguardando reenvio de documentos'),
-        ('bs', 'Aguardando pagamento licença sanitária'),
-        ('ba', 'Aguardando pagamento licença ambiental'),
-        ('sa', 'Aguardando pagamento licença ambiental e licença ambiental'),
-        ('ls', 'Aguardando emissão licença sanitária'),
-        ('la', 'Aguardando emissão licença ambiental'),        
         ('aa', 'Aguardando avaliação'),
+        ('ar', 'Aguardando reenvio de documentos'),
+        ('bs', 'Aguardando pagamento licença sanitária'),        
+        ('ls', 'Aguardando emissão licença sanitária'),        
+        ('se', 'Licença ambiental sanitária'),
+    )
+
+    status = forms.ChoiceField(choices=STATUS_CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'onchange':'exibirInput()'}))
+
+    class Meta:
+        model = Andamento_Processo_Digital
+        widgets = {
+            'processo': forms.HiddenInput(),
+            'servidor': forms.HiddenInput(),
+            'status': forms.Select(attrs={'class': 'form-control', 'onchange':'exibirInput()'}),
+            }
+        exclude = ['dt_andamento']
+
+class Criar_Andamento_Processo_Ambiental(ModelForm):
+
+    STATUS_CHOICES = (
+        ('aa', 'Aguardando avaliação'),
+        ('ar', 'Aguardando reenvio de documentos'),        
+        ('ba', 'Aguardando pagamento licença ambiental'),                
+        ('la', 'Aguardando emissão licença ambiental'),        
+        ('ae', 'Licença ambiental emitida'),        
     )
 
     status = forms.ChoiceField(choices=STATUS_CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'onchange':'exibirInput()'}))

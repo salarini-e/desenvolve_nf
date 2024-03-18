@@ -242,8 +242,13 @@ class Processo_Digital(models.Model):
         ('ae', 'Aguardando envio de documentos'),
         ('ar', 'Aguardando reenvio de documentos'),
         ('aa', 'Aguardando avaliação'),
+        ('bs', 'Aguardando pagamento licença sanitária'),
+        ('ba', 'Aguardando pagamento licença ambiental'),
+        ('sa', 'Aguardando pagamento licença ambiental e licença ambiental'),
         ('ls', 'Aguardando emissão licença sanitária'),
-        ('la', 'Aguardando emissão licença ambiental'),
+        ('la', 'Aguardando emissão licença ambiental'),                
+        ('se', 'Licença sanitária emitida'),
+        ('ae', 'Licença ambiental emitida'),
         ('bg', 'Boleto gerado'),    
         ('cn', 'Concluído')
     )
@@ -298,6 +303,8 @@ class Andamento_Processo_Digital(models.Model):
         ('sa', 'Aguardando pagamento licença ambiental e licença ambiental'),
         ('ls', 'Aguardando emissão licença sanitária'),
         ('la', 'Aguardando emissão licença ambiental'),
+        ('se', 'Licença ambiental sanitária'),
+        ('ae', 'Licença ambiental emitida'),
         ('bg', 'Boleto gerado'),
         ('cn', 'Concluído')
     )

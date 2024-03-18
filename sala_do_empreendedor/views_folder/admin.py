@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario, Agente_Ambiental, Credito_Facil
-from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form, Criar_Andamento_Processo_Sanitario
+from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form, Criar_Andamento_Processo_Sanitario,Criar_Andamento_Processo_Ambiental
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
@@ -392,10 +392,8 @@ def novo_andamento_processo_sanitario(request, id):
     elif processo.tipo_processo.id == 3:
         requerimento = RequerimentoISSQN.objects.get(processo=processo)
     if request.method == 'POST':        
-        if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
-            requerimento.boleto = request.FILES['boleto']            
-            if processo.tipo_processo.id == 1:
-                requerimento.n_inscricao = request.POST['inscricao']
+        if request.POST['status'] == 'bs' or request.POST['status'] == 'cn':
+            requerimento.boleto = request.FILES['boleto']                        
         form = Criar_Andamento_Processo_Sanitario(request.POST)
         if form.is_valid():
             andamento = form.save(commit=False)
@@ -408,7 +406,8 @@ def novo_andamento_processo_sanitario(request, id):
                     documentos.save()
                 except:
                     messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
-
+            if andamento.status == 'ls' or 'se':
+                requerimento.boleto_saude_status = True
             andamento.save()
             processo.status = andamento.status
             processo.save() 
@@ -419,7 +418,7 @@ def novo_andamento_processo_sanitario(request, id):
         else:
             print(form.errors)
     else:
-        form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Avaliação de licença sanitária concluída.'})
+        form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Andamento realizado pela Vigilância Sanitária.'})
         form_req = Processo_ISS_Form()
     
     context = {
@@ -441,11 +440,9 @@ def novo_andamento_processo_ambiental(request, id):
     elif processo.tipo_processo.id == 3:
         requerimento = RequerimentoISSQN.objects.get(processo=processo)
     if request.method == 'POST':        
-        if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
-            requerimento.boleto = request.FILES['boleto']            
-            if processo.tipo_processo.id == 1:
-                requerimento.n_inscricao = request.POST['inscricao']
-        form = Criar_Andamento_Processo_Sanitario(request.POST)
+        if request.POST['status'] == 'ba' or request.POST['status'] == 'cn':
+            requerimento.boleto = request.FILES['boleto']                    
+        form = Criar_Andamento_Processo_Ambiental(request.POST)
         if form.is_valid():
             andamento = form.save(commit=False)
             andamento.processo = processo
@@ -453,11 +450,12 @@ def novo_andamento_processo_ambiental(request, id):
             if 'licensa_sanitaria' in request.FILES:
                 documentos= Processo_Status_Documentos_Anexos.objects.get(processo=processo)
                 try:
-                    documentos.licenca_sanitaria = request.FILES['licensa_sanitaria']
+                    documentos.licenca_ambiental = request.FILES['licensa_ambiental']
                     documentos.save()
                 except:
                     messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
-
+            if andamento.status == 'ls' or 'se':
+                requerimento.boleto_saude_status = True
             andamento.save()
             processo.status = andamento.status
             processo.save() 
@@ -468,7 +466,7 @@ def novo_andamento_processo_ambiental(request, id):
         else:
             print(form.errors)
     else:
-        form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Avaliação de licença ambiental concluída.'})
+        form = Criar_Andamento_Processo_Ambiental(initial={'processo': processo, 'observacao': 'Andamento realizado pelo Meio Ambiente.'})
         form_req = Processo_ISS_Form()
     context = {
         'titulo': 'Sala do Empreendedor',

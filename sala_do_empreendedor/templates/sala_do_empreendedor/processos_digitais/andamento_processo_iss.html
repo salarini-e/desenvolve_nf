@@ -134,8 +134,28 @@
                     {% endif %}
                   </div>
                   {% endif %}
-                </div>       
-                       
+                </div>                       
+                {% if requerimento.boleto_meio_ambiente and requerimento.boleto_meio_ambiente_status == False %}
+                <div class="row text-center">
+                  <div class="col pt-4">
+                    <p><i><b>Seu boleto foi gerado!</b></i></p>
+                    <a target="_blank" href="{{requerimento.boleto_meio_ambiente.url}}" class="btn btn-primary mt-3 mb-3">
+                      <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
+                    </a>
+                  </div>
+                </div>
+                {% elif requerimento.boleto_meio_ambiente_status %}
+                <div class="row text-center">
+                  <div class="col pt-4">
+                    <p><i><b>Seu boleto foi pago! <span class="text-success ms-2"><i class="fa-solid fa-circle-check"></i></span></b></i></p>
+                    {% if status_documentos.licenca_ambiental %}
+                    <a target="_blank" href="{{status_documentos.licenca_ambiental.url}}" class="btn btn-primary mt-3 mb-3">
+                      <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod licença ambiental
+                    </a>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
               <!-- </div>   -->
                 <!-- endif -->
                 <!-- if licenca sanitaria -->
@@ -196,6 +216,27 @@
                   {% endif %}
                   <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
                 </div>
+                {% if requerimento.boleto_saude and requerimento.boleto_saude_status == False %}
+                <div class="row text-center">
+                  <div class="col pt-4">
+                    <p><i><b>Seu boleto foi gerado!</b></i></p>
+                    <a target="_blank" href="{{requerimento.boleto_saude.url}}" class="btn btn-primary mt-3 mb-3">
+                      <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
+                    </a>
+                  </div>
+                </div>
+                {% elif requerimento.boleto_saude_status %}
+                <div class="row text-center">
+                  <div class="col pt-4">
+                    <p><i><b>Seu boleto foi pago! <span class="text-success ms-2"><i class="fa-solid fa-circle-check"></i></span></b></i></p>
+                    {% if status_documentos.licenca_sanitaria %}
+                    <a target="_blank" href="{{status_documentos.licenca_sanitaria.url}}" class="btn btn-primary mt-3 mb-3">
+                      <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod licença sanitária
+                    </a>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
                 {% elif requerimento.autonomo_localizado == 's' and requerimento.profissao.licenca_sanitaria_com_alvara %}
                 <div class="d-flex flex-column w-100 pt-4">
                   <h4>Licença Sanitária</h4>
@@ -266,7 +307,27 @@
                   {% endif %}
                   <p class="my-3">Sua Licença Sanitária estará disponivel aqui após a aprovação da Secretária de Saúde.</p>
                 </div>
-                
+                {% if requerimento.boleto_saude and requerimento.boleto_saude_status == False %}
+                <div class="row text-center">
+                  <div class="col pt-4">
+                    <p><i><b>Seu boleto foi gerado!</b></i></p>
+                    <a target="_blank" href="{{requerimento.boleto_saude.url}}" class="btn btn-primary mt-3 mb-3">
+                      <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
+                    </a>
+                  </div>
+                </div>
+                {% elif requerimento.boleto_saude_status %}
+                <div class="row text-center">
+                  <div class="col pt-4">
+                    <p><i><b>Seu boleto foi pago! <span class="text-success ms-2"><i class="fa-solid fa-circle-check"></i></span></b></i></p>
+                    {% if status_documentos.licenca_sanitaria %}
+                    <a target="_blank" href="{{status_documentos.licenca_sanitaria.url}}" class="btn btn-primary mt-3 mb-3">
+                      <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod licença sanitária
+                    </a>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
                 {% endif %}
                 <!-- endif -->
                 <div class="d-flex w-100 pt-3">
