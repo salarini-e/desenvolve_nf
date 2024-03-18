@@ -99,8 +99,19 @@
                     <p class="bg-status-{{status_documentos.croqui_acesso_status}}">{{status_documentos.get_croqui_acesso_status_display}}</p>
                   </div>
               </div>
+              
                   {% endif %}
-                  
+                  {% if status_documentos.licenca_ambiental %}
+                <div class="row">
+                  <div class="col d-flex mt-4 ">
+                    <div class="mx-auto">
+                      <a class="btn btn-outline-dark px-5" href="{{status_documentos.licenca_ambiental.url}}" target="_blank">
+                        <i class="fa-solid fa-id-card me-2"></i>Licença Ambiental
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
                 {% endif %}
                 {% if requerimento.profissao.licenca_sanitaria %}
                 <div class="row mt-4">
