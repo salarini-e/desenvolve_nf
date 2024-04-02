@@ -1,38 +1,98 @@
 <div id="navegacao" class="container">
   <div class="row">
     <div class="col  d-flex justify-content-center flex-wrap">
-      <a href="{% url 'financas:index' %}">
+    <a href="{% url 'financas:index' %}">
         <div class="d-flex flex-column align-items-center">
           <div id="index" class="s-nav rounded-circle "></div>
           <p class="text-dark">Início</p>
         </div>
-      </a>
-      <a href="{% url 'financas:formularios' %}" class="mx-4">
+    </a>
+    <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=MF" target="_blank" class="ms-4">
         <div class="d-flex flex-column align-items-center">
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">Alvarás</p>
+        </div>
+    </a>
+    <a href="https://servicoonline.novafriburgo.rj.gov.br/services/certidao_retirada.php" target="_blank" class="mx-4">
+      <div class="d-flex flex-column align-items-center">
           <div id="s-alvara" class="s-nav rounded-circle doc"></div>
-          <p class="text-dark text-center">Formulários e<br>declarações</p>
-        </div>
-      </a>
-      <a href="{% url 'financas:legislacao' %}" class="me-3">
+          <p class="text-dark text-center">Certidões</p>
+      </div>
+    </a>
+    
+    
+    <a href="https://servicoonline.novafriburgo.rj.gov.br/services/site_login.php" target="_blank" class="me-3">
         <div class="d-flex flex-column align-items-center">
-          <div id="s-legis" class="s-nav rounded-circle"></div>
-          <p class="text-dark text-center">Legislação</p>
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">Dívida Ativa</p>
         </div>
-      </a>
+    </a>
+    
+    <a href="{% url 'financas:formularios' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">Emissão de DAM</p>
+        </div>
+    </a>
+    
+    <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=HJ" target="_blank" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">FORO</p>
+        </div>
+    </a>
+    
+    <a href="{% url 'financas:formularios' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">Formulários e<br>declarações</p>
+        </div>
+    </a>
+    
+    <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=LF" target="_blank" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">IPTU</p>
+        </div>
+    </a>
+    
+    <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=MF" target="_blank" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">ISS</p>
+        </div>
+    </a>
+          
+    {% comment %}
+    <a href="{% url 'financas:formularios' %}" target="_blank" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <p class="text-dark text-center">ITBI</p>
+        </div>
+    </a>        
+    {% endcomment %}
+    <a href="{% url 'financas:legislacao' %}" class="me-3">
+        <div class="d-flex flex-column align-items-center">
+            <div id="s-legis" class="s-nav rounded-circle"></div>
+            <p class="text-dark text-center">Legislação</p>
+        </div>
+    </a>
+    
+      
       {% comment %}
-      <a href="{% url 'financas:alvara' 'opcoes' %}" class="me-3">
+      <a href="{% url 'financas:alvara' %}" class="me-3">
         <div class="d-flex flex-column align-items-center">
           <div id="s-alvara" class="s-nav rounded-circle doc"></div>
           <p class="text-dark text-center">Alvará</p>
         </div>
       </a>
-      <a href="{% url 'financas:certidao' 'opcoes' %}" class="me-3">
+      <a href="{% url 'financas:certidao' %}" class="me-3">
         <div class="d-flex flex-column align-items-center">
           <div id="s-certidoes" class="s-nav rounded-circle doc"></div>
           <p class="text-dark">Certidões</p>
         </div>
       </a>
-      <a href="{% url 'financas:iptu' 'opcoes' %}" class="me-3">
+      <a href="{% url 'financas:iptu' %}" class="me-3">
         <div class="d-flex flex-column align-items-center">
           <div id="s-iptu" class="s-nav rounded-circle destaque doc"></div>
           <p class="text-dark">IPTU</p>
