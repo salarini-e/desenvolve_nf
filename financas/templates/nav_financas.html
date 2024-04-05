@@ -9,35 +9,39 @@
     </a>
     <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=MF" target="_blank" class="ms-4">
         <div class="d-flex flex-column align-items-center">
-            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <div id="s-alvaras" class="s-nav rounded-circle doc"></div>
             <p class="text-dark text-center">Alvarás</p>
         </div>
     </a>
     <a href="https://servicoonline.novafriburgo.rj.gov.br/services/certidao_retirada.php" target="_blank" class="mx-4">
       <div class="d-flex flex-column align-items-center">
-          <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+          <div id="s-certidao" class="s-nav rounded-circle doc"></div>
           <p class="text-dark text-center">Certidões</p>
       </div>
     </a>
-    
-    
+    <a href="{% url 'financas:conselho' %}" target="_blank" class="me-3">
+      <div class="d-flex flex-column align-items-center">
+        <div id="s-certidao" class="s-nav rounded-circle doc"></div>
+        <p class="text-dark text-center">Conselho de<br>Contribuintes</p>
+      </div>      
+    </a>
     <a href="https://servicoonline.novafriburgo.rj.gov.br/services/site_login.php" target="_blank" class="me-3">
         <div class="d-flex flex-column align-items-center">
-            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <div id="s-divida" class="s-nav rounded-circle doc"></div>
             <p class="text-dark text-center">Dívida Ativa</p>
         </div>
     </a>
     
     <a href="{% url 'financas:formularios' %}" class="me-3">
         <div class="d-flex flex-column align-items-center">
-            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <div id="s-dam" class="s-nav rounded-circle doc"></div>
             <p class="text-dark text-center">Emissão de DAM</p>
         </div>
     </a>
     
     <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=HJ" target="_blank" class="me-3">
         <div class="d-flex flex-column align-items-center">
-            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <div id="s-foro" class="s-nav rounded-circle doc"></div>
             <p class="text-dark text-center">FORO</p>
         </div>
     </a>
@@ -51,14 +55,14 @@
     
     <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=LF" target="_blank" class="me-3">
         <div class="d-flex flex-column align-items-center">
-            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <div id="s-iptu" class="s-nav rounded-circle doc"></div>
             <p class="text-dark text-center">IPTU</p>
         </div>
     </a>
     
     <a href="https://servicoonline.novafriburgo.rj.gov.br/services/lancamentos_diversos.php?cod=MF" target="_blank" class="me-3">
         <div class="d-flex flex-column align-items-center">
-            <div id="s-alvara" class="s-nav rounded-circle doc"></div>
+            <div id="s-iss" class="s-nav rounded-circle doc"></div>
             <p class="text-dark text-center">ISS</p>
         </div>
     </a>
@@ -74,15 +78,10 @@
     <a href="{% url 'financas:legislacao' %}" class="me-3">
         <div class="d-flex flex-column align-items-center">
             <div id="s-legis" class="s-nav rounded-circle"></div>
-            <p class="text-dark text-center">Legislação</p>
+            <p class="text-dark text-center">Legislação/<br>Transparência</p>
         </div>
     </a>
-    <a href="https://transparencia.novafriburgo.rj.gov.br/portalTransparencia/#collapseParent568" target="_blank" class="me-3">
-      <div class="d-flex flex-column align-items-center">
-          <div id="s-legis" class="s-nav rounded-circle"></div>
-          <p class="text-dark text-center">Transparência</p>
-      </div>
-  </a>
+
     
       
       {% comment %}
@@ -145,7 +144,28 @@
     background-image: url(/static/images/icones/financas_doc.png);
     background-size: contain;
   }
-  #s-legis{      
+  #s-alvaras{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/alvaras.png);
+      background-size: contain;
+    }
+  #s-iss{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/iss.png);
+      background-size: contain;
+    }
+
+    #s-dam{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/emissao-dam.png);
+      background-size: contain;
+    }    
+    #s-transparencia{      
+      background-color: white !important;
+      background-image: url(/static/images/icones/transparencia.png);
+      background-size: contain;
+    }
+    #s-legis{      
       background-color: white !important;
       background-image: url(/static/images/icones/empreendedor_legis.png);
       background-size: contain;

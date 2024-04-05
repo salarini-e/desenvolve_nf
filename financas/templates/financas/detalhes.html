@@ -1,0 +1,122 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block nav %}
+{% include 'nav_financas.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/formulario.css">
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="d-flex flex-wrap">        
+        <h1 id="go">{{titulo_form}}</h1>     
+        <a href="{% url 'financas:admin' %}" class="btn btn-secondary ms-auto my-auto">Voltar</a>
+        <!-- <div id="cabecalho" class="ms-auto input-group" style="max-width: 300px ;">
+            <div class="d-flex rounded-circle border me-1" style="background-color: #fff; height: 38px; width: 38px; color: rgba(0, 0, 0, 0.685); font-size: 20pt;"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Procurando um formulário? Use o campo ao lado para facilitar sua busca.">
+                <i class="m-auto fa-solid fa-circle-info"></i>
+            </div>
+            <input style="border-radius: 30px !important; padding-right: 35px;" type="search" name="search" id="search"
+                class="form-control mb-auto" onkeyup="filterLi(this)">
+            <i class="fa-solid fa-magnifying-glass"
+                style="position: absolute; right: 0; margin: 10px 10px auto auto;"></i>
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="text-secondary mt-3" style="text-align: justify; text-indent: 40px;">
+            <i>
+                {{texto_form}}
+            </i>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col pb-3">
+            <h4>{{subtitulo_form}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col pb-5 filtros d-flex justify-content-start flex-wrap">
+           <form method="POST" class="mx-auto" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form%}
+            <button type="submit" class="btn btn-primary">Enviar</button>
+           </form>
+        </div>
+    </div>
+    
+
+    <div class="row mx-auto px-5" style="height: 100px;">
+        <script>
+            document.getElementById('s-legis').classList.add('s-nav-active');
+        </script>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">
+                    <span id="titulo"></span>
+                </h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="leitor_pdf" src="" style="height: 800px; width: 100%;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function mudar_pdf(titulo, url) {
+        document.getElementById('titulo').innerText = titulo
+        document.getElementById('leitor_pdf').src = '/static/pdfs/' + url
+    }
+    function hidden_all() {
+        elements = document.getElementsByClassName('categoria')
+        for (let index = 0; index < elements.length; index++) {
+            const element = elements[index];
+
+            element.classList.remove('show_form')
+            element.classList.add('hidden_form')
+        }
+    }
+    function show(id) {
+        hidden_all();
+        document.getElementById('search').value = '';
+        document.getElementById(id).classList.remove('hidden_form')
+        document.getElementById(id).classList.add('show_form')
+    }
+    function filterLi(e) {
+        hidden_all();
+
+        const searchText = e.value.trim().toLowerCase();
+
+        if (searchText.length < 3) {
+            return;
+        }
+
+        const liElements = document.querySelectorAll("#busca li");
+        liElements.forEach((li) => {
+            const liText = li.textContent.trim().toLowerCase();
+            if (liText.includes(searchText)) {
+                li.classList.remove("hidden_form");
+                li.classList.add("show_form");
+            } else {
+                li.classList.remove("show_form");
+                li.classList.add("hidden_form");
+            }
+        });
+        document.getElementById('busca').classList.remove("hidden_form");
+        document.getElementById('busca').classList.add("show_form");
+    }
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+</script>
+{% endblock %}

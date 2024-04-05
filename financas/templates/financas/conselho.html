@@ -1,0 +1,288 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load empreendedor_filters %}
+{% block nav %}
+{% include 'nav_financas.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/carrossel.css">
+<script src="/static/js/carrossel.js"></script>
+{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
+    <div class="row ">
+      <div class="col">
+        <h1>Conselho de Contribuintes</h1>
+        <p class="text-secondary mt-2" style="text-align: justify; text-indent: 40px;">
+          <i>
+            O Conselho de Contribuintes é um órgão colegiado, vinculado à Secretaria Municipal de Finanças, que tem por finalidade julgar em segunda instância administrativa os recursos voluntários interpostos pelos contribuintes contra decisões proferidas em primeira instância administrativa, no âmbito da Secretaria Municipal de Finanças.
+          </i>
+        </p>
+        <div class="row">
+          <div class="col mt-3 mb-4 p-2 border d-flex" style="background-color: white; border-radius: 30px;">
+            <button id="reunioes_btn" onclick="changeDiv('reunioes')" class="ms-3 btn btn-link"><i class="fa-solid fa-circle-dot me-2"></i>Reuniões</button>
+            <button id="pautas_btn" onclick="changeDiv('pautas')" class="ms-3 btn btn-link"><i class="fa-solid fa-circle-dot me-2"></i>Pautas de julgamento</button>
+            <button id="sumulas_btn" onclick="changeDiv('sumulas')" class="ms-4 btn btn-link"><i class="fa-solid fa-circle me-2"></i>Sumulas</button>
+            <button id="acordao_btn" onclick="changeDiv('acordao')" class="ms-4 btn btn-link"><i class="fa-solid fa-circle me-2"></i>Acórdão</button>
+            {% if conselheiro %}
+            <button id="votos_btn" onclick="changeDiv('votos')" class="ms-4 btn btn-link"><i class="fa-solid fa-lock me-2"></i>Votos</button>
+            <button id="atas_btn" onclick="changeDiv('atas')" class="ms-4 btn btn-link"><i class="fa-solid fa-lock me-2"></i>Atas</button>
+            {% endif %}
+            {% if admin %}
+            <a href="/financas/admin" class="ms-auto me-4 my-auto"><i class="fa-solid fa-circle-plus me-2"></i>Admin</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row border mb-4" id="reunioes" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <h2>Calendário de Reuniões</h2>
+            <p>O CONSELHO DE CONTRIBUINTES DE NOVA FRIBURGO de acordo com as deliberações ocorrerão nas reuniões ordinárias, divulga o calendário abaixo:</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>MÊS</th>
+                  <th>DATA</th>
+                  <th>DIA</th>
+                  <th>1ª CONVOCAÇÃO</th>
+                  <th>2ª CONVOCAÇÃO</th>
+                </tr>
+              </thead>
+              <tbody id="tdatas">
+                {% for data in datas %}
+                <tr>
+                  <td>ABRIL</td>
+                  <td>{{data.data|date:"d/m/y"}}</td>
+                  <td>{{data.get_dia_display}}</td>
+                  <td>10:00 HORAS</td>
+                  <td>10:30 HORAS</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <p><strong>Observação:</strong><br> O endereço para a realização das próximas reuniões será na Sala do Empreendedor- Avenida Alberto Braune, n° 225 - Centro - Nova Friburgo / RJ - CEP n° 28.613-001.</p>
+            
+          
+          </div>
+        </div>
+        <div class="row border mb-4" id="pautas" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <h2>Próximas reuniões do Conselho de Contribuintes de Nova Friburgo</h2>
+            {% for pauta in pautas %}
+            <hr class="mb-4"/>
+            <div class="row">
+              <div class="col d-flex flex-column">
+                  <h3 class="text-center">Pauta de julgamento para o dia<br>{{pauta.data}}.</h3>
+                  <p class="assunto">
+                    Por intermédio do Decreto n°2.407, de 26 de setembro de 2023 e no Capítulo IV
+                    da Lei Complementar n° 124/2018 - Código Tributário Municipal - CTM, os conselheiros titulares do Conselho Municipal de Contribuintes convocam para a reunião
+                    ordinária, a ser realizada no dia {{pauta.data}} a partir das {{pauta.hora}} horas, na sede da
+                    Prefeitura Municipal de Nova Friburgo, na Sala do Empreendedor- Avenida Alberto
+                    Braune, n° 225 - Centro - Nova Friburgo / RJ - CEP n° 28.613-001.                    
+                    <br/><br/>
+                    Oportunidade em que serão julgados os processos {{pauta.processos}}.
+                    <br/><br/>
+                    <strong>Representante:</strong> {{pauta.representante}}<br>
+                    <strong>Relator:</strong> {{pauta.relator}}
+                  </p>
+                  
+                  <a href="#" class="btn btn-dark mx-auto mt-3 mb-4">Ver pauta completa</a>
+              </div>                
+            </div>                
+            {% endfor %}
+          </div>
+        </div>
+        
+        <div class="row border mb-4" id="sumulas" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <h2>Súmulas Administrativas do Conselho de Contribuintes</h2>
+            <p class="text-secondary mt-2" style="text-align: justify;">
+              <i>
+                Fundamentação legal: Art. 122-A do Decreto Municipal 9.735/2005 – Regimento Interno do Conselho de Contribuintes.
+              </i>
+            </p>
+            {% for sumula in sumulas %}
+            <hr class="mb-4">
+            <div class="row">
+              <div class="col d-flex flex-column">
+                  <h3 class="text-center">Súmula Administrativa CCN Nº {{sumula.numero}}</h3>
+                  <p class="assunto">
+                    {{sumula.assunto}}
+                    <br><br>
+                    {{sumula.conteudo}}
+                  </p>                  
+              </div>                
+            </div>                
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="row border" id="acordao" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <h2>Inteiro Teor dos Acórdãos</h2>
+            <p class="text-secondary mt-2 mb-4" style="text-align: justify;">
+              <i>
+                O inteiro teor das decisões proferidas pelo Conselho de Contribuintes do Município de Niterói é inserido no site da SMF somente após a confirmação das decisões pela autoridade superior, conforme art. 86, inciso II, da Lei nº 3.386/2018.O inteiro teor das decisões proferidas pelo Conselho de Contribuintes do Município de Niterói é inserido no site da SMF somente após a confirmação das decisões pela autoridade superior, conforme art. 86, inciso II, da Lei nº 3.386/2018.
+              </i>
+            </p>     
+            <div class="d-flex flex-wrap">
+              {% for acordao in acordaos %}
+            <div class="d-flex flex-column me-2 mb-3" style="background-color: rgb(196, 196, 196); max-width: 280px; padding: 20px; border-radius: 20px;">
+              <h4 class="text-center">Nº {{acordao.numero}}/{{acordao.data|date:"Y"}}</h4>
+              <p class="assunto">
+                <strong>Recorrente:</strong> {{acordao.recorrente}}<br>
+                <strong>Recorridp:</strong> {{acordao.recorrido}}<br>
+                <strong>Relator:</strong> {{acordao.relator}}<br>
+                <strong>Processo:</strong> {{acordao.processo}}<br>
+                <strong>Ementa:</strong> {{acordao.ementa}}  <br>              
+              </p>
+              <a href="{{acordao.inteiro.url}}" class="btn btn-dark mx-auto mt-auto">Ver Inteiro Teor</a>
+            </div>                   
+            {% endfor %}            
+            </div>
+          </div>
+        </div>
+        <div class="row border" id="votos" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <h2>Votos do relator</h2>
+            <p class="text-secondary mt-2 mb-4" style="text-align: justify;">
+              <i>
+                
+              </i>
+            </p>     
+            <div class="d-flex flex-wrap">
+              {% for voto in votos %}
+            <div class="d-flex flex-column me-2 mb-3" style="background-color: rgb(196, 196, 196); max-width: 280px; padding: 20px; border-radius: 20px;">
+              <h4 class="text-center">{{voto.titulo}}</h4>              
+              <a href="{{voto.inteiro.url}}" class="btn btn-dark mx-auto mt-auto">Ver relatório</a>
+            </div>                   
+            {% endfor %}            
+            </div>
+          </div>
+        </div>
+        <div class="row border" id="atas" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <h2>Atas</h2>
+            <p class="text-secondary mt-2 mb-4" style="text-align: justify;">
+              <i>
+                
+              </i>
+            </p>     
+            <div class="d-flex flex-wrap">
+              {% for ata in atas %}
+            <div class="d-flex flex-column me-2 mb-3" style="background-color: rgb(196, 196, 196); max-width: 280px; padding: 20px; border-radius: 20px;">
+              <h4 class="text-center">{{ata.reuniao}}</h4>              
+              <p><strong>Participantes:</strong>
+              {% for participant in ata.participantes.all %}
+                {% if forloop.last %}
+                  e {{ participant }}
+                {% else %}
+                  {{ participant }},
+                {% endif %}
+              {% endfor %}
+              
+              </p>
+              <a href="{{ata.ata.url}}" class="btn btn-dark mx-auto mt-auto">Ver arquivo</a>
+            </div>                   
+            {% endfor %}            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  const divReunioes= document.getElementById('reunioes');
+  const btnReunioes = document.getElementById('reunioes_btn');
+  const divPautas = document.getElementById('pautas');
+  const btnPautas = document.getElementById('pautas_btn');
+  const divSumulas = document.getElementById('sumulas');
+  const btnSumulas = document.getElementById('sumulas_btn');
+  const divAcordao = document.getElementById('acordao');
+  const btnAcordao = document.getElementById('acordao_btn');
+  {% if conselheiro %}
+  const divAtas = document.getElementById('atas');
+  const btnAtas = document.getElementById('atas_btn');
+  const divVotos = document.getElementById('votos');
+  const btnVotos = document.getElementById('votos_btn');
+  {% endif %}
+  texto = {
+    pautas: 'Pautas de julgamento',
+    sumulas: 'Sumulas',
+    acordao: 'Acórdão',
+    reunioes: 'Reuniões'
+  }
+
+  function changeDiv(id){    
+    divReunioes.style.display = 'none';   
+    btnReunioes.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Reuniões';
+    divPautas.style.display = 'none';   
+    btnPautas.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Pautas de julgamento';
+    divPautas.style.display = 'none';   
+    btnPautas.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Pautas de julgamento';
+    divSumulas.style.display = 'none';
+    btnSumulas.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Sumulas';
+    divAcordao.style.display = 'none';
+    btnAcordao.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Acórdão';
+    {% if conselheiro %}
+    divAtas.style.display = 'none';
+    btnAtas.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Atas';
+    divVotos.style.display = 'none';
+    btnVotos.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Votos';
+    {% endif %}
+    if (id != ''){
+      divAtiva = document.getElementById(id)
+      divAtiva.style.display = 'block';
+      if (id == 'atas'){
+        btnAtas.innerHTML = '<i class="fa-solid fa-unlock me-2"></i>Votos';
+        
+      } else if (id == 'votos') {
+        btnVotos.innerHTML = '<i class="fa-solid fa-unlock me-2"></i>Votos';
+      }else{      
+      document.getElementById(id+'_btn').innerHTML = '<i class="fa-solid fa-circle-dot me-2"></i>'+texto[id];
+      }
+    }
+  }
+  changeDiv('')
+  
+  let tdataElements = document.querySelectorAll('table tbody tr'); // select all table rows within tbody
+
+tdataElements.forEach((element) => {
+  let dateText = element.children[1].textContent; // target the second column for date
+  let date = new Date(dateText);
+
+  if (date < new Date()) { // if the date is in the past
+    element.parentNode.removeChild(element); // remove the row
+  }
+});
+
+</script>
+<style>
+  .item{
+  padding-top: 15px;
+}
+.assunto{
+  max-width: 800px;
+  text-align: justify;
+  margin: 20px auto;
+  text-indent: 0px;
+}
+.btn-link{
+  text-decoration: none;
+}
+.assunto{
+  line-height: auto;
+}
+</style>
+
+  <script>
+    document.getElementById('index').classList.add('s-nav-active');
+  </script>
+
+
+{% endblock %}
