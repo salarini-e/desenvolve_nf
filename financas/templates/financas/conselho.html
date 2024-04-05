@@ -143,6 +143,7 @@
             </div>
           </div>
         </div>
+        {% if conselheiro %}
         <div class="row border" id="votos" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
           <div class="col">
             <h2>Votos do relator</h2>
@@ -161,6 +162,8 @@
             </div>
           </div>
         </div>
+        {% endif %}
+        {% if conselheiro %}
         <div class="row border" id="atas" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
           <div class="col">
             <h2>Atas</h2>
@@ -189,6 +192,7 @@
             </div>
           </div>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
