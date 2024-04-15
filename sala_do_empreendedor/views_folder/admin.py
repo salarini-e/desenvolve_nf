@@ -35,7 +35,7 @@ def export_fornecedores_excel(request):
 
     for fornecedor in fornecedores:
         atividades = ', '.join([atividade.atividade for atividade in fornecedor.atividade.all()])
-        ramos = ', '.join([ramo.nome for ramo in fornecedor.ramo.all()])
+        ramos = ', '.join([ramo.ramo for ramo in fornecedor.ramo.all()])
         ws.append([fornecedor.cnpj, fornecedor.nome, fornecedor.telefone, fornecedor.email, 
                fornecedor.porte.porte if fornecedor.porte else '', 
                atividades, 
