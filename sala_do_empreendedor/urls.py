@@ -136,5 +136,6 @@ urlpatterns = [
     # path('alimentar-oportunidades/', views.alimentar_oportunidades, name='alimentar_oportunidades'),
     path('linha-de-credito/solicitacao/', views.credito_facil, name='solicitacao_linha_de_credito'),
     path('export-empresas-excel/', views.export_empresas_to_excel, name='export_empresas_to_excel'),
+    path('adm/exportar-fornecedores/', views.export_fornecedores_excel, name='export_fornecedores_excel'),
     # 
 ]

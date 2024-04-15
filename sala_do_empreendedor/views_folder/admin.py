@@ -12,39 +12,42 @@ from secretaria_financas.decorators import funcionario_financas_required, setor_
 from sala_do_empreendedor.functions.email import send_email_for_create_process, send_email_for_att_process
 from openpyxl import Workbook
 
+import re
+from datetime import datetime
+
 @login_required
 @staff_member_required
-def export_credito_facil_excel(request):
-    if not request.user.is_superuser:
+def export_fornecedores_excel(request):
+    if not request.user.is_staff:
         return HttpResponseForbidden('Você não tem acesso a essa rota.')
 
-    # Cria um Workbook (arquivo Excel)
     wb = Workbook()
     ws = wb.active
-    ws.title = "Credito_Facil"  # Define o título da planilha
+    ws.title = "Fornecedores cadastrados PMNF" 
 
-    # Escreve os cabeçalhos das colunas
-    ws.append(['CNPJ da empresa', 'Telefone de contato/whatsapp', 'E-mail para contato', 
-               'Valor desejado (R$)', 'Motivação do empréstimo', 'Qual outra motivação do empréstimo?', 
-               'Usuário que cadastrou', 'Data de cadastro'])
 
-    # Obtém todos os registros de crédito fácil do banco de dados
-    creditos = Credito_Facil.objects.all()
+    ws.append(['CNPJ da empresa', 'Nome', 'Telefone', 
+               'Email', 'Porte', 'Atividade', 
+               'Ramo', 'Data de cadastro', 'Aceita receber mensagem/noticias?'])
 
-    # Adiciona os dados dos créditos ao arquivo Excel
-    for credito in creditos:
-        ws.append([credito.cnpj, credito.telefone, credito.email, str(credito.valor_desejado),
-                   credito.get_motivacao_emprestimo_display(), credito.outra_motivacao,
-                   credito.user_register.username if credito.user_register else '', str(credito.dt_register)])
 
-    # Define o nome do arquivo e o tipo de conteúdo da resposta HTTP
+    fornecedores = Empresa.objects.all()
+
+    for fornecedor in fornecedores:
+        atividades = ', '.join([atividade.atividade for atividade in fornecedor.atividade.all()])
+        ramos = ', '.join([ramo.nome for ramo in fornecedor.ramo.all()])
+        ws.append([fornecedor.cnpj, fornecedor.nome, fornecedor.telefone, fornecedor.email, 
+               fornecedor.porte.porte if fornecedor.porte else '', 
+               atividades, 
+               ramos, str(fornecedor.dt_register), fornecedor.receber_noticias])
+
+    data = datetime.now().strftime("%Y%m%d")
     response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="credito_facil.xlsx"'
-
-    # Salva o Workbook na resposta HTTP
+    response['Content-Disposition'] = f'attachment; filename="fornecedores_pmnf_{data}.xlsx"'
     wb.save(response)
 
     return response
+
 
 @login_required
 @funcionario_financas_required
@@ -183,7 +186,6 @@ def processos_concluidos(request):
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/concluidos.html', context)
 
 
-import re
 @login_required()
 @staff_member_required()
 def requerimento_iss_admin(request):
