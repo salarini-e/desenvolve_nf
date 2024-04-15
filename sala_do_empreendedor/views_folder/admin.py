@@ -28,7 +28,7 @@ def export_fornecedores_excel(request):
 
     ws.append(['CNPJ da empresa', 'Nome', 'Telefone', 
                'Email', 'Porte', 'Atividade', 
-               'Ramo', 'Data de cadastro', 'Aceita receber mensagem/noticias?'])
+               'Ramo', 'Outro ramo','Data de cadastro', 'Aceita receber mensagem/noticias?'])
 
 
     fornecedores = Empresa.objects.all()
@@ -39,7 +39,7 @@ def export_fornecedores_excel(request):
         ws.append([fornecedor.cnpj, fornecedor.nome, fornecedor.telefone, fornecedor.email, 
                fornecedor.porte.porte if fornecedor.porte else '', 
                atividades, 
-               ramos, str(fornecedor.dt_register), fornecedor.receber_noticias])
+               ramos, fornecedor.outro_ramo,str(fornecedor.dt_register), fornecedor.receber_noticias])
 
     data = datetime.now().strftime("%Y%m%d")
     response = HttpResponse(content_type='application/ms-excel')
