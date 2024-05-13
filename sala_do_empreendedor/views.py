@@ -7,7 +7,7 @@ from .views_folder.admin import *
 from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal, Novas_Oportunidades
 from .functions.pdde import Listar_Proposta, PDDE_POST
 from .functions.email import send_email_for_create_process, send_email_for_att_process
 from django.db import transaction
@@ -261,6 +261,53 @@ def novas_oportunidades(request):
         'form': form
     }
     return render(request, 'sala_do_empreendedor/form_novas_oportunidades.html', context)
+
+@login_required
+def export_novas_oportunidades(request):
+    if request.user.is_superuser:
+        response = HttpResponse(content_type='application/ms-excel')
+        data = datetime.now().strftime('%d-%m-%Y')
+        response['Content-Disposition'] = f'attachment; filename="novas_oportunidades-{data}.xls"'
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Facções"
+        ws.append(['CPF', 'Telefone', 'Email', 'Atividade Manual', 'Tipo de Costura', 'Tipo de Produção de Alimentos', 
+                   'Tipo de Produção de Bebidas', 'Renda Representação', 'Motivo Não Comercialização', 'Renda Mensal', 
+                   'Possui Empresa', 'Comercialização Produto', 'CEP Negócio', 'Alavancar Negócio', 'Usuário que Cadastrou', 
+                   'Data de Cadastro'])
+        
+        novas_oportunidades = Novas_Oportunidades.objects.all()
+
+        for oportunidade in novas_oportunidades:
+            atividade_manual = ', '.join([str(item) for item in oportunidade.atividade_manual.all()])
+            tipo_costura = ', '.join([str(item) for item in oportunidade.tipo_costura.all()])
+            tipo_producao_alimentos = ', '.join([str(item) for item in oportunidade.tipo_producao_alimentos.all()])
+            tipo_producao_bebidas = ', '.join([str(item) for item in oportunidade.tipo_producao_bebidas.all()])
+
+            ws.append([
+                oportunidade.cpf,
+                oportunidade.telefone,
+                oportunidade.email,
+                atividade_manual,
+                tipo_costura,
+                tipo_producao_alimentos,
+                tipo_producao_bebidas,
+                oportunidade.get_renda_representacao_display(),
+                oportunidade.get_motivo_nao_comercializacao_display(),
+                oportunidade.get_renda_mensal_display(),
+                oportunidade.get_possui_empresa_display(),
+                oportunidade.get_comercializacao_produto_display(),
+                oportunidade.cep_negocio,
+                oportunidade.alavancar_negocio,
+                oportunidade.user_register.username if oportunidade.user_register else '',
+                oportunidade.dt_register.strftime('%d-%m-%Y'),
+            ])
+        wb.save(response)
+        return response
+    else:
+        return HttpResponse('Acesso negado')
+
+
 
 def redirecionamento_novas_oportunidades(request):
     context={

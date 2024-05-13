@@ -33,6 +33,16 @@
           color: #666;
       }
   </style>
+  {% if request.user.is_superuser %}
+  <div class="row mb-3">
+    <div class="col-8 mx-auto d-flex" style="text-align: left; background-color: white; padding: 20px; border-radius: 20px;">
+      <h3 style="line-height: auto; margin: auto 0px;"><strong>ADMIN</strong></h3>
+      <a href="{% url 'empreendedor:exportar_faccao' %}" class="btn btn-success ms-auto my-auto">
+        <i class="fa-solid fa-file-excel me-1"></i> Exportar dados
+      </a>
+    </div>
+  </div>
+  {% endif %}
   {% if faccao %}
   <div class="row mb-3">
     <div class="col-8 mx-auto d-flex" style="text-align: left;">
