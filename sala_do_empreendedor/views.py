@@ -4,7 +4,7 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil, Form_Necessidades_das_Empresas
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal, Novas_Oportunidades
@@ -258,7 +258,7 @@ def novas_oportunidades(request):
         form = Form_Novas_Oportunidades()
     context ={
         'titulo': 'Sala do Empreendedor - Oportunidade de Negócios',
-        'form': form
+        'form': form,        
     }
     return render(request, 'sala_do_empreendedor/form_novas_oportunidades.html', context)
 

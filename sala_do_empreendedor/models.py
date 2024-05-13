@@ -674,3 +674,17 @@ class Credito_Facil(models.Model):
     def __str__(self):
         return f"Crédito Fácil - {self.cnpj} - R${self.valor_desejado} - {self.dt_register}"
     
+class Necessidades_das_Empresas(models.Model):
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, verbose_name='Empresa', null=True, blank=True)
+    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, blank=True)
+    capacitacao_empresarial = models.BooleanField(default=False, verbose_name='Capacitação empresarial')
+    capacitacao_profissional = models.BooleanField(default=False, verbose_name='Capacitação profissional')
+    credito = models.BooleanField(default=False, verbose_name='Crédito')
+    consultoria = models.BooleanField(default=False, verbose_name='Consultoria')
+    outro = models.BooleanField(default=False, verbose_name='Outro')
+    outro_descricao = models.CharField(max_length=128, verbose_name='Qual outra necessidade?', null=True, blank=True)
+    dt_inclusao = models.DateField(auto_now_add=True, verbose_name='Data de inclusão')
+
+    def __str__(self):
+        return f"Necessidades das Empresas - {self.id}"
+        

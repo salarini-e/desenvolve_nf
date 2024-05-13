@@ -309,3 +309,11 @@ class Form_Credito_Facil(forms.ModelForm):
                 'telefone': forms.TextInput(attrs={'class': 'form-control', 'onkeydown':'mascara(this, itel)'}),
                 'motivacao_emprestimo': forms.Select(attrs={'class': 'form-control', 'onchange': 'toggleMotivacao(this)'}),
         }
+
+class Form_Necessidades_das_Empresas(forms.ModelForm):
+    class Meta:
+        model = Necessidades_das_Empresas
+        exclude = ['empresa', 'dt_inclusao', 'user_register']
+        widgets = {          
+            'outro': forms.CheckboxInput(attrs={'class': 'form-check-input', 'onclick': 'toggleOutro()'}),
+        }
