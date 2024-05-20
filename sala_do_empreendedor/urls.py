@@ -3,6 +3,7 @@ from . import views
  
 app_name='empreendedor'
 urlpatterns = [
+    path('importar-empresas/', views.importar_empresas, name='importar_empresas'),
     path('', views.index, name='index'),
     
     path('consultar-protocolo', views.consultar_protocolo, name='consultar_protocolo'),

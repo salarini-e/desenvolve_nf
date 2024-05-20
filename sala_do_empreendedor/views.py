@@ -10,6 +10,7 @@ from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal, Novas_Oportunidades
 from .functions.pdde import Listar_Proposta, PDDE_POST
 from .functions.email import send_email_for_create_process, send_email_for_att_process
+from .functions.empresa import validate_CNPJ
 from django.db import transaction
 from guardiao.models import TentativaBurla, ErroPrevisto
 from datetime import datetime
@@ -18,6 +19,8 @@ from django.utils import timezone
 from django.http import HttpResponse
 from openpyxl import Workbook
 from .models import Empresa
+# import pandas as pd
+from autenticacao.models import User
 
 # Create your views here.
 def index(request):
@@ -1373,3 +1376,40 @@ def export_empresas_to_excel(request):
     wb.save(response)
 
     return response
+
+
+def importar_empresas(request):
+    # if request.method == 'POST' and request.FILES['excel_file']:
+    #     excel_file = request.FILES['excel_file']
+    #     # Carregar o arquivo Excel em um DataFrame do pandas
+    #     df = pd.read_excel(excel_file)
+
+    #     # Iterar sobre as linhas do DataFrame e criar ou atualizar objetos Empresa
+    #     for index, row in df.iterrows():
+    #         cnpj = validate_CNPJ(str(row['Número do CNPJ']))
+    #         nome =  row['Nome Fantasia']
+    #         porte = 
+    #         atividade =
+    #         outra_atividade =
+    #         ramo = 
+    #         outro_ramo = 
+    #         receber_noticias = 
+    #         telefone = row['Telefone - Exemplo: (99) 9999-9999']
+    #         whatsapp = row['Celular - Exemplo (99) 99999-9999']
+    #         email = ''
+    #         site
+    #         descricao = f'Representante: {row['Nome do Representante Legal']}'
+    #         user_register = User.objects.get(username='sistema')
+    #         validacao = True
+    #         cadastrada_como_fornecedo = True
+
+    #         empresa, created = Empresa.objects.get_or_create(cnpj=cnpj)
+    #         empresa.nome =
+    #         empresa.telefone = row['Telefone - Exemplo: (99) 9999-9999']
+    #         empresa.whatsapp = row['Celular - Exemplo (99) 99999-9999']
+    #         empresa.porte = row['Porte da Empresa']
+    #         empresa.save()
+
+    #     return render(request, 'importar_sucesso.html')
+    # else:
+        return render(request, 'importar_form.html')

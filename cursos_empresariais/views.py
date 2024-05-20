@@ -18,6 +18,7 @@ from random import shuffle
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
+from django.http import JsonResponse
 
 def index(request):
     try:
