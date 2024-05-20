@@ -169,7 +169,7 @@
         myModal_Ineressados.toggle()
     }
 
-    function remover(id) {
+    function remover(id) {        
         fetch(`/sala-do-empreendedor/remover-interessado/${id}/`) 
         .then(response => response.json())
         .then(data => {

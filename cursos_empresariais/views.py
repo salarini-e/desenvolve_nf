@@ -652,7 +652,7 @@ def cadastrar_categoria(request):
     return render(request, 'adm/cursos/cadastrar_categoria.html', context)
 
 @staff_member_required
-def remover_interessado(request, id_curso, id):
+def remover_interessado(request, id):
     try:
         interessado = Alertar_Aluno_Sobre_Nova_Turma.objects.get(id=id)
         interessado.alertado = True
