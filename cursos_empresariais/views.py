@@ -365,7 +365,7 @@ def matricular(request, tipo, id):
                         aluno=candidato,
                         curso=curso
                     )
-                    messages.success(request, 'Você será informado quando abrir o a inscrição de uma nova turma para este curso!')
+                    messages.success(request, "Você acaba de realizar sua pré-inscrição para o curso! Entraremos em contato por e-mail ou WhatsApp para finalizar sua inscrição nesta edição do curso, ou para agendar sua participação em uma próxima, caso o número de vagas já tenha sido preenchido!")
                     return redirect(reverse('cursos_empresariais:matricula', args=[tipo,id]))
             
             messages.success(
