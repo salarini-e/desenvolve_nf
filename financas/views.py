@@ -191,13 +191,14 @@ def conselho(request):
                 'pautas': pautas,
                 'sumulas': sumulas,
                 'acordaos': acordao,
-                'conselheiro': conselheiros,
+                'conselheiros': conselheiros,
                 'atas': atas,
                 'votos': votos
         }
     if request.user.is_authenticated:
         pessoa = Pessoa.objects.get(user=request.user)
-        if conselheiros.filter(cpf=pessoa.cpf).exists():
+        conselheiro=conselheiros.filter(cpf=pessoa.cpf)
+        if len(conselheiro)>0:
             context['conselheiro']=True
             if conselheiros.get(cpf=pessoa.cpf).admin:
                 context['admin']=True
@@ -207,5 +208,6 @@ def conselho(request):
         else:
             context['conselheiro']=False
             context['admin']=False
-    
+    else:
+        print('fuck')
     return render(request, 'financas/conselho.html', context)

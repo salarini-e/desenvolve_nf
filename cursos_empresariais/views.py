@@ -628,12 +628,26 @@ def adm_curso_detalhes(request, id):
     context = {
         'curso': curso,
         'interessados': interessados,
-        'matrizesCur': matrizCur
+        'matrizesCur': matrizCur,
+        'id': id
     }
     return render(request, 'adm/cursos/adm_cursos_detalhes.html', context)
 
-# @staff_member_required
-# def adm_cadastrar_
+@staff_member_required
+def adm_cursos_interessados_excel(request, id):
+    curso = Curso.objects.get(id=id)
+    alunos = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=curso, alertado=False)
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename=interessados_{curso.nome}.xlsx'
+    wb = Workbook()
+    ws = wb.active
+    ws.title = f'Alunos Interessados - {curso.nome}'
+    ws.append(['Nome', 'Dt. inclusão', 'CPF', 'Email', 'Telefone', 'Bairro'])
+    for aluno in alunos:
+        ws.append([aluno.aluno.pessoa.nome, str(aluno.dt_inclusao), aluno.aluno.pessoa.cpf, aluno.aluno.pessoa.email, aluno.aluno.pessoa.telefone, aluno.aluno.pessoa.bairro])
+    wb.save(response)
+    return response
+
 
 
 @staff_member_required

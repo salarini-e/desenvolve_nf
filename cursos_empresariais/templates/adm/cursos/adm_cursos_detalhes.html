@@ -18,6 +18,7 @@
         <button class="btn btn-primary ms-2" id="btn_lista_interessados" onclick="showList()">Lista de Interessados</button>
 
         <button class="btn btn-primary ms-2" id="btn_matriz_curricular" onclick="showMatrix()">Matriz Curricular</button>
+        <a href="{% url 'cursos_empresariais:adm_cursos_interessados_excel' id %}" class="btn btn-success ms-2"><i class="fa-solid fa-file-arrow-down me-2"></i>Excel</a>
     </div>
 </div>
 
@@ -26,7 +27,7 @@
         <table class="table">
            <thead>
             <th>Nome</th>
-            <th>Disponibilidade</th>
+            <th>Dt. inclusão</th>
             <th>CPF</th>
             <th>Email</th>
             <th>Telefone</th>
@@ -41,16 +42,7 @@
                     {{interessado.aluno.pessoa.nome}}
                 </td>
                 <td>
-                    {% for i in interessado.aluno.disponibilidade.all %}
-                        {{ i }}
-                        {% if not forloop.last %}
-                            {% if forloop.revcounter == 2 %}
-                                e 
-                            {% else %}
-                                , 
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
+                    {{interessado.dt_inclusao|date:"d/m/y"}}
                 </td>
                 <td>
                     {{interessado.aluno.pessoa.cpf}}
