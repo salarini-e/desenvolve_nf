@@ -1374,7 +1374,7 @@ def export_empresas_to_excel(request):
 
         # Define o nome do arquivo e o tipo de conteúdo da resposta HTTP
         response = HttpResponse(content_type='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename="empresas.xlsx"'
+        response['Content-Disposition'] = f'attachment; filename="empresas_{dt_now}.xlsx"'
 
         # Salva o Workbook na resposta HTTP
         wb.save(response)
