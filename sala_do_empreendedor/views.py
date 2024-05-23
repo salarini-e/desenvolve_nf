@@ -1353,7 +1353,7 @@ def export_empresas_to_excel(request):
     if request.method == 'POST':
         wb = Workbook()
         ws = wb.active
-        dt_now = datetime.now().strftime('%d-%m-%Y')
+        dt_now = dt_now = timezone.now().strftime('%Y-%m-%d_%H-%M-%S')
         ws.title = f"empresas_{dt_now}"  # Define o título da planilha
 
         # Escreve os cabeçalhos das colunas
