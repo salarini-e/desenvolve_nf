@@ -4,7 +4,7 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil, Form_Necessidades_das_Empresas
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil, Form_Necessidades_das_Empresas, FormRamos
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
 from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal, Novas_Oportunidades
@@ -1342,6 +1342,7 @@ def credito_facil(request):
     }
     return render(request, 'sala_do_empreendedor/credito_facil/emprestimo.html', context)
 
+
 @login_required
 def export_empresas_to_excel(request):
     if request.user.is_superuser:
@@ -1349,33 +1350,40 @@ def export_empresas_to_excel(request):
     else:
         HttpResponseForbidden('Você não tem acesso a essa rota.')
     # Cria um Workbook (arquivo Excel)
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Empresas"  # Define o título da planilha
+    if request.method == 'POST':
+        wb = Workbook()
+        ws = wb.active
+        dt_now = datetime.now().strftime('%d-%m-%Y')
+        ws.title = f"empresas_{dt_now}"  # Define o título da planilha
 
-    # Escreve os cabeçalhos das colunas
-    ws.append(['CNPJ', 'Nome da empresa', 'Porte da empresa', 'Atividade', 'Outra atividade',
-               'Ramo de atuação', 'Outro ramo', 'Telefone de contato', 'Whatsapp da empresa',
-               'E-mail da empresa', 'Site da empresa', 'Descrição da empresa', 'Data de cadastro'])
+        # Escreve os cabeçalhos das colunas
+        ws.append(['CNPJ', 'Nome da empresa', 'Porte da empresa', 'Atividade', 'Outra atividade',
+                'Ramo de atuação', 'Outro ramo', 'Telefone de contato', 'Whatsapp da empresa',
+                'E-mail da empresa', 'Site da empresa', 'Descrição da empresa', 'Data de cadastro', 'Deseja receber noticias?'])
 
-    # Obtém todas as empresas do banco de dados
-    empresas = Empresa.objects.all()
+        # Obtém todas as empresas do banco de dados
+        ramos_selecionados = request.POST.getlist('ramo')        
+        empresas = Empresa.objects.filter(ramo__in=ramos_selecionados, receber_noticias=True)
 
-    # Adiciona os dados das empresas ao arquivo Excel
-    for empresa in empresas:
-        ws.append([empresa.cnpj, empresa.nome, empresa.porte.porte  , ', '.join(str(atividade) for atividade in empresa.atividade.all()),
-                   empresa.outra_atividade, ', '.join(str(ramo) for ramo in empresa.ramo.all()), empresa.outro_ramo,
-                   empresa.telefone, empresa.whatsapp, empresa.email, empresa.site, empresa.descricao,
-                   empresa.dt_register])
+        # Adiciona os dados das empresas ao arquivo Excel
+        for empresa in empresas:
+            ws.append([empresa.cnpj, empresa.nome, empresa.porte.porte  , ', '.join(str(atividade) for atividade in empresa.atividade.all()),
+                    empresa.outra_atividade, ', '.join(str(ramo) for ramo in empresa.ramo.all()), empresa.outro_ramo,
+                    empresa.telefone, empresa.whatsapp, empresa.email, empresa.site, empresa.descricao,
+                    empresa.dt_register, empresa.receber_noticias])
 
-    # Define o nome do arquivo e o tipo de conteúdo da resposta HTTP
-    response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="empresas.xlsx"'
+        # Define o nome do arquivo e o tipo de conteúdo da resposta HTTP
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="empresas.xlsx"'
 
-    # Salva o Workbook na resposta HTTP
-    wb.save(response)
+        # Salva o Workbook na resposta HTTP
+        wb.save(response)
 
-    return response
+        return response
+    context = {
+        'form' : FormRamos()
+    }
+    return render(request, 'sala_do_empreendedor/admin/mapeamento_filtrar.html', context)
 
 
 def importar_empresas(request):

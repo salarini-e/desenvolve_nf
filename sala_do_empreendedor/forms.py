@@ -26,6 +26,15 @@ class FormEmpresa(ModelForm):
         
         return cnpj
     
+class FormRamos(ModelForm):
+    
+    class Meta:
+        model = Empresa
+        fields = ['ramo',]
+        widgets = {
+            'ramo': forms.CheckboxSelectMultiple(),
+        }
+
 class FormAlterarEmpresa(ModelForm):
     class Meta:
         model = Empresa

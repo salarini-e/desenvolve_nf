@@ -19,7 +19,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
-
+from django.utils import timezone
 def index(request):
     try:
         eventos = Evento.objects.filter(app_name='cursos', is_destaque = True)
@@ -638,7 +638,8 @@ def adm_cursos_interessados_excel(request, id):
     curso = Curso.objects.get(id=id)
     alunos = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso=curso, alertado=False)
     response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = f'attachment; filename=interessados_{curso.nome}.xlsx'
+    dt_now = timezone.now().strftime('%Y-%m-%d_%H-%M-%S')
+    response['Content-Disposition'] = f'attachment; filename=interessados_{curso.nome}_{dt_now}.xlsx'
     wb = Workbook()
     ws = wb.active
     ws.title = f'Alunos Interessados - {curso.nome}'
