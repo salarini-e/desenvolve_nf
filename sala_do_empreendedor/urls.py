@@ -79,7 +79,8 @@ urlpatterns = [
     # Criar novo processo
     path('processos/criar-novo/', views.novo_processo, name='novo_processo'),
     path('processos-digitais/requerimento-ISSQ/', views.requerimento_ISSQN, name='requerimento_issqn'),
-    path('processos/criar-novo/requerimento-iss/', views.requerimento_iss, name='requerimento_iss'),
+    path('processos/criar-novo/requerimento-iss/', views.em_construcao, name='requerimento_iss'),
+    # path('processos/criar-novo/requerimento-iss/', views.requerimento_iss, name='requerimento_iss'),
     path('adm/processos/criar-novo/requerimento-iss/', views.requerimento_iss_admin, name='requerimento_iss_admin'),
     # Envio de documentos requeridos
     path('processos/criar-novo/envio-de-documentos/<n_protocolo>/', views.requerimento_documentos, name='requerimento_iss_doc'),
