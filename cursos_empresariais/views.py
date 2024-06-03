@@ -379,7 +379,7 @@ def matricular(request, tipo, id):
                     if Alertar_Aluno_Sobre_Nova_Turma.check_duplicate(aluno=candidato,curso=curso):
                         messages.error(request, 'Você já realizou uma pré-inscrição para este curso! Aguarde nosso contato para finalizar sua inscrição.')
                     else:
-                        Alertar_Aluno_Sobre_Nova_Turma.check_duplicate(
+                        Alertar_Aluno_Sobre_Nova_Turma.objects.create(
                             aluno=candidato,
                             curso=curso
                         )
