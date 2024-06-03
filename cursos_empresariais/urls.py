@@ -93,5 +93,5 @@ urlpatterns = [
     path('admin/cursos/aluno/<id>/editar', views.adm_aluno_editar, name="adm_aluno_editar"),
     path('admin/cursos/aluno/<id>/matricular/', views.matricular_aluno, name="adm_aluno_matricular"),
     path('admin/cursos/aluno/<matricula>/desmatricular', views.desmatricular_aluno, name="adm_desmatricular_aluno"),
-
+    path('capacitacao-empresarial/retirar-duplicadas/', views.retirar_duplicadas, name='retirar_duplicadas'),
 ]

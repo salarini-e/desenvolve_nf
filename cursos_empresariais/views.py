@@ -39,7 +39,14 @@ def index(request):
 
     return render(request, 'cursos_empresariais/index.html', context)
 
-
+def retirar_duplicadas(request):
+    alertas = Alertar_Aluno_Sobre_Nova_Turma.objects.all()
+    count = 0
+    for alerta in alertas:
+        if Alertar_Aluno_Sobre_Nova_Turma.objects.filter(aluno=alerta.aluno, curso=alerta.curso, alertado=False).count() > 1:
+            alerta.delete()
+            count+=1
+    return HttpResponse(f'{count} duplicadas removidas')
 
 def cursos(request):
     tipo='cursos'
@@ -56,8 +63,16 @@ def cursos(request):
         'cursos': cursos,
         'form': form,
         'titulo': apps.get_app_config('cursos_empresariais').verbose_name,        
-        'tipo': tipo
+        'tipo': tipo,
     }
+    if request.user.is_authenticated:
+        pessoa=Pessoa.objects.get(user=request.user)
+        try:
+            aluno=Aluno.objects.get(pessoa=pessoa)
+            context['alertas']=Alertar_Aluno_Sobre_Nova_Turma.objects.filter(aluno=aluno, alertado=False)
+        except:
+            pass
+        
     if tipo == 'cursos':
         return render(request, 'cursos_empresariais/cursos.html', context)
     elif tipo == 'palestras':  
@@ -361,11 +376,14 @@ def matricular(request, tipo, id):
                     #     return render(request, 'cursos_empresariais/pre_matricula.html', context)
                 except:
                     # pode_entrar=False
-                    Alertar_Aluno_Sobre_Nova_Turma.objects.create(
-                        aluno=candidato,
-                        curso=curso
-                    )
-                    messages.success(request, "Você acaba de realizar sua pré-inscrição para o curso! Entraremos em contato por e-mail ou WhatsApp para finalizar sua inscrição nesta edição do curso, ou para agendar sua participação em uma próxima, caso o número de vagas já tenha sido preenchido!")
+                    if Alertar_Aluno_Sobre_Nova_Turma.check_duplicate(aluno=candidato,curso=curso):
+                        messages.error(request, 'Você já realizou uma pré-inscrição para este curso! Aguarde nosso contato para finalizar sua inscrição.')
+                    else:
+                        Alertar_Aluno_Sobre_Nova_Turma.check_duplicate(
+                            aluno=candidato,
+                            curso=curso
+                        )
+                        messages.success(request, "Você acaba de realizar sua pré-inscrição para o curso! Entraremos em contato por e-mail ou WhatsApp para finalizar sua inscrição nesta edição do curso, ou para agendar sua participação em uma próxima, caso o número de vagas já tenha sido preenchido!")
                     return redirect(reverse('cursos_empresariais:matricula', args=[tipo,id]))
             
             messages.success(

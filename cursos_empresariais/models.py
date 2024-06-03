@@ -437,6 +437,9 @@ class Alertar_Aluno_Sobre_Nova_Turma(models.Model):
     alertado=models.BooleanField(default=False)
     dt_inclusao = models.DateTimeField(auto_now_add=True)
 
+    def check_duplicate(aluno, curso):
+        return Alertar_Aluno_Sobre_Nova_Turma.objects.filter(aluno=aluno, curso=curso).exists()
+            
 class Disciplinas(models.Model):
     class Meta:
         verbose_name = 'Disciplina'
