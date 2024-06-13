@@ -278,7 +278,7 @@ class Aluno(models.Model):
     )
 
     pessoa=models.OneToOneField(Pessoa, on_delete=models.CASCADE, editable=False, related_name='aluno_pessoa_empresarial')
-
+    cnpj=models.CharField(max_length=18, verbose_name='CNPJ da empresa, caso possua', null=True)
     profissão = models.CharField(max_length=150, verbose_name='Profissão', null=True)
     escolaridade = models.CharField(max_length=3, choices=ESCOLARIDADE_CHOICES, verbose_name='Escolaridade', null=True, blank=True)
     estado_civil = models.CharField(max_length=1, choices=ESTADOCIVIL_CHOICES, verbose_name='Estado Civil', null=True)

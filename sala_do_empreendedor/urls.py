@@ -5,6 +5,7 @@ app_name='empreendedor'
 urlpatterns = [
     path('importar-empresas/', views.importar_empresas, name='importar_empresas'),
     path('', views.index, name='index'),
+    path('cursos/', views.cursos, name='cursos'),
     
     path('consultar-protocolo', views.consultar_protocolo, name='consultar_protocolo'),
     

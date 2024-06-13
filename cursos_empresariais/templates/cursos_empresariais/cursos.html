@@ -10,14 +10,12 @@
 {% endblock %}
 {% block main %}
 <div class="row container mx-auto">
-  <div class="col d-flex py-5">
+  <div class="row mx-auto ps-4 pb-2 pt-1">
+    {% include 'slide_cevest.html' %}
+  </div>
+  <div class="col d-flex pb-5">
     <div class="row w-100">
       <div class="col pb-4 m-auto">
-        <!-- <div class="row py-3 px-4">
-                    <div class="col bg p-5">
-                        <h1 class="display-4 text-center">CURSOS LIVRES</h1>
-                    </div>
-                </div> -->
         <div class="row filtragem visually-hidden">
           <div class="col d-flex">
             <div class="ms-auto text-dark pb-3">
@@ -45,13 +43,13 @@
                 </div>              -->
         {% if request.user.is_authenticated %}
         <div class="row">
-          <div class="col text-dark px-4 pt-4">
+          <div class="col text-dark px-4 pb-4">
             <div class="row">
-              <div class="col">
+              <!-- <div class="col">
                 <h1 class="text-uppercase">
                   Capacitação Empresarial
                 </h1>
-              </div>
+              </div> -->
               <div class="col d-flex">
                 <a href="{% url 'cursos_empresariais:editar_cadastro' %}" class="btn btn-dark ms-auto my-auto">
                   <i class="fa-solid fa-user-gear me-1"></i> Editar cadastro
@@ -370,11 +368,7 @@
   }
 </script>
 <script>
-  {% if tipo == 'cursos' %}
   document.getElementById('empreendedor_capacita').classList.add('s-nav-active');
-  {% elif tipo == 'palestras' %}
-  document.getElementById('s-palestras').classList.add('s-nav-active');
-  {% endif %}
 
   div = document.querySelector('.listaEspera')
   open = false

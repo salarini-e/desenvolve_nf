@@ -12,6 +12,7 @@ urlpatterns = [
     path('chat/', include('chat.urls')),
     path('sala-do-empreendedor/', include('sala_do_empreendedor.urls')),
     path('sala-do-empreendedor/', include('cursos_empresariais.urls')),
+    path('sala-do-empreendedor/', include('cursos_profissionais.urls')),
     path('financas/', include('financas.urls')),
     path('eventos/', include('eventos.urls')),
 

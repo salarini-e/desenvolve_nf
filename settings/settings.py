@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'chamados_dev',
     'sala_do_empreendedor',
     'cursos_empresariais',
+    'cursos_profissionais',
     'api',
     'chat',
     'guardiao',

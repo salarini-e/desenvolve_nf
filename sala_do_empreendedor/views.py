@@ -30,6 +30,14 @@ def index(request):
     }
     return render(request, 'sala_do_empreendedor/index.html', context)
 
+def cursos(request):
+    context = {
+         'titulo': 'Sala do Empreendedor - Capacitação',
+        # 'titulo': apps.get_app_config('financas').verbose_name,
+    }
+    return render(request, 'sala_do_empreendedor/cursos.html', context)
+
+
 def conheca_nossa_sala(request):
     context = { 
         'titulo': 'Sala do Empreendedor - Conheça nossa sala',   

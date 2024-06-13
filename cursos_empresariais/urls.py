@@ -4,20 +4,20 @@ from . import views
  
 app_name='cursos_empresariais'
 urlpatterns = [
-    path('capacitacao-empresarial/', views.cursos, name='home'),
-    path('capacitacao-empresarial/area-do-estudante/', views.area_do_estudante, name='area_do_estudante'),
-    path('capacitacao-empresarial/editar-cadastro/', views.editar_cadastro, name='editar_cadastro'),
-    path('capacitacao-empresarial/editar-senha/', views.alterar_senha, name='alterar_senha'),
-    path('capacitacao-empresarial/editar-cadastro-pessoa/', views.editar_cadastro_pessoa, name='editar_cadastro_pessoa'),
-    path('capacitacao-empresarial/atividade/<tipo>', views.cursos, name="cursos"),            
-    path('capacitacao-empresarial/atividade/<tipo>/<filtro>', views.cursos_filtrado, name="filtrar"),            
-    path('capacitacao-empresarial/atividade/<tipo>/<id>/detalhe', views.curso_detalhe, name="curso_detalhe"),            
-    path('capacitacao-empresarial/atividade/<tipo>/<id>/matricular', views.matricular, name="matricula"),            
+    path('cursos/empresariais/', views.cursos, name='home'),
+    path('cursos/empresariais/area-do-estudante/', views.area_do_estudante, name='area_do_estudante'),
+    path('cursos/empresariais/editar-cadastro/', views.editar_cadastro, name='editar_cadastro'),
+    path('cursos/empresariais/editar-senha/', views.alterar_senha, name='alterar_senha'),
+    path('cursos/empresariais/editar-cadastro-pessoa/', views.editar_cadastro_pessoa, name='editar_cadastro_pessoa'),
+    path('cursos/empresariais/atividade/<tipo>', views.cursos, name="cursos"),            
+    path('cursos/empresariais/atividade/<tipo>/<filtro>', views.cursos_filtrado, name="filtrar"),            
+    path('cursos/empresariais/atividade/<tipo>/<id>/detalhe', views.curso_detalhe, name="curso_detalhe"),            
+    path('cursos/empresariais/atividade/<tipo>/<id>/matricular', views.matricular, name="matricula"),            
     # path('prematricula/', views.prematricula, name="prematricula"),
-    path('capacitacao-empresarial/ensino-superior/', views.ensino_superior, name="ensino_superior"),
-    path('capacitacao-empresarial/ensino-tecnico/', views.ensino_tecnico, name="ensino_tecnico"),
-    path('capacitacao-empresarial/curriculo-vitae/', views.curriculo_vitae, name="curriculo_vitae"),
-    path('capacitacao-empresarial/exportar_excel/', views.exportar_para_excel, name='exportar_excel'),
+    path('cursos/empresariais/ensino-superior/', views.ensino_superior, name="ensino_superior"),
+    path('cursos/empresariais/ensino-tecnico/', views.ensino_tecnico, name="ensino_tecnico"),
+    path('cursos/empresariais/curriculo-vitae/', views.curriculo_vitae, name="curriculo_vitae"),
+    path('cursos/profissionais/empresariais/exportar_excel/', views.exportar_para_excel, name='exportar_excel'),
     path('capacitacao-empresarial/exportar_excel/por-turma/', views.exportar_para_excel_por_turma, name='exportar_excel_por_turma'),
 
     #ADMINISTRATIVO
