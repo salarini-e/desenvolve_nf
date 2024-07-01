@@ -4,10 +4,10 @@ from .forms import LeadForm
 from django.apps import apps
 from django.contrib import messages
 import asyncio
-from datetime import datetime
+from datetime import date
 
 def index(request):
-    cursos = Curso.objects.filter(validade__gte=datetime.date.today())
+    cursos = Curso.objects.filter(validade__gte=date.today())
     context = {
         'titulo': apps.get_app_config('cursos_profissionais').verbose_name,
         'cursos': cursos
