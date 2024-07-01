@@ -4,11 +4,13 @@ from .forms import LeadForm
 from django.apps import apps
 from django.contrib import messages
 import asyncio
+from datetime import datetime
 
 def index(request):
+    cursos = Curso.objects.filter(validade__gte=datetime.date.today())
     context = {
         'titulo': apps.get_app_config('cursos_profissionais').verbose_name,
-        'cursos': Curso.objects.all()
+        'cursos': cursos
     }
     return render(request, 'cursos_profissionais/index.html', context)
 
@@ -31,22 +33,3 @@ def inscrever(request, id):
         'form': form
     }
     return render(request, 'cursos_profissionais/inscricao.html', context)
-
-# def index(request):
-#     try:
-#         eventos = Evento.objects.filter(app_name='cursos', is_destaque = True)
-#     except:
-#         eventos=[]
-    
-#     cursos = list(Curso.objects.filter(tipo='C', ativo=True).order_by('?')[:9])
-#     palestras = list(Curso.objects.filter(tipo='P', ativo=True).order_by('?')[:4])
-#     shuffle(cursos)
-#     context = { 
-#         'titulo': apps.get_app_config('cursos_empresariais').verbose_name,
-#         'eventos': eventos,
-#         'cursos': cursos,   
-#         'cursos_en': Curso_Ensino_Superior.objects.all()[:4],
-#         'palestras': palestras 
-#     }
-
-#     return render(request, 'cursos_empresariais/index.html', context)
