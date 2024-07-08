@@ -7,7 +7,9 @@ import asyncio
 from datetime import date
 
 def index(request):
-    cursos = Curso.objects.filter(validade__gte=date.today())
+    cursos_sem_destaque = Curso.objects.filter(validade__gte=date.today(), destaque=False)
+    cursos_destaque = Curso.objects.filter(validade__gte=date.today(), destaque=True)
+    cursos = list(cursos_destaque) + list(cursos_sem_destaque)
     context = {
         'titulo': apps.get_app_config('cursos_profissionais').verbose_name,
         'cursos': cursos

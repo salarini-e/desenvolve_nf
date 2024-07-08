@@ -12,7 +12,8 @@ class Curso(models.Model):
     parceiro = models.CharField(max_length=100)
     user_register = models.ForeignKey(User, on_delete=models.CASCADE)
     data_register = models.DateTimeField(auto_now_add=True)
-
+    destaque = models.BooleanField(default=False)
+    
     def __str__(self):
         return f'{self.nome} - {self.parceiro}'
     
