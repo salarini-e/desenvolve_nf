@@ -92,7 +92,7 @@ INSTALLED_APPS = [
     'api',
     'chat',
     'guardiao',
-    
+    'financas_recadastramento',
     #secreatarias
     'secretaria_financas',
     'django_cpf_cnpj',

@@ -1,0 +1,418 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load empreendedor_filters %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
+    <div class="row ">
+      <div class="col">
+        <h1>Serviços Internos</h1>
+        <!-- <p class="text-secondary mt-2" style="text-align: justify; text-indent: 40px;">
+          <i>
+            O Conselho de Contribuintes é um órgão colegiado, vinculado à Secretaria Municipal de Finanças, que tem por finalidade julgar em segunda instância administrativa os recursos voluntários interpostos pelos contribuintes contra decisões proferidas em primeira instância administrativa, no âmbito da Secretaria Municipal de Finanças.
+          </i>
+        </p> -->
+        <div class="row">
+          <div class="col mt-3 mb-4 p-2 border d-flex" style="background-color: white; border-radius: 30px;">
+            <button id="reunioes_btn" onclick="changeDiv('reunioes')" class="ms-3 btn btn-link"><i class="fa-solid fa-circle-dot me-2"></i>Contribuintes</button>
+            <button id="pautas_btn" onclick="changeDiv('pautas')" class="ms-3 btn btn-link"><i class="fa-solid fa-circle-dot me-2"></i>Processos/requerimentos</button>
+            <button id="sumulas_btn" onclick="changeDiv('sumulas')" class="ms-4 btn btn-link"><i class="fa-solid fa-circle me-2"></i>Inscrições</button>
+            {% csrf_token %}
+          </div>
+        </div>
+        <div class="row border mb-4" id="reunioes" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <div class="row">
+                <div class="col d-flex">
+                    <h2>Contribuintes</h2>
+                    <button class="ms-auto mb-auto btn btn-outline-dark">
+                        <i class="fa-solid fa-magnifying-glass"></i> Localizar
+                    </button>
+                </div>
+            </div>            
+            <form id="recadastramentoForm">
+            <div class="row">                
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf" class="form-control" onkeyup="mascara(this, icpf)" onblur="checkCPF(this.value)" maxlength="14" id="id_cpf"><small class="text-danger">{{form.error.cpf}}</small></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_responsavel_tributario">Responsável tributário:</label></th><td><input type="text" name="responsavel_tributario" class="form-control" maxlength="150" required id="id_responsavel_tributario"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cnpj">Cnpj:</label></th><td><input type="text" name="cnpj" class="form-control" maxlength="14" id="id_cnpj"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_nome_do_contribuinte">Nome do contribuinte:</label></th><td><input type="text" name="nome_do_contribuinte" class="form-control" maxlength="150" required id="id_nome_do_contribuinte"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_celular">Celular:</label></th><td><input type="text" name="celular" class="form-control" maxlength="15" id="id_celular"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cep">Cep:</label></th><td><input type="text" name="cep" class="form-control" maxlength="9" id="id_cep" onkeydown="icep(this)" onblur="getCEP(this)"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_rua">Rua:</label></th><td><input type="text" name="rua" class="form-control" maxlength="150" id="id_rua"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero" class="form-control" maxlength="10" id="id_numero"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_complemento">Complemento:</label></th><td><input type="text" name="complemento" class="form-control" maxlength="50" id="id_complemento"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_bairro">Bairro:</label></th><td><input type="text" name="bairro" class="form-control" maxlength="50" id="id_bairro"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cidade">Cidade:</label></th><td><input type="text" name="cidade" class="form-control" maxlength="50" id="id_cidade"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_estado">Estado:</label></th><td><input type="text" name="estado" class="form-control" maxlength="2" id="id_estado"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_email">Email:</label></th><td><input type="email" name="email" class="form-control" maxlength="254" id="id_email"></div>
+                                                    
+            </div>            
+            </form>
+            <button class="btn btn-outline-primary mt-3" onclick="cadastrarPessoa(this)">
+                Enviar
+            </button>
+          
+          </div>
+        </div>
+        <!-- INICIO -->
+        <div class="row border mb-4" id="pautas" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">            
+            <div class="row">
+                <div class="col d-flex">
+                    <h2>Processos/Requerimentos</h2>
+                    <button class="ms-auto mb-auto btn btn-outline-dark">
+                        <i class="fa-solid fa-magnifying-glass"></i> Localizar
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf_processo" class="form-control" onkeyup="mascara(this, icpf)"  onblur="checkCPF_Processo(this.value)" maxlength="14" id="id_cpf_processo"></div>
+                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_requerente">Requerente:</label></th><td><input type="text" name="requerente" class="form-control" maxlength="150" required id="id_requerente"></div>
+                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_requerimento">Requerimento:</label></th><td><input type="text" name="requerimento" class="form-control" maxlength="20" required id="id_requerimento"></div>
+                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_ano">Ano:</label></th><td><input type="number" name="ano" class="form-control" required id="id_ano"></div>
+                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_localizacao">Localização:</label></th><td><input type="text" name="localizacao" class="form-control" maxlength="100" required id="id_localizacao"></div>
+            </div>
+            <button class="btn btn-outline-primary mt-3">
+                Enviar
+            </button>
+          </div>
+        </div>
+        <!-- FIM -->
+        <!-- INICIO -->
+        <div class="row border mb-4" id="sumulas" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <div class="row">
+                <div class="col d-flex">
+                    <h2>Incrições</h2>
+                    <button class="ms-auto btn btn-outline-dark mb-auto">
+                        <i class="fa-solid fa-magnifying-glass"></i> Localizar
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf_inscricao" class="form-control" onkeyup="mascara(this, icpf)"  onblur="checkCPF_Inscricao(this.value)" maxlength="14" id="id_cpf_inscricao"></div>
+                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero_inscricao" class="form-control" maxlength="20" required id="id_numero"></div>
+            </div>
+            <button class="btn btn-outline-primary mt-3">
+                Enviar
+            </button>
+            </div>
+          </div>
+        </div>
+        <!-- FIM -->
+         
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  const divReunioes= document.getElementById('reunioes');
+  const btnReunioes = document.getElementById('reunioes_btn');
+  const divPautas = document.getElementById('pautas');
+  const btnPautas = document.getElementById('pautas_btn');
+  const divSumulas = document.getElementById('sumulas');
+  const btnSumulas = document.getElementById('sumulas_btn');
+
+  texto = {
+    pautas: 'Processos/requerimentos',
+    sumulas: 'Inscrições',
+    reunioes: 'Contribuintes',
+  }
+
+  function changeDiv(id){    
+    divReunioes.style.display = 'none';   
+    btnReunioes.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Contribuintes';
+    divPautas.style.display = 'none';   
+    btnPautas.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Processos/requerimentos';
+    divSumulas.style.display = 'none';
+    btnSumulas.innerHTML = '<i class="fa-solid fa-circle me-2"></i>Inscrições';
+    
+    if (id != ''){
+      divAtiva = document.getElementById(id)
+      divAtiva.style.display = 'block';
+      document.getElementById(id+'_btn').innerHTML = '<i class="fa-solid fa-circle-dot me-2"></i>'+texto[id];
+    }
+  }
+  changeDiv('')
+  
+</script>
+<style>
+  .item{
+  padding-top: 15px;    
+}
+.assunto{
+  max-width: 800px;
+  text-align: justify;
+  margin: 20px auto;
+  text-indent: 0px;
+}
+.btn-link{
+  text-decoration: none;
+}
+.assunto{
+  line-height: auto;
+}
+</style>
+
+  <script>
+    document.getElementById('empreendedor_admin').classList.add('s-nav-active');
+
+    function icpf(v){
+                v=v.replace(/\D/g,"")                    //Remove tudo o que nao e digito
+                v=v.replace(/(\d{3})(\d)/,"$1.$2")       //Coloca um ponto entre o terceiro e o quarto digitos
+                v=v.replace(/(\d{3})(\d)/,"$1.$2")       //Coloca um ponto entre o terceiro e o quarto digitos
+                                                        //de novo (para o segundo bloco de numeros)
+                v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2") //Coloca um hifen entre o terceiro e o quarto digitos
+                return v
+            }
+    function itel(v){
+                        v=v.replace(/\D/g,"")                 //Remove tudo o que nao e digito
+                        v=v.replace(/^(\d\d)(\d)/g,"($1) $2") //Coloca parenteses em volta dos dois primeiros digitos
+                        console.log(v.length)
+                        if (v.length<14){
+                          v=v.replace(/(\d{4})(\d)/,"$1-$2")    //Coloca hifen entre o quarto e o quinto digitos
+                        }else{
+                          v=v.replace(/(\d{4,5})(\d)/,"$1-$2")    //Coloca hifen entre o quarto e o quinto digitos
+                        }
+                        
+                        return v
+            }
+    function icep(input) {
+            input.value = input.value.replace(/\D/g, '');
+
+            // Verifica se o valor tem pelo menos 5 dígitos
+            if (input.value.length > 5) {
+            // Insere o traço após o quinto dígito
+            input.value = input.value.substring(0, 5) + '-' + input.value.substring(5);
+            }
+            }
+    function mascara(o,f){
+                v_obj=o
+                v_fun=f
+                setTimeout("execmascara()",1)
+            }
+        
+    function execmascara(){
+                v_obj.value=v_fun(v_obj.value)
+            }
+
+    const cp_bairro = document.getElementById('id_bairro')
+    const cp_rua = document.getElementById('id_rua')
+    const cp_cidade = document.getElementById('id_cidade')
+    const cp_estado = document.getElementById('id_estado')
+
+    function getCEP(input){
+            icep(input)
+            v=input.value
+            if(v.length == 9){
+                let cep = v.replace("-","")
+                buscaEndereco(cep);
+
+            }
+            }
+    function buscaEndereco(cep){
+            let url = "https://viacep.com.br/ws/"+cep+"/json/";
+            fetch(url)
+            .then((response)=>{
+                response.json()
+                .then((data)=>{
+                    autoComplete(data)
+                })
+            })
+            }
+    function removeAccents(string) {
+            return string.replace(/[ÀÁÂÃÄÅàáâã]/g, "?")
+                .replace(/[ÈÉÊËÈèé]/g, "?")
+                .replace(/[ÌÍÎÏìíî]/g, "?")
+                .replace(/[ÒÓÔÕÖóòõ]/g, "?")
+                .replace(/[ÙÚÛÜùúû]/g, "?")
+                .replace(/[Çç]/g, "?")
+            }
+    async function autoComplete(end){
+        console.log(end)
+        if (end.logradouro != undefined){
+            cp_rua.value = end.logradouro;
+        }
+        if (end.bairro != undefined){
+            cp_bairro.value = end.bairro;
+            console.log(end)
+        }
+        if (end.localidade != undefined){
+            cp_cidade.value = end.localidade;
+        }
+        if (end.uf != undefined){
+            cp_estado.value = end.uf;
+        }
+    
+    }
+    function checkCPF(cpf){
+            const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
+            const csrfToken = csrfTokenInput.value;
+            let url = "/recadastramento/checkcpf/";
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cpf: cpf })
+            })
+            .then((response)=>{
+                response.json()
+                .then((data)=>{
+                    const cpfInput = document.getElementById("id_cpf");
+                    let smallError = cpfInput.nextElementSibling; // Verifique se já existe um elemento irmão
+
+                    if (data.exists) {
+                        if (!smallError || smallError.tagName !== "SMALL") {
+                            smallError = document.createElement("small");
+                            smallError.classList.add("text-danger");
+                            cpfInput.parentNode.insertBefore(smallError, cpfInput.nextSibling);
+                        }
+                        smallError.textContent = data.message;
+                    } else {
+                        // Se exists for false, remova a mensagem de erro existente
+                        if (smallError && smallError.tagName === "SMALL") {
+                            smallError.remove();
+                        }
+                    }
+                })
+            })
+            }
+    function checkCPF_Processo(cpf){
+    const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
+    const csrfToken = csrfTokenInput.value;
+    let url = "/recadastramento/checkcpf-2/";
+    fetch(url,{
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cpf: cpf })
+    })
+    .then((response)=>{
+        response.json()
+        .then((data)=>{
+            const cpfInput = document.getElementById("id_cpf_processo");
+            let smallError = cpfInput.nextElementSibling; // Verifique se já existe um elemento irmão
+            if (smallError && smallError.tagName === "SMALL") {
+                        smallError.remove();
+                    }
+            if (data.exists) {
+                if (!smallError || smallError.tagName !== "SMALL") {
+                    smallError = document.createElement("small");
+                    smallError.classList.add("text-success");
+                    cpfInput.parentNode.insertBefore(smallError, cpfInput.nextSibling);
+                }
+                // smallError.textContent = data.message;
+            } else {
+                smallError = document.createElement("small");
+                smallError.classList.add("text-danger");
+                cpfInput.parentNode.insertBefore(smallError, cpfInput.nextSibling);
+                }
+                smallError.innerHTML = data.message;
+                
+                
+            })
+        })
+    }
+    function checkCPF_Inscricao(cpf){
+        const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
+        const csrfToken = csrfTokenInput.value;
+        let url = "/recadastramento/checkcpf-2/";
+        fetch(url,{
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cpf: cpf })
+        })
+        .then((response)=>{
+            response.json()
+            .then((data)=>{
+            const cpfInput = document.getElementById("id_cpf_inscricao");
+            let smallError = cpfInput.nextElementSibling; // Verifique se já existe um elemento irmão
+            if (smallError && smallError.tagName === "SMALL") {
+                        smallError.remove();
+                    }
+            if (data.exists) {
+                if (!smallError || smallError.tagName !== "SMALL") {
+                    smallError = document.createElement("small");
+                    smallError.classList.add("text-success");
+                    cpfInput.parentNode.insertBefore(smallError, cpfInput.nextSibling);
+                }
+                // smallError.textContent = data.message;
+            } else {
+                smallError = document.createElement("small");
+                smallError.classList.add("text-danger");
+                cpfInput.parentNode.insertBefore(smallError, cpfInput.nextSibling);
+                }
+                smallError.innerHTML = data.message;
+                
+                
+            })
+        })
+    }
+    async function cadastrarPessoa(e) {
+    e.preventDefault();
+    const form = document.getElementById('recadastramentoForm');
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch('/cadastrar-pessoa/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // Função para pegar o CSRF token
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            // Limpar o formulário em caso de sucesso
+            form.reset();
+            alert('Cadastro realizado com sucesso!');
+        } else {
+            const errorData = await response.json();
+            console.log('Erro ao cadastrar:', errorData);
+            alert('Erro ao cadastrar, por favor, verifique os dados.');
+        }
+    } catch (error) {
+        console.error('Erro ao realizar a requisição:', error);
+        alert('Erro ao realizar a requisição, tente novamente.');
+    }
+}
+
+// Função para obter o CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+
+{% endblock %}

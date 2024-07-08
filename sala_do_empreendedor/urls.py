@@ -65,7 +65,7 @@ urlpatterns = [
     path('oportunidade-de-negocios', views.oportunidade_de_negocios, name='oportunidade'),
     path('oportunidade-de-negocios/dados/', views.oportunidade_de_negocios_dados, name='dados_oportunidades'),
     path('novas-oportunidades/', views.novas_oportunidades, name='novas_oportunidades'),
-    path('novas-oportunidades/exportar/', views.export_novas_oportunidades, name='novas_oportunidades'),
+    path('novas-oportunidades/exportar/', views.export_novas_oportunidades, name='novas_oportunidades_exportar'),
     path('novas-oportunidades/reuniao-sebrae/', views.redirecionamento_novas_oportunidades, name='reuniao_sebrae'),
     #PROCESSOS
     # Opções
