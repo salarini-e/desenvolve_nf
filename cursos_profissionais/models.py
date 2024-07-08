@@ -7,7 +7,7 @@ class Curso(models.Model):
     nome = models.CharField(max_length=100)
     img_1 = models.ImageField(upload_to='cursos_profissionais/img')
     img_2 = models.ImageField(upload_to='cursos_profissionais/img')
-    link = models.CharField(max_length=100)
+    link = models.CharField(max_length=150)
     validade = models.DateField()
     parceiro = models.CharField(max_length=100)
     user_register = models.ForeignKey(User, on_delete=models.CASCADE)
