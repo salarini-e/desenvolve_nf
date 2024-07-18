@@ -21,11 +21,12 @@ def index(request):
     }
     return render(request, 'recadastramento/index.html', context)
 
-
+from django.db import IntegrityError
 @login_required
 def atualziacao_cadastral(request):
     pessoa = Pessoa.objects.get(user = request.user)
     error = json.dumps({})
+    messages_ = []
     try:        
         pessoaR = PessoaRecadastramento.objects.get(cpf=pessoa.cpf)
     except:
@@ -37,29 +38,49 @@ def atualziacao_cadastral(request):
             form = _PessoaRecadastramentoForm(request.POST, instance=instante)
         except:
             form = _PessoaRecadastramentoForm(request.POST)
-        print(request.POST)
+
         if form.is_valid():
             form.save()
             if 'n_inscricao' in request.POST:
                 print(request.POST['n_inscricao'])
                 print(request.POST.getlist('n_inscricao'))
                 for i in request.POST.getlist('n_inscricao'):
-                    inscricao = Inscricao(
-                        pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=pessoa.cpf),
-                        numero_inscricao=i
-                    )
-                    inscricao.full_clean()
-                    inscricao.save()
-            message = 'Cadastro atualizado com sucesso!'
+                    try:
+                        inscricao = Inscricao(
+                            pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=pessoa.cpf),
+                            numero_inscricao=i
+                        )
+                        inscricao.full_clean()
+                        inscricao.save()                            
+                    except Exception as e:
+                        error_message = str(e)
+                        if 'numero_inscricao' in error_message:
+                            if i == '':
+                                messages_.append({
+                                'msg': 'Inscrição inválida.',
+                                'status': 'error'
+                            })
+                            else:
+                                messages_.append({
+                                    'msg': f'Erro ao cadastrar a inscrição {i}, pois essa inscrição já existe.',
+                                    'status': 'error'
+                                })
+                        else:                           
+                        
+                            messages_.append({
+                                'msg': 'Ocorreu um erro inesperado ao cadastrar a inscrição.',
+                                'status': 'error'
+                            })
+            messages_.append({'msg':'Seu cadastro de contribuinte foi atualizado com sucesso!', 'status': 'success'})
             
-        else:
-            error = form.errors.as_json()
-            message = 'Erro ao atualizar cadastro. Verifique os campos.'
+        else:            
+            messages_.append({'msg':'Erro ao atualizar cadastro. Verifique os campos.', 'status': 'error'})
             
     context = {
         'titulo': 'Sala do Empreendedor - Serviços Internos',        
         'pessoa': pessoaR,
         'error': error,
+        'messages_': messages_,
     }
     return render(request, 'recadastramento/tela_contribuinte.html', context)
 

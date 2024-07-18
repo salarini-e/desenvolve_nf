@@ -72,7 +72,7 @@
                
                 <button type="submit" class="btn btn-primary w-100 mb-3 mt-3">CADASTRAR-SE</button>
                 
-                <a href="/login">
+                <a href="/login" id="login">
                     <small>
                         Login
                     </small>
@@ -246,6 +246,17 @@
                     }
                 })
             })
-            }
-    
+            }            
+      function getNextParameter() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('next');
+    }
+
+    // Exemplo de uso
+    const nextParam = getNextParameter();
+    if (nextParam) {
+        document.getElementById('login').href += '?next=' + nextParam;
+        // Aqui você pode usar o valor de nextParam conforme necessário
+    } 
+
 </script>
