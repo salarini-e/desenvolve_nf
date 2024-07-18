@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('recadastramento/', include('financas_recadastramento.urls')),
+    path('atualizacao/', include('financas_recadastramento.urls')),
     path('', include('autenticacao.urls')),
     path('', include('desenvolve_nf.urls')),
     path('api/', include('api.urls')),

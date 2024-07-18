@@ -12,5 +12,5 @@ urlpatterns = [
        path('sala-do-empreendedor/get-empresas/', views.Listar_Empresas.as_view()),
        path('cursos/get-interessados/<int:curso_id>/', views.AlunosInteressadosView.as_view(), name='listar_alunos_interessados'),
        path('cursos/get-cursos/', views.Listar_Cursos.as_view(), name='listar_cursos'),
-   
+       path('contribuinte/', views.get_pessoa_by_cpf, name='get_pessoa_by_cpf'),
 ]

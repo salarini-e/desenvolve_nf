@@ -35,3 +35,4 @@ def inscrever(request, id):
         'form': form
     }
     return render(request, 'cursos_profissionais/inscricao.html', context)
+

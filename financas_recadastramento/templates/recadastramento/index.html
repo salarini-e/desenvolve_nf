@@ -38,18 +38,18 @@
             </div>            
             <form id="recadastramentoForm">
             <div class="row">                
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf" class="form-control" onkeyup="mascara(this, icpf)" onblur="checkCPF(this.value)" maxlength="14" id="id_cpf"><small class="text-danger">{{form.error.cpf}}</small></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf" class="form-control" onkeyup="mascara(this, icpf)" onblur="checkCPF(this.value)" maxlength="14" id="id_cpf"></div>
                     <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_responsavel_tributario">Responsável tributário:</label></th><td><input type="text" name="responsavel_tributario" class="form-control" maxlength="150" required id="id_responsavel_tributario"></div>
                     <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cnpj">Cnpj:</label></th><td><input type="text" name="cnpj" class="form-control" maxlength="14" id="id_cnpj"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_nome_do_contribuinte">Nome do contribuinte:</label></th><td><input type="text" name="nome_do_contribuinte" class="form-control" maxlength="150" required id="id_nome_do_contribuinte"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_nome_do_contribuinte">Nome do contribuinte:</label></th><td><input type="text" name="nome_do_contribuinte" class="form-control text-capitalize" maxlength="150" required id="id_nome_do_contribuinte"></div>
                     <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_celular">Celular:</label></th><td><input type="text" name="celular" class="form-control" maxlength="15" id="id_celular"></div>
                     <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cep">Cep:</label></th><td><input type="text" name="cep" class="form-control" maxlength="9" id="id_cep" onkeydown="icep(this)" onblur="getCEP(this)"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_rua">Rua:</label></th><td><input type="text" name="rua" class="form-control" maxlength="150" id="id_rua"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_rua">Rua:</label></th><td><input type="text" name="rua" class="form-control text-capitalize" maxlength="150" id="id_rua"></div>
                     <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero" class="form-control" maxlength="10" id="id_numero"></div>
                     <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_complemento">Complemento:</label></th><td><input type="text" name="complemento" class="form-control" maxlength="50" id="id_complemento"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_bairro">Bairro:</label></th><td><input type="text" name="bairro" class="form-control" maxlength="50" id="id_bairro"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cidade">Cidade:</label></th><td><input type="text" name="cidade" class="form-control" maxlength="50" id="id_cidade"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_estado">Estado:</label></th><td><input type="text" name="estado" class="form-control" maxlength="2" id="id_estado"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_bairro">Bairro:</label></th><td><input type="text" name="bairro" class="form-control text-capitalize" maxlength="50" id="id_bairro"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cidade">Cidade:</label></th><td><input type="text" name="cidade" class="form-control text-capitalize" maxlength="50" id="id_cidade"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_estado">Estado:</label></th><td><input type="text" name="estado" class="form-control text-capitalize" maxlength="2" id="id_estado"></div>
                     <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_email">Email:</label></th><td><input type="email" name="email" class="form-control" maxlength="254" id="id_email"></div>
                                                     
             </div>            
@@ -71,14 +71,16 @@
                     </button>
                 </div>
             </div>
+            <form id="processoForm">
             <div class="row">
                 <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf_processo" class="form-control" onkeyup="mascara(this, icpf)"  onblur="checkCPF_Processo(this.value)" maxlength="14" id="id_cpf_processo"></div>
-                <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_requerente">Requerente:</label></th><td><input type="text" name="requerente" class="form-control" maxlength="150" required id="id_requerente"></div>
+                <!-- <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_requerente">Requerente:</label></th><td><input type="text" name="requerente" class="form-control" maxlength="150" required id="id_requerente"></div> -->
                 <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_requerimento">Requerimento:</label></th><td><input type="text" name="requerimento" class="form-control" maxlength="20" required id="id_requerimento"></div>
                 <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_ano">Ano:</label></th><td><input type="number" name="ano" class="form-control" required id="id_ano"></div>
                 <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_localizacao">Localização:</label></th><td><input type="text" name="localizacao" class="form-control" maxlength="100" required id="id_localizacao"></div>
             </div>
-            <button class="btn btn-outline-primary mt-3">
+            </form>
+            <button class="btn btn-outline-primary mt-3" onclick="cadastrarProcesso(this)">
                 Enviar
             </button>
           </div>
@@ -87,6 +89,7 @@
         <!-- INICIO -->
         <div class="row border mb-4" id="sumulas" style="border-radius: 30px; background-color: white; padding: 40px 40px;">
           <div class="col">
+            
             <div class="row">
                 <div class="col d-flex">
                     <h2>Incrições</h2>
@@ -95,11 +98,13 @@
                     </button>
                 </div>
             </div>
+            <form id="inscricaoForm">            
             <div class="row">
                 <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf_inscricao" class="form-control" onkeyup="mascara(this, icpf)"  onblur="checkCPF_Inscricao(this.value)" maxlength="14" id="id_cpf_inscricao"></div>
                 <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero_inscricao" class="form-control" maxlength="20" required id="id_numero"></div>
             </div>
-            <button class="btn btn-outline-primary mt-3">
+            </form>
+            <button class="btn btn-outline-primary mt-3" onclick="cadastrarInscricao(this)">
                 Enviar
             </button>
             </div>
@@ -165,7 +170,7 @@
 </style>
 
   <script>
-    document.getElementById('empreendedor_admin').classList.add('s-nav-active');
+    // document.getElementById('empreendedor_admin').classList.add('s-nav-active');
 
     function icpf(v){
                 v=v.replace(/\D/g,"")                    //Remove tudo o que nao e digito
@@ -206,10 +211,19 @@
                 v_obj.value=v_fun(v_obj.value)
             }
 
-    const cp_bairro = document.getElementById('id_bairro')
+    const cp_cpf = document.getElementById('id_cpf')
+    const cp_responsavel_tributario= document.getElementById('id_responsavel_tributario')
+    const cp_cnpj = document.getElementById('id_cnpj')
+    const cp_nome_do_contribuinte = document.getElementById('id_nome_do_contribuinte')
+    const cp_celular = document.getElementById('id_celular')
+    const cp_cep = document.getElementById('id_cep')
     const cp_rua = document.getElementById('id_rua')
+    const cp_numero = document.getElementById('id_numero')
+    const cp_complemento = document.getElementById('id_complemento')
+    const cp_bairro = document.getElementById('id_bairro')
     const cp_cidade = document.getElementById('id_cidade')
     const cp_estado = document.getElementById('id_estado')
+    const cp_email = document.getElementById('id_email')
 
     function getCEP(input){
             icep(input)
@@ -272,14 +286,27 @@
                 .then((data)=>{
                     const cpfInput = document.getElementById("id_cpf");
                     let smallError = cpfInput.nextElementSibling; // Verifique se já existe um elemento irmão
-
                     if (data.exists) {
+                        pessoa = JSON.parse(data.pessoa);
                         if (!smallError || smallError.tagName !== "SMALL") {
                             smallError = document.createElement("small");
                             smallError.classList.add("text-danger");
                             cpfInput.parentNode.insertBefore(smallError, cpfInput.nextSibling);
                         }
                         smallError.textContent = data.message;
+                        cp_responsavel_tributario.value = pessoa[0].fields.responsavel_tributario;
+                        cp_cnpj.value = pessoa[0].fields.cnpj;
+                        cp_nome_do_contribuinte.value = pessoa[0].fields.nome_do_contribuinte;
+                        cp_celular.value = pessoa[0].fields.celular;
+                        cp_cep.value = pessoa[0].fields.cep;
+                        cp_numero.value = pessoa[0].fields.numero;
+                        cp_complemento.value = pessoa[0].fields.complemento;
+                        cp_bairro.value = pessoa[0].fields.bairro;
+                        cp_email.value = pessoa[0].fields.email;
+                        cp_bairro.value = pessoa[0].fields.bairro;
+                        cp_rua.value = pessoa[0].fields.rua;
+                        cp_cidade.value = pessoa[0].fields.cidade;
+                        cp_estado.value = pessoa[0].fields.estadi;
                     } else {
                         // Se exists for false, remova a mensagem de erro existente
                         if (smallError && smallError.tagName === "SMALL") {
@@ -366,33 +393,122 @@
         })
     }
     async function cadastrarPessoa(e) {
-    e.preventDefault();
-    const form = document.getElementById('recadastramentoForm');
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+        // e.preventDefault();
+        const form = document.getElementById('recadastramentoForm');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
 
-    try {
-        const response = await fetch('/cadastrar-pessoa/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken') // Função para pegar o CSRF token
-            },
-            body: JSON.stringify(data)
-        });
+        // Remove mensagens de erro anteriores
+        const errorElements = document.querySelectorAll('.text-danger');
+        errorElements.forEach(element => element.remove());
 
-        if (response.ok) {
-            // Limpar o formulário em caso de sucesso
-            form.reset();
-            alert('Cadastro realizado com sucesso!');
-        } else {
-            const errorData = await response.json();
-            console.log('Erro ao cadastrar:', errorData);
-            alert('Erro ao cadastrar, por favor, verifique os dados.');
+        try {
+            const response = await fetch('cadastrar-pessoa/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Função para pegar o CSRF token
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response)
+            if (response.ok) {
+                // Limpar o formulário em caso de sucesso
+                form.reset();
+                alert('Cadastro realizado com sucesso!');
+            } else {
+                const errorData = await response.json();
+                console.log('Erro ao cadastrar:', errorData);
+                displayErrors(errorData.errors);
+                alert('Erro ao cadastrar, por favor, verifique os dados.');
+            }
+        } catch (error) {
+            console.error('Erro ao realizar a requisição:', error);
+            alert('Erro ao realizar a requisição, tente novamente.');
         }
-    } catch (error) {
-        console.error('Erro ao realizar a requisição:', error);
-        alert('Erro ao realizar a requisição, tente novamente.');
+    }
+    async function cadastrarProcesso(e) {
+        // e.preventDefault();
+        const form = document.getElementById('processoForm');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Remove mensagens de erro anteriores
+        const errorElements = document.querySelectorAll('.text-danger');
+        errorElements.forEach(element => element.remove());
+
+        try {
+            const response = await fetch('cadastrar-processo/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Função para pegar o CSRF token
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response)
+            if (response.ok) {
+                // Limpar o formulário em caso de sucesso
+                form.reset();
+                alert('Cadastro realizado com sucesso!');
+            } else {
+                const errorData = await response.json();
+                console.log('Erro ao cadastrar:', errorData);
+                displayErrors(errorData.errors);
+                alert('Erro ao cadastrar, por favor, verifique os dados.');
+            }
+        } catch (error) {
+            console.error('Erro ao realizar a requisição:', error);
+            alert('Erro ao realizar a requisição, tente novamente.');
+        }
+    }
+    async function cadastrarInscricao(e) {
+        // e.preventDefault();
+        const form = document.getElementById('inscricaoForm');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Remove mensagens de erro anteriores
+        const errorElements = document.querySelectorAll('.text-danger');
+        errorElements.forEach(element => element.remove());
+
+        try {
+            const response = await fetch('cadastrar-inscricao/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Função para pegar o CSRF token
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response)
+            if (response.ok) {
+                // Limpar o formulário em caso de sucesso
+                form.reset();
+                alert('Cadastro realizado com sucesso!');
+            } else {
+                const errorData = await response.json();
+                console.log('Erro ao cadastrar:', errorData);
+                displayErrors(errorData.errors);
+                alert('Erro ao cadastrar, por favor, verifique os dados.');
+            }
+        } catch (error) {
+            console.error('Erro ao realizar a requisição:', error);
+            alert('Erro ao realizar a requisição, tente novamente.');
+        }
+    }
+// Função para exibir erros de validação
+function displayErrors(errors) {
+    for (const [field, messages] of Object.entries(errors)) {
+        const fieldElement = document.getElementById(`id_${field}`);
+        if (fieldElement) {
+            messages.forEach(message => {
+                const small = document.createElement('small');
+                small.classList.add('text-danger');
+                small.textContent = message;
+                fieldElement.parentNode.appendChild(small);
+            });
+        }
     }
 }
 

@@ -1,0 +1,237 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load empreendedor_filters %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
+    <div class="row ">
+      <div class="col">
+        <h1>Atualização cadastral</h1>        
+        <div class="row border mb-4" style="border-radius: 30px; background-color: white; padding: 40px 40px;">         
+            <form method="POST">
+            <div class="row" id="fields-container">      
+                     {% csrf_token %}          
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf" class="form-control" readonly onkeyup="mascara(this, icpf)" maxlength="14" id="id_cpf" value="{{pessoa.cpf}}"></div>                    
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_nome_do_contribuinte">Nome do contribuinte:</label></th><td><input type="text" name="nome_do_contribuinte" class="form-control text-capitalize" maxlength="150" required id="id_nome_do_contribuinte" value="{% if pessoa.nome_do_contribuinte %}{{pessoa.nome_do_contribuinte}}{% else %}{{pessoa.nome}}{% endif %}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_celular">Celular:</label></th><td><input type="text" name="celular" class="form-control" maxlength="15" onkeydown="mascara(this, itel)" id="id_celular" value="{% if pessoa.celular %}{{pessoa.celular}}{%else %}{{pessoa.telefone}}{% endif %}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cep">Cep:</label></th><td><input type="text" name="cep" class="form-control" maxlength="9" id="id_cep" onkeydown="icep(this)" onblur="getCEP(this)" value="{{pessoa.cep}}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_rua">Rua:</label></th><td><input type="text" name="rua" class="form-control text-capitalize" maxlength="150" id="id_rua" value="{% if pessoa.rua %}{{pessoa.rua}}{% else %}{{pessoa.endereco}}{% endif %}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero" class="form-control" maxlength="10" id="id_numero" value="{{pessoa.numero}}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_complemento">Complemento:</label></th><td><input type="text" name="complemento" class="form-control" maxlength="50" id="id_complemento" value="{{pessoa.complemento}}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_bairro">Bairro:</label></th><td><input type="text" name="bairro" class="form-control text-capitalize" maxlength="50" id="id_bairro" VALUE="{{pessoa.bairro}}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cidade">Cidade:</label></th><td><input type="text" name="cidade" class="form-control text-capitalize" maxlength="50" id="id_cidade" value="{{pessoa.cidade}}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_estado">Estado:</label></th><td><input type="text" name="estado" class="form-control text-uppercase" maxlength="2" id="id_estado" value="{{pessoa.estado}}"></div>
+                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_email">Email:</label></th><td><input type="email" name="email" class="form-control" maxlength="254" id="id_email" value="{{pessoa.email}}"></div>                                                    
+            </div>            
+
+            <button type="button" class="btn btn-dark mt-3" onclick="addField()">Adicionar Inscrição municipal</button>
+            <br>
+            <button class="btn btn-success mt-3">
+                Enviar
+            </button>
+            </form>
+            
+          
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  const divReunioes= document.getElementById('reunioes');
+  const btnReunioes = document.getElementById('reunioes_btn');
+  const divPautas = document.getElementById('pautas');
+  const btnPautas = document.getElementById('pautas_btn');
+  const divSumulas = document.getElementById('sumulas');
+  const btnSumulas = document.getElementById('sumulas_btn');
+
+  texto = {
+    pautas: 'Processos/requerimentos',
+    sumulas: 'Inscrições',
+    reunioes: 'Contribuintes',
+  }
+  
+</script>
+<style>
+  .item{
+  padding-top: 15px;    
+}
+.assunto{
+  max-width: 800px;
+  text-align: justify;
+  margin: 20px auto;
+  text-indent: 0px;
+}
+.btn-link{
+  text-decoration: none;
+}
+.assunto{
+  line-height: auto;
+}
+</style>
+
+  <script>
+    // document.getElementById('empreendedor_admin').classList.add('s-nav-active');
+
+    function icpf(v){
+                v=v.replace(/\D/g,"")                    //Remove tudo o que nao e digito
+                v=v.replace(/(\d{3})(\d)/,"$1.$2")       //Coloca um ponto entre o terceiro e o quarto digitos
+                v=v.replace(/(\d{3})(\d)/,"$1.$2")       //Coloca um ponto entre o terceiro e o quarto digitos
+                                                        //de novo (para o segundo bloco de numeros)
+                v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2") //Coloca um hifen entre o terceiro e o quarto digitos
+                return v
+            }
+    function itel(v){
+                        v=v.replace(/\D/g,"")                 //Remove tudo o que nao e digito
+                        v=v.replace(/^(\d\d)(\d)/g,"($1) $2") //Coloca parenteses em volta dos dois primeiros digitos
+                        if (v.length<14){
+                          v=v.replace(/(\d{4})(\d)/,"$1-$2")    //Coloca hifen entre o quarto e o quinto digitos
+                        }else{
+                          v=v.replace(/(\d{4,5})(\d)/,"$1-$2")    //Coloca hifen entre o quarto e o quinto digitos
+                        }
+                        
+                        return v
+            }
+    function icep(input) {
+            input.value = input.value.replace(/\D/g, '');
+
+            // Verifica se o valor tem pelo menos 5 dígitos
+            if (input.value.length > 5) {
+            // Insere o traço após o quinto dígito
+            input.value = input.value.substring(0, 5) + '-' + input.value.substring(5);
+            }
+            }
+    function mascara(o,f){
+                v_obj=o
+                v_fun=f
+                setTimeout("execmascara()",1)
+            }
+        
+    function execmascara(){
+                v_obj.value=v_fun(v_obj.value)
+            }
+
+    const cp_cpf = document.getElementById('id_cpf')            
+    mascara(cp_cpf, icpf)
+    const cp_nome_do_contribuinte = document.getElementById('id_nome_do_contribuinte')
+    const cp_celular = document.getElementById('id_celular')
+
+    const cp_cep = document.getElementById('id_cep')
+    const cp_rua = document.getElementById('id_rua')
+    const cp_numero = document.getElementById('id_numero')
+    const cp_complemento = document.getElementById('id_complemento')
+    const cp_bairro = document.getElementById('id_bairro')
+    const cp_cidade = document.getElementById('id_cidade')
+    const cp_estado = document.getElementById('id_estado')
+    const cp_email = document.getElementById('id_email')
+
+    function getCEP(input){
+            icep(input)
+            v=input.value
+            if(v.length == 9){
+                let cep = v.replace("-","")
+                buscaEndereco(cep);
+
+            }
+            }
+    function buscaEndereco(cep){
+            let url = "https://viacep.com.br/ws/"+cep+"/json/";
+            fetch(url)
+            .then((response)=>{
+                response.json()
+                .then((data)=>{
+                    autoComplete(data)
+                })
+            })
+            }
+    function removeAccents(string) {
+            return string.replace(/[ÀÁÂÃÄÅàáâã]/g, "?")
+                .replace(/[ÈÉÊËÈèé]/g, "?")
+                .replace(/[ÌÍÎÏìíî]/g, "?")
+                .replace(/[ÒÓÔÕÖóòõ]/g, "?")
+                .replace(/[ÙÚÛÜùúû]/g, "?")
+                .replace(/[Çç]/g, "?")
+            }
+            
+    async function autoComplete(end){
+        console.log(end)
+        if (end.logradouro != undefined){
+            cp_rua.value = end.logradouro;
+        }
+        if (end.bairro != undefined){
+            cp_bairro.value = end.bairro;
+            console.log(end)
+        }
+        if (end.localidade != undefined){
+            cp_cidade.value = end.localidade;
+        }
+        if (end.uf != undefined){
+            cp_estado.value = end.uf;
+        }
+    
+    }
+
+    function displayErrors(errors) {
+    for (const [field, messages] of Object.entries(errors)) {
+        const fieldElement = document.getElementById(`id_${field}`);
+        if (fieldElement) {
+            messages.forEach(message => {
+                const small = document.createElement('small');
+                small.classList.add('text-danger');
+                small.textContent = message;
+                fieldElement.parentNode.appendChild(small);
+            });
+        }
+    }
+}
+
+// Função para obter o CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function addField() {
+        var container = document.getElementById("fields-container");
+        var fieldCount = container.getElementsByClassName("input").length;
+        var newField = document.createElement("div");
+        newField.classList.add("col-3", "mt-3", "input");
+        newField.innerHTML = `
+            <label class="fw-bold text-uppercase" for="id_n_inscricao_${fieldCount}">Nº Inscrição ${fieldCount + 1}:</label>
+            <input type="text" name="n_inscricao" class="form-control" id="id_n_inscricao_${fieldCount}">
+        `;
+        container.appendChild(newField);
+    }
+    errors = '{{ errors|safe }}'
+    if (errors) {
+        errors = JSON.parse(errors);
+        displayErrors(errors);
+    }
+    console.log(errors)
+</script>   
+
+
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load empreendedor_filters %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row mx-auto bg-destaque ps-4 pb-2 pt-1">
+    <div class="row ">
+      <div class="col">
+        <h1>Serviços internos</h1>        
+        <!-- <p class="text-secondary mt-2" style="text-align: justify; text-indent: 40px;">
+          <i>
+            O Conselho de Contribuintes é um órgão colegiado, vinculado à Secretaria Municipal de Finanças, que tem por finalidade julgar em segunda instância administrativa os recursos voluntários interpostos pelos contribuintes contra decisões proferidas em primeira instância administrativa, no âmbito da Secretaria Municipal de Finanças.
+          </i>
+        </p> -->
+        <div class="row">
+          <div class="col mt-3 mb-4 p-2 border d-flex" style="background-color: white; border-radius: 30px;">
+            <h4 class="my-auto ms-4">Localizar contribuinte</h4>            
+            <button id="sumulas_btn" class="ms-auto btn btn-link">Voltar</button>
+            {% csrf_token %}
+          </div>
+        </div>
+        <div class="row border mb-4"] style="border-radius: 30px; background-color: white; padding: 40px 40px;">
+          <div class="col">
+            <div class="row">
+                <div class="col d-flex">
+                    <!-- <h2>Contribuintes</h2> -->
+                    <div class="row ms-md-auto">
+                        <div class="col d-flex" style="position: relative;">
+                            <input type="text" placeholder="Digite NOME ou CPF" style="padding-right: 30px; width: 320px; border-radius: 8px !important;" class="form-control my-auto">
+                            <i class="fa-solid fa-magnifying-glass my-auto" style="position: absolute; top: 12px; right: 30px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col py-5">
+                    <table class="table">
+                        <thead>
+                            <th>CPF</th>
+                            <th>Nome</th>
+                            <th>...</th>
+                        </thead>
+                        <tbody>
+                            {% for contribuinte in contribuintes %}
+                            <tr>
+                                <td>{{contribuinte.cpf}}</td>
+                                <td>{{contribuinte.nome}}</td>                                
+                                <td>...</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          
+          </div>
+        </div>
+        
+         
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  
+  
+</script>
+<style>
+  .item{
+  padding-top: 15px;    
+}
+.assunto{
+  max-width: 800px;
+  text-align: justify;
+  margin: 20px auto;
+  text-indent: 0px;
+}
+.btn-link{
+  text-decoration: none;
+}
+.assunto{
+  line-height: auto;
+}
+</style>
+
+  <script>
+    // document.getElementById('empreendedor_admin').classList.add('s-nav-active');
+
+    function icpf(v){
+                v=v.replace(/\D/g,"")                    //Remove tudo o que nao e digito
+                v=v.replace(/(\d{3})(\d)/,"$1.$2")       //Coloca um ponto entre o terceiro e o quarto digitos
+                v=v.replace(/(\d{3})(\d)/,"$1.$2")       //Coloca um ponto entre o terceiro e o quarto digitos
+                                                        //de novo (para o segundo bloco de numeros)
+                v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2") //Coloca um hifen entre o terceiro e o quarto digitos
+                return v
+            }
+
+    function mascara(o,f){
+                v_obj=o
+                v_fun=f
+                setTimeout("execmascara()",1)
+            }
+        
+    function execmascara(){
+                v_obj.value=v_fun(v_obj.value)
+            }
+
+    const cp_cpf = document.getElementById('id_cpf')
+    const cp_responsavel_tributario= document.getElementById('id_responsavel_tributario')
+    const cp_cnpj = document.getElementById('id_cnpj')
+    const cp_nome_do_contribuinte = document.getElementById('id_nome_do_contribuinte')
+    const cp_celular = document.getElementById('id_celular')
+    const cp_cep = document.getElementById('id_cep')
+    const cp_rua = document.getElementById('id_rua')
+    const cp_numero = document.getElementById('id_numero')
+    const cp_complemento = document.getElementById('id_complemento')
+    const cp_bairro = document.getElementById('id_bairro')
+    const cp_cidade = document.getElementById('id_cidade')
+    const cp_estado = document.getElementById('id_estado')
+    const cp_email = document.getElementById('id_email')
+
+    function removeAccents(string) {
+            return string.replace(/[ÀÁÂÃÄÅàáâã]/g, "?")
+                .replace(/[ÈÉÊËÈèé]/g, "?")
+                .replace(/[ÌÍÎÏìíî]/g, "?")
+                .replace(/[ÒÓÔÕÖóòõ]/g, "?")
+                .replace(/[ÙÚÛÜùúû]/g, "?")
+                .replace(/[Çç]/g, "?")
+            }
+    async function autoComplete(end){
+        console.log(end)
+        if (end.logradouro != undefined){
+            cp_rua.value = end.logradouro;
+        }
+        if (end.bairro != undefined){
+            cp_bairro.value = end.bairro;
+            console.log(end)
+        }
+        if (end.localidade != undefined){
+            cp_cidade.value = end.localidade;
+        }
+        if (end.uf != undefined){
+            cp_estado.value = end.uf;
+        }
+    
+    }
+   
+    async function cadastrarInscricao(e) {
+        // e.preventDefault();
+        const form = document.getElementById('inscricaoForm');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Remove mensagens de erro anteriores
+        const errorElements = document.querySelectorAll('.text-danger');
+        errorElements.forEach(element => element.remove());
+
+        try {
+            const response = await fetch('cadastrar-inscricao/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Função para pegar o CSRF token
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response)
+            if (response.ok) {
+                // Limpar o formulário em caso de sucesso
+                form.reset();
+                alert('Cadastro realizado com sucesso!');
+            } else {
+                const errorData = await response.json();
+                console.log('Erro ao cadastrar:', errorData);
+                displayErrors(errorData.errors);
+                alert('Erro ao cadastrar, por favor, verifique os dados.');
+            }
+        } catch (error) {
+            console.error('Erro ao realizar a requisição:', error);
+            alert('Erro ao realizar a requisição, tente novamente.');
+        }
+    }
+
+
+// Função para obter o CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+
+{% endblock %}

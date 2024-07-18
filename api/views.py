@@ -2,20 +2,23 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from requests import request
 from rest_framework.parsers import JSONParser
-from sala_do_empreendedor.models import Empresa
-from .serializer import FornecedoresSerializer, AlertaAlunoSerializer, CursosSerializer
 
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework import status
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.decorators import permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
+from rest_framework.decorators import api_view
 
 from cursos.models import Curso, Alertar_Aluno_Sobre_Nova_Turma
+from sala_do_empreendedor.models import Empresa
+from financas_recadastramento.models import PessoaRecadastramento
 
+from .serializer import FornecedoresSerializer, AlertaAlunoSerializer, CursosSerializer, PessoaRecadastramentoSerializer
 
 class Listar_Empresas(generics.ListAPIView):
     queryset=Empresa.objects.all()
@@ -39,3 +42,13 @@ class AlunosInteressadosView(generics.ListAPIView):
         # Obtenha os alunos interessados no curso
         queryset = Alertar_Aluno_Sobre_Nova_Turma.objects.filter(curso_id=curso_id, alertado=False)
         return queryset
+
+@api_view(['GET'])
+def get_pessoa_by_cpf(request, cpf):
+    try:
+        pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
+    except PessoaRecadastramento.DoesNotExist:
+        return Response({'error': 'Pessoa not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = PessoaRecadastramentoSerializer(pessoa)
+    return Response(serializer.data, status=status.HTTP_200_OK)

@@ -24,13 +24,94 @@ class PessoaRecadastramentoForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
+
+class _PessoaRecadastramentoForm(forms.ModelForm):
+    class Meta:
+        model = PessoaRecadastramento
+        fields = [
+            'cpf', 'responsavel_tributario', 'cnpj', 'nome_do_contribuinte', 'celular', 'cep',
+            'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'email'
+        ]
+        widgets = {
+            'cpf': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '14',
+                'id': 'id_cpf',
+                'onkeyup': 'mascara(this, icpf)',
+                'onblur': 'checkCPF(this.value)'
+            }),
+            'responsavel_tributario': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '150',
+                'id': 'id_responsavel_tributario',
+                'required': 'required'
+            }),
+            'cnpj': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '14',
+                'id': 'id_cnpj'
+            }),
+            'nome_do_contribuinte': forms.TextInput(attrs={
+                'class': 'form-control text-capitalize',
+                'maxlength': '150',
+                'id': 'id_nome_do_contribuinte',
+                'required': 'required'
+            }),
+            'celular': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '15',
+                'id': 'id_celular'
+            }),
+            'cep': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '9',
+                'id': 'id_cep',
+                'onkeydown': 'icep(this)',
+                'onblur': 'getCEP(this)'
+            }),
+            'rua': forms.TextInput(attrs={
+                'class': 'form-control text-capitalize',
+                'maxlength': '150',
+                'id': 'id_rua'
+            }),
+            'numero': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '10',
+                'id': 'id_numero'
+            }),
+            'complemento': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': '50',
+                'id': 'id_complemento'
+            }),
+            'bairro': forms.TextInput(attrs={
+                'class': 'form-control text-capitalize',
+                'maxlength': '50',
+                'id': 'id_bairro'
+            }),
+            'cidade': forms.TextInput(attrs={
+                'class': 'form-control text-capitalize',
+                'maxlength': '50',
+                'id': 'id_cidade'
+            }),
+            'estado': forms.TextInput(attrs={
+                'class': 'form-control text-capitalize',
+                'maxlength': '2',
+                'id': 'id_estado'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'maxlength': '254',
+                'id': 'id_email'
+            }),
+        }
+
 class ProcessoForm(forms.ModelForm):
     class Meta:
         model = Processo
-        fields = ['pessoa_recadastramento', 'requerente', 'requerimento', 'ano', 'localizacao']
+        fields = ['requerente', 'requerimento', 'ano', 'localizacao']
         widgets = {
-            'pessoa_recadastramento': forms.Select(attrs={'class': 'form-control'}),
-            'requerente': forms.TextInput(attrs={'class': 'form-control'}),
+            'requerente': forms.Select(attrs={'class': 'form-control'}),
             'requerimento': forms.TextInput(attrs={'class': 'form-control'}),
             'ano': forms.NumberInput(attrs={'class': 'form-control'}),
             'localizacao': forms.TextInput(attrs={'class': 'form-control'}),

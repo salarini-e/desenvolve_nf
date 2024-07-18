@@ -1,0 +1,4 @@
+Luis Eduardo Cordeiro Salarini;15253517707;
+João Jevaux Souza de Sá;14897642752;
+####
+total_cadastrados: 0; total_que_já_estavam: 2;

@@ -1,2 +1,3 @@
 from .sala_do_empreendedor import FornecedoresSerializer
 from.cursos import CursosSerializer, AlertaAlunoSerializer
+from .recadastramento import PessoaRecadastramentoSerializer
