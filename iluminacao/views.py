@@ -726,6 +726,16 @@ def imprimir_varias_os(request, ids):
 
 @login_required
 @group_required('os_acesso')
+def imprimir_todas_os(request, ids):    
+            
+    context={
+        'lista_de_os': OrdemDeServico.objects.all()
+    }
+    return render(request, 'iluminacao/imprimir_os.html', context)
+
+
+@login_required
+@group_required('os_acesso')
 def graficos(request):
     
     pontos_por_bairro_finalizados = OrdemDeServico.objects.filter(status='f').values('bairro').annotate(total=Sum('pontos_atendidos')).order_by('-total')
