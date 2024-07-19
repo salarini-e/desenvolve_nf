@@ -40,14 +40,14 @@ def atualziacao_cadastral(request):
             form = _PessoaRecadastramentoForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            pessoaR = form.save()
             if 'n_inscricao' in request.POST:
                 print(request.POST['n_inscricao'])
                 print(request.POST.getlist('n_inscricao'))
                 for i in request.POST.getlist('n_inscricao'):
                     try:
                         inscricao = Inscricao(
-                            pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=pessoa.cpf),
+                            pessoa_recadastramento=pessoaR,
                             numero_inscricao=i
                         )
                         inscricao.full_clean()
