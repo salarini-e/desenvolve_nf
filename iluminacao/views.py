@@ -726,7 +726,7 @@ def imprimir_varias_os(request, ids):
 
 @login_required
 @group_required('os_acesso')
-def imprimir_todas_os(request, ids):    
+def imprimir_todas_os(request):    
             
     context={
         'lista_de_os': OrdemDeServico.objects.all()
