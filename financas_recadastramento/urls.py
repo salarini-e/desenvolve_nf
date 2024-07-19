@@ -3,7 +3,7 @@ from . import views
 
 app_name = 'financas_recadastramento'
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('interno/', views.index, name='index'),
     path('cadastral/', views.atualziacao_cadastral, name='atualizacao_cadastral'),
     path('localizar/contribuinte/', views.listar_contribuintes, name='listar_contribuintes'),
     path('checkcpf/', views.checkCPF, name='checkCPF'),
