@@ -272,7 +272,7 @@
     function checkCPF(cpf){
             const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
             const csrfToken = csrfTokenInput.value;
-            let url = "/recadastramento/checkcpf/";
+            let url = "/atualizacao/checkcpf/";
             fetch(url,{
                 method: 'POST',
                 headers: {
@@ -319,7 +319,7 @@
     function checkCPF_Processo(cpf){
     const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
     const csrfToken = csrfTokenInput.value;
-    let url = "/recadastramento/checkcpf-2/";
+    let url = "/atualizacao/checkcpf-2/";
     fetch(url,{
         method: 'POST',
         headers: {
@@ -357,7 +357,7 @@
     function checkCPF_Inscricao(cpf){
         const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
         const csrfToken = csrfTokenInput.value;
-        let url = "/recadastramento/checkcpf-2/";
+        let url = "/atualizacao/checkcpf-2/";
         fetch(url,{
             method: 'POST',
             headers: {

@@ -95,10 +95,11 @@ def checkCPF(request):
             response_data = {'exists': True, 'message': 'CPF inválido.'}
             return JsonResponse(response_data)
         try:
-            pessoa = PessoaRecadastramento.objects.get(cpf=data.get('cpf'))
+            pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
             pessoa_json = serializers.serialize('json', [pessoa])
             response_data = {'exists': True, 'message': 'CPF já existe. Confira os dados para atualizar.', 'pessoa': pessoa_json}
-        except:
+        except Exception as e:
+                print(e)
                 response_data = {'exists': False}
 
         return JsonResponse(response_data)
