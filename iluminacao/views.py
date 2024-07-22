@@ -730,19 +730,24 @@ def imprimir_varias_os(request, ids):
 
 @login_required
 @group_required('os_acesso')
-def imprimir_todas_os(request):    
-
+def imprimir_todas_os(request):
     if request.method == 'POST':
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
 
-        if start_date and end_date:
-            start_date = parse_date(start_date)
-            end_date = parse_date(end_date)
-            lista_de_os = OrdemDeServico.objects.filter(dt_solicitacao=[start_date, end_date])
-        else:
-            lista_de_os = OrdemDeServico.objects.all()
-        context = {'lista_de_os': OrdemDeServico.objects.all(),}    
+        try:
+            if start_date and end_date:
+                start_date = parse_date(start_date)
+                end_date = parse_date(end_date)
+                if start_date is None or end_date is None:
+                    raise ValueError("Invalid date format")
+                lista_de_os = OrdemDeServico.objects.filter(dt_solicitacao__range=[start_date, end_date])
+            else:
+                lista_de_os = OrdemDeServico.objects.all()
+        except ValueError:
+            return HttpResponse("Data inválida fornecida", status=400)
+        
+        context = {'lista_de_os': lista_de_os}    
         template = 'iluminacao/imprimir_todas_os.html'
         
         html_string = render_to_string(template, context)
@@ -771,8 +776,7 @@ def imprimir_todas_os(request):
         </body>
         </html>
         '''
-    return HttpResponse(html_form)    
-
+    return HttpResponse(html_form)
 
 @login_required
 @group_required('os_acesso')
