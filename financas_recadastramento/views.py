@@ -299,8 +299,10 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font, Alignment
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
+@login_required
 def exportar_cadastro_to_excel(request):
-
+    if not request.user.is_staff:
+        return HttpResponse('Acesso negado', status=403)
 
     contribuintes = PessoaRecadastramento.objects.all()
 
