@@ -45,40 +45,39 @@
             </div>
             <!-- <p><strong>{{os.numero}}</strong></p> -->
             <div class="d-flex">
-                <div>
-                    <p><strong>Nº OS:</strong> {{os.numero}}</p>
-                </div>
-                <div>
-                    <p class="text-right"><strong>Data de solicitação: </strong>{{os.dt_solicitacao|date:"d/m/Y"}}</p>
-                </div>                
-            </div>
-            <div class="d-flex" style="border: 1px solid gray;">
-                <div style="margin-left: 10px;">
-                    <p><strong>Logradouro:</strong>
-                        {{os.logradouro}}</p>
-                    <p><strong>Bairro:</strong>
-                            {{os.bairro}}</p>
-                    <p><strong>Referência:</strong>
-                        {{os.referencia}}</p>
-                </div>                
-            </div>
-            <div class="d-flex">
-                <div>
+                
+                    <p>
+                        <strong>Nº OS:
+                        <br></strong> {{os.numero}}
+                    </p>
+                
+                    <p class="text-right">]
+                        <strong>Data de solicitação: </strong>
+                        <br>{{os.dt_solicitacao|date:"d/m/Y"}}
+                    </p>
+                    <p>
+                        <strong>Logradouro:</strong>
+                        <br>{{os.logradouro}}
+                    </p>
+                    <p>
+                        <strong>Bairro:</strong>
+                        <br>{{os.bairro}}
+                    </p>
+                    <p>
+                        <strong>Referência:</strong>
+                        <br>{{os.referencia}}
+                    </p>                
                     <p>
                         <strong>Contribuinte:</strong>
-                        {{os.nome_do_contribuinte}}
-                    </p>                   
-                </div>
-                <div>
+                        <br>{{os.nome_do_contribuinte}}
+                    </p>                                   
                     <p>
                         <strong>Telefone do contribuinte:</strong>
-                        {{os.telefone_do_contribuinte}}
+                        <br>{{os.telefone_do_contribuinte}}
                     </p>
-                </div>
-            </div>
-            <div>
+                
                 <p><strong>Motivo da reclamação:</strong>
-                {{os.motivo_reclamacao}}
+                <br></r>{{os.motivo_reclamacao}}
                 </p>
             </div>
        
