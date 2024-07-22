@@ -33,8 +33,8 @@
 </head>
 <body>
     {% for os in lista_de_os %}
-    <div class="row" style="width: 100%;">
-        <div class="col" style="width: 100%;">
+    <div class="row">
+        <div class="col">
             <div class="d-flex">
                 <div>
                     <img src="" alt="">
@@ -45,39 +45,40 @@
             </div>
             <!-- <p><strong>{{os.numero}}</strong></p> -->
             <div class="d-flex">
-                
-                    <p>
-                        <strong>Nº OS:
-                        <br></strong> {{os.numero}}
-                    </p>
-                
-                    <p class="text-right">]
-                        <strong>Data de solicitação: </strong>
-                        <br>{{os.dt_solicitacao|date:"d/m/Y"}}
-                    </p>
-                    <p>
-                        <strong>Logradouro:</strong>
-                        <br>{{os.logradouro}}
-                    </p>
-                    <p>
-                        <strong>Bairro:</strong>
-                        <br>{{os.bairro}}
-                    </p>
-                    <p>
-                        <strong>Referência:</strong>
-                        <br>{{os.referencia}}
-                    </p>                
+                <div>
+                    <p><strong>Nº OS:</strong> {{os.numero}}</p>
+                </div>
+                <div>
+                    <p class="text-right"><strong>Data de solicitação: </strong>{{os.dt_solicitacao|date:"d/m/Y"}}</p>
+                </div>                
+            </div>
+            <div class="d-flex" style="border: 1px solid gray;">
+                <div style="margin-left: 10px;">
+                    <p><strong>Logradouro:</strong>
+                        {{os.logradouro}}</p>
+                    <p><strong>Bairro:</strong>
+                            {{os.bairro}}</p>
+                    <p><strong>Referência:</strong>
+                        {{os.referencia}}</p>
+                </div>                
+            </div>
+            <div class="d-flex">
+                <div>
                     <p>
                         <strong>Contribuinte:</strong>
-                        <br>{{os.nome_do_contribuinte}}
-                    </p>                                   
+                        {{os.nome_do_contribuinte}}
+                    </p>                   
+                </div>
+                <div>
                     <p>
                         <strong>Telefone do contribuinte:</strong>
-                        <br>{{os.telefone_do_contribuinte}}
+                        {{os.telefone_do_contribuinte}}
                     </p>
-                
+                </div>
+            </div>
+            <div>
                 <p><strong>Motivo da reclamação:</strong>
-                <br></r>{{os.motivo_reclamacao}}
+                {{os.motivo_reclamacao}}
                 </p>
             </div>
        

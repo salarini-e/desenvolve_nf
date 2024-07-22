@@ -749,15 +749,7 @@ def imprimir_todas_os(request):
         
         context = {'lista_de_os': lista_de_os}    
         template = 'iluminacao/imprimir_todas_os.html'
-        
-        html_string = render_to_string(template, context)
-        html = HTML(string=html_string)
-        pdf = html.write_pdf()
-
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'inline; filename="todas_os_iluminicao.pdf"'
-
-        return response
+        return render(request, template, context)
     
     csrf_token = get_token(request)
     html_form = f'''
