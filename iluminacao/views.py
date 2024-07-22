@@ -698,7 +698,9 @@ def pontos_os(request, id):
         }
     return render(request, 'iluminacao/adicionar_ext.html', context)
 
-from django.db.models import Count
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 @login_required
 @group_required('os_acesso')
@@ -727,11 +729,18 @@ def imprimir_varias_os(request, ids):
 @login_required
 @group_required('os_acesso')
 def imprimir_todas_os(request):    
-            
-    context={
-        'lista_de_os': OrdemDeServico.objects.all()
-    }
-    return render(request, 'iluminacao/imprimir_os.html', context)
+
+    context = {'lista_de_os': OrdemDeServico.objects.all(),}    
+    template = 'iluminacao/imprimir_todas_os.html'
+    
+    html_string = render_to_string(template, context)
+    html = HTML(string=html_string)
+    pdf = html.write_pdf()
+
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="todas_os_iluminicao.pdf"'
+
+    return response
 
 
 @login_required
