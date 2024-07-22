@@ -293,3 +293,51 @@ def listar_contribuintes(request):
     }
 
     return render(request, 'recadastramento/listar_contribuintes.html', context)
+
+import openpyxl
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import Font, Alignment
+from openpyxl.worksheet.table import Table, TableStyleInfo
+
+def exportar_cadastro_to_excel(request):
+
+
+    contribuintes = PessoaRecadastramento.objects.all()
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = 'Contribuintes'
+    ws.append(['CPF', 'Responsável Tributário', 'CNPJ', 'Nome do Contribuinte', 'Celular', 'CEP', 'Rua', 'Número', 'Complemento', 'Bairro', 'Cidade', 'Estado', 'E-mail'])
+
+    for contribuinte in contribuintes:
+        ws.append([
+            contribuinte.cpf,
+            contribuinte.responsavel_tributario,
+            contribuinte.cnpj,
+            contribuinte.nome_do_contribuinte,
+            contribuinte.celular,
+            contribuinte.cep,
+            contribuinte.rua,
+            contribuinte.numero,
+            contribuinte.complemento,
+            contribuinte.bairro,
+            contribuinte.cidade,
+            contribuinte.estado,
+            contribuinte.email
+        ])
+
+    for row in ws.iter_rows(min_row=1, max_row=1):
+        for cell in row:
+            cell.font = Font(bold=True)
+            cell.alignment = Alignment(horizontal='center', vertical='center')
+    
+    tab = Table(displayName='Contribuintes', ref=ws.dimensions)
+    style = TableStyleInfo(name='TableStyleMedium9', showFirstColumn=False, showLastColumn=False, showRowStripes=True, showColumnStripes=True)
+    tab.tableStyleInfo = style
+    ws.add_table(tab)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=contribuintes.xlsx'
+    wb.save(response)
+
+    return response
