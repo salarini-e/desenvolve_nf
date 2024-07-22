@@ -701,6 +701,8 @@ def pontos_os(request, id):
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from django.utils.dateparse import parse_date
+from django.middleware.csrf import get_token
 
 @login_required
 @group_required('os_acesso')
@@ -730,17 +732,46 @@ def imprimir_varias_os(request, ids):
 @group_required('os_acesso')
 def imprimir_todas_os(request):    
 
-    context = {'lista_de_os': OrdemDeServico.objects.all(),}    
-    template = 'iluminacao/imprimir_todas_os.html'
+    if request.method == 'POST':
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+
+        if start_date and end_date:
+            start_date = parse_date(start_date)
+            end_date = parse_date(end_date)
+            lista_de_os = OrdemDeServico.objects.filter(dt_solicitacao=[start_date, end_date])
+        else:
+            lista_de_os = OrdemDeServico.objects.all()
+        context = {'lista_de_os': OrdemDeServico.objects.all(),}    
+        template = 'iluminacao/imprimir_todas_os.html'
+        
+        html_string = render_to_string(template, context)
+        html = HTML(string=html_string)
+        pdf = html.write_pdf()
+
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="todas_os_iluminicao.pdf"'
+
+        return response
     
-    html_string = render_to_string(template, context)
-    html = HTML(string=html_string)
-    pdf = html.write_pdf()
-
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; filename="todas_os_iluminicao.pdf"'
-
-    return response
+    csrf_token = get_token(request)
+    html_form = f'''
+        <html>
+        <head><title>Filtrar Ordens de Serviço</title></head>
+        <body>
+            <h1>Filtrar Ordens de Serviço por Data</h1>
+            <form method="post">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{csrf_token}">
+                <label for="start_date">Data Inicial:</label>
+                <input type="date" id="start_date" name="start_date" required>
+                <label for="end_date">Data Final:</label>
+                <input type="date" id="end_date" name="end_date" required>
+                <button type="submit">Gerar PDF</button>
+            </form>
+        </body>
+        </html>
+        '''
+    return HttpResponse(html_form)    
 
 
 @login_required
