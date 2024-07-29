@@ -1,0 +1,83 @@
+
+{% extends 'template_celular.html' %}
+{% block subtitulo %}
+{% endblock %}
+{% block content %}
+
+{% if resultado %}
+<div class="senhas-chamadas">
+  <div class="logos">
+   <img  src="/static/images/logo branco - METADE.png" alt="logo" class="metade_1">
+   <img  src="/static/images/logo_desenvolve_2.png" alt="logo_2" class="metade_2">
+  </div>
+ 
+   <div class="ordem" style="padding-bottom: 30px;">
+     <!-- <p>Status: {{ resultado.status }}</p> -->
+     <h2 style="text-transform: uppercase;">{{ resultado.senha }}</h2>
+     <p class="pessoas">Sua posição na fila:</p>
+     <h1 class="numero">{{ resultado.posicao_na_fila }}</h1>
+   </div>
+ </div>
+<script>
+    function fetchPosition() {
+        const senha = "{{ resultado.senha }}";
+        fetch('/senha-facil/fetch-posicao-na-fila/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ 'senha': senha })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('resultado').innerHTML = `
+                <h2>Resultado:</h2>
+                <p>Senha: ${data.senha}</p>
+                <p>Posição na Fila: ${data.posicao_na_fila}</p>
+                <p>Status: ${data.status}</p>
+            `;
+        })
+        .catch(error => console.error('Erro:', error));
+    }
+
+    function startFetching() {
+        fetchPosition();
+        setInterval(fetchPosition, 10000);  // Atualiza a cada 10 segundos
+    }
+
+    // Inicia a atualização automática após carregar o resultado
+    document.addEventListener('DOMContentLoaded', (event) => {
+        startFetching();
+    });
+</script>
+{% else %}
+<div class="senhas-chamadas">
+  <div class="logos">
+   <img  src="/static/images/logo branco - METADE.png" alt="logo" class="metade_1">
+   <img  src="/static/images/logo_desenvolve_2.png" alt="logo_2" class="metade_2">
+  </div>
+ 
+ 
+  <div class="ordem my-auto">    
+    <img src="/static/images/senhas_facil_banner.png" class="img-fluid" alt="">      
+
+    <form method="POST" class="my-auto">
+      <h1 style="margin: 2vh auto 2vh auto; width: 90%; text-align: left;">Posição na Fila</h1>
+        {% csrf_token %}
+        <div class="row my-auto">
+          <div class="col d-flex flex-column">
+            <label class="text-left" for="senha">Digite sua senha:</label><br>
+            <input class="form-control" type="text" id="senha" name="senha" required>
+            {% if error %}
+            <small class="alert-danger">{{ error }}</small>
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Verificar</button>
+          </div>
+        </div>          
+    </form>
+   </div>
+ </div>
+{% endif %}
+{% endblock %} 
+ 

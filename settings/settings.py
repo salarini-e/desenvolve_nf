@@ -22,6 +22,13 @@ db_user = env_vars['db_user']
 db_host = env_vars['db_host']
 db_port = env_vars['db_port']
 db_passwd = env_vars['db_pw']
+
+senhasfacil_db_name = env_vars['senhasfacil_db_name']
+senhasfacil_db_user = env_vars['senhasfacil_db_user']
+senhasfacil_db_host = env_vars['senhasfacil_db_host']
+senhasfacil_db_port = env_vars['senhasfacil_db_port']
+senhasfacil_db_passwd = env_vars['senhasfacil_db_pw']
+
 SECRET_KEY = env_vars['django_secret_key']
 debug_mode = env_vars['debug_mode']
 email_user = env_vars['email_sistema']
@@ -96,6 +103,7 @@ INSTALLED_APPS = [
     #secreatarias
     'secretaria_financas',
     'django_cpf_cnpj',
+    'senhas_facil'
 ]
 
 MIDDLEWARE = [
@@ -156,7 +164,15 @@ else:
                 'USER': db_user,
                 'PASSWORD': db_passwd,
                 'HOST': db_host,
-            }
+            },
+            'senhas_facil_b': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': senhasfacil_db_name,
+                'PORT': senhasfacil_db_port,
+                'USER': senhasfacil_db_user,
+                'PASSWORD': senhasfacil_db_passwd,
+                'HOST': senhasfacil_db_host,
+            },
     }
 
 AUTH_PASSWORD_VALIDATORS = [

@@ -12,6 +12,7 @@ def index(request):
         'carousel': Carousel_Index.objects.filter(ativa=True),
         'titulo': 'Desenvolve NF - Página Inicial'
     }
+
     return render(request, 'desenvolve_nf/index.html', context)
 
 def getClimaTempo(request):

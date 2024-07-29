@@ -25,7 +25,7 @@ urlpatterns = [
     path('cevest/almoxarifado/', include('cevest_almoxarifado.urls')),
     path('estagio/', include('estagio.urls')),
     path('newsletter/', include('newsletter.urls')),
-
+    path('senha-facil/', include('senhas_facil.urls')),
     path('administracao/', include('administracao.urls')),    
     path('admin/', admin.site.urls),
 ]

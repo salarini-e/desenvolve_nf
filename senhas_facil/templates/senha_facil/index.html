@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Posição na Fila</title>
+</head>
+<body>
+    <h1>Verificar Posição na Fila</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <label for="senha">Digite a senha:</label>
+        <input type="text" id="senha" name="senha" required>
+        <button type="submit">Verificar</button>
+    </form>
+    <div id="resultado">
+        {% if resultado %}
+            <h2>Resultado:</h2>
+            <p>Senha: {{ resultado.senha }}</p>
+            <p>Posição na Fila: {{ resultado.posicao_na_fila }}</p>
+            <p>Status: {{ resultado.status }}</p>
+            
+            <script>
+                function fetchPosition() {
+                    const senha = "{{ resultado.senha }}";
+                    fetch('/senha-facil/fetch-posicao-na-fila/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({ 'senha': senha })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('resultado').innerHTML = `
+                            <h2>Resultado:</h2>
+                            <p>Senha: ${data.senha}</p>
+                            <p>Posição na Fila: ${data.posicao_na_fila}</p>
+                            <p>Status: ${data.status}</p>
+                        `;
+                    })
+                    .catch(error => console.error('Erro:', error));
+                }
+
+                function startFetching() {
+                    fetchPosition();
+                    setInterval(fetchPosition, 10000);  // Atualiza a cada 10 segundos
+                }
+
+                // Inicia a atualização automática após carregar o resultado
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    startFetching();
+                });
+            </script>
+        {% endif %}
+    </div>
+</body>
+</html>
