@@ -169,8 +169,8 @@ else:
                 'ENGINE': 'django.db.backends.mysql',
                 'NAME': senhasfacil_db_name,
                 'PORT': senhasfacil_db_port,
-                'USER': senhasfacil_db_user,
-                'PASSWORD': senhasfacil_db_passwd,
+                'USER': db_user,
+                'PASSWORD': db_passwd,
                 'HOST': senhasfacil_db_host,
             },
     }
