@@ -31,11 +31,10 @@
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('resultado').innerHTML = `
-                <h2>Resultado:</h2>
-                <p>Senha: ${data.senha}</p>
-                <p>Posição na Fila: ${data.posicao_na_fila}</p>
-                <p>Status: ${data.status}</p>
+            document.getElementById('ordem').innerHTML = `
+                <h2 style="text-transform: uppercase;">${data.senha}</h2>
+                <p class="pessoas">Sua posição na fila:</p>
+                <h1 class="numero">${data.posicao_na_fila}</h1>
             `;
         })
         .catch(error => console.error('Erro:', error));
