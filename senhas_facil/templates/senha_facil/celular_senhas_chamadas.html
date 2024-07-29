@@ -11,7 +11,7 @@
    <img  src="/static/images/logo_desenvolve_2.png" alt="logo_2" class="metade_2">
   </div>
  
-   <div class="ordem" style="padding-bottom: 30px;">
+   <div id="resultado" class="ordem" style="padding-bottom: 30px;">
      <!-- <p>Status: {{ resultado.status }}</p> -->
      <h2 style="text-transform: uppercase;">{{ resultado.senha }}</h2>
      <p class="pessoas">Sua posição na fila:</p>
@@ -31,7 +31,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('ordem').innerHTML = `
+            document.getElementById('resultado').innerHTML = `
                 <h2 style="text-transform: uppercase;">${data.senha}</h2>
                 <p class="pessoas">Sua posição na fila:</p>
                 <h1 class="numero">${data.posicao_na_fila}</h1>
