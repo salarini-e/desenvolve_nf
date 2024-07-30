@@ -170,7 +170,7 @@ else:
                 'NAME': senhasfacil_db_name,
                 'PORT': senhasfacil_db_port,
                 'USER': db_user,
-                'PASSWORD': db_passwd,
+                'PASSWORD': senhasfacil_db_passwd,
                 'HOST': senhasfacil_db_host,
             },
     }

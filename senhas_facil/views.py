@@ -71,9 +71,8 @@ def posicao_na_fila_2(request, senha):
     resultado = None
     context = {}
     try:        
-        print(senha)
         tipo_atendimento_prefixo = senha[0]  
-        numero_senha = int(senha[1:])
+        numero_senha = senha[1:]
         posicao, status = get_posicao_na_fila(tipo_atendimento_prefixo, numero_senha)
         resultado = {
             'senha': senha,
@@ -81,25 +80,40 @@ def posicao_na_fila_2(request, senha):
             'status': status
         }
     except Exception as e:
-        print(e)
+        print(e )
         context['error'] = 'Houve um problema ao processar a posição dessa senha na fila.'
+        
     context['resultado'] = resultado
     return render(request, 'senha_facil/celular_senhas_chamadas.html', context)
 
+import re
 
-def fetch_posicao_na_fila(request):
+def fetch_posicao_na_fila(request, senha):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            print("Recebido do cliente:", data)
             senha = data.get('senha')
+            if not senha or not re.match(r'^[A-Za-z]\d+$', senha):
+                raise ValueError('Senha inválida')
             tipo_atendimento_prefixo = senha[0]
             numero_senha = int(senha[1:])
             posicao, status = get_posicao_na_fila(tipo_atendimento_prefixo, numero_senha)
-            return JsonResponse({
+            response_data = {
                 'senha': senha,
                 'posicao_na_fila': posicao,
                 'status': status
-            })
+            }
+            print("Enviado para o cliente:", response_data)
+            return JsonResponse(response_data)
+        except ValueError as ve:
+            error_response = {'error': str(ve)}
+            print("Erro de validação:", error_response)
+            return JsonResponse(error_response, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-    return JsonResponse({'error': 'Método não permitido'}, status=405)
+            error_response = {'error': 'Erro inesperado: ' + str(e)}
+            print("Erro inesperado:", error_response)
+            return JsonResponse(error_response, status=400)
+    error_response = {'error': 'Método não permitido'}
+    print("Erro de método:", error_response)
+    return JsonResponse(error_response, status=405)

@@ -19,27 +19,35 @@
    </div>
  </div>
 <script>
-    function fetchPosition() {
-        const senha = "{{ resultado.senha }}";
-        fetch('/senha-facil/fetch-posicao-na-fila/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: JSON.stringify({ 'senha': senha })
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('resultado').innerHTML = `
-                <h2 style="text-transform: uppercase;">${data.senha}</h2>
-                <p class="pessoas">Sua posição na fila:</p>
-                <h1 class="numero">${data.posicao_na_fila}</h1>
-            `;
-        })
-        .catch(error => console.error('Erro:', error));
-    }
-
+   function fetchPosition() {
+    const senha = "{{ resultado.senha }}";
+    fetch('/senha-facil/fetch-posicao-na-fila/{{ resultado.senha }}/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ 'senha': senha })
+    })
+    .then(response => {
+        // Verifica se a resposta está OK e retorna JSON
+        if (!response.ok) {
+            throw new Error('Erro na resposta da rede: ' + response.status);
+        }
+        return response.json(); // Aqui, você chama response.json() para converter a resposta em JSON
+    })
+    .then(data => {
+        // console.log('Dados recebidos:', data); // Agora data é o objeto JSON
+        // Agora você pode acessar os valores diretamente
+        document.getElementById('resultado').innerHTML = `
+            <h2 style="text-transform: uppercase;">${data.senha}</h2>
+            <p class="pessoas">Sua posição na fila:</p>
+            <h1 class="numero">${data.posicao_na_fila}</h1>
+            <p class="status">Status: ${data.status}</p>
+        `;
+    })
+    .catch(error => console.error('Erro:', error));
+}
     function startFetching() {
         fetchPosition();
         setInterval(fetchPosition, 10000);  // Atualiza a cada 10 segundos

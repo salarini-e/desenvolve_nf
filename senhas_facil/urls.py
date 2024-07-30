@@ -8,5 +8,5 @@ from . import views
 urlpatterns = [
     path('', views.posicao_na_fila),
     path('<senha>/', views.posicao_na_fila_2),
-    path('fetch-posicao-na-fila/', views.fetch_posicao_na_fila, name='fetch_posicao_na_fila'),
+    path('fetch-posicao-na-fila/<senha>/', views.fetch_posicao_na_fila, name='fetch_posicao_na_fila'),
 ]
