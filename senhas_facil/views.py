@@ -66,6 +66,27 @@ def posicao_na_fila(request):
     return render(request, 'senha_facil/celular_senhas_chamadas.html', context)
 
 
+def posicao_na_fila_2(request, senha):
+
+    resultado = None
+    context = {}
+    try:        
+        print(senha)
+        tipo_atendimento_prefixo = senha[0]  
+        numero_senha = int(senha[1:])
+        posicao, status = get_posicao_na_fila(tipo_atendimento_prefixo, numero_senha)
+        resultado = {
+            'senha': senha,
+            'posicao_na_fila': posicao,
+            'status': status
+        }
+    except Exception as e:
+        print(e)
+        context['error'] = 'Houve um problema ao processar a posição dessa senha na fila.'
+    context['resultado'] = resultado
+    return render(request, 'senha_facil/celular_senhas_chamadas.html', context)
+
+
 def fetch_posicao_na_fila(request):
     if request.method == 'POST':
         try:
