@@ -1,0 +1,50 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container">
+  <div class="row border" style="border-radius: 30px; background-color: rgb(255, 255, 255);">
+    <div class="col">
+      <div class="pt-4 d-flex px-3">
+          <h2 style="display: inline;">Processos Digitais</h2>       
+            <a href="{% url 'processos_empreendedor:acompanhamento_requerimento_iss_agente' tipo=tipo n_protocolo=processo.n_protocolo %}" class="btn btn-dark ms-auto my-auto">
+              <i class="fa-solid fa-rotate-left me-2"></i> Voltar
+            </a>             
+      </div>
+    <div class="row">
+      <div class="col pb-5 px-5 mt-4 d-flex">
+        <span class="py-0 px-2 rounded-pill" style="background-color: {% if processo.status == 'nv' %}rgb(124, 183, 235){% elif processo.status == 'ae' %}rgb(235, 137, 124){% elif processo.status == 'ar' %}rgb(228, 235, 124){% elif processo.status == 'aa' %}rgb(235, 176, 124){% elif processo.status == 'bg' %}rgb(124, 235, 124){% elif processo.status == 'cn' %}#000000; color: white{% endif %};">{{processo.get_status_display}}</span>
+        <p class="ms-3">
+          <strong class="my-auto">{{processo.tipo_processo.nome}} - {{processo.n_protocolo}} - {{processo.dt_solicitacao|date:"d/m/y"}}</strong>
+        </p>                  
+      </div>
+    </div>
+    <div class="row">
+      <div class="col pb-5 px-5 mt-4 ">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Número de inscrição municipal</label>
+            <input class="form-control" type="text" name="n_inscricao" id="formFile">
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Envie o boleto</label>
+            <input class="form-control" type="file" name="boleto" id="formFile">
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}

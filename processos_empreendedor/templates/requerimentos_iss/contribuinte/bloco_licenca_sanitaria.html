@@ -1,0 +1,83 @@
+{% if show_licenca_sanitaria %}
+{% load processos_tags %}
+  <div class="d-flex flex-column w-100 pt-4 px-5" >
+    <h4>Licença Sanitária</h4>
+    <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Sanitária correspondente. Está solicitação a Secretária de Saúde está ocorrendo juntamente a este processo.</p>
+    <div class="row">
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Comprovante limpeza caixa d'água</label>
+        <p class="bg-status-{{status.sanitaria.comprovante_limpeza_caixa_dagua_status}}">{{status.sanitaria.get_comprovante_limpeza_caixa_dagua_status_display}}</p>
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Comprovante de manutenção de ar condicionado</label>
+        <p class="bg-status-{{status.sanitaria.comprovante_ar_condicionado_status}}">{{status.sanitaria.get_comprovante_ar_condicionado_status_display}}</p>
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Plano de gerenciamento de resíduos</label>
+        <p class="bg-status-{{status.sanitaria.plano_gerenciamento_de_residuos_status}}">{{status.sanitaria.get_plano_gerenciamento_de_residuos_status_display}}</p>
+      </div>                    
+    </div>
+    <div class="row text-center">
+      {% render_button_atualizar_documento processo.n_protocolo "comprovante_limpeza_caixa_dagua" "comprovante caixa d'água" status.sanitaria.comprovante_limpeza_caixa_dagua_status %}
+      {% render_button_atualizar_documento processo.n_protocolo "comprovante_ar_condicionado" "comprovante caixa d'água" status.sanitaria.comprovante_ar_condicionado_status %}
+      {% render_button_atualizar_documento processo.n_protocolo "plano_gerenciamento_de_residuos" "plano de gerência de resíduos" status.sanitaria.plano_gerenciamento_de_residuos_status %}      
+    </div>
+    <div class="row">      
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Licença sanitária anterior</label>
+        <p class="bg-status-{{status.sanitaria.licenca_santinaria_anterior_status}}">{{status.sanitaria.get_licenca_santinaria_anterior_status_display}}</p>
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2"></div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2"></div>
+    </div>
+    <div class="row text-center">
+      {% render_button_atualizar_documento processo.n_protocolo "licenca_santinaria_anterior" "licença sanitária anterior" status.sanitaria.licenca_santinaria_anterior_status %}
+      <div class="col d-flex py-2 pb-1 flex-column ms-2"></div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2"></div>
+    </div>
+    {% if requerimento.boleto_sanitario_gerado %}
+    {% if requerimento.exist_licenca_sanitaria %}
+    <div id="div-boleto-sanitario" class="row">
+      <div class="col d-flex py-4 px-4 flex-column ms-2" style="background-color: rgba(214, 214, 214, 0.897); border-radius: 20px;">
+        <h4 class="text-center">Licença sanitária gerada</h4>
+        <div class="mb-3 mx-auto mt-3">
+          <a class="btn btn-success w-100 mb-3" href="{{requerimento.get_url_licenca_sanitaria}}">
+            <i class="fa-solid fa-certificate me-2"></i> Baixar licença sanitária
+          </a>          
+        </div>
+      </div>
+  </div>
+    {% else %}
+    <div id="div-boleto-sanitario" class="row my-4">
+      <div class="col d-flex py-4 px-4 flex-column ms-2" style="background-color: rgba(214, 214, 214, 0.897); border-radius: 20px;">
+        <h4 class="text-center">Boleto p/ pagamento da licença sanitária</h4>
+        <div class="mb-3 mx-auto mt-3">
+          {% boleto_usuario requerimento.id 'sanitario' %}                              
+          <div id="responseMessage-sanitario" class="text-center mt-3"></div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+  </div>
+  {% if status_pagamento_ls == 'licenca_emitida' %}
+  <div class="row text-center">
+      <div class="col pt-4">    
+          <p><i><b>Sua licença ambiental foi gerada!</b></i></p>
+          <a target="_blank" href="#" class="btn btn-primary mt-3 mb-3">
+              <i class="fa-solid fa-file-arrow-down me-2"></i>Download da Licença
+          </a>        
+      </div>
+    </div>
+  {% elif status_pagamento_ls  == 'boleto_gerado' %}
+  <div class="row text-center">
+    <div class="col pt-4">
+      <p><i><b>Seu boleto foi gerado!</b></i></p>
+      <a target="_blank" href="{{requerimento.boleto_saude.url}}" class="btn btn-primary mt-3 mb-3">
+        <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
+      </a>
+      <p class="my-3">Sua Licença Sanitária estará disponivel aqui após o reconhecimento do boleto pela Secretária de Saúde.</p>
+    </div>
+  </div>
+  {% endif %}
+{% endif %}

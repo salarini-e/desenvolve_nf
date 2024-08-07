@@ -10,6 +10,7 @@ from django_cpf_cnpj.fields import CNPJField
 import uuid
 from PIL import Image
 from django.core.exceptions import ValidationError
+from autenticacao.models import Pessoa
 
 class Porte_da_Empresa(models.Model):
     porte=models.CharField(max_length=32, verbose_name='Porte da empresa')
@@ -145,11 +146,33 @@ class Faccao_legal(models.Model):
     qual_seu_sonho_no_setor = models.TextField(verbose_name='Qual seu sonho no setor?', null=True, blank=True)
     
 #PROCESSOS
+class Agente(models.Model):
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Ambiental')
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, verbose_name='Pessoa', null=True)
+    email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
+    ativo = models.BooleanField(default=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+    def __str__(self) -> str:
+        if self.pessoa:
+            return self.pessoa.nome
+        return 'Sem nome'
+    
 class Agente_Ambiental(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Ambiental')
     email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+    def save(self, *args, **kwargs):
+        agente = Agente.objects.filter(user=self.user)
+        if agente.exists():
+            agente = agente.first()
+            agente.email = self.email
+            agente.save()
+        else:
+            agente = Agente.objects.create(user=self.user, email=self.email)
+        super(Agente_Ambiental, self).save(*args, **kwargs)
 
 class Agente_Tributario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Tributário')
@@ -157,11 +180,31 @@ class Agente_Tributario(models.Model):
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
+    def save(self, *args, **kwargs):
+            agente = Agente.objects.filter(user=self.user)
+            if agente.exists():
+                agente = agente.first()
+                agente.email = self.email
+                agente.save()
+            else:
+                agente = Agente.objects.create(user=self.user, email=self.email)
+            super(Agente_Tributario, self).save(*args, **kwargs)
+
 class Agente_Divida_Fiscal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Fiscal de Dívida')
     email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+    def save(self, *args, **kwargs):
+            agente = Agente.objects.filter(user=self.user)
+            if agente.exists():
+                agente = agente.first()
+                agente.email = self.email
+                agente.save()
+            else:
+                agente = Agente.objects.create(user=self.user, email=self.email)
+            super(Agente_Divida_Fiscal, self).save(*args, **kwargs)
 
 class Agente_Procuradoria(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Procurador')
@@ -169,17 +212,47 @@ class Agente_Procuradoria(models.Model):
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
+    def save(self, *args, **kwargs):
+        agente = Agente.objects.filter(user=self.user)
+        if agente.exists():
+            agente = agente.first()
+            agente.email = self.email
+            agente.save()
+        else:
+            agente = Agente.objects.create(user=self.user, email=self.email)
+        super(Agente_Procuradoria, self).save(*args, **kwargs)
+
 class Agente_Sanitario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente Sanitário')
     email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
 
+    def save(self, *args, **kwargs):
+        agente = Agente.objects.filter(user=self.user)
+        if agente.exists():
+            agente = agente.first()
+            agente.email = self.email
+            agente.save()
+        else:
+            agente = Agente.objects.create(user=self.user, email=self.email)
+        super(Agente_Sanitario, self).save(*args, **kwargs)
+
 class Agente_Cartorio(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Agente de Cartório')
     email = models.EmailField(verbose_name="Email para receber notificação de processo", null=True)
     ativo = models.BooleanField(default=True)
     dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+
+    def save(self, *args, **kwargs):
+        agente = Agente.objects.filter(user=self.user)
+        if agente.exists():
+            agente = agente.first()
+            agente.email = self.email
+            agente.save()
+        else:
+            agente = Agente.objects.create(user=self.user, email=self.email)
+        super(Agente_Cartorio, self).save(*args, **kwargs)
 
 class Escolaridade(models.Model):
 
@@ -267,31 +340,30 @@ class Processo_Digital(models.Model):
         self.dt_atualizacao = timezone.now()
         super(Processo_Digital, self).save(*args, **kwargs)
         
-class RequerimentoISS(models.Model):
+# class RequerimentoISS(models.Model):
     
-    AUTONOMO_LOCALIZADO_CHOICES=(
-        ('s', 'Sim'),
-        ('n', 'Não'),   
-    )
+#     AUTONOMO_LOCALIZADO_CHOICES=(
+#         ('s', 'Sim'),
+#         ('n', 'Não'),   
+#     )
     
-    processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo', null=True)     
-    profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
-    autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
-    boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
-    boleto_saude = models.FileField(upload_to='processos/boleto/saude', verbose_name='Boleto vigilância sanitária', null=True, blank=True)
-    boleto_saude_status = models.BooleanField(default=False, verbose_name='Boleto vigilância sanitária pago?')
-    boleto_meio_ambiente = models.FileField(upload_to='processos/boleto/meio-ambiente', verbose_name='Boleto meio ambiente', null=True, blank=True)
-    boleto_meio_ambiente_status = models.BooleanField(default=False, verbose_name='Boleto meio ambiente pago?')
-    boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
-    # boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
-    n_inscricao = models.CharField(max_length=128, verbose_name='Número de inscrição', null=True, blank=True)
-    dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
-    dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
+#     processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo', null=True)     
+#     profissao = models.ForeignKey(Profissao, on_delete=models.CASCADE, verbose_name='Profissão')
+#     autonomo_localizado = models.CharField(max_length=1, verbose_name='Autônomo localizado?', choices=AUTONOMO_LOCALIZADO_CHOICES)
+#     boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
+#     boleto_saude = models.FileField(upload_to='processos/boleto/saude', verbose_name='Boleto vigilância sanitária', null=True, blank=True)
+#     boleto_saude_status = models.BooleanField(default=False, verbose_name='Boleto vigilância sanitária pago?')
+#     boleto_meio_ambiente = models.FileField(upload_to='processos/boleto/meio-ambiente', verbose_name='Boleto meio ambiente', null=True, blank=True)
+#     boleto_meio_ambiente_status = models.BooleanField(default=False, verbose_name='Boleto meio ambiente pago?')
+#     boleto = models.FileField(upload_to='processos/boleto/', verbose_name='Boleto', null=True, blank=True)
+#     # boleto_pago = models.BooleanField(default=False, verbose_name='Boleto pago?')
+#     n_inscricao = models.CharField(max_length=128, verbose_name='Número de inscrição', null=True, blank=True)
+#     dt_solicitacao = models.DateField(auto_now_add=True, verbose_name='Data de solicitação', null=True)
+#     dt_atualizacao = models.DateField(auto_now=True, verbose_name='Data de atualização', null=True)
     
-    def save(self, *args, **kwargs):
-        self.dt_atualizacao = timezone.now()
-        super(RequerimentoISS, self).save(*args, **kwargs)
-        
+#     def save(self, *args, **kwargs):
+#         self.dt_atualizacao = timezone.now()
+#         super(RequerimentoISS, self).save(*args, **kwargs)
 class Andamento_Processo_Digital(models.Model):
     STATUS_CHOICES=(
         ('nv', 'Novo'),
@@ -304,7 +376,7 @@ class Andamento_Processo_Digital(models.Model):
         ('ls', 'Aguardando emissão licença sanitária'),
         ('la', 'Aguardando emissão licença ambiental'),
         ('se', 'Licença ambiental sanitária'),
-        ('ae', 'Licença ambiental emitida'),
+        ('am', 'Licença ambiental emitida'),
         ('bg', 'Boleto gerado'),
         ('cn', 'Concluído')
     )
@@ -316,6 +388,48 @@ class Andamento_Processo_Digital(models.Model):
     
     def __str__(self) -> str:
         return str(self.processo.n_protocolo) + ' - ' +str(self.id) + ' - ' + str(self.dt_andamento)
+    
+    def verificar_boleto_ma(self):
+        # Obtém todos os registros do processo atual
+        registros = Andamento_Processo_Digital.objects.filter(processo=self.processo).order_by('-dt_andamento')
+
+        boleto_gerado = False
+        licenca_emitida = False
+
+        for registro in registros:
+            if registro.status == 'ba': # Veritifca se existe um status de 'Aguardando pagamento licença ambiental'
+                boleto_gerado = True
+            elif registro.status in ['am']:
+                licenca_emitida = True
+                break  # Se a licença foi emitida, podemos parar de procurar
+
+        if licenca_emitida:
+            return 'licenca_emitida'
+        elif boleto_gerado:
+            return 'boleto_gerado'
+        else:
+            return 'nada_para_exibir'
+        
+    def verificar_boleto_ls(self):
+        # Obtém todos os registros do processo atual
+        registros = Andamento_Processo_Digital.objects.filter(processo=self.processo).order_by('-dt_andamento')
+
+        boleto_gerado = False
+        licenca_emitida = False
+
+        for registro in registros:
+            if registro.status == 'bs': # Veritifca se existe um status de 'Aguardando pagamento licença sanitária'
+                boleto_gerado = True
+            elif registro.status in ['se']:
+                licenca_emitida = True
+                break  # Se a licença foi emitida, podemos parar de procurar
+
+        if licenca_emitida:
+            return 'licenca_emitida'
+        elif boleto_gerado:
+            return 'boleto_gerado'
+        else:
+            return 'nada_para_exibir'
 
 #Documentos do Requerimento de ISS
 class LimitedImageField(models.ImageField):
@@ -335,59 +449,59 @@ class LimitedImageField(models.ImageField):
             if image.size[0] > self.max_size[0] or image.size[1] > self.max_size[1]:
                 raise ValidationError(f'A imagem não pode ser maior que {self.max_size[0]}x{self.max_size[1]} pixels.')
 
-class Processo_Status_Documentos_Anexos(models.Model):
-    DOC_STATUS_CHOICES=(
-        ('0', 'Aguardando avaliação'),
-        ('1', 'Aprovado'),
-        ('2', 'Reprovado'),
-        ('3', 'Atualização requerida'),
-    )
-    processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
-    user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
-    rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte', null=True)
-    comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço', null=True)
-    diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
-    # Licença Sanitária
-    licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
-    comprovante_limpeza_caixa_dagua = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Laudo de serviço e comprovante de limpeza de caixa d'agua por firma credenciada no INEA", null=True, blank=True)
-    comprovante_limpeza_caixa_dagua_status = models.CharField(max_length=1, verbose_name="Status Limpeza Caixa d'Agua", choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_caixa_dagua = models.ForeignKey(Agente_Sanitario, related_name="caixa_dagua_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da caixa d'água", null=True)
-    comprovante_ar_condicionado = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Comprovante de manutenção de ar condicionado", null=True, blank=True)
-    comprovante_ar_condicionado_status = models.CharField(max_length=1, verbose_name='Status Comprovante Ar Condicionado', choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_ar = models.ForeignKey(Agente_Sanitario, related_name="ar_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da manutenção do ar", null=True)
-    plano_gerenciamento_de_residuos = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Plano de ferenciamento de resíduos", null=True, blank=True)
-    plano_gerenciamento_de_residuos_status = models.CharField(max_length=1, verbose_name='Status Gerenciamento de Resíduos', choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_residuos = models.ForeignKey(Agente_Sanitario, related_name="residuos_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do plano de resíduos", null=True)
-    licenca_santinaria_anterior = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Licença sanitária anterior (para renovação)", null=True, blank=True)
-    licenca_santinaria_anterior_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_licenca_sanitaria_anterior = models.ForeignKey(Agente_Sanitario, related_name="licenca_sanitaria_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da antiga licença sanitária", null=True)
-    # Fim Licenca Sanitária
-    # Licença Ambiental
-    licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
-    espelho_iptu = models.FileField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
-    espelho_iptu_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
-    contrato_locacao = models.FileField(upload_to='processos/contrato-locacao/', verbose_name='Cópia do contrato de locação, se houver', null=True, blank=True)
-    contrato_locacao_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
-    conta_dagua = models.FileField(upload_to='processos/conta-dagua/', verbose_name="Conta d'água", null=True, blank=True)
-    conta_dagua_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
-    conta_luz = models.FileField(upload_to='processos/conta-luz/', verbose_name='Conta de luz', null=True, blank=True)
-    conta_luz_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
-    foto = LimitedImageField(upload_to='processos/fotos_empresa/', null=True, blank=True, verbose_name="Foto da empresa para possibilitar a vistoria do técnico (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
-    foto_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
-    croqui_acesso = LimitedImageField(upload_to='processos/croqui_acesso/', null=True, blank=True, verbose_name="Croqui de acesso para possibilitar a localização e vistoria da local de atuação. (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
-    croqui_acesso_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
-    # Fim Licença Ambiental
+# class Processo_Status_Documentos_Anexos(models.Model):
+#     DOC_STATUS_CHOICES=(
+#         ('0', 'Aguardando avaliação'),
+#         ('1', 'Aprovado'),
+#         ('2', 'Reprovado'),
+#         ('3', 'Atualização requerida'),
+#     )
+#     processo = models.ForeignKey(Processo_Digital, on_delete=models.CASCADE, verbose_name='Processo')
+#     user_register = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True)
+#     rg = models.FileField(upload_to='processos/rg_cnh/', verbose_name='RG/CNH/Passaporte', null=True)
+#     comprovante_endereco = models.FileField(upload_to='processos/comprovante_endereco/', verbose_name='Comprovante de endereço', null=True)
+#     diploma_ou_certificado = models.FileField(upload_to='processos/diploma_ou_certificado/', verbose_name='Diploma ou certificado', null=True, blank=True)
+#     # Licença Sanitária
+#     licenca_sanitaria = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name='Licença sanitária', null=True, blank=True)
+#     comprovante_limpeza_caixa_dagua = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Laudo de serviço e comprovante de limpeza de caixa d'agua por firma credenciada no INEA", null=True, blank=True)
+#     comprovante_limpeza_caixa_dagua_status = models.CharField(max_length=1, verbose_name="Status Limpeza Caixa d'Agua", choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_caixa_dagua = models.ForeignKey(Agente_Sanitario, related_name="caixa_dagua_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da caixa d'água", null=True)
+#     comprovante_ar_condicionado = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Comprovante de manutenção de ar condicionado", null=True, blank=True)
+#     comprovante_ar_condicionado_status = models.CharField(max_length=1, verbose_name='Status Comprovante Ar Condicionado', choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_ar = models.ForeignKey(Agente_Sanitario, related_name="ar_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da manutenção do ar", null=True)
+#     plano_gerenciamento_de_residuos = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Plano de ferenciamento de resíduos", null=True, blank=True)
+#     plano_gerenciamento_de_residuos_status = models.CharField(max_length=1, verbose_name='Status Gerenciamento de Resíduos', choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_residuos = models.ForeignKey(Agente_Sanitario, related_name="residuos_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do plano de resíduos", null=True)
+#     licenca_santinaria_anterior = models.FileField(upload_to='processos/licenca_sanitaria/', verbose_name="Licença sanitária anterior (para renovação)", null=True, blank=True)
+#     licenca_santinaria_anterior_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_licenca_sanitaria_anterior = models.ForeignKey(Agente_Sanitario, related_name="licenca_sanitaria_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status da antiga licença sanitária", null=True)
+#     # Fim Licenca Sanitária
+#     # Licença Ambiental
+#     licenca_ambiental = models.FileField(upload_to='processos/licenca_ambiental/', verbose_name='Licença ambiental', null=True, blank=True)
+#     espelho_iptu = models.FileField(upload_to='processos/espelho_iptu/', verbose_name='Espelho do IPTU', null=True, blank=True)
+#     espelho_iptu_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+#     contrato_locacao = models.FileField(upload_to='processos/contrato-locacao/', verbose_name='Cópia do contrato de locação, se houver', null=True, blank=True)
+#     contrato_locacao_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+#     conta_dagua = models.FileField(upload_to='processos/conta-dagua/', verbose_name="Conta d'água", null=True, blank=True)
+#     conta_dagua_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+#     conta_luz = models.FileField(upload_to='processos/conta-luz/', verbose_name='Conta de luz', null=True, blank=True)
+#     conta_luz_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+#     foto = LimitedImageField(upload_to='processos/fotos_empresa/', null=True, blank=True, verbose_name="Foto da empresa para possibilitar a vistoria do técnico (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
+#     foto_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+#     croqui_acesso = LimitedImageField(upload_to='processos/croqui_acesso/', null=True, blank=True, verbose_name="Croqui de acesso para possibilitar a localização e vistoria da local de atuação. (jpg ou png)", help_text='Limite: 2MB', allowed_formats=['jpeg', 'jpg', 'png'], max_size=(2048, 2048))
+#     croqui_acesso_status = models.CharField(max_length=1, verbose_name='Status Licenca Sanitária Anterior', choices=DOC_STATUS_CHOICES, default='0')
+#     # Fim Licença Ambiental
     
-    rg_status=models.CharField(max_length=1, verbose_name='Status do RG', choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_rg = models.ForeignKey(Agente_Tributario, related_name="rg_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do RG", null=True)
-    comprovante_endereco_status=models.CharField(max_length=1, verbose_name='Status do comprovante de endereço', choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_endereco = models.ForeignKey(Agente_Tributario, related_name="comprovante_endereco_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do comprovante de endereço", null=True)
-    diploma_ou_certificado_status=models.CharField(max_length=1, verbose_name='Status do diploma ou certificado', choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_certificado = models.ForeignKey(Agente_Tributario, related_name="certificado_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do Certificado/Diploma", null=True)
-    licenca_sanitaria_status=models.CharField(max_length=1, verbose_name='Status da licença sanitária', choices=DOC_STATUS_CHOICES, default='0')
-    licenca_ambiental_status=models.CharField(max_length=1, verbose_name='Status da licença ambiental', choices=DOC_STATUS_CHOICES, default='0')
-    espelho_iptu_status=models.CharField(max_length=1, verbose_name='Status do espelho do IPTU', choices=DOC_STATUS_CHOICES, default='0')
-    agente_att_iptu = models.ForeignKey(Agente_Tributario, related_name="iptu_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do Espelho de IPTU", null=True)
+#     rg_status=models.CharField(max_length=1, verbose_name='Status do RG', choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_rg = models.ForeignKey(Agente_Tributario, related_name="rg_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do RG", null=True)
+#     comprovante_endereco_status=models.CharField(max_length=1, verbose_name='Status do comprovante de endereço', choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_endereco = models.ForeignKey(Agente_Tributario, related_name="comprovante_endereco_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do comprovante de endereço", null=True)
+#     diploma_ou_certificado_status=models.CharField(max_length=1, verbose_name='Status do diploma ou certificado', choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_certificado = models.ForeignKey(Agente_Tributario, related_name="certificado_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do Certificado/Diploma", null=True)
+#     licenca_sanitaria_status=models.CharField(max_length=1, verbose_name='Status da licença sanitária', choices=DOC_STATUS_CHOICES, default='0')
+#     licenca_ambiental_status=models.CharField(max_length=1, verbose_name='Status da licença ambiental', choices=DOC_STATUS_CHOICES, default='0')
+#     espelho_iptu_status=models.CharField(max_length=1, verbose_name='Status do espelho do IPTU', choices=DOC_STATUS_CHOICES, default='0')
+#     agente_att_iptu = models.ForeignKey(Agente_Tributario, related_name="iptu_anexos", on_delete=models.CASCADE, verbose_name="Agente que autalizou o status do Espelho de IPTU", null=True)
 
 class RequerimentoISSQN(models.Model):
     SOLICITACAO_CHOICES=(
@@ -462,11 +576,11 @@ def generate_process_number(sender, instance, created, **kwargs):
         instance.n_protocolo='{:8}'.format(n_protocolo.zfill(8))
         instance.save()
 
-@receiver(post_save, sender=Andamento_Processo_Digital)
-@receiver(post_save, sender=Processo_Status_Documentos_Anexos)
-def atualizar_dt_atualizacao_processo(sender, instance, **kwargs):
-    instance.processo.dt_atualizacao = timezone.now()
-    instance.processo.save()
+# @receiver(post_save, sender=Andamento_Processo_Digital)
+# @receiver(post_save, sender=Processo_Status_Documentos_Anexos)
+# def atualizar_dt_atualizacao_processo(sender, instance, **kwargs):
+#     instance.processo.dt_atualizacao = timezone.now()
+#     instance.processo.save()
     
     
 ## Modelos do PDDE    

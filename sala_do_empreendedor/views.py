@@ -4,10 +4,10 @@ from .api import ApiProtocolo
 from .views_folder.minha_empresa import *
 from .views_folder.vitrine_virtual import *
 from .views_folder.admin import *
-from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, Criar_Processo_Docs_Form, RequerimentoISSQNForm, DocumentosPedidoForm, Processo_ISS_Form, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil, Form_Necessidades_das_Empresas, FormRamos
+from .forms import Faccao_Legal_Form, Escola_Form, Solicitacao_de_Compras_Form,Criar_Item_Solicitacao, RequerimentoISSQNForm, DocumentosPedidoForm, Contrato_NotaFiscal, Contrato_Avaliacao, Form_Novas_Oportunidades, Form_Credito_Facil, Form_Necessidades_das_Empresas, FormRamos
 from django.urls import reverse
 from autenticacao.functions import validate_cpf
-from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, Processo_Status_Documentos_Anexos, RequerimentoISS, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal, Novas_Oportunidades
+from .models import Profissao, Escola, Solicitacao_de_Compras, Item_Solicitacao, Proposta, Proposta_Item, Contrato_de_Servico, Tipo_Processos, AtividadeManual, Tipo_Producao_Alimentos, Tipo_Costura, Tipo_Producao_Bebidas, Faccao_legal, Novas_Oportunidades
 from .functions.pdde import Listar_Proposta, PDDE_POST
 from .functions.email import send_email_for_create_process, send_email_for_att_process
 from .functions.empresa import validate_CNPJ

@@ -1,0 +1,40 @@
+{% load processos_tags %}
+<div class="row">
+  <div class="col d-flex flex-column pt-3 px-5">
+    <h4>Demais Anexos</h4>        
+  </div>
+</div> 
+<div class="row mt-1 mb-4 px-5">
+    <div class="col d-flex flex-column px-4">
+        <label for="">Status RG</label>
+        <p class="bg-status-{{status.iss.rg_status}}">{{status.iss.get_rg_status_display}}</p>
+    </div>
+    {{ status.iss.render_button_atualizar_documento }}
+    <div class="col d-flex flex-column ms-2">
+        <label for="">Status Comprovante</label>
+        <p class="bg-status-{{status.iss.comprovante_endereco_status}}">{{status.iss.get_comprovante_endereco_status_display}}</p>
+    </div>
+    {% if requerimento.profissao.escolaridade < '5' %}
+    <div class="col d-flex flex-column ms-2">
+        <label for="">Status Diploma/Certificado</label>
+        <p class="bg-status-{{status.iss.diploma_ou_certificado_status}}">{{status.iss.get_diploma_ou_certificado_status_display}}</p>
+    </div>
+    {% endif %}
+    <div class="col d-flex flex-column ms-2">
+        <label for="">Status Espelho de IPTU</label>
+        <p class="bg-status-{{status.iss.espelho_iptu_status}}">{{status.iss.get_espelho_iptu_status_display}}</p>
+    </div>
+</div>
+<div class="row text-center">
+    {% render_button_atualizar_documento processo.n_protocolo "rg" "RG" status.iss.rg_status %}    
+    {% render_button_atualizar_documento processo.n_protocolo "comprovante_endereco" "comprovante" status.iss.comprovante_endereco_status %}    
+    {% if requerimento.profissao.escolaridade < '5' %}
+    {% render_button_atualizar_documento processo.n_protocolo "diploma_ou_certificado" "diploma/certificado" status.iss.diploma_ou_certificado_status %}
+    {% endif %}
+    {% render_button_atualizar_documento processo.n_protocolo "espelho_iptu" "espelho IPTU" status.iss.espelho_iptu_status %}    
+</div>
+<div class="row mt-1 mb-4 px-4">
+    <div class="col d-flex flex-column px-4">
+        <hr>
+    </div>
+</div>

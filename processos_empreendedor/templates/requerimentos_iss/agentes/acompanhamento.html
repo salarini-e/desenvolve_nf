@@ -1,0 +1,658 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="">
+      <div class="offcanvas-header">
+        <button class="ms-1 btn btn-link" id="btn-expand" onclick="toogleSizeCanvas()" style="text-decoration: none; color: #797676;"><i class="fa-solid fa-angles-left"></i></button>
+
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Relatórios</h5>        
+
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <button id="btn-novo-relatorio" onclick="novoRelatorio()" class="btn btn-outline-dark w-100">
+          <i class="fa-solid fa-file-signature me-2"></i> Novo relatório
+        </button>
+        <hr id="separador">              
+        <div id="novo-relatorio">
+          <div class="row mb-3">
+            <div class="col d-flex">
+              <input type="text" name="searchAgente" id="searchAgente" placeholder="Buscar agente.." class="form-control" style="border-radius: 5px !important;">
+              <button class="pessoas-relatorio ms-1 btn btn-dark" onclick="pesquisarAgente()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>            
+          </div>  
+          <div class="row">
+            <div id="searchResult" class="col">
+              <!-- <a href="#" class="w-100 d-flex ps-2 mt-3 pe-3" data-id="1">
+                <span class="my-auto me-3" style="color: rgb(82, 82, 82);">
+                  <i class="fa-solid fa-user-plus"></i>
+                </span>                
+                <span class="my-auto" style="color: rgb(82, 82, 82);">
+                  Luis Eduardo C. Salarini
+                </span>
+                <button class="btn btn-link ms-auto" style="color: rgb(82, 82, 82);">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </a> -->
+            </div>
+          </div>     
+          <div class="row">
+            <div id="agentesSelecionados" class="col">
+              <hr>
+              <div id="confirmados" class="w-100 d-flex ps-2 pe-3 mb-2">
+                <span class="my-auto me-3" style="color: rgb(15, 128, 0);">
+                  <i class="fa-solid fa-user-check"></i>
+                </span>                
+                <span class="my-auto" style="color: rgb(15, 128, 0);">
+                  Luis Eduardo C. Salarini
+                </span>
+                <button class="btn btn-link ms-auto" style="color: red;">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+              </div>
+            </div>
+          </div>                         
+          <div class="form-floating mb-3">            
+            <textarea class="form-control" placeholder="Relate aqui" id="floatingTextarea2" style="height: 60vh"></textarea>
+            <label for="floatingTextarea2">Novo relatório</label>
+          </div>
+          <div class="d-flex">            
+            <button class="btn btn-success" onclick="enviarRelatorio()">
+              Salvar
+            </button>
+            <button id="btn-cancelar-relatorio" onclick="cancelarRelatorio()" class="btn btn-outline-danger ms-2">
+              Cancelar
+            </button>
+          </div>
+        </div>
+        <div id="relatorios">
+          {% for relatorio in relatorios %}
+          <div class="relatorio">          
+            <div class="relatorio-header">
+              <p><strong>{{relatorio.user}}</strong></p>
+              {{relatorio.outros_agentes|safe}}
+              <p class="text-secondary">{{ relatorio.dt_register|date:"d/m/y" }} {{ relatorio.dt_register|time:"H:i" }}</p>            
+            </div>
+            <div class="relatorio-body pt-3">
+              <p class="text-justify">
+                {{relatorio.get_descricao}}
+              </p>
+            </div>
+          </div>          
+          <hr>
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+    <div class="row border" style="border-radius: 30px; background-color: rgb(255, 255, 255);">
+      <div class="col">
+        <div class="pt-4 d-flex px-3">
+            <h2 style="display: inline;">Processos Digitais <span class="text-secondary">({{label}})</span></h2>
+            <button class="btn btn-outline-danger ms-auto my-auto" style="font-size: 11pt;">
+              <i class="fa-solid fa-bullhorn me-2"></i>Notificar situação dos documentos
+            </button>
+              <button class="btn btn-outline-dark ms-2 my-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                <i class="fa-solid fa-file-contract me-2"></i> Relatórios
+              </button>       
+              <a href="{% url 'processos_empreendedor:listar_processos_agente' tipo %}" class="btn btn-dark ms-1 my-auto">
+                <i class="fa-solid fa-rotate-left me-2"></i> Voltar
+              </a>                           
+            </div>
+            <div class="row">
+              <div class="col">
+                <!-- {{status_documentos}} -->
+              </div>
+            </div>
+            {% include 'requerimentos_iss/agentes/header.html' %}
+            {% include 'requerimentos_iss/agentes/header_2.html' %}
+            {% if tipo == 'agente-ambiental'%}
+            {% include 'requerimentos_iss/agentes/bloco_licenca_ambiental.html' %}
+            {% endif %}
+            {% if tipo == 'agente-sanitario'%}
+            {% include 'requerimentos_iss/agentes/bloco_licenca_sanitaria.html' %}
+            {% endif %}
+            {% include 'requerimentos_iss/agentes/bloco_demais_documentos.html' %}
+            {% include 'requerimentos_iss/agentes/andamento.html' %}
+      </div>
+    </div>    
+</div>
+</div>
+<div class="row mx-auto px-5">
+  {% csrf_token %}
+  <style>
+    .bg-status-0{
+      margin-top: 5px;
+      text-align: center;
+      background-color: rgb(243, 232, 78);
+      border-radius: 20px;
+    }
+    .bg-status-1{
+      margin-top: 5px;
+      text-align: center;
+      background-color: rgb(91, 193, 93);
+      border-radius: 20px;
+    }
+    .bg-status-2{
+      margin-top: 5px;
+      text-align: center;
+      background-color: rgb(181, 33, 33);
+      color: rgb(239, 196, 196);
+      border-radius: 20px;  
+    }
+    #novo-relatorio, #btn-cancelar-relatorio{
+      display: none;
+    }
+    #div-boleto-sanitario{
+      display: none;
+    }
+  </style>
+  <script>
+    function pesquisarAgente(){
+            const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
+            const csrfToken = csrfTokenInput.value;            
+            const searchAgente = document.getElementById('searchAgente').value;
+            let url = "{% url 'processos_empreendedor:pesquisarAgentes' %}";
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pesquisar: searchAgente })
+            })
+            .then((response)=>{
+                response.json()
+                .then((data)=>{                    
+                    if (data.status == 'ok'){
+                      displayAgentes(data.agentes);
+                    }else{
+                        alert('Erro ao buscar agentes!')
+                    }
+                })
+            })
+    }
+    function displayAgentes(agentes) {
+        const searchResultDiv = document.getElementById('searchResult');
+        searchResultDiv.innerHTML = ''; // Limpa resultados anteriores
+
+        agentes.forEach(agente => {
+            const agenteElement = document.createElement('span');
+            agenteElement.className = 'w-100 d-flex ps-2 mt-3 pe-3';
+            agenteElement.setAttribute('data-id', agente.id);
+
+            const iconSpan = document.createElement('span');
+            iconSpan.className = 'my-auto me-3';
+            iconSpan.style.color = 'rgb(82, 82, 82)';
+            iconSpan.innerHTML = '<i class="fa-solid fa-user-plus"></i>';
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'my-auto';
+            nameSpan.style.color = 'rgb(82, 82, 82)';
+            nameSpan.textContent = agente.nome;
+
+            const button = document.createElement('button');
+            button.className = 'btn btn-link ms-auto';
+            button.style.color = 'rgb(82, 82, 82)';
+            button.innerHTML = '<i class="fa-solid fa-plus"></i>';
+            button.setAttribute('onclick', `adicionarAgente(${agente.id}, '${agente.nome}')`);
+
+            agenteElement.appendChild(iconSpan);
+            agenteElement.appendChild(nameSpan);
+            agenteElement.appendChild(button);
+
+            searchResultDiv.appendChild(agenteElement);
+        });
+    }
+    function adicionarAgente(id, nome) {
+        // Remove o agente da lista de pesquisa
+        const agenteElement = document.querySelector(`[data-id='${id}']`);
+        if (agenteElement) {
+            agenteElement.remove();
+        }
+
+        // Adiciona o agente à lista de selecionados
+        const agentesSelecionadosDiv = document.getElementById('agentesSelecionados');
+
+        const selecionadoElement = document.createElement('div');
+        selecionadoElement.className = 'w-100 d-flex ps-2 pe-3 mb-2 agente-selecionado';
+        selecionadoElement.setAttribute('data-id', id);
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'my-auto me-3';
+        iconSpan.style.color = 'rgb(0, 45, 128)';
+        iconSpan.innerHTML = '<i class="fa-solid fa-user-clock"></i>';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'my-auto';
+        nameSpan.style.color = 'rgb(0, 45, 128)';
+        nameSpan.textContent = nome;
+
+        const button = document.createElement('button');
+        button.className = 'btn btn-link ms-auto';
+        button.style.color = 'red';
+        button.innerHTML = '<i class="fa-solid fa-minus"></i>';
+        button.setAttribute('onclick', `removerAgente(${id}, '${nome}')`);
+
+        selecionadoElement.appendChild(iconSpan);
+        selecionadoElement.appendChild(nameSpan);
+        selecionadoElement.appendChild(button);
+
+        agentesSelecionadosDiv.appendChild(selecionadoElement);
+    }
+    function removerAgente(id, nome) {
+        // Remove o agente da lista de selecionados
+        const agenteElement = document.querySelector(`#agentesSelecionados [data-id='${id}']`);
+        if (agenteElement) {
+            agenteElement.remove();
+        }
+
+        // Adiciona o agente de volta à lista de pesquisa
+        const searchResultDiv = document.getElementById('searchResult');
+
+        const agenteElementNew = document.createElement('a');
+        agenteElementNew.href = '#';
+        agenteElementNew.className = 'w-100 d-flex ps-2 mt-3 pe-3';
+        agenteElementNew.setAttribute('data-id', id);
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'my-auto me-3';
+        iconSpan.style.color = 'rgb(82, 82, 82)';
+        iconSpan.innerHTML = '<i class="fa-solid fa-user-plus"></i>';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'my-auto';
+        nameSpan.style.color = 'rgb(82, 82, 82)';
+        nameSpan.textContent = nome;
+
+        const button = document.createElement('button');
+        button.className = 'btn btn-link ms-auto';
+        button.style.color = 'rgb(82, 82, 82)';
+        button.innerHTML = '<i class="fa-solid fa-plus"></i>';
+        button.setAttribute('onclick', `adicionarAgente(${id}, '${nome}')`);
+
+        agenteElementNew.appendChild(iconSpan);
+        agenteElementNew.appendChild(nameSpan);
+        agenteElementNew.appendChild(button);
+
+        searchResultDiv.appendChild(agenteElementNew);
+    }
+    let openfiltros = false
+    function showFiltros(){
+        if (openfiltros){      
+            document.getElementById('filtros').style.display='none'
+            openfiltros=false
+        }else{
+            document.getElementById('filtros').style.display='flex'
+            openfiltros=true
+        }
+      }
+    
+    function mudaStatus(e, arquivo, id, status, agente){
+            const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
+            const csrfToken = csrfTokenInput.value;            
+            let url = "{% url 'processos_empreendedor:mudaStatus' %}";
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id, arquivo: arquivo, status: status, agente: agente })
+            })
+            .then((response)=>{
+                response.json()
+                .then((data)=>{                    
+                    if (data.status == 'ok'){
+                        var loadingElement = e.parentElement.querySelector('.loading');
+                        loadingElement.innerHTML = '<img src="https://imagepng.org/check-icone/check-icone-1/" alt="">';
+                        checkStatus(agente)
+                        // alert('Status alterado com sucesso!')
+                    }else{
+                        loadingElement.innerHTML = '<img src="https://static-00.iconduck.com/assets.00/gui-check-no-icon-512x512-9qqp1ph5.png" alt="">';
+                        alert('Erro ao alterar status!')
+                    }
+                })
+            })
+    }
+    function changeColor(e, tipo, id, agente){
+      e.className = '';
+      var loadingElement = e.parentElement.querySelector('.loading');
+      loadingElement.innerHTML = '<img src="https://i.pinimg.com/originals/2e/ce/ce/2ececec5431d0a1b7eae4e1acac7c59f.gif" alt="">'
+
+      mudaStatus(e, tipo, id, e.value, agente);
+
+      if (e.value==1){      
+        e.classList.add('bg-status-1');
+      } else if (e.value==2){
+        e.classList.add('bg-status-2');
+      } else if (e.value==0){
+        e.classList.add('bg-status-0');
+      }
+      
+    }
+
+    function takeInputs(name){
+      var inputs = document.getElementsByName(name);
+      var values = [];
+      for (var i = 0; i < inputs.length; i++) {
+        values.push(inputs[i].value);
+      }
+      return values;
+    }
+    function checkAllTrue(values){
+      for (var i = 0; i < values.length; i++) {
+        if (values[i] != 1){
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function checkStatus(name){
+      var divBoleto = document.getElementById('div-boleto-'+name);
+      if (checkAllTrue(takeInputs(name))){        
+        divBoleto.style.display = 'block';
+      }else{
+        divBoleto.style.display = 'none';
+      }
+    }
+
+
+    function novoRelatorio(){
+      var relatorios = document.getElementById('relatorios');
+      var novoRelatorio = document.getElementById('novo-relatorio');
+      var separador = document.getElementById('separador');
+      var btnNovoRelatorio = document.getElementById('btn-novo-relatorio');
+      var btnCancelarRelatorio = document.getElementById('btn-cancelar-relatorio');
+
+      relatorios.style.display = 'none';
+      novoRelatorio.style.display = 'block';      
+      btnNovoRelatorio.style.display = 'none';
+      btnCancelarRelatorio.style.display = 'block';
+      separador.style.display = 'none';
+    }
+    function cancelarRelatorio(){
+      var relatorios = document.getElementById('relatorios');
+      var novoRelatorio = document.getElementById('novo-relatorio');
+      var separador = document.getElementById('separador');
+      var btnNovoRelatorio = document.getElementById('btn-novo-relatorio');
+      var btnCancelarRelatorio = document.getElementById('btn-cancelar-relatorio');
+
+      relatorios.style.display = 'block';
+      novoRelatorio.style.display = 'none';      
+      btnNovoRelatorio.style.display = 'block';
+      btnCancelarRelatorio.style.display = 'none';
+      separador.style.display = 'block';
+      
+    }
+
+    {% if tipo == 'agente-ambiental' %}
+    checkStatus('ambiental');        
+    {% elif tipo == 'agente-sanitario' %}
+    checkStatus('sanitario');        
+    {% endif %}
+
+    async function enviarBoleto(tipo, processo_id) {
+        const fileInput = document.querySelector(`input[name='boleto-${tipo}']`);
+        
+        if (!fileInput || fileInput.files.length === 0) {
+            alert("Por favor, selecione um arquivo.");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const base64File = await toBase64(file);
+
+        const data = {
+            processo_id: processo_id,
+            tipo_boleto: tipo,
+            boleto_file: base64File
+        };
+
+        fetch("{% url 'processos_empreendedor:receber_boleto' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Necessário se o Django CSRF estiver habilitado
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const responseMessage = document.getElementById('responseMessage');
+            if (data.status === 'ok') {
+                responseMessage.innerText = "Boleto enviado com sucesso!";
+                responseMessage.style.color = 'green';
+            } else {
+                responseMessage.innerText = `Erro: ${data.message}`;
+                responseMessage.style.color = 'red';
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            const responseMessage = document.getElementById('responseMessage');
+            responseMessage.innerText = "Erro ao enviar o boleto.";
+            responseMessage.style.color = 'red';
+        });
+    }
+    async function enviarRelatorio() {
+    const descricao = document.getElementById('floatingTextarea2').value;
+    const agentes = document.querySelectorAll('.agente-selecionado');
+    var agentes_ids = [];
+    if (agentes.length != 0) {    
+        agentes.forEach(agente => {
+            agentes_ids.push(agente.getAttribute('data-id'));
+        });    
+    }
+    if (!descricao) {
+        alert("Por favor, escreva uma descrição para o relatório.");
+        return;
+    }
+
+    const csrfToken = document.querySelector("input[name='csrfmiddlewaretoken']").value;
+
+    const response = await fetch("{% url 'processos_empreendedor:enviar_relatorio' tipo=tipo n_protocolo=processo.n_protocolo %}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ descricao: descricao, processo_id: {{ processo.id }}, agentes: agentes_ids })
+    });
+
+    const data = await response.json();
+    console.log(data);
+    if (data.status === 'ok') {
+        adicionarRelatorio(descricao, data.nome);
+        cancelarRelatorio(); // Função para resetar o formulário e exibir a lista de relatórios
+    } else {
+        alert("Erro ao enviar o relatório.");
+    }
+}
+function adicionarRelatorio(descricao, nome) {
+  const relatoriosDiv = document.getElementById('relatorios');
+  const novoRelatorioDiv = document.createElement('div');
+  novoRelatorioDiv.className = 'relatorio';
+
+  const agora = new Date();
+  const dia = String(agora.getDate()).padStart(2, '0');
+  const mes = String(agora.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+  const ano = String(agora.getFullYear()).slice(-2);
+  const horas = String(agora.getHours()).padStart(2, '0');
+  const minutos = String(agora.getMinutes()).padStart(2, '0');
+  const dataFormatada = `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+
+  // Divide a descrição em partes usando a expressão regular que inclui um ou mais \n
+  const partes = descricao.split(/(\n+)/);
+
+  // Processa cada parte para adicionar os parágrafos e as quebras de linha adequadas
+  const conteudoFormatado = partes.map(parte => {
+    if (parte.match(/\n/)) {
+      const numQuebras = parte.length;
+      return '<br>'.repeat(numQuebras - 1); // -1 porque uma quebra já é convertida em um parágrafo
+    } else {
+      return `<p class="text-justify">${parte.trim()}</p>`;
+    }
+  }).join('');
+
+  novoRelatorioDiv.innerHTML = `
+      <div class="relatorio-header">
+          <p><strong>${nome}</strong></p>
+          <p class="text-secondary">${dataFormatada}</p>
+      </div>
+      <div class="relatorio-body pt-3">
+          ${conteudoFormatado}
+      </div>
+  `;
+
+  const hr = document.createElement('hr');
+  relatoriosDiv.prepend(hr);
+  relatoriosDiv.prepend(novoRelatorioDiv);
+}
+
+  // function adicionarRelatorio(descricao, nome) {
+  //     const relatoriosDiv = document.getElementById('relatorios');
+  //     const novoRelatorioDiv = document.createElement('div');
+  //     novoRelatorioDiv.className = 'relatorio';
+
+  //     const agora = new Date();
+  //     const dia = String(agora.getDate()).padStart(2, '0');
+  //     const mes = String(agora.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+  //     const ano = String(agora.getFullYear()).slice(-2);
+  //     const horas = String(agora.getHours()).padStart(2, '0');
+  //     const minutos = String(agora.getMinutes()).padStart(2, '0');
+  //     const dataFormatada = `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+
+  //     novoRelatorioDiv.innerHTML = `
+  //         <div class="relatorio-header">
+  //             <p><strong>${nome}</strong></p>
+  //             <p class="text-secondary">${dataFormatada}</p>
+  //         </div>
+  //         <div class="relatorio-body pt-3">
+  //             <p class="text-justify">${descricao}</p>
+  //         </div>
+  //     `;
+
+  //     const hr = document.createElement('hr');
+  //     relatoriosDiv.prepend(hr);
+  //     relatoriosDiv.prepend(novoRelatorioDiv);
+  // }
+
+    function toBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    canvasSize='400px'
+    function toogleSizeCanvas(){
+      const button = document.getElementById('btn-expand');
+    
+      // Adiciona a classe .fade para iniciar o efeito de desvanecimento
+      button.classList.add('fade');
+      
+      // Define a opacidade como 0 para iniciar o fade out
+      button.style.opacity = 0;
+
+      // Aguarda a transição de opacidade antes de mudar o ícone e aumentar a opacidade
+      setTimeout(() => {
+        if (canvasSize === '400px') {
+          canvasSize = '70%';
+          button.innerHTML = '<i class="fa-solid fa-angles-right"></i>';
+        } else {
+          canvasSize = '400px';
+          button.innerHTML = '<i class="fa-solid fa-angles-left"></i>';
+        }
+        
+        const offcanvas = document.querySelector('.offcanvas-end');
+        offcanvas.style.width = canvasSize;
+
+        // Define a opacidade como 1 para iniciar o fade in
+        button.style.opacity = 1;
+
+        // Remove a classe .fade após a transição para evitar conflito em futuras transições
+        setTimeout(() => {
+          button.classList.remove('fade');
+        }, 150); // A duração deve ser igual ao tempo definido na transição CSS
+      }, 150); // A duração deve ser igual ao tempo definido na transição CSS
+    }
+    
+    document.getElementById('empreendedor_protocolo').classList.add('s-nav-active');
+  </script>
+</div>
+<style>
+  .fade {
+  transition: opacity 0.15s ease-in-out;
+}
+
+  #btn-expand:focus{
+    outline: none;
+    border: none;
+    border-color: transparent;
+    box-shadow: 0 0 0 0 #ffffff !important;
+  }
+  .offcanvas-end {
+  transition: width 0.5s ease-in-out;
+}
+
+    .menu {
+  display: none; /* Inicialmente, ocultar o menu */
+}
+
+.menu-open {
+  display: block; /* Quando a classe "menu-open" é adicionada, mostrar o menu */
+  /* Outros estilos para o menu aberto, como posição, cores, etc. */
+}
+    .border{
+        border-color: rgba(146, 146, 146, 0.2) !important;
+        background-color: white;
+    }
+    #filtros{
+        display: none;
+    }
+    .bg-white{
+        background-color: white;
+    
+    }
+    label .loading{
+      margin-left: 10px;
+    }
+    label .loading img{
+      height: 15px;
+      margin-bottom: 5px;
+    }
+    .outros-agentes{
+      color: #797676;
+    }
+</style>
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}

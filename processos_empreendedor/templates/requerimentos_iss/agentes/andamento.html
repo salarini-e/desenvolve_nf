@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col d-flex px-5">
+        <h4 class="my-auto py-0">Andamento do processo</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col px-4">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+            {{ message }}
+            </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    </div>
+<div class="row">
+    <div class="col px-5 pb-5 d-flex flex-column">
+        <div class="processos">
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Status do andamento</th>
+                        <th>Mensagem</th>
+                        <th class="text-center">Data do andamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for andamento in andamentos %}
+                    <tr {% if forloop.first %}style="background-color: #ebe3dd;"{% endif %}>
+                        <td class="{% if forloop.first %}{% if processo.status == 'cn' %}text-success{% else %}text-dange{% endif %}{% else %}text-success{% endif %} text-center">
+                            {% if forloop.first %}
+                            {% if processo.status == 'cn' %}
+                            <i class="fa-solid fa-check"></i>
+                            {% else %}
+                            <i class="fa-solid fa-exclamation"></i>                                    
+                            {% endif %}
+                            {% else %}
+                            <i class="fa-solid fa-check"></i>
+                            {% endif %}
+                        </td>
+                        <td class="text-center d-flex"><span class="mx-auto py-1 px-2 rounded-pill w-100"  style="background-color: {% if andamento.status == 'nv' %}rgb(124, 183, 235){% elif andamento.status == 'ae' %}rgb(228, 235, 124){% elif andamento.status == 'ar' %}rgb(228, 235, 124){% elif andamento.status == 'aa' %}rgb(235, 176, 124){% elif andamento.status == 'bg' %}rgb(124, 235, 124){% elif andamento.status == 'cn' %}#000000; color: white{% endif %}; max-width: 300px;">{{andamento.get_status_display}}</span></td>
+                        <td>{% if andamento.observacao != 'n/h' %}{{andamento.observacao}}{% else %} <span class="text-secondary"><i>Não há mensagem.</i></span> {% endif %}</td>                  
+                        <td class="text-center">{{andamento.dt_andamento|date:"d/m/y"}}</td>
+                        
+                    </tr>                               
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

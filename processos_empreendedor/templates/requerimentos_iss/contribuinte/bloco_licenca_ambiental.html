@@ -1,0 +1,86 @@
+{% if show_licenca_ambiental %}
+{% load processos_tags %}
+<div class="w-100 pt-4 d-flex flex-column px-5">
+  <h4>Licença Ambiental</h4>
+  <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Ambiental correspondente. Está solicitação a Secretária de Meio Ambiente está ocorrendo juntamente a este processo.</p>
+  <div class="row">
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+          <label for="">Contrato de Locação</label>
+          <p class="bg-status-{{status.ambiental.contrato_locacao_status}}">{{status.ambiental.get_contrato_locacao_status_display}}</p>
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+          <label for="">Conta D'água</label>
+          <p class="bg-status-{{status.ambiental.conta_dagua_status}}">{{status.ambiental.get_conta_dagua_status_display}}</p>
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+          <label for="">Conta de Luz</label>
+          <p class="bg-status-{{status.ambiental.conta_luz_status}}">{{status.ambiental.get_conta_luz_status_display}}</p>
+      </div>                                      
+  </div>
+  <div class="row text-center">
+        {% render_button_atualizar_documento processo.n_protocolo "contrato_locacao" "contrato de locação" status.ambiental.contrato_locacao_status %}
+        {% render_button_atualizar_documento processo.n_protocolo "conta_dagua" "conta d'água" status.ambiental.conta_dagua_status %}
+        {% render_button_atualizar_documento processo.n_protocolo "conta_luz" "conta de luz" status.ambiental.conta_luz_status %}
+  </div>
+  <div class="row">
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+          <label for="">Foto da empresa</label>
+          <p class="bg-status-{{status.ambiental.foto_status}}">{{status.ambiental.get_foto_status_display}}</p>
+      </div> 
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+          <label for="">Croqui de acesso</label>
+          <p class="bg-status-{{status.ambiental.croqui_acesso_status}}">{{status.ambiental.get_croqui_acesso_status_display}}</p>
+      </div>
+      <div class="col"></div>
+  </div>
+  <div class="row text-center">
+    {% render_button_atualizar_documento processo.n_protocolo "foto" "foto da empresa" status.ambiental.foto_status %}
+    {% render_button_atualizar_documento processo.n_protocolo "croqui_acesso" "croqui de acesso" status.ambiental.croquei_acesso_status %}
+    <div class="col"></div>
+  </div>
+  {% if requerimento.boleto_ambiental_gerado %}
+  {% if requerimento.exist_licenca_ambiental %}
+    <div id="div-boleto-sanitario" class="row mt-2">
+      <div class="col d-flex py-4 px-4 flex-column ms-2" style="background-color: rgba(214, 214, 214, 0.897); border-radius: 20px;">
+        <h4 class="text-center">Licença ambiental gerada</h4>
+        <div class="mb-3 mx-auto mt-3">
+          <a class="btn btn-success w-100 mb-3" href="{{requerimento.get_url_licenca_ambiental}}">
+            <i class="fa-solid fa-certificate me-2"></i> Baixar licença ambiental
+          </a>          
+        </div>
+      </div>
+  </div>
+    {% else %}
+    <div id="div-boleto-ambiental" class="row my-4">
+      <div class="col d-flex py-4 px-4 flex-column ms-2" style="background-color: rgba(214, 214, 214, 0.897); border-radius: 20px;">
+        <h4 class="text-center">Boleto p/ pagamento da licença ambiental</h4>
+        <div class="mb-3 mx-auto mt-3">
+          {% boleto_usuario requerimento.id 'ambiental' %}                              
+          <div id="responseMessage-ambiental" class="text-center mt-3"></div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>                    
+{% if status_pagamento_ma == 'licenca_emitida' %}
+<div class="row text-center">
+    <div class="col pt-4">    
+        <p><i><b>Sua licença ambiental foi gerada!</b></i></p>
+        <a target="_blank" href="#" class="btn btn-primary mt-3 mb-3">
+            <i class="fa-solid fa-file-arrow-down me-2"></i>Download da Licença
+        </a>        
+    </div>
+  </div>
+{% elif status_pagamento_ma == 'boleto_gerado' %}
+<div class="row text-center">
+  <div class="col pt-4">    
+      <p><i><b>Seu boleto foi gerado!</b></i></p>
+      <a target="_blank" href="{{requerimento.boleto_meio_ambiente.url}}" class="btn btn-primary mt-3 mb-3">
+          <i class="fa-solid fa-file-arrow-down me-2"></i>Download do boleto
+      </a>
+      <p class="my-3">Sua Licença Ambiental estará disponível aqui após o reconhecimento do boleto pela Secretaria de Meio Ambiente.</p>
+  </div>
+</div>
+{% endif %}
+{% endif %}

@@ -74,8 +74,8 @@ urlpatterns = [
     # Consulta do processo
     path('adm/processos-digitais/', views.processos_digitais_admin, name='processos_digitais_admin'),
     path('adm/processos-digitais/concluidos/', views.processos_concluidos, name='processos_concluidos'),
-    path('adm/processos-digitais/licenca-sanitaria/', views.processo_sanitario, name='processo_sanitario'),
-    path('adm/processos-digitais/concluidos/sanitario/', views.processos_concluidos_sanitario, name='novo_andamento_processo_sanitario_admin'),    
+    # path('adm/processos-digitais/licenca-sanitaria/', views.processo_sanitario, name='processo_sanitario'),
+    # path('adm/processos-digitais/concluidos/sanitario/', views.processos_concluidos_sanitario, name='novo_andamento_processo_sanitario_admin'),    
     path('consultar-processos/desenvolve/', views.meus_processos, name='listar_processos'),
     # Criar novo processo
     path('processos/criar-novo/', views.novo_processo, name='novo_processo'),
@@ -88,13 +88,13 @@ urlpatterns = [
     path('processos/criar-novo/uniprofissional/envio-de-documentos/<n_protocolo>/', views.requerimento_ISSQN_doc, name='requerimento_issqn_doc'),
     # Coonsulta do processo
     path('adm/processos-digitais/andamento/<id>/', views.andamento_processo_admin, name='andamento_processo_admin'),    
-    path('adm/processos-digitais/andamento/licenca-sanitaria/<id>/', views.andamento_processo_sanitario, name='andamento_processo_sanitario'),    
-    path('adm/processos-digitais/andamento/licenca-ambiental/<id>/', views.andamento_processo_ambiental, name='andamento_processo_ambiental'),    
+    # path('adm/processos-digitais/andamento/licenca-sanitaria/<id>/', views.andamento_processo_sanitario, name='andamento_processo_sanitario'),    
+    # path('adm/processos-digitais/andamento/licenca-ambiental/<id>/', views.andamento_processo_ambiental, name='andamento_processo_ambiental'),    
     path('processos-digitais/<protocolo>/', views.andamento_processo, name='andamento_processo'),
     # Dar andamento no processo
-    path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
-    path('adm/processos-digitais/<id>/novo-andamento/sanitario/', views.novo_andamento_processo_sanitario, name='novo_andamento_processo_sanitario_admin'),
-    path('adm/processos-digitais/<id>/novo-andamento/ambiental/', views.novo_andamento_processo_ambiental, name='novo_andamento_processo_ambiental_admin'),
+    # path('adm/processos-digitais/<id>/novo-andamento/', views.novo_andamento_processo, name='novo_andamento_processo_admin'),
+    # path('adm/processos-digitais/<id>/novo-andamento/sanitario/', views.novo_andamento_processo_sanitario, name='novo_andamento_processo_sanitario_admin'),
+    # path('adm/processos-digitais/<id>/novo-andamento/ambiental/', views.novo_andamento_processo_ambiental, name='novo_andamento_processo_ambiental_admin'),
     # Atualizar documento do processo
     path('processos-digitais/<protocolo>/att-doc/<doc>', views.atualizar_documento_processo, name='atualizar_documento_processo'),
     

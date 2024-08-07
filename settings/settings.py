@@ -103,7 +103,9 @@ INSTALLED_APPS = [
     #secreatarias
     'secretaria_financas',
     'django_cpf_cnpj',
-    'senhas_facil'
+    'senhas_facil',
+    'notification',
+    'processos_empreendedor',
 ]
 
 MIDDLEWARE = [

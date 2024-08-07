@@ -1,0 +1,114 @@
+{% load processos_tags %}
+{% if tipo == 'agente-tributario' %}
+{% if requerimento.exist_licenca_ambiental  or requerimento.exist_licenca_sanitaria %}
+<div class="row">
+  <div class="col d-flex justify-content-center bg-light pt-3 px-5">
+    
+      {% if requerimento.exist_licenca_ambiental and show_licenca_ambiental %}          
+          <a class="btn btn-warning mb-3 me-2" style="max-width: 300px;" href="{{requerimento.get_url_licenca_ambiental}}">
+            <i class="fa-solid fa-certificate me-2"></i> Visualizar licença ambiental
+          </a>                    
+      {% else %}
+      <button class="btn btn-secondary mb-3 ms-2">
+        Aguarde emissão de licença ambiental
+      </button>
+      {% endif %}
+      {% if requerimento.exist_licenca_sanitaria and show_licenca_sanitaria %}          
+          <a class="btn btn-warning mb-3 ms-2" style="max-width: 300px;" href="{{requerimento.get_url_licenca_sanitaria}}">
+            <i class="fa-solid fa-certificate me-2"></i> Visualizar licença sanitaria
+          </a>                    
+      {% else %}
+      <button class="btn btn-secondary mb-3 ms-2">
+        Aguarde emissão de licença sanitária
+      </button>
+      {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endif %}
+<div class="row">
+  <div class="col d-flex pt-3 px-5">
+    <h4>Demais Anexos</h4>     
+  </div>
+</div> 
+<div class="row mt-1 mb-4 px-5">
+    <div class="col d-flex flex-column px-4">
+         <label for="">RG <span class="loading"></span></label>
+            <a target="_blank" href="{{documentos.iss.contrato_locacao.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+            <i class="fa-solid fa-eye me-2"></i>Visualizar
+          </a>          
+          <select name="tributario" id="" onchange="changeColor(this, 'rg', '{{status.iss.id}}', 'tributario')" class="bg-status-{{status.iss.rg_status}}">
+            {% for status_ in status_choices  %}
+            <option value="{{status_.0}}" {% if status_.0 == status.iss.rg_status %}selected{% endif %}>{{status_.1}}</option>  
+            {% endfor %}          
+          </select>
+    </div>
+    {{ status.iss.render_button_atualizar_documento }}
+    <div class="col d-flex flex-column ms-2">
+        <label for="">Comprovante de Endereço<span class="loading"></span></label>
+        <a target="_blank" href="{{documentos.iss.comprovante_endereco.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+            <i class="fa-solid fa-eye me-2"></i>Visualizar
+          </a>
+          <select name="tributario" id="" onchange="changeColor(this, 'comprovante_endereco', '{{status.iss.id}}', 'tributario')"  class="bg-status-{{status.iss.comprovante_endereco_status}}">
+            {% for status_ in status_choices  %}
+            <option value="{{status_.0}}" {% if status_.0 == status.iss.comprovante_endereco_status %}selected{% endif %}>{{status_.1}}</option>  
+            {% endfor %}          
+          </select>
+    </div>
+    {% if requerimento.profissao.escolaridade < '5' %}
+    <div class="col d-flex flex-column ms-2">
+        <label for="">Diploma/Certificado <span class="loading"></span></label>
+        <a target="_blank" href="{{documentos.iss.diploma_ou_certificado.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+            <i class="fa-solid fa-eye me-2"></i>Visualizar
+          </a>
+          <select name="tributario" id="" onchange="changeColor(this, 'diploma_ou_certificado', '{{status.iss.id}}', 'tributario')"  class="bg-status-{{status.iss.diploma_ou_certificado_status}}">
+            {% for status_ in status_choices  %}
+            <option value="{{status_.0}}" {% if status_.0 == status.iss.diploma_ou_certificado_status %}selected{% endif %}>{{status_.1}}</option>  
+            {% endfor %}          
+          </select>
+    </div>
+    {% endif %}
+    {% if documentos.iss.espelho_iptu %}
+    <div class="col d-flex flex-column ms-2">
+        <label for="">Espelho de IPTU <span class="loading"></span></label>
+        <a target="_blank" href="{{documentos.iss.espelho_iptu.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+            <i class="fa-solid fa-eye me-2"></i>Visualizar
+          </a>
+          <select name="tributario" id="" onchange="changeColor(this, 'espelho_iptu', '{{status.iss.id}}', 'tributario')"  class="bg-status-{{status.iss.espelho_iptu_status}}">
+            {% for status_ in status_choices  %}
+            <option value="{{status_.0}}" {% if status_.0 == status.iss.espelho_iptu_status %}selected{% endif %}>{{status_.1}}</option>  
+            {% endfor %}          
+          </select>
+    </div>
+    {% endif %}
+</div>
+<!-- <div class="row text-center">
+    {% render_button_atualizar_documento processo.n_protocolo "rg" "RG" status.iss.rg_status %}    
+    {% render_button_atualizar_documento processo.n_protocolo "comprovante_endereco" "comprovante" status.iss.comprovante_endereco_status %}    
+    {% render_button_atualizar_documento processo.n_protocolo "diploma_ou_certificado" "diploma/certificado" status.iss.diploma_ou_certificado_status %}
+    {% render_button_atualizar_documento processo.n_protocolo "espelho_iptu" "espelho IPTU" status.iss.espelho_iptu_status %}
+</div> -->
+<div class="row mt-1 mb-4 px-4">
+    <div class="col d-flex justify-content-center me-1 px-4">
+      
+        <hr>
+    </div>
+</div>
+{% if not show_licenca_sanitaria and not show_licenca_sanitaria and docs_aprovados %}
+<div class="row">
+  <div class="col">
+    ok
+  </div>
+</div>
+{% endif %}
+<div class="row">
+  <div class="col d-flex px-5">
+    {% if not requerimento.exist_boleto_requerimento %}
+    {% if requerimento.exist_licenca_ambiental and requerimento.exist_licenca_sanitaria %}  
+      <a class="btn btn-danger py-3 mx-4 mb-3 w-100" href="{% url 'processos_empreendedor:enviar_inscricao' tipo processo.n_protocolo %}">
+        Enviar número de inscrição e boleto
+      </a>
+    {% endif %}
+    {% endif %}
+  </div>
+</div>

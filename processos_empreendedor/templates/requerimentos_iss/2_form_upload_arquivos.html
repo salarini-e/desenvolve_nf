@@ -1,0 +1,75 @@
+{% extends 'template.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="row  bg-white" style="border-radius: 30px;">
+      <div class="col">
+        <div class="pt-4 d-flex px-3">
+            <h2 style="display: inline;">Processo Digital</h2>                        
+              <a href="{% url 'empreendedor:iss_autonomos' %}" class="btn btn-dark ms-auto my-auto">
+                <i class="fa-solid fa-rotate-left"></i>
+              </a>                        
+            </div>
+            <div class="row">
+                <div class="col">
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert {{ message.tags }}">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            <div class="row">
+                <div class="col px-5 py-5 d-flex flex-column">
+                   <form method="POST" enctype="multipart/form-data">
+                    <h2 class="mb-4">Upload de arquivos - Etapa 2</h2>
+                    <p class="mb-3">Para darmos continuidade ao seu pedido, solicitamos que envie os documentos pertinentes à sua atividade. Caso haja alguma dúvida em relação aos documentos exigidos, não hesite em entrar em contato conosco.</p>
+                    <div class="bg-warning">
+                        <p class="mb-3 text-center"><i><strong>O nome dos arquivos anexados não devem conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.</i></p>
+                    </div>
+                    {% csrf_token %}
+                    {% bootstrap_form form_1 %}
+                    {% bootstrap_form form_2 %}
+                    {% bootstrap_form form_3 %}
+                    
+                    <button class="btn btn-primary">
+                      Enviar arquivos
+                    </button>
+                   </form>
+                </div>
+            </div>
+      </div>
+    </div>
+</div>
+</div>
+
+<style>
+    .border{
+        border-color: rgba(146, 146, 146, 0.2) !important;
+    }
+    #filtros{
+        display: none;
+    }
+    label{
+      font-weight: bold;
+    }
+    #id_profissao label{
+      font-weight: normal;
+    }
+</style>
+
+</script>
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}

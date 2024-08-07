@@ -14,6 +14,8 @@ urlpatterns = [
     path('sala-do-empreendedor/', include('sala_do_empreendedor.urls')),
     path('sala-do-empreendedor/', include('cursos_empresariais.urls')),
     path('sala-do-empreendedor/', include('cursos_profissionais.urls')),
+    path('notification/', include('notification.urls')),
+    path('processos/', include('processos_empreendedor.urls')),
     path('financas/', include('financas.urls')),
     path('eventos/', include('eventos.urls')),
 

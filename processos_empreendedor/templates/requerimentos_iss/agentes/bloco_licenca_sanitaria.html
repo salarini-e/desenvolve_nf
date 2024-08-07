@@ -1,0 +1,100 @@
+{% if show_licenca_sanitaria %}
+{% load processos_tags %}
+  <div class="d-flex flex-column w-100 pt-4 px-5" >
+    <div class="d-flex w-100">
+      <h4>Licença Sanitária</h4>
+      <button class="btn btn-light ms-auto my-auto py-0"><i class="fa-solid fa-print"></i></button>
+    </div>
+    <p class="mb-3">Informamos que para o pleno exercício de suas atividades no ramo, é imperativo obter a Licença Sanitária correspondente. Está solicitação a Secretária de Saúde está ocorrendo juntamente a este processo.</p>
+    <div class="row">
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Comprovante limpeza caixa d'água <span class="loading"></span></label>
+        <a target="_blank" href="{{documentos.sanitaria.comprovante_limpeza_caixa_dagua.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+          <i class="fa-solid fa-eye me-2"></i>Visualizar
+        </a>
+        <select name="sanitario" id="" onchange="changeColor(this, 'comprovante_limpeza_caixa_dagua', '{{status.sanitaria.id}}', 'sanitario')"  class="bg-status-{{status.sanitaria.comprovante_limpeza_caixa_dagua_status}}">
+          {% for status_ in status_choices  %}
+          <option value="{{status_.0}}" {% if status_.0 == status.sanitaria.comprovante_limpeza_caixa_dagua_status %}selected{% endif %}>{{status_.1}}</option>  
+          {% endfor %}          
+        </select>
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Comprovante de manutenção de ar condicionado <span class="loading"></span></label>
+        <a target="_blank" href="{{documentos.sanitaria.comprovante_ar_condicionado.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+          <i class="fa-solid fa-eye me-2"></i>Visualizar
+        </a>
+        <select name="sanitario" id="" onchange="changeColor(this, 'comprovante_ar_condicionado', '{{status.sanitaria.id}}', 'sanitario')" class="bg-status-{{status.sanitaria.comprovante_ar_condicionado_status}}">
+          {% for status_ in status_choices  %}
+          <option value="{{status_.0}}" {% if status_.0 == status.sanitaria.comprovante_ar_condicionado_status %}selected{% endif %}>{{status_.1}}</option>  
+          {% endfor %}          
+        </select>
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Plano de gerenciamento de resíduos <span class="loading"></span></label>
+        <a target="_blank" href="{{documentos.sanitaria.plano_gerenciamento_de_residuos.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+          <i class="fa-solid fa-eye me-2"></i>Visualizar
+        </a>
+        <select name="sanitario" id="" onchange="changeColor(this, 'plano_gerenciamento_de_residuos', '{{status.sanitaria.id}}', 'sanitario')" class="bg-status-{{status.sanitaria.plano_gerenciamento_de_residuos_status}}">
+          {% for status_ in status_choices  %}
+          <option value="{{status_.0}}" {% if status_.0 == status.sanitaria.plano_gerenciamento_de_residuos_status %}selected{% endif %}>{{status_.1}}</option>  
+          {% endfor %}          
+        </select>
+      </div>                    
+    </div>
+
+    <div class="row">      
+      <div class="col d-flex py-2 pb-1 flex-column ms-2">
+        <label for="">Licença sanitária anterior <span class="loading"></span></label>
+        <a target="_blank" href="{{documentos.sanitaria.licenca_santinaria_anterior.url}}" class="btn btn-dark bg-dark py-0 border rounded-pill">
+          <i class="fa-solid fa-eye me-2"></i>Visualizar
+        </a>
+        <select name="sanitario" id="" onchange="changeColor(this, 'licenca_santinaria_anterior', '{{status.sanitaria.id}}', 'sanitario')" class="bg-status-{{status.sanitaria.licenca_santinaria_anterior_status}}">
+          {% for status_ in status_choices  %}
+          <option value="{{status_.0}}" {% if status_.0 == status.sanitaria.licenca_santinaria_anterior_status %}selected{% endif %}>{{status_.1}}</option>  
+          {% endfor %}          
+        </select>
+        <!-- <p class="">{{status.sanitaria.get_licenca_santinaria_anterior_status_display}}</p> -->
+      </div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2"></div>
+      <div class="col d-flex py-2 pb-1 flex-column ms-2"></div>
+    </div>
+    <div id="div-boleto-sanitario" class="row my-4">
+      <div class="col d-flex py-4 px-4 flex-column ms-2" style="background-color: rgba(214, 214, 214, 0.897); border-radius: 20px;">
+        <h4 class="text-center">Anexe o boleto p/ pagamento da licença sanitária</h4>
+        <div class="mb-3 mx-auto mt-3">
+          {% boleto requerimento.id 'sanitario'%}  
+          {% if requerimento.sanitaria_comprovante_em_analise and not requerimento.exist_licenca_sanitaria%}
+          <p class="text-center"><strong>Verifique se o pagamento foi reconhecido no sistema!</strong><br> Após <a href="{% url 'processos_empreendedor:enviar_licenca' tipo processo.n_protocolo %}">clique aqui</a> para enviar a licença.</p>          
+          {% elif requerimento.exist_licenca_sanitaria%}
+          <a class="btn btn-success w-100 mb-3" href="{{requerimento.get_url_licenca_sanitaria}}">
+            <i class="fa-solid fa-certificate me-w"></i> Analisar licença sanitária
+          </a>
+          {% else %}
+          <p><br> Após <a href="{% url 'processos_empreendedor:enviar_licenca' tipo processo.n_protocolo %}">clique aqui</a> para enviar a licença.</p>          
+          {% endif %} 
+          <div id="responseMessage" class="text-center mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if status_pagamento_ls == 'licenca_emitida' %}
+  <div class="row text-center">
+      <div class="col pt-4">    
+          <p><i><b>Sua licença ambiental foi gerada!</b></i></p>
+          <a target="_blank" href="#" class="btn btn-primary mt-3 mb-3">
+              <i class="fa-solid fa-file-arrow-down me-2"></i>Download da Licença
+          </a>        
+      </div>
+    </div>
+  {% elif status_pagamento_ls  == 'boleto_gerado' %}
+  <div class="row text-center">
+    <div class="col pt-4">
+      <p><i><b>Seu boleto foi gerado!</b></i></p>
+      <a target="_blank" href="{{requerimento.boleto_saude.url}}" class="btn btn-primary mt-3 mb-3">
+        <i class="fa-solid fa-file-arrow-down me-2"></i>Downlaod do boleto
+      </a>
+      <p class="my-3">Sua Licença Sanitária estará disponivel aqui após o reconhecimento do boleto pela Secretária de Saúde.</p>
+    </div>
+  </div>
+  {% endif %}
+{% endif %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Processo_Status_Documentos_Anexos, Profissao, RequerimentoISS, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario, Agente_Ambiental, Credito_Facil
-from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Processo_ISS_Form, Criar_Andamento_Processo_Sanitario,Criar_Andamento_Processo_Ambiental
+from ..models import Empresa, Porte_da_Empresa, Ramo_de_Atuacao, Atividade, Andamento_Processo_Digital, Status_do_processo, Processo_Digital, Profissao, RequerimentoISSQN, DocumentosPedido, Agente_Sanitario, Agente_Tributario, Agente_Ambiental, Credito_Facil
+from ..forms import FormEmpresa, FormAlterarEmpresa, Criar_Processo_Form, Criar_Andamento_Processo, Criar_Processo_Admin_Form, Profissao_Form, Criar_Andamento_Processo_Sanitario,Criar_Andamento_Processo_Ambiental
 from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
@@ -74,37 +74,37 @@ def sala_do_empreendedor_admin(request):
 
     return render(request, 'sala_do_empreendedor/admin/index.html', context)
 
-@login_required()
-def processo_sanitario(request):
-    try:
-        agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
-    except:
-        return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
+# @login_required()
+# def processo_sanitario(request):
+#     try:
+#         agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
+#     except:
+#         return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
     
-    requerimentos_1 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria = True).exclude(processo__status='cn')
-    requerimentos_2 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's').exclude(processo__status='cn')
+#     requerimentos_1 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria = True).exclude(processo__status='cn')
+#     requerimentos_2 = RequerimentoISS.objects.filter(profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's').exclude(processo__status='cn')
 
-    requerimentos_unidos = requerimentos_1 | requerimentos_2
-    requerimentos_unidos_ordenados = requerimentos_unidos.order_by('id')
-    processos=[]
-    for r in requerimentos_unidos_ordenados:
-        processos.append(r.processo)
-    print(processos, 'opa')
-    paginator = Paginator(processos, 50)
-    context = {
-        'titulo': 'Sala do Empreendedor',
-        'processos': paginator.get_page(request.GET.get('page')),
-    }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/index.html', context)
+#     requerimentos_unidos = requerimentos_1 | requerimentos_2
+#     requerimentos_unidos_ordenados = requerimentos_unidos.order_by('id')
+#     processos=[]
+#     for r in requerimentos_unidos_ordenados:
+#         processos.append(r.processo)
+#     print(processos, 'opa')
+#     paginator = Paginator(processos, 50)
+#     context = {
+#         'titulo': 'Sala do Empreendedor',
+#         'processos': paginator.get_page(request.GET.get('page')),
+#     }
+#     return render(request, 'sala_do_empreendedor/admin/processos_digitais/index.html', context)
 
-@login_required()
-def processo_ambiental(request):
-    try:
-        agente_ambiental= Agente_Ambiental.objects.get(user = request.user, ativo=True)
-    except:
-        return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
+# @login_required()
+# def processo_ambiental(request):
+#     try:
+#         agente_ambiental= Agente_Ambiental.objects.get(user = request.user, ativo=True)
+#     except:
+#         return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
     
-    requerimentos = RequerimentoISS.objects.filter(profissao__licenca_ambiental = True).exclude(processo__status='cn')
+#     requerimentos = RequerimentoISS.objects.filter(profissao__licenca_ambiental = True).exclude(processo__status='cn')
 
     
     
@@ -120,28 +120,28 @@ def processo_ambiental(request):
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/index.html', context)
 
 
-@login_required()
-def processos_concluidos_sanitario(request):
-    try:
-        agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
-    except:
-        return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
+# @login_required()
+# def processos_concluidos_sanitario(request):
+#     try:
+#         agente_sanitario = Agente_Sanitario.objects.get(user = request.user, ativo=True)
+#     except:
+#         return HttpResponseForbidden('Você não tem permissão para acessar essa página.')
     
-    requerimentos_1 = RequerimentoISS.objects.filter(processo__status = 'cn', profissao__licenca_sanitaria = True)
-    requerimentos_2 = RequerimentoISS.objects.filter(processo__status = 'cn', profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's')
+#     requerimentos_1 = RequerimentoISS.objects.filter(processo__status = 'cn', profissao__licenca_sanitaria = True)
+#     requerimentos_2 = RequerimentoISS.objects.filter(processo__status = 'cn', profissao__licenca_sanitaria_com_alvara = True, autonomo_localizado = 's')
 
-    requerimentos_unidos = requerimentos_1 | requerimentos_2
-    requerimentos_unidos_ordenados = requerimentos_unidos.order_by('id')
-    processos=[]
-    for r in requerimentos_unidos_ordenados:        
-        processos.append(r.processo)
-    print(processos, 'opa')
-    paginator = Paginator(processos, 50)
-    context = {
-        'titulo': 'Sala do Empreendedor',
-        'processos': paginator.get_page(request.GET.get('page')),
-    }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/concluidos.html', context)
+#     requerimentos_unidos = requerimentos_1 | requerimentos_2
+#     requerimentos_unidos_ordenados = requerimentos_unidos.order_by('id')
+#     processos=[]
+#     for r in requerimentos_unidos_ordenados:        
+#         processos.append(r.processo)
+#     print(processos, 'opa')
+#     paginator = Paginator(processos, 50)
+#     context = {
+#         'titulo': 'Sala do Empreendedor',
+#         'processos': paginator.get_page(request.GET.get('page')),
+#     }
+#     return render(request, 'sala_do_empreendedor/admin/processos_digitais/concluidos.html', context)
 
 
 @login_required()
@@ -232,23 +232,23 @@ def requerimento_iss_admin(request):
     }
     return render(request, 'sala_do_empreendedor/admin/processos_digitais/cadastro_processo.html', context)
 
-def andamento_processo_iss(request, processo):
-    requerimento = RequerimentoISS.objects.get(processo=processo)
-    andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
-    try:
-        status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
-    except:
-        messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
-        return redirect('empreendedor:processos_digitais_admin')
-    context = {
-        'titulo': 'Sala do Empreendedor - ADM - ISS',
-        'processo': processo,
-        'andamentos': andamentos,
-        'status_documentos': status_documentos,
-        'requerimento': requerimento,
+# def andamento_processo_iss(request, processo):
+#     requerimento = RequerimentoISS.objects.get(processo=processo)
+#     andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+#     try:
+#         status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+#     except:
+#         messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
+#         return redirect('empreendedor:processos_digitais_admin')
+#     context = {
+#         'titulo': 'Sala do Empreendedor - ADM - ISS',
+#         'processo': processo,
+#         'andamentos': andamentos,
+#         'status_documentos': status_documentos,
+#         'requerimento': requerimento,
         
-    }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_iss.html', context)
+#     }
+#     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_iss.html', context)
 
 def andamento_processo_iss_uniprofissional(request, processo):
     requerimento = RequerimentoISSQN.objects.get(processo=processo)
@@ -284,201 +284,201 @@ def andamento_processo_admin(request, id):
         return andamento_processo_iss_uniprofissional(request, processo)
     return redirect('empreendedor:processos_digitais_admin')
 
-@login_required
-def andamento_processo_sanitario(request, id):
-    try:
-        agente_sanitario = Agente_Sanitario.objects.get(user=request.user, ativo=True)
-    except:
-        return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+# @login_required
+# def andamento_processo_sanitario(request, id):
+#     try:
+#         agente_sanitario = Agente_Sanitario.objects.get(user=request.user, ativo=True)
+#     except:
+#         return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
     
-    processo = Processo_Digital.objects.get(id=id)
-    if processo.tipo_processo.id == 1:
-        requerimento = RequerimentoISS.objects.get(processo=processo)
-        andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
-        try:
-            status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
-        except Exception as E:
-            print(E)
-            messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
-            return redirect('empreendedor:processos_digitais_admin')
-        context = {
-            'titulo': 'Sala do Empreendedor - ADM - ISS',
-            'processo': processo,
-            'andamentos': andamentos,
-            'status_documentos': status_documentos,
-            'requerimento': requerimento,
-            'pessoa': Pessoa.objects.get(user=processo.solicitante)
+#     processo = Processo_Digital.objects.get(id=id)
+#     if processo.tipo_processo.id == 1:
+#         requerimento = RequerimentoISS.objects.get(processo=processo)
+#         andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+#         try:
+#             status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+#         except Exception as E:
+#             print(E)
+#             messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
+#             return redirect('empreendedor:processos_digitais_admin')
+#         context = {
+#             'titulo': 'Sala do Empreendedor - ADM - ISS',
+#             'processo': processo,
+#             'andamentos': andamentos,
+#             'status_documentos': status_documentos,
+#             'requerimento': requerimento,
+#             'pessoa': Pessoa.objects.get(user=processo.solicitante)
             
-        }
-        return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_sanitario_iss.html', context)
+#         }
+#         return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_sanitario_iss.html', context)
 
-    return HttpResponseForbidden("Você não tem permissão para acessar essa página.")
+#     return HttpResponseForbidden("Você não tem permissão para acessar essa página.")
     
-@login_required
-def andamento_processo_ambiental(request, id):
-    try:
-        agente_ambiental = Agente_Ambiental.objects.get(user=request.user, ativo=True)
-    except:
-        return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+# @login_required
+# def andamento_processo_ambiental(request, id):
+#     try:
+#         agente_ambiental = Agente_Ambiental.objects.get(user=request.user, ativo=True)
+#     except:
+#         return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
     
-    processo = Processo_Digital.objects.get(id=id)
-    if processo.tipo_processo.id == 1:
-        requerimento = RequerimentoISS.objects.get(processo=processo)
-        andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
-        try:
-            status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
-        except Exception as E:
-            print(E)
-            messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
-            return redirect('empreendedor:processos_digitais_admin')
-        context = {
-            'titulo': 'Sala do Empreendedor - ADM - ISS',
-            'processo': processo,
-            'andamentos': andamentos,
-            'status_documentos': status_documentos,
-            'requerimento': requerimento,
-            'pessoa': Pessoa.objects.get(user=processo.solicitante)
+#     processo = Processo_Digital.objects.get(id=id)
+#     if processo.tipo_processo.id == 1:
+#         requerimento = RequerimentoISS.objects.get(processo=processo)
+#         andamentos = Andamento_Processo_Digital.objects.filter(processo=processo).order_by('-id')
+#         try:
+#             status_documentos = Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+#         except Exception as E:
+#             print(E)
+#             messages.warning(request, 'Aguardando contribuinte enviar os devidos documentos!')
+#             return redirect('empreendedor:processos_digitais_admin')
+#         context = {
+#             'titulo': 'Sala do Empreendedor - ADM - ISS',
+#             'processo': processo,
+#             'andamentos': andamentos,
+#             'status_documentos': status_documentos,
+#             'requerimento': requerimento,
+#             'pessoa': Pessoa.objects.get(user=processo.solicitante)
             
-        }
-        return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_ambiental_iss.html', context)
+#         }
+#         return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_ambiental_iss.html', context)
 
-    return HttpResponseForbidden("Você não tem permissão para acessar essa página.")
+#     return HttpResponseForbidden("Você não tem permissão para acessar essa página.")
     
      
 
-@login_required()
-@staff_member_required()
-def novo_andamento_processo(request, id):
-    processo = Processo_Digital.objects.get(id=id)
-    if processo.tipo_processo.id == 1:
-        requerimento = RequerimentoISS.objects.get(processo=processo)
-    elif processo.tipo_processo.id == 3:
-        requerimento = RequerimentoISSQN.objects.get(processo=processo)
-    if request.method == 'POST':
-        if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
-            requerimento.boleto = request.FILES['boleto']
-            if processo.tipo_processo.id == 1:
-                requerimento.n_inscricao = request.POST['inscricao']
-        form = Criar_Andamento_Processo(request.POST)
-        if form.is_valid():
-            andamento = form.save(commit=False)
-            andamento.processo = processo
-            andamento.servidor = request.user
-            andamento.save()
-            processo.status = andamento.status
-            processo.save() 
-            requerimento.save()
-            messages.success(request, 'Andamento cadastrado com sucesso!')
-            send_email_for_att_process(processo, andamento)
-            return redirect('empreendedor:andamento_processo_admin', id)
-        else:
-            print(form.errors)
-    else:
-        form = Criar_Andamento_Processo(initial={'processo': processo})
-        form_req = Processo_ISS_Form()
-    context = {
-        'titulo': 'Sala do Empreendedor',
-        'processo': processo,
-        'form': form,
-        'form_req': form_req,
+# @login_required()
+# @staff_member_required()
+# def novo_andamento_processo(request, id):
+#     processo = Processo_Digital.objects.get(id=id)
+#     if processo.tipo_processo.id == 1:
+#         requerimento = RequerimentoISS.objects.get(processo=processo)
+#     elif processo.tipo_processo.id == 3:
+#         requerimento = RequerimentoISSQN.objects.get(processo=processo)
+#     if request.method == 'POST':
+#         if request.POST['status'] == 'bg' or request.POST['status'] == 'cn':
+#             requerimento.boleto = request.FILES['boleto']
+#             if processo.tipo_processo.id == 1:
+#                 requerimento.n_inscricao = request.POST['inscricao']
+#         form = Criar_Andamento_Processo(request.POST)
+#         if form.is_valid():
+#             andamento = form.save(commit=False)
+#             andamento.processo = processo
+#             andamento.servidor = request.user
+#             andamento.save()
+#             processo.status = andamento.status
+#             processo.save() 
+#             requerimento.save()
+#             messages.success(request, 'Andamento cadastrado com sucesso!')
+#             send_email_for_att_process(processo, andamento)
+#             return redirect('empreendedor:andamento_processo_admin', id)
+#         else:
+#             print(form.errors)
+#     else:
+#         form = Criar_Andamento_Processo(initial={'processo': processo})
+#         form_req = Processo_ISS_Form()
+#     context = {
+#         'titulo': 'Sala do Empreendedor',
+#         'processo': processo,
+#         'form': form,
+#         'form_req': form_req,
         
-    }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)
+#     }
+    # return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_novo.html', context)
 
-@login_required()
-@staff_member_required()
-def novo_andamento_processo_sanitario(request, id):
-    processo = Processo_Digital.objects.get(id=id)
-    if processo.tipo_processo.id == 1:
-        requerimento = RequerimentoISS.objects.get(processo=processo)
-    elif processo.tipo_processo.id == 3:
-        requerimento = RequerimentoISSQN.objects.get(processo=processo)
-    if request.method == 'POST':        
-        if request.POST['status'] == 'bs' or request.POST['status'] == 'cn':
-            requerimento.boleto = request.FILES['boleto']                        
-        form = Criar_Andamento_Processo_Sanitario(request.POST)
-        if form.is_valid():
-            andamento = form.save(commit=False)
-            andamento.processo = processo
-            andamento.servidor = request.user
-            if 'licensa_sanitaria' in request.FILES:
-                documentos= Processo_Status_Documentos_Anexos.objects.get(processo=processo)
-                try:
-                    documentos.licenca_sanitaria = request.FILES['licensa_sanitaria']
-                    documentos.save()
-                except:
-                    messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
-            if andamento.status == 'ls' or 'se':
-                requerimento.boleto_saude_status = True
-            andamento.save()
-            processo.status = andamento.status
-            processo.save() 
-            requerimento.save()
-            messages.success(request, 'Andamento cadastrado com sucesso!')            
-            send_email_for_att_process(processo, andamento)
-            return redirect('empreendedor:andamento_processo_admin', id)
-        else:
-            print(form.errors)
-    else:
-        form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Andamento realizado pela Vigilância Sanitária.'})
-        form_req = Processo_ISS_Form()
+# @login_required()
+# @staff_member_required()
+# def novo_andamento_processo_sanitario(request, id):
+#     processo = Processo_Digital.objects.get(id=id)
+#     if processo.tipo_processo.id == 1:
+#         requerimento = RequerimentoISS.objects.get(processo=processo)
+#     elif processo.tipo_processo.id == 3:
+#         requerimento = RequerimentoISSQN.objects.get(processo=processo)
+#     if request.method == 'POST':        
+#         if request.POST['status'] == 'bs' or request.POST['status'] == 'cn':
+#             requerimento.boleto = request.FILES['boleto']                        
+#         form = Criar_Andamento_Processo_Sanitario(request.POST)
+#         if form.is_valid():
+#             andamento = form.save(commit=False)
+#             andamento.processo = processo
+#             andamento.servidor = request.user
+#             if 'licensa_sanitaria' in request.FILES:
+#                 documentos= Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+#                 try:
+#                     documentos.licenca_sanitaria = request.FILES['licensa_sanitaria']
+#                     documentos.save()
+#                 except:
+#                     messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
+#             if andamento.status == 'ls' or 'se':
+#                 requerimento.boleto_saude_status = True
+#             andamento.save()
+#             processo.status = andamento.status
+#             processo.save() 
+#             requerimento.save()
+#             messages.success(request, 'Andamento cadastrado com sucesso!')            
+#             send_email_for_att_process(processo, andamento)
+#             return redirect('empreendedor:andamento_processo_admin', id)
+#         else:
+#             print(form.errors)
+#     else:
+#         form = Criar_Andamento_Processo_Sanitario(initial={'processo': processo, 'observacao': 'Andamento realizado pela Vigilância Sanitária.'})
+#         form_req = Processo_ISS_Form()
     
-    context = {
-        'titulo': 'Sala do Empreendedor',
-        'processo': processo,
-        'form': form,
-        'form_req': form_req,
-        'processo_sanitario': True,
+#     context = {
+#         'titulo': 'Sala do Empreendedor',
+#         'processo': processo,
+#         'form': form,
+#         'form_req': form_req,
+#         'processo_sanitario': True,
         
-    }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_sanitario.html', context)
+#     }
+#     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_sanitario.html', context)
 
-@login_required()
-@staff_member_required()
-def novo_andamento_processo_ambiental(request, id):
-    processo = Processo_Digital.objects.get(id=id)
-    if processo.tipo_processo.id == 1:
-        requerimento = RequerimentoISS.objects.get(processo=processo)
-    elif processo.tipo_processo.id == 3:
-        requerimento = RequerimentoISSQN.objects.get(processo=processo)
-    if request.method == 'POST':        
-        if request.POST['status'] == 'ba' or request.POST['status'] == 'cn':
-            requerimento.boleto = request.FILES['boleto']                    
-        form = Criar_Andamento_Processo_Ambiental(request.POST)
-        if form.is_valid():
-            andamento = form.save(commit=False)
-            andamento.processo = processo
-            andamento.servidor = request.user
-            if 'licensa_sanitaria' in request.FILES:
-                documentos= Processo_Status_Documentos_Anexos.objects.get(processo=processo)
-                try:
-                    documentos.licenca_ambiental = request.FILES['licensa_ambiental']
-                    documentos.save()
-                except:
-                    messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
-            if andamento.status == 'ls' or 'se':
-                requerimento.boleto_saude_status = True
-            andamento.save()
-            processo.status = andamento.status
-            processo.save() 
-            requerimento.save()
-            messages.success(request, 'Andamento cadastrado com sucesso!')            
-            send_email_for_att_process(processo, andamento)
-            return redirect('empreendedor:andamento_processo_admin', id)
-        else:
-            print(form.errors)
-    else:
-        form = Criar_Andamento_Processo_Ambiental(initial={'processo': processo, 'observacao': 'Andamento realizado pelo Meio Ambiente.'})
-        form_req = Processo_ISS_Form()
-    context = {
-        'titulo': 'Sala do Empreendedor',
-        'processo': processo,
-        'form': form,
-        'form_req': form_req,
-        'processo_sanitario': True,
+# @login_required()
+# @staff_member_required()
+# def novo_andamento_processo_ambiental(request, id):
+#     processo = Processo_Digital.objects.get(id=id)
+#     if processo.tipo_processo.id == 1:
+#         requerimento = RequerimentoISS.objects.get(processo=processo)
+#     elif processo.tipo_processo.id == 3:
+#         requerimento = RequerimentoISSQN.objects.get(processo=processo)
+#     if request.method == 'POST':        
+#         if request.POST['status'] == 'ba' or request.POST['status'] == 'cn':
+#             requerimento.boleto = request.FILES['boleto']                    
+#         form = Criar_Andamento_Processo_Ambiental(request.POST)
+#         if form.is_valid():
+#             andamento = form.save(commit=False)
+#             andamento.processo = processo
+#             andamento.servidor = request.user
+#             if 'licensa_sanitaria' in request.FILES:
+#                 documentos= Processo_Status_Documentos_Anexos.objects.get(processo=processo)
+#                 try:
+#                     documentos.licenca_ambiental = request.FILES['licensa_ambiental']
+#                     documentos.save()
+#                 except:
+#                     messages.error(request, 'Error ao enviar o documento. TENTE NOVAMENTE. O nome do arquivo anexado não deve conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
+#             if andamento.status == 'ls' or 'se':
+#                 requerimento.boleto_saude_status = True
+#             andamento.save()
+#             processo.status = andamento.status
+#             processo.save() 
+#             requerimento.save()
+#             messages.success(request, 'Andamento cadastrado com sucesso!')            
+#             send_email_for_att_process(processo, andamento)
+#             return redirect('empreendedor:andamento_processo_admin', id)
+#         else:
+#             print(form.errors)
+#     else:
+#         form = Criar_Andamento_Processo_Ambiental(initial={'processo': processo, 'observacao': 'Andamento realizado pelo Meio Ambiente.'})
+#         form_req = Processo_ISS_Form()
+#     context = {
+#         'titulo': 'Sala do Empreendedor',
+#         'processo': processo,
+#         'form': form,
+#         'form_req': form_req,
+#         'processo_sanitario': True,
         
-    }
-    return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_ambiental.html', context)
+#     }
+#     return render(request, 'sala_do_empreendedor/admin/processos_digitais/andamento_processo_ambiental.html', context)
 
 @login_required()
 @staff_member_required()

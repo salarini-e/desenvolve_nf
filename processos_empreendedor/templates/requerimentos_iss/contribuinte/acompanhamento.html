@@ -1,0 +1,171 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+{% include 'nav_empreendedor.html' %}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="row border" style="border-radius: 30px; background-color: rgb(255, 255, 255);">
+      <div class="col">
+        <div class="pt-4 d-flex px-3">
+            <h2 style="display: inline;">Processos Digitais</h2>       
+              <a href="{% url 'processos_empreendedor:listar_processos' %}" class="btn btn-dark ms-auto my-auto">
+                <i class="fa-solid fa-rotate-left me-2"></i> Voltar
+              </a>             
+            </div>
+            <div class="row">
+              <div class="col">
+                <!-- {{status_documentos}} -->
+              </div>
+            </div>
+            {% include 'requerimentos_iss/contribuinte/header.html' %}
+            {% include 'requerimentos_iss/contribuinte/header_2.html' %}
+            {% include 'requerimentos_iss/contribuinte/bloco_licenca_ambiental.html' %}
+            {% include 'requerimentos_iss/contribuinte/bloco_licenca_sanitaria.html' %}
+            {% include 'requerimentos_iss/contribuinte/bloco_demais_documentos.html' %}
+            {% include 'requerimentos_iss/contribuinte/andamento.html' %}
+      </div>
+    </div>
+</div>
+</div>
+<div class="row mx-auto px-5">
+  {% csrf_token %}
+  <style>
+    .bg-status-0{
+      margin-top: 5px;
+      text-align: center;
+      background-color: rgb(243, 232, 78);
+      border-radius: 20px;
+    }
+    .bg-status-1{
+      margin-top: 5px;
+      text-align: center;
+      background-color: rgb(91, 193, 93);
+      border-radius: 20px;
+    }
+    .bg-status-2{
+      margin-top: 5px;
+      text-align: center;
+      background-color: rgb(181, 33, 33);
+      color: rgb(239, 196, 196);
+      border-radius: 20px;  
+    }
+  </style>
+  <script>
+
+    let openfiltros = false
+    function showFiltros(){
+        if (openfiltros){      
+            document.getElementById('filtros').style.display='none'
+            openfiltros=false
+        }else{
+            document.getElementById('filtros').style.display='flex'
+            openfiltros=true
+        }
+    }
+    async function enviarComprovante(tipo, processo_id) {
+        const fileInput = document.querySelector(`input[name='comprovante-${tipo}']`);
+        
+        if (!fileInput || fileInput.files.length === 0) {
+            alert("Por favor, selecione um arquivo.");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const base64File = await toBase64(file);
+
+        const data = {
+            processo_id: processo_id,
+            tipo_comprovante: tipo,
+            comprovante_file: base64File
+        };
+
+        fetch("{% url 'processos_empreendedor:receber_comprovante' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Necessário se o Django CSRF estiver habilitado
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const responseMessage = document.getElementById(`responseMessage-${tipo}`);
+            if (data.status === 'ok') {
+                itensRemover = document.getElementsByClassName(`remover-${tipo}`)
+                for (let i = 0; i < itensRemover.length; i++) {
+                    itensRemover[i].style.display = 'none';
+                }
+                responseMessage.innerText = "Comprovante enviado com sucesso!";
+                responseMessage.style.color = 'green';
+            } else {
+                responseMessage.innerText = `Erro: ${data.message}`;
+                responseMessage.style.color = 'red';
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            const responseMessage = document.getElementById('responseMessage');
+            responseMessage.innerText = "Erro ao enviar o comprovante.";
+            responseMessage.style.color = 'red';
+        });
+    }
+
+    function toBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    document.getElementById('empreendedor_protocolo').classList.add('s-nav-active');
+  </script>
+</div>
+
+<style>
+    .menu {
+  display: none; /* Inicialmente, ocultar o menu */
+}
+
+.menu-open {
+  display: block; /* Quando a classe "menu-open" é adicionada, mostrar o menu */
+  /* Outros estilos para o menu aberto, como posição, cores, etc. */
+}
+    .border{
+        border-color: rgba(146, 146, 146, 0.2) !important;
+        background-color: white;
+    }
+    #filtros{
+        display: none;
+    }
+    .bg-white{
+        background-color: white;
+    
+    }
+</style>
+
+</script>
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}
