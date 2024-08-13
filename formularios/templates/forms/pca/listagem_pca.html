@@ -1,0 +1,51 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block nav %}
+<!-- {% include 'nav_empreendedor.html' %} -->
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+{% block main %}
+<div class="container mt-5 pt-5">
+  <div class="row mt-5">
+    <div class="col d-flex">
+      <h1>Meus Cadastros PCA</h1>
+      <a href="{% url 'forms:criar_cadastro_pca' %}" class="btn btn-success ms-auto my-auto">Novo Cadastro</a>
+    </div>
+  </div>
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Órgão Requisitante</th>
+              <th>Objeto da Licitação</th>
+              <th>Data de Registro</th>
+              <th>Ações</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for cadastro in cadastros %}
+              <tr>
+                  <td>{{ cadastro.orgao_requisitante }}</td>
+                  <td>{{ cadastro.objeto_licitacao }}</td>
+                  <td>{{ cadastro.dt_register|date:"d/m/Y" }}</td>
+                  <td>
+                      <a href="{% url 'forms:editar_cadastro_pca' cadastro.pk %}" class="btn btn-primary btn-sm">Editar</a>
+                  </td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table> 
+</div>
+
+<div class="row mx-auto px-5">
+  <script>
+    document.getElementById('empreendedor_protocolo').classList.add('s-nav-active');
+  </script>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+{% include 'desenvolve_nf/instagram.html' %}
+{% endblock %}x

@@ -8,6 +8,7 @@ urlpatterns = [
     path('atualizacao/', include('financas_recadastramento.urls')),
     path('', include('autenticacao.urls')),
     path('', include('desenvolve_nf.urls')),
+    path('', include('formularios.urls')),
     path('api/', include('api.urls')),
     path('ciencia-e-tecnologia/', include('cursos.urls')),    
     path('chat/', include('chat.urls')),
@@ -28,5 +29,6 @@ urlpatterns = [
     path('senha-facil/', include('senhas_facil.urls')),
     path('administracao/', include('administracao.urls')),    
     path('admin/', admin.site.urls),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

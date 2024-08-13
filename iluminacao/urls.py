@@ -30,5 +30,6 @@ urlpatterns = [
     path('funcionario/editar/<id>/', views.funcionario_editar, name='editar funcionario'),
     path('funcionario/deletar/<id>/', views.funcionario_deletar, name='deletar funcionario'),
 
+    # path('gerar-relatorio/', views.gerar_relatorio_view, name='gerar_relatorio'),
     path('os/painel/<id>/equipe/', views.atribuir_equipe, name='atribuir equipe')
 ]

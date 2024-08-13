@@ -31,8 +31,21 @@ PRIORIDADE_CHOICES=(
 @group_required('os_acesso')
 def index(request):
     return render(request, 'os_index.html')
+# from .functions import get_os_stats
 
-from django.db import connection
+# def relatorio_mensal(request, month, year):
+#     stats = get_os_stats(month, year)
+    
+#     context = {
+#         'os_by_bairro': stats['os_by_bairro'],
+#         'total_os': stats['total_os'],
+#         'avg_os': stats['avg_os'],
+#         'median_os': stats['median_os'],
+#         'points_by_bairro': stats['points_by_bairro'],
+#         'difference': stats['difference']
+#     }
+    
+#     return render(request, 'relatorio_mensal.html', context)
 
 @login_required
 @group_required('os_acesso')
@@ -700,7 +713,7 @@ def pontos_os(request, id):
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from weasyprint import HTML
+# from weasyprint import HTML
 from django.utils.dateparse import parse_date
 from django.middleware.csrf import get_token
 
