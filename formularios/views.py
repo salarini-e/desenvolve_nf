@@ -51,11 +51,18 @@ class BackupDatabaseView(View):
         # Caminho para salvar o backup localmente
         backup_file_path = os.path.join(settings.BASE_DIR, 'backup', 'desenvolve_nf_atual_backup.sql')
 
-        # Comando mysqldump para servidor remoto
-        command = f"mysqldump -h {db_host} -P {db_port} -u {db_user} -p'{db_passwd}' {db_name} > {backup_file_path}"
+        command = [
+            'mysqldump',
+            '-h', db_host,
+            '-P', db_port,
+            '-u', db_user,
+            f'--password={db_passwd}',  # A senha agora é passada de forma mais segura
+            db_name
+        ]
 
-        # Executar o comando
-        subprocess.run(command, shell=True, check=True)
+        # Abrindo o arquivo de backup para escrita
+        with open(backup_file_path, 'w') as backup_file:
+            subprocess.run(command, stdout=backup_file, check=True)
 
         # Retornar o arquivo de backup
         with open(backup_file_path, 'rb') as backup_file:
