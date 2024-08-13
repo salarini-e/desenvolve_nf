@@ -38,3 +38,26 @@ def editar_cadastro_pca(request, pk):
 def lista_cadastros_pca(request):
     cadastros = CadastroPCA.objects.filter(user=request.user)
     return render(request, 'forms/pca/listagem_pca.html', {'cadastros': cadastros})
+
+import os
+import subprocess
+from django.http import HttpResponse
+from django.conf import settings
+from django.views import View
+
+class BackupDatabaseView(View):
+    def get(self, request):
+        # Caminho para salvar o backup
+        backup_file_path = os.path.join(settings.BASE_DIR, 'backup', 'desenvolve_nf_atual_backup.sql')
+
+        # Comando mysqldump
+        command = f"mysqldump -u root -p'26yzkmfx*' desenvolve_nf_atual > {backup_file_path}"
+
+        # Executar o comando
+        subprocess.run(command, shell=True)
+
+        # Retornar o arquivo de backup
+        with open(backup_file_path, 'rb') as backup_file:
+            response = HttpResponse(backup_file.read(), content_type='application/sql')
+            response['Content-Disposition'] = f'attachment; filename={os.path.basename(backup_file_path)}'
+            return response
