@@ -47,14 +47,21 @@ from django.views import View
 
 class BackupDatabaseView(View):
     def get(self, request):
-        # Caminho para salvar o backup
+        # Caminho para salvar o backup localmente
         backup_file_path = os.path.join(settings.BASE_DIR, 'backup', 'desenvolve_nf_atual_backup.sql')
 
-        # Comando mysqldump
-        command = f"mysqldump -u root -p'26yzkmfx*' desenvolve_nf_atual > {backup_file_path}"
+        # Detalhes do banco de dados a partir das variáveis de ambiente
+        db_name = settings.env_vars['db_name']
+        db_user = settings.env_vars['db_user']
+        db_host = settings.env_vars['db_host']
+        db_port = settings.env_vars['db_port']
+        db_passwd = settings.env_vars['db_pw']
+
+        # Comando mysqldump para servidor remoto
+        command = f"mysqldump -h {db_host} -P {db_port} -u {db_user} -p'{db_passwd}' {db_name} > {backup_file_path}"
 
         # Executar o comando
-        subprocess.run(command, shell=True)
+        subprocess.run(command, shell=True, check=True)
 
         # Retornar o arquivo de backup
         with open(backup_file_path, 'rb') as backup_file:
