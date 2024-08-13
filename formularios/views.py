@@ -43,19 +43,13 @@ import os
 import subprocess
 from django.http import HttpResponse
 from django.conf import settings
+from settings.settings import db_name, db_user, db_host, db_port, db_passwd
 from django.views import View
 
 class BackupDatabaseView(View):
     def get(self, request):
         # Caminho para salvar o backup localmente
         backup_file_path = os.path.join(settings.BASE_DIR, 'backup', 'desenvolve_nf_atual_backup.sql')
-
-        # Detalhes do banco de dados a partir das variáveis de ambiente
-        db_name = settings.db_name['db_name']
-        db_user = settings.db_user['db_user']
-        db_host = settings.db_host['db_host']
-        db_port = settings.db_port['db_port']
-        db_passwd = settings.db_passwd['db_pw']
 
         # Comando mysqldump para servidor remoto
         command = f"mysqldump -h {db_host} -P {db_port} -u {db_user} -p'{db_passwd}' {db_name} > {backup_file_path}"
