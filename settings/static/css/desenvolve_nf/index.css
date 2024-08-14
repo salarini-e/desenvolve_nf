@@ -728,3 +728,30 @@ footer a{
 .text-justify {
   text-indent: 40px;
 }
+
+#bannerMain > div > img{
+  /* width: vw; */
+  height: 40vh !important;
+}
+  /* Dispositivos pequenos (telefones em modo retrato) */
+  @media (max-width: 600px) {
+
+    #bannerMain > div > img{
+        /* width: vw; */
+        height: 30vh !important;
+    }
+}
+
+/* Dispositivos médios (tablets em modo retrato e pequenos dispositivos desktop) */
+@media (min-width: 601px) and (max-width: 768px) {
+
+}
+
+/* Dispositivos grandes (desktops e tablets em modo paisagem) */
+@media (min-width: 769px) and (max-width: 1024px) {
+ 
+
+}
+@media (min-width: 1024px) and (max-width: 1370px) {
+
+}
