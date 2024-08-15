@@ -4,9 +4,9 @@ from settings.envvars import load_envars
 from pathlib import Path
 
 # Configurações iniciais
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 env_vars = load_envars(BASE_DIR)
-caminho_csv = BASE_DIR / 'dados_recadastramento.csv'
+caminho_csv = BASE_DIR / '..' / 'dados_recadastramento.csv'
 nome_tabela_contribuintes = 'financas_recadastramento_pessoarecadastramento'
 nome_tabela_inscricoes = 'financas_recadastramento_inscricao'
 
