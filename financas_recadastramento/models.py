@@ -63,7 +63,7 @@ class Processo(models.Model):
 class Inscricao(models.Model):
     
     pessoa_recadastramento = models.ForeignKey(PessoaRecadastramento, on_delete=models.CASCADE)
-    numero_inscricao = models.CharField(max_length=20, unique=True)
+    numero_inscricao = models.CharField(max_length=50, unique=True)
     user_register = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     cadastro_interno = models.BooleanField(default=False)
 
