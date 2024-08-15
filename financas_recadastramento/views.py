@@ -158,8 +158,11 @@ def cadastrar_pessoa(request):
                 pessoa.cidade=data.get('cidade')
                 pessoa.estado=data.get('estado')
                 pessoa.email=data.get('email')
+                pessoa.user_register = request.user
+                pessoa.cadastro_interno = True
                 message = 'Contribuinte atualizado com sucesso!'
-            except:
+            except Exception as e:
+                print(e)
                 pessoa = PessoaRecadastramento(
                     cpf=data.get('cpf'),
                     responsavel_tributario=data['responsavel_tributario'],
@@ -173,15 +176,14 @@ def cadastrar_pessoa(request):
                     bairro=data.get('bairro'),
                     cidade=data.get('cidade'),
                     estado=data.get('estado'),
-                    email=data.get('email')
+                    email=data.get('email'),
+                    user_register = request.user,
+                    cadastro_interno = True
                 )
                 message = 'Cadastro realizado com sucesso!'
                 
             pessoa.full_clean()  # Valida os campos antes de salvar
-            pessoa.save()            
-            pessoa.user_register = request.user
-            pessoa.cadastro_interno = True
-            pessoa.save()
+            pessoa.save()                                
             return JsonResponse({'message': message}, status=201)
         except ValidationError as e:
             errors = e.message_dict
