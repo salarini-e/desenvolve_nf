@@ -4,6 +4,7 @@ from autenticacao.functions import validate_cpf
 from autenticacao.models import User
 
 class PessoaRecadastramento(models.Model):
+
     cpf = models.CharField(max_length=14, unique=True, blank=True, null=True)
     responsavel_tributario = models.CharField(max_length=150, blank=True, null=True)
     cnpj = models.CharField(max_length=14, blank=True, null=True)
@@ -43,6 +44,7 @@ class PessoaRecadastramento(models.Model):
         return self.nome_do_contribuinte
 
 class Processo(models.Model):
+
     requerente = models.ForeignKey(PessoaRecadastramento, on_delete=models.CASCADE, null=True, blank=True)
     requerimento = models.CharField(max_length=20)
     ano = models.IntegerField()    
@@ -59,10 +61,11 @@ class Processo(models.Model):
         return self.requerimento
 
 class Inscricao(models.Model):
+    
     pessoa_recadastramento = models.ForeignKey(PessoaRecadastramento, on_delete=models.CASCADE)
     numero_inscricao = models.CharField(max_length=20, unique=True)
     user_register = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     cadastro_interno = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.numero_inscricao
