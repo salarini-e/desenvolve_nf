@@ -69,7 +69,7 @@ def cadastrar_contribuinte(cursor, cpf, responsavel_tributario, nome_contribuint
     INSERT INTO {nome_tabela_contribuintes} (cpf, responsavel_tributario, nome_do_contribuinte, celular, cep, rua, numero, complemento, bairro, cidade, estado, email, cadastro_interno)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    cursor.execute(sql, (cpf, responsavel_tributario, nome_contribuinte, celular, cep, rua, numero, complemento, bairro, cidade, estado, email, True))
+    cursor.execute(sql, (cpf, responsavel_tributario, nome_contribuinte, celular, cep, rua, numero, complemento, bairro, cidade, estado, email, 1))
 
     # Retorna o ID do contribuinte recém-inserido
     return cursor.lastrowid
