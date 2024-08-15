@@ -211,18 +211,18 @@ def cadastrar_processo(request):
                 ano=data.get('ano'),
                 localizacao=data['localizacao'],                
             )            
-            processo.full_clean()  # Valida os campos antes de salvar
-            processo.save()
             processo.user_register = request.user            
-            processo.save()
+            processo.full_clean()  # Valida os campos antes de salvar
+            processo.save()            
             return JsonResponse({'message': 'Cadastro realizado com sucesso!'}, status=201)
         except ValidationError as e:
+            print(e)
             errors = e.message_dict
             return JsonResponse({'errors': errors}, status=400)
         except Exception as e:
             print(e)            
             errors = {
-                'cpf_recadastramento': 'Erro ao cadastrar processo. Verifique se o contribuinte já foi cadastrado.'
+                'cpf_processo': 'Erro ao cadastrar processo. Verifique se o contribuinte já foi cadastrado.'
             
             }
             return JsonResponse({'error': errors}, status=500)
