@@ -41,9 +41,11 @@ def atualziacao_cadastral(request):
 
         if form.is_valid():
             pessoaR = form.save()
+            pessoaR.user_register = request.user
+            pessoaR.save()
             if 'n_inscricao' in request.POST:
-                print(request.POST['n_inscricao'])
-                print(request.POST.getlist('n_inscricao'))
+                # print(request.POST['n_inscricao'])
+                # print(request.POST.getlist('n_inscricao'))
                 for i in request.POST.getlist('n_inscricao'):
                     try:
                         inscricao = Inscricao(
@@ -51,7 +53,9 @@ def atualziacao_cadastral(request):
                             numero_inscricao=i
                         )
                         inscricao.full_clean()
-                        inscricao.save()                            
+                        inscricao.save()     
+                        inscricao.user_register = request.user
+                        inscricao.save()                       
                     except Exception as e:
                         error_message = str(e)
                         if 'numero_inscricao' in error_message:
@@ -116,7 +120,7 @@ def checkCPF2(request):
             response_data = {'exists': False, 'message': 'CPF inválido.'}
             return JsonResponse(response_data)
         try:
-            pessoa = PessoaRecadastramento.objects.get(cpf=data.get('cpf'))
+            pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
             pessoa_json = serializers.serialize('json', [pessoa])
             response_data = {'exists': True, 'message': 'Contribuinte localizado <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
         except:
@@ -175,11 +179,16 @@ def cadastrar_pessoa(request):
                 
             pessoa.full_clean()  # Valida os campos antes de salvar
             pessoa.save()            
+            pessoa.user_register = request.user
+            pessoa.cadastro_interno = True
+            pessoa.save()
             return JsonResponse({'message': message}, status=201)
         except ValidationError as e:
             errors = e.message_dict
             return JsonResponse({'errors': errors}, status=400)
         except Exception as e:
+            print(e)
+            # errors = {}
             errors = e.message_dict
             return JsonResponse({'error': errors}, status=500)
     else:
@@ -192,16 +201,17 @@ def cadastrar_processo(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            print(data)
+            cpf = data.get('cpf_processo').replace('-', '').replace('.', '')
             processo = Processo(
-                requerente=PessoaRecadastramento.objects.get(cpf=data.get('cpf_processo')),
+                requerente=PessoaRecadastramento.objects.get(cpf=cpf),
                 requerimento=data['requerimento'],
                 ano=data.get('ano'),
                 localizacao=data['localizacao'],                
             )            
             processo.full_clean()  # Valida os campos antes de salvar
             processo.save()
-            
+            processo.user_register = request.user            
+            processo.save()
             return JsonResponse({'message': 'Cadastro realizado com sucesso!'}, status=201)
         except ValidationError as e:
             errors = e.message_dict
@@ -222,16 +232,16 @@ def cadastrar_inscricao(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            print(data)
+            cpf = data.get('cpf_inscricao').replace('-', '').replace('.', '')
             inscricao = Inscricao(
-                pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=data.get('cpf_inscricao')),
+                pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=cpf),
                 numero_inscricao=data['numero_inscricao'],                
             )         
-            print(1)   
             inscricao.full_clean()  # Valida os campos antes de salvar
-            print(2)
             inscricao.save()
-            print(3)
+            inscricao.user_register = request.user
+            inscricao.cadastro_interno = True
+            inscricao.save()
             return JsonResponse({'message': 'Cadastro realizado com sucesso!'}, status=201)
         except ValidationError as e:
             errors = e.message_dict

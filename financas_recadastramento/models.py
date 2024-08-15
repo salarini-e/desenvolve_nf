@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from autenticacao.functions import validate_cpf
+from autenticacao.models import User
 
 class PessoaRecadastramento(models.Model):
     cpf = models.CharField(max_length=14, unique=True, blank=True, null=True)
@@ -16,6 +17,8 @@ class PessoaRecadastramento(models.Model):
     cidade = models.CharField(max_length=50, blank=True)
     estado = models.CharField(max_length=100, blank=True)
     email = models.EmailField(blank=True)
+    user_register = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    cadastro_interno = models.BooleanField(default=False)
 
     def check_cpf_or_cnpj(self):
         if not self.cpf and not self.cnpj:
@@ -44,6 +47,7 @@ class Processo(models.Model):
     requerimento = models.CharField(max_length=20)
     ano = models.IntegerField()    
     localizacao = models.CharField(max_length=100)
+    user_register = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         existing_process = Processo.objects.filter(requerimento=self.requerimento, ano=self.ano).exists()
@@ -57,6 +61,8 @@ class Processo(models.Model):
 class Inscricao(models.Model):
     pessoa_recadastramento = models.ForeignKey(PessoaRecadastramento, on_delete=models.CASCADE)
     numero_inscricao = models.CharField(max_length=20, unique=True)
-
+    user_register = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    cadastro_interno = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.numero_inscricao
