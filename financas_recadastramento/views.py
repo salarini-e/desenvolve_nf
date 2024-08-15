@@ -144,8 +144,9 @@ def cadastrar_pessoa(request):
             data = json.loads(request.body)
             print(data)
             try:
-                pessoa = PessoaRecadastramento.objects.get(cpf=data.get('cpf'))
-                pessoa.cpf=data.get('cpf')
+                cpf = data.get('cpf').replace('-', '').replace('.', '')
+                pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
+                pessoa.cpf=cpf
                 pessoa.responsavel_tributario=data['responsavel_tributario']
                 pessoa.cnpj=data.get('cnpj')
                 pessoa.nome_do_contribuinte=data['nome_do_contribuinte']
@@ -164,7 +165,7 @@ def cadastrar_pessoa(request):
             except Exception as e:
                 print(e)
                 pessoa = PessoaRecadastramento(
-                    cpf=data.get('cpf'),
+                    cpf=data.get('cpf').replace('-', '').replace('.', ''),
                     responsavel_tributario=data['responsavel_tributario'],
                     cnpj=data.get('cnpj'),
                     nome_do_contribuinte=data['nome_do_contribuinte'],
@@ -190,8 +191,8 @@ def cadastrar_pessoa(request):
             return JsonResponse({'errors': errors}, status=400)
         except Exception as e:
             print(e)
-            # errors = {}
-            errors = e.message_dict
+            errors = {}
+            # errors = e.message_dict
             return JsonResponse({'error': errors}, status=500)
     else:
         return JsonResponse({'error': 'Método não permitido'}, status=405)
