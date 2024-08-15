@@ -1,4 +1,0 @@
-Total sem CPF e CNPJ: 138
-Total sem CPF, mas com CNPJ: 102
-Total de contribuintes cadastrados: 487
-Total de inscrições cadastradas: 647
