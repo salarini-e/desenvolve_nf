@@ -250,7 +250,7 @@ def os_index(request):
         queryset = OrdemDeServico.objects.filter(atendente=request.user ).exclude(status='f')
 
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         # Obtenha os parâmetros da consulta do formulário
         protocolo = request.POST.get('protocolo')
         tipo_os = request.POST.get('tipo')
@@ -265,7 +265,7 @@ def os_index(request):
         dt_execucao2 = request.POST.get('dt_execucao2')
         dt_alteracao1 = request.POST.get('dt_alteracao1')
         dt_alteracao2 = request.POST.get('dt_alteracao2')
-        print(tipo_os)
+        # print(tipo_os)
         # Armazene os parâmetros da consulta na sessão
         request.session['protocolo'] = protocolo
         request.session['tipo_os'] = tipo_os
@@ -280,7 +280,7 @@ def os_index(request):
         request.session['dt_execucao2'] = dt_execucao2
         request.session['dt_alteracao1'] = dt_alteracao1
         request.session['dt_alteracao2'] = dt_alteracao2
-        print(request.session['tipo_os'])
+        # print(request.session['tipo_os'])
     else:
         # Recupere os parâmetros da consulta da sessão
         try:
