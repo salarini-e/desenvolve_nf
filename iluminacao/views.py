@@ -15,6 +15,7 @@ from openpyxl import Workbook
 from datetime import datetime, timedelta
 from django.utils import timezone
 from .custom import month_translate
+from django.db import connection, models
 
 STATUS_CHOICES=(
         ('0','Novo'),
@@ -249,6 +250,7 @@ def os_index(request):
         queryset = OrdemDeServico.objects.filter(atendente=request.user ).exclude(status='f')
 
     if request.method == 'POST':
+        print(request.POST)
         # Obtenha os parâmetros da consulta do formulário
         protocolo = request.POST.get('protocolo')
         tipo_os = request.POST.get('tipo')
@@ -263,7 +265,7 @@ def os_index(request):
         dt_execucao2 = request.POST.get('dt_execucao2')
         dt_alteracao1 = request.POST.get('dt_alteracao1')
         dt_alteracao2 = request.POST.get('dt_alteracao2')
-
+        print(tipo_os)
         # Armazene os parâmetros da consulta na sessão
         request.session['protocolo'] = protocolo
         request.session['tipo_os'] = tipo_os
@@ -278,6 +280,7 @@ def os_index(request):
         request.session['dt_execucao2'] = dt_execucao2
         request.session['dt_alteracao1'] = dt_alteracao1
         request.session['dt_alteracao2'] = dt_alteracao2
+        print(request.session['tipo_os'])
     else:
         # Recupere os parâmetros da consulta da sessão
         try:
@@ -294,7 +297,8 @@ def os_index(request):
             dt_execucao2 = request.session.get('dt_execucao2', '')
             dt_alteracao1 = request.session.get('dt_alteracao1', '')
             dt_alteracao2 = request.session.get('dt_alteracao2', '')
-        except:
+        except Exception as E:
+            print(E)
             pass
     try:
         # Construa a consulta personalizada
@@ -355,7 +359,8 @@ def os_index(request):
             ordem_de_servico = OrdemDeServico(**data)
             queryset.append(ordem_de_servico)
             queryset = sorted(queryset, key=lambda x: (x.dt_alteracao if x.dt_alteracao else x.dt_solicitacao), reverse=True)
-    except:
+    except Exception as e:
+        print(e)
         pass
     paginator = Paginator(queryset, 30)
     page = request.GET.get('page', 1)
