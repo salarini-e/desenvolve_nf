@@ -10,15 +10,18 @@
 <div class="container mt-5 pt-5">
 <div class="row pt-5">
   <div class="col d-flex flex-wrap justify-content-center">
-    <form method="post" class="w-100 d-flex flex-column">
+    <form method="post" class="w-100 d-flex flex-column">      
     <div class="row">
       <div class="col d-flex">
-        <h1>{% if form.instance.pk %}Editar Cadastro PCA{% else %}Novo Cadastro PCA{% endif %}</h1>
+        <h1>{% if form.instance.pk %}Editar Cadastro{% else %}Novo Cadastro{% endif %}</h1>
         <a href="{% url 'forms:lista_cadastros_pca' %}" class="btn btn-success ms-auto my-auto">Voltar</a>
       </div>
     </div>
+    {% if not form.instance.pk %}
+    <p class="mb-4">Aqui você cadastrará item por item do PCA.</p>
+    {% endif %}
         {% csrf_token %}
-        {{ form }}
+        {{ form }}        
         <button type="submit" class="btn btn-primary mb-5">Salvar</button>
     </form>
   </div>

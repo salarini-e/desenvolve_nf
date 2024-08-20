@@ -37,7 +37,7 @@ def editar_cadastro_pca(request, pk):
 @login_required
 def lista_cadastros_pca(request):
     cadastros = CadastroPCA.objects.filter(user=request.user)
-    return render(request, 'forms/pca/listagem_pca.html', {'cadastros': cadastros})
+    return render(request, 'forms/pca/listagem_pca.html', {'cadastros': cadastros, 'titulo': 'Plano de Compras Anual'})
 
 import os
 import subprocess
