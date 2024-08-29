@@ -12,14 +12,14 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='cadastropca',
-            name='preco_estimado',
-            field=models.CharField(default=0, max_length=255, verbose_name='Preço Estimado'),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='cadastropca',
             name='programa_trabalho',
             field=models.CharField(default='teste', max_length=255, verbose_name='Programa de Trabalho'),
             preserve_default=False,
         ),
+        migrations.AlterField(
+            model_name='cadastropca',
+            name='preco_estimado',
+            field=models.CharField(max_length=255, null=True, verbose_name='Preço Estimado'),
+        ),
     ]
+
