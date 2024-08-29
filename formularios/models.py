@@ -21,9 +21,13 @@ class CadastroPCA(models.Model):
     email = models.EmailField(verbose_name="Email")
     objeto_licitacao = models.TextField(verbose_name="Objeto da Licitação")
     registro_preco = models.BooleanField(default=False, verbose_name="Registro de Preço")
+    preco_estimado = models.CharField(max_length=255, verbose_name="Valor Estimado para Contratação (R$)")
     prazo_execucao = models.PositiveIntegerField(verbose_name="Prazo de Execução (meses)")
+    programa_trabalho = models.CharField(max_length=255, verbose_name="Programa de Trabalho")
+
     data_prevista_certame = models.CharField(max_length=7, verbose_name="Data Prevista do Certame")
     fonte_recurso = models.CharField(max_length=255, verbose_name="Fonte do Recurso")
+    
     origem_preco_referencia = models.CharField(
         max_length=2, 
         choices=ORIGEM_PRECO_CHOICES, 

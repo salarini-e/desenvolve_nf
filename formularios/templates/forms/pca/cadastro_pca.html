@@ -10,7 +10,7 @@
 <div class="container mt-5 pt-5">
 <div class="row pt-5">
   <div class="col d-flex flex-wrap justify-content-center">
-    <form method="post" class="w-100 d-flex flex-column">      
+    <form method="post" class="w-100 d-flex flex-column">       
     <div class="row">
       <div class="col d-flex">
         <h1>{% if form.instance.pk %}Editar Cadastro{% else %}Novo Cadastro{% endif %}</h1>
@@ -58,6 +58,13 @@ function itel(v){
   
   return v
 }
+function ipreco(v){
+  v = v.replace(/\D/g,""); // Remove tudo o que não é dígito
+  v = v.replace(/(\d{2})$/g, ",$1"); // Coloca a vírgula antes dos últimos 2 dígitos
+  v = v.replace(/(?=(\d{3})+(\D))\B/g, "."); // Coloca os pontos nos grupos de 3 dígitos antes da vírgula
+  return v;
+}
+
 function mascara(o,f){
   v_obj=o
   v_fun=f
