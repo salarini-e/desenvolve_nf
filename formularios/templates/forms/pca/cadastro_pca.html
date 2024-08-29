@@ -116,7 +116,12 @@ function validateDate(input) {
 
   input.value = value;
 }
-
+function imoeda(v){
+  v=v.replace(/\D/g,"") //Remove tudo o que não é dígito
+  v=v.replace(/(\d)(\d{2})$/,"$1,$2") //Coloca a virgula   
+  v=v.replace(/(\d)(?=(\d{3})+(?!\d))/g,"$1.") //inserir ponto a cada 3 ou multiplo digitos
+  return v
+}
 document.addEventListener("DOMContentLoaded", function() {
     toggleFields();
 });

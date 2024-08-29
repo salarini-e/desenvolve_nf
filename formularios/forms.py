@@ -15,6 +15,7 @@ class CadastroPCAForm(forms.ModelForm):
             'objeto_licitacao',
             'preco_estimado',
             'prazo_execucao',
+            'preco_estimado',
             'data_prevista_certame',
             'fonte_recurso',
             'origem_preco_referencia',
@@ -32,12 +33,14 @@ class CadastroPCAForm(forms.ModelForm):
             'preco_estimado': forms.TextInput(attrs={'class': 'form-control mb-3', 'onkeyup': 'mascara(this, ipreco)'}),
             'programa_trabalho': forms.TextInput(attrs={'class': 'form-control mb-3'}),
             'prazo_execucao': forms.TextInput(attrs={'class': 'form-control mb-3', 'onkeyup': 'mascara(this, iprazo)'}),
+            'preco_estimado': forms.TextInput(attrs={'class': 'form-control mb-3', 'onkeyup': 'mascara(this, imoeda)'}),
             'data_prevista_certame': forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'mm/aaaa', 'onkeyup': 'validateDate(this)'}),
             'fonte_recurso': forms.TextInput(attrs={'class': 'form-control mb-3'}),
             'origem_preco_referencia': forms.Select(attrs={'class': 'form-select mb-3', 'onchange': 'toggleFields()'}),
             'ata_registro': forms.TextInput(attrs={'class': 'form-control mb-3'}),
             'outro': forms.TextInput(attrs={'class': 'form-control mb-3'}),
         }
+
 
     def clean(self):
         cleaned_data = super().clean()
@@ -51,3 +54,11 @@ class CadastroPCAForm(forms.ModelForm):
         
         if origem_preco_referencia == CadastroPCA.OUTRO and not outro:
             self.add_error('outro', "Este campo é obrigatório quando 'Outro' for selecionado.")
+
+        # Remove comma from 'preco_estimado'
+        # preco_estimado = cleaned_data.get("preco_estimado")
+        # if preco_estimado:
+        #     preco_estimado = preco_estimado.replace(",", "")
+        #     cleaned_data["preco_estimado"] = preco_estimado
+
+        # return cleaned_data

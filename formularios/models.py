@@ -23,8 +23,12 @@ class CadastroPCA(models.Model):
     registro_preco = models.BooleanField(default=False, verbose_name="Registro de Preço")
     preco_estimado = models.CharField(max_length=255, verbose_name="Valor Estimado para Contratação (R$)")
     prazo_execucao = models.PositiveIntegerField(verbose_name="Prazo de Execução (meses)")
+<<<<<<< HEAD
     programa_trabalho = models.CharField(max_length=255, verbose_name="Programa de Trabalho")
 
+=======
+    preco_estimado = models.CharField(max_length=100, verbose_name="Preço Estimado", null=True)
+>>>>>>> ef6abb5906f7933132e50964e39d8ca6d5233061
     data_prevista_certame = models.CharField(max_length=7, verbose_name="Data Prevista do Certame")
     fonte_recurso = models.CharField(max_length=255, verbose_name="Fonte do Recurso")
     
