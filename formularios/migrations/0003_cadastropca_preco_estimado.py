@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='cadastropca',
             name='preco_estimado',
             field=models.CharField(max_length=100, null=True, verbose_name='Preço Estimado'),

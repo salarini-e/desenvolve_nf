@@ -6,20 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('formularios', '0002_auto_20240815_1043'),
+        ('formularios', '0003_cadastropca_preco_estimado'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='cadastropca',
-            name='programa_trabalho',
-            field=models.CharField(default='teste', max_length=255, verbose_name='Programa de Trabalho'),
-            preserve_default=False,
-        ),
-        migrations.AlterField(
-            model_name='cadastropca',
-            name='preco_estimado',
-            field=models.CharField(max_length=255, null=True, verbose_name='Preço Estimado'),
-        ),
+        # migrations.AddField(
+        #     model_name='cadastropca',
+        #     name='programa_trabalho',
+        #     field=models.CharField(default='teste', max_length=255, verbose_name='Programa de Trabalho'),
+        #     preserve_default=False,
+        # ),
     ]
 
