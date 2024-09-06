@@ -6,8 +6,7 @@ class CadastroPCAForm(forms.ModelForm):
         model = CadastroPCA
         fields = [
             'user',
-            'registro_preco',
-            'programa_trabalho',
+            'registro_preco',            
             'orgao_requisitante',
             'subsecretaria_departamento',
             'celular_whatsapp',
@@ -16,6 +15,7 @@ class CadastroPCAForm(forms.ModelForm):
             'preco_estimado',
             'prazo_execucao',
             'preco_estimado',
+            'programa_trabalho',
             'data_prevista_certame',
             'fonte_recurso',
             'origem_preco_referencia',
