@@ -28,7 +28,7 @@ urlpatterns = [
     path('newsletter/', include('newsletter.urls')),
     path('senha-facil/', include('senhas_facil.urls')),
     path('administracao/', include('administracao.urls')),    
-    path('admin/', admin.site.urls),
+    path('django/', admin.site.urls),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

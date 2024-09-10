@@ -209,7 +209,7 @@
               {{ request.user.first_name }}
             </button>
             <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-              {% if request.user.is_superuser %}
+              {% if request.pessoa.acesso_interno %}
               <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
               {% endif %}
               <li>
@@ -253,7 +253,7 @@
             {{ request.user.first_name }}
           </button>
           <ul id="menu-perfil" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-            {% if request.user.is_superuser %}
+            {% if request.pessoa.acesso_interno %}
             <li><a class="dropdown-item py-2 text-center" href="/admin/">Administração</a></li>
             {% endif %}
             <!-- <li><a class="dropdown-item py-2 text-center" href="#">Meu perfil</a></li> -->
@@ -350,7 +350,7 @@
             <p class="text-dark text-center">Mapeamento<br>Cultural</p>
           </div>
         </a>
-        {% if request.user.is_staff %}
+        {% if request.pessoa.acesso_interno %}
         <a href="/admin/" class="me-2">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="admin" class="s-nav-admin  destaque"></div>

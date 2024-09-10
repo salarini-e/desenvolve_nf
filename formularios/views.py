@@ -74,3 +74,117 @@ class BackupDatabaseView(View):
         except subprocess.CalledProcessError as e:
             # Lidar com erros durante o backup
             return HttpResponse(f"Erro ao criar backup: {str(e)}", status=500)
+        
+
+from openpyxl import Workbook
+from io import BytesIO
+from django.http import HttpResponse
+
+from django.shortcuts import render
+from .models import CadastroPCA
+from datetime import datetime
+
+def export_cadastro_pca_to_excel(request):
+
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = 'Cadastro PCA'
+
+    headers = [
+        'Órgão Requisitante', 
+        'Subsecretaria/Departamento', 
+        'Celular/WhatsApp', 
+        'Email', 
+        'Objeto da Licitação', 
+        'Registro de Preço', 
+        'Valor Estimado', 
+        'Prazo de Execução', 
+        'Programa de Trabalho', 
+        'Data Prevista do Certame', 
+        'Fonte do Recurso', 
+        'Origem do Preço de Referência', 
+        'Ata de Registro', 
+        'Outro (especificar)', 
+        'Data de Registro'
+    ]
+    
+    worksheet.append(headers)
+
+    for cadastro in CadastroPCA.objects.filter(dt_register__year=datetime.now().year):
+        worksheet.append([
+            cadastro.orgao_requisitante,
+            cadastro.subsecretaria_departamento,
+            cadastro.celular_whatsapp,
+            cadastro.email,
+            cadastro.objeto_licitacao,
+            cadastro.registro_preco,
+            cadastro.preco_estimado,
+            cadastro.prazo_execucao,
+            cadastro.programa_trabalho,
+            cadastro.data_prevista_certame,
+            cadastro.fonte_recurso,
+            cadastro.origem_preco_referencia,
+            cadastro.ata_registro,
+            cadastro.outro,
+            cadastro.dt_register.replace(tzinfo=None) if cadastro.dt_register else None,
+        ])
+
+    output = BytesIO()
+    workbook.save(output)
+    output.seek(0)
+
+    response = HttpResponse(output.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=cadastro_pca.xlsx'
+    return response
+def export_user_cadastro_pca_to_excel(request):
+
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = 'Cadastro PCA'
+
+    headers = [
+        'Órgão Requisitante', 
+        'Subsecretaria/Departamento', 
+        'Celular/WhatsApp', 
+        'Email', 
+        'Objeto da Licitação', 
+        'Registro de Preço', 
+        'Valor Estimado', 
+        'Prazo de Execução', 
+        'Programa de Trabalho', 
+        'Data Prevista do Certame', 
+        'Fonte do Recurso', 
+        'Origem do Preço de Referência', 
+        'Ata de Registro', 
+        'Outro (especificar)', 
+        'Data de Registro'
+    ]
+    
+    worksheet.append(headers)
+
+    for cadastro in CadastroPCA.objects.filter(user=request.user, dt_register__year=datetime.now().year):
+        worksheet.append([
+            cadastro.orgao_requisitante,
+            cadastro.subsecretaria_departamento,
+            cadastro.celular_whatsapp,
+            cadastro.email,
+            cadastro.objeto_licitacao,
+            cadastro.registro_preco,
+            cadastro.preco_estimado,
+            cadastro.prazo_execucao,
+            cadastro.programa_trabalho,
+            cadastro.data_prevista_certame,
+            cadastro.fonte_recurso,
+            cadastro.origem_preco_referencia,
+            cadastro.ata_registro,
+            cadastro.outro,
+            cadastro.dt_register.replace(tzinfo=None) if cadastro.dt_register else None,
+        ])
+
+    output = BytesIO()
+    workbook.save(output)
+    output.seek(0)
+
+    response = HttpResponse(output.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=cadastro_pca.xlsx'
+    return response

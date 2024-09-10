@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from autenticacao.models import User
 
 class CadastroPCA(models.Model):
     MERCADO_LOCAL = 'ML'

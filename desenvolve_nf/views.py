@@ -15,6 +15,14 @@ def index(request):
 
     return render(request, 'desenvolve_nf/index.html', context)
 
+def admin(request):
+    context = {
+        # 'carousel': Carousel_Index.objects.filter(ativa=True),
+        'titulo': 'Administração'
+    }
+
+    return render(request, 'desenvolve_nf/administrativo.html', context)
+
 def getClimaTempo(request):
     #processos
     ClimaTempoTemperaturas()

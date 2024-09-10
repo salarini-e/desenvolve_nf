@@ -19,6 +19,8 @@ class Pessoa(models.Model):
     cep = models.CharField(max_length=9, verbose_name='CEP', null=True)
     dt_inclusao=models.DateField(auto_now_add=True, verbose_name='Data de inclusão')
     possui_cnpj=models.BooleanField(default=False, verbose_name='Você possui empresa?')
+    acesso_interno = models.BooleanField(default=False, verbose_name='Acesso Interno')
+    ativo = models.BooleanField(default=True, verbose_name='Ativo')
 
     def save(self, *args, **kwargs):
         if not self.user.first_name == self.nome:
@@ -27,3 +29,22 @@ class Pessoa(models.Model):
             self.user.email = self.email
         self.user.save()
         super().save(*args, **kwargs)
+
+    def membro_pca(self):
+        valor = MembroPCA.objects.filter(pessoa=self).exists()
+        return valor
+    
+    def consultor_sebrae(self):
+        valor = Consultor_Sebrae.objects.filter(pessoa=self).exists()
+        return valor
+    
+class MembroPCA(models.Model):
+    ativo = models.BooleanField(default=True, verbose_name="Ativo")
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, verbose_name="Pessoa")
+    dt_register = models.DateTimeField(auto_now_add=True, verbose_name="Data de Registro")
+
+class Consultor_Sebrae(models.Model):
+    ativo = models.BooleanField(default=True, verbose_name="Ativo")
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, verbose_name="Pessoa")
+    dt_register = models.DateTimeField(auto_now_add=True, verbose_name="Data de Registro")
+
