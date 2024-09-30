@@ -11,6 +11,7 @@ admin.site.register(Pessoa, PessoaAdmin)
 class MembroPCAAdmin(admin.ModelAdmin):
     list_display = ('pessoa', 'ativo', 'dt_register')
     search_fields = ('pessoa',)
+    autocomplete_fields = ['pessoa'] 
     list_per_page = 20
 
 admin.site.register(MembroPCA, MembroPCAAdmin)
@@ -18,6 +19,7 @@ admin.site.register(MembroPCA, MembroPCAAdmin)
 class Consultor_SebraeAdmin(admin.ModelAdmin):
     list_display = ('pessoa', 'ativo', 'dt_register')
     search_fields = ('pessoa',)
+    autocomplete_fields = ['pessoa'] 
     list_per_page = 20
 
 admin.site.register(Consultor_Sebrae, Consultor_SebraeAdmin)
