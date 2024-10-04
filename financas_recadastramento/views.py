@@ -147,7 +147,6 @@ def cadastrar_pessoa(request):
                 cpf = data.get('cpf').replace('-', '').replace('.', '')
                 pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
                 pessoa.cpf=cpf
-                pessoa.responsavel_tributario=data['responsavel_tributario']
                 pessoa.cnpj=data.get('cnpj')
                 pessoa.nome_do_contribuinte=data['nome_do_contribuinte']
                 pessoa.celular=data.get('celular')
@@ -161,6 +160,17 @@ def cadastrar_pessoa(request):
                 pessoa.email=data.get('email')
                 pessoa.user_register = request.user
                 pessoa.cadastro_interno = True
+
+                pessoa.email_procurador = data.get('email_procurador')
+                pessoa.telefone_procurador = data.get('telefone_procurador')
+                pessoa.cpf_procurador = data.get('cpf_procurador')
+                pessoa.nome_procurador = data.get('nome_procurador')
+
+                pessoa.responsavel_tributario = data.get('responsavel_tributario')
+                pessoa.cpf_responsavel = data.get('cpf_responsavel')
+                pessoa.email_responsavel = data.get('email_responsavel')
+                pessoa.telefone_responsavel = data.get('telefone_responsavel')
+                
                 message = 'Contribuinte atualizado com sucesso!'
             except Exception as e:
                 print(e)
@@ -179,7 +189,17 @@ def cadastrar_pessoa(request):
                     estado=data.get('estado'),
                     email=data.get('email'),
                     user_register = request.user,
-                    cadastro_interno = True
+                    cadastro_interno = True,
+
+                    email_procurador = data.get('email_procurador'),
+                    telefone_procurador = data.get('telefone_procurador'),
+                    cpf_procurador = data.get('cpf_procurador'),
+                    nome_procurador = data.get('nome_procurador'),
+
+                    cpf_responsavel = data.get('cpf_responsavel'),
+                    email_responsavel = data.get('email_responsavel'),
+                    telefone_responsavel = data.get('telefone_responsavel')
+
                 )
                 message = 'Cadastro realizado com sucesso!'
                 

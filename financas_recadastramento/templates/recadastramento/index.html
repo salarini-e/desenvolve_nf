@@ -36,25 +36,78 @@
                     </button>
                 </div>
             </div>            
-            <form id="recadastramentoForm">
+            <form id="recadastramentoForm">                
+            <div class="row">
+                <div class="col pt-4">
+                    <strong>Dados do contribuinte</strong>
+                </div>
+            </div>
             <div class="row">                
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf:</label></th><td><input type="text" name="cpf" class="form-control" onkeyup="mascara(this, icpf)" onblur="checkCPF(this.value)" maxlength="14" id="id_cpf"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_responsavel_tributario">Responsável tributário:</label></th><td><input type="text" name="responsavel_tributario" class="form-control" maxlength="150" required id="id_responsavel_tributario"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cnpj">Cnpj:</label></th><td><input type="text" name="cnpj" class="form-control" maxlength="14" id="id_cnpj"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_nome_do_contribuinte">Nome do contribuinte:</label></th><td><input type="text" name="nome_do_contribuinte" class="form-control text-capitalize" maxlength="150" required id="id_nome_do_contribuinte"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_celular">Celular:</label></th><td><input type="text" name="celular" class="form-control" maxlength="15" id="id_celular"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cep">Cep:</label></th><td><input type="text" name="cep" class="form-control" maxlength="9" id="id_cep" onkeydown="icep(this)" onblur="getCEP(this)"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_rua">Rua:</label></th><td><input type="text" name="rua" class="form-control text-capitalize" maxlength="150" id="id_rua"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero" class="form-control" maxlength="10" id="id_numero"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_complemento">Complemento:</label></th><td><input type="text" name="complemento" class="form-control" maxlength="50" id="id_complemento"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_bairro">Bairro:</label></th><td><input type="text" name="bairro" class="form-control text-capitalize" maxlength="50" id="id_bairro"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_cidade">Cidade:</label></th><td><input type="text" name="cidade" class="form-control text-capitalize" maxlength="50" id="id_cidade"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_estado">UF:</label></th><td><input type="text" name="estado" class="form-control text-capitalize" maxlength="2" id="id_estado"></div>
-                    <div class="col-3 mt-3"><label class="fw-bold text-uppercase" for="id_email">Email:</label></th><td><input type="email" name="email" class="form-control" maxlength="254" id="id_email"></div>
-                                                    
-            </div>            
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cpf">Cpf do contribuinte:</label></th><td><input type="text" name="cpf" class="form-control" onkeyup="mascara(this, icpf)" onblur="checkCPF(this.value, '')" maxlength="14" id="id_cpf"></div>    
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_nome_do_contribuinte">Nome do contribuinte:</label></th><td><input type="text" name="nome_do_contribuinte" class="form-control text-capitalize" maxlength="150" required id="id_nome_do_contribuinte"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cnpj">Cnpj do contribuinte</label></th><td><input type="text" name="cnpj" class="form-control" maxlength="14" id="id_cnpj"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_celular">Celular:</label></th><td><input type="text" name="celular" class="form-control" maxlength="15" id="id_celular"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cep">Cep:</label></th><td><input type="text" name="cep" class="form-control" maxlength="9" id="id_cep" onkeydown="icep(this)" onblur="getCEP(this)"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_rua">Rua:</label></th><td><input type="text" name="rua" class="form-control text-capitalize" maxlength="150" id="id_rua"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero" class="form-control" maxlength="10" id="id_numero"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_complemento">Complemento:</label></th><td><input type="text" name="complemento" class="form-control" maxlength="50" id="id_complemento"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_bairro">Bairro:</label></th><td><input type="text" name="bairro" class="form-control text-capitalize" maxlength="50" id="id_bairro"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cidade">Cidade:</label></th><td><input type="text" name="cidade" class="form-control text-capitalize" maxlength="50" id="id_cidade"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_estado">UF:</label></th><td><input type="text" name="estado" class="form-control text-capitalize" maxlength="2" id="id_estado"></div>
+                    <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_email">Email:</label></th><td><input type="email" name="email" class="form-control" maxlength="254" id="id_email"></div>                                                    
+            </div> 
+            <div class="row">
+                <div class="col pt-4">
+                    <hr>
+                    <strong>Dados do responsável tributário</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" value="" id="responsavelCheckbox" onclick="copyContribuinteData()">
+                    <label class="form-check-label" for="responsavelCheckbox">
+                        O responsável é o próprio contribuinte?
+                    </label>
+                </div>
+                <script>
+                    function copyContribuinteData() {
+                        const checkbox = document.getElementById('responsavelCheckbox');
+                        if (checkbox.checked) {
+                            document.getElementById('id_cpf_responsavel').value = document.getElementById('id_cpf').value;
+                            document.getElementById('id_responsavel_tributario').value = document.getElementById('id_nome_do_contribuinte').value;
+                            document.getElementById('id_email_responsavel').value = document.getElementById('id_email').value;
+                            document.getElementById('id_telefone_responsavel').value = document.getElementById('id_celular').value;
+                        } else {
+                            document.getElementById('id_cpf_responsavel').value = '';
+                            document.getElementById('id_responsavel_tributario').value = '';
+                            document.getElementById('id_email_responsavel').value = '';
+                            document.getElementById('id_telefone_responsavel').value = '';
+                        }
+                    }
+                </script>
+            </div>
+        <div class="row">                                
+                <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cpf_responsavel">Cpf do responsável tributário:</label></th><td><input type="text" name="cpf_responsavel" class="form-control" onkeyup="mascara(this, icpf)" maxlength="14" id="id_cpf_responsavel"></div>
+                <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_responsavel_tributario">Nome do responsável tributário:</label></th><td><input type="text" name="responsavel_tributario" class="form-control" maxlength="150" required id="id_responsavel_tributario"></div>
+                <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_email_responsavel">Email do responsável:</label></th><td><input type="email" name="email_responsavel" class="form-control" maxlength="254" id="id_email_responsavel"></div>                                                    
+                <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_telefone_responsavel">Celular do responsável:</label></th><td><input type="text" name="telefone_responsavel" class="form-control" maxlength="15" id="id_telefone_responsavel"></div>
+        </div>
+        <div class="row">
+            <div class="col pt-4">
+                <hr>
+                <strong>Dados do procurador</strong>
+            </div>
+        </div>
+    <div class="row">                                
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cpf_procurador">Cpf do procurador:</label></th><td><input type="text" name="cpf_procurador" class="form-control" onkeyup="mascara(this, icpf)" maxlength="14" id="id_cpf_procurador"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_nome_procurador">Nome do procurador:</label></th><td><input type="text" name="nome_procurador" class="form-control" maxlength="150" required id="id_nome_procurador"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_email_procurador">Email do procurador:</label></th><td><input type="email" name="email_procurador" class="form-control" maxlength="254" id="id_email_procurador"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_telefone_procurador">Celular do procurador:</label></th><td><input type="text" name="telefone_procurador" class="form-control" maxlength="15" id="id_celular_procurador"></div>
+    </div>         
             </form>
-            <button class="btn btn-outline-primary mt-3" onclick="cadastrarPessoa(this)">
+            <button class="btn btn-outline-primary mt-4" onclick="cadastrarPessoa(this)">
                 Enviar
             </button>
           
@@ -167,6 +220,10 @@
 .assunto{
   line-height: auto;
 }
+.row .col strong{
+    text-transform: uppercase;
+    color: rgb(133, 133, 133);
+}
 </style>
 
   <script>
@@ -225,6 +282,15 @@
     const cp_estado = document.getElementById('id_estado')
     const cp_email = document.getElementById('id_email')
 
+    const cp_cpf_responsavel = document.getElementById('id_cpf_responsavel')
+    const cp_email_responsavel = document.getElementById('id_email_responsavel')
+    const cp_celular_responsavel = document.getElementById('id_telefone_responsavel')
+
+    const cp_cpf_procurador = document.getElementById('id_cpf_procurador')
+    const cp_nome_procurador = document.getElementById('id_nome_procurador')
+    const cp_email_procurador = document.getElementById('id_email_procurador')
+    const cp_celular_procurador = document.getElementById('id_telefone_procurador')
+
     function getCEP(input){
             icep(input)
             v=input.value
@@ -269,7 +335,7 @@
         }
     
     }
-    function checkCPF(cpf){
+    function checkCPF(cpf, identificador){
             const csrfTokenInput = document.querySelector("input[name='csrfmiddlewaretoken']");
             const csrfToken = csrfTokenInput.value;
             let url = "/atualizacao/checkcpf/";
@@ -284,7 +350,8 @@
             .then((response)=>{
                 response.json()
                 .then((data)=>{
-                    const cpfInput = document.getElementById("id_cpf");
+                    let cpfInput = document.getElementById("id_cpf"+identificador);
+                    console.log("id_cpf"+identificador)
                     let smallError = cpfInput.nextElementSibling; // Verifique se já existe um elemento irmão
                     if (data.exists) {
                         pessoa = JSON.parse(data.pessoa);
@@ -306,7 +373,17 @@
                         cp_bairro.value = pessoa[0].fields.bairro;
                         cp_rua.value = pessoa[0].fields.rua;
                         cp_cidade.value = pessoa[0].fields.cidade;
-                        cp_estado.value = pessoa[0].fields.estadi;
+                        cp_estado.value = pessoa[0].fields.estado;
+                        
+                        cp_cpf_responsavel.value = pessoa[0].fields.cpf_responsavel;
+                        cp_email_responsavel.value = pessoa[0].fields.email_responsavel;
+                        cp_celular_responsavel.value = pessoa[0].fields.telefone_responsavel;
+                        
+                        cp_cpf_procurador.value = pessoa[0].fields.cpf_procurador;
+                        cp_nome_procurador.value = pessoa[0].fields.nome_procurador;
+                        cp_email_procurador.value = pessoa[0].fields.email_procurador;
+                        cp_celular_procurador.value = pessoa[0].fields.telefone_procurador;
+
                     } else {
                         // Se exists for false, remova a mensagem de erro existente
                         if (smallError && smallError.tagName === "SMALL") {

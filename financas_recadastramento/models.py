@@ -6,6 +6,7 @@ from autenticacao.models import User
 class PessoaRecadastramento(models.Model):
 
     cpf = models.CharField(max_length=14, unique=True, blank=True, null=True)
+    cpf_responsavel = models.CharField(max_length=14, unique=True, blank=True, null=True)
     responsavel_tributario = models.CharField(max_length=150, blank=True, null=True)
     cnpj = models.CharField(max_length=14, blank=True, null=True)
     nome_do_contribuinte = models.CharField(max_length=150)
@@ -21,9 +22,18 @@ class PessoaRecadastramento(models.Model):
     user_register = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     cadastro_interno = models.BooleanField(default=False)
 
+    # Dados do responsável tributário
+    email_responsavel = models.EmailField(blank=True, null=True)
+    telefone_responsavel = models.CharField(max_length=15, blank=True, null=True)
+    # Dados do procurador
+    cpf_procurador = models.CharField(max_length=14, unique=True, blank=True, null=True)
+    nome_procurador = models.CharField(max_length=150, blank=True, null=True)
+    email_procurador = models.EmailField(blank=True, null=True)
+    telefone_procurador = models.CharField(max_length=15, blank=True, null=True)
+    
     def check_cpf_or_cnpj(self):
         if not self.cpf and not self.cnpj:
-            raise ValidationError("Pelo menos um dos campos CPF ou CNPJ deve ser preenchido.")
+            raise ValidationError("Pelo menos um dos campos CPF do Contribuinte ou CNPJ deve ser preenchido.")
         self.cpf = validate_cpf(self.cpf) if self.cpf else self.cpf
 
     def change_all_to_lower_case(self):
