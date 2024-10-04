@@ -26,7 +26,7 @@ class PessoaRecadastramento(models.Model):
     email_responsavel = models.EmailField(blank=True, null=True)
     telefone_responsavel = models.CharField(max_length=15, blank=True, null=True)
     # Dados do procurador
-    cpf_procurador = models.CharField(max_length=14, unique=True, blank=True, null=True)
+    cpf_procurador = models.CharField(max_length=14, blank=True, null=True)
     nome_procurador = models.CharField(max_length=150, blank=True, null=True)
     email_procurador = models.EmailField(blank=True, null=True)
     telefone_procurador = models.CharField(max_length=15, blank=True, null=True)
