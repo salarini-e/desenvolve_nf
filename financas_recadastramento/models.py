@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from autenticacao.functions import validate_cpf
 from autenticacao.models import User
+from autenticacao.models import Pessoa
 
 class PessoaRecadastramento(models.Model):
 
@@ -79,3 +80,12 @@ class Inscricao(models.Model):
 
     def __str__(self):
         return self.numero_inscricao
+    
+class Servidor_Recadastramento(models.Model):
+    
+    user = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    ativo = models.BooleanField(default=False)
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.nome

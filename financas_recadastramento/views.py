@@ -10,9 +10,12 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from autenticacao.models import Pessoa
 from django.http import HttpResponse
+from .functions import is_servidor
 
 @login_required
 def index(request):
+    if not is_servidor(request.pessoa):
+        return HttpResponse('Acesso negado', status=403)
     context = {
         'titulo': 'Sala do Empreendedor - Serviços Internos',
         'form_pessoa_recadastramento': PessoaRecadastramentoForm(),
@@ -334,21 +337,22 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 @login_required
 def exportar_cadastro_to_excel(request):
-    if not request.user.is_staff:
+    if not is_servidor(request.pessoa):
         return HttpResponse('Acesso negado', status=403)
 
     contribuintes = PessoaRecadastramento.objects.all()
-
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = 'Contribuintes'
-    ws.append(['CPF', 'Responsável Tributário', 'CNPJ', 'Nome do Contribuinte', 'Celular', 'CEP', 'Rua', 'Número', 'Complemento', 'Bairro', 'Cidade', 'Estado', 'E-mail'])
+    ws.append(['CPF do Contribuinte', 'CNPJ do Contribuinte' 'Nome do Contribuinte', 'Celular', 'CEP', 'Rua', 'Número', 'Complemento', 'Bairro', 'Cidade', 'Estado', 'E-mail', 'Inscrições', 'CPF do Responsável Tributário', 'Nome do responsável Tributário', 'Celular do responsável', 'Email do responsável', 'CPF do procurador', 'Nome do procurador', 'Celular do procurador', 'Email do procurador'])
 
     for contribuinte in contribuintes:
+        inscricoes = Inscricao.objects.filter(pessoa_recadastramento=contribuinte)
+
         ws.append([
             contribuinte.cpf,
-            contribuinte.responsavel_tributario,
             contribuinte.cnpj,
+            contribuinte.responsavel_tributario,
             contribuinte.nome_do_contribuinte,
             contribuinte.celular,
             contribuinte.cep,
@@ -358,7 +362,16 @@ def exportar_cadastro_to_excel(request):
             contribuinte.bairro,
             contribuinte.cidade,
             contribuinte.estado,
-            contribuinte.email
+            contribuinte.email,
+            ', '.join([inscricao.numero_inscricao for inscricao in inscricoes]),
+            contribuinte.cpf_responsavel,
+            contribuinte.responsavel_tributario,
+            contribuinte.telefone_responsavel,
+            contribuinte.email_responsavel,
+            contribuinte.cpf_procurador,
+            contribuinte.nome_procurador,
+            contribuinte.telefone_procurador,
+            contribuinte.email_procurador,           
         ])
 
     for row in ws.iter_rows(min_row=1, max_row=1):
@@ -367,8 +380,8 @@ def exportar_cadastro_to_excel(request):
             cell.alignment = Alignment(horizontal='center', vertical='center')
     
     tab = Table(displayName='Contribuintes', ref=ws.dimensions)
-    style = TableStyleInfo(name='TableStyleMedium9', showFirstColumn=False, showLastColumn=False, showRowStripes=True, showColumnStripes=True)
-    tab.tableStyleInfo = style
+    # style = TableStyleInfo(name='TableStyleMedium9', showFirstColumn=False, showLastColumn=False, showRowStripes=True, showColumnStripes=True)
+    # tab.tableStyleInfo = style    
     ws.add_table(tab)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
