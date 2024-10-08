@@ -261,7 +261,7 @@ def cadastrar_inscricao(request):
             data = json.loads(request.body)
             cpf = data.get('cpf_inscricao').replace('-', '').replace('.', '')
             inscricao = Inscricao(
-                pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=cpf),
+                pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf_responsavel=cpf),
                 numero_inscricao=data['numero_inscricao'],                
             )         
             inscricao.full_clean()  # Valida os campos antes de salvar
