@@ -124,7 +124,7 @@ def checkCPF2(request):
             response_data = {'exists': False, 'message': 'CPF inválido.'}
             return JsonResponse(response_data)
         try:
-            pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
+            pessoa = PessoaRecadastramento.objects.get(cpfresponsavel=cpf)
             pessoa_json = serializers.serialize('json', [pessoa])
             response_data = {'exists': True, 'message': 'Contribuinte localizado <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
         except:
