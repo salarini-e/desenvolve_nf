@@ -278,6 +278,12 @@
   <div id="navegacao">
     <div class="row">
       <div class="col d-flex flex-wrap justify-content-center">
+        <a href="{% url 'financas_recadastramento:atualizacao_cadastral' %}" class="me-2">
+          <div class="d-flex flex-column align-items-center btn-tremura">
+            <div id="atualizacao-cadastral" class="s-nav "></div>
+            <p class="text-dark text-center">Atualização Cadastral</p>
+          </div>
+        </a>  
         <a href="{% url 'bemestaranimal:index' %}" class="me-2">
           <div class="d-flex flex-column align-items-center btn-tremura">
             <div id="bemestaranimal" class="s-nav "></div>
@@ -800,6 +806,18 @@
   defer>
   </script> -->
 <style>
+  #atualizacao-cadastral
+  {
+    background-image: url('/static/images/icones/atualizacao-cadastral.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  #admin
+  {
+    background-image: url('/static/images/icones/admin.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 @media(max-width: 450px){
   .px-5{
     padding-left: 0px !important;
