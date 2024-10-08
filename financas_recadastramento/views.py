@@ -88,6 +88,7 @@ def atualziacao_cadastral(request):
         'pessoa': pessoaR,
         'error': error,
         'messages_': messages_,
+        'servidor': is_servidor(request.pessoa)
     }
     return render(request, 'recadastramento/tela_contribuinte.html', context)
 
