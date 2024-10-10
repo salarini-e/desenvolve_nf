@@ -2,6 +2,44 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import CadastroPCA
 from .forms import CadastroPCAForm
+from autenticacao.models import Pessoa, MembroPCA
+
+from openpyxl import Workbook
+from io import BytesIO
+from django.http import HttpResponse
+
+from django.shortcuts import render
+from .models import CadastroPCA
+from datetime import datetime
+import csv
+
+@login_required
+def cadastrar_membros_pca(request):
+    cadastros = CadastroPCA.objects.all()
+    users = []
+    for cadastro in cadastros:
+        pessoa = Pessoa.objects.get(user=cadastro.user)
+        if not MembroPCA.objects.filter(pessoa=pessoa).exists():
+            MembroPCA.objects.create(pessoa=pessoa)
+    
+    return redirect('form:lista_cadastros_pca')
+
+@login_required
+def baixar_emails_pca(request):
+    cadastros = CadastroPCA.objects.all()
+    conteudo = []
+    for cadastro in cadastros:
+        conteudo.append(f'{cadastro.orgao_requisitante};{cadastro.user.first_name};{cadastro.email};{cadastro.celular_whatsapp}')
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="emails_pca.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Órgão Requisitante', 'Nome', 'Email', 'Celular/WhatsApp'])
+
+    for line in conteudo:
+        writer.writerow(line.split(';'))
+
+    return response
 
 @login_required
 def criar_cadastro_pca(request):
@@ -74,15 +112,6 @@ class BackupDatabaseView(View):
         except subprocess.CalledProcessError as e:
             # Lidar com erros durante o backup
             return HttpResponse(f"Erro ao criar backup: {str(e)}", status=500)
-        
-
-from openpyxl import Workbook
-from io import BytesIO
-from django.http import HttpResponse
-
-from django.shortcuts import render
-from .models import CadastroPCA
-from datetime import datetime
 
 def export_cadastro_pca_to_excel(request):
 
@@ -136,6 +165,7 @@ def export_cadastro_pca_to_excel(request):
     response = HttpResponse(output.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=cadastro_pca.xlsx'
     return response
+
 def export_user_cadastro_pca_to_excel(request):
 
     workbook = Workbook()
