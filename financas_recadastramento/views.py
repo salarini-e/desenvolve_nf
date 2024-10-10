@@ -124,7 +124,7 @@ def checkCPF2(request):
             response_data = {'exists': False, 'message': 'CPF inválido.'}
             return JsonResponse(response_data)
         try:
-            pessoa = PessoaRecadastramento.objects.get(cpfresponsavel=cpf)
+            pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
             pessoa_json = serializers.serialize('json', [pessoa])
             response_data = {'exists': True, 'message': 'Contribuinte localizado <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
         except:
@@ -261,7 +261,7 @@ def cadastrar_inscricao(request):
             data = json.loads(request.body)
             cpf = data.get('cpf_inscricao').replace('-', '').replace('.', '')
             inscricao = Inscricao(
-                pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf_responsavel=cpf),
+                pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=cpf),
                 numero_inscricao=data['numero_inscricao'],                
             )         
             inscricao.full_clean()  # Valida os campos antes de salvar
