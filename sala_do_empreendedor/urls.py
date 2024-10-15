@@ -12,6 +12,7 @@ urlpatterns = [
     path('conheca-nossa-sala', views.conheca_nossa_sala, name='conheca_nossa_sala'),
     
     path('minha-empresa', views.minha_empresa, name='minha_empresa'),
+    path('minha-empresa/pca/', views.pca_list, name='pca'),
     path('minha-empresa/cadastrar', views.cadastrar_empresa, name='cadastrar_empresa'),
     path('minha-empresa/<id>/editar/', views.editar_empresa, name='editar_empresa'),
     path('minha-empresa/<id>/vitrine/', views.minha_vitrine, name='minha_vitrine'),

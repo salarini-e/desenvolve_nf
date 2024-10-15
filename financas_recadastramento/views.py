@@ -352,7 +352,11 @@ def exportar_cadastro_to_excel(request):
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = 'Contribuintes'
-    ws.append(['CPF do Contribuinte', 'CNPJ do Contribuinte', 'Nome do Contribuinte', 'Celular', 'CEP', 'Rua', 'Número', 'Complemento', 'Bairro', 'Cidade', 'Estado', 'E-mail', 'Inscrições', 'CPF do Responsável Tributário', 'Nome do responsável Tributário', 'Celular do responsável', 'Email do responsável', 'CPF do procurador', 'Nome do procurador', 'Celular do procurador', 'Email do procurador'])
+    ws.append(['CPF do Contribuinte', 'CNPJ do Contribuinte', 'Nome do Contribuinte', 'Celular', 
+               'CEP', 'Rua', 'Número', 'Complemento', 'Bairro', 'Cidade', 'Estado', 'E-mail', 'Inscrições',
+                'CPF do Responsável Tributário', 'Nome do responsável Tributário', 'Celular do responsável',
+                'Email do responsável', 'CEP do responsável', 'Rua responsável', 'Número do responsável', 'Complemento do responsável', 'Bairro do responsável', 'Cidade do responsável', 'Estado do responsável','CPF do procurador', 'Nome do procurador', 'Celular do procurador',
+                'Email do procurador'])
 
     for contribuinte in contribuintes:
         inscricoes = Inscricao.objects.filter(pessoa_recadastramento=contribuinte)
@@ -360,7 +364,6 @@ def exportar_cadastro_to_excel(request):
         ws.append([
             contribuinte.cpf,
             contribuinte.cnpj,
-            contribuinte.responsavel_tributario,
             contribuinte.nome_do_contribuinte,
             contribuinte.celular,
             contribuinte.cep,
@@ -376,6 +379,13 @@ def exportar_cadastro_to_excel(request):
             contribuinte.responsavel_tributario,
             contribuinte.telefone_responsavel,
             contribuinte.email_responsavel,
+            contribuinte.cep_responsavel,
+            contribuinte.rua_responsavel,
+            contribuinte.numero_responsavel,
+            contribuinte.complemento_responsavel,
+            contribuinte.bairro_responsavel,
+            contribuinte.cidade_responsavel,
+            contribuinte.estado_responsavel,
             contribuinte.cpf_procurador,
             contribuinte.nome_procurador,
             contribuinte.telefone_procurador,

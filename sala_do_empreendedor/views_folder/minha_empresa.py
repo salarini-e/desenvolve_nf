@@ -5,6 +5,7 @@ from django.contrib import messages
 from autenticacao.models import Pessoa
 from django.contrib.auth.decorators import login_required
 from ..models import Proposta, Solicitacao_de_Compras, Contrato_de_Servico
+from formularios.models import CadastroPCA
 
 @login_required()
 def minha_empresa(request):
@@ -73,3 +74,25 @@ def editar_empresa(request, id):
         }
         return render(request, 'sala_do_empreendedor/minha-empresa/editar_empresa.html', context)
     return redirect('empreendedor:minha_empresa')
+
+from django.db.models import F, Value
+from django.db.models.functions import Substr, Concat
+from datetime import datetime
+
+def pca_list(request):
+    ano_atual = datetime.now().year
+    ano_seguinte_str = str(ano_atual + 1)
+
+    informacoes_pca = CadastroPCA.objects.filter(
+        data_prevista_certame__contains=ano_seguinte_str  #Filtra registros que contém o ano seguinte na string
+    ).order_by('data_prevista_certame').values(
+        data_certame=F('data_prevista_certame'),  #Campo data (mês/ano)
+        mes_certame=Substr(F('data_prevista_certame'), 1, 2),  #Extraindo o mês
+        objeto=F('objeto_licitacao'),
+        orgao_nome=F('orgao_requisitante'),  #Renomeando para evitar conflito
+        valor_previsto=F('preco_estimado')
+    )
+    context = {
+        'informacoes_pca': informacoes_pca ,
+    }
+    return render(request, 'sala_do_empreendedor/minha-empresa/pca_list.html', context)
