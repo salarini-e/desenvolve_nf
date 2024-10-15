@@ -26,6 +26,13 @@ class PessoaRecadastramento(models.Model):
     # Dados do responsável tributário
     email_responsavel = models.EmailField(blank=True, null=True)
     telefone_responsavel = models.CharField(max_length=15, blank=True, null=True)
+    cep_responsavel = models.CharField(max_length=9, blank=True)
+    rua_responsavel = models.CharField(max_length=150, blank=True)
+    numero_responsavel = models.CharField(max_length=10, blank=True)
+    complemento_responsavel = models.CharField(max_length=50, blank=True, null=True)
+    bairro_responsavel = models.CharField(max_length=50, blank=True)
+    cidade_responsavel = models.CharField(max_length=50, blank=True)
+    estado_responsavel = models.CharField(max_length=100, blank=True)
     # Dados do procurador
     cpf_procurador = models.CharField(max_length=14, blank=True, null=True)
     nome_procurador = models.CharField(max_length=150, blank=True, null=True)

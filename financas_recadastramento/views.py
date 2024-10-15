@@ -174,6 +174,13 @@ def cadastrar_pessoa(request):
                 pessoa.cpf_responsavel = data.get('cpf_responsavel')
                 pessoa.email_responsavel = data.get('email_responsavel')
                 pessoa.telefone_responsavel = data.get('telefone_responsavel')
+                pessoa.cep_responsavel = data.get('cep_responsavel')
+                pessoa.rua_responsavel = data.get('rua_responsavel')
+                pessoa.numero_responsavel = data.get('numero_responsavel')
+                pessoa.complemento_responsavel = data.get('complemento_responsavel')
+                pessoa.bairro_responsavel = data.get('bairro_responsavel')
+                pessoa.cidade_responsavel = data.get('cidade_responsavel')
+                pessoa.estado_responsavel = data.get('estado_responsavel')
                 
                 message = 'Contribuinte atualizado com sucesso!'
             except Exception as e:

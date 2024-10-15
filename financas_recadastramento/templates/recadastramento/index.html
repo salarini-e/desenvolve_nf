@@ -47,7 +47,7 @@
                 <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_nome_do_contribuinte">Nome do contribuinte:</label></th><td><input type="text" name="nome_do_contribuinte" class="form-control text-capitalize" maxlength="150" required id="id_nome_do_contribuinte"></div>
                 <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cnpj">Cnpj do contribuinte</label></th><td><input type="text" name="cnpj" class="form-control" maxlength="14" id="id_cnpj"></div>
                 <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_celular">Celular:</label></th><td><input type="text" name="celular" class="form-control" maxlength="15" id="id_celular"></div>
-                <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cep">Cep:</label></th><td><input type="text" name="cep" class="form-control" maxlength="9" id="id_cep" onkeydown="icep(this)" onblur="getCEP(this)"></div>
+                <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cep">Cep:</label></th><td><input type="text" name="cep" class="form-control" maxlength="9" id="id_cep" onkeydown="icep(this)" onblur="getCEP(this, 'contribuinte')"></div>
                 <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_rua">Rua:</label></th><td><input type="text" name="rua" class="form-control text-capitalize" maxlength="150" id="id_rua"></div>
                 <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_numero">Número:</label></th><td><input type="text" name="numero" class="form-control" maxlength="10" id="id_numero"></div>
                 <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_complemento">Complemento:</label></th><td><input type="text" name="complemento" class="form-control" maxlength="50" id="id_complemento"></div>
@@ -79,11 +79,25 @@
                     document.getElementById('id_responsavel_tributario').value = document.getElementById('id_nome_do_contribuinte').value;
                     document.getElementById('id_email_responsavel').value = document.getElementById('id_email').value;
                     document.getElementById('id_telefone_responsavel').value = document.getElementById('id_celular').value;
+                    document.getElementById('id_cep_responsavel').value = document.getElementById('id_cep').value;
+                    document.getElementById('id_rua_responsavel').value = document.getElementById('id_rua').value;
+                    document.getElementById('id_numero_responsavel').value = document.getElementById('id_numero').value;
+                    document.getElementById('id_complemento_responsavel').value = document.getElementById('id_complemento').value;
+                    document.getElementById('id_bairro_responsavel').value = document.getElementById('id_bairro').value;
+                    document.getElementById('id_cidade_responsavel').value = document.getElementById('id_cidade').value;
+                    document.getElementById('id_estado_responsavel').value = document.getElementById('id_estado').value;                    
                 } else {
                     document.getElementById('id_cpf_responsavel').value = '';
                     document.getElementById('id_responsavel_tributario').value = '';
                     document.getElementById('id_email_responsavel').value = '';
                     document.getElementById('id_telefone_responsavel').value = '';
+                    document.getElementById('id_cep_responsavel').value = '';
+                    document.getElementById('id_rua_responsavel').value = '';
+                    document.getElementById('id_numero_responsavel').value = '';
+                    document.getElementById('id_complemento_responsavel').value = '';
+                    document.getElementById('id_bairro_responsavel').value = '';
+                    document.getElementById('id_cidade_responsavel').value = '';
+                    document.getElementById('id_estado_responsavel').value = '';
                 }
                 }
             </script>
@@ -94,6 +108,13 @@
             <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_responsavel_tributario">Nome do responsável tributário:</label></th><td><input type="text" name="responsavel_tributario" class="form-control" maxlength="150" required id="id_responsavel_tributario"></div>
             <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_email_responsavel">Email do responsável:</label></th><td><input type="email" name="email_responsavel" class="form-control" maxlength="254" id="id_email_responsavel"></div>                                                    
             <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_telefone_responsavel">Celular do responsável:</label></th><td><input type="text" name="telefone_responsavel" class="form-control" maxlength="15" id="id_telefone_responsavel"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cep_responsavel">CEP do responsável:</label></th><td><input type="text" name="cep_responsavel" class="form-control" maxlength="15" onkeydown="icep(this)" onblur="getCEP(this, 'responsavel')" id="id_cep_responsavel"></div>  
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_rua_responsavel">Rua do responsável:</label></th><td><input type="text" name="rua_responsavel" class="form-control" maxlength="150" id="id_rua_responsavel"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_numero_responsavel">Número do responsável:</label></th><td><input type="text" name="numero_responsavel" class="form-control" maxlength="10" id="id_numero_responsavel"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_complemento_responsavel">Complemento do responsável:</label></th><td><input type="text" name="complemento_responsavel" class="form-control" maxlength="50" id="id_complemento_responsavel"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_bairro_responsavel">Bairro do responsável:</label></th><td><input type="text" name="bairro_responsavel" class="form-control" maxlength="50" id="id_bairro_responsavel"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_cidade_responsavel">Cidade do responsável:</label></th><td><input type="text" name="cidade_responsavel" class="form-control" maxlength="50" id="id_cidade_responsavel"></div>
+            <div class="col-4 mt-3"><label class="fw-bold text-uppercase" for="id_estado_responsavel">UF do responsável:</label></th><td><input type="text" name="estado_responsavel" class="form-control" maxlength="2" id="id_estado_responsavel"></div>
         </div>
         <div class="row">
             <div class="col pt-4">
@@ -287,28 +308,36 @@
     const cp_cpf_responsavel = document.getElementById('id_cpf_responsavel')
     const cp_email_responsavel = document.getElementById('id_email_responsavel')
     const cp_celular_responsavel = document.getElementById('id_telefone_responsavel')
+    const cp_cep_responsavel = document.getElementById('id_cep_responsavel')
+    const cp_rua_responsavel = document.getElementById('id_rua_responsavel')
+    const cp_numero_responsavel = document.getElementById('id_numero_responsavel')
+    const cp_complemento_responsavel = document.getElementById('id_complemento_responsavel')
+    const cp_bairro_responsavel = document.getElementById('id_bairro_responsavel')
+    const cp_cidade_responsavel = document.getElementById('id_cidade_responsavel')
+    const cp_estado_responsavel = document.getElementById('id_estado_responsavel')
+
 
     const cp_cpf_procurador = document.getElementById('id_cpf_procurador')
     const cp_nome_procurador = document.getElementById('id_nome_procurador')
     const cp_email_procurador = document.getElementById('id_email_procurador')
     const cp_celular_procurador = document.getElementById('id_telefone_procurador')
 
-    function getCEP(input){
+    function getCEP(input, identificador){
             icep(input)
             v=input.value
             if(v.length == 9){
                 let cep = v.replace("-","")
-                buscaEndereco(cep);
+                buscaEndereco(cep, identificador);
 
             }
             }
-    function buscaEndereco(cep){
+    function buscaEndereco(cep, identificador){
             let url = "https://viacep.com.br/ws/"+cep+"/json/";
             fetch(url)
             .then((response)=>{
                 response.json()
                 .then((data)=>{
-                    autoComplete(data)
+                    autoComplete(data, identificador)
                 })
             })
             }
@@ -320,21 +349,37 @@
                 .replace(/[ÙÚÛÜùúû]/g, "?")
                 .replace(/[Çç]/g, "?")
             }
-    async function autoComplete(end){
-        console.log(end)
-        if (end.logradouro != undefined){
-            cp_rua.value = end.logradouro;
-        }
-        if (end.bairro != undefined){
-            cp_bairro.value = end.bairro;
-            console.log(end)
-        }
-        if (end.localidade != undefined){
-            cp_cidade.value = end.localidade;
-        }
-        if (end.uf != undefined){
-            cp_estado.value = end.uf;
-        }
+    async function autoComplete(end, identificador){
+        // console.log(end)
+            if (end.logradouro != undefined){
+                if (identificador === 'contribuinte') {
+                cp_rua.value = end.logradouro;
+                } else if (identificador === 'responsavel') {
+                cp_rua_responsavel.value = end.logradouro;
+                }
+            }
+            if (end.bairro != undefined){
+                if (identificador === 'contribuinte') {
+                cp_bairro.value = end.bairro;
+                } else if (identificador === 'responsavel') {
+                cp_bairro_responsavel.value = end.bairro;
+                }
+                console.log(end)
+            }
+            if (end.localidade != undefined){
+                if (identificador === 'contribuinte') {
+                cp_cidade.value = end.localidade;
+                } else if (identificador === 'responsavel') {
+                cp_cidade_responsavel.value = end.localidade;
+                }
+            }
+            if (end.uf != undefined){
+                if (identificador === 'contribuinte') {
+                cp_estado.value = end.uf;
+                } else if (identificador === 'responsavel') {
+                cp_estado_responsavel.value = end.uf;
+                }
+            }
     
     }
     function checkCPF(cpf, identificador){
@@ -380,6 +425,13 @@
                         cp_cpf_responsavel.value = pessoa[0].fields.cpf_responsavel;
                         cp_email_responsavel.value = pessoa[0].fields.email_responsavel;
                         cp_celular_responsavel.value = pessoa[0].fields.telefone_responsavel;
+                        cp_cep_responsavel.value = pessoa[0].fields.cep_responsavel;
+                        cp_rua_responsavel.value = pessoa[0].fields.rua_responsavel;
+                        cp_numero_responsavel.value = pessoa[0].fields.numero_responsavel;
+                        cp_complemento_responsavel.value = pessoa[0].fields.complemento_responsavel;
+                        cp_bairro_responsavel.value = pessoa[0].fields.bairro_responsavel;
+                        cp_cidade_responsavel.value = pessoa[0].fields.cidade_responsavel;
+                        cp_estado_responsavel.value = pessoa[0].fields.estado_responsavel;
                         
                         cp_cpf_procurador.value = pessoa[0].fields.cpf_procurador;
                         cp_nome_procurador.value = pessoa[0].fields.nome_procurador;
