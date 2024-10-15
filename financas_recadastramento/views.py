@@ -352,7 +352,7 @@ def exportar_cadastro_to_excel(request):
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = 'Contribuintes'
-    ws.append(['CPF do Contribuinte', 'CNPJ do Contribuinte' 'Nome do Contribuinte', 'Celular', 'CEP', 'Rua', 'Número', 'Complemento', 'Bairro', 'Cidade', 'Estado', 'E-mail', 'Inscrições', 'CPF do Responsável Tributário', 'Nome do responsável Tributário', 'Celular do responsável', 'Email do responsável', 'CPF do procurador', 'Nome do procurador', 'Celular do procurador', 'Email do procurador'])
+    ws.append(['CPF do Contribuinte', 'CNPJ do Contribuinte', 'Nome do Contribuinte', 'Celular', 'CEP', 'Rua', 'Número', 'Complemento', 'Bairro', 'Cidade', 'Estado', 'E-mail', 'Inscrições', 'CPF do Responsável Tributário', 'Nome do responsável Tributário', 'Celular do responsável', 'Email do responsável', 'CPF do procurador', 'Nome do procurador', 'Celular do procurador', 'Email do procurador'])
 
     for contribuinte in contribuintes:
         inscricoes = Inscricao.objects.filter(pessoa_recadastramento=contribuinte)
