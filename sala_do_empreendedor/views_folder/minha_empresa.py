@@ -96,3 +96,52 @@ def pca_list(request):
         'informacoes_pca': informacoes_pca ,
     }
     return render(request, 'sala_do_empreendedor/minha-empresa/pca_list.html', context)
+
+def pca_list_excel_download(request):
+    if not request.user.is_staff:
+        return redirect('empreendedor:minha_empresa')
+    
+    from django.http import HttpResponse
+    import openpyxl
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="pca_list.xlsx"'
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = 'PCA List'
+
+    #Cabeçalho
+    ws.append([
+        'Data do Certame',
+        'Mês do Certame',
+        'Objeto da Licitação',
+        'Órgão Requisitante',
+        'Valor Previsto'
+    ])
+
+    #Dados
+    ano_atual = datetime.now().year
+    ano_seguinte_str = str(ano_atual + 1)
+
+    informacoes_pca = CadastroPCA.objects.filter(
+        data_prevista_certame__contains=ano_seguinte_str  #Filtra registros que contém o ano seguinte na string
+    ).order_by('data_prevista_certame').values(
+        data_certame=F('data_prevista_certame'),  #Campo data (mês/ano)
+        mes_certame=Substr(F('data_prevista_certame'), 1, 2),  #Extraindo o mês
+        objeto=F('objeto_licitacao'),
+        orgao_nome=F('orgao_requisitante'),  #Renomeando para evitar conflito
+        valor_previsto=F('preco_estimado')
+    )
+
+    for pca in informacoes_pca:
+        ws.append([
+            pca['data_certame'],
+            pca['mes_certame'],
+            pca['objeto'],
+            pca['orgao_nome'],
+            pca['valor_previsto']
+        ])
+
+    wb.save(response)
+    return response
