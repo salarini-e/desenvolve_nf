@@ -130,12 +130,12 @@ def checkCPF2(request):
         try:
             pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
             pessoa_json = serializers.serialize('json', [pessoa])
-            response_data = {'exists': True, 'message': 'Contribuinte localizado <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
+            response_data = {'exists': True, 'message': 'Contribuinte localizado pelo cpf <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
         except:
             try:
                 pessoa = PessoaRecadastramento.objects.get(cnpj=cpf)
                 pessoa_json = serializers.serialize('json', [pessoa])
-                response_data = {'exists': True, 'message': 'Contribuinte localizado <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
+                response_data = {'exists': True, 'message': 'Contribuinte localizado pelo cnpj <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
             except:
                 response_data = {'exists': False, 'message': 'Contribuinte não localizado <i class="fa-solid fa-circle-xmark"></i>'}
         return JsonResponse(response_data)
@@ -274,11 +274,24 @@ def cadastrar_inscricao(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            cpf = data.get('cpf_inscricao').replace('-', '').replace('.', '')
-            inscricao = Inscricao(
-                pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=cpf),
-                numero_inscricao=data['numero_inscricao'],                
-            )         
+            cpf = data.get('cpf_inscricao').replace('-', '').replace('.', '').replace('/', '')
+            try:
+                inscricao = Inscricao(
+                    pessoa_recadastramento=PessoaRecadastramento.objects.get(cpf=cpf),
+                    numero_inscricao=data['numero_inscricao'],                
+                )         
+            except:
+                try:
+                    inscricao = Inscricao(
+                        pessoa_recadastramento=PessoaRecadastramento.objects.get(cnpj=cpf),
+                        numero_inscricao=data['numero_inscricao'],                
+                    )
+                except:
+                    errors = {
+                        'cpf_inscricao': 'Erro ao cadastrar processo. Verifique se o contribuinte já foi cadastrado.'
+                    
+                    }                    
+                    return JsonResponse({'error': errors}, status=500)
             inscricao.full_clean()  # Valida os campos antes de salvar
             inscricao.save()
             inscricao.user_register = request.user
