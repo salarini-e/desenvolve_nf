@@ -118,18 +118,26 @@ def checkCPF2(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         cpf = data.get('cpf')
-        try:
-            cpf = validate_cpf(cpf)
-        except:
-            response_data = {'exists': False, 'message': 'CPF inválido.'}
+       
+        cpf = cpf.replace('-', '').replace('.', '').replace('/', '')
+        print(cpf)
+        print(not PessoaRecadastramento.objects.filter(cnpj=cpf).exists())
+        print(not PessoaRecadastramento.objects.filter(cpf=cpf).exists())
+        print(not PessoaRecadastramento.objects.filter(cnpj=cpf).exists() and not PessoaRecadastramento.objects.filter(cpf=cpf).exists())
+        if not PessoaRecadastramento.objects.filter(cnpj=cpf).exists() and not PessoaRecadastramento.objects.filter(cpf=cpf).exists():            
+            response_data = {'exists': False, 'message': 'CPF ou CNPJ inválido.'}
             return JsonResponse(response_data)
         try:
             pessoa = PessoaRecadastramento.objects.get(cpf=cpf)
             pessoa_json = serializers.serialize('json', [pessoa])
             response_data = {'exists': True, 'message': 'Contribuinte localizado <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
         except:
-            response_data = {'exists': False, 'message': 'Contribuinte não localizado <i class="fa-solid fa-circle-xmark"></i>'}
-
+            try:
+                pessoa = PessoaRecadastramento.objects.get(cnpj=cpf)
+                pessoa_json = serializers.serialize('json', [pessoa])
+                response_data = {'exists': True, 'message': 'Contribuinte localizado <i class="fa-solid fa-circle-check"></i>', 'pessoa': pessoa_json}
+            except:
+                response_data = {'exists': False, 'message': 'Contribuinte não localizado <i class="fa-solid fa-circle-xmark"></i>'}
         return JsonResponse(response_data)
     return JsonResponse({})
 
