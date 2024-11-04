@@ -609,7 +609,8 @@ class Novas_Oportunidades(models.Model):
     MOTIVO_NAO_COMERCIALIZACAO_CHOICES=(
         ('Ja_comercializa', 'Já comercializo, como dito anteriormente'),        
         ('atuando_outra_area', 'Estou atuando profissionalmente em outra área')   ,
-        ('nao_sei_empreender', 'Não sei como empreender, por isso tenho receio de não dar certo')
+        ('nao_sei_empreender', 'Não sei como empreender, por isso tenho receio de não dar certo'),
+        ('outro', 'Outro motivo')
     )
     RENDA_MENSAL_CHOICES=(
         ('0', 'Até meio salário mínimo (até R$706,00 reais)'),
