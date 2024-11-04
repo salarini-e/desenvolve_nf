@@ -100,6 +100,7 @@ INSTALLED_APPS = [
     'chat',
     'guardiao',
     'financas_recadastramento',
+    'painel_de_dados',
     #secreatarias
     'secretaria_financas',
     'django_cpf_cnpj',

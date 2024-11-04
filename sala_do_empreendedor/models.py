@@ -607,6 +607,7 @@ class Novas_Oportunidades(models.Model):
         ('nao_comercializa', 'Ainda não atuo de forma comercial.')
     )
     MOTIVO_NAO_COMERCIALIZACAO_CHOICES=(
+        ('Ja_comercializa', 'Já comercializo, como dito anteriormente'),        
         ('atuando_outra_area', 'Estou atuando profissionalmente em outra área')   ,
         ('nao_sei_empreender', 'Não sei como empreender, por isso tenho receio de não dar certo')
     )

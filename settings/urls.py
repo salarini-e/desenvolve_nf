@@ -27,6 +27,7 @@ urlpatterns = [
     path('estagio/', include('estagio.urls')),
     path('newsletter/', include('newsletter.urls')),
     path('senha-facil/', include('senhas_facil.urls')),
+    path('dados-abertos/', include('painel_de_dados.urls')),
     path('administracao/', include('administracao.urls')),    
     path('django/', admin.site.urls),
 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/painel_de_dados/style.css">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRHT9LwKZ/NLA82ZLT3BnAMy5/1FMzTcFzG5nFV5M" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <div id="app-sidepanel" class="app-sidepanel"> 
+        <div id="sidepanel-drop" class="sidepanel-drop"></div>
+        <div class="sidepanel-inner d-flex flex-column">
+            <div class="sidepanel-header">
+                <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none" onclick="hiddenMenu()">&times;</a>
+                <div class="app-branding">
+                    <a href="/ " class="sidepanel-header"><img class="logo-prefeitura-image" src="/static/imgs/friburgoLogo.png" alt="logo"></a>
+                </div>
+            </div>
+            
+            <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span class="nav-icon">
+                                <i class="fa-solid fa-1"></i></i>
+                            </span>
+                            <span class="nav-link-text">Item 1</span>
+                        </a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span class="nav-icon">
+                                <i class="fa-solid fa-2"></i></i>
+                            </span>
+                            <span class="nav-link-text">Item 2</span>
+                        </a>
+                    </li> 
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span class="nav-icon">
+                                <i class="fa-solid fa-3"></i></i>
+                            </span>
+                            <span class="nav-link-text">Item 3</span>
+                        </a>
+                    </li> 
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span class="nav-icon">
+                                <i class="fa-solid fa-4"></i></i>
+                            </span>
+                            <span class="nav-link-text">Item 4</span>
+                        </a>
+                    </li> 
+                    				    
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- HEADER -->
+    <header class="app-header-inner">
+        <div class="header-button-title">
+            <button id="mButton" onclick="hiddenMenu()"><i class="fa-solid fa-chevron-left arrow-web"></i> <i class="fa-solid fa-chevron-right arrow-mobile"></i></button>
+            <h1 class="header-title">Título do painel</h1>
+        </div>
+        <span class="header-atualizado-em">Atualizado em {{data_atual}}</span>
+    </header>
+    <!-- corpo -->
+    <div class="app-wrapper">
+        <section class="indicadores-section">
+            <div class="principais-indicadores-wrapper">
+                <h4 class="principais-indicadores-title">Principais indicadores</h4>
+                <div class="principais-indicadores-cards">
+                    <div class="principais-indicadores-card"></div>
+                    <div class="principais-indicadores-card"></div>
+                    <div class="principais-indicadores-card"></div>
+                </div>
+            </div>
+            <div class="card-right-wrapper">
+                <div class="card-right"></div>
+            </div>
+        </section>
+        <!-- CARDS DO MEIO -->
+        <section class="mid-cards">
+            <div class="mid-card"></div>
+            <div class="mid-card"></div>
+            <div class="mid-card"></div>
+            <div class="mid-card"></div>
+            <div class="mid-card"></div>
+        </section>
+	    <!-- INFORMAÇÕES DE TEXTO -->
+        <section class="text-content-wrapper">
+            <div class="text-content-titulo-wrapper">
+                <h5 class="text-content-titulo">Título</h5>
+            </div>
+            <div class="text-content-conteudo">
+
+            </div>
+        </section>
+        
+    </div> 
+
+    <footer class="footer">
+        <span class="footer-text">Fonte : {{nome_da_fonte}}</span>
+    </footer>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-skAcpIdv9X1+8zt4h2VM/zld9a8elw5OtM8XFc+nFd6O5p4v1pP5nYv6bF5y3Aqa" crossorigin="anonymous"></script>
+
+<script>
+   window.onload = function() {
+    var sidepanel = document.getElementById('app-sidepanel');
+    var preloader = document.getElementById('preloader');
+
+    // Garante que a sidebar esteja fechada no carregamento da página
+    if (window.innerWidth <= 768) {
+        sidepanel.style.left = '-250px';  // Sidebar fechada no mobile
+    }
+
+    // Remove preloader (se necessário)
+    if (preloader) {
+        preloader.style.display = 'none';
+    }
+};
+
+// Função para abrir/fechar a sidebar
+    function hiddenMenu() {
+        var sidepanel = document.getElementById('app-sidepanel');
+        var wrapper = document.querySelector('.app-wrapper');
+        var header = document.querySelector('.app-header-inner');
+
+        // Alterna a classe 'show' na sidebar
+        if (sidepanel.style.left == '-250px') {
+            sidepanel.style.left = '0px';
+            
+            // Verifica se a tela é maior que 768px
+            if (window.innerWidth > 768) {
+                wrapper.style.marginLeft = '250px';
+                header.style.marginLeft = '250px';
+                document.querySelector('#mButton').innerHTML = '<i class="fa-solid fa-angle-left"></i>';
+
+            } else {
+                wrapper.style.marginLeft = '0px';
+                header.style.marginLeft = '0px';
+            }
+
+        } else {
+            sidepanel.style.left = '-250px';
+            wrapper.style.marginLeft = '0px';
+            header.style.marginLeft = '0px';
+            document.querySelector('#mButton').innerHTML = '<i class="fa-solid fa-angle-right"></i>';
+        }
+    }
+
+</script>
+</html>
