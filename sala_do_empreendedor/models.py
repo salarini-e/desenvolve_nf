@@ -654,6 +654,14 @@ class Novas_Oportunidades(models.Model):
     def __str__(self):
         return f"Formulário - {self.id}"
     
+    def save(self, *args, **kwargs):
+        try:
+            item = Novas_Oportunidades.objects.get(cpf=self.cpf)
+            item.delete()
+        except:
+            pass
+        super(Novas_Oportunidades, self).save(*args, **kwargs)
+    
 
 class Credito_Facil(models.Model):
     
@@ -689,4 +697,22 @@ class Necessidades_das_Empresas(models.Model):
 
     def __str__(self):
         return f"Necessidades das Empresas - {self.id}"
-        
+
+class diasDaSemanaNatal_Artesao(models.Model):
+    label_semana = models.CharField(max_length=128, verbose_name='Dia da semana', null=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    
+    def __str__(self):
+        return f"{self.label_semana}"
+    
+class Natal_Artesao(models.Model):
+    cpf=models.CharField(max_length=14, verbose_name='CPF', null=True)
+    o_que_pretende_comercializar = models.TextField(verbose_name='O que pretende comercializar?')
+    produto_1 = models.ImageField(upload_to='produtos_natal_artesao/', verbose_name='Foto do produto 1', null=True, blank=True)
+    produto_2 = models.ImageField(upload_to='produtos_natal_artesao/', verbose_name='Foto do produto 2', null=True, blank=True)
+    user_register=models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuário que cadastrou', null=True, blank=True)
+    dias_que_pode_trabalhar = models.ManyToManyField(diasDaSemanaNatal_Artesao, verbose_name='Quais dias da semana você tem disponibilidade para estar na feira?', null=True)
+    dt_register=models.DateField(auto_now_add=True, verbose_name='Data de cadastro')
+    
+    def __str__(self):
+        return f"Natal Artesão - {self.id}"

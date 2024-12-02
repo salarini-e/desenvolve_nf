@@ -65,6 +65,8 @@ urlpatterns = [
     
     #OPORTUNIDADES
     path('oportunidade-de-negocios', views.oportunidade_de_negocios, name='oportunidade'),
+    path('oportunidade-de-negocios/natal-do-artesao/checkcpf/', views.checkCPFArtesao, name='natal_artesao_check_cpf'),
+    path('oportunidade-de-negocios/natal-do-artesao/', views.natal_artesao, name='natal_artesao'),
     path('oportunidade-de-negocios/dados/', views.oportunidade_de_negocios_dados, name='dados_oportunidades'),
     path('novas-oportunidades/', views.novas_oportunidades, name='novas_oportunidades'),
     path('novas-oportunidades/exportar/', views.export_novas_oportunidades, name='novas_oportunidades_exportar'),

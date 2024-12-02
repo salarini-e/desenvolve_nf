@@ -21,12 +21,15 @@
   {% endif %}
   <div class="row">
     <div class="col">
-      <h1>Cadastro de Artesão</h1>
-      <p class="mb-3">A Sala do Empreendedor, da Prefeitura Municipal de Nova Friburgo, está realizando o senso da habilidade criativa. Queremos entender, quantos são, o que fazem, onde estão localizados, dificuldades encontradas e, a partir daí, entender que tipo de política pública pode ser realizada para estímulo ao setor.</p>
+      <h1>Cadastro Natal do Artesão</h1>
+      <p class="mb-3">
+        Aqui está a oportunidade única para você divulgar e comercializar seus produtos! Neste evento especial, artesãos de diversas áreas poderão expor seu trabalho, compartilhar suas criações com o público e aumentar sua visibilidade. Aproveite para participar e fazer parte dessa celebração, valorizando o talento e a cultura artesanal neste Natal. Inscreva-se agora: 
+      </p>
       <div class="row">
         <div class="col">
             <form method="POST">                
                 {% csrf_token %}
+                <div class="mb-3"><label class="form-label" for="id_cpf">CPF</label><input type="text" name="cpf" onkeydown="mascara(this, icpf)" maxlength="14" class="form-control" placeholder="CPF" title="" required="" id="id_cpf"></div>
                 {% bootstrap_form form %}
                 <p style="margin-top: 20px; font-size: 0.9em; text-align: justify; color: #555;">
                   Ao clicar em "Enviar", <strong>você declara estar ciente e de acordo com o envio das informações fornecidas neste formulário</strong> à Prefeitura de Nova Friburgo, autorizando o uso dos dados conforme a Lei Geral de Proteção de Dados (LGPD). Caso deseje solicitar a exclusão de suas respostas, encaminhe um ofício formal à Prefeitura de Nova Friburgo, direcionado à Sala do Empreendedor, com a solicitação expressa de exclusão de dados.

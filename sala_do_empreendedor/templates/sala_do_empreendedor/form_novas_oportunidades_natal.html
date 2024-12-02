@@ -9,29 +9,28 @@
 {% endblock %}
 {% block main %}
 <div class="container">  
-  {% if request.user.is_superuser %}
-  <div class="row mb-3">
-    <div class="col mx-auto d-flex border" style="text-align: left; background-color: white !important; padding: 20px; border-radius: 20px;">
-      <h3 style="line-height: auto; margin: auto 0px;"><strong>ADMIN</strong></h3>
-      <a href="{% url 'empreendedor:exportar_faccao' %}" class="btn btn-success ms-auto my-auto">
-        <i class="fa-solid fa-file-excel me-1"></i> Exportar dados
-      </a>
-    </div>
-  </div>
-  {% endif %}
+  
   <div class="row">
     <div class="col">
-      <h1>Cadastro de Artesão</h1>
-      <p class="mb-3">A Sala do Empreendedor, da Prefeitura Municipal de Nova Friburgo, está realizando o senso da habilidade criativa. Queremos entender, quantos são, o que fazem, onde estão localizados, dificuldades encontradas e, a partir daí, entender que tipo de política pública pode ser realizada para estímulo ao setor.</p>
+      <h1>Cadastro Natal Criativo</h1>
+      <p class="mb-3">
+        Aqui está a oportunidade única para você divulgar e comercializar seus produtos! Neste evento especial, artesãos de diversas áreas poderão expor seu trabalho, compartilhar suas criações com o público e aumentar sua visibilidade. Aproveite para participar e fazer parte dessa celebração, valorizando o talento e a cultura artesanal neste Natal. Inscreva-se agora: 
+      </p>
+      <p class="text-center "><strong>CASO VOCÊ TENHA DIFICULDADE EM PREENCHER A SUA INSCRIÇÃO ONLINE, DIRIJA-SE A SALA DO EMPREENDEDOR</strong></p>
       <div class="row">
         <div class="col">
             <form method="POST">                
                 {% csrf_token %}
+                
                 {% bootstrap_form form %}
+                <div id="cadastro-artesao">
+                  {% bootstrap_form form_2 %}  
+                </div>
                 <p style="margin-top: 20px; font-size: 0.9em; text-align: justify; color: #555;">
                   Ao clicar em "Enviar", <strong>você declara estar ciente e de acordo com o envio das informações fornecidas neste formulário</strong> à Prefeitura de Nova Friburgo, autorizando o uso dos dados conforme a Lei Geral de Proteção de Dados (LGPD). Caso deseje solicitar a exclusão de suas respostas, encaminhe um ofício formal à Prefeitura de Nova Friburgo, direcionado à Sala do Empreendedor, com a solicitação expressa de exclusão de dados.
               </p>
-                <input class="mt-3 btn btn-primary" type="submit" value="Enviar">
+                <button id="btnSeguir" class="mt-3 btn btn-primary" type="button" onclick="seguirEtapa()">Seguir</button>
+                <input id="btnEnviar" class="mt-3 btn btn-primary" type="submit" value="Enviar">
             </form>
         </div>
     </div>
@@ -51,18 +50,7 @@
                 v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2") //Coloca um hifen entre o terceiro e o quarto digitos
                 return v
             }
-    function itel(v){
-                    v=v.replace(/\D/g,"")                 //Remove tudo o que nao e digito
-                    v=v.replace(/^(\d\d)(\d)/g,"($1) $2") //Coloca parenteses em volta dos dois primeiros digitos
-                    console.log(v.length)
-                    if (v.length<14){
-                      v=v.replace(/(\d{4})(\d)/,"$1-$2")    //Coloca hifen entre o quarto e o quinto digitos
-                    }else{
-                      v=v.replace(/(\d{4,5})(\d)/,"$1-$2")    //Coloca hifen entre o quarto e o quinto digitos
-                    }
-                    
-                    return v
-                }
+    
     function mascara(o,f){
                 v_obj=o
                 v_fun=f
@@ -82,8 +70,24 @@
 
         return parent;
       }
-    // GAMBIARRA ABAIXO
-    function removerElementos() {
+      function esconderCampos() {
+        findParentDiv(document.getElementById('id_o_que_pretende_comercializar')).style.display = 'none';
+        findParentDiv(document.getElementById('id_produto_1')).style.display = 'none';
+        findParentDiv(document.getElementById('id_produto_2')).style.display = 'none';
+        findParentDiv(document.getElementById('id_dias_que_pode_trabalhar')).style.display = 'none';
+      }
+
+      // Função para exibir os campos novamente usando findParentDiv
+      function exibirCampos() {
+        findParentDiv(document.getElementById('id_o_que_pretende_comercializar')).style.display = 'block';
+        findParentDiv(document.getElementById('id_produto_1')).style.display = 'block';
+        findParentDiv(document.getElementById('id_produto_2')).style.display = 'block';
+        findParentDiv(document.getElementById('id_dias_que_pode_trabalhar')).style.display = 'block';
+      }
+
+      esconderCampos()
+
+      function removerElementos() {
           // Seleciona todos os elementos label
           const labels = document.querySelectorAll('label');
 
@@ -137,6 +141,51 @@
     // Executa a função toggleCamposSelecao quando a página carrega
     toggleCamposSelecao();
     removerElementos();
+      document.getElementById('cadastro-artesao').style.display = 'none';
+      function checkCPFArtesao(){
+        var cpf = document.getElementById('id_cpf').value;
+        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch('/sala-do-empreendedor/oportunidade-de-negocios/natal-do-artesao/checkcpf/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+          },
+          body: JSON.stringify({ cpf: cpf })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.valid) {
+            // CPF is valid, proceed with the form submission
+            document.getElementById('btnEnviar').disabled = false;
+          } else {
+            // CPF is invalid, show an error message
+            document.getElementById('cadastro-artesao').style.display = 'block';
+            
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+      function seguirEtapa(){
+        checkCPFArtesao()
+        exibirCampos()
+        document.getElementById('btnSeguir').style.display = 'none';
+        document.getElementById('btnEnviar').style.display = 'block';
+        // Seleciona todos os elementos com id 'id_cpf'
+        const cpfInputs = document.querySelectorAll('#id_cpf');
+
+        // Verifica se existe mais de um elemento com esse id
+        if (cpfInputs.length > 1) {
+          // Encontra o div pai do segundo elemento e remove-o
+          const parentDiv = findParentDiv(cpfInputs[1]);
+          if (parentDiv) {
+            parentDiv.remove();
+          }
+        }
+      }
   </script>
 </div>
 
@@ -149,6 +198,9 @@
   }
   .checkbox label, .radio label{
     font-weight: normal;
+  }
+  #btnEnviar{
+    display: none;
   }
 </style>
 

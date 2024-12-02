@@ -3,6 +3,7 @@ from .models import *
 # Register your models here.
 admin.site.register(Porte_da_Empresa)
 admin.site.register(Atividade)
+admin.site.register(AtividadeManual)
 admin.site.register(Ramo_de_Atuacao)
 
 class EmpresaAdmin(admin.ModelAdmin):
@@ -45,3 +46,4 @@ admin.site.register(Credito_Facil)
 admin.site.register(Agente_Sanitario)
 admin.site.register(Agente_Tributario)
 admin.site.register(Agente_Ambiental)
+admin.site.register(diasDaSemanaNatal_Artesao)

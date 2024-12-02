@@ -1444,7 +1444,7 @@ def natal_artesao(request):
             cadastro_artesao.save()
             cadastro_natal.save()
             messages.success(request, 'Formulário enviado com sucesso!')
-            return render(request, 'sala_do_empreendedor/form_novas_oportunidades_natal _sucesso.html')
+            return redirect('empreendedor:reuniao_sebrae')
         else:
             print(form.errors)
             messages.error(request, 'Erro ao enviar formulário. Verifique os campos e tente novamente.')

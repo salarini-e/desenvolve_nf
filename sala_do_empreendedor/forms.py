@@ -326,3 +326,15 @@ class Form_Necessidades_das_Empresas(forms.ModelForm):
         widgets = {          
             'outro': forms.CheckboxInput(attrs={'class': 'form-check-input', 'onclick': 'toggleOutro()'}),
         }
+
+class Form_Natal_Artesao(forms.ModelForm):
+    class Meta:
+        model = Natal_Artesao
+        exclude = ['dt_register', 'user_register']
+        widgets = {
+            'cpf': forms.TextInput(attrs={'onkeydown': 'mascara(this, icpf)'}),
+            'o_que_pretende_comercializar': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'O que pretende comercializar?'}),
+            'produto_1': forms.FileInput(attrs={'class': 'form-control'}),
+            'produto_2': forms.FileInput(attrs={'class': 'form-control'}),
+            'dias_que_pode_trabalhar': forms.CheckboxSelectMultiple(),
+        }
