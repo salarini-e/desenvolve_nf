@@ -59,8 +59,7 @@
                         <h1 class="mb-4"><u>Alvará</u></h1>            
                         {% for arquivo in arquivos.alvara %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                     </div>
@@ -68,8 +67,7 @@
                         <h1 class="mb-4"><u>Certidões</u></h1>            
                         {% for arquivo in arquivos.certidao %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                     </div>
@@ -77,8 +75,7 @@
                         <h1 class="mb-4"><u>IPTU/Foro</u></h1>            
                         {% for arquivo in arquivos.iptu %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                     </div>
@@ -86,8 +83,7 @@
                         <h1 class="mb-4"><u>ITBI</u></h1>
                         {% for arquivo in arquivos.itbi %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                     </div>
@@ -95,8 +91,7 @@
                         <h1 class="mb-4"><u>Isenção/Imunidade</u></h1>            
                         {% for arquivo in arquivos.isencao %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                     </div>
@@ -104,8 +99,7 @@
                         <h1 class="mb-4"><u>Diversos</u></h1>            
                         {% for arquivo in arquivos.diversos %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                     </div>
@@ -113,38 +107,32 @@
                         <h1>Resultado da busca</h1>
                         {% for arquivo in arquivos.alvara %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                         {% for arquivo in arquivos.certidao %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                         {% for arquivo in arquivos.iptu %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}    
                         {% for arquivo in arquivos.itbi %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                         {% for arquivo in arquivos.isencao %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
                         {% for arquivo in arquivos.diversos %}
                         <li>
-                            <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                onclick="mudar_pdf('{{arquivo.0}}','{{arquivo.1}}')" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
                         </li>
                         {% endfor %}
 

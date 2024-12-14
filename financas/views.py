@@ -17,32 +17,70 @@ def index(request):
 
 
 def formularios(request):
-    arquivos = {'alvara': [['Requerimento Alvará', 'alvara/REQUERIMENTO-DE-ALVARA.pdf'],
-                           ['Requerimento de Baixa de Débito',
-                           'alvara/REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf'],
-                           ['Requerimento de Certidão de ISS e Alvará', 'alvara/ REQUERIMENTO-DE-CERTIDAO-DE-ISS-E-ALVARA-1-4-1.pdf'], ['Requerimento de Revisão de Taxa de Alvará', 'REQUERIMENTO-DE-REVISAO-DE-TAXA-DE-ALVARA-1.pdf']],
-                'certidao': [['Requerimento de Averbação de Escritura',
-                              'certidoes/REQUERIMENTO-DE-AVERBACAO-DE-ESCRITURA.pdf'],
-                             ['Requerimento de Certidão', 'certidoes/REQUERIMENTO-DE-CERTIDAO-1.pdf']],
-                'iptu': [['Autorizacao para Vistoria Predial', 'certidoes/AUTORIZACAO-VISTORIA-PREDIAL-3.pdf'],
-                         ['Requerimento de Baixa de Débito', 'iptu/REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf'],
-                         ['Requerimento de Inclusao de Possuidor', 'iptu/REQUERIMENTO-DE-INCLUSAO-DE-POSSUIDOR.pdf'],
-                         ['requerimento_recolhimento', 'iptu/REQUERIMENTO-DE-RECOLHIMENTO-DE-TRIBUTOS-1.pdf'],
-                         ['requerimento_revisao', 'iptu/REQUERIMENTO-REVISAO-DE-IPTU-1.pdf']],
-                'itbi': [['Declaração Ciencia ITBI', 'itbi/DECLARACAO-DE-CIENCIA-DE-ITBI.pdf'],
-                         ['Declaração Transacao Imobiliaria', 'itbi/Declaracao-de-Transacao-Imo-biliaria-ITBI-PMNF-5.pdf'],
-                         ['Requerimento Revisao ITBI', 'itbi/REQUERIMENTO-DE-REVISAO-DE-ITBI.pdf']],
-                'isencao': [['Requerimento Imunidade Tributaria', 'isencao/REQUERIMENTO-DE-IMUNIDADE-TRIBUTARIA-form.pdf'],
-                            ['Requerimento Isenção',
-                             'isencao/REQUERIMENTO-DE-ISENCAO-MEI-TFA-1.pdf'],
-                            ['Requerimento Insencao Não Incidência Tributaria', 'isencao/REQUERIMENTO-DE-ISENCAO-NAO-INCIDENCIA-TRIBUTARIA.pdf'], ['Requerimento Isenção Parcial Tombamento', 'isencao/REQUERIMENTO-DE-ISENCAO-PARCIAL-TOMBAMENTO.pdf']],
-                'diversos': [['Declaração de Residência', 'diversos/DECLARACAO-DE-RESIDENCIA.pdf'],
-        ['Requerimento de Adesão',
-         'diversos/REQUERIMENTO-DE-ADESAO.pdf'],
-        ['Requerimento de Atualização Cadastral',
-         'diversos/REQUERIMENTO-DE-ATUALIZACAO-CADASTRAL-1.pdf'],
+    # arquivos = {'alvara': [['Requerimento Alvará', 'alvara/REQUERIMENTO-DE-ALVARA.pdf'],
+    #                        ['Requerimento de Baixa de Débito',
+    #                        'alvara/REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf'],
+    #                        ['Requerimento de Certidão de ISS e Alvará', 'alvara/ REQUERIMENTO-DE-CERTIDAO-DE-ISS-E-ALVARA-1-4-1.pdf'], ['Requerimento de Revisão de Taxa de Alvará', 'REQUERIMENTO-DE-REVISAO-DE-TAXA-DE-ALVARA-1.pdf']],
+    #             'certidao': [['Requerimento de Averbação de Escritura',
+    #                           'certidoes/REQUERIMENTO-DE-AVERBACAO-DE-ESCRITURA.pdf'],
+    #                          ['Requerimento de Certidão', 'certidoes/REQUERIMENTO-DE-CERTIDAO-1.pdf']],
+    #             'iptu': [['Autorizacao para Vistoria Predial', 'certidoes/AUTORIZACAO-VISTORIA-PREDIAL-3.pdf'],
+    #                      ['Requerimento de Baixa de Débito', 'iptu/REQUERIMENTO-DE-BAIXA-DE-DEBITO.pdf'],
+    #                      ['Requerimento de Inclusao de Possuidor', 'iptu/REQUERIMENTO-DE-INCLUSAO-DE-POSSUIDOR.pdf'],
+    #                      ['requerimento_recolhimento', 'iptu/REQUERIMENTO-DE-RECOLHIMENTO-DE-TRIBUTOS-1.pdf'],
+    #                      ['requerimento_revisao', 'iptu/REQUERIMENTO-REVISAO-DE-IPTU-1.pdf']],
+    #             'itbi': [['Declaração Ciencia ITBI', 'itbi/DECLARACAO-DE-CIENCIA-DE-ITBI.pdf'],
+    #                      ['Declaração Transacao Imobiliaria', 'itbi/Declaracao-de-Transacao-Imo-biliaria-ITBI-PMNF-5.pdf'],
+    #                      ['Requerimento Revisao ITBI', 'itbi/REQUERIMENTO-DE-REVISAO-DE-ITBI.pdf']],
+    #             'isencao': [['Requerimento Imunidade Tributaria', 'isencao/REQUERIMENTO-DE-IMUNIDADE-TRIBUTARIA-form.pdf'],
+    #                         ['Requerimento Isenção',
+    #                          'isencao/REQUERIMENTO-DE-ISENCAO-MEI-TFA-1.pdf'],
+    #                         ['Requerimento Insencao Não Incidência Tributaria', 'isencao/REQUERIMENTO-DE-ISENCAO-NAO-INCIDENCIA-TRIBUTARIA.pdf'], ['Requerimento Isenção Parcial Tombamento', 'isencao/REQUERIMENTO-DE-ISENCAO-PARCIAL-TOMBAMENTO.pdf']],
+    #             'diversos': [['Declaração de Residência', 'diversos/DECLARACAO-DE-RESIDENCIA.pdf'],
+    #     ['Requerimento de Adesão',
+    #      'diversos/REQUERIMENTO-DE-ADESAO.pdf'],
+    #     ['Requerimento de Atualização Cadastral',
+    #      'diversos/REQUERIMENTO-DE-ATUALIZACAO-CADASTRAL-1.pdf'],
        
-    ]}
+    # ]}
+    arquivos = {
+        'alvara': [
+            ['Requerimento de Alvará', 'REQUERIMENTO DE ALVARÁ.docx'],
+            ['Requerimento de Baixa de Débito', 'REQUERIMENTO DE BAIXA DE DÉBITO.docx'],
+            ['Requerimento de Certidão de ISS e Alvará', 'REQUERIMENTO DE CERTIDÃO DE ISS E ALVARÁ.docx'],
+            ['Requerimento de Revisão de Taxa de Alvará', 'REQUERIMENTO DE REVISÃO DE TAXA DE ALVARÁ.docx'],
+            ['Requerimento para Autônomo', 'REQUERIMENTO PARA AUTÔNOMO.docx']
+        ],
+        'certidao': [
+            ['Requerimento de Averbação de Escritura', 'REQUERIMENTO DE AVERBAÇÃO DE ESCRITURA.docx'],
+            ['Requerimento de Certidão', 'REQUERIMENTO DE CERTIDÃO.docx']
+        ],
+        'iptu': [
+            ['Requerimento de Autorização para Vistoria Predial', 'REQUERIMENTO DE AUTORIZAÇÃO VISTORIA PREDIAL.docx'],
+            ['Requerimento de Autorização para Vistoria Predial - Demolição', 'REQUERIMENTO DE AUTORIZAÇÃO VISTORIA PREDIAL - DEMOLIÇÃO.docx'],
+            ['Requerimento de Inclusão de Possuidor', 'REQUERIMENTO DE INCLUSÃO DE POSSUIDOR.docx'],
+            ['Requerimento de Recolhimento de Tributos', 'REQUERIMENTO DE RECOLHIMENTO DE TRIBUTOS.docx'],
+            ['Requerimento de Revisão de IPTU', 'REQUERIMENTO DE REVISÃO DE IPTU.docx']
+        ],
+        'itbi': [
+            ['Requerimento de Incidência de ITBI', 'REQUERIMENTO DE INCIDÊNCIA DE ITBI.docx'],
+            ['Requerimento de Revisão de ITBI', 'REQUERIMENTO DE REVISÃO DE ITBI.docx']
+        ],
+        'isencao': [
+            ['Requerimento de Imunidade Tributária', 'REQUERIMENTO DE IMUNIDADE TRIBUTÁRIA.docx'],
+            ['Requerimento de Isenção - Não Incidência Tributária', 'REQUERIMENTO DE ISENÇÃO-NÃO INCIDÊNCIA TRIBUTÁRIA.docx'],
+            ['Requerimento de Isenção Parcial - Tombamento', 'REQUERIMENTO DE ISENÇÃO PARCIAL TOMBAMENTO.docx']
+        ],
+        'diversos': [
+            ['Declaração de Residência', 'DECLARAÇÃO DE RESIDÊNCIA.docx'],
+            ['Pedido de Gratuidade de Justiça', 'PEDIDO DE GRATUIDADE DE JUSTIÇA.docx'],
+            ['Procuração - Modelo Advogado', 'PROCURAÇÃO - MODELO ADVOGADO.docx'],
+            ['Procuração - Modelo Geral', 'PROCURAÇÃO - MODELO GERAL.docx'],
+            ['Requerimento de Adesão', 'REQUERIMENTO DE ADESÃO.docx'],
+            ['Requerimento de Atualização Cadastral', 'REQUERIMENTO DE ATUALIZAÇÃO CADASTRAL.docx'],
+            ['Solicitação de Prescrição - Falecido', 'SOLICITAÇÃO DE PRESCRIÇÃO - FALECIDO.docx']
+        ]
+    }
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
         'arquivos': arquivos,
