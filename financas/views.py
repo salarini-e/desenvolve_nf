@@ -64,7 +64,8 @@ def formularios(request):
         ],
         'itbi': [
             ['Requerimento de Incidência de ITBI', 'REQUERIMENTO DE INCIDÊNCIA DE ITBI.pdf'],
-            ['Requerimento de Revisão de ITBI', 'REQUERIMENTO DE REVISÃO DE ITBI.pdf']
+            ['Requerimento de Revisão de ITBI', 'REQUERIMENTO DE REVISÃO DE ITBI.pdf'],
+            ['Declaração de Transação Imobiliária', 'Declaração de Transação Imobiliária - ITBI PMNF - MODELO .doc']
         ],
         'isencao': [
             ['Requerimento de Imunidade Tributária', 'REQUERIMENTO DE IMUNIDADE TRIBUTÁRIA.pdf'],
@@ -78,8 +79,8 @@ def formularios(request):
             ['Procuração - Modelo Geral', 'PROCURAÇÃO - MODELO GERAL.pdf'],
             ['Requerimento de Adesão', 'REQUERIMENTO DE ADESÃO.pdf'],
             ['Requerimento de Atualização Cadastral', 'REQUERIMENTO DE ATUALIZAÇÃO CADASTRAL.pdf'],
-            ['Solicitação de Prescrição - Falecid', 'SOLICITAÇÃO DE PRESCRIÇÃO - FALECIDO.pdf'],
-            ['Declaração de Transação Imobiliária', 'Declaração de Transação Imobiliária - ITBI PMNF - MODELO .doc']
+            ['Solicitação de Prescrição - Falecid', 'SOLICITAÇÃO DE PRESCRIÇÃO - FALECIDO.pdf'],   
+            ['Declaração de Isenção do Imposto de Renda Pessoa Física (IRPF)', 'DECLARAÇÃO ISENÇÃO IRPF.pdf'],         
         ]
     }
     context = {
