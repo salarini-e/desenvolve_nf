@@ -80,7 +80,8 @@ def formularios(request):
             ['Requerimento de Adesão', 'REQUERIMENTO DE ADESÃO.pdf'],
             ['Requerimento de Atualização Cadastral', 'REQUERIMENTO DE ATUALIZAÇÃO CADASTRAL.pdf'],
             ['Solicitação de Prescrição - Falecid', 'SOLICITAÇÃO DE PRESCRIÇÃO - FALECIDO.pdf'],   
-            ['Declaração de Isenção do Imposto de Renda Pessoa Física (IRPF)', 'DECLARAÇÃO ISENÇÃO IRPF.pdf'],         
+            ['Declaração de Isenção do Imposto de Renda Pessoa Física (IRPF)', 'DECLARAÇÃO ISENÇÃO IRPF.pdf'],     
+            ['Requerimento de ISS Sociedade Uniprofissional', 'REQUERIMENTO DE ISS SOCIEDADE UNIPROFISSIONAL.pdf']    
         ]
     }
     context = {
