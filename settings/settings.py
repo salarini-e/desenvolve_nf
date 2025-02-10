@@ -24,6 +24,7 @@ db_port = env_vars['db_port']
 db_passwd = env_vars['db_pw']
 
 senhasfacil_db_name = env_vars['senhasfacil_db_name']
+senhasfacil_db_financas_name = env_vars['senhasfacil_db_financas_name']
 senhasfacil_db_user = env_vars['senhasfacil_db_user']
 senhasfacil_db_host = env_vars['senhasfacil_db_host']
 senhasfacil_db_port = env_vars['senhasfacil_db_port']
@@ -171,6 +172,14 @@ else:
             'senhas_facil_b': {
                 'ENGINE': 'django.db.backends.mysql',
                 'NAME': senhasfacil_db_name,
+                'PORT': senhasfacil_db_port,
+                'USER': db_user,
+                'PASSWORD': senhasfacil_db_passwd,
+                'HOST': senhasfacil_db_host,
+            },
+            'senhas_facil_a': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': senhasfacil_db_financas_name,
                 'PORT': senhasfacil_db_port,
                 'USER': db_user,
                 'PASSWORD': senhasfacil_db_passwd,
