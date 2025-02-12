@@ -11,12 +11,12 @@ from .models import *
 
 @admin.register(Classe_Formulario)
 class ClasseFormularioAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'div_id', 'user_inclusao', 'dt_inclusao')
+    list_display = ('nome', 'div_id', 'dt_inclusao')
     search_fields = ('nome', 'div_id')
-    list_filter = ('dt_inclusao', 'user_inclusao')
+    list_filter = ('dt_inclusao',)
 
 @admin.register(Formularios)
 class FormulariosAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'classe', 'user_inclusao', 'dt_inclusao')
+    list_display = ('titulo', 'classe', 'dt_inclusao')
     search_fields = ('titulo', 'classe__nome')
-    list_filter = ('dt_inclusao', 'user_inclusao')
+    list_filter = ('dt_inclusao',)
