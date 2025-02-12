@@ -99,3 +99,26 @@ class Voto_Relator(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+#formularios e declarações
+class Classe_Formulario(models.Model):
+    nome = models.CharField(max_length=100)
+    div_id = models.CharField(max_length=10)
+    user_inclusao = models.ForeignKey(User, on_delete=models.CASCADE)    
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nome
+    
+    def get_formularios(self):
+        return Formularios.objects.filter(classe=self)
+    
+class Formularios(models.Model):
+    classe = models.ForeignKey(Classe_Formulario, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=100)
+    arquivo = models.FileField(upload_to='formularios/', verbose_name='Arquivo do Formulário')
+    user_inclusao = models.ForeignKey(User, on_delete=models.CASCADE)    
+    dt_inclusao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.titulo} - {self.classe.nome}'

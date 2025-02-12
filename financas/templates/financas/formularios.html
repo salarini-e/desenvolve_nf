@@ -34,11 +34,14 @@
         <div class="row">
             <div class="col pb-5 filtros d-flex justify-content-between flex-wrap">
                 <!-- <a href="#go" class="btn btn-primary" onclick="show('alvara')">Alvará</a> -->
-                <a href="#go" class="btn btn-primary" onclick="show('iptu')">IPTU/Foro</a>
+                <!-- <a href="#go" class="btn btn-primary" onclick="show('iptu')">IPTU/Foro</a>
                 <a href="#go" class="btn btn-primary" onclick="show('isencao')">Isenção/Imunidade</a>                        
                 <a href="#go" class="btn btn-primary" onclick="show('itbi')">ITBI</a>
                 <a href="#go" class="btn btn-primary" onclick="show('certidao')">Certidões e Averbações</a>
-                <a href="#go" class="btn btn-primary" onclick="show('diversos')">Requerimentos Diversos</a>            
+                <a href="#go" class="btn btn-primary" onclick="show('diversos')">Requerimentos Diversos</a>             -->
+                {% for classe in classes %}
+                <button class="btn btn-primary" onclick="show('{{classe.div_id}}')">{{classe.nome}}</button>                
+                {% endfor %}
                 <style>
                     .filtros .btn-primary{
                         background-color: #fff;
@@ -55,88 +58,16 @@
         <div class="row">        
             <div class="col-5">
                 <div class="opcoes_formulario row mx-auto bg-destaque ps-4 pb-2 pt-1 text-dark" style="color: black;">
-                    <div id="alvara" class="categoria hidden_form">
-                        <h1 class="mb-4"><u>Alvará</u></h1>            
-                        {% for arquivo in arquivos.alvara %}
+                    {% for classe in classes %}
+                    <div id="{{classe.div_id}}" class="categoria hidden_form">
+                        <h1 class="mb-4"><u>{{classe.nome}}</u></h1>            
+                        {% for arquivo in classe.get_formularios %}
                         <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
+                            <a href="{{arquivo.arquivo.url}}" target="_blank" class="btn btn-dark">{{arquivo.titulo}}</a>
                         </li>
                         {% endfor %}
-                    </div>
-                    <div id="certidao" class="categoria hidden_form">
-                        <h1 class="mb-4"><u>Certidões</u></h1>            
-                        {% for arquivo in arquivos.certidao %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                    </div>
-                    <div id="iptu" class="categoria hidden_form">
-                        <h1 class="mb-4"><u>IPTU/Foro</u></h1>            
-                        {% for arquivo in arquivos.iptu %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                    </div>
-                    <div id="itbi" class="categoria hidden_form">
-                        <h1 class="mb-4"><u>ITBI</u></h1>
-                        {% for arquivo in arquivos.itbi %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                    </div>
-                    <div id="isencao" class="categoria hidden_form">
-                        <h1 class="mb-4"><u>Isenção/Imunidade</u></h1>            
-                        {% for arquivo in arquivos.isencao %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                    </div>
-                    <div id="diversos" class="categoria hidden_form">
-                        <h1 class="mb-4"><u>Diversos</u></h1>            
-                        {% for arquivo in arquivos.diversos %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                    </div>
-                    <div id="busca" class="categoria hidden_form">
-                        <h1>Resultado da busca</h1>
-                        {% for arquivo in arquivos.alvara %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                        {% for arquivo in arquivos.certidao %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                        {% for arquivo in arquivos.iptu %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}    
-                        {% for arquivo in arquivos.itbi %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                        {% for arquivo in arquivos.isencao %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-                        {% for arquivo in arquivos.diversos %}
-                        <li>
-                            <a href="/static/pdfs/{{arquivo.1}}" target="_blank" class="btn btn-dark">{{arquivo.0}}</a>
-                        </li>
-                        {% endfor %}
-
-                    </div>
+                    </div>                   
+                    {% endfor %}
                 </div>
             </div>
             <div class="col d-flex flex-column pt-4">

@@ -43,50 +43,52 @@ def formularios(request):
     #      'diversos/REQUERIMENTO-DE-ATUALIZACAO-CADASTRAL-1.pdf'],
        
     # ]}
-    arquivos = {
-        'alvara': [
-            ['Requerimento de Alvará', 'REQUERIMENTO DE ALVARÁ.pdf'],
-            ['Requerimento de Baixa de Débito', 'REQUERIMENTO DE BAIXA DE DÉBITO.pdf'],
-            ['Requerimento de Certidão de ISS e Alvará', 'REQUERIMENTO DE CERTIDÃO DE ISS E ALVARÁ.pdf'],
-            ['Requerimento de Revisão de Taxa de Alvará', 'REQUERIMENTO DE REVISÃO DE TAXA DE ALVARÁ.pdf'],
-            ['Requerimento para Autônomo', 'REQUERIMENTO PARA AUTÔNOMO.pdf']
-        ],
-        'certidao': [
-            ['Requerimento de Averbação de Escritura', 'REQUERIMENTO DE AVERBAÇÃO DE ESCRITURA.pdf'],
-            ['Requerimento de Certidão', 'REQUERIMENTO DE CERTIDÃO.pdf']
-        ],
-        'iptu': [
-            ['Requerimento de Autorização para Vistoria Predial', 'REQUERIMENTO DE AUTORIZAÇÃO VISTORIA PREDIAL.pdf'],
-            ['Requerimento de Autorização para Vistoria Predial - Demolição', 'REQUERIMENTO DE AUTORIZAÇÃO VISTORIA PREDIAL - DEMOLIÇÃO.pdf'],
-            ['Requerimento de Inclusão de Possuidor', 'REQUERIMENTO DE INCLUSÃO DE POSSUIDOR.pdf'],
-            ['Requerimento de Recolhimento de Tributos', 'REQUERIMENTO DE RECOLHIMENTO DE TRIBUTOS.pdf'],
-            ['Requerimento de Revisão de IPTU', 'REQUERIMENTO DE REVISÃO DE IPTU.pdf']
-        ],
-        'itbi': [
-            ['Requerimento de Incidência de ITBI', 'REQUERIMENTO DE INCIDÊNCIA DE ITBI.pdf'],
-            ['Requerimento de Revisão de ITBI', 'REQUERIMENTO DE REVISÃO DE ITBI.pdf'],
-            ['Declaração de Transação Imobiliária', 'Declaração de Transação Imobiliária - ITBI PMNF - MODELO .doc']
-        ],
-        'isencao': [
-            ['Requerimento de Imunidade Tributária', 'REQUERIMENTO DE IMUNIDADE TRIBUTÁRIA.pdf'],
-            ['Requerimento de Isenção - Não Incidência Tributária', 'REQUERIMENTO DE ISENÇÃO-NÃO INCIDÊNCIA TRIBUTÁRIA.pdf'],
-            ['Requerimento de Isenção Parcial - Tombamento', 'REQUERIMENTO DE ISENÇÃO PARCIAL TOMBAMENTO.pdf']
-        ],
-        'diversos': [
-            ['Declaração de Residência', 'DECLARAÇÃO DE RESIDÊNCIA.pdf'],
-            ['Pedido de Gratuidade de Justiça', 'PEDIDO DE GRATUIDADE DE JUSTIÇA.pdf'],
-            ['Procuração - Modelo Advogado', 'PROCURAÇÃO - MODELO ADVOGADO.pdf'],
-            ['Procuração - Modelo Geral', 'PROCURAÇÃO - MODELO GERAL.pdf'],
-            ['Requerimento de Adesão', 'REQUERIMENTO DE ADESÃO.pdf'],
-            ['Requerimento de Atualização Cadastral', 'REQUERIMENTO DE ATUALIZAÇÃO CADASTRAL.pdf'],
-            ['Solicitação de Prescrição - Falecid', 'SOLICITAÇÃO DE PRESCRIÇÃO - FALECIDO.pdf'],   
-            ['Declaração de Isenção do Imposto de Renda Pessoa Física (IRPF)', 'DECLARAÇÃO ISENÇÃO IRPF.pdf'],     
-            ['Requerimento de ISS Sociedade Uniprofissional', 'REQUERIMENTO DE ISS SOCIEDADE UNIPROFISSIONAL.pdf']    
-        ]
-    }
+    # arquivos = {
+    #     'alvara': [
+    #         ['Requerimento de Alvará', 'REQUERIMENTO DE ALVARÁ.pdf'],
+    #         ['Requerimento de Baixa de Débito', 'REQUERIMENTO DE BAIXA DE DÉBITO.pdf'],
+    #         ['Requerimento de Certidão de ISS e Alvará', 'REQUERIMENTO DE CERTIDÃO DE ISS E ALVARÁ.pdf'],
+    #         ['Requerimento de Revisão de Taxa de Alvará', 'REQUERIMENTO DE REVISÃO DE TAXA DE ALVARÁ.pdf'],
+    #         ['Requerimento para Autônomo', 'REQUERIMENTO PARA AUTÔNOMO.pdf']
+    #     ],
+    #     'certidao': [
+    #         ['Requerimento de Averbação de Escritura', 'REQUERIMENTO DE AVERBAÇÃO DE ESCRITURA.pdf'],
+    #         ['Requerimento de Certidão', 'REQUERIMENTO DE CERTIDÃO.pdf']
+    #     ],
+    #     'iptu': [
+    #         ['Requerimento de Autorização para Vistoria Predial', 'REQUERIMENTO DE AUTORIZAÇÃO VISTORIA PREDIAL.pdf'],
+    #         ['Requerimento de Autorização para Vistoria Predial - Demolição', 'REQUERIMENTO DE AUTORIZAÇÃO VISTORIA PREDIAL - DEMOLIÇÃO.pdf'],
+    #         ['Requerimento de Inclusão de Possuidor', 'REQUERIMENTO DE INCLUSÃO DE POSSUIDOR.pdf'],
+    #         ['Requerimento de Recolhimento de Tributos', 'REQUERIMENTO DE RECOLHIMENTO DE TRIBUTOS.pdf'],
+    #         ['Requerimento de Revisão de IPTU', 'REQUERIMENTO DE REVISÃO DE IPTU.pdf']
+    #     ],
+    #     'itbi': [
+    #         ['Requerimento de Incidência de ITBI', 'REQUERIMENTO DE INCIDÊNCIA DE ITBI.pdf'],
+    #         ['Requerimento de Revisão de ITBI', 'REQUERIMENTO DE REVISÃO DE ITBI.pdf'],
+    #         ['Declaração de Transação Imobiliária', 'Declaração de Transação Imobiliária - ITBI PMNF - MODELO .doc']
+    #     ],
+    #     'isencao': [
+    #         ['Requerimento de Imunidade Tributária', 'REQUERIMENTO DE IMUNIDADE TRIBUTÁRIA.pdf'],
+    #         ['Requerimento de Isenção - Não Incidência Tributária', 'REQUERIMENTO DE ISENÇÃO-NÃO INCIDÊNCIA TRIBUTÁRIA.pdf'],
+    #         ['Requerimento de Isenção Parcial - Tombamento', 'REQUERIMENTO DE ISENÇÃO PARCIAL TOMBAMENTO.pdf']
+    #     ],
+    #     'diversos': [
+    #         ['Declaração de Residência', 'DECLARAÇÃO DE RESIDÊNCIA.pdf'],
+    #         ['Pedido de Gratuidade de Justiça', 'PEDIDO DE GRATUIDADE DE JUSTIÇA.pdf'],
+    #         ['Procuração - Modelo Advogado', 'PROCURAÇÃO - MODELO ADVOGADO.pdf'],
+    #         ['Procuração - Modelo Geral', 'PROCURAÇÃO - MODELO GERAL.pdf'],
+    #         ['Requerimento de Adesão', 'REQUERIMENTO DE ADESÃO.pdf'],
+    #         ['Requerimento de Atualização Cadastral', 'REQUERIMENTO DE ATUALIZAÇÃO CADASTRAL.pdf'],
+    #         ['Solicitação de Prescrição - Falecid', 'SOLICITAÇÃO DE PRESCRIÇÃO - FALECIDO.pdf'],   
+    #         ['Declaração de Isenção do Imposto de Renda Pessoa Física (IRPF)', 'DECLARAÇÃO ISENÇÃO IRPF.pdf'],     
+    #         ['Requerimento de ISS Sociedade Uniprofissional', 'REQUERIMENTO DE ISS SOCIEDADE UNIPROFISSIONAL.pdf']    
+    #     ]
+    # }
     context = {
         'titulo': apps.get_app_config('financas').verbose_name,
-        'arquivos': arquivos,
+        # 'arquivos': arquivos,
+        'formularios': Formularios.objects.all(),
+        'classes': Classe_Formulario.objects.all()
     }
     return render(request, 'financas/formularios.html', context)
 
