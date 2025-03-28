@@ -1168,70 +1168,74 @@ def pdde_listar_solicitacoes(request, id):
  
 @login_required
 def requerimento_ISSQN(request):
-    if request.method == 'POST':        
-        form = Criar_Processo_Form(request.POST, request.FILES)
-        form_req = RequerimentoISSQNForm(request.POST)
-        documentos_pedido_form = DocumentosPedidoForm(request.POST, request.FILES)
-        if form.is_valid() and form_req.is_valid() and documentos_pedido_form.is_valid():
-            processo = form.save()
-            requerimento = form_req.save()
-            requerimento.processo = processo
-            requerimento.save()
-            documentos_pedido = documentos_pedido_form.save(commit=False)
-            documentos_pedido.requerimento = requerimento
-            try:
-                documentos_pedido.save()                
-            except:
-                messages.error(request, 'Error ao enviar os documentos. O nome dos arquivos anexados não devem conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
-                andamento = Andamento_Processo_Digital(
-                    processo=processo,              
-                    status='ae',
-                    observacao = 'Processo iniciado. Aguardando envio de documentos.',
-                    servidor = None
-                )
-                return redirect('empreendedor:requerimento_issqn_doc', n_protocolo=processo.n_protocolo)    
-            andamento = Andamento_Processo_Digital(
-                processo=processo,              
-                status='aa',
-                observacao = 'Processo iniciado. Aguardando avaliação de documentos.',
-                servidor = None
-            )
-            andamento.save()
-            
-            #EL AQUI
-            api = ApiProtocolo()
-            data_processo = datetime.now()
-            pessoa = Pessoa.objects.get(user=processo.solicitante)
-            parametros = {
-                'numeroDocumentoJuridico': str(pessoa.cpf),
-                'nomePessoa': pessoa.nome,
-                'numeroProcesso': str(data_processo.year),
-                'anoProcesso': str(data_processo.year),
-                'dataProcesso': data_processo.strftime('%Y-%m-%d %H:%M:%S'),
-                'resumoEcm': f'Processo de Requerimento de ISS iniciado Desenvolve NF. Link para acompanhamento: https://desenvolve.novafriburgo.rj.gov.br/sala-do-empreendedor/processos-digitais/{processo.n_protocolo}/'
-            }
-            print(parametros)            
-            print('Resposta', api.cadastrarProcesso(parametros))
-            # api.cadastrarPessoa(parametros)
-            messages.success(request, 'Processo criado. Aguardando avaliação de documentos.')
-            send_email_for_create_process(processo, andamento)
-            return redirect('empreendedor:andamento_processo', protocolo=processo.n_protocolo)
-        else:
-            print(form.errors)
-            print(form_req.errors)
-            print(documentos_pedido_form.errors)
-    else:
-        form = Criar_Processo_Form(initial={'tipo_processo': 3, 'solicitante': request.user.id})
-        form_req = RequerimentoISSQNForm()
-        documentos_pedido_form = DocumentosPedidoForm()
-
-    context={
-        'form': form,
-        'form_req': form_req,
-        'documentos_pedido_form': documentos_pedido_form,
-        'titulo': 'Requerimento para ISSQN como Sociedade Uniprofissional'
+    context = {
+        'titulo': 'Sala do Empreendedor - Requerimento de ISSQN',
     }
-    return render(request, 'sala_do_empreendedor/processos_digitais/uniprofissional/index.html', context)
+    return render(request, 'sala_do_empreendedor/em-construcao.html', context)    
+    # if request.method == 'POST':        
+    #     form = Criar_Processo_Form(request.POST, request.FILES)
+    #     form_req = RequerimentoISSQNForm(request.POST)
+    #     documentos_pedido_form = DocumentosPedidoForm(request.POST, request.FILES)
+    #     if form.is_valid() and form_req.is_valid() and documentos_pedido_form.is_valid():
+    #         processo = form.save()
+    #         requerimento = form_req.save()
+    #         requerimento.processo = processo
+    #         requerimento.save()
+    #         documentos_pedido = documentos_pedido_form.save(commit=False)
+    #         documentos_pedido.requerimento = requerimento
+    #         try:
+    #             documentos_pedido.save()                
+    #         except:
+    #             messages.error(request, 'Error ao enviar os documentos. O nome dos arquivos anexados não devem conter acentos, cedilha ou caracteres especiais. Exemplo: ç, á, é, ã, õ, ô, ì, ò, ë, ù, ï, ü, etc.')
+    #             andamento = Andamento_Processo_Digital(
+    #                 processo=processo,              
+    #                 status='ae',
+    #                 observacao = 'Processo iniciado. Aguardando envio de documentos.',
+    #                 servidor = None
+    #             )
+    #             return redirect('empreendedor:requerimento_issqn_doc', n_protocolo=processo.n_protocolo)    
+    #         andamento = Andamento_Processo_Digital(
+    #             processo=processo,              
+    #             status='aa',
+    #             observacao = 'Processo iniciado. Aguardando avaliação de documentos.',
+    #             servidor = None
+    #         )
+    #         andamento.save()
+            
+    #         #EL AQUI
+    #         api = ApiProtocolo()
+    #         data_processo = datetime.now()
+    #         pessoa = Pessoa.objects.get(user=processo.solicitante)
+    #         parametros = {
+    #             'numeroDocumentoJuridico': str(pessoa.cpf),
+    #             'nomePessoa': pessoa.nome,
+    #             'numeroProcesso': str(data_processo.year),
+    #             'anoProcesso': str(data_processo.year),
+    #             'dataProcesso': data_processo.strftime('%Y-%m-%d %H:%M:%S'),
+    #             'resumoEcm': f'Processo de Requerimento de ISS iniciado Desenvolve NF. Link para acompanhamento: https://desenvolve.novafriburgo.rj.gov.br/sala-do-empreendedor/processos-digitais/{processo.n_protocolo}/'
+    #         }
+    #         print(parametros)            
+    #         print('Resposta', api.cadastrarProcesso(parametros))
+    #         # api.cadastrarPessoa(parametros)
+    #         messages.success(request, 'Processo criado. Aguardando avaliação de documentos.')
+    #         send_email_for_create_process(processo, andamento)
+    #         return redirect('empreendedor:andamento_processo', protocolo=processo.n_protocolo)
+    #     else:
+    #         print(form.errors)
+    #         print(form_req.errors)
+    #         print(documentos_pedido_form.errors)
+    # else:
+    #     form = Criar_Processo_Form(initial={'tipo_processo': 3, 'solicitante': request.user.id})
+    #     form_req = RequerimentoISSQNForm()
+    #     documentos_pedido_form = DocumentosPedidoForm()
+
+    # context={
+    #     'form': form,
+    #     'form_req': form_req,
+    #     'documentos_pedido_form': documentos_pedido_form,
+    #     'titulo': 'Requerimento para ISSQN como Sociedade Uniprofissional'
+    # }
+    # return render(request, 'sala_do_empreendedor/processos_digitais/uniprofissional/index.html', context)
 
 @login_required
 def requerimento_ISSQN_doc(request, n_protocolo):
