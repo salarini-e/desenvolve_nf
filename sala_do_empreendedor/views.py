@@ -1468,3 +1468,18 @@ def checkCPFArtesao(request):
         if Novas_Oportunidades.objects.filter(cpf=request.POST.get('cpf')).exists():
             return JsonResponse({'valid': False})
     return JsonResponse({'valid': False})
+
+@login_required
+def imprimir_documentos(request, protocolo):
+    processo = get_object_or_404(Processo_Digital, n_protocolo=protocolo)
+    requerimento = get_object_or_404(RequerimentoISSQN, processo=processo)
+    documentos = DocumentosPedido.objects.filter(requerimento=requerimento)
+    
+    context = {
+        'titulo': 'Imprimir Documentos - Sala do Empreendedor',
+        'processo': processo,
+        'requerimento': requerimento,
+        'documentos': documentos,
+        'now': timezone.now(),
+    }
+    return render(request, 'sala_do_empreendedor/processos_digitais/uniprofissional/imprimir_documentos.html', context)

@@ -147,4 +147,5 @@ urlpatterns = [
     path('adm/exportar-fornecedores/', views.export_empresas_to_excel, name='export_fornecedores_excel'),
     # path('adm/exportar-fornecedores/', views.export_fornecedores_excel, name='export_fornecedores_excel'),
     # 
+    path('ver_requerimento/<id>/', views.imprimir_documentos, name='imprimir_documentos'),
 ]
